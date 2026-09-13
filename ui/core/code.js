@@ -27,8 +27,11 @@ Code.LANGUAGE_NAME = {
   'it': 'Italiano',
   'fr': 'Français',
   'de': 'Deutsch',
+  'nb': 'Norsk',
   'zh-hans': 'Chinese (simplified)',
-  'zh-hant': 'Chinese (traditional)'
+  'zh-hant': 'Chinese (traditional)',
+  'he': 'עברית',
+  'uk': 'Українська'
 };
 
 /**
@@ -426,7 +429,7 @@ Code.reloadToolbox = function(XML_) {
 function loadExampleFromURL(pName){
 
     var request = new XMLHttpRequest();
-    request.open('GET', '/beta2/ui/examples/' + pName + '.xml', true);
+    request.open('GET', './examples/' + pName + '.xml', true);
     //request.open('GET', 'http://bipes.net.br/beta2/ui/examples/' + pName + '.xml', true);
     request.send(null);
     request.onreadystatechange = function () {
@@ -580,13 +583,145 @@ Code.init = function() {
 
   Code.workspace.registerButtonCallback('installPyLib', function(button) {
 
-	var lib = button.text_.split(" ")[1];
+	var lib = button.text_.split(" ")[1].toLowerCase();
 	console.log(button.text_);
 	console.log(lib)
-        alert("This will automatic download and install the library on the connected board: " + lib + ". Internet is required for this operation. Install results will be shown on console tab.");
+
+	var c = Channel.mux.currentChannel;
 
 
-	UI ['notify'].send('Installing library, check console')
+  alert("This will automatic download and install the library on the connected board: " + lib + ". Install results will be shown on console tab: " + c);
+
+	UI ['notify'].send('Installing library, check console: ' + c)
+
+	var msg = "Lib will be installed using: " + c;
+	console.log(msg);
+	
+	if (c == 'webserial') {
+		console.log('serial install');
+/*
+      //Download file
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          const installFileContent = this.responseText;
+          console.log(installFileContent);
+          Files.editor.getDoc().setValue(installFileContent);
+                UI ['workspace'].file.value = lib + '.py';
+
+          Files.file_save_as.className = 'py';
+          Files.files_save_as();
+          Files.listFiles();
+          Files.listFiles();
+
+
+        }
+      };
+      console.log("Getting /beta2/ui/pylibs/" + lib + '.py');
+      xmlhttp.open('GET', '/beta2/ui/pylibs/' + lib + '.py');
+      xmlhttp.send();
+
+*/
+      var reader = new FileReader();
+      
+      reader.addEventListener('load', (e) => {
+        var installFileContent = e.target.result;
+        Files.editor.getDoc().setValue(installFileContent);
+        UI ['workspace'].file.value = lib + '.py';
+
+        Files.file_save_as.className = 'py';
+        Files.files_save_as();
+        Files.listFiles();
+        Files.listFiles();
+      }
+      )
+
+      console.log("Getting pylibsBlobs/" + lib + '.js');
+      
+      if (lib == "ssd1306") {
+          reader.readAsText(ssd1306Blob);
+        } else if (lib == "rtttl")  {
+          reader.readAsText(rtttlBlob);
+        } else if (lib == "songs")  {
+          reader.readAsText(songsBlob);
+        } else if (lib == "hcsr04")  {
+          reader.readAsText(hcsr04Blob);
+        } else if (lib == "imu")  {
+          reader.readAsText(imuBlob);
+        } else if (lib == "vector3d")  {
+          reader.readAsText(vector3dBlob);
+        } else if (lib == "vl53l0x") {
+          reader.readAsText(vl53l0xBlob);
+        } else if (lib == "pca9685") {
+          reader.readAsText(pca9685Blob);
+        } else if (lib == "servo") {
+          reader.readAsText(servoBlob);
+        } else if (lib == "mfrc522") {
+          reader.readAsText(mfrc522Blob);
+        } else if (lib == "max7219") {
+          reader.readAsText(max7219Blob);
+        } else if (lib == "pico_i2c_lcd") {
+          reader.readAsText(pico_i2c_lcdBlob);
+        } else if (lib == "lcd_api") {
+          reader.readAsText(lcd_apiBlob);
+        } else if (lib == "simple") {
+          reader.readAsText(simpleBlob);
+        } else if (lib == "robust") {
+          reader.readAsText(robustBlob);
+        } else if (lib == "mini_micropygps") {
+          lib = "mini_micropyGPS"
+          reader.readAsText(mini_micropyGPSBlob);
+        } else if (lib == "max30100") {
+          reader.readAsText(max30100Blob);
+        } else if (lib == "tm1637") {
+          reader.readAsText(tm1637Blob);
+        } else if (lib == "gy33uart") {
+          lib = "gy33UART"
+          reader.readAsText(gy33UARTBlob);
+        } else if (lib == "gy33i2c") {
+          lib = "gy33I2C"
+          reader.readAsText(gy33I2CBlob);
+        } else if (lib == "ble_simple_peripheral") {
+          reader.readAsText(ble_simple_peripheralBlob);
+        } else if (lib == "ahtx0") {
+          reader.readAsText(ahtx0Blob);
+        } else if (lib == "bh1750") {
+          reader.readAsText(bh1750Blob);
+        } else if (lib == "ds3231_gen") {
+          reader.readAsText(ds3231_genBlob);
+        } else if (lib == "mpr121") {
+          reader.readAsText(mpr121Blob);
+        } else {
+          if (lib == "ccs811") {
+            lib = "CCS811"
+          }
+          console.log("Blob file not available for: " + lib + " library.");
+
+          //Download file
+          const xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              const installFileContent = this.responseText;
+              console.log(installFileContent);
+              Files.editor.getDoc().setValue(installFileContent);
+                    UI ['workspace'].file.value = lib + '.py';
+
+              Files.file_save_as.className = 'py';
+              Files.files_save_as();
+              Files.listFiles();
+              Files.listFiles();
+
+
+            }
+          };
+          console.log("Trying to get /beta2/ui/pylibs/" + lib + '.py' + ' from server');
+          xmlhttp.open('GET', '/beta2/ui/pylibs/' + lib + '.py');
+          xmlhttp.send();
+
+
+        }
+
+	} else {
 
 	var installCmd = `
 def bipesInstall(url, lib):
@@ -640,6 +775,7 @@ print('Install done.')
 `;
  
      Tool.runPython(copyCmd);
+	}
 
 
       });
@@ -651,6 +787,7 @@ print('Install done.')
 	var lib = tmp.replace(/\s/g,'');
 
         var msgCon = "This will load Example: " + lib + ". Internet is required for this operation. Important: all blocks on workspace will be lost and replaced by the example blocks. Do you want to continue?";
+	
 
 	if (confirm(msgCon)) {
 		//console.log('Thing was saved to the database.');

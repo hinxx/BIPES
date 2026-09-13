@@ -316,7 +316,7 @@
 
     <block type="exec_python_output">
       <field name="EXEC_PYTHON_OUTPUT">Execute Python custom with output</field>
-  <value name="commnad">
+  <value name="command">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -337,46 +337,136 @@
     </block>
 
     <block type="delay_ms">
- <value name="time">
+     <value name="time">
         <shadow type="math_number">
           <field name="NUM">1</field>
         </shadow>
       </value>
-
     </block>
+
     <block type="delay_us">
- <value name="time">
+      <value name="time">
         <shadow type="math_number">
           <field name="NUM">1</field>
         </shadow>
       </value>
-
     </block>
-    <block type="ticks_ms"></block>
-    <block type="ticks_diff"></block>
 
+    <block type="ticks_ms"></block>
+
+    <block type="ticks_diff">
+      <value name="end">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="start">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
 
     <block type="timer"></block>
     <block type="stop_timer">
- <value name="timerNumber">
+      <value name="timerNumber">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
       </value>
-
-
-
     </block>
+  </category>
 
-    <block type="deep_sleep8266">
-     <value name="interval">
-        <shadow type="math_number">
-          <field name="NUM">60</field>
+  <category name="Sounds">
+        <label text="Sounds and RTTTL:"></label>
+        <label text="Ring Tone Text Transfer Language (RTTTL) "></label>
+        <label text="Library: "></label>
+        <button text="Install rtttl library" callbackKey="installPyLib"></button>
+        <button text="Install songs library" callbackKey="installPyLib"></button>
+        <button text="Documentation and how to connect: sound" callbackKey="loadDoc"></button>
+
+    <block type="tone"> 
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN"></field>
         </shadow>
       </value>
-
-
+     <value name="frequency">
+        <shadow type="math_number">
+          <field name="NUM">1200</field>
+        </shadow>
+      </value>
+     <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
     </block>
+
+    <block type="note"> 
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN"></field>
+        </shadow>
+      </value>
+      <value name="note">
+        <shadow type="tone_type">
+          <field name="note"></field>
+        </shadow>
+      </value>
+     <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tone_type"> </block>
+
+    <block type="rtttl_play"> 
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN"></field>
+        </shadow>
+      </value>
+      <value name="song">
+        <shadow type="text">
+          <field name="TEXT">Super Mario - Main Theme</field>
+        </shadow>
+      </value>
+    </block>
+
+    <label text="Songs:"></label>
+    <button text="Install songs library" callbackKey="installPyLib"></button>
+
+    <block type="text"> <field name="TEXT">Super Mario - Main Theme</field> </block>
+    <block type="text"> <field name="TEXT">Super Mario - Title Music</field> </block>
+    <block type="text"> <field name="TEXT">SMBtheme</field> </block>
+    <block type="text"> <field name="TEXT">SMBwater</field> </block>
+    <block type="text"> <field name="TEXT">SMBunderground</field> </block>
+    <block type="text"> <field name="TEXT">Picaxe</field> </block>
+    <block type="text"> <field name="TEXT">Simpsons</field> </block>
+    <block type="text"> <field name="TEXT">Indiana</field> </block>
+    <block type="text"> <field name="TEXT">TakeOnMe</field> </block>
+    <block type="text"> <field name="TEXT">Entertainer</field> </block>
+    <block type="text"> <field name="TEXT">Muppets</field> </block>
+    <block type="text"> <field name="TEXT">Xfiles</field> </block>
+    <block type="text"> <field name="TEXT">Looney</field> </block>
+    <block type="text"> <field name="TEXT">20thCenFox</field> </block>
+    <block type="text"> <field name="TEXT">Bond</field> </block>
+    <block type="text"> <field name="TEXT">MASH</field> </block>
+    <block type="text"> <field name="TEXT">StarWars</field> </block>
+    <block type="text"> <field name="TEXT">GoodBad</field> </block>
+    <block type="text"> <field name="TEXT">TopGun</field> </block>
+    <block type="text"> <field name="TEXT">A-Team</field> </block>
+    <block type="text"> <field name="TEXT">Flintstones</field> </block>
+    <block type="text"> <field name="TEXT">Jeopardy</field> </block>
+    <block type="text"> <field name="TEXT">Gadget</field> </block>
+    <block type="text"> <field name="TEXT">Smurfs</field> </block>
+    <block type="text"> <field name="TEXT">MahnaMahna</field> </block>
+    <block type="text"> <field name="TEXT">LeisureSuit</field> </block>
+    <block type="text"> <field name="TEXT">MissionImp</field> </block>
+
   </category>
 
   <category name="%{BKY_CAT_MACHINE}">
@@ -402,17 +492,17 @@
     <block type="reset_cause_deep"></block>
       </category>
       <category name="In/Out Pins">
-      <label text="In/Out Pins"></label>
+      <label text="In/Out Pins">0</label>
     <block type="pinout"></block>
     <block type="gpio_set">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="value">
         <shadow type="logic_boolean">
-          <field name="BOOL"></field>
+          <field name="BOOL">TRUE</field>
         </shadow>
       </value>
     </block>
@@ -420,12 +510,12 @@
     <block type="gpio_get">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="pullup">
         <shadow type="logic_boolean">
-          <field name="BOOL"></field>
+          <field name="BOOL">TRUE</field>
         </shadow>
       </value>
     </block>
@@ -433,16 +523,16 @@
     <block type="adc_pico">
  <value name="pin">
      <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">26</field>
         </shadow>
       </value>
     </block>
 
 
-    <block type="pwm_pico">
+    <block type="pwm">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">1</field>
         </shadow>
       </value>
       <value name="frequency">
@@ -465,7 +555,7 @@
       </value>
     </block>
 
-    <block type="pwm.duty_pico">
+    <block type="pwm.duty">
       <value name="duty">
         <shadow type="math_number">
           <field name="NUM">50</field>
@@ -476,7 +566,7 @@
     <block type="pwm.init">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">1</field>
         </shadow>
       </value>
     </block>
@@ -486,7 +576,7 @@
     <block type="gpio_interrupt">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">2</field>
         </shadow>
       </value>
     </block>
@@ -496,227 +586,978 @@
   </category>
 
 
-  <category name="Displays">
-
-  <category name="Character display">
-      <label text="PCF8574 Display controller"></label>
-
-      <label text="Library: https://github.com/dhylands/python_lcd"></label>
-      <button text="Install I2CLCD library" callbackKey="installPyLib"></button>
-	<block type="char_lcd_init">
-        <value name="scl">
-          <shadow type="pinout">
-            <field name="SCL"></field>
-          </shadow>
-        </value>
-
-        <value name="sda">
-          <shadow type="pinout">
-            <field name="SDA"></field>
-          </shadow>
-        </value>
-
-	 <value name="lines">
-        <shadow type="math_number">
-          <field name="NUM">4</field>
-        </shadow>
-      </value>
-
-	 <value name="columns">
-        <shadow type="math_number">
-          <field name="NUM">20</field>
-        </shadow>
-      </value>
-
-
-
-
-	</block>
-	<block type="char_lcd_clear"></block>
-	<block type="char_lcd_putstr"></block>
-	<block type="char_lcd_moveto"></block>
-	<block type="char_lcd_backlight"></block>
-	<block type="char_lcd_display"></block>
-
-  </category>
+  <category name="%{BKY_CAT_DISPLAYS}" colour="olive">
 
     <category name="OLED Display">
       <label text="SSD1306 OLED I2C Display"></label>
       <button text="Install ssd1306 library" callbackKey="installPyLib"></button>
 
+      <block type="init_oled">
+        <value name="i2c">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+        </value>
+        <value name="scl">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+      </block>
 
+      <block type="write_oled">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+        <value name="text">
+          <shadow type="text">
+            <field name="TEXT">Hello</field>
+          </shadow>
+        </value>
+      </block>
 
-    <block type="init_oled">
+      <block type="line_oled">
+        <value name="x1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="x2">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+        <value name="y2">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+      </block>
 
- <value name="scl">
-        <shadow type="math_number">
-          <field name="NUM">5</field>
-        </shadow>
-      </value>
+      <block type="rect_oled">
+        <value name="x1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="x2">
+          <shadow type="math_number">
+            <field name="NUM">60</field>
+          </shadow>
+        </value>
+        <value name="y2">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+      </block>
 
- <value name="sda">
-        <shadow type="math_number">
-          <field name="NUM">4</field>
-        </shadow>
-      </value>
+      <block type="fill_rect_oled">
+        <value name="x1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>     
+        <value name="y1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="x2">
+          <shadow type="math_number">
+            <field name="NUM">60</field>
+          </shadow>
+        </value>
+        <value name="y2">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>     
+      </block>     
 
+      <block type="scroll_oled">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">5</field>
+          </shadow>
+        </value>     
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>     
 
+      <block type="clear_oled"></block>
 
-    </block>
-    <block type="write_oled">
+      <block type="fill_oled"></block>
+    </category>
 
- <value name="x">
-        <shadow type="math_number">
-          <field name="NUM">40</field>
-        </shadow>
-      </value>
+    <category name="TFT Display">
+      <label text="ST7789 TFT SPI Display"></label>
+      <label text="Use https://github.com/russhughes/st7789_mpy/tree/master/firmware/RP2 UF2 file"></label>
+  
+      <block type="rh_st7789_init">
+        <value name="spi">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="backlight">
+          <shadow type="pinout">
+            <field name="PIN">10</field>
+          </shadow>
+        </value>
+        <value name="reset">
+          <shadow type="pinout">
+            <field name="PIN">11</field>
+          </shadow>
+        </value>
+        <value name="dc">
+          <shadow type="pinout">
+            <field name="PIN">12</field>
+          </shadow>
+        </value>
+        <value name="cs">
+          <shadow type="pinout">
+            <field name="PIN">13</field>
+          </shadow>
+        </value>
+        <value name="sck">
+          <shadow type="pinout">
+            <field name="PIN">14</field>
+          </shadow>
+        </value>
+        <value name="mosi">
+          <shadow type="pinout">
+            <field name="PIN">15</field>
+          </shadow>
+        </value>
+        <value name="width">
+          <shadow type="math_number">
+            <field name="NUM">135</field>
+          </shadow>
+        </value>
+        <value name="height">
+          <shadow type="math_number">
+            <field name="NUM">240</field>
+          </shadow>
+        </value>
+      </block>
 
- <value name="y">
-        <shadow type="math_number">
-          <field name="NUM">40</field>
-        </shadow>
-      </value>
+     <block type="rh_st7789_text">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="text">
+          <shadow type="text">
+            <field name="TEXT">Hello</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+        <block type="rh_st7789_fg_color_numbers">
+         <value name="fg_red">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+         </value>
+        <value name="fg_green">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+         </value>
+         <value name="fg_blue">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+         </value>
+        </block>
+       </value>
+       <value name="bg_color">
+        <block type="rh_st7789_bg_color_numbers">
+         <value name="bg_red">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+         <value name="bg_green">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+         <value name="bg_blue">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+        </block>
+       </value>
+      </block>
 
- <value name="text">
-        <shadow type="text">
-          <field name="TEXT">Hello</field>
-        </shadow>
-      </value>
+      <block type="rh_st7789_rect">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="width">
+          <shadow type="math_number">
+            <field name="NUM">135</field>
+          </shadow>
+        </value>
+        <value name="height">
+          <shadow type="math_number">
+            <field name="NUM">240</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>
 
+      <block type="rh_st7789_fill_rect">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="width">
+          <shadow type="math_number">
+            <field name="NUM">135</field>
+          </shadow>
+        </value>
+        <value name="height">
+          <shadow type="math_number">
+            <field name="NUM">240</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>     
 
+      <block type="rh_st7789_circle">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+        <value name="radius">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>
 
-    </block>
-    <block type="clear_oled"></block>
-    <block type="fill_oled"></block>
+      <block type="rh_st7789_fill_circle">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+        <value name="radius">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>     
 
-
-
+      <block type="rh_st7789_line">
+        <value name="x1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="x2">
+          <shadow type="math_number">
+            <field name="NUM">135</field>
+          </shadow>
+        </value>
+        <value name="y2">
+          <shadow type="math_number">
+            <field name="NUM">240</field>
+          </shadow>
+        </value>
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>
+      
+      <block type="rh_st7789_fill">
+        <value name="fg_color">
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+       </value>
+      </block>
+      
 
 
     </category>
 
-  <category name="LED Matrix">
-      <label text="TM1640 LED Matrix"></label>
-      <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
-        <button text="Install tm1640 library" callbackKey="installPyLib"></button>
-        <button text="Load example: tm1640" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
+    <category name="NeoPixel LED Strip">
+      <label text="NeoPixel RGB LED Strip"></label>
 
-    <block type="tm1640_init">
+        <button text="Load example: Blink" callbackKey="loadExample"></button>
+        <button text="Load example: LarsonScanner" callbackKey="loadExample"></button>
+        <button text="Load example: TheaterChase" callbackKey="loadExample"></button>
 
- <value name="clk">
+      <block type="neopixel_init">
+       <value name="pin">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+       </value>
+
+       <value name="number">
         <shadow type="math_number">
-          <field name="NUM">14</field>
+          <field name="NUM">8</field>
         </shadow>
-      </value>
-
- <value name="dio">
-        <shadow type="math_number">
-          <field name="NUM">13</field>
-        </shadow>
-      </value>
-
-
+       </value>
       </block>
 
-    <block type="tm1640_write">
-  <value name="vector">
-        <shadow type="text">
-          <field name="TEXT">1, 2, 4, 8, 16, 32, 64, 128</field>
-        </shadow>
-      </value>
-    </block>
-
-    <block type="tm1640_brig">
-    <value name="brig">
+      <block type="neopixel_color_numbers">
+       <value name="red">
         <shadow type="math_number">
-          <field name="NUM">7</field>
+          <field name="NUM">50</field>
         </shadow>
-      </value>
+       </value>
+       <value name="green">
+        <shadow type="math_number">
+          <field name="NUM">152</field>
+        </shadow>
+       </value>
+       <value name="blue">
+        <shadow type="math_number">
+          <field name="NUM">220</field>
+        </shadow>
+       </value>
+      </block>
 
-    </block>
+      <block type="neopixel_color_colors"></block>
 
+      <block type="HSL_to_RGB">
+        <value name="hue">
+        <shadow type="math_number">
+          <field name="NUM">204</field>
+        </shadow>
+        </value>
+        <value name="saturation">
+        <shadow type="math_number">
+          <field name="NUM">70.8</field>
+        </shadow>
+        </value>
+        <value name="lightness">
+        <shadow type="math_number">
+          <field name="NUM">52.9</field>
+        </shadow>
+        </value>
+      </block>
 
-    <block type="tm1640_num">
-    <value name="num">
+      <block type="neopixel_control">
+       <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+       </value>
+
+       <value name="color">
+        <shadow type="neopixel_color_colors">
+          <field name="NUM"></field>
+        </shadow>
+       </value>
+      </block>
+
+      <block type="neopixel_control">
+       <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+       </value>
+
+       <value name="color">
+        <block type="neopixel_color_numbers">
+         <value name="red">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+         <value name="green">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+         <value name="blue">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+         </value>
+        </block>
+       </value>
+      </block>
+
+	    <block type="neopixel_write"></block>
+		</category>
+
+	  <category name="Character Display">
+	    <label text="PCF8574 Display Controller"></label>
+
+	    <label text="Library: https://github.com/T-622/RPI-PICO-I2C-LCD"></label>
+	    <button text="Install lcd_api library" callbackKey="installPyLib"></button>
+	    <button text="Install pico_i2c_lcd library" callbackKey="installPyLib"></button>
+
+			<block type="char_lcd_init">
+	      <value name="i2c">
+	        <shadow type="math_number">
+	          <field name="NUM">0</field>
+	        </shadow>
+	      </value>
+	      <value name="sda">
+	        <shadow type="pinout">
+	          <field name="PIN">0</field>
+	        </shadow>
+	      </value>
+	      <value name="scl">
+	        <shadow type="pinout">
+	          <field name="PIN">1</field>
+	        </shadow>
+	      </value>
+				 <value name="rows">
+	        <shadow type="math_number">
+	          <field name="NUM">2</field>
+	        </shadow>
+	      </value>
+		 		<value name="columns">
+	        <shadow type="math_number">
+	          <field name="NUM">16</field>
+	        </shadow>
+	      </value>
+			</block>
+		
+			<block type="char_lcd_clear"></block>
+
+			<block type="char_lcd_putstr">
+				<value name="text">
+		    	<shadow type="text">
+		      	<field name="TEXT">Hello</field>
+		       </shadow>
+		     </value>
+			</block>
+			
+			<block type="char_lcd_moveto">
+				 <value name="x">
+		      <shadow type="math_number">
+		        <field name="NUM">0</field>
+		      </shadow>
+		    </value>
+		 		<value name="y">
+		      <shadow type="math_number">
+		        <field name="NUM">0</field>
+		      </shadow>
+		    </value>
+			</block>
+			
+			<block type="char_lcd_backlight">
+			</block>
+			
+			<block type="char_lcd_display">
+			</block>
+
+	    <block type="char_lcd_custom">
+			 		<value name="id">
+		      <shadow type="math_number">
+		        <field name="NUM">0</field>
+		      </shadow>
+		    </value>
+	      <field name="A0">FALSE</field>
+	      <field name="A1">FALSE</field>
+	      <field name="A2">FALSE</field>
+	      <field name="A3">FALSE</field>
+	      <field name="A4">FALSE</field>
+	      <field name="B0">FALSE</field>
+	      <field name="B1">FALSE</field>
+	      <field name="B2">FALSE</field>
+	      <field name="B3">FALSE</field>
+	      <field name="B4">FALSE</field>
+	      <field name="C0">FALSE</field>
+	      <field name="C1">FALSE</field>
+	      <field name="C2">FALSE</field>
+	      <field name="C3">FALSE</field>
+	      <field name="C4">FALSE</field>
+	      <field name="D0">FALSE</field>
+	      <field name="D1">FALSE</field>
+	      <field name="D2">FALSE</field>
+	      <field name="D3">FALSE</field>
+	      <field name="D4">FALSE</field>
+	      <field name="E0">FALSE</field>
+	      <field name="E1">FALSE</field>
+	      <field name="E2">FALSE</field>
+	      <field name="E3">FALSE</field>
+	      <field name="E4">FALSE</field>
+	      <field name="F0">FALSE</field>
+	      <field name="F1">FALSE</field>
+	      <field name="F2">FALSE</field>
+	      <field name="F3">FALSE</field>
+	      <field name="F4">FALSE</field>
+	      <field name="G0">FALSE</field>
+	      <field name="G1">FALSE</field>
+	      <field name="G2">FALSE</field>
+	      <field name="G3">FALSE</field>
+	      <field name="G4">FALSE</field>
+	      <field name="H0">FALSE</field>
+	      <field name="H1">FALSE</field>
+	      <field name="H2">FALSE</field>
+	      <field name="H3">FALSE</field>
+	      <field name="H4">FALSE</field>
+	    </block>
+	  </category>
+
+  <category name="LED Matrix">
+    <label text="MAX7219 LED Matrix"></label>
+    <label text="Library: https://github.com/mcauser/micropython-max7219"></label>
+    <button text="Install max7219 library" callbackKey="installPyLib"></button>
+
+    <block type="max7219_init">
+      <value name="spi">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
       </value>
+      <value name="clk">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="cs">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
     </block>
 
-    <block type="tm1640_custom">
-                    <field name="A0">FALSE</field>
-                    <field name="A1">FALSE</field>
-                    <field name="A2">FALSE</field>
-                    <field name="A3">FALSE</field>
-                    <field name="A4">FALSE</field>
-                    <field name="A5">FALSE</field>
-                    <field name="A6">FALSE</field>
-                    <field name="A7">FALSE</field>
-                    <field name="B0">FALSE</field>
-                    <field name="B1">FALSE</field>
-                    <field name="B2">FALSE</field>
-                    <field name="B3">FALSE</field>
-                    <field name="B4">FALSE</field>
-                    <field name="B5">FALSE</field>
-                    <field name="B6">FALSE</field>
-                    <field name="B7">FALSE</field>
-                    <field name="C0">FALSE</field>
-                    <field name="C1">FALSE</field>
-                    <field name="C2">FALSE</field>
-                    <field name="C3">FALSE</field>
-                    <field name="C4">FALSE</field>
-                    <field name="C5">FALSE</field>
-                    <field name="C6">FALSE</field>
-                    <field name="C7">FALSE</field>
-                    <field name="D0">FALSE</field>
-                    <field name="D1">FALSE</field>
-                    <field name="D2">FALSE</field>
-                    <field name="D3">FALSE</field>
-                    <field name="D4">FALSE</field>
-                    <field name="D5">FALSE</field>
-                    <field name="D6">FALSE</field>
-                    <field name="D7">FALSE</field>
-                    <field name="E0">FALSE</field>
-                    <field name="E1">FALSE</field>
-                    <field name="E2">FALSE</field>
-                    <field name="E3">FALSE</field>
-                    <field name="E4">FALSE</field>
-                    <field name="E5">FALSE</field>
-                    <field name="E6">FALSE</field>
-                    <field name="E7">FALSE</field>
-                    <field name="F0">FALSE</field>
-                    <field name="F1">FALSE</field>
-                    <field name="F2">FALSE</field>
-                    <field name="F3">FALSE</field>
-                    <field name="F4">FALSE</field>
-                    <field name="F5">FALSE</field>
-                    <field name="F6">FALSE</field>
-                    <field name="F7">FALSE</field>
-                    <field name="G0">FALSE</field>
-                    <field name="G1">FALSE</field>
-                    <field name="G2">FALSE</field>
-                    <field name="G3">FALSE</field>
-                    <field name="G4">FALSE</field>
-                    <field name="G5">FALSE</field>
-                    <field name="G6">FALSE</field>
-                    <field name="G7">FALSE</field>
-                    <field name="H0">FALSE</field>
-                    <field name="H1">FALSE</field>
-                    <field name="H2">FALSE</field>
-                    <field name="H3">FALSE</field>
-                    <field name="H4">FALSE</field>
-                    <field name="H5">FALSE</field>
-                    <field name="H6">FALSE</field>
-                    <field name="H7">FALSE</field>
-                </block>
+    <block type="max7219_write">
+      <value name="x">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="character">
+        <shadow type="text">
+          <field name="TEXT">A</field>
+        </shadow>
+      </value>
+    </block>
 
+    <block type="max7219_line">
+      <value name="x1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="x2">
+        <shadow type="math_number">
+          <field name="NUM">7</field>
+        </shadow>
+      </value>
+      <value name="y2">
+        <shadow type="math_number">
+          <field name="NUM">7</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="max7219_rect">
+      <value name="x1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="y1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="x2">
+        <shadow type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+      <value name="y2">
+        <shadow type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="max7219_fill_rect">
+      <value name="x1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>     
+      <value name="y1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="x2">
+        <shadow type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+      <value name="y2">
+        <shadow type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+    </block>  
+
+    <block type="max7219_scroll">
+      <value name="x">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>     
+      <value name="y">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>     
+
+    <block type="max7219_clear"></block>
+    <block type="max7219_fill"></block>
+
+    <block type="max7219_brig">
+      <value name="brig">
+        <shadow type="math_number">
+          <field name="NUM">7</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="max7219_custom">
+      <field name="A0">FALSE</field>
+      <field name="A1">FALSE</field>
+      <field name="A2">FALSE</field>
+      <field name="A3">FALSE</field>
+      <field name="A4">FALSE</field>
+      <field name="A5">FALSE</field>
+      <field name="A6">FALSE</field>
+      <field name="A7">FALSE</field>
+      <field name="B0">FALSE</field>
+      <field name="B1">FALSE</field>
+      <field name="B2">FALSE</field>
+      <field name="B3">FALSE</field>
+      <field name="B4">FALSE</field>
+      <field name="B5">FALSE</field>
+      <field name="B6">FALSE</field>
+      <field name="B7">FALSE</field>
+      <field name="C0">FALSE</field>
+      <field name="C1">FALSE</field>
+      <field name="C2">FALSE</field>
+      <field name="C3">FALSE</field>
+      <field name="C4">FALSE</field>
+      <field name="C5">FALSE</field>
+      <field name="C6">FALSE</field>
+      <field name="C7">FALSE</field>
+      <field name="D0">FALSE</field>
+      <field name="D1">FALSE</field>
+      <field name="D2">FALSE</field>
+      <field name="D3">FALSE</field>
+      <field name="D4">FALSE</field>
+      <field name="D5">FALSE</field>
+      <field name="D6">FALSE</field>
+      <field name="D7">FALSE</field>
+      <field name="E0">FALSE</field>
+      <field name="E1">FALSE</field>
+      <field name="E2">FALSE</field>
+      <field name="E3">FALSE</field>
+      <field name="E4">FALSE</field>
+      <field name="E5">FALSE</field>
+      <field name="E6">FALSE</field>
+      <field name="E7">FALSE</field>
+      <field name="F0">FALSE</field>
+      <field name="F1">FALSE</field>
+      <field name="F2">FALSE</field>
+      <field name="F3">FALSE</field>
+      <field name="F4">FALSE</field>
+      <field name="F5">FALSE</field>
+      <field name="F6">FALSE</field>
+      <field name="F7">FALSE</field>
+      <field name="G0">FALSE</field>
+      <field name="G1">FALSE</field>
+      <field name="G2">FALSE</field>
+      <field name="G3">FALSE</field>
+      <field name="G4">FALSE</field>
+      <field name="G5">FALSE</field>
+      <field name="G6">FALSE</field>
+      <field name="G7">FALSE</field>
+      <field name="H0">FALSE</field>
+      <field name="H1">FALSE</field>
+      <field name="H2">FALSE</field>
+      <field name="H3">FALSE</field>
+      <field name="H4">FALSE</field>
+      <field name="H5">FALSE</field>
+      <field name="H6">FALSE</field>
+      <field name="H7">FALSE</field>
+    </block>
 
   </category>
 
+  <category name="4 Digit Display">
+    <label text="TM1637 Display"></label>
+    <label text="Library: https://github.com/mcauser/micropython-tm1637"></label>
+    <button text="Install tm1637 library" callbackKey="installPyLib"></button>
 
+    <block type="tm1637_init">
+      <value name="clk">
+        <shadow type="pinout">
+          <field name="PIN">18</field>
+        </shadow>
+      </value>
+      <value name="dio">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+    </block>
 
+    <block type="tm1637_write_char">
+      <value name="character">
+        <shadow type="text">
+          <field name="TEXT">E</field>
+        </shadow>
+      </value>
+      <value name="position">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_write_text">
+      <value name="text">
+        <shadow type="text">
+          <field name="TEXT">COOL</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_scroll_text">
+      <value name="text">
+        <shadow type="text">
+          <field name="TEXT">HELLO WORLD</field>
+        </shadow>
+      </value>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_set_time">
+      <value name="hour">
+        <shadow type="math_number">
+          <field name="NUM">11</field>
+        </shadow>
+      </value>
+      <value name="minute">
+        <shadow type="math_number">
+          <field name="NUM">45</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_set_temperature">
+      <value name="temperature">
+        <shadow type="math_number">
+          <field name="NUM">23</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_set_brightness">
+      <value name="brightness">
+        <shadow type="math_number">
+          <field name="NUM">7</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tm1637_clear"></block>
+
+  </category>
 
   </category>
 
@@ -724,7 +1565,6 @@
     <category name="DHT11/22 Sensor">
       <label text="DHT11/11 Temperature and Humidity Sensor"></label>
       <block type="dht_init">
-        <field name="BLOCK_DHT_INIT">Start DHT11/22 sensor</field>
         <value name="pin">
           <shadow type="pinout">
             <field name="PIN"></field>
@@ -742,26 +1582,136 @@
       </block>
     </category>
 
+    <category name="AHT10/20 Sensor">
+      <label text="Library: https://github.com/targetblank/micropython_ahtx0"></label>
+      <button text="Install ahtx0 library" callbackKey="installPyLib"></button>
 
-  <category name="Ultrasound">
+      <label text="AHT10/20 Temperature and Humidity Sensor"></label>
+      <block type="aht_init">
+        <value name="i2c">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+        </value>
+        <value name="scl">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="aht_read_temp">
+      </block>
+      <block type="aht_read_humidity">
+      </block>
+    </category>
+
+    <category name="BH1750 Sensor">
+      <label text="Library: https://github.com/flrrth/pico-bh1750"></label>
+      <button text="Install bh1750 library" callbackKey="installPyLib"></button>
+
+      <label text="BH1750 Ambient Light Sensor"></label>
+      <block type="bh1750_init">
+        <value name="i2c">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+        </value>
+        <value name="scl">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="bh1750_read">
+      </block>
+    </category>
+
+    <category name="DS3231 RTC">
+      <label text="DS3231 Real Time Clock"></label>
+      <label text="Library: https://github.com/peterhinch/micropython-samples/blob/master/DS3231/ds3231_gen.py"></label>
+      <button text="Install ds3231_gen library" callbackKey="installPyLib"></button>      
+
+      <block type="init_ds3231">
+        <value name="i2c">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="scl">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="set_time_ds3231">
+        <value name="year">
+          <shadow type="math_number">
+            <field name="NUM">2025</field>
+          </shadow>
+        </value>
+        <value name="month">
+          <shadow type="math_number">
+            <field name="NUM">5</field>
+          </shadow>
+        </value>
+        <value name="day">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="hour">
+          <shadow type="math_number">
+            <field name="NUM">12</field>
+          </shadow>
+        </value>
+        <value name="min">
+          <shadow type="math_number">
+            <field name="NUM">8</field>
+          </shadow>
+        </value>
+        <value name="sec">
+          <shadow type="math_number">
+            <field name="NUM">35</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="read_time_ds3231"></block>
+      <block type="read_temp_ds3231"></block>
+    </category>
+
+    <category name="%{BKY_CAT_ULTRASOUND}">
       <label text="HCSR04 ultrasound distance sensor"></label>
       <label text="Library: https://github.com/rsc1975/micropython-hcsr04"></label>
-        <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
+      <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
 
 
       <block type="hcsr_init">
-        <field name="BLOCK_HCSR_INIT">Start HCSR04 Ultrasound sensor</field>
         <value name="echo">
           <shadow type="pinout">
-            <field name="PIN"></field>
+            <field name="PIN">0</field>
           </shadow>
         </value>
- <value name="trigger">
+        <value name="trigger">
           <shadow type="pinout">
-            <field name="PIN"></field>
+            <field name="PIN">1</field>
           </shadow>
         </value>
-  <value name="timeout">
+        <value name="timeout">
           <shadow type="math_number">
             <field name="NUM">10000</field>
           </shadow>
@@ -772,52 +1722,42 @@
 
   </category>
 
-  <category name="GPS">
-      <label text="Global Positioning System sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install GPS library" callbackKey="installPyLib"></button>
-
-	<block type="gps_init">
-      </block>
-	<block type="gps_update">
-      </block>
-	<block type="gps_get_lat">
-      </block>
-	<block type="gps_get_long">
-      </block>
-	<block type="gps_get_height">
-      </block>
-	<block type="gps_get_speed">
-      </block>
-	<block type="gps_get_datetime">
-      </block>
-
-
-  </category>
-
-  <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
-
-	<block type="max30100_init">
-      </block>
-	<block type="max30100_read">
-      </block>
-	<block type="max30100_red">
-      </block>
-	<block type="max30100_ir">
-      </block>
+  <category name="Time of Flight">
+      <label text="VL53L0X"></label>
+   <label text="Library: https://github.com/kevinmcaleer/vl53l0x"></label>
+        <button text="Install vl53l0x library" callbackKey="installPyLib"></button>
 
 
 
+    <block type="init_vl53l0x">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
 
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+
+    </block>
+
+    <block type="vl53l0x_read_tof"> </block>
   </category>
 
   <category name="Inertial Measurement">
       <label text="MPU6050 IMU"></label>
-   <label text="Library: https://github.com/"></label>
+   <label text="Library: https://github.com/micropython-IMU/micropython-mpu9x50"></label>
         <button text="Install imu library (MPU6050)" callbackKey="installPyLib"></button>
+        <button text="Install vector3d library (MPU6050)" callbackKey="installPyLib"></button>
 
         <button text="Load example: mpu6050" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
@@ -825,16 +1765,21 @@
 
 
     <block type="init_mpu6050">
-
- <value name="scl">
+      <value name="i2c">
         <shadow type="math_number">
-          <field name="NUM">5</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
 
- <value name="sda">
-        <shadow type="math_number">
-          <field name="NUM">4</field>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="SCL"></field>
+        </shadow>
+      </value>
+
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="SDA"></field>
         </shadow>
       </value>
 
@@ -848,10 +1793,254 @@
     <block type="mpu6050_read_gyro_y"> </block>
     <block type="mpu6050_read_gyro_z"> </block>
 
+    <block type="mpu6050_read_temperature"> </block>
 
   </category>
 
-      <category name="OneWire">
+  <category name="GY33 I2C">
+    <label text="GY33 Color Sensor - I2C"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33I2C library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_i2c_init">
+      <value name="id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="SDA"></field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="SCL"></field>
+        </shadow>
+      </value>
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">100000</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_cal_white_balance">
+    </block>
+
+    <block type="gy33_i2c_cal_white">
+    </block>
+
+    <block type="gy33_i2c_cal_black">
+    </block>
+
+    <block type="gy33_i2c_get_all">
+    </block>
+
+    <block type="gy33_i2c_get_raw">
+    </block>
+
+    <block type="gy33_i2c_get_calibrated">
+    </block>
+
+  </category>
+
+  <category name="GY33 UART">
+    <label text="GY33 Color Sensor - UART"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33UART library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_uart_init">
+      <value name="uart">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="TX"></field>
+        </shadow>
+      </value>
+      <value name="rx">
+        <shadow type="pinout">
+          <field name="RX"></field>
+        </shadow>
+      </value>
+      <value name="bps">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_integration_time">
+    </block>
+
+    <block type="gy33_uart_baud_rate">
+    </block>
+
+    <block type="gy33_uart_i2c_addr">
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">41</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_cal_white_balance">
+    </block>
+
+    <block type="gy33_uart_cal_white">
+    </block>
+
+    <block type="gy33_uart_cal_black">
+    </block>
+
+    <block type="gy33_uart_get_raw">
+    </block>
+
+    <block type="gy33_uart_get_lcc">
+    </block>
+
+    <block type="gy33_uart_get_processed">
+    </block>
+
+  </category>
+
+  <category name="MPR121">
+    <label text="MPR121 Capacitive Touch Keypad"></label>
+    <label text="Library: https://github.com/mcauser/micropython-mpr121"></label>
+    <button text="Install mpr121 library" callbackKey="installPyLib"></button>
+
+    <block type="mpr121_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mpr121_key_pressed">
+      <value name="id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+  </category>
+
+  <category name="GPS">
+      <label text="Global Positioning System sensor"></label>
+   <label text="Library: https://github.com/"></label>
+        <button text="Install mini_micropyGPS library" callbackKey="installPyLib"></button>
+    <block type="gps_init">
+      <value name="uart">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+
+      <value name="rx">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+
+      <value name="bps">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="gps_update">
+    </block>
+    <block type="gps_get_lat">
+    </block>
+    <block type="gps_get_long">
+    </block>
+    <block type="gps_get_height">
+    </block>
+    <block type="gps_get_speed">
+    </block>
+    <block type="gps_get_date">
+    </block>
+    <block type="gps_get_time">
+    </block>
+    <block type="gps_coord_format">
+    </block>
+  </category>
+
+  <category name="Oximeter">
+      <label text="MAX30100 pulse oximeter sensor"></label>
+   <label text="Library: https://github.com/"></label>
+        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+
+	  <block type="max30100_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+    </block>
+	  <block type="max30100_read">
+    </block>
+	  <block type="max30100_red">
+    </block>
+	  <block type="max30100_ir">
+    </block>
+  </category>
+
+  <category name="OneWire">
       <label text="OneWire"></label>
 
         <button text="Load example: ds1820" callbackKey="loadExample"></button>
@@ -860,7 +2049,7 @@
       <block type="onewire_ds18x20_init">
         <value name="pin">
           <shadow type="pinout">
-            <field name="PIN"></field>
+            <field name="PIN">0</field>
           </shadow>
         </value>
       </block>
@@ -879,45 +2068,51 @@
 
   <category name="RFID Reader">
       <label text="RC522 13.56MHz RFID Reader"></label>
-      <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
+      <label text="Library: https://github.com/kevinmcaleer/pico-rfid"></label>
         <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
         <button text="Load example: mfrc522" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
 
       <block type="rfid_rc522_init">
-        <value name="sck">
-          <shadow type="pinout">
-            <field name="SCK"></field>
-          </shadow>
-        </value>
-
-        <value name="mosi">
-          <shadow type="pinout">
-            <field name="MOSI"></field>
-          </shadow>
-        </value>
-
-         <value name="miso">
-          <shadow type="pinout">
-            <field name="MISO"></field>
-          </shadow>
-        </value>
-
-        <value name="rst">
-          <shadow type="pinout">
-            <field name="RST"></field>
+        <value name="spi">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
           </shadow>
         </value>
 
         <value name="cs">
           <shadow type="pinout">
-            <field name="RST"></field>
+            <field name="PIN">19</field>
           </shadow>
         </value>
 
+        <value name="sck">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+
+        <value name="mosi">
+          <shadow type="pinout">
+            <field name="PIN">4</field>
+          </shadow>
+        </value>
+
+         <value name="miso">
+          <shadow type="pinout">
+            <field name="PIN">6</field>
+          </shadow>
+        </value>
+
+        <value name="rst">
+          <shadow type="pinout">
+            <field name="PIN">7</field>
+          </shadow>
+        </value>
       </block>
       <block type="rfid_rc522_detect_card"></block>
       <block type="rfid_rc522_anticoll"></block>
+      <block type="rfid_rc522_serial_number"></block>
       <block type="rfid_rc522_read_card"></block>
       <block type="rfid_rc522_write_card"></block>
 
@@ -926,26 +2121,26 @@
   </category>
 
 
-  <category name="Actuators">
+<category name="Actuators">
 
 
-    <category name="Relay">
-      <label text="Relay"></label>
-      <block type="relay_switch">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-    </category>
+  <category name="Relay">
+    <label text="Relay"></label>
+    <block type="relay_switch">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
 
   <category name="RC Servo">
       <label text="Hobby RC Servo Motor"></label>
     <block type="init_servo">
         <value name="pin">
           <shadow type="pinout">
-            <field name="PIN"></field>
+            <field name="PIN">1</field>
           </shadow>
         </value>
     </block>
@@ -959,152 +2154,207 @@
     </block>
   </category>
 
+  <category name="PCA9685 Servo Driver">
+      <label text="PCA9685 Servo Driver Board"></label>
+      <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+
+      <block type="init_pca9685">
+        <value name="i2c">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="pinout">
+            <field name="PIN">0</field>
+          </shadow>
+        </value>
+        <value name="scl">
+          <shadow type="pinout">
+            <field name="PIN">1</field>
+          </shadow>
+        </value>
+        <value name="min_pulse_width">
+          <shadow type="math_number">
+            <field name="NUM">500</field>
+          </shadow>
+        </value>
+        <value name="max_pulse_width">
+          <shadow type="math_number">
+            <field name="NUM">2500</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="move_pca9685">
+        <value name="servo_id">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="angle">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>      
 
   </category>
 
-  <category name="Communication">
-      <label text="Communication"></label>
-      <category name="UART">
-      <label text="UART Serial Port"></label>
-<block type="uart_init">
-</block>
+</category>
 
-<block type="uart_write">
-</block>
-<block type="uart_read">
-</block>
-<block type="uart_read_into">
-</block>
-<block type="uart_readline">
-</block>
-<block type="uart_read_all">
-</block>
+<category name="%{BKY_CAT_COMM}">
+  <label text="%{BKY_CAT_COMM}"></label>
 
-      </category>
-      <category name="SPI">
-      <label text="SPI"></label>
-<block type="machine.SPI_SPI.init">
-</block>
-<block type="machine.SPI_SPI.deinit">
-</block>
-<block type="machine.SPI_SPI.read">
-</block>
-<block type="machine.SPI_SPI.readinto">
-</block>
-<block type="machine.SPI_SPI.write">
-</block>
-<block type="machine.SPI_SPI.write_readinto">
-</block>
+  <category name="UART">
+    <label text="UART Serial Port"></label>
+    <block type="uart_init">
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="baud">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="rx">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+    </block>
 
-      </category>
-
-      <category name="GSM Modem">
-
-      <block type="gsm_modem_init">
-</block>
-      <block type="gsm_modem_send_sms">
-</block>
-      <block type="gsm_modem_send_at">
-</block>
-      <block type="gsm_modem_http_get">
-</block>
-      <block type="gsm_modem_response">
-</block>
-
-
-
-      </category>
-      <category name="I2C">
-      <label text="I2c"></label>
-<block type="machine.I2C_I2C.init">
-</block>
-<block type="machine.I2C_I2C.deinit">
-</block>
-<block type="machine.I2C_I2C.scan">
-</block>
-<block type="machine.I2C_I2C.start">
-</block>
-<block type="machine.I2C_I2C.stop">
-</block>
-<block type="machine.I2C_I2C.readinto">
-</block>
-<block type="machine.I2C_I2C.write">
-</block>
-<block type="machine.I2C_I2C.readfrom">
-</block>
-<block type="machine.I2C_I2C.readfrom_into">
-</block>
-<block type="machine.I2C_I2C.writeto">
-</block>
-<block type="machine.I2C_I2C.writevto">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem_into">
-</block>
-<block type="machine.I2C_I2C.writeto_mem">
-</block>
-
-      </category>
+    <block type="uart_write">
+      <value name="buf">
+        <shadow type="text">
+          <field name="TEXT">Hello</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="uart_read">
+    </block>
+    <block type="uart_readline">
+    </block>
+    <block type="uart_read_all">
+    </block>
+    <block type="uart_any">
+    </block>
   </category>
 
+  <category name="SPI">
+    <label text="SPI"></label>
+  </category>
 
-  <category name="Files">
-      <label text="Read and write files"></label>
+  <category name="GSM Modem">
+    <block type="gsm_modem_init">
+    </block>
+    <block type="gsm_modem_send_sms">
+    </block>
+    <block type="gsm_modem_send_at">
+    </block>
+    <block type="gsm_modem_http_get">
+    </block>
+    <block type="gsm_modem_response">
+    </block>
+  </category>
+
+  <category name="I2C">
+    <label text="I2c"></label>
+    <block type="machine.I2C_I2C.init">
+    </block>
+    <block type="machine.I2C_I2C.deinit">
+    </block>
+    <block type="machine.I2C_I2C.scan">
+    </block>
+    <block type="machine.I2C_I2C.start">
+    </block>
+    <block type="machine.I2C_I2C.stop">
+    </block>
+    <block type="machine.I2C_I2C.readinto">
+    </block>
+    <block type="machine.I2C_I2C.write">
+    </block>
+    <block type="machine.I2C_I2C.readfrom">
+    </block>
+    <block type="machine.I2C_I2C.readfrom_into">
+    </block>
+    <block type="machine.I2C_I2C.writeto">
+    </block>
+    <block type="machine.I2C_I2C.writevto">
+    </block>
+    <block type="machine.I2C_I2C.readfrom_mem">
+    </block>
+    <block type="machine.I2C_I2C.readfrom_mem_into">
+    </block>
+    <block type="machine.I2C_I2C.writeto_mem">
+    </block>
+  </category>
+</category>
+
+
+  <category name="%{BKY_CAT_FILES}">
+    <label text="Read and write files"></label>
 <block type="file_open_write">
-
+  <value name="fileHandle">
+    <shadow type="text">
+      <field name="TEXT">f</field>
+    </shadow>
+  </value>
   <value name="filename">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
       </value>
-
 </block>
+
 <block type="file_open_read">
-
+  <value name="fileHandle">
+    <shadow type="text">
+      <field name="TEXT">f</field>
+    </shadow>
+  </value>
   <value name="filename">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
       </value>
-
-
 </block>
+
 <block type="file_write">
-
-
+  <value name="fileHandle">
+    <shadow type="text">
+      <field name="TEXT">f</field>
+    </shadow>
+  </value>
   <value name="data">
         <shadow type="text">
           <field name="TEXT">File contents</field>
         </shadow>
       </value>
-
-
-  <value name="filename">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-      </value>
-
 </block>
+
 <block type="file_read">
 
-  <value name="filename">
+  <value name="fileHandle">
         <shadow type="text">
-          <field name="TEXT">file.txt</field>
+          <field name="TEXT">f</field>
         </shadow>
       </value>
-
 </block>
-<block type="file_close">
 
-  <value name="filename">
+<block type="file_close">
+  <value name="fileHandle">
         <shadow type="text">
-          <field name="TEXT">file.txt</field>
+          <field name="TEXT">f</field>
         </shadow>
       </value>
-
-
 </block>
 
       <label text="Disk file operations"></label>
@@ -1171,318 +2421,6 @@
 <block type="uos_ioctl">
 </block>
 
-  </category>
-
-
-
-
-
-  <category name="Network">
-    <block type="wifi_client_connect">
-      <field name="NAME">Connect to Wifi network</field>
-      <value name="wifi_client_essid">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-      <value name="wifi_client_key">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
-    <block type="net_ap_mode">
-      <field name="NAME">Configure Access Point Mode</field>
-      <value name="wifi_essid">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-      <value name="wifi_key">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
-    <block type="wifi_client_scan_networks">
-      <field name="NET_SCAN_WIFI">Scan Wifi networks</field>
-    </block>
-    <block type="net_ifconfig">
-      <field name="NET_IFCONFIG">Wifi current IP</field>
-    </block>
-
-    <block type="net_wiznet5k_init">
-    </block>
-    <block type="net_wiznet5k_isconnected">
-    </block>
-    <block type="net_wiznet5k_regs">
-    </block>
-    <block type="net_wiznet5k_ifconfig">
-    </block>
-
-    <category name="HTTP Client">
-      <label text="HTTP Client"></label>
-
-    <block type="net_get_request">
-      <field name="BLOCK_NET_GET">Make HTTP GET Request URL</field>
-    </block>
-    <block type="net_post_request">
-      <field name="NET_POST_REQUEST_URL">Make HTTP POST Request URL</field>
-      <field name="NET_POST_REQUEST_DATA">Data</field>
-    </block>
-
-    </category>
-
-    <category name="HTTP Server">
-      <label text="HTTP Web Server"></label>
-      <button text="Load example: webserver" callbackKey="loadExample"></button>
-      <button text="Documentation: webserver" callbackKey="loadDoc"></button>
-
-    <block type="net_http_server_start">
-        <value name="port">
-          <shadow type="math_number">
-            <field name="NUM">80</field>
-          </shadow>
-        </value>
-    </block>
-    <block type="net_http_server_accept">
-    </block>
-    <block type="net_http_server_requested_page">
-    </block>
-    <block type="net_http_server_send_response">
-	 <value name="html">
-          <shadow type="text">
-            <field name="TEXT">You reached BIPES WebServer!</field>
-          </shadow>
-        </value>
-
-    </block>
-    <block type="net_http_server_close">
-    </block>
-
-    </category>
-
-    <category name="EMAIL">
-      <label text="Email sender using uMail"></label>
-      <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
-
-      <block type="umail_init">
-	  <value name="host">
-          <shadow type="text">
-            <field name="TEXT">smtp.gmail.com</field>
-          </shadow>
-        </value>
-        <value name="port">
-          <shadow type="math_number">
-            <field name="NUM">587</field>
-          </shadow>
-        </value>
-        <value name="username">
-          <shadow type="text">
-            <field name="TEXT">email@gmail.com</field>
-          </shadow>
-        </value>
-        <value name="password">
-          <shadow type="text">
-            <field name="TEXT">gmail_password</field>
-          </shadow>
-        </value>
-      </block>
-
-      <block type="umail_send">
-	  <value name="to">
-          <shadow type="text">
-            <field name="TEXT">email@email.com</field>
-          </shadow>
-        </value>
-        <value name="subject">
-          <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
-          </shadow>
-        </value>
-        <value name="contents">
-          <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-
-
-    <category name="NTP Time">
-     <label text="Network Time Protocol (NTP)"></label>
-     <label text="Adjusts RTC using Internet"></label>
-        <button text="Load example: ntp" callbackKey="loadExample"></button>
-        <button text="Documentation: ntp" callbackKey="loadDoc"></button>
-
-
-    <block type="net_ntp_sync">
-	 <value name="tz">
-          <shadow type="math_number">
-            <field name="NUM">3</field>
-          </shadow>
-        </value>
-
-
-    </block>
-    </category>
-
-    <category name="TCP/IP Socket">
-      <label text="TCP/IP Socket"></label>
-        <button text="Load example: starwars" callbackKey="loadExample"></button>
-        <button text="Documentation: sockets" callbackKey="loadDoc"></button>
-
-
-    <block type="net_socket_connect">
-	 <value name="host">
-          <shadow type="text">
-            <field name="TEXT">towel.blinkenlights.nl</field>
-          </shadow>
-        </value>
-	 <value name="port">
-          <shadow type="math_number">
-            <field name="NUM">23</field>
-          </shadow>
-        </value>
-
-    </block>
-    <block type="net_socket_receive">
-	<value name="bytes">
-          <shadow type="math_number">
-            <field name="NUM">500</field>
-          </shadow>
-        </value>
-
-
-    </block>
-    <block type="net_socket_send">
-     <value name="bytes">
-          <shadow type="text">
-            <field name="TEXT">Hello</field>
-          </shadow>
-        </value>
-
-    </block>
-    <block type="net_socket_close">
-    </block>
-
-    </category>
-
-    <category name="MQTT">
-      <label text="MQTT (Message Queue Telemetry Transport)"></label>
-      <block type="mqtt_init">
-        <field name="BLOCK_MQTT_INIT">Start MQTT Client</field>
-        <value name="server">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="port">
-          <shadow type="math_number">
-            <field name="NUM">1883</field>
-          </shadow>
-        </value>
-        <value name="user">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="password">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="mqtt_add_to_buffer">
-        <field name="BLOCK_MQTT_ADD_TO_BUFFER">Add data to MQTT Buffer</field>
-        <value name="fieldname">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <field name="MQTT_VALUE">Value</field>
-      </block>
-      <block type="mqtt_publish_buffer">
-        <field name="BLOCK_MQTT_PUBLISH">Publish Buffer to MQTT Topic</field>
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="mqtt_publish_payload">
-        <field name="BLOCK_MQTT_PUBLISH">Publish Payload to MQTT Topic</field>
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="payload">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="mqtt_set_callback">
-        <field name="BLOCK_MQTT_SET_CALLBACK">Set Callback to MQTT Messages</field>
-        <field name="MQTT_CALLBACK">Callback Function</field>
-      </block>
-      <block type="mqtt_subscribe">
-        <field name="BLOCK_MQTT_SUBSCRIBE">Subscribe to MQTT Topic</field>
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="mqtt_check_msg">
-        <field name="BLOCK_MQTT_CHECK_MSG">Check for MQTT Server messages</field>
-      </block>
-      <block type="mqtt_wait_msg">
-        <field name="BLOCK_MQTT_WAIT_MSG">Wait for MQTT Server messages</field>
-      </block>
-      <block type="mqtt_disconnect">
-        <field name="BLOCK_MQTT_DISCONNECT">Disconnect MQTT Client</field>
-      </block>
-    </category>
-    <category name="EasyMQTT">
-      <label text="IoT: EasyMQTT"></label>
-      <block type="easymqtt_init">
-        <field name="BLOCK_EASYMQTT_INIT">EasyMQTT Start</field>
-      </block>
-      <block type="easymqtt_publish_data">
-        <field name="BLOCK_EASYMQTT_PUBLISH">EasyMQTT Publish Data</field>
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="data">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="easymqtt_subscribe">
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="easymqtt_receive_data"></block>
-      <block type="easymqtt_disconnect">
-        <field name="BLOCK_EASYMQTT_DISCONNECT">EasyMQTT Stop</field>
-      </block>
-    </category>
-
-  <category name="WebREPL">
-      <label text="WebREPL"></label>
-      <block type="webrepl_setup"></block>
-      <block type="webrepl_start"></block>
-    </category>
   </category>
 
 

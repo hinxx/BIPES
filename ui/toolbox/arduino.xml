@@ -311,7 +311,7 @@
 
     <block type="exec_python_output">
       <field name="EXEC_PYTHON_OUTPUT">Execute Python custom with output</field>
-  <value name="commnad">
+  <value name="command">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>

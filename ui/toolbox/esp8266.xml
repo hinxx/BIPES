@@ -316,7 +316,7 @@
 
     <block type="exec_python_output">
       <field name="EXEC_PYTHON_OUTPUT">Execute Python custom with output</field>
-  <value name="commnad">
+  <value name="command">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -512,7 +512,7 @@
 </category>
 
 
-<category name="%{BKY_CAT_DISPLAYS}">
+<category name="%{BKY_CAT_DISPLAYS}" colour="olive">
 
 <category name="NeoPixel LED Strip">
       <label text="NeoPixel RGB LED Strip"></label>
@@ -994,14 +994,13 @@
       </block>
   </category>
 
-  <category name="Ultrasound">
+  <category name="%{BKY_CAT_ULTRASOUND}">
       <label text="HCSR04 ultrasound distance sensor"></label>
       <label text="Library: https://github.com/rsc1975/micropython-hcsr04"></label>
         <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
 
 
       <block type="hcsr_init">
-        <field name="BLOCK_HCSR_INIT">Start HCSR04 Ultrasound sensor</field>
         <value name="echo">
           <shadow type="pinout">
             <field name="PIN"></field>
@@ -1064,6 +1063,30 @@
 
 
   </category>
+
+  <category name="%{BKY_CAT_PRESS}">
+      <label text="BMP180"></label>
+   <label text="Library: https://github.com/micropython-IMU/micropython-bmp180"></label>
+        <button text="Install bmp180 library (BMP180)" callbackKey="installPyLib"></button>
+
+    <block type="bmp180_init">
+      <value name="scl">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bmp180_temperature"> </block>
+    <block type="bmp180_pressure"> </block>
+    <block type="bmp180_altitude"> </block>
+  </category>
+
 
   <category name="Inertial Measurement">
       <label text="MPU6050 IMU"></label>
@@ -1953,7 +1976,6 @@ _
     <category name="MQTT">
       <label text="MQTT (Message Queue Telemetry Transport)"></label>
       <block type="mqtt_init">
-        <field name="BLOCK_MQTT_INIT">Start MQTT Client</field>
         <value name="server">
           <shadow type="text">
             <field name="TEXT"></field>
@@ -1976,7 +1998,6 @@ _
         </value>
       </block>
       <block type="mqtt_add_to_buffer">
-        <field name="BLOCK_MQTT_ADD_TO_BUFFER">Add data to MQTT Buffer</field>
         <value name="fieldname">
           <shadow type="text">
             <field name="TEXT"></field>
@@ -1985,16 +2006,13 @@ _
         <field name="MQTT_VALUE">Value</field>
       </block>
       <block type="mqtt_publish_buffer">
-        <field name="BLOCK_MQTT_PUBLISH">Publish Buffer to MQTT Topic</field>
         <value name="topic">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
-      <block type="mqtt_publish_payload">
-        <field name="BLOCK_MQTT_PUBLISH">Publish Payload to MQTT Topic</field>
-        <value name="topic">
+      <block type="mqtt_publish_payload">    <value name="topic">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -2006,11 +2024,9 @@ _
         </value>
       </block>
       <block type="mqtt_set_callback">
-        <field name="BLOCK_MQTT_SET_CALLBACK">Set Callback to MQTT Messages</field>
         <field name="MQTT_CALLBACK">Callback Function</field>
       </block>
       <block type="mqtt_subscribe">
-        <field name="BLOCK_MQTT_SUBSCRIBE">Subscribe to MQTT Topic</field>
         <value name="topic">
           <shadow type="text">
             <field name="TEXT"></field>
@@ -2018,13 +2034,12 @@ _
         </value>
       </block>
       <block type="mqtt_check_msg">
-        <field name="BLOCK_MQTT_CHECK_MSG">Check for MQTT Server messages</field>
+
       </block>
       <block type="mqtt_wait_msg">
-        <field name="BLOCK_MQTT_WAIT_MSG">Wait for MQTT Server messages</field>
+
       </block>
       <block type="mqtt_disconnect">
-        <field name="BLOCK_MQTT_DISCONNECT">Disconnect MQTT Client</field>
       </block>
     </category>
     <category name="EasyMQTT">
