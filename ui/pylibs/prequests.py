@@ -48,7 +48,12 @@ def request(method, url, data=None, json=None, headers={}, stream=None, parse_he
         if proto == "http:":
             port = 80
         elif proto == "https:":
-            import ussl
+            # `ussl` broke in MicroPython 1.23; the module has been `ssl` since
+            # 1.21. Fall back to `ussl` for firmware older than that.
+            try:
+                import ssl as _ssl
+            except ImportError:
+                import ussl as _ssl
             port = 443
         else:
             raise ValueError("Unsupported protocol: " + proto)
@@ -68,7 +73,7 @@ def request(method, url, data=None, json=None, headers={}, stream=None, parse_he
         try:
             s.connect(ai[-1])
             if proto == "https:":
-                s = ussl.wrap_socket(s, server_hostname=host)
+                s = _ssl.wrap_socket(s, server_hostname=host)
             s.write(b"%s /%s HTTP/1.0\r\n" % (method, path))
             if not "Host" in headers:
                 s.write(b"Host: %s\r\n" % host)
