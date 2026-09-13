@@ -6491,6 +6491,23 @@ Blockly.Python['neopixel_control'] = function(block) {
   return code;
 };
 
+Blockly.Python['neopixel_fill'] = function(block) {
+  var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_NONE);
+
+  // NeoPixel.fill() takes the same (r, g, b) tuple as item assignment; the
+  // module maps it to the strip's GRB wire order itself, so no swap here.
+  var code = `np.fill(${value_color})\n`;
+
+  return code;
+};
+
+Blockly.Python['neopixel_clear'] = function(block) {
+  // Clearing is the one case worth writing immediately: nobody wants the
+  // lights left on because they forgot the write block.
+  var code = 'np.fill((0,0,0))\nnp.write()\n';
+  return code;
+};
+
 Blockly.Python['neopixel_write'] = function(block) {
   var code = 'np.write()\n';
   return code;

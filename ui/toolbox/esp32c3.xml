@@ -609,7 +609,15 @@
        </value>
       </block>
 
-      <block type="neopixel_write"></block>
+      <block type="neopixel_fill">
+      <value name="color">
+        <shadow type="neopixel_color_colors"></shadow>
+      </value>
+    </block>
+
+    <block type="neopixel_clear"></block>
+
+    <block type="neopixel_write"></block>
       
 
 </category>

@@ -12300,6 +12300,38 @@ Blockly.Blocks['neopixel_control'] = {
 };
 
 
+Blockly.Blocks['neopixel_fill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabel("Fill NeoPixel"), "MSG_NEOPIXEL");
+
+    this.appendValueInput("color")
+        .setCheck(null)
+	  .appendField("Color");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+
+    this.setColour("olive");
+    this.setTooltip("Set every LED on the strip to one colour. Use 'Write NeoPixel' afterwards to send it to the strip.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['neopixel_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabel("Clear NeoPixel"), "MSG_NEOPIXEL");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+
+    this.setColour("olive");
+    this.setTooltip("Turn every LED on the strip off, and send it to the strip straight away.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 Blockly.Blocks['neopixel_write'] = {
   init: function() {
     this.appendDummyInput()
