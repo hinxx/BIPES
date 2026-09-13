@@ -1,12 +1,23 @@
+# Runtime submodules -- iframed by ui/index.html, needed to run the IDE.
+# Upstream pointed these at git@github.com:joaodrj/*, which no longer exists
+# (and required an SSH key). The repos live under the BIPES org over HTTPS.
 [submodule "ui/freeboard"]
-    path = ui/freeboard
-    url = git@github.com:joaodrj/freeboard.git
+	path = ui/freeboard
+	url = https://github.com/BIPES/freeboard.git
 [submodule "databoard"]
-    path = databoard
-    url = git@github.com:joaodrj/databoard.git
+	path = databoard
+	url = https://github.com/BIPES/Databoard.git
 
+# Build-time submodules -- only needed to regenerate the vendored copies in
+# ui/core via `make copy`. Not required to run the IDE.
+#
+# blockly is pinned to tag 6.20210701.0, which is the version already vendored
+# in ui/core (see VERSION in ui/core/blockly_compressed.js). Do NOT bump this
+# without porting the UI: Blockly >= 10 dropped the *_compressed.js bundles
+# that `make copy` and ui/index.html rely on.
 [submodule "blockly"]
-    path = blockly
-    url = https://github.com/google/blockly.git
-
-
+	path = blockly
+	url = https://github.com/google/blockly.git
+[submodule "webrepl"]
+	path = webrepl
+	url = https://github.com/micropython/webrepl.git

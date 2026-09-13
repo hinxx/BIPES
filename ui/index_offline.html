@@ -18,8 +18,6 @@
 
 
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162001686-1"></script>
 
 
 
@@ -57,11 +55,6 @@ function checkCookie() {
   } 
   
 }
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-162001686-1');
 </script>
   <link rel="stylesheet" href="style.css?ver=0.2.3.1125">
   <link rel="stylesheet" href="core/libs.css">
@@ -252,9 +245,6 @@ document.body.appendChild(el);
 
   <div id="content_programs" class="content">
     <center>
-	    <!--
-    <iframe src="https://bipes-271213.appspot.com/list" width="100%" height="500" frameBorder="0"></iframe>
-	    -->
     <iframe src="shared.html" width="100%" height="500" frameBorder="0"></iframe>
     </center>
   </div>
@@ -1000,17 +990,18 @@ function eraseCookieModal(name) {
     <sep></sep>
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-    
+
     <category name="Bluetooth" colour="290">
       <block type="configurar_e_iniciar_bluetooth"></block>
       <block type="handle_ble_data"></block>
       <block type="verificar_dados_ble"></block>
       <block type="configurar_plotter_dados"></block>
       <block type="chamar_formatar_dados_plotter"></block>
+      
+      
+      
     </category>
     <sep></sep>
-
-    
    <category name="BIPES">
     <block type="project_metadata">
       <value name="project_author">
@@ -2268,6 +2259,10 @@ _
 
   </category>
 
+
+
+
+
   <category name="%{BKY_CAT_COMM}">
       <label text="%{BKY_CAT_COMM}"></label>
       <category name="UART">
@@ -3008,7 +3003,7 @@ _
         </value>
       </block>
     </category>
-  </category>
+</category>
 
 
 <category name="%{BKY_CAT_CONTROL}">
@@ -3777,10 +3772,12 @@ _
 <block type="sys_print_exception">
 </block>
 </category>
+
 <category name="_thread">
-  <block type="iniciar_thread">
-  </block>
+<block type="iniciar_thread">
+</block>
 </category>
+
 <category name="uarray">
 <block type="uarray_append">
 </block>
@@ -4953,8 +4950,6 @@ _
       <block type="var_to_float">
         <field name="VAR">to float</field>
       </block>
-      <block type="math_min"></block>
-      <block type="math_max"></block>
     </category>
     <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
@@ -9245,8 +9240,6 @@ _
       <block type="var_to_float">  
         <field name="VAR">to float</field> 
       </block>
-      <block type="math_min"></block>
-      <block type="math_max"></block>
     </category>
     <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>

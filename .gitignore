@@ -1,0 +1,10 @@
+# Build output of `make offline`
+bipes_offline.zip
+
+# Sphinx build output of `make doc`
+docs/_build/
+
+# Editor / sync leftovers
+*~
+*.save
+*.ffs_db
