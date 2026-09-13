@@ -15,7 +15,14 @@ class mux {
           this.isLocalFile = true;
         break;
         case 'https:':
-          this.available = ['webserial', 'webbluetooth'];
+          // Chrome 147+ implements Local Network Access: ws:// to a private IP
+          // or a .local name is allowed from an HTTPS page behind a permission
+          // prompt, and blocked outright from a public HTTP page. So the network
+          // channel belongs here now. Browsers without LNA (Safari, Firefox)
+          // still block it as mixed content and are offered the HTTP version
+          // instead -- see websocket.connect and this.lnaSupported below.
+          // webserial stays the default; only availability changes.
+          this.available = ['webserial', 'websocket', 'webbluetooth'];
           this.currentChannel = 'webserial';
         break;
         case 'http:':
@@ -33,6 +40,77 @@ class mux {
       websocket: ['http://bipes.net.br/beta2/ui', 'the HTTP version'],
       webbluetooth: ['https://bipes.net.br/beta2/ui', 'the HTTPS version']
     }
+
+    /**
+     * Whether this browser implements Local Network Access (Chrome 147+).
+     * Resolved asynchronously at startup, so it stays undefined for a moment.
+     * Detected by asking for the permission rather than sniffing the user agent:
+     * permissions.query() rejects on a browser that does not know the name.
+     * Browsers without LNA can never open ws:// from an HTTPS page, so
+     * websocket.connect uses this to offer the HTTP version up front -- Safari
+     * fails the socket asynchronously rather than throwing, so it cannot be
+     * caught around `new WebSocket`.
+     */
+    this.lnaSupported = undefined;
+    if (navigator.permissions && navigator.permissions.query)
+      navigator.permissions.query({name: 'local-network-access'})
+        .then(() => {this.lnaSupported = true})
+        .catch(() => {this.lnaSupported = false});
+    else
+      this.lnaSupported = false;
+
+    // Loaded over plain HTTP on a browser with LNA: connections to boards are
+    // blocked outright there, with no site-setting override, so point the user
+    // at the HTTPS version of wherever they are -- not at bipes.net.br, which
+    // would throw away a local or self-hosted deployment.
+    //
+    // Only for a *public* HTTP origin. Local Network Access restricts requests
+    // that cross from a more public context into a more private one; a page
+    // already served from localhost or a private address is not affected, and
+    // prompting there would send developers to an HTTPS site that does not exist.
+    if (window.location.protocol == 'http:' && !this.isLocalFile &&
+        !mux.isPrivateHost(window.location.hostname) &&
+        navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({name: 'local-network-access'}).then(() => {
+        if (confirm('This browser blocks connections to boards from the HTTP version of this page. Continue on the HTTPS version?'))
+          window.location.replace(window.location.href.replace(/^http:/, 'https:'));
+      }).catch(() => {/* no LNA: ws:// from an HTTP page still works here */});
+    }
+  }
+
+  /**
+   * Whether a hostname is already a local/private context, in which case Local
+   * Network Access does not restrict it. Covers localhost, loopback, .local
+   * mDNS names and the RFC1918 / RFC4193 private ranges.
+   * @param {string} host - window.location.hostname
+   * @returns {boolean} True when the origin is already private
+   */
+  static isPrivateHost (host) {
+    if (!host) return true;
+    host = host.replace(/^\[|\]$/g, '').toLowerCase();
+    if (host == 'localhost' || host.endsWith('.localhost') || host.endsWith('.local'))
+      return true;
+    if (host == '::1' || host.startsWith('fc') || host.startsWith('fd'))
+      return true;
+    let m = host.match(/^(\d+)\.(\d+)\.\d+\.\d+$/);
+    if (!m) return false;
+    let a = +m[1], b = +m[2];
+    return a == 127 || a == 10 ||
+           (a == 192 && b == 168) ||
+           (a == 172 && b >= 16 && b <= 31) ||
+           (a == 169 && b == 254);
+  }
+
+  /**
+   * URL of the same page over the other protocol, used when a channel is
+   * blocked by browser policy. Falls back to the public instance.
+   * @param {string} protocol - 'http:' or 'https:'
+   * @returns {string} URL to redirect to
+   */
+  samePageOver (protocol) {
+    if (window.location.protocol == 'file:')
+      return this.ifunavailable [protocol == 'http:' ? 'websocket' : 'webserial'] [0];
+    return window.location.href.replace(/^https?:/, protocol);
   }
 	/**
    * Switch the target protocol if available, see mux.constructor
@@ -204,8 +282,26 @@ class websocket {
    * @param {string} pass - password to connect to the device
    */
   connect (url, pass) {
+    // On an HTTPS page, ws:// to a board only works where the browser implements
+    // Local Network Access. Without it the socket is blocked as mixed content,
+    // and Safari fails it asynchronously, so there is nothing to catch around
+    // `new WebSocket` -- the user would just see a connection that never opens.
+    // Say so up front and offer the HTTP version of this same page instead.
+    if (window.location.protocol == 'https:' && Channel.mux.lnaSupported === false) {
+      if (confirm('This browser cannot connect to boards from the HTTPS version of this page. Continue on the HTTP version?'))
+        window.location.replace(Channel.mux.samePageOver('http:'));
+      return;
+    }
     UI ['workspace'].connecting ();
-    this.ws = new WebSocket(url);
+    try {
+      this.ws = new WebSocket(url);
+    } catch (e) {
+      // Some browsers throw synchronously instead of failing the socket.
+      UI ['workspace'].runAbort ();
+      if (confirm('This browser cannot connect to boards from the HTTPS version of this page. Continue on the HTTP version?'))
+        window.location.replace(Channel.mux.samePageOver('http:'));
+      return;
+    }
     this.ws.binaryType = 'arraybuffer';
     this.ws.onopen = () => {
       term.on();
