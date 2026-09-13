@@ -58,8 +58,19 @@ var simpleBlob = new Blob([
 '        addr = socket.getaddrinfo(self.server, self.port)[0][-1]\n' +
 '        self.sock.connect(addr)\n' +
 '        if self.ssl:\n' +
-'            import ussl\n' +
-'            self.sock = ussl.wrap_socket(self.sock, **self.ssl_params)\n' +
+'            # self.ssl is either an ssl.SSLContext (modern API) or just True\n' +
+'            # (legacy boolean API); honour whichever the caller passed. Prefer\n' +
+'            # the ssl module: ussl broke in MicroPython 1.23, so "import ussl"\n' +
+'            # raises ImportError on current firmware.\n' +
+'            if hasattr(self.ssl, "wrap_socket"):\n' +
+'                # SSLContext: pass SNI so a verifying broker cert matches.\n' +
+'                self.sock = self.ssl.wrap_socket(self.sock, server_hostname=self.server)\n' +
+'            else:\n' +
+'                try:\n' +
+'                    import ssl as _ssl\n' +
+'                except ImportError:\n' +
+'                    import ussl as _ssl\n' +
+'                self.sock = _ssl.wrap_socket(self.sock, **self.ssl_params)\n' +
 '        apremsg = [16, 0, 0, 0, 0, 0]\n' + 
 '        premsg = bytearray(apremsg)\n' +
 '        amsg = [4]\n' +
