@@ -66,16 +66,20 @@ copy-bipes-blocks:
 
 # --- offline build ----------------------------------------------------------
 
+# The document ids below must match what ui/core/ui.js:xhrGET() computes when it
+# falls back to the baked copies: `toolbox/esp32.xml` -> `OFFLINE_toolbox_esp32_xml`.
+# Build each id in one `echo`: `echo -n` is not POSIX, and on a /bin/sh that is
+# bash in posix mode with xpg_echo (macOS) it prints a literal "-n ", which
+# corrupts every id and leaves the offline build with no toolbox at all.
 offline:
 	echo "Generating offline version"
-	echo > ui/index_offline.html
+	: > ui/index_offline.html
 	cat ui/index.html >> ui/index_offline.html
 	for i in ui/toolbox/*.xml ; do \
 		echo "Including file $$i" ; \
-		echo -n "<document style='display: none' id='"OFFLINE_ >> ui/index_offline.html ; \
-		echo -n $$i | sed -e 's/[\/\.]/_/g' -e 's/ui_//g' >> ui/index_offline.html ; \
-		echo  "'>" >> ui/index_offline.html ;\
-		cat $$i | grep -v "<document>" >> ui/index_offline.html ; \
+		id=$$(echo $$i | sed -e 's/[\/\.]/_/g' -e 's/^ui_//') ; \
+		echo "<document style='display: none' id='OFFLINE_$$id'>" >> ui/index_offline.html ; \
+		grep -v "<document>" $$i >> ui/index_offline.html ; \
 	done
 	echo "<script>" >> ui/index_offline.html
 	echo "OFFLINE_devinfo_devinfo_json = \`" >> ui/index_offline.html
