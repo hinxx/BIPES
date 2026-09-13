@@ -65,10 +65,20 @@ registered; all 9 new boards plus AmadoBoard switch correctly with their
 toolboxes (98-117 categories) and images; no console errors; still zero
 external requests.
 
-Known pre-existing upstream issue, not introduced here: `ui/index.html`
-references `devinfo/Node-MCU-ESP-12E-Pin-Out-Diagram2.jpg` as the initial
-`device_img` placeholder, and that file exists in neither `master` nor
-`offline`, so it 404s on every load until the device image is swapped in.
+### Fixed -- 404 on every page load
+
+`ui/index.html` gave `#device_img` an initial
+`src="devinfo/Node-MCU-ESP-12E-Pin-Out-Diagram2.jpg"`. That file exists in
+neither `master` nor `offline`, and the path was wrong twice over -- device
+images live under `devinfo/media/`. The result was a guaranteed 404 on every
+page load, in upstream as well as here.
+
+`workspace.change()` in `ui/core/ui.js` assigns the real image from
+`devinfo.json` as soon as that file loads, so the placeholder was never
+actually shown. Dropped the `src` rather than pointing it at another image:
+any real file there would be fetched and then immediately replaced. It only
+persisted as a broken image when the URL carried a `#hash`, since `change()`
+is skipped on load in that case.
 
 ### Fixed -- submodules
 

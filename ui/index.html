@@ -275,7 +275,10 @@ function checkCookie() {
     <center>
       <label id="device_title"><b>ESP8266</b><br></label>
     <br>
-    <img id="device_img" src="devinfo/Node-MCU-ESP-12E-Pin-Out-Diagram2.jpg">
+    <!-- src is set from devinfo.json by workspace.change() in ui/core/ui.js.
+         No initial src: the old placeholder pointed at a file that exists in
+         neither upstream branch, so it 404d on every page load. -->
+    <img id="device_img" alt="">
     <br>
 
     <label id="device_desc">
