@@ -16,7 +16,7 @@ FILES_BLOCKLY_JS=blockly_compressed.js blocks_compressed.js javascript_compresse
 # any more: ui/index.html loads core/xterm.js instead.
 FILES_WEBREPL=FileSaver.js
 
-.PHONY: help submodules submodules-dev copy copy-bipes-blocks offline doc clean-offline
+.PHONY: help submodules submodules-dev copy copy-bipes-blocks pylibs offline doc clean-offline
 
 help:
 	@echo "BIPES make targets:"
@@ -25,6 +25,7 @@ help:
 	@echo "  submodules-dev       additionally fetch the build-time submodules"
 	@echo "                       (blockly, webrepl) needed by 'make copy'"
 	@echo "  copy                 refresh the vendored blockly/webrepl files in ui/"
+	@echo "  pylibs               regenerate ui/core/pylibs.js from ui/pylibs/*.py"
 	@echo "  offline              build ui/index_offline.html and bipes_offline.zip"
 	@echo "  doc                  build the sphinx documentation in docs/"
 
@@ -64,6 +65,15 @@ copy-bipes-blocks:
 	cp bipes_blocks/block_definitions.js ui/
 	echo "Please, add <>"
 
+# --- device libraries -------------------------------------------------------
+
+# ui/pylibs/*.py is the only copy of these libraries; ui/core/pylibs.js is baked
+# from it so the IDE can write one to a board with no network at all. Keep the
+# generated file committed -- `git status` after this target is how you notice
+# it went stale.
+pylibs:
+	python3 gen_pylibs.py
+
 # --- offline build ----------------------------------------------------------
 
 # The document ids below must match what ui/core/ui.js:xhrGET() computes when it
@@ -71,7 +81,7 @@ copy-bipes-blocks:
 # Build each id in one `echo`: `echo -n` is not POSIX, and on a /bin/sh that is
 # bash in posix mode with xpg_echo (macOS) it prints a literal "-n ", which
 # corrupts every id and leaves the offline build with no toolbox at all.
-offline:
+offline: pylibs
 	echo "Generating offline version"
 	: > ui/index_offline.html
 	cat ui/index.html >> ui/index_offline.html

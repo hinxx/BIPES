@@ -486,7 +486,13 @@ class files {
 
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
 
-        let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    ');
+        // Escape for a single-quoted Python literal pasted as one REPL line.
+        // Backslashes go first: every other rule below *adds* backslashes, and
+        // escaping after them would double up. Without this pass a source with
+        // any backslash in it -- b'\x00', '\r\n', a line continuation -- arrived
+        // with the escape already interpreted, so the file on the board was
+        // corrupt (and usually a SyntaxError).
+        let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/\\/g, '\\\\').replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    ');
         UI ['progress'].start(parseInt(decoderUint8.length/Channel ['webserial'].packetSize) + 1);
 
         //ctrl-C twice: interrupt any running program
@@ -553,10 +559,9 @@ class files {
     //For codemirror
     var codeStr = Files.editor.getDoc().getValue("\n");
 
-    var bufCode = new Uint8Array(codeStr.length);
-    for (var i=0, strLen=codeStr.length; i < strLen; i++) {
-    bufCode[i] = codeStr.charCodeAt(i);
-    }
+    // UTF-8, not charCodeAt: put_file decodes these bytes with TextDecoder, and
+    // the WebREPL header needs the byte length, not the character count.
+    var bufCode = new TextEncoder().encode(codeStr);
 
     this.put_file_name = UI ['workspace'].file.value;
     this.put_file_data = bufCode;

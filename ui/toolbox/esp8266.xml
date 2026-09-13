@@ -632,7 +632,8 @@
       <label text="PCF8574 Display controller"></label>
 
       <label text="Library: https://github.com/dhylands/python_lcd"></label>
-      <button text="Install I2CLCD library" callbackKey="installPyLib"></button>
+      <button text="Install lcd_api library" callbackKey="installPyLib"></button>
+      <button text="Install pico_i2c_lcd library" callbackKey="installPyLib"></button>
 	<block type="char_lcd_init">
         <value name="scl">
           <shadow type="pinout">
@@ -1033,7 +1034,7 @@
   <category name="GPS">
       <label text="Global Positioning System sensor"></label>
    <label text="Library: https://github.com/"></label>
-        <button text="Install GPS library" callbackKey="installPyLib"></button>
+        <button text="Install mini_micropyGPS library" callbackKey="installPyLib"></button>
 
 	<block type="gps_init">
       </block>

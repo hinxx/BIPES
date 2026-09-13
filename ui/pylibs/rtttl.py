@@ -131,14 +131,16 @@ def RTTTL(text):
         outList.append((eval(value.upper()), length))
     return outList
 
-def play(pin, tune):
+def play(pinOut, tune):
     tune = RTTTL(tune)
     if type(tune) is not list:
         return tune
     for freqc, msec in tune:
         msec = msec * 0.001
         if freqc > 0:
-            pwm0 = PWM(pin, freq=freqc, duty=512)
+            pwm0 = PWM(pinOut)
+            pwm0.freq(freqc)
+            pwm0.duty_u16(512)
         time.sleep(msec*0.9)
         if freqc > 0:
             pwm0.deinit()
