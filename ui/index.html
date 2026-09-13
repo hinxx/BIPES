@@ -72,6 +72,16 @@ function checkCookie() {
   <script src="core/shortcut.js"></script>
   <script src="core/pylibs.js"></script> <!-- generated from ui/pylibs/ by `make pylibs` -->
 
+  <!-- Toolbox XML and devinfo.json, baked in by `make offline` for file://,
+       where fetching them is not allowed. Pulled in only there: served pages
+       read the real files, so editing a toolbox needs no rebuild. document.write
+       because it has to run before core/ui.js is asked for a toolbox, and a
+       plain <script src> would 404 on every served page load. -->
+  <script>
+    if (window.location.protocol == 'file:')
+      document.write('<script src="core/offline_assets.js"><\/script>');
+  </script>
+
   <!-- Custom Blocks for BIPES Project --> 
   <script src="core/block_definitions.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->
   <script src="core/generator_stubs.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->

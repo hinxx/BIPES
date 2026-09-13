@@ -24,19 +24,25 @@ and [BIPES/Databoard](https://github.com/BIPES/Databoard), both iframed by `ui/i
 make submodules
 ```
 
-Then serve the repository root over HTTP and open `ui/`. Opening `ui/index.html`
-straight off the filesystem will not work, because the iframes and the XML
-toolbox fetches are subject to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
-Any static server does, for example:
+Then serve the repository root over HTTP and open `ui/`. Any static server does,
+for example:
 ```
 python3 -m http.server 8000
 ```
 
-To build/update the offline version with latest, run:
+`ui/index.html` also opens straight off the filesystem, with no server at all:
+the toolboxes and `devinfo.json` are baked into `ui/core/offline_assets.js`,
+which the page loads only when its own URL is a `file:` one. Tools that need a
+server -- the MQTT and dashboard iframes -- still do not work there, because of
+[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+
+The baked file is committed, so a fresh clone works offline as it stands. After
+editing a toolbox or `devinfo.json`, refresh it (and build `bipes_offline.zip`,
+a zip of the tree to hand someone on a USB stick) with:
 ```
 make offline
 ```
-This version does not require a server since it has all core files concatenated at `ui/index_offline.html`, just open this file in a browser. It will also create a `bipes_offline.zip`. However, keep in mind that any tool that requires a server, like MQTT, won't work due to CORS.
+A served page reads the real files, so this is only needed for the offline copy.
 
 That's it, enjoy BIPES 😄.
 

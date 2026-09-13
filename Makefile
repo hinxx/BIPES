@@ -16,7 +16,7 @@ FILES_BLOCKLY_JS=blockly_compressed.js blocks_compressed.js javascript_compresse
 # any more: ui/index.html loads core/xterm.js instead.
 FILES_WEBREPL=FileSaver.js
 
-.PHONY: help submodules submodules-dev copy copy-bipes-blocks pylibs offline doc clean-offline
+.PHONY: help submodules submodules-dev copy copy-bipes-blocks pylibs offline-assets offline doc clean-offline
 
 help:
 	@echo "BIPES make targets:"
@@ -26,7 +26,9 @@ help:
 	@echo "                       (blockly, webrepl) needed by 'make copy'"
 	@echo "  copy                 refresh the vendored blockly/webrepl files in ui/"
 	@echo "  pylibs               regenerate ui/core/pylibs.js from ui/pylibs/*.py"
-	@echo "  offline              build ui/index_offline.html and bipes_offline.zip"
+	@echo "  offline-assets       regenerate ui/core/offline_assets.js from the"
+	@echo "                       toolboxes and devinfo.json"
+	@echo "  offline              refresh both generated files and zip bipes_offline.zip"
 	@echo "  doc                  build the sphinx documentation in docs/"
 
 # --- submodules -------------------------------------------------------------
@@ -76,33 +78,25 @@ pylibs:
 
 # --- offline build ----------------------------------------------------------
 
-# The document ids below must match what ui/core/ui.js:xhrGET() computes when it
-# falls back to the baked copies: `toolbox/esp32.xml` -> `OFFLINE_toolbox_esp32_xml`.
-# Build each id in one `echo`: `echo -n` is not POSIX, and on a /bin/sh that is
-# bash in posix mode with xpg_echo (macOS) it prints a literal "-n ", which
-# corrupts every id and leaves the offline build with no toolbox at all.
-offline: pylibs
-	echo "Generating offline version"
-	: > ui/index_offline.html
-	cat ui/index.html >> ui/index_offline.html
-	for i in ui/toolbox/*.xml ; do \
-		echo "Including file $$i" ; \
-		id=$$(echo $$i | sed -e 's/[\/\.]/_/g' -e 's/^ui_//') ; \
-		echo "<document style='display: none' id='OFFLINE_$$id'>" >> ui/index_offline.html ; \
-		grep -v "<document>" $$i >> ui/index_offline.html ; \
-	done
-	echo "<script>" >> ui/index_offline.html
-	echo "OFFLINE_devinfo_devinfo_json = \`" >> ui/index_offline.html
-	cat ui/devinfo/devinfo.json >> ui/index_offline.html
-	echo "\`;" >> ui/index_offline.html
-	echo "</script>" >> ui/index_offline.html
+# ui/core/offline_assets.js carries the toolbox XML and devinfo.json that the
+# IDE cannot fetch when it is opened from file://. Same deal as pylibs.js: keep
+# the generated file committed, so a fresh clone opens offline without a build,
+# and `git status` after this target is how you notice it went stale.
+offline-assets:
+	python3 bake_offline.py
+
+# There is no separate ui/index_offline.html any more -- ui/index.html itself
+# loads the baked assets when, and only when, it is running from file://. The
+# zip is just the tree, so anything that works from a clone works from the zip.
+offline: pylibs offline-assets
 	rm -f bipes_offline.zip
 	zip -q -r bipes_offline.zip index.html ui databoard easymqtt \
 		LICENSE README.md CHANGELOG.md \
 		-x '*/.git/*' '*/.git' '.git/*' '*/.github/*' 'easymqtt/sync.ffs_db'
+	@echo "bipes_offline.zip: open ui/index.html from the unpacked folder"
 
 clean-offline:
-	rm -f bipes_offline.zip ui/index_offline.html
+	rm -f bipes_offline.zip
 
 # --- documentation ----------------------------------------------------------
 

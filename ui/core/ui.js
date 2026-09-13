@@ -331,7 +331,8 @@ notify.prototype.log = function (message) {
 }
 
 /**
- * Do a XML Http request, if in offline mode, will try to find the data inside the index.html file.
+ * Do a XML Http request, or, when running from file:// where that is not
+ * allowed, read the copy baked into core/offline_assets.js by `make offline`.
  * @param {string} filename - The name of the file
  * @param {string} responsetype - The types of responses, 'document', 'text' or '' (empty).
  * @param {function} onsuccess -Callback function when the the XMLHttpRequest succeed.
@@ -358,22 +359,38 @@ async function xhrGET (filename, responsetype, onsuccess, onfail) {
       }
   xmlHTTP.send();
 	} else {
-      filename = filename.replace(/[\/\.]/g, '_')
-	    let regex_xml = /_(.*)_xml/;
-	    let regex_json = /_(.*)_json/;
-      if (regex_json.test (filename)) {
-	        window.addEventListener('load', () => {
-            onsuccess(JSON.parse (eval(`OFFLINE_${filename}`)));
-        }, false);
-      } else if (regex_xml.test (filename)) {
-        var xml_ = get(`#OFFLINE_${filename}`);
-        if (xml_ == undefined) {
-          xml_ = get(`#OFFLINE_toolbox_default_xml`);
+      // file:// blocks XMLHttpRequest, so read the copy of the file that
+      // bake_offline.py baked into core/offline_assets.js instead.
+      let baked = typeof OfflineAssets == 'undefined' ? {} : OfflineAssets;
+      let content = baked [filename];
+
+      if (/\.json$/.test (filename)) {
+        if (content == undefined)
+          alert(`${filename} is not in this offline build, please rebuild it with 'make offline' or use the live version at bipes.net.br/beta2/ui.`);
+        else if (document.readyState == 'complete')
+          onsuccess (JSON.parse (content));
+        else
+          // The callers write to the page, and on the first call this runs
+          // while the document is still being parsed.
+          window.addEventListener('load', () => {
+            onsuccess (JSON.parse (content));
+          }, false);
+      } else if (/\.xml$/.test (filename)) {
+        if (content == undefined) {
+          content = baked ['toolbox/default.xml'];
           UI ['notify'].send(MSG['noToolbox']);
         }
-        onsuccess(xml_);
-	    } else
-	      alert(`Could not find ${filename} locally, please run at a server or use the live version at bipes.net.br/beta2/ui.`);
+        if (content == undefined) {
+          alert(`${filename} is not in this offline build, please rebuild it with 'make offline' or use the live version at bipes.net.br/beta2/ui.`);
+          return;
+        }
+        // Parsed as XML rather than read back out of the page as a hidden
+        // element: an HTML parser does not honour the self-closing tag on an
+        // unknown element, so a `<mutation items="2"/>` would swallow the
+        // inputs of the block it belongs to.
+        onsuccess (new DOMParser ().parseFromString (content, 'text/xml'));
+      } else
+        alert(`Could not find ${filename} locally, please run at a server or use the live version at bipes.net.br/beta2/ui.`);
 
 
   }
