@@ -5882,50 +5882,6 @@ Blockly.Python['max30100_ir'] = function(block) {
 };
 
 //GY33 I2C Module
-Blockly.Python['gy33_i2c_init'] = function(block) {
-	var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var freq = Blockly.Python.valueToCode(block, 'freq', Blockly.Python.ORDER_ATOMIC);
-	var addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_gy33_i2c'] = 'import gy33I2C';
-
-	var bus_ = Blockly.Python.i2cBus_({id: 'id=' + id, scl: scl, sda: sda, freq: freq});
-	var code = '';
-	    code += 'gy33_i2c = gy33I2C.GY33_I2C(' + bus_ + ', ' + addr + ')\n';
-	return code;
-};
-Blockly.Python['gy33_i2c_led_pwr'] = function(block) {
-	var pwr = Blockly.Python.valueToCode(block, 'led_pwr', Blockly.Python.ORDER_ATOMIC);
-
-	var code = 'gy33_i2c.set_led(' + pwr + ')\n';
-	return code;
-};
-Blockly.Python['gy33_i2c_cal_white_balance'] = function(block) {
-	var code = 'gy33_i2c.calibrate_white_balance()\n';
-	return code;
-};
-Blockly.Python['gy33_i2c_cal_white'] = function(block) {
-	var code = 'gy33_i2c.calibrate_white()\n';
-	return code;
-};
-Blockly.Python['gy33_i2c_cal_black'] = function(block) {
-	var code = 'gy33_i2c.calibrate_black()\n';
-	return code;
-};
-Blockly.Python['gy33_i2c_get_raw'] = function(block) {
-	var code = 'gy33_i2c.read_raw()\n';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-Blockly.Python['gy33_i2c_get_all'] = function(block) {
-	var code = 'gy33_i2c.read_all()\n';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-Blockly.Python['gy33_i2c_get_calibrated'] = function(block) {
-	var code = 'gy33_i2c.read_calibrated()';
-	return [code, Blockly.Python.ORDER_NONE];
-};
   
 
 

@@ -1,0 +1,73 @@
+# GY-33 colour sensor, I2C interface.
+#
+# The UART variant of the same sensor is still hand-written in
+# block_definitions.js; it speaks a different protocol and shares no blocks.
+
+module: gy33I2C
+class: GY33_I2C
+instance: gy33_i2c
+colour: 135
+
+category:
+  name: GY33 I2C
+  library: gy33I2C
+  labels:
+    - GY33 Color Sensor - I2C
+    - "Library: https://github.com/QuirkyCort/micropython-gy33"
+  toolboxes: [esp32, esp32-basic, esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+
+blocks:
+  - type: gy33_i2c_init
+    label: Init GY33 I2C Module
+    tooltip: Initalizes the GY-33 I2C Interface
+    constructor: true
+    image: {src: media/GY-33.jpg, width: 65, height: 65}
+    # The bus object is shared with every other I2C block on the same pins.
+    i2c_bus: {id: id, scl: scl, sda: sda, freq: freq}
+    args: [bus, addr]
+    params:
+      - {name: id,   label: ID,        type: Number, default: 0,      align: right}
+      - {name: sda,  label: SDA,       type: Number, pin: true,       align: right}
+      - {name: scl,  label: SCL,       type: Number, pin: true,       align: right}
+      - {name: freq, label: Frequency, type: Number, default: 100000, align: right}
+      - {name: addr, label: Address,   type: Number, default: 90,     align: right}
+
+  - type: gy33_i2c_led_pwr
+    fn: set_led
+    label: Set LED Power
+    tooltip: Sets the brightness of the LED (0 - 10)
+    params:
+      - {name: led_pwr, label: Power, type: Number, default: 10, align: right}
+
+  - type: gy33_i2c_cal_white_balance
+    fn: calibrate_white_balance
+    label: White Balance Calibrate
+    tooltip: Performs a white balance calibration. The sensor should first be placed on a suitable white surface.
+
+  - type: gy33_i2c_cal_white
+    fn: calibrate_white
+    label: White Calibrate
+    tooltip: Performs a white calibration. The sensor should first be placed on a suitable white surface.
+
+  - type: gy33_i2c_cal_black
+    fn: calibrate_black
+    label: Black Calibrate
+    tooltip: Performs a black calibration. The sensor should first be placed on a suitable black surface.
+
+  - type: gy33_i2c_get_all
+    fn: read_all
+    kind: value
+    label: Get All Data
+    tooltip: Returns a tuple containing the Raw Red, Raw Green, Raw Blue, Clear, Lux, Color Temperature, Red, Green, Blue, Color values
+
+  - type: gy33_i2c_get_raw
+    fn: read_raw
+    kind: value
+    label: Get Raw Data
+    tooltip: Returns a tuple containing only the Raw Red, Raw Green, Raw Blue, Clear values.
+
+  - type: gy33_i2c_get_calibrated
+    fn: read_calibrated
+    kind: value
+    label: Get Calibrated Data
+    tooltip: Returns a tuple containing only the calibrated Red, Green, Blue, and Clear values.

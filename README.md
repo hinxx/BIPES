@@ -46,6 +46,15 @@ A served page reads the real files, so this is only needed for the offline copy.
 
 That's it, enjoy BIPES 😄.
 
+## Adding blocks
+
+A block has to exist in three places -- `ui/core/block_definitions.js` (how it
+looks), `ui/core/generator_stubs.js` (the Python it emits) and every
+`ui/toolbox/*.xml` that offers it. Most blocks here are still written out by
+hand in all three; new families should instead be declared once in
+`blockdef/definitions/*.blockdef.yaml` and generated with `make blocks`. See
+[`blockdef/README.md`](blockdef/README.md).
+
 ## Submodules
 
 | Submodule | Needed for | Fetched by |

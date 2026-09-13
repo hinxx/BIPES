@@ -1,6 +1,9 @@
 # Build output of `make offline`
 bipes_offline.zip
 
+# Byte-compiled blockdef/ modules
+__pycache__/
+
 # Sphinx build output of `make doc`
 docs/_build/
 

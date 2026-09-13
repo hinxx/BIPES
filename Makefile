@@ -16,7 +16,7 @@ FILES_BLOCKLY_JS=blockly_compressed.js blocks_compressed.js javascript_compresse
 # any more: ui/index.html loads core/xterm.js instead.
 FILES_WEBREPL=FileSaver.js
 
-.PHONY: help submodules submodules-dev copy copy-bipes-blocks pylibs offline-assets offline doc clean-offline
+.PHONY: help submodules submodules-dev copy copy-bipes-blocks blocks pylibs offline-assets offline doc clean-offline
 
 help:
 	@echo "BIPES make targets:"
@@ -25,10 +25,11 @@ help:
 	@echo "  submodules-dev       additionally fetch the build-time submodules"
 	@echo "                       (blockly, webrepl) needed by 'make copy'"
 	@echo "  copy                 refresh the vendored blockly/webrepl files in ui/"
+	@echo "  blocks               regenerate the blocks declared in blockdef/"
 	@echo "  pylibs               regenerate ui/core/pylibs.js from ui/pylibs/*.py"
 	@echo "  offline-assets       regenerate ui/core/offline_assets.js from the"
 	@echo "                       toolboxes and devinfo.json"
-	@echo "  offline              refresh both generated files and zip bipes_offline.zip"
+	@echo "  offline              refresh every generated file and zip bipes_offline.zip"
 	@echo "  doc                  build the sphinx documentation in docs/"
 
 # --- submodules -------------------------------------------------------------
@@ -67,6 +68,16 @@ copy-bipes-blocks:
 	cp bipes_blocks/block_definitions.js ui/
 	echo "Please, add <>"
 
+# --- generated blocks -------------------------------------------------------
+
+# blockdef/definitions/*.blockdef.yaml is the single description of a family of
+# blocks; this writes the three places each one has to appear -- the Blockly
+# definition, the Python generator, and the <category> in every board toolbox
+# that offers it. See blockdef/README.md. Generated files are committed, same
+# as pylibs.js: `git status` after this target is how you notice one went stale.
+blocks:
+	python3 gen_blocks.py
+
 # --- device libraries -------------------------------------------------------
 
 # ui/pylibs/*.py is the only copy of these libraries; ui/core/pylibs.js is baked
@@ -82,7 +93,7 @@ pylibs:
 # IDE cannot fetch when it is opened from file://. Same deal as pylibs.js: keep
 # the generated file committed, so a fresh clone opens offline without a build,
 # and `git status` after this target is how you notice it went stale.
-offline-assets:
+offline-assets: blocks
 	python3 bake_offline.py
 
 # There is no separate ui/index_offline.html any more -- ui/index.html itself

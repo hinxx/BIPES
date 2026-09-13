@@ -1796,6 +1796,7 @@
 
   </category>
 
+  <!-- blockdef:gy33_i2c -->
   <category name="GY33 I2C">
     <label text="GY33 Color Sensor - I2C"></label>
     <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
@@ -1809,12 +1810,12 @@
       </value>
       <value name="sda">
         <shadow type="pinout">
-          <field name="SDA"></field>
+          <field name="PIN"></field>
         </shadow>
       </value>
       <value name="scl">
         <shadow type="pinout">
-          <field name="SCL"></field>
+          <field name="PIN"></field>
         </shadow>
       </value>
       <value name="freq">
@@ -1837,25 +1838,19 @@
       </value>
     </block>
 
-    <block type="gy33_i2c_cal_white_balance">
-    </block>
+    <block type="gy33_i2c_cal_white_balance"></block>
 
-    <block type="gy33_i2c_cal_white">
-    </block>
+    <block type="gy33_i2c_cal_white"></block>
 
-    <block type="gy33_i2c_cal_black">
-    </block>
+    <block type="gy33_i2c_cal_black"></block>
 
-    <block type="gy33_i2c_get_all">
-    </block>
+    <block type="gy33_i2c_get_all"></block>
 
-    <block type="gy33_i2c_get_raw">
-    </block>
+    <block type="gy33_i2c_get_raw"></block>
 
-    <block type="gy33_i2c_get_calibrated">
-    </block>
-
+    <block type="gy33_i2c_get_calibrated"></block>
   </category>
+  <!-- /blockdef:gy33_i2c -->
 
   <category name="GY33 UART">
     <label text="GY33 Color Sensor - UART"></label>
