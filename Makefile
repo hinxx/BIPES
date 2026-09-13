@@ -83,8 +83,9 @@ offline:
 	echo "\`;" >> ui/index_offline.html
 	echo "</script>" >> ui/index_offline.html
 	rm -f bipes_offline.zip
-	zip -q -r bipes_offline.zip index.html ui databoard LICENSE README.md \
-		-x '*/.git/*' '*/.git' '.git/*' '*/.github/*'
+	zip -q -r bipes_offline.zip index.html ui databoard easymqtt \
+		LICENSE README.md CHANGELOG.md \
+		-x '*/.git/*' '*/.git' '.git/*' '*/.github/*' 'easymqtt/sync.ffs_db'
 
 clean-offline:
 	rm -f bipes_offline.zip ui/index_offline.html

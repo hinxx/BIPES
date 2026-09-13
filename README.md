@@ -62,6 +62,16 @@ therefore never overwritten by `make copy`:
 * `ui/core/storage.js` -- rewritten to save into the BIPES project/account model instead of Blockly's demo cloud storage.
 
 
+## Third-party assets
+
+`easymqtt/lib/` holds Chart.js and its date adapter (both MIT, licence texts
+alongside them), vendored so the EasyMQTT dashboard makes no third-party
+requests. The IDE itself loads nothing from an external host.
+
+Two vendored submodules still reach out on load and have not been changed:
+`ui/freeboard` fetches the Google Maps JS API for its map widget, and
+`databoard` loads chart.js, muuri and dash.js from CDNs.
+
 ## Documentation
 
 The documentation is online at [bipes.net.br/docs](https://bipes.net.br/docs).

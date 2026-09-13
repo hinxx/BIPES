@@ -78,6 +78,9 @@ Both are now excluded from the target, with the reason recorded in the
   `zip -r bipes_offline.zip *`, which was harmless only while the submodule
   directories were empty -- the moment submodules worked it would have swept the
   entire `blockly` checkout and the submodule `.git` files into the archive.
+  The archive carries `index.html`, `ui/`, `databoard/`, `easymqtt/` and the
+  docs; `easymqtt/` matters because `ui/index.html` iframes
+  `../easymqtt/index.html`, so omitting it would 404 the EasyMQTT tab.
 * Removed the `git-clone` target, made redundant by `blockly` being a proper
   submodule again.
 * Added `make help`, `.PHONY` declarations, a `clean-offline` target, and a
@@ -103,6 +106,61 @@ Both are now excluded from the target, with the reason recorded in the
   `Code.toDOM`, is never called anywhere in the codebase -- syntax highlighting
   in the UI comes from CodeMirror. Both functions and the startup `setTimeout`
   that triggered the fetch have been removed.
+
+### Removed -- outbound third-party requests ("phone home")
+
+A load of the IDE contacted five external hosts before this change, with no user
+interaction. Two of those came from BIPES' own code and are now gone; the main
+document makes **zero** external requests.
+
+* **`cdn.jsdelivr.net`** -- `ui/index.html` carried
+  `import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate'` in a
+  `<script type="module">`, fetched on every page load. Being an ES module
+  import it does not show up in a devtools network capture the way a `<script
+  src>` does; it was found via `performance.getEntriesByType('resource')`.
+  Removed, together with **`ui/pwabuilder-sw.js`**, the service worker that
+  component existed to register. That worker did
+  `importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js')`
+  and then registered a `StaleWhileRevalidate` route matching `/*` -- a Google
+  CDN dependency plus a cache-everything strategy, on a Workbox pinned to
+  5.0.0 (2020). It was not activating in practice, but the wiring was live.
+  The local `manifest.json` and its icons are kept; nothing else referenced the
+  worker.
+* **`code.highcharts.com`** (3 requests) -- `easymqtt/index.html` loaded
+  Highcharts Stock plus its exporting modules from the vendor CDN. Two problems
+  beyond the request itself: the URLs were **unpinned**, so the page silently
+  rode major version bumps (the CDN now serves v13, while the code was written
+  against the v9-era API), and Highcharts is **proprietary** -- "(c) Highsoft
+  AS, a commercial license may be required" -- which does not combine with this
+  project's GPL-3.0 licence.
+
+  Replaced with **Chart.js 4.4.7** and **chartjs-adapter-date-fns 3.0.0**, both
+  MIT and both vendored under `easymqtt/lib/` with their upstream licence
+  texts. `Highcharts.stockChart` was wrapped in a small `MqttChart` class that
+  keeps the call sites unchanged in shape (`addPoint`, `redraw`, `reflow`,
+  `destroy`, `lastX`), and the two features Highcharts Stock gave for free were
+  reimplemented rather than dropped:
+
+  * the 1M / 5M / 1H / 12H / All range selector, as a button row that pins the
+    x-axis to `[last - range, last]`, defaulting to All as `selected: 4` did;
+  * PNG export (`chart.toBase64Image()`) and CSV export, as two toolbar buttons.
+
+  `lastX` also fixes a latent crash: the old code indexed
+  `series[0].points[length-1]` unguarded, which would throw on a chart with no
+  samples yet; the getter returns `null` instead.
+
+Still outstanding, both inside vendored submodules and so left alone:
+`maps.googleapis.com` (4 requests, from freeboard's Google Map widget at
+`ui/freeboard/js/freeboard_plugins.js:4625`) and `cdn.jsdelivr.net` +
+`cdn.dashjs.org` (4 requests, from `databoard/index.html:7-10`, which loads
+chart.js, a date adapter, muuri and dash.js). Fixing these means patching
+vendored code.
+
+Not phone-home, checked and cleared: `manup.js` only XHRs the local
+`manifest.json`; `BlocklyStorage.retrieveXml` POSTs to a same-origin `/storage`
+and only when the URL has a `#hash`; the `docs.google.com` and
+`docs.micropython.org` URLs are `window.open`/`helpUrl` targets, opened only on
+a user click.
 
 ### Removed -- orphaned files
 

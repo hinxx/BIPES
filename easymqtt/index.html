@@ -17,20 +17,15 @@
     padding: 1ex;
   }
 
-  .card, .highcharts-data-table{
+  .card{
     margin: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: #fff;
   }
 
-  .card:hover, .highcharts-data-table:hover{
+  .card:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-  }
-
-  .highcharts-data-table{
-    max-height: 400px;
-    overflow-y: scroll;
   }
 
   .easymqtt-charts{
@@ -64,6 +59,54 @@
   .easymqtt-chart{
     flex: 1;
     min-width: 280px;
+    padding: 8px 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .easymqtt-chart-title{
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin: 4px 0 6px;
+  }
+
+  /* Replaces the Highcharts rangeSelector / exporting toolbars. */
+  .easymqtt-chart-toolbar{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .easymqtt-chart-toolbar .spacer{
+    flex: 1;
+  }
+
+  .easymqtt-chart-toolbar button{
+    font-size: 12px;
+    padding: 2px 8px;
+    border: 1px solid #c3c9d0;
+    border-radius: 3px;
+    background: #f3f5f7;
+    color: #2b3a4a;
+    cursor: pointer;
+  }
+
+  .easymqtt-chart-toolbar button:hover{
+    background: #e4e8ec;
+  }
+
+  .easymqtt-chart-toolbar button.active{
+    background: #1f2b38;
+    border-color: #1f2b38;
+    color: #fff;
+  }
+
+  .easymqtt-chart-canvas{
+    position: relative;
+    height: 360px;
   }
 
   @media only screen and (min-width: 768px) {
@@ -84,9 +127,10 @@
 
   </style>
   <script src="jquery-3.5.1.min.js"></script>
-  <script src="https://code.highcharts.com/stock/highstock.js"></script>
-  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <!-- Chart.js (MIT), vendored locally so the dashboard makes no third-party
+       requests. See lib/LICENSE.* and CHANGELOG.md. -->
+  <script src="lib/chart.umd.min.js"></script>
+  <script src="lib/chartjs-adapter-date-fns.bundle.min.js"></script>
 </head>
 <body>
   <div id="easymqtt-content" class="content easymqtt-content">
@@ -221,61 +265,177 @@
       );
     }
 
-    function addNewChart(topic){
-      MQTTCharts[topic] = new Highcharts.stockChart({
-        chart: {
-          renderTo: 'easymqtt-'+topic,
-        },
-        time: {
-          useUTC: false
-        },
-        title: {
-          text: 'Live data from ' + topic
-        },
-        rangeSelector: {
-          buttons: [{
-              count: 1,
-              type: 'minute',
-              text: '1M'
-          }, {
-              count: 5,
-              type: 'minute',
-              text: '5M'
-          }, {
-              count: 1,
-              type: 'hour',
-              text: '1H'
-          }, {
-              count: 12,
-              type: 'hour',
-              text: '12H'
-          }, {
-              type: 'all',
-              text: 'All'
-          }],
-          inputEnabled: false,
-          selected: 4
-        },
-        exporting: {
-            enabled: true
-        },
-        xAxis: {
-          type: 'datetime',
-        },
-        yAxis: {
-          title: {
-            text: 'Value'
+    /* Ranges offered above each chart, mirroring the Highcharts rangeSelector
+       this replaced. `ms: null` means "All". */
+    const EASYMQTT_RANGES = [
+      {text: '1M',  ms: 60 * 1000},
+      {text: '5M',  ms: 5 * 60 * 1000},
+      {text: '1H',  ms: 60 * 60 * 1000},
+      {text: '12H', ms: 12 * 60 * 60 * 1000},
+      {text: 'All', ms: null}
+    ];
+
+    function easyMQTTDownload(filename, href, revoke){
+      let a = document.createElement('a');
+      a.href = href;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      if (revoke)
+        URL.revokeObjectURL(href);
+    }
+
+    /* Wraps a Chart.js line chart with the pieces Highcharts Stock used to
+       provide for free: a range selector, PNG export and CSV export. Points are
+       held on the dataset as {x: epoch_ms, y: value}. */
+    class MqttChart {
+      constructor(topic, container){
+        this.topic = topic;
+        this.rangeMs = null;   // default: All, as rangeSelector.selected = 4 did
+
+        let title = document.createElement('div');
+        title.className = 'easymqtt-chart-title';
+        title.textContent = 'Live data from ' + topic;
+
+        this.toolbar = document.createElement('div');
+        this.toolbar.className = 'easymqtt-chart-toolbar';
+        EASYMQTT_RANGES.forEach((range) => {
+          let b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = range.text;
+          if (range.ms === this.rangeMs)
+            b.className = 'active';
+          b.onclick = () => this.setRange(range.ms, b);
+          this.toolbar.appendChild(b);
+        });
+
+        let spacer = document.createElement('span');
+        spacer.className = 'spacer';
+        this.toolbar.appendChild(spacer);
+
+        let png = document.createElement('button');
+        png.type = 'button';
+        png.textContent = 'PNG';
+        png.title = 'Download this chart as a PNG image';
+        png.onclick = () => this.exportPNG();
+        this.toolbar.appendChild(png);
+
+        let csv = document.createElement('button');
+        csv.type = 'button';
+        csv.textContent = 'CSV';
+        csv.title = 'Download this topic\'s data as CSV';
+        csv.onclick = () => this.exportCSV();
+        this.toolbar.appendChild(csv);
+
+        let canvasBox = document.createElement('div');
+        canvasBox.className = 'easymqtt-chart-canvas';
+        let canvas = document.createElement('canvas');
+        canvasBox.appendChild(canvas);
+
+        container.appendChild(title);
+        container.appendChild(this.toolbar);
+        container.appendChild(canvasBox);
+
+        this.chart = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            datasets: [{
+              label: topic,
+              data: [],
+              borderColor: '#2a6ebb',
+              backgroundColor: '#2a6ebb',
+              borderWidth: 2,
+              pointRadius: 2,
+              tension: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            parsing: false,
+            normalized: true,
+            interaction: {mode: 'nearest', intersect: false},
+            plugins: {legend: {display: false}},
+            scales: {
+              x: {
+                type: 'time',
+                time: {tooltipFormat: 'yyyy-MM-dd HH:mm:ss'}
+              },
+              y: {
+                title: {display: true, text: 'Value'}
+              }
+            }
           }
-        },
-        series: [{
-          name: topic,
-          data: [],
-          marker: {
-            enabled: true,
-            radius: 2
-        },
-        }]
-      });
+        });
+      }
+
+      get points(){
+        return this.chart.data.datasets[0].data;
+      }
+
+      /* Epoch ms of the newest sample, or null when there is no data yet. */
+      get lastX(){
+        let p = this.points;
+        return p.length ? p[p.length - 1].x : null;
+      }
+
+      addPoint(timestampMs, value){
+        this.points.push({x: timestampMs, y: value});
+      }
+
+      setRange(ms, button){
+        this.rangeMs = ms;
+        Array.from(this.toolbar.querySelectorAll('button')).forEach(
+          (b) => b.classList.remove('active'));
+        if (button)
+          button.classList.add('active');
+        this.redraw();
+      }
+
+      /* Highcharts scrolled the visible window to the newest data; reproduce
+         that by pinning the axis to [last - range, last]. */
+      redraw(){
+        let x = this.chart.options.scales.x;
+        let last = this.lastX;
+        if (this.rangeMs === null || last === null){
+          delete x.min;
+          delete x.max;
+        }else{
+          x.min = last - this.rangeMs;
+          x.max = last;
+        }
+        this.chart.update('none');
+      }
+
+      reflow(){
+        this.chart.resize();
+      }
+
+      destroy(){
+        this.chart.destroy();
+      }
+
+      exportPNG(){
+        easyMQTTDownload(this.topic + '.png', this.chart.toBase64Image(), false);
+      }
+
+      exportCSV(){
+        let rows = ['timestamp,datetime,' + JSON.stringify(this.topic)];
+        this.points.forEach((p) => {
+          rows.push([Math.round(p.x / 1000),
+                     JSON.stringify(new Date(p.x).toISOString()),
+                     p.y].join(','));
+        });
+        let blob = new Blob([rows.join('\n')], {type: 'text/csv;charset=utf-8'});
+        easyMQTTDownload(this.topic + '.csv', URL.createObjectURL(blob), true);
+      }
+    }
+
+    function addNewChart(topic){
+      MQTTCharts[topic] = new MqttChart(
+        topic, document.getElementById('easymqtt-' + topic));
     }
 
     function updateEasyMQTTTopic(topic,since=0){
@@ -292,7 +452,7 @@
                 }
               }
               for (i in data.result){
-                MQTTCharts[topic].series[0].addPoint([data.result[i].timestamp*1000,parseFloat(data.result[i].data)],false);
+                MQTTCharts[topic].addPoint(data.result[i].timestamp*1000,parseFloat(data.result[i].data));
               }
               MQTTCharts[topic].redraw();
             }
@@ -306,7 +466,6 @@
       );
     }
     function updateEasyMQTTJson(){
-      //$(".highcharts-navigator").removeAttr("visibility"); //needed only if not used as an iframe in the main page
       $.get( `https://bipes.net.br/easymqtt/getsession.php`,
       {"session": easyMQTT_session_chart}, 
       function( data ) {
@@ -314,7 +473,7 @@
           dismissEasyMQTTError();
           for (i in data.result){
             if (data.result[i] in MQTTCharts){
-              let last_update = MQTTCharts[data.result[i]].series[0].points[MQTTCharts[data.result[i]].series[0].points.length-1].x / 1000;
+              let last_update = MQTTCharts[data.result[i]].lastX / 1000;
               updateEasyMQTTTopic(data.result[i],last_update + 1);
             }else{
               updateEasyMQTTTopic(data.result[i]);
