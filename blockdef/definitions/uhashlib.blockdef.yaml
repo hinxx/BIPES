@@ -1,0 +1,49 @@
+# `uhashlib` -- SHA and MD5 digests. Three blocks of
+# `uhashlib.hash.update(...)`, where `hash` is the docs' placeholder name for
+# "the object one of the constructors gives you" and not something that exists.
+# Nothing in the category made one, so the three had nothing to run on: this
+# gets a constructor block, with the algorithm as a dropdown.
+#
+# `hexdigest` is a value block now. It was a statement, which threw the string
+# it renders away -- and `digest` next to it was already a value block, doing
+# the same job in bytes.
+#
+# Both digests end the hash: MicroPython does not allow `update` afterwards.
+#
+# `.encode()` goes on the text the two blocks take, because a digest is over
+# bytes and MicroPython raises a TypeError on a str. It follows that plugging
+# in something that is *already* bytes does not work -- the price of having the
+# block generate something that runs when it is dragged out, which is the way
+# round that matters for a block a beginner meets first.
+
+module: uhashlib
+instance: hash
+colour: 0
+url: https://docs.micropython.org/en/latest/library/uhashlib.html
+import: {key: import_uhashlib, line: "import uhashlib"}
+
+category:
+  name: uhashlib
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: uhashlib_hash
+    label: hash
+    tooltip: Start a digest of the given kind, over the given text.
+    code: "{instance} = uhashlib.{algorithm}({data}.encode())"
+    params:
+      - {name: algorithm, label: algorithm, kind: dropdown, align: right,
+         options: [{"SHA-256": sha256}, {"SHA-1": sha1}, {"MD5": md5}]}
+      - {name: data, label: of, type: String, default: hello, align: right}
+
+  - {type: "uhashlib_hash.update", label: hash.update,
+     code: "{instance}.update({data}.encode())",
+     tooltip: "Add more text to the digest.",
+     params: [{name: data, label: add, type: String, default: hello, align: right}]}
+
+  - {type: "uhashlib_hash.digest", fn: digest, kind: value, label: hash.digest,
+     tooltip: "The digest, as bytes. Nothing can be added afterwards."}
+
+  - {type: "uhashlib_hash.hexdigest", fn: hexdigest, kind: value, label: hash.hexdigest,
+     tooltip: "The digest as a hex string. MicroPython does not implement this on every port."}

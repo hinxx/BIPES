@@ -765,16 +765,6 @@ Blockly.Python["machine.TimerWiPy_timerchannel.duty_cycle"] = function(block) {
 	var code = "machine.TimerWiPy.timerchannel.duty_cycle(" + value_pIn + ")\n"; 
 	return code;
 };
-Blockly.Python["uarray_append"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uarray.append(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uarray_extend"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uarray.extend(" + value_pIn + ")\n"; 
-	return code;
-};
 Blockly.Python["uasyncio_create_task"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "uasyncio.create_task(" + value_pIn + ")\n"; 
@@ -953,21 +943,6 @@ Blockly.Python["uasyncio_Loop.default_exception_handler"] = function(block) {
 Blockly.Python["uasyncio_Loop.call_exception_handler"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "uasyncio.Loop.call_exception_handler(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uhashlib_hash.update"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uhashlib.hash.update(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uhashlib_hash.digest"] = function(block) {
-		Blockly.Python.definitions_['import_uhashlib'] = 'import uhashlib';
-	var code = "uhashlib.hash.digest()\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["uhashlib_hash.hexdigest"] = function(block) {
-		Blockly.Python.definitions_['import_uhashlib'] = 'import uhashlib';
-	var code = "uhashlib.hash.hexdigest()\n"; 
 	return code;
 };
 

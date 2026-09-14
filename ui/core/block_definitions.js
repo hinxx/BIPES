@@ -1821,31 +1821,9 @@ Blockly.Blocks["machine.TimerWiPy_timerchannel.duty_cycle"] = {
 
 
 
-Blockly.Blocks["uarray_append"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" append");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: append(val) Append new element *val* to the end of array, growing it. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uarray.html");
-  }
-};
 
 
 
-Blockly.Blocks["uarray_extend"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" extend");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: extend(iterable) Append new elements as contained in *iterable* to the end of array, growing it. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uarray.html");
-  }
-};
 
 
 
@@ -2414,44 +2392,12 @@ Blockly.Blocks["uasyncio_Loop.call_exception_handler"] = {
 
 
 
-Blockly.Blocks["uhashlib_hash.update"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" hash.update");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: hash.update(data) Feed more binary data into hash. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
-  }
-};
 
 
 
-Blockly.Blocks["uhashlib_hash.digest"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" hash.digest");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: hash.digest() Return hash for all data passed through hash, as a bytes object. After this method is called, more data cannot be fed into the hash any longer. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
-  }
-};
 
 
 
-Blockly.Blocks["uhashlib_hash.hexdigest"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" hash.hexdigest");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: hash.hexdigest() This method is NOT implemented. Use ``ubinascii.hexlify(hash.digest())`` to achieve a similar effect. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
-  }
-};
 
 
 

@@ -4422,12 +4422,28 @@
 <!-- /blockdef:sys -->
 <!-- blockdef:thread -->
 <!-- /blockdef:thread -->
+<!-- blockdef:uarray -->
 <category name="uarray">
-<block type="uarray_append">
-</block>
-<block type="uarray_extend">
-</block>
+
+  <block type="uarray_array">
+    <value name="values">
+      <block type="text">
+        <field name="TEXT">[1, 2, 3]</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="uarray_append">
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uarray_extend"></block>
 </category>
+<!-- /blockdef:uarray -->
 <category name="uasyncio">
 <block type="uasyncio_create_task">
 </block>
@@ -4732,14 +4748,30 @@
   <block type="uctypes_bytearray_at"></block>
 </category>
 <!-- /blockdef:uctypes -->
+<!-- blockdef:uhashlib -->
 <category name="uhashlib">
-<block type="uhashlib_hash.update">
-</block>
-<block type="uhashlib_hash.digest">
-</block>
-<block type="uhashlib_hash.hexdigest">
-</block>
+
+  <block type="uhashlib_hash">
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uhashlib_hash.update">
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uhashlib_hash.digest"></block>
+
+  <block type="uhashlib_hash.hexdigest"></block>
 </category>
+<!-- /blockdef:uhashlib -->
 <!-- blockdef:uheapq -->
 <category name="uheapq">
 

@@ -1,0 +1,41 @@
+# `uarray` -- a list of numbers that all have the same machine type, which is
+# how you talk to anything that wants a buffer.
+#
+# Two blocks, `uarray.append(...)` and `uarray.extend(...)`, calling methods on
+# the *module*. Arrays are objects, and nothing here made one, so the category
+# gets a constructor: the type code and the values to start with.
+
+module: uarray
+instance: arr
+colour: 0
+url: https://docs.micropython.org/en/latest/library/uarray.html
+import: {key: import_uarray, line: "import uarray"}
+
+category:
+  name: uarray
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: uarray_array
+    label: array
+    tooltip: An array of numbers, all of the same type.
+    code: "{instance} = uarray.array('{typecode}', {values})"
+    params:
+      - {name: typecode, label: of, kind: dropdown, align: right,
+         options: [{"signed bytes (b)": b}, {"unsigned bytes (B)": B},
+                   {"signed shorts (h)": h}, {"unsigned shorts (H)": H},
+                   {"signed ints (i)": i}, {"unsigned ints (I)": I},
+                   {"floats (f)": f}, {"doubles (d)": d}]}
+      # `unquote:` so the default is the list [1, 2, 3] and not the text
+      # "[1, 2, 3]"; a list block plugged in instead is left alone.
+      - {name: values, label: starting as, unquote: true, align: right,
+         plug: {type: text, fields: {TEXT: "[1, 2, 3]"}}}
+
+  - {type: uarray_append, fn: append, label: array.append,
+     tooltip: "Add one value to the end.",
+     params: [{name: value, label: add, type: Number, default: 0, align: right}]}
+
+  - {type: uarray_extend, fn: extend, label: array.extend,
+     tooltip: "Add every value of another array to the end.",
+     params: [{name: other, label: add all of, align: right}]}

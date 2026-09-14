@@ -4941,6 +4941,30 @@ Blockly.Python['tm1640_num'] = function(block) {
   return code + "\n";
 };
 
+// ---- uarray (uarray.blockdef.yaml) -------------------------------------------
+
+Blockly.Python['uarray_array'] = function(block) {
+  Blockly.Python.definitions_["import_uarray"] = "import uarray";
+  var typecode_ = block.getFieldValue("typecode");
+  var values_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "values", Blockly.Python.ORDER_ATOMIC));
+  var code = "arr = uarray.array('" + typecode_ + "', " + values_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uarray_append'] = function(block) {
+  Blockly.Python.definitions_["import_uarray"] = "import uarray";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "arr.append(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uarray_extend'] = function(block) {
+  Blockly.Python.definitions_["import_uarray"] = "import uarray";
+  var other_ = Blockly.Python.valueToCode(block, "other", Blockly.Python.ORDER_ATOMIC);
+  var code = "arr.extend(" + other_ + ")";
+  return code + "\n";
+};
+
 // ---- UART (uart.blockdef.yaml) -----------------------------------------------
 
 Blockly.Python['uart_init'] = function(block) {
@@ -5238,6 +5262,35 @@ Blockly.Python['uctypes_bytearray_at'] = function(block) {
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "uctypes.bytearray_at(" + pIn_ + ")";
   return code + "\n";
+};
+
+// ---- uhashlib (uhashlib.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['uhashlib_hash'] = function(block) {
+  Blockly.Python.definitions_["import_uhashlib"] = "import uhashlib";
+  var algorithm_ = block.getFieldValue("algorithm");
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "hash = uhashlib." + algorithm_ + "(" + data_ + ".encode())";
+  return code + "\n";
+};
+
+Blockly.Python['uhashlib_hash.update'] = function(block) {
+  Blockly.Python.definitions_["import_uhashlib"] = "import uhashlib";
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "hash.update(" + data_ + ".encode())";
+  return code + "\n";
+};
+
+Blockly.Python['uhashlib_hash.digest'] = function(block) {
+  Blockly.Python.definitions_["import_uhashlib"] = "import uhashlib";
+  var code = "hash.digest()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uhashlib_hash.hexdigest'] = function(block) {
+  Blockly.Python.definitions_["import_uhashlib"] = "import uhashlib";
+  var code = "hash.hexdigest()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- uheapq (uheapq.blockdef.yaml) -------------------------------------------

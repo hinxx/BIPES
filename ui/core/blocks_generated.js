@@ -9934,6 +9934,60 @@ Blockly.Blocks['tm1640_num'] = {
   }
 };
 
+// ---- uarray (uarray.blockdef.yaml) -------------------------------------------
+
+Blockly.Blocks['uarray_array'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("array");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("of")
+        .appendField(new Blockly.FieldDropdown([["signed bytes (b)", "b"], ["unsigned bytes (B)", "B"], ["signed shorts (h)", "h"], ["unsigned shorts (H)", "H"], ["signed ints (i)", "i"], ["unsigned ints (I)", "I"], ["floats (f)", "f"], ["doubles (d)", "d"]]), "typecode");
+    this.appendValueInput("values")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("starting as");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("An array of numbers, all of the same type.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uarray.html");
+  }
+};
+
+Blockly.Blocks['uarray_append'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("array.append");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("add");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Add one value to the end.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uarray.html");
+  }
+};
+
+Blockly.Blocks['uarray_extend'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("array.extend");
+    this.appendValueInput("other")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("add all of");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Add every value of another array to the end.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uarray.html");
+  }
+};
+
 // ---- UART (uart.blockdef.yaml) -----------------------------------------------
 
 Blockly.Blocks['uart_init'] = {
@@ -10571,6 +10625,66 @@ Blockly.Blocks['uctypes_bytearray_at'] = {
     this.setColour(0);
     this.setTooltip(".. function:: bytearray_at(addr, size) Capture memory at the given address and size as bytearray object. Unlike bytes_at() function above, memory is captured by reference, ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/uctypes.html");
+  }
+};
+
+// ---- uhashlib (uhashlib.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['uhashlib_hash'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("hash");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("algorithm")
+        .appendField(new Blockly.FieldDropdown([["SHA-256", "sha256"], ["SHA-1", "sha1"], ["MD5", "md5"]]), "algorithm");
+    this.appendValueInput("data")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("of");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start a digest of the given kind, over the given text.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
+  }
+};
+
+Blockly.Blocks['uhashlib_hash.update'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("hash.update");
+    this.appendValueInput("data")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("add");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Add more text to the digest.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
+  }
+};
+
+Blockly.Blocks['uhashlib_hash.digest'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("hash.digest");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The digest, as bytes. Nothing can be added afterwards.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
+  }
+};
+
+Blockly.Blocks['uhashlib_hash.hexdigest'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("hash.hexdigest");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The digest as a hex string. MicroPython does not implement this on every port.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uhashlib.html");
   }
 };
 
