@@ -2224,17 +2224,6 @@ Blockly.Blocks["lcd160cr_LCD160CR.reset"] = {
 
 
 
-Blockly.Blocks["machine.ADC_ADC.read_u16"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" ADC.read_u16");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: ADC.read_u16() Take an analog reading and return an integer in the range 0-65535. The return value represents the raw reading taken by the ADC, scaled ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADC.html");
-  }
-};
 
 
 
@@ -2377,129 +2366,30 @@ Blockly.Blocks["machine.ADCWiPy_adcchannel.deinit"] = {
 
 
 
-Blockly.Blocks["machine.Pin_Pin.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.value"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.value");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.__call__"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.__call__");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.on"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Pin.on");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Pin.on() Set pin to 1 output level. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.off"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Pin.off");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Pin.off() Set pin to 0 output level. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.mode"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.mode");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.pull"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.pull");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.drive"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.drive");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Pin_Pin.irq"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Pin.irq");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Pin.irq(handler=None, trigger=(Pin.IRQ_FALLING | Pin.IRQ_RISING), \* , priority=1, wake=None, hard=False) Configure an interrupt handler to be called when the trigger source of the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
-  }
-};
 
 
 
@@ -2852,128 +2742,30 @@ Blockly.Blocks["machine.TimerWiPy_timerchannel.duty_cycle"] = {
 
 
 
-Blockly.Blocks["machine.UART_UART.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" UART.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.deinit"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" UART.deinit");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: UART.deinit() Turn off the UART bus. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.any"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" UART.any");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: UART.any() Returns an integer counting the number of characters that can be read without blocking. It will return 0 if there are no characters available and a positi ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" UART.read");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.readinto"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" UART.readinto");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.readline"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" UART.readline");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: UART.readline() Read a line, ending in a newline character. It may return sooner if a timeout is reached. The timeout is configurable in the constructor. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" UART.write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: UART.write(buf) Write the buffer of bytes to the bus. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.sendbreak"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" UART.sendbreak");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: UART.sendbreak() Send a break condition on the bus. This drives the bus low for a duration longer than required for a normal transmission of a character. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.UART_UART.irq"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" UART.irq");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: UART.irq(trigger, priority=1, handler=None, wake=machine.IDLE) Create a callback to be triggered when data is received on the UART. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
-  }
-};
 
 
 

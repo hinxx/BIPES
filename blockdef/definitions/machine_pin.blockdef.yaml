@@ -1,0 +1,99 @@
+# `machine.Pin`, the docs' own pin API -- not BIPES' `In/Out Pins` category,
+# which is a different set of blocks that branches on the selected board.
+#
+# Same breakage as machine_i2c and machine_spi: `import machine.Pin` (no such
+# module) and `machine.Pin.Pin.on()` (an instance method called on the class),
+# with one untyped `pIn` socket standing in for every argument. `Pin.init`
+# builds the object here, as it does in those two, because nothing else in the
+# category does; the other eight call a method on it.
+#
+# `Pin.mode`, `Pin.pull` and `Pin.drive` are the WiPy-only accessors, and
+# `Pin.drive`'s power levels exist nowhere else. They are kept because this
+# category mirrors the docs page, which lists them.
+#
+# `Pin.__call__` is the shortcut the docs describe -- `pin()` reads the pin,
+# and it is the only block here that gives a value back, so it is the only
+# value block.
+
+module: machine
+class: Pin
+instance: pin
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.Pin.html
+import: {key: import_Pin, line: "from machine import Pin"}
+
+category:
+  name: machine.Pin
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.Pin_Pin.init
+    label: Pin.init
+    tooltip: Build the pin object the rest of this category calls.
+    code: "{instance} = Pin({id}, {mode}, {pull})"
+    params:
+      - {name: id,   label: pin,  pin: true, align: right}
+      - {name: mode, label: mode, kind: dropdown, align: right,
+         options: [{input: "Pin.IN"}, {output: "Pin.OUT"}, {"open drain": "Pin.OPEN_DRAIN"}]}
+      - {name: pull, label: pull, kind: dropdown, align: right,
+         options: [{none: "None"}, {"pull up": "Pin.PULL_UP"}, {"pull down": "Pin.PULL_DOWN"}]}
+
+  - type: machine.Pin_Pin.value
+    label: []
+    inline: true
+    code: "{instance}.value({value})"
+    tooltip: Set the pin, 1 for high and 0 for low.
+    params:
+      - {name: value, label: "Pin.value", type: Number, default: 0}
+
+  - type: machine.Pin_Pin.__call__
+    kind: value
+    label: "Pin.__call__"
+    inline: true
+    code: "{instance}()"
+    tooltip: "Read the pin: calling it is the fast shortcut for value()."
+
+  - {type: machine.Pin_Pin.on, fn: on, label: Pin.on,
+     tooltip: Drive the pin high.}
+
+  - {type: machine.Pin_Pin.off, fn: off, label: Pin.off,
+     tooltip: Drive the pin low.}
+
+  - type: machine.Pin_Pin.mode
+    label: []
+    inline: true
+    code: "{instance}.mode({mode})"
+    tooltip: Change what the pin is for. WiPy only.
+    params:
+      - {name: mode, label: "Pin.mode", kind: dropdown,
+         options: [{input: "Pin.IN"}, {output: "Pin.OUT"}, {"open drain": "Pin.OPEN_DRAIN"}]}
+
+  - type: machine.Pin_Pin.pull
+    label: []
+    inline: true
+    code: "{instance}.pull({pull})"
+    tooltip: Change the pull resistor. WiPy only.
+    params:
+      - {name: pull, label: "Pin.pull", kind: dropdown,
+         options: [{none: "None"}, {"pull up": "Pin.PULL_UP"}, {"pull down": "Pin.PULL_DOWN"}]}
+
+  - type: machine.Pin_Pin.drive
+    label: []
+    inline: true
+    code: "{instance}.drive({drive})"
+    tooltip: Change how hard the pin drives. WiPy only.
+    params:
+      - {name: drive, label: "Pin.drive", kind: dropdown,
+         options: [{low: "Pin.LOW_POWER"}, {medium: "Pin.MED_POWER"}, {high: "Pin.HIGH_POWER"}]}
+
+  - type: machine.Pin_Pin.irq
+    label: Pin.irq
+    tooltip: Call a function when the pin changes. The handler runs in interrupt context.
+    code: "{instance}.irq(handler={handler}, trigger={trigger})"
+    params:
+      - {name: handler, label: call,  align: right}
+      - {name: trigger, label: on,    kind: dropdown, align: right,
+         options: [{"falling edge": "Pin.IRQ_FALLING"},
+                   {"rising edge": "Pin.IRQ_RISING"},
+                   {"either edge": "Pin.IRQ_FALLING | Pin.IRQ_RISING"}]}

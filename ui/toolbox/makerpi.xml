@@ -2915,10 +2915,16 @@
 <block type="lcd160cr_LCD160CR.reset">
 </block>
 </category>
+<!-- blockdef:machine_adc -->
 <category name="machine.ADC">
-<block type="machine.ADC_ADC.read_u16">
-</block>
+
+  <block type="machine.ADC_ADC.read_u16">
+    <value name="pin">
+      <shadow type="pinout"></shadow>
+    </value>
+  </block>
 </category>
+<!-- /blockdef:machine_adc -->
 <category name="machine.ADCWiPy">
 <block type="machine.ADCWiPy_ADCWiPy.channel">
 </block>
@@ -3051,26 +3057,38 @@
   </block>
 </category>
 <!-- /blockdef:machine_i2c -->
+<!-- blockdef:machine_pin -->
 <category name="machine.Pin">
-<block type="machine.Pin_Pin.init">
-</block>
-<block type="machine.Pin_Pin.value">
-</block>
-<block type="machine.Pin_Pin.__call__">
-</block>
-<block type="machine.Pin_Pin.on">
-</block>
-<block type="machine.Pin_Pin.off">
-</block>
-<block type="machine.Pin_Pin.mode">
-</block>
-<block type="machine.Pin_Pin.pull">
-</block>
-<block type="machine.Pin_Pin.drive">
-</block>
-<block type="machine.Pin_Pin.irq">
-</block>
+
+  <block type="machine.Pin_Pin.init">
+    <value name="id">
+      <shadow type="pinout"></shadow>
+    </value>
+  </block>
+
+  <block type="machine.Pin_Pin.value">
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.Pin_Pin.__call__"></block>
+
+  <block type="machine.Pin_Pin.on"></block>
+
+  <block type="machine.Pin_Pin.off"></block>
+
+  <block type="machine.Pin_Pin.mode"></block>
+
+  <block type="machine.Pin_Pin.pull"></block>
+
+  <block type="machine.Pin_Pin.drive"></block>
+
+  <block type="machine.Pin_Pin.irq"></block>
 </category>
+<!-- /blockdef:machine_pin -->
 <!-- blockdef:machine -->
 <category name="machine">
 
@@ -3206,26 +3224,56 @@
 <block type="machine.TimerWiPy_timerchannel.duty_cycle">
 </block>
 </category>
+<!-- blockdef:machine_uart -->
 <category name="machine.UART">
-<block type="machine.UART_UART.init">
-</block>
-<block type="machine.UART_UART.deinit">
-</block>
-<block type="machine.UART_UART.any">
-</block>
-<block type="machine.UART_UART.read">
-</block>
-<block type="machine.UART_UART.readinto">
-</block>
-<block type="machine.UART_UART.readline">
-</block>
-<block type="machine.UART_UART.write">
-</block>
-<block type="machine.UART_UART.sendbreak">
-</block>
-<block type="machine.UART_UART.irq">
-</block>
+
+  <block type="machine.UART_UART.init">
+    <value name="baudrate">
+      <shadow type="math_number">
+        <field name="NUM">9600</field>
+      </shadow>
+    </value>
+    <value name="bits">
+      <shadow type="math_number">
+        <field name="NUM">8</field>
+      </shadow>
+    </value>
+    <value name="stop">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.UART_UART.deinit"></block>
+
+  <block type="machine.UART_UART.any"></block>
+
+  <block type="machine.UART_UART.read">
+    <value name="nbytes">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.UART_UART.readinto"></block>
+
+  <block type="machine.UART_UART.readline"></block>
+
+  <block type="machine.UART_UART.write">
+    <value name="buf">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.UART_UART.sendbreak"></block>
+
+  <block type="machine.UART_UART.irq"></block>
 </category>
+<!-- /blockdef:machine_uart -->
 <category name="machine.WDT">
 <block type="machine.WDT_wdt.feed">
 </block>

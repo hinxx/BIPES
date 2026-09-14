@@ -1623,6 +1623,16 @@ Blockly.Python['machine_rng'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- machine.ADC (machine_adc.blockdef.yaml) ---------------------------------
+
+Blockly.Python['machine.ADC_ADC.read_u16'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_ADC"] = "from machine import ADC";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "ADC(Pin(" + pin_ + ")).read_u16()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- machine.I2C (machine_i2c.blockdef.yaml) ---------------------------------
 
 Blockly.Python['machine.I2C_I2C.init'] = function(block) {
@@ -1732,6 +1742,71 @@ Blockly.Python['machine.I2C_I2C.writeto_mem'] = function(block) {
   return code + "\n";
 };
 
+// ---- machine.Pin (machine_pin.blockdef.yaml) ---------------------------------
+
+Blockly.Python['machine.Pin_Pin.init'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = block.getFieldValue("mode");
+  var pull_ = block.getFieldValue("pull");
+  var code = "pin = Pin(" + id_ + ", " + mode_ + ", " + pull_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.value'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "pin.value(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.__call__'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var code = "pin()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.Pin_Pin.on'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var code = "pin.on()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.off'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var code = "pin.off()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.mode'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var mode_ = block.getFieldValue("mode");
+  var code = "pin.mode(" + mode_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.pull'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var pull_ = block.getFieldValue("pull");
+  var code = "pin.pull(" + pull_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.drive'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var drive_ = block.getFieldValue("drive");
+  var code = "pin.drive(" + drive_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Pin_Pin.irq'] = function(block) {
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var trigger_ = block.getFieldValue("trigger");
+  var code = "pin.irq(handler=" + handler_ + ", trigger=" + trigger_ + ")";
+  return code + "\n";
+};
+
 // ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
 
 Blockly.Python['machine.SPI_SPI.init'] = function(block) {
@@ -1779,6 +1854,61 @@ Blockly.Python['machine.SPI_SPI.write_readinto'] = function(block) {
   var write_buf_ = Blockly.Python.valueToCode(block, "write_buf", Blockly.Python.ORDER_ATOMIC);
   var read_buf_ = Blockly.Python.valueToCode(block, "read_buf", Blockly.Python.ORDER_ATOMIC);
   var code = "spi.write_readinto(" + write_buf_ + ", " + read_buf_ + ")";
+  return code + "\n";
+};
+
+// ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
+
+Blockly.Python['machine.UART_UART.init'] = function(block) {
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var bits_ = Blockly.Python.valueToCode(block, "bits", Blockly.Python.ORDER_ATOMIC);
+  var parity_ = block.getFieldValue("parity");
+  var stop_ = Blockly.Python.valueToCode(block, "stop", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.init(baudrate=" + baudrate_ + ", bits=" + bits_ + ", parity=" + parity_ + ", stop=" + stop_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.UART_UART.deinit'] = function(block) {
+  var code = "uart.deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.UART_UART.any'] = function(block) {
+  var code = "uart.any()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.UART_UART.read'] = function(block) {
+  var nbytes_ = Blockly.Python.valueToCode(block, "nbytes", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.read(" + nbytes_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.UART_UART.readinto'] = function(block) {
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.readinto(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.UART_UART.readline'] = function(block) {
+  var code = "uart.readline()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.UART_UART.write'] = function(block) {
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.write(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.UART_UART.sendbreak'] = function(block) {
+  var code = "uart.sendbreak()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.UART_UART.irq'] = function(block) {
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.irq(" + handler_ + ")";
   return code + "\n";
 };
 

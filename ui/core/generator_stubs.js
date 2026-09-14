@@ -1112,11 +1112,6 @@ Blockly.Python["lcd160cr_LCD160CR.reset"] = function(block) {
 	var code = "lcd160cr.LCD160CR.reset()\n"; 
 	return code;
 };
-Blockly.Python["machine.ADC_ADC.read_u16"] = function(block) {
-		Blockly.Python.definitions_['import_machine.ADC'] = 'import machine.ADC';
-	var code = "machine.ADC.ADC.read_u16()\n"; 
-	return code;
-};
 Blockly.Python["machine.ADCWiPy_ADCWiPy.channel"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.ADCWiPy.ADCWiPy.channel(" + value_pIn + ")\n"; 
@@ -1150,51 +1145,6 @@ Blockly.Python["machine.ADCWiPy_adcchannel.init"] = function(block) {
 Blockly.Python["machine.ADCWiPy_adcchannel.deinit"] = function(block) {
 		Blockly.Python.definitions_['import_machine.ADCWiPy'] = 'import machine.ADCWiPy';
 	var code = "machine.ADCWiPy.adcchannel.deinit()\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.value"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.value(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.__call__"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.__call__(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.on"] = function(block) {
-		Blockly.Python.definitions_['import_machine.Pin'] = 'import machine.Pin';
-	var code = "machine.Pin.Pin.on()\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.off"] = function(block) {
-		Blockly.Python.definitions_['import_machine.Pin'] = 'import machine.Pin';
-	var code = "machine.Pin.Pin.off()\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.mode"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.mode(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.pull"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.pull(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.drive"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.drive(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Pin_Pin.irq"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Pin.Pin.irq(" + value_pIn + ")\n"; 
 	return code;
 };
 Blockly.Python["machine.RTC_RTC.init"] = function(block) {
@@ -1300,51 +1250,6 @@ Blockly.Python["machine.TimerWiPy_timerchannel.period"] = function(block) {
 Blockly.Python["machine.TimerWiPy_timerchannel.duty_cycle"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.TimerWiPy.timerchannel.duty_cycle(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.UART.UART.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.deinit"] = function(block) {
-		Blockly.Python.definitions_['import_machine.UART'] = 'import machine.UART';
-	var code = "machine.UART.UART.deinit()\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.any"] = function(block) {
-		Blockly.Python.definitions_['import_machine.UART'] = 'import machine.UART';
-	var code = "machine.UART.UART.any()\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.read"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.UART.UART.read(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.readinto"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.UART.UART.readinto(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.readline"] = function(block) {
-		Blockly.Python.definitions_['import_machine.UART'] = 'import machine.UART';
-	var code = "machine.UART.UART.readline()\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["machine.UART_UART.write"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.UART.UART.write(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.sendbreak"] = function(block) {
-		Blockly.Python.definitions_['import_machine.UART'] = 'import machine.UART';
-	var code = "machine.UART.UART.sendbreak()\n"; 
-	return code;
-};
-Blockly.Python["machine.UART_UART.irq"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.UART.UART.irq(" + value_pIn + ")\n"; 
 	return code;
 };
 Blockly.Python["machine.WDT_wdt.feed"] = function(block) {

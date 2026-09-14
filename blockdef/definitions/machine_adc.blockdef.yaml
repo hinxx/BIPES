@@ -1,0 +1,34 @@
+# `machine.ADC` -- one block, and the only one of the `machine.*` classes with
+# no method to hang a constructor on. `ADC.read_u16` emitted
+# `machine.ADC.ADC.read_u16()`, and there is nothing in the category that could
+# have made the object it wanted.
+#
+# Rather than invent a second block, the converter reads the pin it is given:
+# `ADC(Pin(26)).read_u16()`. Building the object per read costs a few bytes and
+# nothing else, and it is one block a beginner can drag out on its own -- which
+# `machine.ADC` never was.
+
+module: machine
+class: ADC
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.ADC.html
+# Two entries rather than one line: `from machine import Pin` is the key
+# machine_pin registers, so a program using both gets one import of Pin.
+import:
+  - {key: import_Pin, line: "from machine import Pin"}
+  - {key: import_ADC, line: "from machine import ADC"}
+
+category:
+  name: machine.ADC
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.ADC_ADC.read_u16
+    kind: value
+    label: []
+    inline: true
+    code: "ADC(Pin({pin})).read_u16()"
+    tooltip: Read the pin as a whole number from 0 to 65535.
+    params:
+      - {name: pin, label: "ADC.read_u16 on pin", pin: true}

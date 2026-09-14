@@ -3196,6 +3196,21 @@ Blockly.Blocks['machine_rng'] = {
   }
 };
 
+// ---- machine.ADC (machine_adc.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.ADC_ADC.read_u16'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("ADC.read_u16 on pin");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read the pin as a whole number from 0 to 65535.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADC.html");
+  }
+};
+
 // ---- machine.I2C (machine_i2c.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['machine.I2C_I2C.init'] = {
@@ -3455,6 +3470,144 @@ Blockly.Blocks['machine.I2C_I2C.writeto_mem'] = {
   }
 };
 
+// ---- machine.Pin (machine_pin.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.Pin_Pin.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.init");
+    this.appendValueInput("id")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("pin");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mode")
+        .appendField(new Blockly.FieldDropdown([["input", "Pin.IN"], ["output", "Pin.OUT"], ["open drain", "Pin.OPEN_DRAIN"]]), "mode");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("pull")
+        .appendField(new Blockly.FieldDropdown([["none", "None"], ["pull up", "Pin.PULL_UP"], ["pull down", "Pin.PULL_DOWN"]]), "pull");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build the pin object the rest of this category calls.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.value'] = {
+  init: function() {
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .appendField("Pin.value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Set the pin, 1 for high and 0 for low.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.__call__'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.__call__");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read the pin: calling it is the fast shortcut for value().");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.on");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Drive the pin high.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Drive the pin low.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.mode")
+        .appendField(new Blockly.FieldDropdown([["input", "Pin.IN"], ["output", "Pin.OUT"], ["open drain", "Pin.OPEN_DRAIN"]]), "mode");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Change what the pin is for. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.pull'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.pull")
+        .appendField(new Blockly.FieldDropdown([["none", "None"], ["pull up", "Pin.PULL_UP"], ["pull down", "Pin.PULL_DOWN"]]), "pull");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Change the pull resistor. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.drive'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.drive")
+        .appendField(new Blockly.FieldDropdown([["low", "Pin.LOW_POWER"], ["medium", "Pin.MED_POWER"], ["high", "Pin.HIGH_POWER"]]), "drive");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Change how hard the pin drives. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
+Blockly.Blocks['machine.Pin_Pin.irq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Pin.irq");
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("on")
+        .appendField(new Blockly.FieldDropdown([["falling edge", "Pin.IRQ_FALLING"], ["rising edge", "Pin.IRQ_RISING"], ["either edge", "Pin.IRQ_FALLING | Pin.IRQ_RISING"]]), "trigger");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Call a function when the pin changes. The handler runs in interrupt context.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Pin.html");
+  }
+};
+
 // ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['machine.SPI_SPI.init'] = {
@@ -3573,6 +3726,137 @@ Blockly.Blocks['machine.SPI_SPI.write_readinto'] = {
     this.setColour(0);
     this.setTooltip("Write one buffer while reading into another, both the same length.");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+// ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['machine.UART_UART.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UART.init");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("baud rate");
+    this.appendValueInput("bits")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("data bits");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("parity")
+        .appendField(new Blockly.FieldDropdown([["none", "None"], ["even", "0"], ["odd", "1"]]), "parity");
+    this.appendValueInput("stop")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stop bits");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Re-configure a port that is already open.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UART.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn off the serial port.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.any'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UART.any");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("How many bytes are waiting to be read.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.read'] = {
+  init: function() {
+    this.appendValueInput("nbytes")
+        .setCheck("Number")
+        .appendField("UART.read");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read up to that many bytes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.readinto'] = {
+  init: function() {
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .appendField("UART.readinto");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read into a buffer, as many bytes as it is long.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.readline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UART.readline");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read one line, ending at the newline.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.write'] = {
+  init: function() {
+    this.appendValueInput("buf")
+        .setCheck("String")
+        .appendField("UART.write");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Write a buffer to the port.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.sendbreak'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UART.sendbreak");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Hold the line low for longer than one character, a break condition.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+Blockly.Blocks['machine.UART_UART.irq'] = {
+  init: function() {
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .appendField("UART.irq call");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Call a function when the port has something to say. Not every port has this.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
   }
 };
 

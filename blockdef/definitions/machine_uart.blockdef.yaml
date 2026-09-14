@@ -1,0 +1,80 @@
+# `machine.UART`, the docs' page -- the rest of the API that BIPES' own `UART`
+# category (uart.blockdef.yaml) does not cover.
+#
+# Same breakage as the other `machine.*` classes: `machine.UART.UART.read(...)`
+# against `import machine.UART`, one `pIn` socket for every argument. The
+# difference is the object: `uart_init` in the `UART` category already builds
+# one and calls it `uart`, so these blocks call methods on that rather than
+# building a second. `UART.init` is therefore what the docs say it is -- the
+# call that re-configures an existing port -- and not a constructor.
+#
+# `any`, `read` and `readline` are value blocks: they hand back what arrived.
+
+module: machine
+class: UART
+instance: uart
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.UART.html
+import: []
+
+category:
+  name: machine.UART
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.UART_UART.init
+    label: UART.init
+    tooltip: Re-configure a port that is already open.
+    code: "{instance}.init(baudrate={baudrate}, bits={bits}, parity={parity}, stop={stop})"
+    params:
+      - {name: baudrate, label: "baud rate", type: Number, default: 9600, align: right}
+      - {name: bits,     label: "data bits", type: Number, default: 8,    align: right}
+      - {name: parity,   label: parity, kind: dropdown, align: right,
+         options: [{none: "None"}, {even: "0"}, {odd: "1"}]}
+      - {name: stop,     label: "stop bits", type: Number, default: 1,    align: right}
+
+  - {type: machine.UART_UART.deinit, fn: deinit, label: UART.deinit,
+     tooltip: Turn off the serial port.}
+
+  - {type: machine.UART_UART.any, fn: any, kind: value, label: UART.any,
+     tooltip: How many bytes are waiting to be read.}
+
+  - type: machine.UART_UART.read
+    kind: value
+    label: []
+    inline: true
+    code: "{instance}.read({nbytes})"
+    tooltip: Read up to that many bytes.
+    params:
+      - {name: nbytes, label: "UART.read", type: Number, default: 1}
+
+  - type: machine.UART_UART.readinto
+    label: []
+    inline: true
+    code: "{instance}.readinto({buf})"
+    tooltip: Read into a buffer, as many bytes as it is long.
+    params:
+      - {name: buf, label: "UART.readinto"}
+
+  - {type: machine.UART_UART.readline, fn: readline, kind: value, label: UART.readline,
+     tooltip: "Read one line, ending at the newline."}
+
+  - type: machine.UART_UART.write
+    label: []
+    inline: true
+    code: "{instance}.write({buf})"
+    tooltip: Write a buffer to the port.
+    params:
+      - {name: buf, label: "UART.write", type: String, default: hello}
+
+  - {type: machine.UART_UART.sendbreak, fn: sendbreak, label: UART.sendbreak,
+     tooltip: "Hold the line low for longer than one character, a break condition."}
+
+  - type: machine.UART_UART.irq
+    label: []
+    inline: true
+    code: "{instance}.irq({handler})"
+    tooltip: Call a function when the port has something to say. Not every port has this.
+    params:
+      - {name: handler, label: "UART.irq call"}
