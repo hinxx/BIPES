@@ -1477,6 +1477,466 @@ Blockly.Blocks['hcsr_read'] = {
   }
 };
 
+// ---- math (math.blockdef.yaml) -----------------------------------------------
+
+Blockly.Blocks['math_acos'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" acos");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: acos(x) Return the inverse cosine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_acosh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" acosh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: acosh(x) Return the inverse hyperbolic cosine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_asin'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" asin");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: asin(x) Return the inverse sine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_asinh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" asinh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: asinh(x) Return the inverse hyperbolic sine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_atan'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" atan");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: atan(x) Return the inverse tangent of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_atan2'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" atan2");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: atan2(y, x) Return the principal value of the inverse tangent of ``y/x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_atanh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" atanh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: atanh(x) Return the inverse hyperbolic tangent of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_ceil'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" ceil");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ceil(x) Return an integer, being ``x`` rounded towards positive infinity. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_copysign'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" copysign");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: copysign(x, y) Return ``x`` with the sign of ``y``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_cos'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" cos");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: cos(x) Return the cosine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_cosh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" cosh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: cosh(x) Return the hyperbolic cosine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_degrees'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" degrees");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: degrees(x) Return radians ``x`` converted to degrees. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_erf'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" erf");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: erf(x) Return the error function of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_erfc'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" erfc");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: erfc(x) Return the complementary error function of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_exp'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" exp");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: exp(x) Return the exponential of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_expm1'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" expm1");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: expm1(x) Return ``exp(x) - 1``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_fabs'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" fabs");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: fabs(x) Return the absolute value of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_floor'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" floor");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: floor(x) Return an integer, being ``x`` rounded towards negative infinity. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_fmod'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" fmod");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: fmod(x, y) Return the remainder of ``x/y``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_frexp'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" frexp");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: frexp(x) Decomposes a floating-point number into its mantissa and exponent. The returned value is the tuple ``(m, e)`` such that ``x == m Makefile block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml 2**e`` ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_gamma'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" gamma");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: gamma(x) Return the gamma function of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_isfinite'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" isfinite");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: isfinite(x) Return ``True`` if ``x`` is finite. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_isinf'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" isinf");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: isinf(x) Return ``True`` if ``x`` is infinite. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_isnan'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" isnan");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: isnan(x) Return ``True`` if ``x`` is not-a-number ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_ldexp'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" ldexp");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ldexp(x, exp) Return ``x Makefile block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml (2**exp)``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_lgamma'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" lgamma");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: lgamma(x) Return the natural logarithm of the gamma function of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_log'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" log");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: log(x) Return the natural logarithm of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_log10'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" log10");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: log10(x) Return the base-10 logarithm of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_log2'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" log2");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: log2(x) Return the base-2 logarithm of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_modf'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" modf");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: modf(x) Return a tuple of two floats, being the fractional and integral parts of ``x``. Both return values have the same sign as ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_pow'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" pow");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: pow(x, y) Returns ``x`` to the power of ``y``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_radians'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" radians");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: radians(x) Return degrees ``x`` converted to radians. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_sin'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sin");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sin(x) Return the sine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_sinh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sinh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sinh(x) Return the hyperbolic sine of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_sqrt'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sqrt");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sqrt(x) Return the square root of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_tan'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" tan");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: tan(x) Return the tangent of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_tanh'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" tanh");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: tanh(x) Return the hyperbolic tangent of ``x``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
+Blockly.Blocks['math_trunc'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" trunc");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: trunc(x) Return an integer, being ``x`` rounded towards 0. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/math.html");
+  }
+};
+
 // ---- Oximeter (max30100.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['max30100_init'] = {
@@ -2075,6 +2535,317 @@ Blockly.Blocks['pluvio_stop'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(100);
+  }
+};
+
+// ---- pyb (pyb.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['pyb_delay'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" delay");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: delay(ms) Delay for the given number of milliseconds. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_udelay'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" udelay");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: udelay(us) Delay for the given number of microseconds. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_millis'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" millis");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: millis() Returns the number of milliseconds since the board was last reset. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_micros'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" micros");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: micros() Returns the number of microseconds since the board was last reset. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_elapsed_millis'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" elapsed_millis");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: elapsed_millis(start) Returns the number of milliseconds which have elapsed since ``start``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_elapsed_micros'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" elapsed_micros");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: elapsed_micros(start) Returns the number of microseconds which have elapsed since ``start``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_hard_reset'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" hard_reset");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: hard_reset() Resets the pyboard in a manner similar to pushing the external RESET button. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_bootloader'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" bootloader");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: bootloader() Activate the bootloader without BOOT* pins. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_fault_debug'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" fault_debug");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: fault_debug(value) Enable or disable hard-fault debugging. A hard-fault is when there is a fata l ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_disable_irq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" disable_irq");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: disable_irq() Disable interrupt requests. Returns the previous IRQ state: ``False``/``True`` for disabled/enabled IRQs ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_enable_irq'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" enable_irq");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: enable_irq(state=True) Enable interrupt requests. If ``state`` is ``True`` (the default value) then IRQs are enabled. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_freq'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" freq");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_wfi'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" wfi");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: wfi() Wait for an internal or external interrupt. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" stop");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: stop() Put the pyboard in a sleeping state. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_standby'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" standby");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: standby() Put the pyboard into a deep sleep state. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_have_cdc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" have_cdc");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: have_cdc() Return True if USB is connected as a serial device, False otherwise. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_hid'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" hid");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: hid((buttons, x, y, z)) Takes a 4-tuple (or list) and sends it to the USB host (the PC) to signal a HID mouse-motion event. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_info'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" info");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_main'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" main");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: main(filename) Set the filename of the main script to run after boot.py is finished. If this function is not called then the default file main.py will be executed. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_mount'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" mount");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_repl_uart'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" repl_uart");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: repl_uart(uart) Get or set the UART object where the REPL is repeated on. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_rng'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" rng");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: rng() Return a 30-bit hardware generated random number. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_sync'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" sync");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sync() Sync all file systems. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_unique_id'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" unique_id");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: unique_id() Returns a string of 12 bytes (96 bits), which is the unique ID of the MCU. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+Blockly.Blocks['pyb_usb_mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" usb_mode");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
   }
 };
 
@@ -2819,6 +3590,213 @@ Blockly.Blocks['umail_send'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- uos (uos.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['uos_uname'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" uname");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: uname() Return a tuple (possibly a named tuple) containing information about the underlying machine and/or its operating system. The tuple has five fields ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_urandom'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" urandom");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: urandom(n) Return a bytes object with block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js onlyfunctions.txt random bytes. Whenever possible, it is generated by the hardware random number generator. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_chdir'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" chdir");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: chdir(path) Change current directory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_getcwd'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" getcwd");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: getcwd() Get the current directory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_ilistdir'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" ilistdir");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_listdir'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" listdir");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_mkdir'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Create new folder");
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("name");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: mkdir(path) Create a new directory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_remove'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Delete file");
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("filename");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: remove(path) Remove a file. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_rmdir'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" rmdir");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: rmdir(path) Remove a directory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_rename'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" rename");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: rename(old_path, new_path) Rename a file. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_stat'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" stat");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: stat(path) Get the status of a file or directory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_statvfs'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" statvfs");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: statvfs(path) Get the status of a fileystem. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_sync'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" sync");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sync() Sync all filesystems. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_dupterm'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" dupterm");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: dupterm(stream_object, index=0, /) Duplicate or switch the MicroPython terminal (the REPL) on the given `stream` -like ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_mount'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" mount");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_umount'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" umount");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: umount(mount_point) Unmount a filesystem. *mount_point* can be a string naming the mount locatio n, ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
   }
 };
 

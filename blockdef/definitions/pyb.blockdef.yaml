@@ -1,0 +1,192 @@
+# The pyb module, as generated from the MicroPython documentation.
+#
+# 12 of the 25 blocks here did not import `pyb`, so a program using
+# one died on a NameError. All of them do now.
+
+module: pyb
+colour: 0
+import: {line: "import pyb", key: import_pyb}
+
+category:
+  name: "pyb"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: pyb_delay
+    label: []
+    tooltip: ".. function:: delay(ms) Delay for the given number of milliseconds. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.delay({pIn})"
+    params:
+      - {name: pIn, label: " delay"}
+
+  - type: pyb_udelay
+    label: []
+    tooltip: ".. function:: udelay(us) Delay for the given number of microseconds. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.udelay({pIn})"
+    params:
+      - {name: pIn, label: " udelay"}
+
+  - type: pyb_millis
+    label: " millis"
+    tooltip: ".. function:: millis() Returns the number of milliseconds since the board was last reset. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.millis()"
+
+  - type: pyb_micros
+    label: " micros"
+    tooltip: ".. function:: micros() Returns the number of microseconds since the board was last reset. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.micros()"
+
+  - type: pyb_elapsed_millis
+    label: []
+    tooltip: ".. function:: elapsed_millis(start) Returns the number of milliseconds which have elapsed since ``start``. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.elapsed_millis({pIn})"
+    params:
+      - {name: pIn, label: " elapsed_millis"}
+
+  - type: pyb_elapsed_micros
+    label: []
+    tooltip: ".. function:: elapsed_micros(start) Returns the number of microseconds which have elapsed since ``start``. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.elapsed_micros({pIn})"
+    params:
+      - {name: pIn, label: " elapsed_micros"}
+
+  - type: pyb_hard_reset
+    label: " hard_reset"
+    tooltip: ".. function:: hard_reset() Resets the pyboard in a manner similar to pushing the external RESET button. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.hard_reset()"
+
+  - type: pyb_bootloader
+    label: " bootloader"
+    tooltip: ".. function:: bootloader() Activate the bootloader without BOOT* pins. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.bootloader()"
+
+  - type: pyb_fault_debug
+    label: []
+    tooltip: ".. function:: fault_debug(value) Enable or disable hard-fault debugging. A hard-fault is when there is a fata l "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.fault_debug({pIn})"
+    params:
+      - {name: pIn, label: " fault_debug"}
+
+  - type: pyb_disable_irq
+    label: " disable_irq"
+    tooltip: ".. function:: disable_irq() Disable interrupt requests. Returns the previous IRQ state: ``False``/``True`` for disabled/enabled IRQs "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.disable_irq()"
+
+  - type: pyb_enable_irq
+    label: []
+    tooltip: ".. function:: enable_irq(state=True) Enable interrupt requests. If ``state`` is ``True`` (the default value) then IRQs are enabled. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.enable_irq({pIn})"
+    params:
+      - {name: pIn, label: " enable_irq"}
+
+  - type: pyb_freq
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.freq({pIn})"
+    params:
+      - {name: pIn, label: " freq"}
+
+  - type: pyb_wfi
+    label: " wfi"
+    tooltip: ".. function:: wfi() Wait for an internal or external interrupt. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.wfi()"
+
+  - type: pyb_stop
+    label: " stop"
+    tooltip: ".. function:: stop() Put the pyboard in a sleeping state. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.stop()"
+
+  - type: pyb_standby
+    label: " standby"
+    tooltip: ".. function:: standby() Put the pyboard into a deep sleep state. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.standby()"
+
+  - type: pyb_have_cdc
+    label: " have_cdc"
+    kind: value
+    tooltip: ".. function:: have_cdc() Return True if USB is connected as a serial device, False otherwise. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.have_cdc()"
+
+  - type: pyb_hid
+    label: []
+    tooltip: ".. function:: hid((buttons, x, y, z)) Takes a 4-tuple (or list) and sends it to the USB host (the PC) to signal a HID mouse-motion event. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.hid({pIn})"
+    params:
+      - {name: pIn, label: " hid"}
+
+  - type: pyb_info
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.info({pIn})"
+    params:
+      - {name: pIn, label: " info"}
+
+  - type: pyb_main
+    label: []
+    tooltip: ".. function:: main(filename) Set the filename of the main script to run after boot.py is finished. If this function is not called then the default file main.py will be executed. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.main({pIn})"
+    params:
+      - {name: pIn, label: " main"}
+
+  - type: pyb_mount
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.mount({pIn})"
+    params:
+      - {name: pIn, label: " mount"}
+
+  - type: pyb_repl_uart
+    label: []
+    kind: value
+    tooltip: ".. function:: repl_uart(uart) Get or set the UART object where the REPL is repeated on. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.repl_uart({pIn})"
+    params:
+      - {name: pIn, label: " repl_uart"}
+
+  - type: pyb_rng
+    label: " rng"
+    kind: value
+    tooltip: ".. function:: rng() Return a 30-bit hardware generated random number. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.rng()"
+
+  - type: pyb_sync
+    label: " sync"
+    tooltip: ".. function:: sync() Sync all file systems. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.sync()"
+
+  - type: pyb_unique_id
+    label: " unique_id"
+    tooltip: ".. function:: unique_id() Returns a string of 12 bytes (96 bits), which is the unique ID of the MCU. "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.unique_id()"
+
+  - type: pyb_usb_mode
+    label: " usb_mode"
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/pyb.html"
+    code: "pyb.usb_mode()"

@@ -102,18 +102,19 @@ def _splice(path: Path, definition: Definition) -> list[Path]:
             f'{path}: no "{start}" ... "{end}" markers. Put an empty pair where the '
             f'{definition.category!r} category belongs in this board\'s tree.')
 
-    indent = _indent_of(source, start)
-    body = emit_category_xml(definition, indent, board=path.name.split('.')[0])
-    pattern = re.compile(re.escape(start) + r'[\s\S]*?' + re.escape(end))
-    # A callable replacement: re.sub() would otherwise read backslash escapes
-    # in the generated XML as its own template syntax.
-    updated = pattern.sub(lambda _m: f'{start}\n{body}\n{indent}{end}', source, count=1)
-    return _write(path, updated)
+    board = path.name.split('.')[0]
+    pattern = re.compile(r'([ \t]*)' + re.escape(start) + r'[\s\S]*?' + re.escape(end))
 
+    def fill(match):
+        # A callable replacement, not a template: re.sub() would otherwise read
+        # backslash escapes in the generated XML as its own syntax. Every
+        # marker pair with this name is filled -- `uos` is offered both at the
+        # top level and inside the `micropython` container.
+        indent = match.group(1)
+        body = emit_category_xml(definition, indent, board=board)
+        return f'{indent}{start}\n{body}\n{indent}{end}'
 
-def _indent_of(source: str, marker: str) -> str:
-    line_start = source.rfind('\n', 0, source.index(marker)) + 1
-    return source[line_start:source.index(marker)]
+    return _write(path, pattern.sub(fill, source))
 
 
 def _write(path: Path, content: str) -> list[Path]:

@@ -51,8 +51,9 @@ differs here:
    <!-- /blockdef:<name> -->
    ```
 
-   The tool fills the space between them and errors if the markers are absent —
-   it will not guess where a category goes.
+   The tool fills every such pair in the file and errors if there are none —
+   it will not guess where a category goes. (A family can legitimately appear
+   twice: `uos` is offered both at the top level and inside `micropython`.)
 3. `make blocks`, and commit the generated files with the definition.
 
 ## The format

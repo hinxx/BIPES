@@ -1667,140 +1667,48 @@
   </category>
  
  
-  <category name="%{BKY_CAT_FILES}">
-  <label text="Read and write files"></label>
+  <!-- blockdef:uos -->
+  <category name="uos">
 
-  <block type="file_open"> 
-    <value name="file_name">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-    </value>
-  </block>
+    <block type="uos_uname"></block>
 
-  <block type="file_open_write"> 
-    <value name="filename">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-    </value>
-  </block>
+    <block type="uos_urandom"></block>
 
-  <block type="file_open_read"> 
-    <value name="filename">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-    </value>
-  </block>
-<block type="file_write"> 
-  <value name="data">
-        <shadow type="text">
-          <field name="TEXT">contents</field>
-        </shadow>
-      </value>
-</block>
-<block type="file_write_line"> 
-  <value name="data">
-        <shadow type="text">
-          <field name="TEXT">Line contents</field>
-        </shadow>
-      </value>
-</block>
-<block type="file_write_byte"> 
-        <value name="data">
-          <shadow type="math_number">
-            <field name="NUM">80</field>
-          </shadow>
-        </value>
-</block>
+    <block type="uos_chdir"></block>
 
+    <block type="uos_getcwd"></block>
 
-<block type="file_read"> 
+    <block type="uos_ilistdir"></block>
 
-  <value name="filename">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-      </value>
+    <block type="uos_listdir"></block>
 
-</block>
-<block type="file_close"> 
+    <block type="uos_mkdir"></block>
 
-  <value name="filename">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-      </value>
+    <block type="uos_remove"></block>
 
+    <block type="uos_rmdir"></block>
 
-</block>
+    <block type="uos_rename"></block>
 
-      <label text="Disk file operations"></label>
-<block type="files_list">
-</block>
-<block type="uos_mkdir">
+    <block type="uos_stat"></block>
 
-  <value name="pIn">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-      </value>
+    <block type="uos_statvfs"></block>
 
+    <block type="uos_sync"></block>
 
-</block>
-<block type="uos_remove">
+    <block type="uos_dupterm"></block>
 
-  <value name="pIn">
-        <shadow type="text">
-          <field name="TEXT">file.txt</field>
-        </shadow>
-      </value>
+    <block type="uos_mount"></block>
 
+    <block type="uos_umount"></block>
 
-</block>
+    <block type="uos_readblocks"></block>
 
-<block type="uos_listdir">
-</block>
+    <block type="uos_writeblocks"></block>
 
-
-<block type="uos_uname"> </block>
-<block type="uos_urandom">
-</block>
-<block type="uos_chdir">
-</block>
-<block type="uos_getcwd">
-</block>
-<block type="uos_ilistdir">
-</block>
-<block type="uos_rmdir">
-</block>
-<block type="uos_rename">
-</block>
-<block type="uos_stat">
-</block>
-<block type="uos_statvfs">
-</block>
-<block type="uos_sync">
-</block>
-<block type="uos_dupterm">
-</block>
-<block type="uos_mount">
-</block>
-<block type="uos_umount">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_ioctl">
-</block>
-
+    <block type="uos_ioctl"></block>
   </category>
+  <!-- /blockdef:uos -->
  
 
  
@@ -2876,84 +2784,86 @@
 <block type="machine.WDT_wdt.feed">
 </block>
 </category>
+<!-- blockdef:math -->
 <category name="math">
-<block type="math_acos">
-</block>
-<block type="math_acosh">
-</block>
-<block type="math_asin">
-</block>
-<block type="math_asinh">
-</block>
-<block type="math_atan">
-</block>
-<block type="math_atan2">
-</block>
-<block type="math_atanh">
-</block>
-<block type="math_ceil">
-</block>
-<block type="math_copysign">
-</block>
-<block type="math_cos">
-</block>
-<block type="math_cosh">
-</block>
-<block type="math_degrees">
-</block>
-<block type="math_erf">
-</block>
-<block type="math_erfc">
-</block>
-<block type="math_exp">
-</block>
-<block type="math_expm1">
-</block>
-<block type="math_fabs">
-</block>
-<block type="math_floor">
-</block>
-<block type="math_fmod">
-</block>
-<block type="math_frexp">
-</block>
-<block type="math_gamma">
-</block>
-<block type="math_isfinite">
-</block>
-<block type="math_isinf">
-</block>
-<block type="math_isnan">
-</block>
-<block type="math_ldexp">
-</block>
-<block type="math_lgamma">
-</block>
-<block type="math_log">
-</block>
-<block type="math_log10">
-</block>
-<block type="math_log2">
-</block>
-<block type="math_modf">
-</block>
-<block type="math_pow">
-</block>
-<block type="math_radians">
-</block>
-<block type="math_sin">
-</block>
-<block type="math_sinh">
-</block>
-<block type="math_sqrt">
-</block>
-<block type="math_tan">
-</block>
-<block type="math_tanh">
-</block>
-<block type="math_trunc">
-</block>
+
+  <block type="math_acos"></block>
+
+  <block type="math_acosh"></block>
+
+  <block type="math_asin"></block>
+
+  <block type="math_asinh"></block>
+
+  <block type="math_atan"></block>
+
+  <block type="math_atan2"></block>
+
+  <block type="math_atanh"></block>
+
+  <block type="math_ceil"></block>
+
+  <block type="math_copysign"></block>
+
+  <block type="math_cos"></block>
+
+  <block type="math_cosh"></block>
+
+  <block type="math_degrees"></block>
+
+  <block type="math_erf"></block>
+
+  <block type="math_erfc"></block>
+
+  <block type="math_exp"></block>
+
+  <block type="math_expm1"></block>
+
+  <block type="math_fabs"></block>
+
+  <block type="math_floor"></block>
+
+  <block type="math_fmod"></block>
+
+  <block type="math_frexp"></block>
+
+  <block type="math_gamma"></block>
+
+  <block type="math_isfinite"></block>
+
+  <block type="math_isinf"></block>
+
+  <block type="math_isnan"></block>
+
+  <block type="math_ldexp"></block>
+
+  <block type="math_lgamma"></block>
+
+  <block type="math_log"></block>
+
+  <block type="math_log10"></block>
+
+  <block type="math_log2"></block>
+
+  <block type="math_modf"></block>
+
+  <block type="math_pow"></block>
+
+  <block type="math_radians"></block>
+
+  <block type="math_sin"></block>
+
+  <block type="math_sinh"></block>
+
+  <block type="math_sqrt"></block>
+
+  <block type="math_tan"></block>
+
+  <block type="math_tanh"></block>
+
+  <block type="math_trunc"></block>
 </category>
+<!-- /blockdef:math -->
 <!-- blockdef:micropython -->
 <category name="micropython">
 
@@ -3000,58 +2910,60 @@
 <block type="network_phy_mode">
 </block>
 </category>
+<!-- blockdef:pyb -->
 <category name="pyb">
-<block type="pyb_delay">
-</block>
-<block type="pyb_udelay">
-</block>
-<block type="pyb_millis">
-</block>
-<block type="pyb_micros">
-</block>
-<block type="pyb_elapsed_millis">
-</block>
-<block type="pyb_elapsed_micros">
-</block>
-<block type="pyb_hard_reset">
-</block>
-<block type="pyb_bootloader">
-</block>
-<block type="pyb_fault_debug">
-</block>
-<block type="pyb_disable_irq">
-</block>
-<block type="pyb_enable_irq">
-</block>
-<block type="pyb_freq">
-</block>
-<block type="pyb_wfi">
-</block>
-<block type="pyb_stop">
-</block>
-<block type="pyb_standby">
-</block>
-<block type="pyb_have_cdc">
-</block>
-<block type="pyb_hid">
-</block>
-<block type="pyb_info">
-</block>
-<block type="pyb_main">
-</block>
-<block type="pyb_mount">
-</block>
-<block type="pyb_repl_uart">
-</block>
-<block type="pyb_rng">
-</block>
-<block type="pyb_sync">
-</block>
-<block type="pyb_unique_id">
-</block>
-<block type="pyb_usb_mode">
-</block>
+
+  <block type="pyb_delay"></block>
+
+  <block type="pyb_udelay"></block>
+
+  <block type="pyb_millis"></block>
+
+  <block type="pyb_micros"></block>
+
+  <block type="pyb_elapsed_millis"></block>
+
+  <block type="pyb_elapsed_micros"></block>
+
+  <block type="pyb_hard_reset"></block>
+
+  <block type="pyb_bootloader"></block>
+
+  <block type="pyb_fault_debug"></block>
+
+  <block type="pyb_disable_irq"></block>
+
+  <block type="pyb_enable_irq"></block>
+
+  <block type="pyb_freq"></block>
+
+  <block type="pyb_wfi"></block>
+
+  <block type="pyb_stop"></block>
+
+  <block type="pyb_standby"></block>
+
+  <block type="pyb_have_cdc"></block>
+
+  <block type="pyb_hid"></block>
+
+  <block type="pyb_info"></block>
+
+  <block type="pyb_main"></block>
+
+  <block type="pyb_mount"></block>
+
+  <block type="pyb_repl_uart"></block>
+
+  <block type="pyb_rng"></block>
+
+  <block type="pyb_sync"></block>
+
+  <block type="pyb_unique_id"></block>
+
+  <block type="pyb_usb_mode"></block>
 </category>
+<!-- /blockdef:pyb -->
 <!-- blockdef:sys -->
 <category name="sys">
 
@@ -3262,50 +3174,48 @@
   <block type="ujson_loads"></block>
 </category>
 <!-- /blockdef:ujson -->
+<!-- blockdef:uos -->
 <category name="uos">
-<block type="uos_uname">
-</block>
-<block type="uos_urandom">
-</block>
-<block type="uos_chdir">
-</block>
-<block type="uos_getcwd">
-</block>
-<block type="uos_ilistdir">
-</block>
-<block type="uos_listdir">
-</block>
-<block type="uos_mkdir">
-</block>
-<block type="uos_remove">
-</block>
-<block type="uos_rmdir">
-</block>
-<block type="uos_rename">
-</block>
-<block type="uos_stat">
-</block>
-<block type="uos_statvfs">
-</block>
-<block type="uos_sync">
-</block>
-<block type="uos_dupterm">
-</block>
-<block type="uos_mount">
-</block>
-<block type="uos_umount">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_ioctl">
-</block>
+
+  <block type="uos_uname"></block>
+
+  <block type="uos_urandom"></block>
+
+  <block type="uos_chdir"></block>
+
+  <block type="uos_getcwd"></block>
+
+  <block type="uos_ilistdir"></block>
+
+  <block type="uos_listdir"></block>
+
+  <block type="uos_mkdir"></block>
+
+  <block type="uos_remove"></block>
+
+  <block type="uos_rmdir"></block>
+
+  <block type="uos_rename"></block>
+
+  <block type="uos_stat"></block>
+
+  <block type="uos_statvfs"></block>
+
+  <block type="uos_sync"></block>
+
+  <block type="uos_dupterm"></block>
+
+  <block type="uos_mount"></block>
+
+  <block type="uos_umount"></block>
+
+  <block type="uos_readblocks"></block>
+
+  <block type="uos_writeblocks"></block>
+
+  <block type="uos_ioctl"></block>
 </category>
+<!-- /blockdef:uos -->
 <category name="ure">
 <block type="ure_compile">
 </block>

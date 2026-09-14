@@ -1,0 +1,355 @@
+# The math module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported `math`, so every program using one died on a
+# NameError. They do now.
+
+module: math
+colour: 0
+import: {line: "import math", key: import_math}
+
+category:
+  name: "math"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: math_acos
+    label: []
+    kind: value
+    tooltip: ".. function:: acos(x) Return the inverse cosine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.acos({pIn})"
+    params:
+      - {name: pIn, label: " acos"}
+
+  - type: math_acosh
+    label: []
+    kind: value
+    tooltip: ".. function:: acosh(x) Return the inverse hyperbolic cosine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.acosh({pIn})"
+    params:
+      - {name: pIn, label: " acosh"}
+
+  - type: math_asin
+    label: []
+    kind: value
+    tooltip: ".. function:: asin(x) Return the inverse sine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.asin({pIn})"
+    params:
+      - {name: pIn, label: " asin"}
+
+  - type: math_asinh
+    label: []
+    kind: value
+    tooltip: ".. function:: asinh(x) Return the inverse hyperbolic sine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.asinh({pIn})"
+    params:
+      - {name: pIn, label: " asinh"}
+
+  - type: math_atan
+    label: []
+    kind: value
+    tooltip: ".. function:: atan(x) Return the inverse tangent of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.atan({pIn})"
+    params:
+      - {name: pIn, label: " atan"}
+
+  - type: math_atan2
+    label: []
+    kind: value
+    tooltip: ".. function:: atan2(y, x) Return the principal value of the inverse tangent of ``y/x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.atan2({pIn})"
+    params:
+      - {name: pIn, label: " atan2"}
+
+  - type: math_atanh
+    label: []
+    kind: value
+    tooltip: ".. function:: atanh(x) Return the inverse hyperbolic tangent of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.atanh({pIn})"
+    params:
+      - {name: pIn, label: " atanh"}
+
+  - type: math_ceil
+    label: []
+    kind: value
+    tooltip: ".. function:: ceil(x) Return an integer, being ``x`` rounded towards positive infinity. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.ceil({pIn})"
+    params:
+      - {name: pIn, label: " ceil"}
+
+  - type: math_copysign
+    label: []
+    kind: value
+    tooltip: ".. function:: copysign(x, y) Return ``x`` with the sign of ``y``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.copysign({pIn})"
+    params:
+      - {name: pIn, label: " copysign"}
+
+  - type: math_cos
+    label: []
+    kind: value
+    tooltip: ".. function:: cos(x) Return the cosine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.cos({pIn})"
+    params:
+      - {name: pIn, label: " cos"}
+
+  - type: math_cosh
+    label: []
+    kind: value
+    tooltip: ".. function:: cosh(x) Return the hyperbolic cosine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.cosh({pIn})"
+    params:
+      - {name: pIn, label: " cosh"}
+
+  - type: math_degrees
+    label: []
+    kind: value
+    tooltip: ".. function:: degrees(x) Return radians ``x`` converted to degrees. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.degrees({pIn})"
+    params:
+      - {name: pIn, label: " degrees"}
+
+  - type: math_erf
+    label: []
+    kind: value
+    tooltip: ".. function:: erf(x) Return the error function of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.erf({pIn})"
+    params:
+      - {name: pIn, label: " erf"}
+
+  - type: math_erfc
+    label: []
+    kind: value
+    tooltip: ".. function:: erfc(x) Return the complementary error function of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.erfc({pIn})"
+    params:
+      - {name: pIn, label: " erfc"}
+
+  - type: math_exp
+    label: []
+    kind: value
+    tooltip: ".. function:: exp(x) Return the exponential of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.exp({pIn})"
+    params:
+      - {name: pIn, label: " exp"}
+
+  - type: math_expm1
+    label: []
+    kind: value
+    tooltip: ".. function:: expm1(x) Return ``exp(x) - 1``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.expm1({pIn})"
+    params:
+      - {name: pIn, label: " expm1"}
+
+  - type: math_fabs
+    label: []
+    kind: value
+    tooltip: ".. function:: fabs(x) Return the absolute value of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.fabs({pIn})"
+    params:
+      - {name: pIn, label: " fabs"}
+
+  - type: math_floor
+    label: []
+    kind: value
+    tooltip: ".. function:: floor(x) Return an integer, being ``x`` rounded towards negative infinity. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.floor({pIn})"
+    params:
+      - {name: pIn, label: " floor"}
+
+  - type: math_fmod
+    label: []
+    kind: value
+    tooltip: ".. function:: fmod(x, y) Return the remainder of ``x/y``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.fmod({pIn})"
+    params:
+      - {name: pIn, label: " fmod"}
+
+  - type: math_frexp
+    label: []
+    tooltip: ".. function:: frexp(x) Decomposes a floating-point number into its mantissa and exponent. The returned value is the tuple ``(m, e)`` such that ``x == m Makefile block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml 2**e`` "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.frexp({pIn})"
+    params:
+      - {name: pIn, label: " frexp"}
+
+  - type: math_gamma
+    label: []
+    kind: value
+    tooltip: ".. function:: gamma(x) Return the gamma function of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.gamma({pIn})"
+    params:
+      - {name: pIn, label: " gamma"}
+
+  - type: math_isfinite
+    label: []
+    kind: value
+    tooltip: ".. function:: isfinite(x) Return ``True`` if ``x`` is finite. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.isfinite({pIn})"
+    params:
+      - {name: pIn, label: " isfinite"}
+
+  - type: math_isinf
+    label: []
+    kind: value
+    tooltip: ".. function:: isinf(x) Return ``True`` if ``x`` is infinite. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.isinf({pIn})"
+    params:
+      - {name: pIn, label: " isinf"}
+
+  - type: math_isnan
+    label: []
+    kind: value
+    tooltip: ".. function:: isnan(x) Return ``True`` if ``x`` is not-a-number "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.isnan({pIn})"
+    params:
+      - {name: pIn, label: " isnan"}
+
+  - type: math_ldexp
+    label: []
+    kind: value
+    tooltip: ".. function:: ldexp(x, exp) Return ``x Makefile block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml (2**exp)``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.ldexp({pIn})"
+    params:
+      - {name: pIn, label: " ldexp"}
+
+  - type: math_lgamma
+    label: []
+    kind: value
+    tooltip: ".. function:: lgamma(x) Return the natural logarithm of the gamma function of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.lgamma({pIn})"
+    params:
+      - {name: pIn, label: " lgamma"}
+
+  - type: math_log
+    label: []
+    kind: value
+    tooltip: ".. function:: log(x) Return the natural logarithm of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.log({pIn})"
+    params:
+      - {name: pIn, label: " log"}
+
+  - type: math_log10
+    label: []
+    kind: value
+    tooltip: ".. function:: log10(x) Return the base-10 logarithm of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.log10({pIn})"
+    params:
+      - {name: pIn, label: " log10"}
+
+  - type: math_log2
+    label: []
+    kind: value
+    tooltip: ".. function:: log2(x) Return the base-2 logarithm of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.log2({pIn})"
+    params:
+      - {name: pIn, label: " log2"}
+
+  - type: math_modf
+    label: []
+    kind: value
+    tooltip: ".. function:: modf(x) Return a tuple of two floats, being the fractional and integral parts of ``x``. Both return values have the same sign as ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.modf({pIn})"
+    params:
+      - {name: pIn, label: " modf"}
+
+  - type: math_pow
+    label: []
+    tooltip: ".. function:: pow(x, y) Returns ``x`` to the power of ``y``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.pow({pIn})"
+    params:
+      - {name: pIn, label: " pow"}
+
+  - type: math_radians
+    label: []
+    kind: value
+    tooltip: ".. function:: radians(x) Return degrees ``x`` converted to radians. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.radians({pIn})"
+    params:
+      - {name: pIn, label: " radians"}
+
+  - type: math_sin
+    label: []
+    kind: value
+    tooltip: ".. function:: sin(x) Return the sine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.sin({pIn})"
+    params:
+      - {name: pIn, label: " sin"}
+
+  - type: math_sinh
+    label: []
+    kind: value
+    tooltip: ".. function:: sinh(x) Return the hyperbolic sine of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.sinh({pIn})"
+    params:
+      - {name: pIn, label: " sinh"}
+
+  - type: math_sqrt
+    label: []
+    kind: value
+    tooltip: ".. function:: sqrt(x) Return the square root of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.sqrt({pIn})"
+    params:
+      - {name: pIn, label: " sqrt"}
+
+  - type: math_tan
+    label: []
+    kind: value
+    tooltip: ".. function:: tan(x) Return the tangent of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.tan({pIn})"
+    params:
+      - {name: pIn, label: " tan"}
+
+  - type: math_tanh
+    label: []
+    kind: value
+    tooltip: ".. function:: tanh(x) Return the hyperbolic tangent of ``x``. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.tanh({pIn})"
+    params:
+      - {name: pIn, label: " tanh"}
+
+  - type: math_trunc
+    label: []
+    kind: value
+    tooltip: ".. function:: trunc(x) Return an integer, being ``x`` rounded towards 0. "
+    url: "https://docs.micropython.org/en/latest/library/math.html"
+    code: "math.trunc({pIn})"
+    params:
+      - {name: pIn, label: " trunc"}
