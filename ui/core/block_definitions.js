@@ -4129,105 +4129,11 @@ Blockly.Blocks['net_http_server_close'] = {
 };
 
 
-Blockly.Blocks['gsm_modem_init'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Init SIM800/900 GSM MODEM");
-
-    this.appendValueInput("tx")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("TX Pin:");
-
-    this.appendValueInput("rx")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("RX Pin:");
-
-    this.appendValueInput("bps")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Baud rate:");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-Blockly.Blocks['gsm_modem_send_sms'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Send SMS Message");
-
-    this.appendValueInput("dst")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Destination:");
-
-    this.appendValueInput("msg")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Message:");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
-Blockly.Blocks['gsm_modem_send_at'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Send AT Command");
 
-    this.appendValueInput("cmd")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Command:");
 
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
-Blockly.Blocks['gsm_modem_http_get'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("GSM: Send HTTP GET Request");
-
-    this.appendValueInput("cmd")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Request:");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-Blockly.Blocks['gsm_modem_response'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Get GSM Modem Response");
-
-    this.appendValueInput("timeout")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Timeout:");
-
-    this.setOutput(true);
-    this.setTooltip('');
-  }
-};
 
 //UART
 
@@ -4250,87 +4156,13 @@ Blockly.Blocks['gsm_modem_response'] = {
 //CAN BUS
 //https://github.com/nos86/micropython/blob/esp32-can-driver-v3/docs/library/machine.CAN.rst
 
-Blockly.Blocks['esp32_can_init'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Init ESP32 CAN Bus Controller");
-
-    this.appendValueInput("mode")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Mode");
-
-    this.appendValueInput("baudrate")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Baud Rate");
-
-    this.appendValueInput("extframe")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Extended CAN Frame");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
 
-Blockly.Blocks['esp32_can_filter'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Set CAN Filter");
-
-    this.appendValueInput("filter")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Frame Filter");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
-Blockly.Blocks['esp32_can_send'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Send CAN Frame");
-
-    this.appendValueInput("id")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("ID");
-
-    this.appendValueInput("data")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Frame Data");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
-Blockly.Blocks['esp32_can_recv'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Receive CAN Frame");
-
-    this.setOutput(true);
-
-    this.setTooltip('');
-  }
-};
 
 
 

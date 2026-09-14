@@ -1,0 +1,92 @@
+# SIM800/SIM900 GSM modems, over the serial port they are wired to.
+#
+# All five blocks emitted a Python comment and nothing else -- `#init GSM
+# Module`, `#Send SMS`, `#GSM Module HTTP GET` -- while reading inputs they
+# then ignored. `gsm_modem_response` was the worst of them: a *value* block
+# returning the comment `#GSM Module Response`, so plugging it into a variable
+# produced `x = #GSM Module Response`, which is not Python at all.
+#
+# These modems speak AT commands over a UART, which is what the block named
+# "Send AT Command" was always about, so that is what the five emit now:
+#
+#   gsm = UART(1, baudrate=9600, tx=Pin(17), rx=Pin(16))
+#   gsm.write('AT+CMGF=1\r\n')            # SMS in text mode
+#   gsm.write('AT+CMGS="+5511999999999"\r\n')
+#   gsm.write('hello' + chr(26))          # ctrl-Z ends the message
+#
+# The AT sequences are the documented SIM800 ones; none of this has been run
+# against a modem, because there is none to run it against. What can be said is
+# that a program built from these blocks is now Python that a board will
+# execute, which it was not before.
+#
+# Two `setCheck` mistakes went with the rest: the AT command socket only
+# accepted a Number, and so did the SMS destination -- a phone number typed as
+# a number loses its leading `+`.
+#
+# The port number is a param rather than the fixed `1` the old comment implied,
+# because `1` is an ESP32 spelling: a Pico wants `0` or `1` with its own pins.
+
+module: machine
+instance: gsm
+colour: 135
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: GSM Modem
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32c3, esp32S2, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: gsm_modem_init
+    label: Init SIM800/900 GSM MODEM
+    tooltip: Open the serial port the modem is wired to.
+    import:
+      - {key: import_machine_uart, line: "from machine import UART"}
+      - {key: import_pin,          line: "from machine import Pin"}
+    code: "{instance} = UART({port}, baudrate={bps}, tx=Pin({tx}), rx=Pin({rx}))"
+    params:
+      - {name: port, label: "Port:",      type: Number, default: 1,    align: right}
+      - {name: tx,   label: "TX Pin:",    pin: true,                   align: right}
+      - {name: rx,   label: "RX Pin:",    pin: true,                   align: right}
+      - {name: bps,  label: "Baud rate:", type: Number, default: 9600, align: right}
+
+  - type: gsm_modem_send_at
+    label: Send AT Command
+    tooltip: "Send one AT command. The modem answers on the same port."
+    code: "{instance}.write({cmd} + '\\r\\n')"
+    params:
+      - {name: cmd, label: "Command:", type: String, default: AT, align: right}
+
+  - type: gsm_modem_response
+    kind: value
+    label: Get GSM Modem Response
+    tooltip: "Everything the modem has said since the last read, or None."
+    code: "{instance}.read()"
+
+  - type: gsm_modem_send_sms
+    label: Send SMS Message
+    tooltip: "Text mode, then the number, then the message ended with ctrl-Z."
+    code: |-
+
+      {instance}.write('AT+CMGF=1\r\n')
+      {instance}.write('AT+CMGS="' + {dst} + '"\r\n')
+      {instance}.write({msg} + chr(26))
+    params:
+      - {name: dst, label: "Destination:", type: String, default: "+5511999999999", align: right}
+      - {name: msg, label: "Message:",     type: String, default: hello,             align: right}
+
+  - type: gsm_modem_http_get
+    label: "GSM: Send HTTP GET Request"
+    tooltip: "The SIM800 HTTP sequence: init, set the URL, GET, read, close."
+    code: |-
+
+      {instance}.write('AT+HTTPINIT\r\n')
+      {instance}.write('AT+HTTPPARA="CID",1\r\n')
+      {instance}.write('AT+HTTPPARA="URL","' + {cmd} + '"\r\n')
+      {instance}.write('AT+HTTPACTION=0\r\n')
+      {instance}.write('AT+HTTPREAD\r\n')
+      {instance}.write('AT+HTTPTERM\r\n')
+    params:
+      - {name: cmd, label: "Request:", type: String, default: "http://bipes.net.br/test.txt",
+         align: right}

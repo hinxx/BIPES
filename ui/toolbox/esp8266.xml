@@ -1862,22 +1862,60 @@
       </category>
       <!-- /blockdef:comm_spi -->
 
+      <!-- blockdef:gsm_modem -->
       <category name="GSM Modem">
 
-      <block type="gsm_modem_init">
-</block>
-      <block type="gsm_modem_send_sms">
-</block>
-      <block type="gsm_modem_send_at">
-</block>
-      <block type="gsm_modem_http_get">
-</block>
-      <block type="gsm_modem_response">
-</block>
+        <block type="gsm_modem_init">
+          <value name="port">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="tx">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="rx">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="bps">
+            <shadow type="math_number">
+              <field name="NUM">9600</field>
+            </shadow>
+          </value>
+        </block>
 
+        <block type="gsm_modem_send_at">
+          <value name="cmd">
+            <shadow type="text">
+              <field name="TEXT">AT</field>
+            </shadow>
+          </value>
+        </block>
 
+        <block type="gsm_modem_response"></block>
 
+        <block type="gsm_modem_send_sms">
+          <value name="dst">
+            <shadow type="text">
+              <field name="TEXT">+5511999999999</field>
+            </shadow>
+          </value>
+          <value name="msg">
+            <shadow type="text">
+              <field name="TEXT">hello</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="gsm_modem_http_get">
+          <value name="cmd">
+            <shadow type="text">
+              <field name="TEXT">http://bipes.net.br/test.txt</field>
+            </shadow>
+          </value>
+        </block>
       </category>
+      <!-- /blockdef:gsm_modem -->
       <!-- blockdef:comm_i2c -->
       <category name="I2C">
         <label text="I2C"></label>
@@ -2486,23 +2524,50 @@
   <!-- /blockdef:webrepl -->
 
 
+    <!-- blockdef:esp32_can -->
     <category name="CAN Bus">
-     <label text="Controller Area Network (CAN)"></label>
-     <label text="Requires specific firmware"></label>
-     <label text="Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"></label>
-        <button text="Documentation: esp32_can" callbackKey="loadDoc"></button>
+      <label text="Controller Area Network (CAN)"></label>
+      <label text="Requires specific firmware"></label>
+      <label text="Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"></label>
+      <button text="Documentation and how to connect: esp32_can" callbackKey="loadDoc"></button>
 
-    <block type="esp32_can_init">
-    </block>
+      <block type="esp32_can_init">
+        <value name="bus">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="baudrate">
+          <shadow type="math_number">
+            <field name="NUM">500</field>
+          </shadow>
+        </value>
+      </block>
 
-    <block type="esp32_can_filter">
-    </block>
-    <block type="esp32_can_send">
-    </block>
-    <block type="esp32_can_recv">
-    </block>
+      <block type="esp32_can_filter">
+        <value name="filter">
+          <shadow type="math_number">
+            <field name="NUM">258</field>
+          </shadow>
+        </value>
+      </block>
 
+      <block type="esp32_can_send">
+        <value name="data">
+          <block type="text">
+            <field name="TEXT">[1, 2, 3]</field>
+          </block>
+        </value>
+        <value name="id">
+          <shadow type="math_number">
+            <field name="NUM">258</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="esp32_can_recv"></block>
     </category>
+    <!-- /blockdef:esp32_can -->
 
     <category name="Google Sheets">
       <label text="Send files to a Google Spreadsheet"></label>

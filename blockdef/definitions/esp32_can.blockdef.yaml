@@ -1,0 +1,76 @@
+# CAN bus on the ESP32, through the `machine.CAN` class the firmware fork
+# linked in the category's own labels provides. Stock MicroPython has no
+# `machine.CAN`; the labels say so, and they stay.
+#
+# All four blocks read their inputs and then ignored them, emitting a fixed
+# line each:
+#
+#   esp32_can_init   -> can = CAN(0, extframe=True, mode=CAN.LOOPBACK, baudrate=500)
+#   esp32_can_filter -> can.setfilter(0, CAN.FILTER_ADDRESS, [0x102, 0])
+#   esp32_can_send   -> can.send([1,2,3], 0x102)
+#
+# So the mode, baud rate, frame format, filter address, frame id and payload a
+# user typed were all decoration: every program sent `[1,2,3]` to `0x102`, in
+# loopback, the mode that talks to nothing. The DSL cannot make that mistake --
+# a param that is read is a param that lands in the code -- so the conversion
+# is the fix.
+#
+# `mode` and `extframe` become dropdowns because their values are a fixed list
+# of names, not text to type, and the sockets that asked for a String and got
+# used as a number are gone with them.
+
+module: machine
+class: CAN
+instance: can
+colour: 135
+url: https://github.com/micropython/micropython/issues/5087
+import: {key: import_can, line: "from machine import CAN"}
+
+category:
+  name: CAN Bus
+  labels:
+    - Controller Area Network (CAN)
+    - Requires specific firmware
+    - "Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"
+  docs: esp32_can
+  toolboxes: [AmadoBoard, esp32, esp32c3, esp32S2, esp8266]
+
+blocks:
+  - type: esp32_can_init
+    label: Init ESP32 CAN Bus Controller
+    tooltip: Open the CAN controller.
+    code: "{instance} = CAN({bus}, extframe={extframe}, mode=CAN.{mode}, baudrate={baudrate})"
+    params:
+      - {name: bus, label: Controller, type: Number, default: 0, align: right}
+      - {name: mode, label: Mode, kind: dropdown, align: right,
+         options: [{normal: NORMAL}, {"loopback (talks to nothing)": LOOPBACK},
+                   {"silent (listen only)": SILENT},
+                   {"silent loopback": SILENT_LOOPBACK}]}
+      - {name: baudrate, label: "Baud Rate (kbit/s)", type: Number, default: 500, align: right}
+      - {name: extframe, label: Extended CAN Frame, kind: dropdown, align: right,
+         options: [{"29-bit ids": "True"}, {"11-bit ids": "False"}]}
+
+  - type: esp32_can_filter
+    label: Set CAN Filter
+    tooltip: Receive only frames sent to this id.
+    code: "{instance}.setfilter(0, CAN.FILTER_ADDRESS, [{filter}, 0])"
+    params:
+      - {name: filter, label: Frame Filter, type: Number, default: 258, align: right}
+
+  - type: esp32_can_send
+    label: Send CAN Frame
+    tooltip: Send a list of bytes to one id.
+    code: "{instance}.send({data}, {id})"
+    params:
+      # The socket takes anything, so a list block can go in it -- `type:
+      # String` would `setCheck("String")` and refuse one, which is what the
+      # hand-written block did. `plug:` puts a text block in the flyout entry
+      # and `unquote:` strips its quotes, so the shipped default is the list
+      # [1, 2, 3] and not the string "[1, 2, 3]".
+      - {name: data, label: Frame Data, unquote: true, align: right,
+         plug: {type: text, fields: {TEXT: "[1, 2, 3]"}}}
+      - {name: id,   label: ID, type: Number, default: 258, align: right}
+
+  - {type: esp32_can_recv, kind: value, label: Receive CAN Frame,
+     code: "{instance}.recv()",
+     tooltip: "The next frame waiting, as (id, extended, rtr, filter, data)."}

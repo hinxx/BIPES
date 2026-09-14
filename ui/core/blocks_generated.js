@@ -2170,6 +2170,83 @@ Blockly.Blocks['esp_set_native_code_location'] = {
   }
 };
 
+// ---- CAN Bus (esp32_can.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['esp32_can_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init ESP32 CAN Bus Controller");
+    this.appendValueInput("bus")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Controller");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Mode")
+        .appendField(new Blockly.FieldDropdown([["normal", "NORMAL"], ["loopback (talks to nothing)", "LOOPBACK"], ["silent (listen only)", "SILENT"], ["silent loopback", "SILENT_LOOPBACK"]]), "mode");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baud Rate (kbit/s)");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Extended CAN Frame")
+        .appendField(new Blockly.FieldDropdown([["29-bit ids", "True"], ["11-bit ids", "False"]]), "extframe");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Open the CAN controller.");
+    this.setHelpUrl("https://github.com/micropython/micropython/issues/5087");
+  }
+};
+
+Blockly.Blocks['esp32_can_filter'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set CAN Filter");
+    this.appendValueInput("filter")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Frame Filter");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Receive only frames sent to this id.");
+    this.setHelpUrl("https://github.com/micropython/micropython/issues/5087");
+  }
+};
+
+Blockly.Blocks['esp32_can_send'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send CAN Frame");
+    this.appendValueInput("data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Frame Data");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ID");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Send a list of bytes to one id.");
+    this.setHelpUrl("https://github.com/micropython/micropython/issues/5087");
+  }
+};
+
+Blockly.Blocks['esp32_can_recv'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Receive CAN Frame");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("The next frame waiting, as (id, extended, rtr, filter, data).");
+    this.setHelpUrl("https://github.com/micropython/micropython/issues/5087");
+  }
+};
+
 // ---- Camera (ESP32CAM) (esp32cam.blockdef.yaml) ------------------------------
 
 Blockly.Blocks['esp32_cam_init'] = {
@@ -2705,6 +2782,99 @@ Blockly.Blocks['gps_get_time'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- GSM Modem (gsm_modem.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['gsm_modem_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init SIM800/900 GSM MODEM");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port:");
+    this.appendValueInput("tx")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin:");
+    this.appendValueInput("rx")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin:");
+    this.appendValueInput("bps")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baud rate:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Open the serial port the modem is wired to.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['gsm_modem_send_at'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send AT Command");
+    this.appendValueInput("cmd")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Command:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Send one AT command. The modem answers on the same port.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['gsm_modem_response'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get GSM Modem Response");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Everything the modem has said since the last read, or None.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['gsm_modem_send_sms'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send SMS Message");
+    this.appendValueInput("dst")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Destination:");
+    this.appendValueInput("msg")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Message:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Text mode, then the number, then the message ended with ctrl-Z.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['gsm_modem_http_get'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GSM: Send HTTP GET Request");
+    this.appendValueInput("cmd")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Request:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("The SIM800 HTTP sequence: init, set the URL, GET, read, close.");
+    this.setHelpUrl("http://www.bipes.net.br");
   }
 };
 

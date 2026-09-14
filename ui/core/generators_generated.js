@@ -1092,6 +1092,39 @@ Blockly.Python['esp_set_native_code_location'] = function(block) {
   return code + "\n";
 };
 
+// ---- CAN Bus (esp32_can.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['esp32_can_init'] = function(block) {
+  Blockly.Python.definitions_["import_can"] = "from machine import CAN";
+  var bus_ = Blockly.Python.valueToCode(block, "bus", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = block.getFieldValue("mode");
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var extframe_ = block.getFieldValue("extframe");
+  var code = "can = CAN(" + bus_ + ", extframe=" + extframe_ + ", mode=CAN." + mode_ + ", baudrate=" + baudrate_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_can_filter'] = function(block) {
+  Blockly.Python.definitions_["import_can"] = "from machine import CAN";
+  var filter_ = Blockly.Python.valueToCode(block, "filter", Blockly.Python.ORDER_ATOMIC);
+  var code = "can.setfilter(0, CAN.FILTER_ADDRESS, [" + filter_ + ", 0])";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_can_send'] = function(block) {
+  Blockly.Python.definitions_["import_can"] = "from machine import CAN";
+  var data_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC));
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var code = "can.send(" + data_ + ", " + id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_can_recv'] = function(block) {
+  Blockly.Python.definitions_["import_can"] = "from machine import CAN";
+  var code = "can.recv()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Camera (ESP32CAM) (esp32cam.blockdef.yaml) ------------------------------
 
 Blockly.Python['esp32_cam_init'] = function(block) {
@@ -1359,6 +1392,43 @@ Blockly.Python['gps_get_time'] = function(block) {
   Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
   var code = "gps.timestamp";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- GSM Modem (gsm_modem.blockdef.yaml) -------------------------------------
+
+Blockly.Python['gsm_modem_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var tx_ = Blockly.Python.valueToCode(block, "tx", Blockly.Python.ORDER_ATOMIC);
+  var rx_ = Blockly.Python.valueToCode(block, "rx", Blockly.Python.ORDER_ATOMIC);
+  var bps_ = Blockly.Python.valueToCode(block, "bps", Blockly.Python.ORDER_ATOMIC);
+  var code = "gsm = UART(" + port_ + ", baudrate=" + bps_ + ", tx=Pin(" + tx_ + "), rx=Pin(" + rx_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['gsm_modem_send_at'] = function(block) {
+  var cmd_ = Blockly.Python.valueToCode(block, "cmd", Blockly.Python.ORDER_ATOMIC);
+  var code = "gsm.write(" + cmd_ + " + '\\r\\n')";
+  return code + "\n";
+};
+
+Blockly.Python['gsm_modem_response'] = function(block) {
+  var code = "gsm.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gsm_modem_send_sms'] = function(block) {
+  var dst_ = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+  var msg_ = Blockly.Python.valueToCode(block, "msg", Blockly.Python.ORDER_ATOMIC);
+  var code = "\ngsm.write('AT+CMGF=1\\r\\n')\ngsm.write('AT+CMGS=\"' + " + dst_ + " + '\"\\r\\n')\ngsm.write(" + msg_ + " + chr(26))";
+  return code + "\n";
+};
+
+Blockly.Python['gsm_modem_http_get'] = function(block) {
+  var cmd_ = Blockly.Python.valueToCode(block, "cmd", Blockly.Python.ORDER_ATOMIC);
+  var code = "\ngsm.write('AT+HTTPINIT\\r\\n')\ngsm.write('AT+HTTPPARA=\"CID\",1\\r\\n')\ngsm.write('AT+HTTPPARA=\"URL\",\"' + " + cmd_ + " + '\"\\r\\n')\ngsm.write('AT+HTTPACTION=0\\r\\n')\ngsm.write('AT+HTTPREAD\\r\\n')\ngsm.write('AT+HTTPTERM\\r\\n')";
+  return code + "\n";
 };
 
 // ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------

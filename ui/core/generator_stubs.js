@@ -2844,49 +2844,11 @@ Blockly.Python['net_http_server_close'] = function(block) {
 };
 
 //SIM900L GSM MODEM
-Blockly.Python['gsm_modem_init'] = function(block) {
-  var tx = Blockly.Python.valueToCode(block, 'tx', Blockly.Python.ORDER_ATOMIC);
-  var rx = Blockly.Python.valueToCode(block, 'rx', Blockly.Python.ORDER_ATOMIC);
-  var bps = Blockly.Python.valueToCode(block, 'bps', Blockly.Python.ORDER_ATOMIC);
-
-  var code = '#init GSM Module \n';
-
-  return code;
-};
-
-Blockly.Python['gsm_modem_send_at'] = function(block) {
-  var cmd = Blockly.Python.valueToCode(block, 'cmd', Blockly.Python.ORDER_ATOMIC);
-
-  var code = '#init GSM Module AT \n';
-
-  return code;
-};
-
-Blockly.Python['gsm_modem_send_sms'] = function(block) {
-  var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
-  var msg = Blockly.Python.valueToCode(block, 'msg', Blockly.Python.ORDER_ATOMIC);
-
-  var code = '#Send SMS \n';
-
-  return code;
-};
-
-Blockly.Python['gsm_modem_http_get'] = function(block) {
-  var cmd = Blockly.Python.valueToCode(block, 'cmd', Blockly.Python.ORDER_ATOMIC);
-
-  var code = '#GSM Module HTTP GET\n';
-
-  return code;
-};
 
 
-Blockly.Python['gsm_modem_response'] = function(block) {
-  var timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
 
-  var code = '#GSM Module Response \n';
 
-  return [code, Blockly.Python.ORDER_NONE];
-};
+
 
 
 
@@ -2911,43 +2873,9 @@ Blockly.Python['gy33_uart_uart_baud_rate'] = function(block) {
 
 //CAN BUS
 //https://github.com/nos86/micropython/blob/esp32-can-driver-v3/docs/library/machine.CAN.rst
-Blockly.Python['esp32_can_init'] = function(block) {
-  var mode = Blockly.Python.valueToCode(block, 'mode', Blockly.Python.ORDER_ATOMIC);
-  var baudrate = Blockly.Python.valueToCode(block, 'baudrate', Blockly.Python.ORDER_ATOMIC);
-  var extframe = Blockly.Python.valueToCode(block, 'extframe', Blockly.Python.ORDER_ATOMIC);
 
-  Blockly.Python.definitions_['import_can'] = 'from machine import CAN';
 
-  //BAUDRATE_500k = 500
-  var code = 'can = CAN(0, extframe=True, mode=CAN.LOOPBACK, baudrate=500)\n';
 
-  return code;
-};
-
-Blockly.Python['esp32_can_filter'] = function(block) {
-  var filter = Blockly.Python.valueToCode(block, 'filter', Blockly.Python.ORDER_ATOMIC);
-
-  //dev.setfilter(0, CAN.FILTER_ADDRESS, [0x102, 0])  # set a filter to receive messages with id = 0x102
-  var code = 'can.setfilter(0, CAN.FILTER_ADDRESS, [0x102, 0]) \n';
-
-  return code;
-};
-
-Blockly.Python['esp32_can_send'] = function(block) {
-  var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_ATOMIC);
-  var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-
-  var code = 'can.send([1,2,3], 0x102) \n';
-
-  return code;
-};
-
-Blockly.Python['esp32_can_recv'] = function(block) {
-
-  var code = 'can.recv()';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
