@@ -3247,85 +3247,21 @@ Blockly.Blocks["machine.Signal_Signal.off"] = {
 
 
 
-Blockly.Blocks["machine.SPI_SPI.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SPI.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SPI_SPI.deinit"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" SPI.deinit");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: SPI.deinit() Turn off the SPI bus. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SPI_SPI.read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SPI.read");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: SPI.read(nbytes, write=0x00) Read a number of bytes specified by ``nbytes`` while continuously writing the single byte given by ``write``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SPI_SPI.readinto"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SPI.readinto");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: SPI.readinto(buf, write=0x00) Read into the buffer specified by ``buf`` while continuously writing the single byte given by ``write``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SPI_SPI.write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SPI.write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: SPI.write(buf) Write the bytes contained in ``buf``. Returns ``None``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SPI_SPI.write_readinto"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SPI.write_readinto");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: SPI.write_readinto(write_buf, read_buf) Write the bytes from ``write_buf`` while reading into ``read_buf``. The buffers can be the same or different, but both buffers must have the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
-  }
-};
 
 
 

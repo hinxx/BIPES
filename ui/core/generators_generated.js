@@ -1421,6 +1421,56 @@ Blockly.Python['machine.I2C_I2C.writeto_mem'] = function(block) {
   return code + "\n";
 };
 
+// ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
+
+Blockly.Python['machine.SPI_SPI.init'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var sck_ = Blockly.Python.valueToCode(block, "sck", Blockly.Python.ORDER_ATOMIC);
+  var mosi_ = Blockly.Python.valueToCode(block, "mosi", Blockly.Python.ORDER_ATOMIC);
+  var miso_ = Blockly.Python.valueToCode(block, "miso", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi = SPI(" + id_ + ", baudrate=" + baudrate_ + ", sck=Pin(" + sck_ + "), mosi=Pin(" + mosi_ + "), miso=Pin(" + miso_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['machine.SPI_SPI.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var code = "spi.deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.SPI_SPI.read'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var nbytes_ = Blockly.Python.valueToCode(block, "nbytes", Blockly.Python.ORDER_ATOMIC);
+  var write_ = Blockly.Python.valueToCode(block, "write", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi.read(" + nbytes_ + ", " + write_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.SPI_SPI.readinto'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var write_ = Blockly.Python.valueToCode(block, "write", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi.readinto(" + buf_ + ", " + write_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.SPI_SPI.write'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi.write(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.SPI_SPI.write_readinto'] = function(block) {
+  Blockly.Python.definitions_["import_SPI_Pin"] = "from machine import SPI, Pin";
+  var write_buf_ = Blockly.Python.valueToCode(block, "write_buf", Blockly.Python.ORDER_ATOMIC);
+  var read_buf_ = Blockly.Python.valueToCode(block, "read_buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi.write_readinto(" + write_buf_ + ", " + read_buf_ + ")";
+  return code + "\n";
+};
+
 // ---- math (math.blockdef.yaml) -----------------------------------------------
 
 Blockly.Python['math_acos'] = function(block) {

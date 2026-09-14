@@ -2761,6 +2761,127 @@ Blockly.Blocks['machine.I2C_I2C.writeto_mem'] = {
   }
 };
 
+// ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.SPI_SPI.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.init");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bus");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("baud rate");
+    this.appendValueInput("sck")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCK");
+    this.appendValueInput("mosi")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MOSI");
+    this.appendValueInput("miso")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MISO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build the SPI bus: SPI(id, baudrate=..., sck=Pin(x), mosi=Pin(y), miso=Pin(z))");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+Blockly.Blocks['machine.SPI_SPI.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn off the SPI bus.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+Blockly.Blocks['machine.SPI_SPI.read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.read");
+    this.appendValueInput("nbytes")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bytes");
+    this.appendValueInput("write")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("while writing");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read that many bytes, writing the given byte over and over while it reads.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+Blockly.Blocks['machine.SPI_SPI.readinto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.readinto");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.appendValueInput("write")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("while writing");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read into the buffer, writing the given byte over and over while it reads.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+Blockly.Blocks['machine.SPI_SPI.write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.write");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write the buffer to the bus.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
+Blockly.Blocks['machine.SPI_SPI.write_readinto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SPI.write_readinto");
+    this.appendValueInput("write_buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("write");
+    this.appendValueInput("read_buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write one buffer while reading into another, both the same length.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SPI.html");
+  }
+};
+
 // ---- math (math.blockdef.yaml) -----------------------------------------------
 
 Blockly.Blocks['math_acos'] = {

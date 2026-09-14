@@ -1502,36 +1502,6 @@ Blockly.Python["machine.Signal_Signal.off"] = function(block) {
 	var code = "machine.Signal.Signal.off()\n"; 
 	return code;
 };
-Blockly.Python["machine.SPI_SPI.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SPI.SPI.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.SPI_SPI.deinit"] = function(block) {
-		Blockly.Python.definitions_['import_machine.SPI'] = 'import machine.SPI';
-	var code = "machine.SPI.SPI.deinit()\n"; 
-	return code;
-};
-Blockly.Python["machine.SPI_SPI.read"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SPI.SPI.read(" + value_pIn + ")\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["machine.SPI_SPI.readinto"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SPI.SPI.readinto(" + value_pIn + ")\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["machine.SPI_SPI.write"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SPI.SPI.write(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.SPI_SPI.write_readinto"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SPI.SPI.write_readinto(" + value_pIn + ")\n"; 
-	return code;
-};
 Blockly.Python["machine.Timer_Timer.init"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.Timer.Timer.init(" + value_pIn + ")\n"; 

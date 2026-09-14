@@ -1,0 +1,27 @@
+# The same six blocks as machine_spi.blockdef.yaml, under the name the
+# `Communication` tree gives the category. Declared there; placed here.
+
+module: machine
+import: []
+
+category:
+  name: SPI
+  labels: [SPI]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: machine.SPI_SPI.init, external: true, params: [
+      {name: id, type: Number, default: 0, align: right},
+      {name: baudrate, type: Number, default: 1000000, align: right},
+      {name: sck, pin: true, align: right},
+      {name: mosi, pin: true, align: right},
+      {name: miso, pin: true, align: right}]}
+  - {type: machine.SPI_SPI.deinit, external: true}
+  - {type: machine.SPI_SPI.read, external: true, params: [
+      {name: nbytes, type: Number, default: 1, align: right},
+      {name: write, type: Number, default: 0, align: right}]}
+  - {type: machine.SPI_SPI.readinto, external: true, params: [
+      {name: write, type: Number, default: 0, align: right}]}
+  - {type: machine.SPI_SPI.write, external: true}
+  - {type: machine.SPI_SPI.write_readinto, external: true}

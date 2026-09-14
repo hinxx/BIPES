@@ -1200,22 +1200,60 @@
         <block type="uart_any"></block>
       </category>
       <!-- /blockdef:uart -->
+      <!-- blockdef:comm_spi -->
       <category name="SPI">
-      <label text="SPI"></label>
-<block type="machine.SPI_SPI.init">
-</block>
-<block type="machine.SPI_SPI.deinit">
-</block>
-<block type="machine.SPI_SPI.read">
-</block>
-<block type="machine.SPI_SPI.readinto">
-</block>
-<block type="machine.SPI_SPI.write">
-</block>
-<block type="machine.SPI_SPI.write_readinto">
-</block>
+        <label text="SPI"></label>
 
+        <block type="machine.SPI_SPI.init">
+          <value name="id">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="baudrate">
+            <shadow type="math_number">
+              <field name="NUM">1000000</field>
+            </shadow>
+          </value>
+          <value name="sck">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="mosi">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="miso">
+            <shadow type="pinout"></shadow>
+          </value>
+        </block>
+
+        <block type="machine.SPI_SPI.deinit"></block>
+
+        <block type="machine.SPI_SPI.read">
+          <value name="nbytes">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="write">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.SPI_SPI.readinto">
+          <value name="write">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.SPI_SPI.write"></block>
+
+        <block type="machine.SPI_SPI.write_readinto"></block>
       </category>
+      <!-- /blockdef:comm_spi -->
 
       <category name="GSM Modem">
 
@@ -2273,20 +2311,59 @@
 <block type="machine.Signal_Signal.off">
 </block>
 </category>
+<!-- blockdef:machine_spi -->
 <category name="machine.SPI">
-<block type="machine.SPI_SPI.init">
-</block>
-<block type="machine.SPI_SPI.deinit">
-</block>
-<block type="machine.SPI_SPI.read">
-</block>
-<block type="machine.SPI_SPI.readinto">
-</block>
-<block type="machine.SPI_SPI.write">
-</block>
-<block type="machine.SPI_SPI.write_readinto">
-</block>
+
+  <block type="machine.SPI_SPI.init">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="baudrate">
+      <shadow type="math_number">
+        <field name="NUM">1000000</field>
+      </shadow>
+    </value>
+    <value name="sck">
+      <shadow type="pinout"></shadow>
+    </value>
+    <value name="mosi">
+      <shadow type="pinout"></shadow>
+    </value>
+    <value name="miso">
+      <shadow type="pinout"></shadow>
+    </value>
+  </block>
+
+  <block type="machine.SPI_SPI.deinit"></block>
+
+  <block type="machine.SPI_SPI.read">
+    <value name="nbytes">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+    <value name="write">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.SPI_SPI.readinto">
+    <value name="write">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.SPI_SPI.write"></block>
+
+  <block type="machine.SPI_SPI.write_readinto"></block>
 </category>
+<!-- /blockdef:machine_spi -->
 <category name="machine.Timer">
 <block type="machine.Timer_Timer.init">
 </block>

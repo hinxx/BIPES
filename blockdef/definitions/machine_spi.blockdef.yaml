@@ -1,0 +1,74 @@
+# `machine.SPI` -- the same story as machine_i2c.blockdef.yaml, six blocks
+# instead of fourteen. They emitted `import machine.SPI` (no such module) and
+# `machine.SPI.SPI.read(...)` (an instance method called on the class), and
+# five of the six took one untyped `pIn` socket standing for every argument.
+#
+# `SPI.init` builds the object and the other five call a method on it.
+# `readinto` becomes a statement: it fills the buffer it is given and returns
+# None, so the value block it was could only ever hand `None` on. `read` stays
+# a value block, because it returns the bytes.
+#
+# Polarity, phase, bits and firstbit are left at their defaults rather than
+# given sockets. Five inputs is already a wide block, and a program that needs
+# SPI mode 3 is past what a block is good for.
+
+module: machine
+class: SPI
+instance: spi
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.SPI.html
+import: {key: import_SPI_Pin, line: "from machine import SPI, Pin"}
+
+category:
+  name: machine.SPI
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.SPI_SPI.init
+    label: SPI.init
+    tooltip: "Build the SPI bus: SPI(id, baudrate=..., sck=Pin(x), mosi=Pin(y), miso=Pin(z))"
+    code: "{instance} = SPI({id}, baudrate={baudrate}, sck=Pin({sck}), mosi=Pin({mosi}), miso=Pin({miso}))"
+    params:
+      - {name: id,       label: bus,            type: Number, default: 0, align: right}
+      - {name: baudrate, label: "baud rate",    type: Number, default: 1000000, align: right}
+      - {name: sck,      label: SCK,  pin: true, align: right}
+      - {name: mosi,     label: MOSI, pin: true, align: right}
+      - {name: miso,     label: MISO, pin: true, align: right}
+
+  - type: machine.SPI_SPI.deinit
+    fn: deinit
+    label: SPI.deinit
+    tooltip: Turn off the SPI bus.
+
+  - type: machine.SPI_SPI.read
+    fn: read
+    kind: value
+    label: SPI.read
+    tooltip: Read that many bytes, writing the given byte over and over while it reads.
+    params:
+      - {name: nbytes, label: bytes, type: Number, default: 1, align: right}
+      - {name: write,  label: "while writing", type: Number, default: 0, align: right}
+
+  - type: machine.SPI_SPI.readinto
+    fn: readinto
+    label: SPI.readinto
+    tooltip: Read into the buffer, writing the given byte over and over while it reads.
+    params:
+      - {name: buf,   label: buffer, align: right}
+      - {name: write, label: "while writing", type: Number, default: 0, align: right}
+
+  - type: machine.SPI_SPI.write
+    fn: write
+    label: SPI.write
+    tooltip: Write the buffer to the bus.
+    params:
+      - {name: buf, label: buffer, align: right}
+
+  - type: machine.SPI_SPI.write_readinto
+    fn: write_readinto
+    label: SPI.write_readinto
+    tooltip: Write one buffer while reading into another, both the same length.
+    params:
+      - {name: write_buf, label: write, align: right}
+      - {name: read_buf,  label: "into", align: right}
