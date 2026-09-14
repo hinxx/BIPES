@@ -2808,20 +2808,22 @@
 </category>
 
 <category name="micropython">
+<!-- blockdef:btree -->
 <category name="btree">
-<block type="btree_open">
-</block>
-<block type="btree_btree.close">
-</block>
-<block type="btree_btree.flush">
-</block>
-<block type="btree_btree.__getitem__">
-</block>
-<block type="btree_btree.__iter__">
-</block>
-<block type="btree_btree.keys">
-</block>
+
+  <block type="btree_open"></block>
+
+  <block type="btree_btree.close"></block>
+
+  <block type="btree_btree.flush"></block>
+
+  <block type="btree_btree.__getitem__"></block>
+
+  <block type="btree_btree.__iter__"></block>
+
+  <block type="btree_btree.keys"></block>
 </category>
+<!-- /blockdef:btree -->
 <category name="builtins">
 <block type="builtins_abs">
 </block>
@@ -3524,8 +3526,10 @@
   <block type="sys_print_exception"></block>
 </category>
 <!-- /blockdef:sys -->
+<!-- blockdef:thread -->
 <category name="_thread">
 </category>
+<!-- /blockdef:thread -->
 <category name="uarray">
 <block type="uarray_append">
 </block>
@@ -3654,18 +3658,20 @@
 <block type="ubluetooth_BLE.gattc_write">
 </block>
 </category>
+<!-- blockdef:ucollections -->
 <category name="ucollections">
-<block type="ucollections_deque">
-</block>
-<block type="ucollections_deque.append">
-</block>
-<block type="ucollections_deque.popleft">
-</block>
-<block type="ucollections_namedtuple">
-</block>
-<block type="ucollections_OrderedDict">
-</block>
+
+  <block type="ucollections_deque"></block>
+
+  <block type="ucollections_deque.append"></block>
+
+  <block type="ucollections_deque.popleft"></block>
+
+  <block type="ucollections_namedtuple"></block>
+
+  <block type="ucollections_OrderedDict"></block>
 </category>
+<!-- /blockdef:ucollections -->
 <!-- blockdef:ucryptolib -->
 <category name="ucryptolib">
 
@@ -3706,12 +3712,14 @@
   <block type="uheapq_heapify"></block>
 </category>
 <!-- /blockdef:uheapq -->
+<!-- blockdef:uio -->
 <category name="uio">
-<block type="uio_open">
-</block>
-<block type="uio_getvalue">
-</block>
+
+  <block type="uio_open"></block>
+
+  <block type="uio_getvalue"></block>
 </category>
+<!-- /blockdef:uio -->
 <!-- blockdef:ujson -->
 <category name="ujson">
 
@@ -3766,28 +3774,30 @@
   <block type="uos_ioctl"></block>
 </category>
 <!-- /blockdef:uos -->
+<!-- blockdef:ure -->
 <category name="ure">
-<block type="ure_compile">
-</block>
-<block type="ure_match">
-</block>
-<block type="ure_search">
-</block>
-<block type="ure_sub">
-</block>
-<block type="ure_regex.match">
-</block>
-<block type="ure_regex.split">
-</block>
-<block type="ure_match.group">
-</block>
-<block type="ure_match.groups">
-</block>
-<block type="ure_match.start">
-</block>
-<block type="ure_match.span">
-</block>
+
+  <block type="ure_compile"></block>
+
+  <block type="ure_match"></block>
+
+  <block type="ure_search"></block>
+
+  <block type="ure_sub"></block>
+
+  <block type="ure_regex.match"></block>
+
+  <block type="ure_regex.split"></block>
+
+  <block type="ure_match.group"></block>
+
+  <block type="ure_match.groups"></block>
+
+  <block type="ure_match.start"></block>
+
+  <block type="ure_match.span"></block>
 </category>
+<!-- /blockdef:ure -->
 <!-- blockdef:uselect -->
 <category name="uselect">
 
@@ -3854,10 +3864,12 @@
   <block type="usocket_socket.write"></block>
 </category>
 <!-- /blockdef:usocket -->
+<!-- blockdef:ussl -->
 <category name="ussl">
-<block type="ussl_ussl.wrap_socket">
-</block>
+
+  <block type="ussl_ussl.wrap_socket"></block>
 </category>
+<!-- /blockdef:ussl -->
 <!-- blockdef:ustruct -->
 <category name="ustruct">
 
@@ -3904,9 +3916,11 @@
   <block type="uzlib_decompress"></block>
 </category>
 <!-- /blockdef:uzlib -->
+<!-- blockdef:wipy -->
 <category name="wipy">
-<block type="wipy_heartbeat">
-</block>
+
+  <block type="wipy_heartbeat"></block>
 </category>
+<!-- /blockdef:wipy -->
 </category>
 </document>

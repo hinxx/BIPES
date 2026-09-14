@@ -1,0 +1,25 @@
+# One block on one board, and an empty category on ten others: `_thread` shows
+# up in the tree on eleven boards and opens an empty flyout on all but
+# AmadoBoard. Whether the other ten should offer it at all is a decision about
+# those boards, so the category is reproduced as it stands.
+
+module: _thread
+colour: 230
+import: {key: import_thread, line: "import _thread"}
+
+category:
+  name: "_thread"
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano,
+              makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: iniciar_thread
+    boards: [AmadoBoard]
+    label: []
+    tooltip: Inicia uma nova thread para executar a função especificada.
+    url: ""
+    code: "_thread.start_new_thread({FUNCTION}, ())"
+    params:
+      - {name: FUNCTION, label: Iniciar tarefa paralela com a função, type: Function}

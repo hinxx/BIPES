@@ -1,0 +1,22 @@
+# One block, which emitted `wipy.heartbeat(…)` without importing `wipy`.
+
+module: wipy
+colour: 0
+url: https://docs.micropython.org/en/latest/library/wipy.html
+import: {key: import_wipy, line: "import wipy"}
+
+category:
+  name: wipy
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "wipy_heartbeat"
+    code: "wipy.heartbeat({pIn})"
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " heartbeat"}

@@ -1,0 +1,53 @@
+# The ucollections module. `ucollections_deque` made a deque and threw it away,
+# and its two method blocks called the method on the class. `namedtuple` and
+# `OrderedDict` are module-level factories with no method block to feed, so
+# they stay plain calls.
+
+module: ucollections
+class: deque
+instance: ucollections_dq
+colour: 0
+url: https://docs.micropython.org/en/latest/library/ucollections.html
+import: {key: import_ucollections, line: "import ucollections"}
+
+category:
+  name: ucollections
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "ucollections_deque"
+    constructor: true
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " deque"}
+
+  - type: "ucollections_deque.append"
+    fn: append
+    label: []
+    tooltip: ".. method:: deque.append(x) Add functions.txt list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml to the right side of the deque. Raises IndexError if overflow checking is enabled and there is no more r "
+    params:
+      - {name: pIn, label: " deque.append"}
+
+  - type: "ucollections_deque.popleft"
+    fn: popleft
+    label: " deque.popleft"
+    tooltip: ".. method:: deque.popleft() Remove and return an item from the left side of the deque. Raises IndexError if no items are present. "
+
+  - type: "ucollections_namedtuple"
+    code: "ucollections.namedtuple({pIn})"
+    label: []
+    tooltip: ".. function:: namedtuple(name, fields) This is factory function to create a new namedtuple type with a specific name and set of fields. A namedtuple is a subclass of tuple which allows "
+    params:
+      - {name: pIn, label: " namedtuple"}
+
+  - type: "ucollections_OrderedDict"
+    code: "ucollections.OrderedDict({pIn})"
+    label: []
+    tooltip: ".. function:: OrderedDict(...) ``dict`` type subclass which remembers and preserves the order of keys added. When ordered dict is iterated over, keys/items are returned in "
+    params:
+      - {name: pIn, label: " OrderedDict"}

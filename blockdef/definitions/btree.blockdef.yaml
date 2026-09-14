@@ -1,0 +1,56 @@
+# The btree module. `btree_open` created a database and threw it away, and the
+# five `btree.*` blocks called the method on the class -- `btree.btree.close()`.
+# Three of the six had no `import btree` either. The constructor assigns to
+# `btree_db` now and the methods are called on it, as usocket and uselect do.
+
+module: btree
+class: open
+instance: btree_db
+colour: 0
+url: https://docs.micropython.org/en/latest/library/btree.html
+import: {key: import_btree, line: "import btree"}
+
+category:
+  name: btree
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "btree_open"
+    constructor: true
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " open"}
+
+  - type: "btree_btree.close"
+    fn: close
+    label: " btree.close"
+    tooltip: ".. method:: btree.close() Close the database. It's mandatory to close the database at the end of processing, as some unwritten data may be still in the cache. Note that "
+
+  - type: "btree_btree.flush"
+    fn: flush
+    label: " btree.flush"
+    tooltip: ".. method:: btree.flush() Flush any data in cache to the underlying stream. "
+
+  - type: "btree_btree.__getitem__"
+    fn: __getitem__
+    label: []
+    tooltip: ".. method:: btree.__getitem__(key) btree.get(key, default=None, /) btree.__setitem__(key, val) btree.__detitem__(key) "
+    params:
+      - {name: pIn, label: " btree.__getitem__"}
+
+  - type: "btree_btree.__iter__"
+    fn: __iter__
+    label: " btree.__iter__"
+    tooltip: ".. method:: btree.__iter__() A BTree object can be iterated over directly (similar to a dictionary) to get access to all keys in order. "
+
+  - type: "btree_btree.keys"
+    fn: keys
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " btree.keys"}

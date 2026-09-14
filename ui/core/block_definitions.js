@@ -1050,87 +1050,21 @@ Blockly.Blocks['control_pid.__init__'] = {
 
 
 
-Blockly.Blocks["btree_open"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" open");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
-Blockly.Blocks["btree_btree.close"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" btree.close");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: btree.close() Close the database. It's mandatory to close the database at the end of processing, as some unwritten data may be still in the cache. Note that ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
-Blockly.Blocks["btree_btree.flush"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" btree.flush");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: btree.flush() Flush any data in cache to the underlying stream. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
-Blockly.Blocks["btree_btree.__getitem__"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" btree.__getitem__");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: btree.__getitem__(key) btree.get(key, default=None, /) btree.__setitem__(key, val) btree.__detitem__(key) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
-Blockly.Blocks["btree_btree.__iter__"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" btree.__iter__");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: btree.__iter__() A BTree object can be iterated over directly (similar to a dictionary) to get access to all keys in order. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
-Blockly.Blocks["btree_btree.keys"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" btree.keys");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/btree.html");
-  }
-};
 
 
 
@@ -4763,73 +4697,18 @@ Blockly.Blocks["ubluetooth_BLE.gattc_write"] = {
 
 
 
-Blockly.Blocks["ucollections_deque"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" deque");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucollections.html");
-  }
-};
 
 
 
-Blockly.Blocks["ucollections_deque.append"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" deque.append");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: deque.append(x) Add functions.txt list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml to the right side of the deque. Raises IndexError if overflow checking is enabled and there is no more r ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucollections.html");
-  }
-};
 
 
 
-Blockly.Blocks["ucollections_deque.popleft"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" deque.popleft");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: deque.popleft() Remove and return an item from the left side of the deque. Raises IndexError if no items are present. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucollections.html");
-  }
-};
 
 
 
-Blockly.Blocks["ucollections_namedtuple"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" namedtuple");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: namedtuple(name, fields) This is factory function to create a new namedtuple type with a specific name and set of fields. A namedtuple is a subclass of tuple which allows ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucollections.html");
-  }
-};
 
 
 
-Blockly.Blocks["ucollections_OrderedDict"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" OrderedDict");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: OrderedDict(...) ``dict`` type subclass which remembers and preserves the order of keys added. When ordered dict is iterated over, keys/items are returned in ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucollections.html");
-  }
-};
 
 
 
@@ -4874,30 +4753,9 @@ Blockly.Blocks["uhashlib_hash.hexdigest"] = {
 
 
 
-Blockly.Blocks["uio_open"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" open");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uio.html");
-  }
-};
 
 
 
-Blockly.Blocks["uio_getvalue"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" getvalue");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: getvalue() Get the current contents of the underlying buffer which holds data. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uio.html");
-  }
-};
 
 
 
@@ -4976,141 +4834,24 @@ Blockly.Blocks["uos_ioctl"] = {
 
 
 
-Blockly.Blocks["ure_compile"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" compile");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
-
-
-
-Blockly.Blocks["ure_match"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" match");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: match(regex_str, string) Compile *regex_str* and match against *string*. Match always happens from starting position in a string. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
-
-
-
-Blockly.Blocks["ure_search"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" search");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: search(regex_str, string) Compile *regex_str* and search it in a *string*. Unlike `match`, this will se arch ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
-
-
-
-Blockly.Blocks["ure_sub"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" sub");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sub(regex_str, replace, string, count=0, flags=0, /) Compile *regex_str* and search for it in *string*, replacing all matches with *replace*, and returning the new string. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_regex.match"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" regex.match");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: regex.match(string) regex.search(string) regex.sub(replace, string, count=0, flags=0, /) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_regex.split"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" regex.split");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: regex.split(string, max_split=-1, /) Split a *string* using regex. If *max_split* is given, it specifies maximum number of splits to perform. Returns list of strings (there ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_match.group"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" match.group");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: match.group(index) Return matching (sub)string. *index* is 0 for entire match, 1 and above for each capturing group. Only numeric groups are supported. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_match.groups"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" match.groups");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: match.groups() Return a tuple containing all the substrings of the groups of the match. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_match.start"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" match.start");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
-Blockly.Blocks["ure_match.span"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" match.span");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ure.html");
-  }
-};
 
 
 
@@ -5201,31 +4942,18 @@ Blockly.Blocks["ure_match.span"] = {
 
 
 
-Blockly.Blocks["ussl_ussl.wrap_socket"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" ussl.wrap_socket");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: ussl.wrap_socket(sock, server_side=False, keyfile=None, certfile=N one, cert_reqs=CERT_NONE, ca_certs=None) Takes a `stream` *sock* (usually usocket.socket instance of ``SOCK_STREAM`` t ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ussl.html");
-  }
-};
 
 
 
-Blockly.Blocks["wipy_heartbeat"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" heartbeat");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/wipy.html");
-  }
-};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6543,18 +6271,6 @@ Blockly.Blocks['handle_ble_data'] = {
   }
 };
 
-Blockly.Blocks['iniciar_thread'] = {
-  init: function() {
-      this.appendValueInput("FUNCTION")
-          .setCheck("Function")
-          .appendField("Iniciar tarefa paralela com a função");
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour(230);
-      this.setTooltip("Inicia uma nova thread para executar a função especificada.");
-      this.setHelpUrl("");
-  }
-};
 
 
 

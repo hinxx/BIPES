@@ -1,0 +1,31 @@
+# The uio module. `uio_open` opened a stream and threw it away; `uio_getvalue`
+# called `getvalue` on the *module*. The stream is `uio_stream` now.
+
+module: uio
+class: open
+instance: uio_stream
+colour: 0
+url: https://docs.micropython.org/en/latest/library/uio.html
+import: {key: import_uio, line: "import uio"}
+
+category:
+  name: uio
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "uio_open"
+    constructor: true
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " open"}
+
+  - type: "uio_getvalue"
+    fn: getvalue
+    kind: value
+    label: " getvalue"
+    tooltip: ".. method:: getvalue() Get the current contents of the underlying buffer which holds data. "

@@ -1,0 +1,33 @@
+# One block, with the double prefix its id implies: it emitted
+# `ussl.ussl.wrap_socket(…)`, and with no import at all.
+#
+# `import ussl` is also the thing **Q4** and **Q6** were about -- it raises on
+# MicroPython 1.23 and later -- so this uses the same two-arm import those two
+# settled on, binding whichever module exists to the name the call uses.
+
+module: ussl
+colour: 0
+url: https://docs.micropython.org/en/latest/library/ussl.html
+import:
+  key: import_ussl
+  line: |-
+    try:
+        import ssl as ussl
+    except ImportError:
+        import ussl
+
+category:
+  name: ussl
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "ussl_ussl.wrap_socket"
+    code: "ussl.wrap_socket({pIn})"
+    label: []
+    tooltip: ".. function:: ussl.wrap_socket(sock, server_side=False, keyfile=None, certfile=N one, cert_reqs=CERT_NONE, ca_certs=None) Takes a `stream` *sock* (usually usocket.socket instance of ``SOCK_STREAM`` t "
+    params:
+      - {name: pIn, label: " ussl.wrap_socket"}
