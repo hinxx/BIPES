@@ -2783,128 +2783,30 @@ Blockly.Blocks["machine.WDT_wdt.feed"] = {
 
 
 
-Blockly.Blocks["network_AbstractNIC.active"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.active");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.connect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.connect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.disconnect"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" AbstractNIC.disconnect");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: AbstractNIC.disconnect() Disconnect from network. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.isconnected"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" AbstractNIC.isconnected");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: AbstractNIC.isconnected() Returns ``True`` if connected to network, otherwise returns ``False``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.scan"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.scan");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.status"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.status");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.ifconfig"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.ifconfig");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_AbstractNIC.config"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" AbstractNIC.config");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: AbstractNIC.config('param') AbstractNIC.config(param=value, ...) Get or set general network interface parameters. These methods allow to w ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 
-Blockly.Blocks["network_phy_mode"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" phy_mode");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
-  }
-};
 
 
 

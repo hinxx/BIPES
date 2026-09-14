@@ -1,0 +1,93 @@
+# `network`, the docs' page. `AbstractNIC` is not a class you can instantiate:
+# it is how the MicroPython documentation describes the interface every network
+# card implements, and the generator that produced this tree took it literally,
+# emitting `network.AbstractNIC.connect(...)` under `import network`.
+#
+# The object these blocks want already exists. BIPES' own Wi-Fi blocks
+# (`net_ifconfig`, `wifi_client_scan_networks`, ...) put
+#
+#     sta_if = network.WLAN(network.STA_IF)
+#
+# at the top of the program, under the `import_network_a` key, so these nine
+# call methods on `sta_if` and register the same key -- one station object per
+# program however the two sets are mixed.
+#
+# `isconnected`, `scan`, `status`, `ifconfig` and `config` are value blocks now:
+# they answer a question, and as statements the answer went nowhere. `status`
+# and `ifconfig` lost their `pIn` socket with it -- both are read-only here,
+# because the argument forms set the interface up, which is what `connect` and
+# BIPES' own Wi-Fi blocks are for.
+#
+# `phy_mode` is the odd one out: a module function, not a card method, and one
+# only the ESP8266 port implements.
+
+module: network
+colour: 0
+url: https://docs.micropython.org/en/latest/library/network.html
+import: []
+
+category:
+  name: network
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: network_AbstractNIC.active
+    label: []
+    inline: true
+    import: &station
+      - {key: import_network,   line: "import network"}
+      - {key: import_network_a, line: "sta_if = network.WLAN(network.STA_IF)"}
+    code: "sta_if.active({state})"
+    tooltip: Turn the station interface on or off.
+    params:
+      - {name: state, label: "WLAN.active", kind: dropdown,
+         options: [{on: "True"}, {off: "False"}]}
+
+  - type: network_AbstractNIC.connect
+    label: WLAN.connect
+    import: *station
+    code: "sta_if.connect({ssid}, {password})"
+    tooltip: Join a network.
+    params:
+      - {name: ssid,     label: "network", type: String, default: ssid,     align: right}
+      - {name: password, label: password,  type: String, default: password, align: right}
+
+  - {type: network_AbstractNIC.disconnect, label: WLAN.disconnect, import: *station,
+     code: "sta_if.disconnect()", tooltip: Leave the network.}
+
+  - {type: network_AbstractNIC.isconnected, kind: value, label: WLAN.isconnected,
+     import: *station, code: "sta_if.isconnected()",
+     tooltip: "True once the station has joined a network and has an address."}
+
+  - {type: network_AbstractNIC.scan, kind: value, label: WLAN.scan, import: *station,
+     code: "sta_if.scan()", tooltip: "The networks in range, as a list."}
+
+  - {type: network_AbstractNIC.status, kind: value, label: WLAN.status, import: *station,
+     code: "sta_if.status()", tooltip: "Where the connection has got to, as a status code."}
+
+  - {type: network_AbstractNIC.ifconfig, kind: value, label: WLAN.ifconfig, import: *station,
+     code: "sta_if.ifconfig()",
+     tooltip: "Address, netmask, gateway and DNS server, as four strings."}
+
+  - type: network_AbstractNIC.config
+    kind: value
+    label: []
+    inline: true
+    import: *station
+    code: "sta_if.config({param})"
+    tooltip: Read one setting of the interface by name.
+    params:
+      - {name: param, label: "WLAN.config", type: String, default: mac}
+
+  - type: network_phy_mode
+    label: []
+    inline: true
+    import: {key: import_network, line: "import network"}
+    code: "network.phy_mode({mode})"
+    tooltip: Set the PHY mode. ESP8266 only.
+    params:
+      - {name: mode, label: "network.phy_mode", kind: dropdown,
+         options: [{"802.11b": "network.MODE_11B"},
+                   {"802.11g": "network.MODE_11G"},
+                   {"802.11n": "network.MODE_11N"}]}

@@ -1257,51 +1257,6 @@ Blockly.Python["machine.WDT_wdt.feed"] = function(block) {
 	var code = "machine.WDT.wdt.feed()\n"; 
 	return code;
 };
-Blockly.Python["network_AbstractNIC.active"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.active(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.connect"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.connect(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.disconnect"] = function(block) {
-		Blockly.Python.definitions_['import_network'] = 'import network';
-	var code = "network.AbstractNIC.disconnect()\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.isconnected"] = function(block) {
-		Blockly.Python.definitions_['import_network'] = 'import network';
-	var code = "network.AbstractNIC.isconnected()\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.scan"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.scan(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.status"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.status(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.ifconfig"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.ifconfig(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["network_AbstractNIC.config"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.AbstractNIC.config(" + value_pIn + ")\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["network_phy_mode"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "network.phy_mode(" + value_pIn + ")\n"; 
-	return code;
-};
 Blockly.Python["uarray_append"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "uarray.append(" + value_pIn + ")\n"; 

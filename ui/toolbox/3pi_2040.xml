@@ -3145,26 +3145,45 @@
   <block type="micropython_schedule"></block>
 </category>
 <!-- /blockdef:micropython -->
+<!-- blockdef:network -->
 <category name="network">
-<block type="network_AbstractNIC.active">
-</block>
-<block type="network_AbstractNIC.connect">
-</block>
-<block type="network_AbstractNIC.disconnect">
-</block>
-<block type="network_AbstractNIC.isconnected">
-</block>
-<block type="network_AbstractNIC.scan">
-</block>
-<block type="network_AbstractNIC.status">
-</block>
-<block type="network_AbstractNIC.ifconfig">
-</block>
-<block type="network_AbstractNIC.config">
-</block>
-<block type="network_phy_mode">
-</block>
+
+  <block type="network_AbstractNIC.active"></block>
+
+  <block type="network_AbstractNIC.connect">
+    <value name="ssid">
+      <shadow type="text">
+        <field name="TEXT">ssid</field>
+      </shadow>
+    </value>
+    <value name="password">
+      <shadow type="text">
+        <field name="TEXT">password</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="network_AbstractNIC.disconnect"></block>
+
+  <block type="network_AbstractNIC.isconnected"></block>
+
+  <block type="network_AbstractNIC.scan"></block>
+
+  <block type="network_AbstractNIC.status"></block>
+
+  <block type="network_AbstractNIC.ifconfig"></block>
+
+  <block type="network_AbstractNIC.config">
+    <value name="param">
+      <shadow type="text">
+        <field name="TEXT">mac</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="network_phy_mode"></block>
 </category>
+<!-- /blockdef:network -->
 <!-- blockdef:pyb -->
 <category name="pyb">
 

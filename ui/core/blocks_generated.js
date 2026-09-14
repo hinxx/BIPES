@@ -5388,6 +5388,125 @@ Blockly.Blocks['neopixel_write'] = {
   }
 };
 
+// ---- network (network.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['network_AbstractNIC.active'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.active")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "state");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Turn the station interface on or off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.connect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.connect");
+    this.appendValueInput("ssid")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("network");
+    this.appendValueInput("password")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("password");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Join a network.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.disconnect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.disconnect");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Leave the network.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.isconnected'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.isconnected");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("True once the station has joined a network and has an address.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.scan'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.scan");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The networks in range, as a list.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.status");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Where the connection has got to, as a status code.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.ifconfig'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WLAN.ifconfig");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Address, netmask, gateway and DNS server, as four strings.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_AbstractNIC.config'] = {
+  init: function() {
+    this.appendValueInput("param")
+        .setCheck("String")
+        .appendField("WLAN.config");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read one setting of the interface by name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
+Blockly.Blocks['network_phy_mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("network.phy_mode")
+        .appendField(new Blockly.FieldDropdown([["802.11b", "network.MODE_11B"], ["802.11g", "network.MODE_11G"], ["802.11n", "network.MODE_11N"]]), "mode");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Set the PHY mode. ESP8266 only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/network.html");
+  }
+};
+
 // ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
 
 Blockly.Blocks['net_ntp_sync'] = {

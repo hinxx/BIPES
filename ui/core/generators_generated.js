@@ -2727,6 +2727,75 @@ Blockly.Python['neopixel_write'] = function(block) {
   return code + "\n";
 };
 
+// ---- network (network.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['network_AbstractNIC.active'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var state_ = block.getFieldValue("state");
+  var code = "sta_if.active(" + state_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['network_AbstractNIC.connect'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var ssid_ = Blockly.Python.valueToCode(block, "ssid", Blockly.Python.ORDER_ATOMIC);
+  var password_ = Blockly.Python.valueToCode(block, "password", Blockly.Python.ORDER_ATOMIC);
+  var code = "sta_if.connect(" + ssid_ + ", " + password_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['network_AbstractNIC.disconnect'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var code = "sta_if.disconnect()";
+  return code + "\n";
+};
+
+Blockly.Python['network_AbstractNIC.isconnected'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var code = "sta_if.isconnected()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['network_AbstractNIC.scan'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var code = "sta_if.scan()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['network_AbstractNIC.status'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var code = "sta_if.status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['network_AbstractNIC.ifconfig'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var code = "sta_if.ifconfig()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['network_AbstractNIC.config'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  var param_ = Blockly.Python.valueToCode(block, "param", Blockly.Python.ORDER_ATOMIC);
+  var code = "sta_if.config(" + param_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['network_phy_mode'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  var mode_ = block.getFieldValue("mode");
+  var code = "network.phy_mode(" + mode_ + ")";
+  return code + "\n";
+};
+
 // ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
 
 Blockly.Python['net_ntp_sync'] = function(block) {
