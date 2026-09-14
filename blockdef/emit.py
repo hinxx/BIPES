@@ -35,6 +35,8 @@ def emit_generators_js(definitions: list[Definition]) -> str:
 def _file(header: str, definitions: list[Definition], emit) -> str:
     out = [header]
     for definition in definitions:
+        if not definition.blocks:
+            continue        # places blocks another file declares; owns none
         banner = f'{definition.category} ({definition.path.name})'
         out.append(f'\n// ---- {banner} {"-" * max(3, 72 - len(banner))}\n')
         for block in definition.blocks:
@@ -60,6 +62,8 @@ def _block_js(definition: Definition, block: Block) -> str:
             continue
         lines.extend(_param_js(param, riding))
         riding = []
+    for row in block.footer:
+        lines.extend(_row_js(row))
 
     if block.kind == 'value':
         lines.append(f'    this.setOutput(true, {_js(block.output) if block.output else "null"});')

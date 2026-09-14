@@ -1740,27 +1740,6 @@ Blockly.Blocks['var_to_float'] = {
   }
 };
 
-Blockly.Blocks['project_metadata'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabel(MSG["project_info"]), "NAME");
-    this.appendValueInput("project_author")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabel(MSG["project_info_author"]), "project_author");
-    this.appendValueInput("project_iot_id")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabel("IOT ID"), "project_iot_id");
-    this.appendValueInput("project_description")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabel(MSG["project_info_desc"]), "project_description");
-    this.setColour(230);
-    this.setTooltip("Information about the project");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['control_pid.__init__'] = {
   init: function() {
@@ -1798,81 +1777,9 @@ Blockly.Blocks['control_pid.__init__'] = {
   }
 };
 
-Blockly.Blocks['simulate_water_boiler'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Water Boiler #")
-        .appendField(new Blockly.FieldNumber(0, 0, 9), "ID");
-    this.appendDummyInput()
-        .appendField("Dissipation rate (ΔºC/ms)")
-        .appendField(new Blockly.FieldNumber(0.02, 0), "DISSIPATION");
-    this.appendValueInput("POWER")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("power input");
-    this.setInputsInline(false);
-    this.setOutput(true, null);
-    this.setColour('#666666');
-    this.setTooltip("Simulate Water Boiler temperature with power input, returns water temperature. Runs at precision of milliseconds. Uses 20ºC as room temperature.");
-    this.setHelpUrl("https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/water_boiler/water_boiler_pid.py");
-  }
-};
 
 
-Blockly.Blocks['simulate_dcmotor.sim'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("DC Motor#")
-        .appendField(new Blockly.FieldNumber(0, 0, 9), "ID");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Ra(Ω)")
-        .appendField(new Blockly.FieldNumber(0.52, 0), "RA")
-        .appendField("La(H)")
-        .appendField(new Blockly.FieldNumber(0.000036, 0), "LA")
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("B(Nm)")
-        .appendField(new Blockly.FieldNumber(0.00001, 0), "B")
-        .appendField("J(kgm²)")
-        .appendField(new Blockly.FieldNumber(0.000012, 0), "J");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Kbemf")
-        .appendField(new Blockly.FieldNumber(0.0137, 0), "KBEMF")
-        .appendField("Static Friction (Nm)")
-        .appendField(new Blockly.FieldNumber(0.01, 0), "STATIC_FRICTION");
-    this.appendValueInput("POWER")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("voltage (V)");
-    this.appendValueInput("DT")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("timestep (s)");
-    this.appendValueInput("LOAD")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("load (Nm)");
-    this.setInputsInline(false);
-    this.setOutput(true, null);
-    this.setColour('#666666');
-    this.setTooltip("Simulate a DC Motor voltage as input at non realtime, returns speed in RPM.");
-    this.setHelpUrl("https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/dc_motor/dc_motor_pid.py");
-  }
-};
 
-Blockly.Blocks['simulate_dcmotor.vars'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("get DC Motor #")
-        .appendField(new Blockly.FieldNumber(0, 0, 9), "ID")
-        .appendField(".")
-        .appendField(new Blockly.FieldDropdown([["Va(V)","va"], ["Ia(A)","ia"], ["omega(RPM)","omega"], ["theta(kgm²)","theta"], ["static friction (Nm)","STATIC_FRICTION"], ["Bemf(V)","bemf"], ["torque (Nm)","Te"], ["Load torque (Nm)","Tl"], ["last time","_last_time"]]), "VARS");
-    this.setInputsInline(false);
-    this.setOutput(true, null);
-    this.setColour('#666666');
-    this.setTooltip("Returns a internal variables of the DC Motor simulation.");
-    this.setHelpUrl("https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/water_boiler/water_boiler.py");
-  }
-};
 
 Blockly.Blocks["btree_open"] = {
   init: function() {
@@ -7232,32 +7139,6 @@ Blockly.Blocks['HSL_to_RGB'] = {
 };
 
 
-Blockly.Blocks['bipes_plot'] = {
-  init: function() {
-    this.appendDummyInput()
-//        .appendField("Show data on IOT tab (freeboard)"); //original
-        .appendField(MSG["show_iot"]); //i18n
-//    this.appendDummyInput()
-//        .appendField("(ideal for USB port or bluetooth)");
-
-    this.appendValueInput("id")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("ID");
-
-    this.appendValueInput("values")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(MSG["data"]);
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-
- this.setTooltip("BIPES Plot");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 Blockly.Blocks['localstorage_store'] = {
     init: function () {
         this.appendDummyInput()
@@ -7477,97 +7358,11 @@ Blockly.Blocks['st7789_color_colors'] = {
 
 
 //Sound
-Blockly.Blocks['tone'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField("Tone (Hz)");
-
-    this.appendValueInput("pin")
-        .setCheck(null)
-	.appendField("Pin");
-    this.appendValueInput("frequency")
-        .setCheck("Number")
-	  .appendField("Frequency");
-
-    this.appendValueInput("duration")
-        .setCheck("Number")
-	.appendField("Duration (s):");
-
-    this.appendDummyInput()
-        .appendField("(0 for infinite duration)");
-
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Sound - tone generator");
- this.setHelpUrl("http://www.bipes.net.br");
- }
-};
-
-Blockly.Blocks['note'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField("Play music note");
-    this.appendValueInput("pin")
-        .setCheck(null)
-	.appendField("Pin");
-
-    this.appendValueInput("note")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Note");
-
-    this.appendValueInput("duration")
-        .setCheck("Number")
-	.appendField("Duration (s):");
-
-    this.appendDummyInput()
-        .appendField("(0 for infinite duration)");
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Sound - tone generator (music note)");
- this.setHelpUrl("http://www.bipes.net.br");
- }
-};
 
 
 
-Blockly.Blocks['rtttl_play'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Play song (RTTTL)");
 
-    this.appendValueInput("pin")
-        .setCheck(null)
-	.appendField("Pin");
 
-    this.appendValueInput("song")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Song");
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Play a song");
- this.setHelpUrl("bipes.net.br");
-  }
-};
-
-Blockly.Blocks['tone_type'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Note:")
-//        .appendField(new Blockly.FieldDropdown([["B1","31"], ["C2","33"], ["CS2","35"], ["D2","37"], ["DS2","39"], ["E2","41"], ["F2","44"], ["FS2","46"], ["G2","49"], ["GS2","52"], ["A2","55"], ["AS2","58"]]), "tone");
-        .appendField(new Blockly.FieldDropdown([["B1","31"],["C2","33"],["CS2","35"],["D2","37"],["DS2","39"],["E2","41"],["F2","44"],["FS2","46"],["G2","49"],["GS2","52"],["A2","55"],["AS2","58"],["B2","62"],["C3","65"],["CS3","69"],["D3","73"],["DS3","78"],["E3","82"],["F3","87"],["FS3","93"],["G3","98"],["GS3","104"],["A3","110"],["AS3","117"],["B3","123"],["C4","131"],["CS4","139"],["D4","147"],["DS4","156"],["E4","165"],["F4","175"],["FS4","185"],["G4","196"],["GS4","208"],["A4","220"],["AS4","233"],["B4","247"],["C5","262"],["CS5","277"],["D5","294"],["DS5","311"],["E5","330"],["F5","349"],["FS5","370"],["G5","392"],["GS5","415"],["A5","440"],["AS5","466"],["B5","494"],["C6","523"],["CS6","554"],["D6","587"],["DS6","622"],["E6","659"],["F6","698"],["FS6","740"],["G6","784"],["GS6","831"],["A6","880"],["AS6","932"],["B6","988"],["C7","1047"],["CS7","1109"],["D7","1175"],["DS7","1245"],["E7","1319"],["F7","1397"],["FS7","1480"],["G7","1568"],["GS7","1661"],["A7","1760"],["AS7","1865"],["B7","1976"],["C8","2093"],["CS8","2217"],["D8","2349"],["DS8","2489"],["E8","2637"],["F8","2794"],["FS8","2960"],["G8","3136"],["GS8","3322"],["A8","3520"],["AS8","3729"],["B8","3951"],["C9","4186"],["CS9","4435"],["D9","4699"],["DS9","4978"],["P","0"]]), "tone");
-
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
 
 // Pololu 3pi+ 2040
 

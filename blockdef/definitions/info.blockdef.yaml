@@ -1,0 +1,18 @@
+# The same project header as the `BIPES` category, under the name the four
+# boards without an IOT tab give it. The block itself is declared once, in
+# bipes.blockdef.yaml; this file only places it.
+
+module: sys
+import: []
+
+category:
+  name: Info
+  toolboxes: [bbblack, default, linux, stm32]
+
+blocks:
+  - type: project_metadata
+    external: true
+    params:
+      - {name: project_author, type: String, align: right}
+      - {name: project_iot_id, type: Number, align: right}
+      - {name: project_description, type: String, align: right}

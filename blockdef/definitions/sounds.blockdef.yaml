@@ -1,0 +1,230 @@
+# Tones, music notes and RTTTL ringtones on a PWM pin.
+#
+# Three things were wrong here, all of them the same shape as things earlier
+# conversions turned up:
+#
+# * `tone` and `note` spelled the pin into a Python variable name --
+#   `pwm4 = PWM(Pin(4))`, built by stripping the parentheses off the generated
+#   code with a JavaScript `.replace()`. That only parses while the pin is a
+#   bare literal; plug in anything else and the program does not compile. It is
+#   the `init_servo`/`pservo4` bug again. The objects live in a `tone_pwm` dict
+#   keyed by the pin now, which keeps the one-PWM-per-pin behaviour and works
+#   for any expression.
+# * The "(0 for infinite duration)" the block promises was decided in
+#   JavaScript, by `parseFloat()` on the *generated code* -- so it only ever
+#   held for a literal 0, and any variable duration fell through to the sleep.
+#   The same mistake as `dc_motor_direction`. The test is `if <duration> > 0:`
+#   in the emitted Python now, so it holds however the duration arrives.
+# * Every toolbox shipped the block with a duration of `-1`, which under the
+#   old generator meant `time.sleep(-1)` and an immediate `deinit()` -- an
+#   inaudible blip. Under the new one it would mean "play forever", which is a
+#   bad thing to hand someone who just dragged the block out, so the shipped
+#   default is 1 second. `0` still means keep playing, as the block says.
+#
+# 7 of the 11 toolboxes also named the `pinout` shadow's field `pin` rather
+# than `PIN`, which Blockly ignores, so the pin defaulted silently anyway.
+
+module: machine
+colour: 230
+url: http://www.bipes.net.br
+# Per block rather than per file: the four blocks here share a category, not an
+# object, and a program that only plays an RTTTL song has no use for `time` or
+# the tone dictionary.
+import: []
+
+category:
+  name: Sounds
+  labels:
+    - "Sounds and RTTTL:"
+    - "Ring Tone Text Transfer Language (RTTTL) "
+    - "Library: "
+  library: [rtttl, songs]
+  docs: sound
+  toolboxes: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w]
+
+blocks:
+  - type: tone
+    label: Tone (Hz)
+    footer: "(0 for infinite duration)"
+    tooltip: Sound - tone generator
+    import: &tone_imports
+      - {key: import_pin,  line: "from machine import Pin"}
+      - {key: import_pwm,  line: "from machine import PWM"}
+      - {key: import_time, line: "import time"}
+      - {key: tone_pwm,    line: "tone_pwm = {}"}
+    code: |-
+
+      tone_pwm[{pin}] = PWM(Pin({pin}))
+      tone_pwm[{pin}].freq({frequency})
+      tone_pwm[{pin}].duty_u16(512)
+      if {duration} > 0:
+          time.sleep({duration})
+          tone_pwm[{pin}].deinit()
+    params:
+      - {name: pin,       label: Pin,             pin: true}
+      - {name: frequency, label: Frequency,       type: Number, default: 1200}
+      - {name: duration,  label: "Duration (s):", type: Number, default: 1}
+
+  - type: note
+    label: Play music note
+    footer: "(0 for infinite duration)"
+    tooltip: Sound - tone generator (music note)
+    import: *tone_imports
+    code: |-
+
+      tone_pwm[{pin}] = PWM(Pin({pin}))
+      tone_pwm[{pin}].freq({note})
+      tone_pwm[{pin}].duty_u16(512)
+      if {duration} > 0:
+          time.sleep({duration})
+          tone_pwm[{pin}].deinit()
+    params:
+      - {name: pin,      label: Pin, pin: true}
+      - {name: note,     label: Note, align: right, plug: {type: tone_type, shadow: true}}
+      - {name: duration, label: "Duration (s):", type: Number, default: 1}
+
+  - type: tone_type
+    kind: value
+    label: []
+    tooltip: ""
+    url: ""
+    code: "{tone}"
+    params:
+      - name: tone
+        label: "Note:"
+        kind: dropdown
+        options:
+          - {B1: "31"}
+          - {C2: "33"}
+          - {CS2: "35"}
+          - {D2: "37"}
+          - {DS2: "39"}
+          - {E2: "41"}
+          - {F2: "44"}
+          - {FS2: "46"}
+          - {G2: "49"}
+          - {GS2: "52"}
+          - {A2: "55"}
+          - {AS2: "58"}
+          - {B2: "62"}
+          - {C3: "65"}
+          - {CS3: "69"}
+          - {D3: "73"}
+          - {DS3: "78"}
+          - {E3: "82"}
+          - {F3: "87"}
+          - {FS3: "93"}
+          - {G3: "98"}
+          - {GS3: "104"}
+          - {A3: "110"}
+          - {AS3: "117"}
+          - {B3: "123"}
+          - {C4: "131"}
+          - {CS4: "139"}
+          - {D4: "147"}
+          - {DS4: "156"}
+          - {E4: "165"}
+          - {F4: "175"}
+          - {FS4: "185"}
+          - {G4: "196"}
+          - {GS4: "208"}
+          - {A4: "220"}
+          - {AS4: "233"}
+          - {B4: "247"}
+          - {C5: "262"}
+          - {CS5: "277"}
+          - {D5: "294"}
+          - {DS5: "311"}
+          - {E5: "330"}
+          - {F5: "349"}
+          - {FS5: "370"}
+          - {G5: "392"}
+          - {GS5: "415"}
+          - {A5: "440"}
+          - {AS5: "466"}
+          - {B5: "494"}
+          - {C6: "523"}
+          - {CS6: "554"}
+          - {D6: "587"}
+          - {DS6: "622"}
+          - {E6: "659"}
+          - {F6: "698"}
+          - {FS6: "740"}
+          - {G6: "784"}
+          - {GS6: "831"}
+          - {A6: "880"}
+          - {AS6: "932"}
+          - {B6: "988"}
+          - {C7: "1047"}
+          - {CS7: "1109"}
+          - {D7: "1175"}
+          - {DS7: "1245"}
+          - {E7: "1319"}
+          - {F7: "1397"}
+          - {FS7: "1480"}
+          - {G7: "1568"}
+          - {GS7: "1661"}
+          - {A7: "1760"}
+          - {AS7: "1865"}
+          - {B7: "1976"}
+          - {C8: "2093"}
+          - {CS8: "2217"}
+          - {D8: "2349"}
+          - {DS8: "2489"}
+          - {E8: "2637"}
+          - {F8: "2794"}
+          - {FS8: "2960"}
+          - {G8: "3136"}
+          - {GS8: "3322"}
+          - {A8: "3520"}
+          - {AS8: "3729"}
+          - {B8: "3951"}
+          - {C9: "4186"}
+          - {CS9: "4435"}
+          - {D9: "4699"}
+          - {DS9: "4978"}
+          - {P: "0"}
+
+  - type: rtttl_play
+    label: Play song (RTTTL)
+    tooltip: Play a song
+    url: bipes.net.br
+    import:
+      - {key: import_pin,   line: "from machine import Pin"}
+      - {key: import_rtttl, line: "import rtttl, songs"}
+    code: "play = rtttl.play(Pin({pin}), songs.find({song}))"
+    params:
+      - {name: pin,  label: Pin, pin: true}
+      - {name: song, label: Song, default: Super Mario - Main Theme, align: right}
+
+  - {label: "Songs:"}
+  - {library: songs}
+
+  - {type: text, external: true, fields: {TEXT: "Super Mario - Main Theme"}}
+  - {type: text, external: true, fields: {TEXT: "Super Mario - Title Music"}}
+  - {type: text, external: true, fields: {TEXT: SMBtheme}}
+  - {type: text, external: true, fields: {TEXT: SMBwater}}
+  - {type: text, external: true, fields: {TEXT: SMBunderground}}
+  - {type: text, external: true, fields: {TEXT: Picaxe}}
+  - {type: text, external: true, fields: {TEXT: "The Simpsons"}}
+  - {type: text, external: true, fields: {TEXT: Indiana}}
+  - {type: text, external: true, fields: {TEXT: TakeOnMe}}
+  - {type: text, external: true, fields: {TEXT: Entertainer}}
+  - {type: text, external: true, fields: {TEXT: Muppets}}
+  - {type: text, external: true, fields: {TEXT: Xfiles}}
+  - {type: text, external: true, fields: {TEXT: Looney}}
+  - {type: text, external: true, fields: {TEXT: 20thCenFox}}
+  - {type: text, external: true, fields: {TEXT: Bond}}
+  - {type: text, external: true, fields: {TEXT: MASH}}
+  - {type: text, external: true, fields: {TEXT: StarWars}}
+  - {type: text, external: true, fields: {TEXT: GoodBad}}
+  - {type: text, external: true, fields: {TEXT: TopGun}}
+  - {type: text, external: true, fields: {TEXT: "A-Team"}}
+  - {type: text, external: true, fields: {TEXT: Flinstones}}
+  - {type: text, external: true, fields: {TEXT: Jeopardy}}
+  - {type: text, external: true, fields: {TEXT: Gadget}}
+  - {type: text, external: true, fields: {TEXT: Smurfs}}
+  - {type: text, external: true, fields: {TEXT: MahnaMahna}}
+  - {type: text, external: true, fields: {TEXT: LeisureSuit}}
+  - {type: text, external: true, fields: {TEXT: MissionImp}}

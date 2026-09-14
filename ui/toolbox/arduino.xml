@@ -267,29 +267,41 @@
 
     <sep></sep>
 
+   <!-- blockdef:bipes -->
    <category name="BIPES">
-    <block type="project_metadata">
-      <field name="NAME">Project INFO</field>
-      <value name="project_author">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-      <value name="project_iot_id">
-        <shadow type="math_number">
-          <field name="NUM"></field>
-        </shadow>
-      </value>
-      <value name="project_description">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
 
-    <block type="bipes_plot">
-    </block>
+     <block type="project_metadata">
+       <value name="project_author">
+         <shadow type="text">
+           <field name="TEXT"></field>
+         </shadow>
+       </value>
+       <value name="project_iot_id">
+         <shadow type="math_number">
+           <field name="NUM">0</field>
+         </shadow>
+       </value>
+       <value name="project_description">
+         <shadow type="text">
+           <field name="TEXT"></field>
+         </shadow>
+       </value>
+     </block>
+
+     <block type="bipes_plot">
+       <value name="id">
+         <shadow type="math_number">
+           <field name="NUM">0</field>
+         </shadow>
+       </value>
+       <value name="values">
+         <shadow type="math_number">
+           <field name="NUM">0</field>
+         </shadow>
+       </value>
+     </block>
    </category>
+   <!-- /blockdef:bipes -->
 
     <sep></sep>
     <!--

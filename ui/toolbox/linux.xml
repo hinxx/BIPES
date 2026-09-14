@@ -260,14 +260,28 @@
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
 
     <sep></sep>
+     <!-- blockdef:info -->
      <category name="Info">
-    <block type="project_metadata">
-      <field name="NAME">Project INFO</field>
-      <field name="project_author">Author</field>
-      <field name="project_iot_id">IOT ID</field>
-      <field name="project_description">Description</field>
-    </block>
+
+       <block type="project_metadata">
+         <value name="project_author">
+           <shadow type="text">
+             <field name="TEXT"></field>
+           </shadow>
+         </value>
+         <value name="project_iot_id">
+           <shadow type="math_number">
+             <field name="NUM">0</field>
+           </shadow>
+         </value>
+         <value name="project_description">
+           <shadow type="text">
+             <field name="TEXT"></field>
+           </shadow>
+         </value>
+       </block>
      </category>
+     <!-- /blockdef:info -->
 
     <sep></sep>
 

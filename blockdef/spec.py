@@ -112,6 +112,7 @@ class Param:
 class Block:
     type: str                       # Blockly block id -- never change one that shipped
     rows: list[Row] = field(default_factory=list)
+    footer: list[Row] = field(default_factory=list)   # label rows after the params
     tooltip: Text = field(default_factory=Text)
     kind: str = 'statement'         # 'statement' | 'value'
     fn: str | None = None           # Python method called on the instance
@@ -231,8 +232,13 @@ def load(path: str | Path) -> Definition:
             seen.add(parsed.type)
         definition.entries.append(parsed)
 
-    if not definition.blocks:
-        raise BlockdefError(f'{where}: nothing here defines a block')
+    # `external:` counts: a file whose entries are all external still places
+    # blocks, it just does not own them. `Info` is `BIPES`'s project header
+    # under the name four boards give that category, and declaring the block
+    # twice is exactly what this tool exists to prevent. A file of nothing but
+    # labels and buttons is still a mistake.
+    if not any(isinstance(e, Block) for e in definition.entries):
+        raise BlockdefError(f'{where}: nothing here is a block')
 
     definition.defaults = _defaults(category.get('defaults'), definition, cat)
 
@@ -354,9 +360,13 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
                                     f'nor "bus"')
 
     rows = _rows(entry.get('label'), fn or attr or type_, at)
+    # `footer:` is the same thing on the other side of the params -- the aside
+    # `tone` and `note` end on, "(0 for infinite duration)".
+    footer = _rows(entry['footer'], '', at.at('footer')) if entry.get('footer') else []
 
     block = Block(
-        type=str(type_), rows=rows, tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
+        type=str(type_), rows=rows, footer=footer,
+        tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
         kind=kind, fn=fn, attr=attr, instance=instance, colour=colour, args=args, code=code,
         output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
@@ -365,7 +375,8 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         help_url=entry.get('url', definition.help_url),
         boards=boards,
     )
-    _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'tooltip',
+    _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'footer',
+                           'tooltip',
                            'kind', 'args', 'code', 'output', 'params', 'inline',
                            'constructor', 'i2c_bus', 'url', 'external', 'import',
                            'fields', 'boards'}, at)

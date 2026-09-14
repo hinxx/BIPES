@@ -103,6 +103,7 @@ blocks:
 | `instance` | overrides the family's object, for a category covering more than one part. |
 | `colour` | overrides the family's colour for this block alone. |
 | `label` | text on the block: a string, or a list of rows (see below). `[]` puts the text on the first param's row instead. Defaults to a humanised `fn`. |
+| `footer` | the same, but after the params -- the aside `tone` ends on, "(0 for infinite duration)". |
 | `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. Either takes `{msg: key}`. |
 | `kind` | `statement` (default) or `value`. |
 | `output` | `setOutput()` type for a value block. Omit for "anything". |
@@ -112,7 +113,7 @@ blocks:
 | `i2c_bus` | `{id, scl, sda, freq, soft}` → param names, or numbers for a fixed value; builds the shared bus. |
 | `inline` | `setInputsInline()`. Left alone if omitted. |
 | `import` | entries only this block needs, on top of the file's. |
-| `external` | `true` means the block's JavaScript comes from somewhere else -- written by hand, or an earlier entry in this file that the toolbox lists twice. Only its toolbox entry is generated, so only `params`, `fields` and `boards` apply. |
+| `external` | `true` means the block's JavaScript comes from somewhere else -- written by hand, an earlier entry in this file that the toolbox lists twice, or another file (`Info` places `BIPES`'s project header under the name four boards give that category). Only its toolbox entry is generated, so only `params`, `fields` and `boards` apply. A file whose entries are all external is fine: it places blocks, it just does not own any. |
 | `boards` | the toolboxes that list this entry; all of `category.toolboxes` if absent. |
 | `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |
@@ -148,7 +149,18 @@ label:
 `msg:` is a key in `ui/msg/<lang>.js`, so the text is translated rather than
 frozen in English. `field: SOME_NAME` on a row or a param label makes it a
 `FieldLabelSerializable` under that name, which is how a label gets re-read
-when a saved program is loaded.
+when a saved program is loaded. Only name a label you actually need to read
+back: a named label can be overwritten by a `<field>` preset in a toolbox,
+which is how five boards ended up pinning English over `project_metadata`'s
+translated text.
+
+`footer:` takes the same shapes and lands after the params, for the line a
+block ends on rather than starts with:
+
+```yaml
+label: Tone (Hz)
+footer: "(0 for infinite duration)"
+```
 
 ### Keys on a param
 

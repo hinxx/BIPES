@@ -1,0 +1,203 @@
+# Plant simulations for the PID blocks -- a water boiler and a DC motor, both
+# so you can build a control loop with no hardware at all.
+#
+# **Neither of them ran.** Both classes were stored as JavaScript template
+# strings whose method bodies mixed four-spaces-plus-a-tab with eight spaces,
+# so `class WaterBoiler` and `class DCMotor` are both a TabError in Python 3 --
+# the same thing `stepper_step` did. Every program built out of this category
+# died before its first line. The Python here is the same code with its
+# indentation normalised to four spaces; nothing else about it changed.
+#
+# Both classes used to live in a `UPythonClass` object in generator_stubs.js,
+# which had no other members and is gone with them.
+
+module: utime
+colour: "#666666"
+import: {key: import_utime, line: "import utime"}
+
+category:
+  name: Simulate
+  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp8266]
+
+blocks:
+  - {library: control}
+  - {label: "No breadboard or sensors? Just simulate it!"}
+  - {label: "Realtime simulation:"}
+  - {example: pid_water_boiler}
+
+  - type: simulate_water_boiler
+    kind: value
+    inline: false
+    label: []
+    tooltip: Simulate Water Boiler temperature with power input, returns water temperature. Runs at precision of milliseconds. Uses 20ºC as room temperature.
+    url: https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/water_boiler/water_boiler_pid.py
+    import:
+      - key: simulate_water_boiler_class
+        line: |-
+          class WaterBoiler:
+              """
+              Simple simulation of a water boiler which can heat up water
+              and where the heat dissipates slowly over time
+              """
+
+              def __init__(self, dissipation=0.2):
+                  self.water_temp = 20
+                  self.ambient = 20
+                  self.dissipation = dissipation
+                  self._last_time = utime.ticks_ms()
+
+              def update(self, boiler_power):
+                  now = utime.ticks_ms()
+                  dt = utime.ticks_diff(now,self._last_time) if (utime.ticks_diff(now,self._last_time)) else 1e-16
+                  if boiler_power > 0:
+                      # Boiler can only produce heat, not cold
+                      self.water_temp += 1 * boiler_power * dt / 1000
+
+                  # Some heat dissipation
+                  self.water_temp -= (self.water_temp - self.ambient) * self.dissipation * dt
+
+                  self._last_time = now
+                  return self.water_temp
+      - {key: "simulate_water_boiler_obj{ID}",
+         line: "water_boiler{ID} = WaterBoiler({DISSIPATION})"}
+    code: "water_boiler{ID}.update({POWER})"
+    params:
+      - {name: ID, label: "Water Boiler #", kind: number, default: 0, min: 0, max: 9}
+      - {name: DISSIPATION, label: "Dissipation rate (ΔºC/ms)", kind: number,
+         default: 0.02, min: 0}
+      - {name: POWER, label: power input, align: right, default: 0}
+
+  - {label: "Non realtime simulation:"}
+  - {example: pid_dc_motor}
+
+  - type: simulate_dcmotor.sim
+    kind: value
+    inline: false
+    label: []
+    tooltip: Simulate a DC Motor voltage as input at non realtime, returns speed in RPM.
+    url: https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/dc_motor/dc_motor_pid.py
+    import:
+      - {key: import_math, line: "import math"}
+      - key: simulate_dcmotor_class
+        line: |-
+          class DCMotor:
+
+              def __init__ (
+                  self,
+                  Ra=0.52,
+                  La=0.000036,
+                  B=0.00001,
+                  J=0.000012,
+                  Kbemf=0.0137,
+                  STATIC_FRICTION=0.01,
+                  FRICTION_S=0.01
+              ):
+                  self.bemf = 0.0
+                  # omega = rpm ( w )
+                  self.omega = 0.0
+
+                  # theta = electrical angle normalized to 2*pi
+                  self.theta = 0.0
+
+                  self.ia, self.va = 0.0, 0.0
+
+                  self.Pelec, self.Te, self.Tl = 0.0, 0.0, 0.0
+
+                  # La here is La subtracted by mutual inductance M.
+                  self.Ra, self.La, self.B, self.J = Ra, La, B, J
+                  self.Kbemf = Kbemf
+                  self.STATIC_FRICTION, self.FRICTION_S = STATIC_FRICTION, FRICTION_S
+
+                  self._last_time = 0.0
+
+
+              # The simulator
+              def sim( self, load, va, dt):
+                  now = utime.ticks_us()
+
+                  # Set the load
+                  sign = math.copysign( 1, self.omega )
+                  self.Tl = sign * load
+                  self.va = va
+
+                  # Calculate bemf
+                  self.bemf = self.Kbemf * self.omega
+
+                  # Calculate change in current per di/dt
+                  dot_ia = (1.0 / self.La) * ( self.va - (self.Ra * self.ia) - self.bemf )
+
+                  # Apply changes to current in phases
+                  self.ia += dot_ia * dt
+
+                  # Electrical torque. Since omega can be null, cannot derive from P/w
+                  self.Te = self.Kbemf * self.ia
+
+                  # Electrical power
+                  self.Pelec = self.bemf * self.ia
+
+
+                  # Mechanical torque.
+                  # mtorque = ((etorque * (p->m->NbPoles / 2)) - (p->m->damping * sv->omega) - p->pv->torque);
+                  self.Tm = ((self.Te) - (sign * self.B * abs(self.omega)) - self.Tl)
+
+                  # Friction calculations
+                  if abs(self.omega) < 1.0:
+                      if abs(self.Te) < self.STATIC_FRICTION:
+                          self.Tm = 0.0
+                      else:
+                          self.Tm -= self.STATIC_FRICTION
+                  else:
+                      self.Tm = self.Tm - sign * ( self.STATIC_FRICTION * math.exp( -5 * abs( self.omega )) + self.FRICTION_S )
+
+                  # J is the moment of inertia
+                  dotOmega = (self.Tm / self.J)
+                  self.omega = self.omega + dotOmega * dt
+
+
+                  self.theta += self.omega * dt
+                  self.theta = self.theta % ( 2.0 * math.pi )
+
+                  self._last_time += dt
+                  return self.omega
+      - {key: "simulate_dcmotor_obj{ID}",
+         line: "dcmotor{ID} = DCMotor({RA},{LA},{B},{J},{KBEMF},{STATIC_FRICTION},0)"}
+    code: "dcmotor{ID}.sim({LOAD}, {POWER}, {DT})"
+    params:
+      - {name: ID, label: "DC Motor#", kind: number, default: 0, min: 0, max: 9}
+      - {name: RA, label: "Ra(Ω)", kind: number, default: 0.52, min: 0, row: next}
+      - {name: LA, label: "La(H)", kind: number, default: 0.000036, min: 0, align: centre}
+      - {name: B, label: "B(Nm)", kind: number, default: 0.00001, min: 0, row: next}
+      - {name: J, label: "J(kgm²)", kind: number, default: 0.000012, min: 0, align: centre}
+      - {name: KBEMF, label: Kbemf, kind: number, default: 0.0137, min: 0, row: next}
+      - {name: STATIC_FRICTION, label: "Static Friction (Nm)", kind: number,
+         default: 0.01, min: 0, align: centre}
+      - {name: POWER, label: "voltage (V)", align: right, default: 0}
+      - {name: DT, label: "timestep (s)", align: right, default: 0.01}
+      - {name: LOAD, label: "load (Nm)", align: right, default: 0}
+
+  # No definitions_ entry of its own: it reads an attribute off the object the
+  # sim block builds, and it has no way to build one -- it carries the motor
+  # number but none of the motor's parameters. Using it without a sim block was
+  # a NameError before and still is.
+  - type: simulate_dcmotor.vars
+    kind: value
+    inline: false
+    label: []
+    tooltip: Returns a internal variables of the DC Motor simulation.
+    url: https://github.com/JorgeGMarques/micropython-simple-pid/blob/master/examples/water_boiler/water_boiler.py
+    code: "dcmotor{ID}.{VARS}"
+    params:
+      - {name: ID, label: "get DC Motor #", kind: number, default: 0, min: 0, max: 9,
+         suffix: ".", row: next}
+      - name: VARS
+        kind: dropdown
+        options:
+          - {"Va(V)": va}
+          - {"Ia(A)": ia}
+          - {"omega(RPM)": omega}
+          - {"theta(kgm²)": theta}
+          - {"static friction (Nm)": STATIC_FRICTION}
+          - {"Bemf(V)": bemf}
+          - {"torque (Nm)": Te}
+          - {"Load torque (Nm)": Tl}
+          - {"last time": _last_time}
