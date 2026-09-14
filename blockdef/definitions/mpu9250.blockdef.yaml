@@ -1,0 +1,33 @@
+# MPU9250 9-axis IMU. Its three blocks shared the MPU6050 category on esp32 and
+# esp32c3 -- a second <label> and three more install buttons inside someone
+# else's category -- so they are their own category here. The driver pulls in
+# mpu6500 and ak8963, which is why all three libraries are offered.
+
+module: mpu9250
+class: MPU9250
+instance: mpu9250s
+colour: 230
+import: {line: "from mpu9250 import MPU9250", key: import_mpu9250}
+
+category:
+  name: MPU9250 IMU
+  library: [mpu9250, mpu6500, ak8963]
+  toolboxes: [esp32, esp32c3]
+
+blocks:
+  - type: mpu9250_init
+    label: Init MPU9250
+    tooltip: ""
+    colour: 135
+    constructor: true
+    # SoftI2C, so no bus number -- the pins are the whole address.
+    i2c_bus: {scl: scl, sda: sda, soft: true}
+    args: [bus]
+    params:
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+
+  - {type: mpu9250_acc,  attr: acceleration, kind: value, label: MPU9250 Acceleration}
+  - {type: mpu9250_gyro, attr: gyro,         kind: value, label: MPU9250 Gyro rate}
+  - {type: mpu9250_mag,  attr: magnetic,     kind: value, label: MPU9250 Magnetometer}
+  - {type: mpu9250_temp, attr: temperature,  kind: value, label: MPU9250 Temperature}

@@ -633,6 +633,62 @@ Blockly.Blocks['dc_motor_stop'] = {
   }
 };
 
+// ---- %{BKY_CAT_TEMP_HUMI} (dht.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['dht_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/dht.png", 55, 55, "*"))
+        .appendField(MSG["dht_start"]);
+    this.appendDummyInput()
+        .appendField(MSG["type"])
+        .appendField(new Blockly.FieldDropdown([["DHT11", "DHT11"], ["DHT22", "DHT22"]]), "DHT_TYPE");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable(MSG["pin"]), "DHT_PIN_MSG");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start DHT11 ou DHT22 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['dht_measure'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["dht_measure"]), "MSG_MEASURE_DHT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Measure DHT11/22 Sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['dht_read_temp'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["dht_temp"]), "MSG_READ_DHT_TEMP");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read DHT11/22 Temperature");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['dht_read_humidity'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["dht_humi"]), "MSG_READ_DHT_HUMI");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read DHT11/22 Humidity");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- OneWire (ds18x20.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['onewire_ds18x20_init'] = {
@@ -2445,6 +2501,167 @@ Blockly.Blocks['mpr121_key_pressed'] = {
     this.setColour(135);
     this.setTooltip("Is key pressed");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- %{BKY_CAT_IMU} (mpu6050.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['init_mpu6050'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init MPU6050 IMU");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mpu6050.png", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_acc_x'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Acceleration - X axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Acceleration on X axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_acc_y'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Acceleration - Y axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Acceleration on Y axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_acc_z'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Acceleration - Z axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Acceleration on Z axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_gyro_x'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Gyro - X axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Gyro on X axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_gyro_y'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Gyro - Y axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Gyro on Y axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_gyro_z'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Gyro - Z axis"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Gyro on Z axis");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mpu6050_read_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Temperature"), "MSG_READ_MPU6050");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Temperature");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- MPU9250 IMU (mpu9250.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['mpu9250_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init MPU9250");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['mpu9250_acc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MPU9250 Acceleration");
+    this.setOutput(true, null);
+    this.setColour(230);
+  }
+};
+
+Blockly.Blocks['mpu9250_gyro'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MPU9250 Gyro rate");
+    this.setOutput(true, null);
+    this.setColour(230);
+  }
+};
+
+Blockly.Blocks['mpu9250_mag'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MPU9250 Magnetometer");
+    this.setOutput(true, null);
+    this.setColour(230);
+  }
+};
+
+Blockly.Blocks['mpu9250_temp'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MPU9250 Temperature");
+    this.setOutput(true, null);
+    this.setColour(230);
   }
 };
 

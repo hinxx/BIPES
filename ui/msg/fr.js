@@ -133,4 +133,6 @@ Blockly.Msg['CAT_CONTROL'] = "Control";
 Blockly.Msg['CAT_ULTRASOUND'] = "Ultrason";
 Blockly.Msg['CAT_AIR'] = "Qualité de l'air";
 Blockly.Msg['CAT_PRESS'] = "Pression";
+Blockly.Msg['CAT_TEMP_HUMI'] = "Température et humidité";
+Blockly.Msg['CAT_IMU'] = "Mesure inertielle";
 

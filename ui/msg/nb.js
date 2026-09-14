@@ -145,3 +145,5 @@ Blockly.Msg['CAT_NET'] = "Nettverk og Internet";
 Blockly.Msg['CAT_CONTROL'] = "Kontroll";
 Blockly.Msg['CAT_ULTRASOUND'] = "Ultralyd";
 Blockly.Msg['CAT_AIR'] = "Luftkvalitet";
+Blockly.Msg['CAT_TEMP_HUMI'] = "Temperatur og fuktighet";
+Blockly.Msg['CAT_IMU'] = "Treghetsmåling";

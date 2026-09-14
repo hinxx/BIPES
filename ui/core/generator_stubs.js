@@ -363,69 +363,6 @@ Blockly.Python['var_to_float'] = function(block) {
 // ds3231
 // MPR121
 // vl53l0x
-//MPU6050
-
-Blockly.Python['init_mpu6050'] = function(block) {
-  var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-  var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-  var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_imu'] = 'from imu import MPU6050';
-
-	var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: scl, sda: sda});
-  var code = '';
- //     code += 'oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)\n';
-    code += "imu = MPU6050(" + bus_ + ")\n";
-
-  return code;
-};
-
-
-Blockly.Python['mpu6050_read_acc_x'] = function(block) {
-  var code = 'imu.accel.x';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['mpu6050_read_acc_y'] = function(block) {
-  var code = 'imu.accel.y';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['mpu6050_read_acc_z'] = function(block) {
-  var code = 'imu.accel.z';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['mpu6050_read_gyro_x'] = function(block) {
-  var code = 'imu.gyro.x';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['mpu6050_read_gyro_y'] = function(block) {
-  var code = 'imu.gyro.y';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['mpu6050_read_gyro_z'] = function(block) {
-	var code = 'imu.gyro.z';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-  
-  Blockly.Python['mpu6050_read_temperature'] = function(block) {
-	var code = 'imu.temperature';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-  
-	
-
-
-
-//End of MPU6050
 
 Blockly.Python['init_oled'] = function(block) {
   var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
@@ -688,36 +625,6 @@ Blockly.Python['wifi_client_scan_networks'] = function(block) {
 		var code = 'sta_if.scan()';
 	}
 	return [code, Blockly.Python.ORDER_NONE];
-};
-
-/// DHT11/22
-/// Start DHT Sensor
-Blockly.Python['dht_init'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var type = block.getFieldValue('DHT_TYPE');
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_dht'] = 'import dht';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'dhts=dht.' + type + '(Pin(' + value_pin + '));dhts.measure();time.sleep(2)\n';
-  return code;
-};
-
-/// Measure DHT11/22 Sensor
-Blockly.Python['dht_measure'] = function(block) {
-  var code = 'dhts.measure()\n';
-  return code;
-};
-
-/// Read DHT11/22 Temperature
-Blockly.Python['dht_read_temp'] = function(block) {
-  var code = 'dhts.temperature()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-/// Read DHT11/22 Humidity
-Blockly.Python['dht_read_humidity'] = function(block) {
-  var code = 'dhts.humidity()';
-  return [code, Blockly.Python.ORDER_NONE];
 };
 
 /// AHT10/20
@@ -5617,40 +5524,6 @@ Blockly.Python['sht20_temperature'] = function(block) {
 
 Blockly.Python['sht20_humidity'] = function(block) {
 	var code = 'sht20_humidity()';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-//MPU9250
-Blockly.Python['mpu9250_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_mpu9250'] = 'from mpu9250 import MPU9250';
-
-	var bus_ = Blockly.Python.i2cBus_({scl: scl, sda: sda, soft: true});
-	var code = '';
-	    code += 'mpu9250s = MPU9250(' + bus_ + ')\n';
-
-	return code;
-};
-
-Blockly.Python['mpu9250_acc'] = function(block) {
-	var code = 'mpu9250s.acceleration';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['mpu9250_mag'] = function(block) {
-	var code = 'mpu9250s.magnetic';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['mpu9250_gyro'] = function(block) {
-	var code = 'mpu9250s.gyro';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['mpu9250_temp'] = function(block) {
-	var code = 'mpu9250s.temperature';
 	return [code, Blockly.Python.ORDER_NONE];
 };
 

@@ -1,0 +1,50 @@
+# DHT11/DHT22 temperature and humidity sensor. The dropdown picks the class,
+# the same way the AHT10/20 one does.
+#
+# The 13 toolboxes that offer this spelled the category two ways
+# ("DHT11/22 Sensor" on eleven, "%{BKY_CAT_TEMP_HUMI}" on esp32 and esp32c3)
+# and its label two ways ("DHT11/11" on six of them). Seven also pinned the
+# English text of three blocks into <field> presets, which overrode the
+# translation on every one of the eleven languages that carries these keys.
+
+module: dht
+instance: dhts
+colour: 230
+url: http://www.bipes.net.br
+import: {line: "import dht", key: import_dht}
+
+category:
+  name: "%{BKY_CAT_TEMP_HUMI}"
+  labels:
+    - DHT11/22 Temperature and Humidity Sensor
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: dht_init
+    label:
+      - {image: {src: media/dht.png, width: 55, height: 55}, msg: dht_start}
+    tooltip: Start DHT11 ou DHT22 sensor
+    # Only the constructor reads a pin and waits for the first conversion.
+    import:
+      - {line: "from machine import Pin", key: import_pin}
+      - {line: "import time", key: import_time}
+    code: "{instance}=dht.{DHT_TYPE}(Pin({pin}));{instance}.measure();time.sleep(2)"
+    params:
+      - name: DHT_TYPE
+        label: {msg: type}
+        kind: dropdown
+        options: [DHT11, DHT22]
+      - {name: pin, label: {msg: pin, field: DHT_PIN_MSG}, type: Number, pin: true,
+         align: right}
+
+  - {type: dht_measure, fn: measure, label: {msg: dht_measure, field: MSG_MEASURE_DHT},
+     tooltip: Measure DHT11/22 Sensor}
+
+  - {type: dht_read_temp, fn: temperature, kind: value,
+     label: {msg: dht_temp, field: MSG_READ_DHT_TEMP},
+     tooltip: Read DHT11/22 Temperature}
+
+  - {type: dht_read_humidity, fn: humidity, kind: value,
+     label: {msg: dht_humi, field: MSG_READ_DHT_HUMI},
+     tooltip: Read DHT11/22 Humidity}

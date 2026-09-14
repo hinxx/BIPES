@@ -133,4 +133,6 @@ Blockly.Msg['CAT_CONTROL'] = "Control";
 Blockly.Msg['CAT_ULTRASOUND'] = "超聲波";
 Blockly.Msg['CAT_AIR'] = "空氣品質";
 Blockly.Msg['CAT_PRESS'] = "氣壓";
+Blockly.Msg['CAT_TEMP_HUMI'] = "溫濕度";
+Blockly.Msg['CAT_IMU'] = "慣性測量";
 

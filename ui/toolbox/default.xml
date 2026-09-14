@@ -760,26 +760,23 @@
   </category>
 
   <category name="Sensors">
-    <category name="DHT11/22 Sensor">
+    <!-- blockdef:dht -->
+    <category name="%{BKY_CAT_TEMP_HUMI}">
       <label text="DHT11/22 Temperature and Humidity Sensor"></label>
+
       <block type="dht_init">
-        <field name="BLOCK_DHT_INIT">Start DHT11/22 sensor</field>
         <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
-      <block type="dht_measure">
-        <field name="MSG_MEASURE_DHT">Measure DHT11/22 Sensor</field>
-      </block>
-      <block type="dht_read_temp">
-        <field name="MSG_READ_DHT_TEMP">Read DHT11/22 Temperature</field>
-      </block>
-      <block type="dht_read_humidity">
-        <field name="MSG_READ_DHT_HUMI">Read DHT11/22 Humidity</field>
-      </block>
+
+      <block type="dht_measure"></block>
+
+      <block type="dht_read_temp"></block>
+
+      <block type="dht_read_humidity"></block>
     </category>
+    <!-- /blockdef:dht -->
 
 
   <!-- blockdef:hcsr04 -->
@@ -877,42 +874,44 @@
   </category>
   <!-- /blockdef:max30100 -->
 
-  <category name="Inertial Measurement">
-      <label text="MPU6050 IMU"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install imu library (MPU6050)" callbackKey="installPyLib"></button>
-
-        <button text="Load example: mpu6050" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
-
-
+  <!-- blockdef:mpu6050 -->
+  <category name="%{BKY_CAT_IMU}">
+    <label text="MPU6050 IMU"></label>
+    <label text="Library: https://github.com/micropython-IMU/micropython-mpu9x50"></label>
+    <button text="Install imu library" callbackKey="installPyLib"></button>
+    <button text="Install vector3d library" callbackKey="installPyLib"></button>
+    <button text="Load example: mpu6050" callbackKey="loadExample"></button>
+    <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
 
     <block type="init_mpu6050">
-
- <value name="scl">
+      <value name="i2c">
         <shadow type="math_number">
-          <field name="NUM">5</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
-
- <value name="sda">
-        <shadow type="math_number">
-          <field name="NUM">4</field>
-        </shadow>
+      <value name="scl">
+        <shadow type="pinout"></shadow>
       </value>
-
+      <value name="sda">
+        <shadow type="pinout"></shadow>
+      </value>
     </block>
 
-    <block type="mpu6050_read_acc_x"> </block>
-    <block type="mpu6050_read_acc_y"> </block>
-    <block type="mpu6050_read_acc_z"> </block>
+    <block type="mpu6050_read_acc_x"></block>
 
-    <block type="mpu6050_read_gyro_x"> </block>
-    <block type="mpu6050_read_gyro_y"> </block>
-    <block type="mpu6050_read_gyro_z"> </block>
+    <block type="mpu6050_read_acc_y"></block>
 
+    <block type="mpu6050_read_acc_z"></block>
 
+    <block type="mpu6050_read_gyro_x"></block>
+
+    <block type="mpu6050_read_gyro_y"></block>
+
+    <block type="mpu6050_read_gyro_z"></block>
+
+    <block type="mpu6050_read_temperature"></block>
   </category>
+  <!-- /blockdef:mpu6050 -->
 
       <!-- blockdef:ds18x20 -->
       <category name="OneWire">

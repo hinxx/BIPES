@@ -1,0 +1,68 @@
+# MPU6050 6-axis IMU, through the micropython-mpu9x50 driver (imu.py).
+#
+# imu.py imports vector3d, so the vector3d install button belongs next to the
+# imu one -- nine of the thirteen toolboxes offered only the first, and the
+# library they installed died on `import vector3d`. Four of them also spelled
+# the driver's URL "https://github.com/", and the temperature reading was
+# offered by four.
+#
+# The three boards' SDA/SCL shadows disagreed (4/5, 18/19, and a `pinout`
+# whose field was named SDA/SCL, which Blockly ignores), so none of them is
+# carried over: the pinout dropdown lists the pins the selected board has.
+
+module: imu
+class: MPU6050
+instance: imu
+colour: 230
+url: http://www.bipes.net.br
+import: {line: "from imu import MPU6050", key: import_imu}
+
+category:
+  name: "%{BKY_CAT_IMU}"
+  labels:
+    - MPU6050 IMU
+    - "Library: https://github.com/micropython-IMU/micropython-mpu9x50"
+  library: [imu, vector3d]
+  examples: mpu6050
+  docs: mpu6050
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: init_mpu6050
+    label:
+      - Init MPU6050 IMU
+      - {image: {src: media/mpu6050.png, width: 55, height: 55}}
+    tooltip: ""
+    url: ""
+    colour: 135
+    constructor: true
+    # Shared with every other I2C block on the same pins. The `i2c` socket had
+    # no shadow on nine boards, so the bus came out as `I2C(scl=.., sda=..)`,
+    # and hardware I2C wants the bus number first.
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    args: [bus]
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+
+  - {type: mpu6050_read_acc_x, attr: accel.x, kind: value,
+     label: {text: Acceleration - X axis, field: MSG_READ_MPU6050},
+     tooltip: Acceleration on X axis}
+  - {type: mpu6050_read_acc_y, attr: accel.y, kind: value,
+     label: {text: Acceleration - Y axis, field: MSG_READ_MPU6050},
+     tooltip: Acceleration on Y axis}
+  - {type: mpu6050_read_acc_z, attr: accel.z, kind: value,
+     label: {text: Acceleration - Z axis, field: MSG_READ_MPU6050},
+     tooltip: Acceleration on Z axis}
+
+  - {type: mpu6050_read_gyro_x, attr: gyro.x, kind: value,
+     label: {text: Gyro - X axis, field: MSG_READ_MPU6050}, tooltip: Gyro on X axis}
+  - {type: mpu6050_read_gyro_y, attr: gyro.y, kind: value,
+     label: {text: Gyro - Y axis, field: MSG_READ_MPU6050}, tooltip: Gyro on Y axis}
+  - {type: mpu6050_read_gyro_z, attr: gyro.z, kind: value,
+     label: {text: Gyro - Z axis, field: MSG_READ_MPU6050}, tooltip: Gyro on Z axis}
+
+  - {type: mpu6050_read_temperature, attr: temperature, kind: value,
+     label: {text: Temperature, field: MSG_READ_MPU6050}, tooltip: Temperature}
