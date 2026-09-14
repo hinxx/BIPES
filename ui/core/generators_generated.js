@@ -1467,6 +1467,59 @@ Blockly.Python['mpu9250_temp'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- NeoPixel LED Strip (neopixel.blockdef.yaml) -----------------------------
+
+Blockly.Python['neopixel_control_CPY'] = function(block) {
+  Blockly.Python.definitions_["import_board"] = "import board";
+  Blockly.Python.definitions_["import_neopixel_write"] = "import neopixel_write";
+  Blockly.Python.definitions_["import_digitalio"] = "import digitalio";
+  Blockly.Python.definitions_["import_neopixel_init"] = "try:\n\tneopixel_pin.deinit()\nexcept:\n\tpass\nneopixel_pin = digitalio.DigitalInOut(board.NEOPIXEL)\nneopixel_pin.direction = digitalio.Direction.OUTPUT";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "pixel = bytearray(" + color_ + ")\nt=pixel[0]\npixel[0]=pixel[1]\npixel[1]=t\nneopixel_write.neopixel_write(neopixel_pin, pixel)";
+  return code + "\n";
+};
+
+Blockly.Python['neopixel_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var number_ = Blockly.Python.valueToCode(block, "number", Blockly.Python.ORDER_ATOMIC);
+  var code = "np=neopixel.NeoPixel(Pin(" + pin_ + ")," + number_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['neopixel_control'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "np[" + address_ + "]=" + color_;
+  return code + "\n";
+};
+
+Blockly.Python['neopixel_fill'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "np.fill(" + color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['neopixel_clear'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
+  var code = "np.fill((0,0,0))\nnp.write()";
+  return code + "\n";
+};
+
+Blockly.Python['neopixel_write'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
+  var code = "np.write()";
+  return code + "\n";
+};
+
 // ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
 
 Blockly.Python['net_ntp_sync'] = function(block) {

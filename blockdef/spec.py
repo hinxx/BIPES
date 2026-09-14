@@ -128,12 +128,14 @@ class Block:
     imports: list['Import'] = field(default_factory=list)   # on top of the file's
     fields: dict[str, str] = field(default_factory=dict)    # toolbox <field> presets
     help_url: str | None = None
+    boards: list[str] = field(default_factory=list)   # toolboxes that list it; all if empty
 
 
 @dataclass(slots=True)
 class Label:
     """A `<label>` between blocks in the toolbox category."""
     text: str
+    boards: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -141,6 +143,7 @@ class Button:
     """A `<button>` between blocks, for a category covering more than one part."""
     text: str
     key: str
+    boards: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -221,7 +224,7 @@ def load(path: str | Path) -> Definition:
     seen: set[str] = set()
     for entry in blocks:
         parsed = _entry(entry, definition, where)
-        if isinstance(parsed, Block):
+        if isinstance(parsed, Block) and not parsed.external:
             if parsed.type in seen:
                 raise BlockdefError(f'{where}: two blocks both call themselves {parsed.type!r}')
             seen.add(parsed.type)
@@ -231,6 +234,12 @@ def load(path: str | Path) -> Definition:
         raise BlockdefError(f'{where}: nothing here defines a block')
 
     definition.defaults = _defaults(category.get('defaults'), definition, cat)
+
+    for entry in definition.entries:
+        unknown = [b for b in entry.boards if b not in definition.toolboxes]
+        if unknown:
+            raise BlockdefError(f'{where}: {unknown} in a `boards:` list, but the category is '
+                                f'not offered there -- `toolboxes:` says {definition.toolboxes}')
 
     _check_unknown(raw, {'module', 'class', 'instance', 'import', 'url', 'colour',
                          'category', 'blocks'}, where)
@@ -266,14 +275,15 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
 
     # An entry with nothing but a label is a <label> line in the toolbox, and
     # one naming a library/example/doc is that button, in that position.
-    if set(entry) == {'label'} and isinstance(entry['label'], str):
-        return Label(text=entry['label'])
+    boards = [str(b) for b in _as_list(entry.get('boards'))]
+    if set(entry) - {'boards'} == {'label'} and isinstance(entry['label'], str):
+        return Label(text=entry['label'], boards=boards)
     for key, (template, callback) in BUTTONS.items():
-        if key in entry and not set(entry) - {key, 'suffix'}:
+        if key in entry and not set(entry) - {key, 'suffix', 'boards'}:
             text = template.format(entry[key])
             if entry.get('suffix'):
                 text += f' {entry["suffix"]}'
-            return Button(text=text, key=callback)
+            return Button(text=text, key=callback, boards=boards)
 
     fn = entry.get('fn')
     type_ = entry.get('type') or (f'{definition.name}_{fn}' if fn else None)
@@ -283,12 +293,12 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
 
     external = bool(entry.get('external'))
     if external:
-        extra = set(entry) - {'type', 'external', 'params', 'fields'}
+        extra = set(entry) - {'type', 'external', 'params', 'fields', 'boards'}
         if extra:
             raise BlockdefError(f'{at}: an `external` block is defined by hand, so only '
                                 f'`params` and `fields` (its toolbox entry) mean anything '
                                 f'here, not {sorted(extra)}')
-        return Block(type=str(type_), external=True,
+        return Block(type=str(type_), external=True, boards=boards,
                      params=[_param(p, at) for p in entry.get('params', [])],
                      fields=_fields(entry.get('fields'), at))
 
@@ -352,11 +362,12 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
+        boards=boards,
     )
     _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'tooltip',
                            'kind', 'args', 'code', 'output', 'params', 'inline',
                            'constructor', 'i2c_bus', 'url', 'external', 'import',
-                           'fields'}, at)
+                           'fields', 'boards'}, at)
     return block
 
 
@@ -491,13 +502,14 @@ def _plug(raw: Any, where: _Where) -> dict[str, Any] | None:
     if not isinstance(raw, dict) or 'type' not in raw:
         raise BlockdefError(f'{where}: `plug` needs at least a `type` -- the block to put '
                             f'in the socket')
-    _check_unknown(raw, {'type', 'values', 'fields'}, where.at('plug'))
+    _check_unknown(raw, {'type', 'values', 'fields', 'shadow'}, where.at('plug'))
     values = raw.get('values') or {}
     fields = raw.get('fields') or {}
     for name, mapping in (('values', values), ('fields', fields)):
         if not isinstance(mapping, dict):
             raise BlockdefError(f'{where}: `plug.{name}` must be a mapping')
     return {'type': str(raw['type']),
+            'shadow': bool(raw.get('shadow')),
             'values': {str(k): v for k, v in values.items()},
             'fields': {str(k): str(v) for k, v in fields.items()}}
 

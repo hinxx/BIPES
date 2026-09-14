@@ -4528,67 +4528,6 @@ Blockly.Python['HSL_to_RGB'] = function(block) {
 
 
 
-Blockly.Python['neopixel_init'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-  var value_number = Blockly.Python.valueToCode(block, 'number', Blockly.Python.ORDER_NONE);
-
-  var code = `np=neopixel.NeoPixel(Pin(${value_pin}),${value_number})\n`;
-
-  return code;
-};
-
-Blockly.Python['neopixel_control_CPY'] = function(block) {
-	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-	var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_NONE);
-
-	Blockly.Python.definitions_['import_board'] = 'import board';
-	Blockly.Python.definitions_['import_neopixel_write'] = 'import neopixel_write';
-	Blockly.Python.definitions_['import_digitalio'] = 'import digitalio';
-	Blockly.Python.definitions_['import_neopixel_init'] = 'try:\n\tneopixel_pin.deinit()\nexcept:\n\tpass\nneopixel_pin = digitalio.DigitalInOut(board.NEOPIXEL)\nneopixel_pin.direction = digitalio.Direction.OUTPUT';
-
-  var code = 'pixel = bytearray(' + value_color + ')\nt=pixel[0]\npixel[0]=pixel[1]\npixel[1]=t\nneopixel_write.neopixel_write(neopixel_pin, pixel)\n';
-
-  return code;
-
-
-
-};
-
-
-Blockly.Python['neopixel_control'] = function(block) {
-  var value_address = Blockly.Python.valueToCode(block, 'address', Blockly.Python.ORDER_NONE);
-  var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_NONE);
-
-  var code = `np[${value_address}]=${value_color}\n`;
-
-  return code;
-};
-
-Blockly.Python['neopixel_fill'] = function(block) {
-  var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_NONE);
-
-  // NeoPixel.fill() takes the same (r, g, b) tuple as item assignment; the
-  // module maps it to the strip's GRB wire order itself, so no swap here.
-  var code = `np.fill(${value_color})\n`;
-
-  return code;
-};
-
-Blockly.Python['neopixel_clear'] = function(block) {
-  // Clearing is the one case worth writing immediately: nobody wants the
-  // lights left on because they forgot the write block.
-  var code = 'np.fill((0,0,0))\nnp.write()\n';
-  return code;
-};
-
-Blockly.Python['neopixel_write'] = function(block) {
-  var code = 'np.write()\n';
-  return code;
-};
-
 Blockly.Python['bipes_plot'] = function(block) {
    var x = Blockly.Python.valueToCode(block, 'values', Blockly.Python.ORDER_NONE) || '\'\'';
    var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_NONE) || '\'\'';

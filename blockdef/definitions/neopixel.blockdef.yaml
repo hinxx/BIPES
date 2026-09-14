@@ -1,0 +1,151 @@
+# NeoPixel/WS2812 strip. The strip object is `np`, and the colour blocks feed
+# it (r,g,b) tuples -- `neopixel_color_colors` from a colour picker,
+# `neopixel_color_numbers` from three sockets, `HSL_to_RGB` from hue.
+#
+# Three blocks stay hand-written: the two colour blocks and HSL_to_RGB all
+# restyle themselves in the colour they are emitting (a `styleBlock` method),
+# and the picker reads a FieldColour. Only their toolbox entries are ours.
+#
+# What the eleven boards disagree about, recorded here rather than in eleven
+# files: esp32S2 is the only board with a CircuitPython single LED on board, so
+# it is the only one offered `neopixel_control_CPY`; four boards point at three
+# examples and six at the documentation; and esp32S2 called the category
+# "NeoPixel LED" because of that first section.
+
+module: neopixel
+colour: olive
+url: http://www.bipes.net.br
+# Not a family-wide import: `neopixel_control_CPY` runs on CircuitPython, where
+# there is no `machine` module at all, so the two MicroPython imports are
+# carried by the strip blocks only (the anchor below keeps them in one place).
+import: []
+
+category:
+  name: NeoPixel LED Strip
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, 3pi_2040]
+  defaults:
+    rpi_pico:   {pin: 0}
+    rpi_pico_w: {pin: 0}
+    makernano:  {pin: 0}
+    makerpi:    {pin: 0}
+
+blocks:
+  - {label: Single RGB LED with CircuitPython, boards: [esp32S2]}
+
+  - type: neopixel_control_CPY
+    boards: [esp32S2]
+    label: Control NeoPixel
+    tooltip: Set NeoPixel
+    import:
+      - {line: "import board", key: import_board}
+      - {line: "import neopixel_write", key: import_neopixel_write}
+      - {line: "import digitalio", key: import_digitalio}
+      - key: import_neopixel_init
+        line: |-
+          try:
+          	neopixel_pin.deinit()
+          except:
+          	pass
+          neopixel_pin = digitalio.DigitalInOut(board.NEOPIXEL)
+          neopixel_pin.direction = digitalio.Direction.OUTPUT
+    # The strip wants GRB; the bytearray is swapped in place before writing.
+    code: |-
+      pixel = bytearray({color})
+      t=pixel[0]
+      pixel[0]=pixel[1]
+      pixel[1]=t
+      neopixel_write.neopixel_write(neopixel_pin, pixel)
+    params:
+      - {name: pin, label: Pin, pin: true}
+      - {name: color, label: Color, type: Number,
+         plug: {type: neopixel_color_colors, shadow: true}}
+
+  - type: neopixel_control_CPY
+    external: true
+    boards: [esp32S2]
+    params:
+      - {name: pin, label: Pin, pin: true}
+      - {name: color, plug: {type: neopixel_color_numbers,
+                             values: {red: 0, green: 0, blue: 0}}}
+
+  - {label: NeoPixel RGB LED Strip}
+  - {doc: neopixel, boards: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard,
+                             3pi_2040]}
+  - {example: Blink, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}
+  - {example: LarsonScanner, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}
+  - {example: TheaterChase, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}
+
+  - type: neopixel_init
+    label:
+      - Init NeoPixel
+      - {image: {src: media/neopixel.png, width: 55, height: 55}}
+    tooltip: Init NeoPixel on the specified pin
+    url: ""
+    import: &micropython
+      - {line: "from machine import Pin", key: import_pin}
+      - {line: "import neopixel", key: import_neopixel}
+    code: "np=neopixel.NeoPixel(Pin({pin}),{number})"
+    params:
+      - {name: pin,    label: Pin,            pin: true}
+      - {name: number, label: Number of LEDs, type: Number, default: 8}
+
+  - type: neopixel_color_numbers
+    external: true
+    params:
+      - {name: red,   default: 50}
+      - {name: green, default: 152}
+      - {name: blue,  default: 220}
+
+  - {type: neopixel_color_colors, external: true}
+
+  - type: HSL_to_RGB
+    external: true
+    params:
+      - {name: hue,        default: 204}
+      - {name: saturation, default: 70.8}
+      - {name: lightness,  default: 52.9}
+
+  - type: neopixel_control
+    label: Control NeoPixel
+    tooltip: Set NeoPixel
+    import: *micropython
+    code: "np[{address}]={color}"
+    params:
+      - {name: address, label: LED, default: 0}
+      - {name: color, label: Color, type: Number,
+         plug: {type: neopixel_color_colors, shadow: true}}
+
+  - type: neopixel_control
+    external: true
+    params:
+      - {name: address, default: 0}
+      - {name: color, plug: {type: neopixel_color_numbers,
+                             values: {red: 0, green: 0, blue: 0}}}
+
+  - type: neopixel_fill
+    label: Fill NeoPixel
+    tooltip: Set every LED on the strip to one colour. Use 'Write NeoPixel' afterwards to send it to the strip.
+    # NeoPixel.fill() takes the same (r, g, b) tuple as item assignment; the
+    # module maps it to the strip's GRB wire order itself, so no swap here.
+    import: *micropython
+    code: "np.fill({color})"
+    params:
+      - {name: color, label: Color,
+         plug: {type: neopixel_color_colors, shadow: true}}
+
+  - type: neopixel_clear
+    label: Clear NeoPixel
+    tooltip: Turn every LED on the strip off, and send it to the strip straight away.
+    # Clearing is the one case worth writing immediately: nobody wants the
+    # lights left on because they forgot the write block.
+    import: *micropython
+    code: |-
+      np.fill((0,0,0))
+      np.write()
+
+  - type: neopixel_write
+    label: Write NeoPixel
+    tooltip: Write NeoPixel
+    import: *micropython
+    code: "np.write()"

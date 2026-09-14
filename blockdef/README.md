@@ -112,13 +112,27 @@ blocks:
 | `i2c_bus` | `{id, scl, sda, freq, soft}` → param names, or numbers for a fixed value; builds the shared bus. |
 | `inline` | `setInputsInline()`. Left alone if omitted. |
 | `import` | entries only this block needs, on top of the file's. |
-| `external` | `true` means the block is written by hand; only its toolbox entry is generated. Then only `params` and `fields` apply. |
+| `external` | `true` means the block's JavaScript comes from somewhere else -- written by hand, or an earlier entry in this file that the toolbox lists twice. Only its toolbox entry is generated, so only `params`, `fields` and `boards` apply. |
+| `boards` | the toolboxes that list this entry; all of `category.toolboxes` if absent. |
 | `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |
 
 An entry with nothing but `label:` is a `<label>` line in the toolbox, and one
 naming `library:`, `example:` or `doc:` (with an optional `suffix:`) is that
-button -- both in whatever position they appear among the blocks.
+button -- both in whatever position they appear among the blocks. Any entry can
+carry `boards:`, which is how a category that is not the same everywhere says
+so in one place:
+
+```yaml
+- {label: Single RGB LED with CircuitPython, boards: [esp32S2]}
+- {type: neopixel_control_CPY, boards: [esp32S2], ...}
+- {doc: neopixel,   boards: [esp32, esp8266, ...]}
+- {example: Blink,  boards: [rpi_pico, makerpi, ...]}
+```
+
+The block itself is always defined and always gets a generator -- a saved
+program can contain it whatever board is selected. `boards:` only decides which
+toolboxes offer it.
 
 ### Label rows
 
@@ -203,6 +217,14 @@ block arrives with its colour block attached:
 `values:` fills the plugged block's own sockets with shadows, by the same rules
 as `default:`; `fields:` sets its fields (`{VAR: data}` for a `variables_get`).
 A plugged block replaces the shadow rather than sitting beside it.
+
+`shadow: true` inside `plug:` makes it a *shadow* of that type instead of a
+block -- a placeholder of some other block's shape, which is how every NeoPixel
+colour socket arrives:
+
+```yaml
+- {name: color, label: Color, plug: {type: neopixel_color_colors, shadow: true}}
+```
 
 ### A note on YAML booleans
 

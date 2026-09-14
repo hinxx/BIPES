@@ -2794,6 +2794,102 @@ Blockly.Blocks['mpu9250_temp'] = {
   }
 };
 
+// ---- NeoPixel LED Strip (neopixel.blockdef.yaml) -----------------------------
+
+Blockly.Blocks['neopixel_control_CPY'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Control NeoPixel");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("Pin");
+    this.appendValueInput("color")
+        .setCheck("Number")
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Set NeoPixel");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['neopixel_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init NeoPixel");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/neopixel.png", 55, 55, "*"));
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("Pin");
+    this.appendValueInput("number")
+        .setCheck("Number")
+        .appendField("Number of LEDs");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Init NeoPixel on the specified pin");
+  }
+};
+
+Blockly.Blocks['neopixel_control'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Control NeoPixel");
+    this.appendValueInput("address")
+        .setCheck(null)
+        .appendField("LED");
+    this.appendValueInput("color")
+        .setCheck("Number")
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Set NeoPixel");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['neopixel_fill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Fill NeoPixel");
+    this.appendValueInput("color")
+        .setCheck(null)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Set every LED on the strip to one colour. Use 'Write NeoPixel' afterwards to send it to the strip.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['neopixel_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Clear NeoPixel");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Turn every LED on the strip off, and send it to the strip straight away.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['neopixel_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write NeoPixel");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write NeoPixel");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
 
 Blockly.Blocks['net_ntp_sync'] = {

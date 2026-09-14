@@ -345,6 +345,10 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
                      f'callbackKey="loadDoc"></button>')
 
     for entry in definition.entries:
+        # `boards:` is how a category that is not the same everywhere says so:
+        # the entry is listed on those toolboxes and left out of the others.
+        if entry.boards and board not in entry.boards:
+            continue
         lines.append('')
         if isinstance(entry, Label):
             lines.append(f'  <label text="{_xml(entry.text)}"></label>')
@@ -414,8 +418,14 @@ def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
 
 
 def _plug_xml(plug: dict) -> list[str]:
-    """A real block in the socket, with shadows of its own."""
-    lines = [f'<block type="{_xml(plug["type"])}">']
+    """A block in the socket, with shadows of its own.
+
+    `shadow: true` makes it a shadow of that type instead -- a placeholder the
+    user can drop a different colour block onto, which is how every NeoPixel
+    colour socket arrives.
+    """
+    tag = 'shadow' if plug['shadow'] else 'block'
+    lines = [f'<{tag} type="{_xml(plug["type"])}">']
     for name, value in plug['values'].items():
         inner = _shadow_xml(Param(name=name, default=value))
         if inner is None:
@@ -425,7 +435,7 @@ def _plug_xml(plug: dict) -> list[str]:
         lines.append('  </value>')
     for name, value in plug['fields'].items():
         lines.append(f'  <field name="{_xml(name)}">{_xml(value)}</field>')
-    lines.append('</block>')
+    lines.append(f'</{tag}>')
     return lines
 
 
