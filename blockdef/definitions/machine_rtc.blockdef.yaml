@@ -1,0 +1,53 @@
+# `machine.RTC`, the real-time clock. Seven blocks of `machine.RTC.RTC.now()`
+# against an `import machine.RTC` that is not a module, with one untyped `pIn`
+# socket for every argument.
+#
+# `RTC.init` becomes the constructor, by the rule the other `machine.*` classes
+# settled: nothing else in the tree makes an RTC object. It takes no arguments,
+# because setting the clock is what the Timing category's `set_rtc` blocks are
+# for, and they already do it through `rtc.datetime(...)`.
+#
+# `now`, `alarm`, `alarm_left`, `cancel` and `irq` are the WiPy port's API. On
+# an ESP32 or a Pico the object exists and `datetime()` works, but these five
+# methods do not -- which is a question about whether the category should be
+# offered on those boards at all, not about how to write it down.
+
+module: machine
+class: RTC
+instance: rtc
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.RTC.html
+import: {key: import_RTC, line: "from machine import RTC"}
+
+category:
+  name: machine.RTC
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: "machine.RTC_RTC.init", label: RTC.init, code: "{instance} = RTC()",
+     tooltip: "The clock object the rest of this category calls."}
+
+  - {type: "machine.RTC_RTC.now", fn: now, kind: value, label: RTC.now,
+     tooltip: "The current date and time, as a tuple. WiPy only."}
+
+  - {type: "machine.RTC_RTC.deinit", fn: deinit, label: RTC.deinit,
+     tooltip: "Reset the clock to 1 January 2015."}
+
+  - {type: "machine.RTC_RTC.alarm", fn: alarm, label: RTC.alarm,
+     tooltip: "Set an alarm this many milliseconds from now. WiPy only.",
+     params: [{name: id, label: alarm, type: Number, default: 0, align: right},
+              {name: time, label: "in (ms)", type: Number, default: 5000, align: right}]}
+
+  - {type: "machine.RTC_RTC.alarm_left", fn: alarm_left, kind: value,
+     label: RTC.alarm_left,
+     tooltip: "Milliseconds left before the alarm goes off. WiPy only.",
+     params: [{name: id, label: alarm, type: Number, default: 0, align: right}]}
+
+  - {type: "machine.RTC_RTC.cancel", fn: cancel, label: RTC.cancel,
+     tooltip: "Call off an alarm. WiPy only.",
+     params: [{name: id, label: alarm, type: Number, default: 0, align: right}]}
+
+  - {type: "machine.RTC_RTC.irq", fn: irq, label: RTC.irq,
+     tooltip: "Call a function when the alarm goes off. WiPy only.",
+     params: [{name: handler, label: call, align: right}]}

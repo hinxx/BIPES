@@ -4065,36 +4065,77 @@
   <block type="machine_rng"></block>
 </category>
 <!-- /blockdef:machine -->
+<!-- blockdef:machine_rtc -->
 <category name="machine.RTC">
-<block type="machine.RTC_RTC.init">
-</block>
-<block type="machine.RTC_RTC.now">
-</block>
-<block type="machine.RTC_RTC.deinit">
-</block>
-<block type="machine.RTC_RTC.alarm">
-</block>
-<block type="machine.RTC_RTC.alarm_left">
-</block>
-<block type="machine.RTC_RTC.cancel">
-</block>
-<block type="machine.RTC_RTC.irq">
-</block>
+
+  <block type="machine.RTC_RTC.init"></block>
+
+  <block type="machine.RTC_RTC.now"></block>
+
+  <block type="machine.RTC_RTC.deinit"></block>
+
+  <block type="machine.RTC_RTC.alarm">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="time">
+      <shadow type="math_number">
+        <field name="NUM">5000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.RTC_RTC.alarm_left">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.RTC_RTC.cancel">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.RTC_RTC.irq"></block>
 </category>
+<!-- /blockdef:machine_rtc -->
+<!-- blockdef:machine_sd -->
 <category name="machine.SD">
-<block type="machine.SD_SD.init">
-</block>
-<block type="machine.SD_SD.deinit">
-</block>
+
+  <block type="machine.SD_SD.init"></block>
+
+  <block type="machine.SD_SD.deinit"></block>
 </category>
+<!-- /blockdef:machine_sd -->
+<!-- blockdef:machine_signal -->
 <category name="machine.Signal">
-<block type="machine.Signal_Signal.value">
-</block>
-<block type="machine.Signal_Signal.on">
-</block>
-<block type="machine.Signal_Signal.off">
-</block>
+
+  <block type="machine.Signal_Signal">
+    <value name="pin">
+      <shadow type="pinout"></shadow>
+    </value>
+  </block>
+
+  <block type="machine.Signal_Signal.value">
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.Signal_Signal.on"></block>
+
+  <block type="machine.Signal_Signal.off"></block>
 </category>
+<!-- /blockdef:machine_signal -->
 <!-- blockdef:machine_spi -->
 <category name="machine.SPI">
 
@@ -4220,10 +4261,20 @@
   <block type="machine.UART_UART.irq"></block>
 </category>
 <!-- /blockdef:machine_uart -->
+<!-- blockdef:machine_wdt -->
 <category name="machine.WDT">
-<block type="machine.WDT_wdt.feed">
-</block>
+
+  <block type="machine.WDT_WDT">
+    <value name="timeout">
+      <shadow type="math_number">
+        <field name="NUM">5000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.WDT_wdt.feed"></block>
 </category>
+<!-- /blockdef:machine_wdt -->
 <!-- blockdef:math -->
 <category name="math">
 

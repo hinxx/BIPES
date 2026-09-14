@@ -2557,6 +2557,102 @@ Blockly.Python['machine.Pin_Pin.irq'] = function(block) {
   return code + "\n";
 };
 
+// ---- machine.RTC (machine_rtc.blockdef.yaml) ---------------------------------
+
+Blockly.Python['machine.RTC_RTC.init'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var code = "rtc = RTC()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.RTC_RTC.now'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var code = "rtc.now()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.RTC_RTC.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var code = "rtc.deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.RTC_RTC.alarm'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var time_ = Blockly.Python.valueToCode(block, "time", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.alarm(" + id_ + ", " + time_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.RTC_RTC.alarm_left'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.alarm_left(" + id_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.RTC_RTC.cancel'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.cancel(" + id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.RTC_RTC.irq'] = function(block) {
+  Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.irq(" + handler_ + ")";
+  return code + "\n";
+};
+
+// ---- machine.SD (machine_sd.blockdef.yaml) -----------------------------------
+
+Blockly.Python['machine.SD_SD.init'] = function(block) {
+  Blockly.Python.definitions_["import_SD"] = "from machine import SD";
+  var code = "sd = SD()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.SD_SD.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_SD"] = "from machine import SD";
+  var code = "sd.deinit()";
+  return code + "\n";
+};
+
+// ---- machine.Signal (machine_signal.blockdef.yaml) ---------------------------
+
+Blockly.Python['machine.Signal_Signal'] = function(block) {
+  Blockly.Python.definitions_["import_Signal"] = "from machine import Signal";
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var invert_ = block.getFieldValue("invert");
+  var code = "signal = Signal(Pin(" + pin_ + ", Pin.OUT), invert=" + invert_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Signal_Signal.value'] = function(block) {
+  Blockly.Python.definitions_["import_Signal"] = "from machine import Signal";
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "signal.value(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Signal_Signal.on'] = function(block) {
+  Blockly.Python.definitions_["import_Signal"] = "from machine import Signal";
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var code = "signal.on()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Signal_Signal.off'] = function(block) {
+  Blockly.Python.definitions_["import_Signal"] = "from machine import Signal";
+  Blockly.Python.definitions_["import_Pin"] = "from machine import Pin";
+  var code = "signal.off()";
+  return code + "\n";
+};
+
 // ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
 
 Blockly.Python['machine.SPI_SPI.init'] = function(block) {
@@ -2659,6 +2755,21 @@ Blockly.Python['machine.UART_UART.sendbreak'] = function(block) {
 Blockly.Python['machine.UART_UART.irq'] = function(block) {
   var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
   var code = "uart.irq(" + handler_ + ")";
+  return code + "\n";
+};
+
+// ---- machine.WDT (machine_wdt.blockdef.yaml) ---------------------------------
+
+Blockly.Python['machine.WDT_WDT'] = function(block) {
+  Blockly.Python.definitions_["import_WDT"] = "from machine import WDT";
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "wdt = WDT(timeout=" + timeout_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.WDT_wdt.feed'] = function(block) {
+  Blockly.Python.definitions_["import_WDT"] = "from machine import WDT";
+  var code = "wdt.feed()";
   return code + "\n";
 };
 

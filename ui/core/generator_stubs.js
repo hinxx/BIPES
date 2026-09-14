@@ -720,66 +720,6 @@ Blockly.Python["machine.ADCWiPy_adcchannel.deinit"] = function(block) {
 	var code = "machine.ADCWiPy.adcchannel.deinit()\n"; 
 	return code;
 };
-Blockly.Python["machine.RTC_RTC.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.RTC.RTC.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.RTC_RTC.now"] = function(block) {
-		Blockly.Python.definitions_['import_machine.RTC'] = 'import machine.RTC';
-	var code = "machine.RTC.RTC.now()\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["machine.RTC_RTC.deinit"] = function(block) {
-		Blockly.Python.definitions_['import_machine.RTC'] = 'import machine.RTC';
-	var code = "machine.RTC.RTC.deinit()\n"; 
-	return code;
-};
-Blockly.Python["machine.RTC_RTC.alarm"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.RTC.RTC.alarm(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.RTC_RTC.alarm_left"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.RTC.RTC.alarm_left(" + value_pIn + ")\n"; 
-	return [code, Blockly.JavaScript.ORDER_NONE]; 
-};
-Blockly.Python["machine.RTC_RTC.cancel"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.RTC.RTC.cancel(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.RTC_RTC.irq"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.RTC.RTC.irq(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.SD_SD.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.SD.SD.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.SD_SD.deinit"] = function(block) {
-		Blockly.Python.definitions_['import_machine.SD'] = 'import machine.SD';
-	var code = "machine.SD.SD.deinit()\n"; 
-	return code;
-};
-Blockly.Python["machine.Signal_Signal.value"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Signal.Signal.value(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Signal_Signal.on"] = function(block) {
-		Blockly.Python.definitions_['import_machine.Signal'] = 'import machine.Signal';
-	var code = "machine.Signal.Signal.on()\n"; 
-	return code;
-};
-Blockly.Python["machine.Signal_Signal.off"] = function(block) {
-		Blockly.Python.definitions_['import_machine.Signal'] = 'import machine.Signal';
-	var code = "machine.Signal.Signal.off()\n"; 
-	return code;
-};
 Blockly.Python["machine.Timer_Timer.init"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.Timer.Timer.init(" + value_pIn + ")\n"; 
@@ -823,11 +763,6 @@ Blockly.Python["machine.TimerWiPy_timerchannel.period"] = function(block) {
 Blockly.Python["machine.TimerWiPy_timerchannel.duty_cycle"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.TimerWiPy.timerchannel.duty_cycle(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.WDT_wdt.feed"] = function(block) {
-		Blockly.Python.definitions_['import_machine.WDT'] = 'import machine.WDT';
-	var code = "machine.WDT.wdt.feed()\n"; 
 	return code;
 };
 Blockly.Python["uarray_append"] = function(block) {

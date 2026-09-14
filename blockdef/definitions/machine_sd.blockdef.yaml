@@ -1,0 +1,25 @@
+# `machine.SD`, the SD card peripheral of the WiPy and the pyboard. Two blocks,
+# `machine.SD.SD.init(...)` and `.deinit()`, against an import that is not a
+# module.
+#
+# `SD.init` becomes the constructor, as it does for the other `machine.*`
+# classes: nothing else makes an SD object. Mounting the card is `uos.mount`,
+# which the `uos` category already has.
+
+module: machine
+class: SD
+instance: sd
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.SD.html
+import: {key: import_SD, line: "from machine import SD"}
+
+category:
+  name: machine.SD
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: "machine.SD_SD.init", label: SD.init, code: "{instance} = SD()",
+     tooltip: "The SD card peripheral. WiPy and pyboard only."}
+  - {type: "machine.SD_SD.deinit", fn: deinit, label: SD.deinit,
+     tooltip: "Turn the SD card peripheral off."}

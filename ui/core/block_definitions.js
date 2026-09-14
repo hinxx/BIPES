@@ -1584,169 +1584,39 @@ Blockly.Blocks["machine.ADCWiPy_adcchannel.deinit"] = {
 
 
 
-Blockly.Blocks["machine.RTC_RTC.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RTC.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RTC.init(datetime) Initialise the RTC. Datetime is a tuple of the form: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.now"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" RTC.now");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: RTC.now() Get get the current datetime tuple. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.deinit"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" RTC.deinit");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RTC.deinit() Resets the RTC to the time of January 1, 2015 and starts running it again. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.alarm"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RTC.alarm");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.alarm_left"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RTC.alarm_left");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: RTC.alarm_left(alarm_id=0) Get the number of milliseconds left before the alarm expires. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.cancel"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RTC.cancel");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RTC.cancel(alarm_id=0) Cancel a running alarm. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.RTC_RTC.irq"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RTC.irq");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SD_SD.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" SD.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: SD.init(id=0, pins=('GP10', 'GP11', 'GP15')) Enable the SD card. In order to initialize the card, give it a 3-tuple: ``(clk_pin, cmd_pin, dat0_pin)``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SD.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.SD_SD.deinit"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" SD.deinit");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: SD.deinit() Disable the SD card. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SD.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Signal_Signal.value"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Signal.value");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Signal_Signal.on"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Signal.on");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Signal.on() Activate signal. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Signal_Signal.off"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Signal.off");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Signal.off() Deactivate signal. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
-  }
-};
 
 
 
@@ -1921,17 +1791,6 @@ Blockly.Blocks["machine.TimerWiPy_timerchannel.duty_cycle"] = {
 
 
 
-Blockly.Blocks["machine.WDT_wdt.feed"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" wdt.feed");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: wdt.feed() Feed the WDT to prevent it from resetting the system. The application should place this call in a sensible place ensuring that the WDT is ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.WDT.html");
-  }
-};
 
 
 

@@ -1,0 +1,28 @@
+# `machine.WDT`, the watchdog: if the program stops feeding it, the board
+# resets. One block, `wdt.feed()`, emitted as `machine.WDT.wdt.feed()` against
+# an import that is not a module -- and nothing that could start a watchdog, so
+# the block had nothing to feed. The category gets a constructor.
+
+module: machine
+class: WDT
+instance: wdt
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.WDT.html
+import: {key: import_WDT, line: "from machine import WDT"}
+
+category:
+  name: machine.WDT
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.WDT_WDT
+    label: WDT
+    tooltip: Start the watchdog. Once started it cannot be stopped, only fed.
+    code: "{instance} = WDT(timeout={timeout})"
+    params:
+      - {name: timeout, label: "resets after (ms)", type: Number, default: 5000,
+         align: right}
+
+  - {type: "machine.WDT_wdt.feed", fn: feed, label: WDT.feed,
+     tooltip: "Tell the watchdog the program is still alive."}

@@ -5308,6 +5308,198 @@ Blockly.Blocks['machine.Pin_Pin.irq'] = {
   }
 };
 
+// ---- machine.RTC (machine_rtc.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.RTC_RTC.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The clock object the rest of this category calls.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.now'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.now");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The current date and time, as a tuple. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Reset the clock to 1 January 2015.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.alarm'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.alarm");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("alarm");
+    this.appendValueInput("time")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("in (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set an alarm this many milliseconds from now. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.alarm_left'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.alarm_left");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("alarm");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Milliseconds left before the alarm goes off. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.cancel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.cancel");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("alarm");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Call off an alarm. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+Blockly.Blocks['machine.RTC_RTC.irq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RTC.irq");
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Call a function when the alarm goes off. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.RTC.html");
+  }
+};
+
+// ---- machine.SD (machine_sd.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['machine.SD_SD.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SD.init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The SD card peripheral. WiPy and pyboard only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SD.html");
+  }
+};
+
+Blockly.Blocks['machine.SD_SD.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SD.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn the SD card peripheral off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SD.html");
+  }
+};
+
+// ---- machine.Signal (machine_signal.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['machine.Signal_Signal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Signal");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("pin");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("wiring")
+        .appendField(new Blockly.FieldDropdown([["on is high", "False"], ["on is low (inverted)", "True"]]), "invert");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A pin whose on and off can be the other way round from its high and low.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
+  }
+};
+
+Blockly.Blocks['machine.Signal_Signal.value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Signal.value");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set the signal: 1 is on, whichever way it is wired.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
+  }
+};
+
+Blockly.Blocks['machine.Signal_Signal.on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Signal.on");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn it on.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
+  }
+};
+
+Blockly.Blocks['machine.Signal_Signal.off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Signal.off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn it off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Signal.html");
+  }
+};
+
 // ---- machine.SPI (machine_spi.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['machine.SPI_SPI.init'] = {
@@ -5557,6 +5749,36 @@ Blockly.Blocks['machine.UART_UART.irq'] = {
     this.setInputsInline(true);
     this.setTooltip("Call a function when the port has something to say. Not every port has this.");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.UART.html");
+  }
+};
+
+// ---- machine.WDT (machine_wdt.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.WDT_WDT'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WDT");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("resets after (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start the watchdog. Once started it cannot be stopped, only fed.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.WDT.html");
+  }
+};
+
+Blockly.Blocks['machine.WDT_wdt.feed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WDT.feed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Tell the watchdog the program is still alive.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.WDT.html");
   }
 };
 

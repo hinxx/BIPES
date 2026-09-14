@@ -1,0 +1,37 @@
+# `machine.Signal` -- a Pin with the inversion built in, so a LED wired
+# active-low is still `on()` and `off()` in the program.
+#
+# Three blocks of `machine.Signal.Signal.on()`, and nothing anywhere that could
+# make a Signal, so the category gets a constructor. It wraps a pin, which is
+# the whole point of the class.
+
+module: machine
+class: Signal
+instance: signal
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.Signal.html
+import:
+  - {key: import_Signal, line: "from machine import Signal"}
+  - {key: import_Pin,    line: "from machine import Pin"}
+
+category:
+  name: machine.Signal
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.Signal_Signal
+    label: Signal
+    tooltip: A pin whose on and off can be the other way round from its high and low.
+    code: "{instance} = Signal(Pin({pin}, Pin.OUT), invert={invert})"
+    params:
+      - {name: pin, label: pin, pin: true, align: right}
+      - {name: invert, label: wiring, kind: dropdown, align: right,
+         options: [{"on is high": "False"}, {"on is low (inverted)": "True"}]}
+
+  - {type: "machine.Signal_Signal.value", fn: value, label: Signal.value,
+     tooltip: "Set the signal: 1 is on, whichever way it is wired.",
+     params: [{name: value, label: to, type: Number, default: 1, align: right}]}
+
+  - {type: "machine.Signal_Signal.on", fn: on, label: Signal.on, tooltip: Turn it on.}
+  - {type: "machine.Signal_Signal.off", fn: off, label: Signal.off, tooltip: Turn it off.}
