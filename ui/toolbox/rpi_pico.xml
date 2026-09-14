@@ -340,8 +340,11 @@
   <!-- /blockdef:python -->
 
 
+  <!-- blockdef:timing -->
   <category name="%{BKY_CAT_TIMING}">
-	  <label text="%{BKY_CAT_TIMING}"></label>
+
+    <label text="%{BKY_CAT_TIMING}"></label>
+
     <block type="delay">
       <value name="TIME">
         <shadow type="math_number">
@@ -351,7 +354,7 @@
     </block>
 
     <block type="delay_ms">
-     <value name="time">
+      <value name="time">
         <shadow type="math_number">
           <field name="NUM">1</field>
         </shadow>
@@ -382,6 +385,7 @@
     </block>
 
     <block type="timer"></block>
+
     <block type="stop_timer">
       <value name="timerNumber">
         <shadow type="math_number">
@@ -390,6 +394,7 @@
       </value>
     </block>
   </category>
+  <!-- /blockdef:timing -->
 
   <!-- blockdef:sounds -->
   <category name="Sounds">

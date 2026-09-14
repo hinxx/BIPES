@@ -355,8 +355,11 @@
   </category>
   <!-- /blockdef:python -->
 
+  <!-- blockdef:timing -->
   <category name="%{BKY_CAT_TIMING}">
-	  <label text="%{BKY_CAT_TIMING}"></label>
+
+    <label text="%{BKY_CAT_TIMING}"></label>
+
     <block type="delay">
       <value name="TIME">
         <shadow type="math_number">
@@ -364,10 +367,13 @@
         </shadow>
       </value>
     </block>
+
     <block type="utime.vars"></block>
+
     <block type="utime.ticks_add">
-       <value name="TIME1">
-        <shadow type="utime.vars"></shadow>
+      <value name="TIME1">
+        <shadow type="utime.vars">
+        </shadow>
       </value>
       <value name="TIME2">
         <shadow type="math_number">
@@ -375,9 +381,11 @@
         </shadow>
       </value>
     </block>
+
     <block type="utime.ticks_diff">
-       <value name="TIME1">
-        <shadow type="utime.vars"></shadow>
+      <value name="TIME1">
+        <shadow type="utime.vars">
+        </shadow>
       </value>
       <value name="TIME2">
         <shadow type="math_number">
@@ -385,31 +393,69 @@
         </shadow>
       </value>
     </block>
-    <block type="esp32_set_rtc"></block>
-    <block type="esp32_get_rtc"></block>
-    <block type="timer"></block>
-    <block type="utime.deadline">
-      <value name="TIME">
-      <shadow type="math_number">
-        <field name="NUM">100</field>
-      </shadow>
+
+    <block type="esp32_set_rtc">
+      <value name="year">
+        <shadow type="math_number">
+          <field name="NUM">2026</field>
+        </shadow>
       </value>
-    </block>
-    <block type="stop_timer">
-       <value name="timerNumber">
+      <value name="month">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="day">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="hour">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="minute">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="second">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
+
+    <block type="esp32_get_rtc"></block>
+
+    <block type="timer"></block>
+
+    <block type="utime.deadline">
+      <value name="TIME">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="stop_timer">
+      <value name="timerNumber">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
     <block type="deep_sleep8266">
-     <value name="interval">
+      <value name="interval">
         <shadow type="math_number">
           <field name="NUM">60</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:timing -->
 
   <category name="%{BKY_CAT_MACHINE}">
     <label text="%{BKY_CAT_MACHINE}"></label>

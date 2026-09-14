@@ -1,0 +1,250 @@
+# Delays, tick counters, the real-time clock and the hardware timer. Fourteen
+# boards and, before this, six different block sets and two spellings of the
+# category name.
+#
+# The name is settled first: eleven boards wrote `%{BKY_CAT_TIMING}` and three
+# wrote `Timing`, so those three showed English whatever language the IDE was
+# in. `CAT_TIMING` is translated in all eleven language files, so all fourteen
+# use the key now -- the same call already made for Ultrasound, Character
+# Display, DHT, IMU and RC Servo.
+#
+# What the block *set* should be stays each board's business, which is what
+# `boards:` is for; every board comes out offering exactly what it offered,
+# with two exceptions:
+#
+# * `default` and `stm32` listed `set_rtc` and `get_rtc`, **which no file
+#   defines** -- two blanks in the flyout. They are gone. The obvious
+#   replacement is the esp8266 pair below, which is not ESP8266-specific at
+#   all, but putting new blocks on a board is a decision about that board.
+# * `esp32_set_rtc`/`esp32_get_rtc` and `esp8266_set_rtc`/`esp8266_get_rtc` are
+#   **the same two blocks twice**. The get pair is identical down to the
+#   message key; the set pair differs only in that the ESP32 one had its labels
+#   frozen in English where the ESP8266 one used the `set_rtc`/`year`/`month`/…
+#   keys, which are translated in all eleven languages. Both now use the keys,
+#   so the ESP32 boards get the translation they were missing. Which of the two
+#   ids to keep is a decision about saved programs, so both stay.
+#
+# Three blocks here stay hand-written and appear as `external:` entries:
+# `timer` and `utime.vars` because they are not declarations (`timer` walks the
+# workspace for the variables its callback has to declare `global`;
+# `utime.vars` emits CircuitPython on ESP32S2 and MicroPython elsewhere), and
+# `utime.deadline` because its id field defaults to a *random* number, which is
+# a method, not a value.
+
+module: utime
+colour: 230
+import: []
+
+category:
+  name: "%{BKY_CAT_TIMING}"
+  toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {label: "%{BKY_CAT_TIMING}", boards: [3pi_2040, AmadoBoard, default, esp32,
+     esp32-basic, esp32S2, esp32c3, esp8266, makernano, makerpi, rpi_pico,
+     rpi_pico_w, stm32]}
+  - {label: Snek Timing, boards: [arduino]}
+
+  # Snek has its own runtime and its own `time`, so these two register no
+  # import -- as they did not before.
+  - type: snek_delay
+    label: []
+    tooltip: Delay processing in seconds
+    url: http://www.bipes.net.br/
+    boards: [arduino]
+    code: "time.sleep({time})"
+    params:
+      - {name: time, label: "Snek: delay seconds", type: Number, default: 1}
+
+  - type: snek_uptime
+    kind: value
+    # "Sneck" in the original, on the one board that offers it.
+    label: [{text: "Snek: time counter", field: MSG_GET_MS}]
+    tooltip: Get monotonic time counter
+    url: http://www.bipes.net.br
+    boards: [arduino]
+    code: "time.monotonic()"
+
+  - type: delay
+    inline: true
+    label: []
+    tooltip: Delay for given number, should be positive or 0.
+    url: https://docs.micropython.org/en/latest/library/utime.html#utime.sleep
+    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_time, line: "import time"}
+    code: "time.{SCALE}({TIME})"
+    params:
+      - {name: TIME, label: {msg: block_delay}, default: 1}
+      - name: SCALE
+        kind: dropdown
+        options:
+          - {label: {msg: seconds},      value: sleep}
+          - {label: {msg: milliseconds}, value: sleep_ms}
+          - {label: {msg: microseconds}, value: sleep_us}
+
+  - type: delay_ms
+    label: []
+    tooltip: Delay processing in milliseconds
+    url: http://www.bipes.net.br/
+    boards: [3pi_2040, default, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_time, line: "import time"}
+    code: "time.sleep_ms({time})"
+    params:
+      - {name: time, label: delay milliseconds, type: Number, default: 1}
+
+  - type: delay_us
+    label: []
+    tooltip: Delay processing in microseconds
+    url: http://www.bipes.net.br/
+    boards: [3pi_2040, default, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_time, line: "import time"}
+    code: "time.sleep_us({time})"
+    params:
+      - {name: time, label: delay microseconds, type: Number, default: 1}
+
+  - type: ticks_ms
+    kind: value
+    label: [{text: Get milliseconds counter, field: MSG_GET_MS}]
+    tooltip: Get millisecond counter
+    url: http://www.bipes.net.br
+    boards: [3pi_2040, default, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_time, line: "import time"}
+    code: "time.ticks_ms()"
+
+  # Both halves of this block were broken. It returned "time.ticks_diff(…)\n"
+  # as a *value*, splicing a newline into whatever expression it was plugged
+  # into, and it then stripped newlines back out of the values plugged into
+  # itself -- someone patching the symptom of `ticks_ms`, the block right above
+  # it, doing the same thing. Neither is possible now. Six of the seven
+  # toolboxes also gave it no shadows, so it emitted `time.ticks_diff(,)`.
+  - type: ticks_diff
+    kind: value
+    label: [{text: Compute time difference, field: DIFF_TS}]
+    tooltip: Compute time difference
+    url: bipes.net.br
+    boards: [3pi_2040, default, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_time, line: "import time"}
+    code: "time.ticks_diff({end}, {start})"
+    params:
+      - {name: end,   label: end,   type: Number, default: 1, align: right}
+      - {name: start, label: start, type: Number, default: 1, align: right}
+
+  - {type: "utime.vars", external: true,
+     boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]}
+
+  - type: utime.ticks_add
+    kind: value
+    inline: true
+    label: []
+    tooltip: Offset ticks value by a given number, which can be either positive or negative. Must be same scale in milliseconds, microseconds or cpu ticks.
+    url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_add
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    import: {key: import_utime, line: "import utime"}
+    code: "utime.ticks_add({TIME1}, {TIME2})"
+    params:
+      - {name: TIME1, label: sum time, plug: {type: "utime.vars", shadow: true}}
+      - {name: TIME2, label: by, default: 100}
+
+  # Only esp32 gave this one anything to work with; the other five left both
+  # sockets empty, so it emitted `utime.ticks_diff(,)`.
+  - type: utime.ticks_diff
+    kind: value
+    inline: false
+    label: []
+    tooltip: Measure ticks difference between values Must be same scale in milliseconds, microseconds or cpu ticks.
+    url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_diff
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    import: {key: import_utime, line: "import utime"}
+    code: "utime.ticks_diff({TIME1}, {TIME2})"
+    params:
+      - {name: TIME1, label: time difference from,
+         plug: {type: "utime.vars", shadow: true}}
+      - {name: TIME2, label: by, default: 100, align: right}
+
+  - type: esp32_set_rtc
+    label: [{msg: set_rtc, field: SET_RTC}]
+    tooltip: Set RTC value
+    url: bipes.net.br
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3]
+    import: &rtc
+      - {key: import_rtc,     line: "from machine import RTC"}
+      - {key: import_rtc_def, line: "rtc = RTC()"}
+    code: &set_rtc "rtc.datetime(({year},{month},{day},0,{hour},{minute},{second},0))"
+    params: &set_rtc_params
+      - {name: year,   label: {msg: year},   type: Number, default: 2026, align: right}
+      - {name: month,  label: {msg: month},  type: Number, default: 1,    align: right}
+      - {name: day,    label: {msg: day},    type: Number, default: 1,    align: right}
+      - {name: hour,   label: {msg: hour},   type: Number, default: 0,    align: right}
+      - {name: minute, label: {msg: minute}, type: Number, default: 0,    align: right}
+      - {name: second, label: {msg: second}, type: Number, default: 0,    align: right}
+
+  - type: esp32_get_rtc
+    kind: value
+    label: [{msg: get_rtc, field: MSG_GET_RTC}]
+    tooltip: Get RTC value
+    url: http://www.bipes.net.br
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3]
+    import: *rtc
+    code: &get_rtc "rtc.datetime()"
+
+  - type: esp8266_set_rtc
+    label: [{msg: set_rtc, field: SET_RTC}]
+    tooltip: Set RTC value
+    url: bipes.net.br
+    boards: [esp8266]
+    import: *rtc
+    code: *set_rtc
+    params: *set_rtc_params
+
+  - type: esp8266_get_rtc
+    kind: value
+    label: [{msg: get_rtc, field: MSG_GET_RTC}]
+    tooltip: Get RTC value
+    url: http://www.bipes.net.br
+    boards: [esp8266]
+    import: *rtc
+    code: *get_rtc
+
+  - {type: timer, external: true, boards: [3pi_2040, AmadoBoard, default, esp32,
+     esp32-basic, esp32S2, esp32c3, esp8266, makernano, makerpi, rpi_pico,
+     rpi_pico_w, stm32]}
+
+  - type: utime.deadline
+    external: true
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    params:
+      - {name: TIME, default: 100}
+
+  - type: stop_timer
+    colour: 0
+    label: []
+    tooltip: Stop Timer
+    url: www.bipes.net.br
+    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: {key: import_timer, line: "from machine import Timer"}
+    code: "tim{timerNumber}.deinit()"
+    params:
+      - {name: timerNumber, label: Stop Timer, type: Number, default: 0}
+
+  # Named for the ESP8266 and offered on nine boards, only one of which is one.
+  # `rtc.irq(trigger=rtc.ALARM0, …)` is ESP8266-only in MicroPython, so this
+  # raises on every other board that lists it. Which boards should offer it is
+  # a decision about the boards; the block is unchanged.
+  - type: deep_sleep8266
+    label: []
+    tooltip: Deep sleep process in milliseconds
+    url: http://www.bipes.net.br
+    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp8266, stm32]
+    import: {key: import_machine, line: "import machine"}
+    code: |-
+
+      rtc = machine.RTC()
+      rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)
+      rtc.alarm(rtc.ALARM0, {interval})
+      machine.deepsleep()
+    params:
+      - {name: interval, label: deep sleep, type: Number, default: 60}

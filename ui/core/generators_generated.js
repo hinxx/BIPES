@@ -2659,6 +2659,125 @@ Blockly.Python['threepi_rgb_leds_show'] = function(block) {
   return code + "\n";
 };
 
+// ---- %{BKY_CAT_TIMING} (timing.blockdef.yaml) --------------------------------
+
+Blockly.Python['snek_delay'] = function(block) {
+  var time_ = Blockly.Python.valueToCode(block, "time", Blockly.Python.ORDER_ATOMIC);
+  var code = "time.sleep(" + time_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['snek_uptime'] = function(block) {
+  var code = "time.monotonic()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['delay'] = function(block) {
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var TIME_ = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_ATOMIC);
+  var SCALE_ = block.getFieldValue("SCALE");
+  var code = "time." + SCALE_ + "(" + TIME_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['delay_ms'] = function(block) {
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var time_ = Blockly.Python.valueToCode(block, "time", Blockly.Python.ORDER_ATOMIC);
+  var code = "time.sleep_ms(" + time_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['delay_us'] = function(block) {
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var time_ = Blockly.Python.valueToCode(block, "time", Blockly.Python.ORDER_ATOMIC);
+  var code = "time.sleep_us(" + time_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ticks_ms'] = function(block) {
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var code = "time.ticks_ms()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ticks_diff'] = function(block) {
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var end_ = Blockly.Python.valueToCode(block, "end", Blockly.Python.ORDER_ATOMIC);
+  var start_ = Blockly.Python.valueToCode(block, "start", Blockly.Python.ORDER_ATOMIC);
+  var code = "time.ticks_diff(" + end_ + ", " + start_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['utime.ticks_add'] = function(block) {
+  Blockly.Python.definitions_["import_utime"] = "import utime";
+  var TIME1_ = Blockly.Python.valueToCode(block, "TIME1", Blockly.Python.ORDER_ATOMIC);
+  var TIME2_ = Blockly.Python.valueToCode(block, "TIME2", Blockly.Python.ORDER_ATOMIC);
+  var code = "utime.ticks_add(" + TIME1_ + ", " + TIME2_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['utime.ticks_diff'] = function(block) {
+  Blockly.Python.definitions_["import_utime"] = "import utime";
+  var TIME1_ = Blockly.Python.valueToCode(block, "TIME1", Blockly.Python.ORDER_ATOMIC);
+  var TIME2_ = Blockly.Python.valueToCode(block, "TIME2", Blockly.Python.ORDER_ATOMIC);
+  var code = "utime.ticks_diff(" + TIME1_ + ", " + TIME2_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_set_rtc'] = function(block) {
+  Blockly.Python.definitions_["import_rtc"] = "from machine import RTC";
+  Blockly.Python.definitions_["import_rtc_def"] = "rtc = RTC()";
+  var year_ = Blockly.Python.valueToCode(block, "year", Blockly.Python.ORDER_ATOMIC);
+  var month_ = Blockly.Python.valueToCode(block, "month", Blockly.Python.ORDER_ATOMIC);
+  var day_ = Blockly.Python.valueToCode(block, "day", Blockly.Python.ORDER_ATOMIC);
+  var hour_ = Blockly.Python.valueToCode(block, "hour", Blockly.Python.ORDER_ATOMIC);
+  var minute_ = Blockly.Python.valueToCode(block, "minute", Blockly.Python.ORDER_ATOMIC);
+  var second_ = Blockly.Python.valueToCode(block, "second", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.datetime((" + year_ + "," + month_ + "," + day_ + ",0," + hour_ + "," + minute_ + "," + second_ + ",0))";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_get_rtc'] = function(block) {
+  Blockly.Python.definitions_["import_rtc"] = "from machine import RTC";
+  Blockly.Python.definitions_["import_rtc_def"] = "rtc = RTC()";
+  var code = "rtc.datetime()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp8266_set_rtc'] = function(block) {
+  Blockly.Python.definitions_["import_rtc"] = "from machine import RTC";
+  Blockly.Python.definitions_["import_rtc_def"] = "rtc = RTC()";
+  var year_ = Blockly.Python.valueToCode(block, "year", Blockly.Python.ORDER_ATOMIC);
+  var month_ = Blockly.Python.valueToCode(block, "month", Blockly.Python.ORDER_ATOMIC);
+  var day_ = Blockly.Python.valueToCode(block, "day", Blockly.Python.ORDER_ATOMIC);
+  var hour_ = Blockly.Python.valueToCode(block, "hour", Blockly.Python.ORDER_ATOMIC);
+  var minute_ = Blockly.Python.valueToCode(block, "minute", Blockly.Python.ORDER_ATOMIC);
+  var second_ = Blockly.Python.valueToCode(block, "second", Blockly.Python.ORDER_ATOMIC);
+  var code = "rtc.datetime((" + year_ + "," + month_ + "," + day_ + ",0," + hour_ + "," + minute_ + "," + second_ + ",0))";
+  return code + "\n";
+};
+
+Blockly.Python['esp8266_get_rtc'] = function(block) {
+  Blockly.Python.definitions_["import_rtc"] = "from machine import RTC";
+  Blockly.Python.definitions_["import_rtc_def"] = "rtc = RTC()";
+  var code = "rtc.datetime()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['stop_timer'] = function(block) {
+  Blockly.Python.definitions_["import_timer"] = "from machine import Timer";
+  var timerNumber_ = Blockly.Python.valueToCode(block, "timerNumber", Blockly.Python.ORDER_ATOMIC);
+  var code = "tim" + timerNumber_ + ".deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['deep_sleep8266'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var interval_ = Blockly.Python.valueToCode(block, "interval", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nrtc = machine.RTC()\nrtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)\nrtc.alarm(rtc.ALARM0, " + interval_ + ")\nmachine.deepsleep()";
+  return code + "\n";
+};
+
 // ---- 4 Digit Display (tm1637.blockdef.yaml) ----------------------------------
 
 Blockly.Python['tm1637_init'] = function(block) {
