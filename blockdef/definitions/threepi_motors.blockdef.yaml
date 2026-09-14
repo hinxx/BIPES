@@ -1,0 +1,45 @@
+# Pololu 3pi+ 2040 robot -- the drive motors.
+#
+# Every block already registered both the import and the Motors() object, so
+# there was nothing broken here; it is the one board whose categories were
+# written with a method block used on its own in mind.
+
+module: pololu_3pi_2040_robot
+instance: threepi_motors
+colour: 230
+import:
+  - {line: "from pololu_3pi_2040_robot import robot as threepi_robot", key: import_3pirobot}
+  - {line: "threepi_motors = threepi_robot.Motors()", key: make_3pimotors}
+
+category:
+  name: Motors
+  labels: [Motors]
+  toolboxes: [3pi_2040]
+
+blocks:
+  - type: threepi_set_motor_speeds
+    fn: set_speeds
+    label: set motor speeds
+    tooltip: set motor speeds
+    params:
+      - {name: lspeed, label: left,  type: Number, default: 1000, align: right}
+      - {name: rspeed, label: right, type: Number, default: 1000, align: right}
+
+  - type: threepi_set_motor_left_speed
+    fn: set_left_speed
+    label: []
+    tooltip: set motor left speed
+    params:
+      - {name: speed, label: set motor left speed, type: Number, default: 1000}
+
+  - type: threepi_set_motor_right_speed
+    fn: set_right_speed
+    label: []
+    tooltip: set motor right speed
+    params:
+      - {name: speed, label: set motor right speed, type: Number, default: 1000}
+
+  - type: threepi_motors_off
+    fn: "off"
+    label: motors off
+    tooltip: motors off

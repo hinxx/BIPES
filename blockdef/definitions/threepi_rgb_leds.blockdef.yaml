@@ -1,0 +1,58 @@
+# Pololu 3pi+ 2040 robot -- the six on-board RGB LEDs.
+#
+# The colour blocks in this category belong to NeoPixel and are still written
+# by hand, so they are `external:` entries here: only their toolbox entries are
+# ours.
+
+module: pololu_3pi_2040_robot
+instance: threepi_rgb_leds
+colour: olive
+import:
+  - {line: "from pololu_3pi_2040_robot import robot as threepi_robot", key: import_3pirobot}
+  - {line: "threepi_rgb_leds = threepi_robot.RGBLEDs()", key: make_3pirgb_leds}
+
+category:
+  name: RGB LEDs
+  labels: [RGB LEDs]
+  toolboxes: [3pi_2040]
+
+blocks:
+  - type: threepi_rgb_leds_set
+    fn: set
+    label: RGB LEDs set
+    tooltip: control RGB LEDs
+    params:
+      - {name: address, label: LED,   type: Number, default: 0, align: right}
+      - {name: color,   label: Color, type: Number, align: right,
+         plug: {type: neopixel_color_colors}}
+
+  - type: neopixel_color_numbers
+    external: true
+    params:
+      - {name: red,   type: Number, default: 50}
+      - {name: green, type: Number, default: 152}
+      - {name: blue,  type: Number, default: 220}
+
+  - type: HSL_to_RGB
+    external: true
+    params:
+      - {name: hue,        type: Number, default: 204}
+      - {name: saturation, type: Number, default: 70.8}
+      - {name: lightness,  type: Number, default: 52.9}
+
+  - type: threepi_rgb_leds_set_brightness
+    fn: set_brightness
+    label: RGB LEDs set
+    tooltip: set RGB LEDs brightness
+    params:
+      - {name: brightness, label: brightness, type: Number, default: 31, align: right}
+
+  - type: threepi_rgb_leds_off
+    fn: "off"
+    label: RGB LEDs off
+    tooltip: turn off RGB LEDs
+
+  - type: threepi_rgb_leds_show
+    fn: show
+    label: RGB LEDs show
+    tooltip: show RGB LEDs

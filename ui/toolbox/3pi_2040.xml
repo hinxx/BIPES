@@ -590,53 +590,55 @@
 
   <category name="%{BKY_CAT_DISPLAYS}" colour="olive">
 
+    <!-- blockdef:threepi_rgb_leds -->
     <category name="RGB LEDs">
       <label text="RGB LEDs"></label>
+
       <block type="threepi_rgb_leds_set">
         <value name="address">
           <shadow type="math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
-
         <value name="color">
-          <block type="neopixel_color_colors"></block>
+          <block type="neopixel_color_colors">
+          </block>
         </value>
       </block>
-      <block type="neopixel_color_numbers">
-       <value name="red">
-        <shadow type="math_number">
-          <field name="NUM">50</field>
-        </shadow>
-       </value>
-       <value name="green">
-        <shadow type="math_number">
-          <field name="NUM">152</field>
-        </shadow>
-       </value>
-       <value name="blue">
-        <shadow type="math_number">
-          <field name="NUM">220</field>
-        </shadow>
-       </value>
-      </block>
 
+      <block type="neopixel_color_numbers">
+        <value name="red">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="green">
+          <shadow type="math_number">
+            <field name="NUM">152</field>
+          </shadow>
+        </value>
+        <value name="blue">
+          <shadow type="math_number">
+            <field name="NUM">220</field>
+          </shadow>
+        </value>
+      </block>
 
       <block type="HSL_to_RGB">
         <value name="hue">
-        <shadow type="math_number">
-          <field name="NUM">204</field>
-        </shadow>
+          <shadow type="math_number">
+            <field name="NUM">204</field>
+          </shadow>
         </value>
         <value name="saturation">
-        <shadow type="math_number">
-          <field name="NUM">70.8</field>
-        </shadow>
+          <shadow type="math_number">
+            <field name="NUM">70.8</field>
+          </shadow>
         </value>
         <value name="lightness">
-        <shadow type="math_number">
-          <field name="NUM">52.9</field>
-        </shadow>
+          <shadow type="math_number">
+            <field name="NUM">52.9</field>
+          </shadow>
         </value>
       </block>
 
@@ -647,10 +649,12 @@
           </shadow>
         </value>
       </block>
-      <block type="threepi_rgb_leds_off"></block>
-      <block type="threepi_rgb_leds_show"></block>
 
+      <block type="threepi_rgb_leds_off"></block>
+
+      <block type="threepi_rgb_leds_show"></block>
     </category>
+    <!-- /blockdef:threepi_rgb_leds -->
 
     <!-- blockdef:oled -->
     <category name="OLED Display">
@@ -1120,23 +1124,37 @@
   </category>
 
   <category name="Sensors">
+    <!-- blockdef:threepi_buttons -->
     <category name="Buttons">
       <label text="Buttons"></label>
+
       <block type="threepi_read_button_a"></block>
+
       <block type="threepi_read_button_b"></block>
+
       <block type="threepi_read_button_c"></block>
+
       <block type="threepi_check_button_a"></block>
+
       <block type="threepi_check_button_b"></block>
+
       <block type="threepi_check_button_c"></block>
     </category>
+    <!-- /blockdef:threepi_buttons -->
 
+    <!-- blockdef:threepi_bump -->
     <category name="Bump">
       <label text="Bump"></label>
+
       <block type="threepi_bump_calibrate"></block>
+
       <block type="threepi_bump_read"></block>
+
       <block type="threepi_bump_left_is_pressed"></block>
+
       <block type="threepi_bump_right_is_pressed"></block>
     </category>
+    <!-- /blockdef:threepi_bump -->
 
     <!-- blockdef:dht -->
     <category name="%{BKY_CAT_TEMP_HUMI}">
@@ -1425,36 +1443,42 @@
 
 
   <category name="Actuators">
+      <!-- blockdef:threepi_motors -->
       <category name="Motors">
         <label text="Motors"></label>
-          <block type="threepi_set_motor_speeds">
-            <value name="lspeed">
-              <shadow type="math_number">
-                <field name="NUM">1000</field>
-              </shadow>
-            </value>
-            <value name="rspeed">
-              <shadow type="math_number">
-                <field name="NUM">1000</field>
-              </shadow>
-            </value>
-          </block>
-          <block type="threepi_set_motor_left_speed">
-            <value name="speed">
-              <shadow type="math_number">
-                <field name="NUM">1000</field>
-              </shadow>
-            </value>
-          </block>
-          <block type="threepi_set_motor_right_speed">
-            <value name="speed">
-              <shadow type="math_number">
-                <field name="NUM">1000</field>
-              </shadow>
-            </value>
-          </block>
-          <block type="threepi_motors_off"></block>
+
+        <block type="threepi_set_motor_speeds">
+          <value name="lspeed">
+            <shadow type="math_number">
+              <field name="NUM">1000</field>
+            </shadow>
+          </value>
+          <value name="rspeed">
+            <shadow type="math_number">
+              <field name="NUM">1000</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="threepi_set_motor_left_speed">
+          <value name="speed">
+            <shadow type="math_number">
+              <field name="NUM">1000</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="threepi_set_motor_right_speed">
+          <value name="speed">
+            <shadow type="math_number">
+              <field name="NUM">1000</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="threepi_motors_off"></block>
       </category>
+      <!-- /blockdef:threepi_motors -->
 
 
     <!-- blockdef:relay -->
@@ -2374,34 +2398,36 @@
 <block type="machine.Pin_Pin.irq">
 </block>
 </category>
+<!-- blockdef:machine -->
 <category name="machine">
-<block type="machine_reset">
-</block>
-<block type="machine_soft_reset">
-</block>
-<block type="machine_reset_cause">
-</block>
-<block type="machine_disable_irq">
-</block>
-<block type="machine_enable_irq">
-</block>
-<block type="machine_freq">
-</block>
-<block type="machine_idle">
-</block>
-<block type="machine_sleep">
-</block>
-<block type="machine_lightsleep">
-</block>
-<block type="machine_wake_reason">
-</block>
-<block type="machine_unique_id">
-</block>
-<block type="machine_time_pulse_us">
-</block>
-<block type="machine_rng">
-</block>
+
+  <block type="machine_reset"></block>
+
+  <block type="machine_soft_reset"></block>
+
+  <block type="machine_reset_cause"></block>
+
+  <block type="machine_disable_irq"></block>
+
+  <block type="machine_enable_irq"></block>
+
+  <block type="machine_freq"></block>
+
+  <block type="machine_idle"></block>
+
+  <block type="machine_sleep"></block>
+
+  <block type="machine_lightsleep"></block>
+
+  <block type="machine_wake_reason"></block>
+
+  <block type="machine_unique_id"></block>
+
+  <block type="machine_time_pulse_us"></block>
+
+  <block type="machine_rng"></block>
 </category>
+<!-- /blockdef:machine -->
 <category name="machine.RTC">
 <block type="machine.RTC_RTC.init">
 </block>

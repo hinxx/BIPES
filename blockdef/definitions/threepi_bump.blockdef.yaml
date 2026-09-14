@@ -1,0 +1,36 @@
+# Pololu 3pi+ 2040 robot -- the two bump sensors.
+
+module: pololu_3pi_2040_robot
+instance: threepi_bump_sensors
+colour: 230
+import:
+  - {line: "from pololu_3pi_2040_robot import robot as threepi_robot", key: import_3pirobot}
+  - {line: "threepi_bump_sensors = threepi_robot.BumpSensors()", key: make_3pibump_sensors}
+
+category:
+  name: Bump
+  labels: [Bump]
+  toolboxes: [3pi_2040]
+
+blocks:
+  - type: threepi_bump_calibrate
+    fn: calibrate
+    label: Calibrate Bump
+    tooltip: calibrate bump sensor
+
+  - type: threepi_bump_read
+    fn: read
+    label: Read Bump
+    tooltip: read bump sensor
+
+  - type: threepi_bump_left_is_pressed
+    fn: left_is_pressed
+    kind: value
+    label: Bump Left
+    tooltip: Check if left bump sensor is pressed
+
+  - type: threepi_bump_right_is_pressed
+    fn: right_is_pressed
+    kind: value
+    label: Bump Right
+    tooltip: Check if right bump sensor is pressed

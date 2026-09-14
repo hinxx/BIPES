@@ -1,0 +1,66 @@
+# Pololu 3pi+ 2040 robot -- the three push buttons.
+#
+# One category, three objects: ButtonA, ButtonB and ButtonC each get their own
+# `instance:` and their own definitions_ entry, which is what per-block
+# `import:` is for. (The hand-written generators spelled B's key
+# `make_3pi_button_b` and A's and C's `make_3pibutton_a`/`_c`; the three are
+# consistent now, and since each key carries a different line, nothing that was
+# emitted changes.)
+
+module: pololu_3pi_2040_robot
+colour: 230
+import: {line: "from pololu_3pi_2040_robot import robot as threepi_robot", key: import_3pirobot}
+
+category:
+  name: Buttons
+  labels: [Buttons]
+  toolboxes: [3pi_2040]
+
+blocks:
+  - type: threepi_read_button_a
+    fn: is_pressed
+    kind: value
+    label: Read A Button
+    tooltip: Read the A button
+    instance: threepi_button_a
+    import: {line: "threepi_button_a = threepi_robot.ButtonA()", key: make_3pibutton_a}
+
+  - type: threepi_read_button_b
+    fn: is_pressed
+    kind: value
+    label: Read B Button
+    tooltip: Read the B button
+    instance: threepi_button_b
+    import: {line: "threepi_button_b = threepi_robot.ButtonB()", key: make_3pibutton_b}
+
+  - type: threepi_read_button_c
+    fn: is_pressed
+    kind: value
+    label: Read C Button
+    tooltip: Read the C button
+    instance: threepi_button_c
+    import: {line: "threepi_button_c = threepi_robot.ButtonC()", key: make_3pibutton_c}
+
+  - type: threepi_check_button_a
+    fn: check
+    kind: value
+    label: Check A Button
+    tooltip: Check the A button for press
+    instance: threepi_button_a
+    import: {line: "threepi_button_a = threepi_robot.ButtonA()", key: make_3pibutton_a}
+
+  - type: threepi_check_button_b
+    fn: check
+    kind: value
+    label: Check B Button
+    tooltip: Check the B button for press
+    instance: threepi_button_b
+    import: {line: "threepi_button_b = threepi_robot.ButtonB()", key: make_3pibutton_b}
+
+  - type: threepi_check_button_c
+    fn: check
+    kind: value
+    label: Check C Button
+    tooltip: Check the C button for press
+    instance: threepi_button_c
+    import: {line: "threepi_button_c = threepi_robot.ButtonC()", key: make_3pibutton_c}

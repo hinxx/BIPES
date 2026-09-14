@@ -2869,34 +2869,36 @@
 <block type="machine.Pin_Pin.irq">
 </block>
 </category>
+<!-- blockdef:machine -->
 <category name="machine">
-<block type="machine_reset">
-</block>
-<block type="machine_soft_reset">
-</block>
-<block type="machine_reset_cause">
-</block>
-<block type="machine_disable_irq">
-</block>
-<block type="machine_enable_irq">
-</block>
-<block type="machine_freq">
-</block>
-<block type="machine_idle">
-</block>
-<block type="machine_sleep">
-</block>
-<block type="machine_lightsleep">
-</block>
-<block type="machine_wake_reason">
-</block>
-<block type="machine_unique_id">
-</block>
-<block type="machine_time_pulse_us">
-</block>
-<block type="machine_rng">
-</block>
+
+  <block type="machine_reset"></block>
+
+  <block type="machine_soft_reset"></block>
+
+  <block type="machine_reset_cause"></block>
+
+  <block type="machine_disable_irq"></block>
+
+  <block type="machine_enable_irq"></block>
+
+  <block type="machine_freq"></block>
+
+  <block type="machine_idle"></block>
+
+  <block type="machine_sleep"></block>
+
+  <block type="machine_lightsleep"></block>
+
+  <block type="machine_wake_reason"></block>
+
+  <block type="machine_unique_id"></block>
+
+  <block type="machine_time_pulse_us"></block>
+
+  <block type="machine_rng"></block>
 </category>
+<!-- /blockdef:machine -->
 <category name="machine.RTC">
 <block type="machine.RTC_RTC.init">
 </block>

@@ -1,0 +1,102 @@
+# The machine module's own functions, as generated from the MicroPython
+# documentation. The classes that live in the same module (machine.Pin,
+# machine.I2C, ...) are a separate problem: those blocks emit
+# `machine.Pin.Pin.value(...)`, calling a method as though it were a module
+# function, and no import would make them work.
+#
+# Three of the thirteen here -- enable_irq, lightsleep and time_pulse_us --
+# never registered `import machine`, so a program built out of one of them
+# alone died on a NameError. All thirteen do now.
+#
+# Three more (wake_reason, unique_id, rng) are value blocks that returned
+# "machine.x()\n" -- a newline spliced into the middle of an expression, so
+# `machine.rng() + 1` did not compile. Value blocks here cannot do that:
+# the emitter adds the newline only to statements.
+
+module: machine
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.html
+import: {line: "import machine", key: import_machine}
+
+category:
+  name: "machine"
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi,
+              AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: machine_reset
+    fn: reset
+    label: " reset"
+    tooltip: ".. function:: reset() Resets the device in a manner similar to pushing the external RESET button. "
+
+  - type: machine_soft_reset
+    fn: soft_reset
+    label: " soft_reset"
+    tooltip: ".. function:: soft_reset() Performs a soft reset of the interpreter, deleting all Python objects and resetting the Python heap. It tries to retain the method by which the user "
+
+  - type: machine_reset_cause
+    fn: reset_cause
+    kind: value
+    label: " reset_cause"
+    tooltip: ".. function:: reset_cause() Get the reset cause. See :ref:`constants <machine_constants>` for the possibl e return values. "
+
+  - type: machine_disable_irq
+    fn: disable_irq
+    label: " disable_irq"
+    tooltip: ".. function:: disable_irq() Disable interrupt requests. Returns the previous IRQ state which should be considered an opaque value. "
+
+  - type: machine_enable_irq
+    fn: enable_irq
+    label: []
+    tooltip: ".. function:: enable_irq(state) Re-enable interrupt requests. The *state* parameter should be the value that was returned from the most "
+    params:
+      - {name: pIn, label: " enable_irq"}
+
+  - type: machine_freq
+    fn: freq
+    label: " freq"
+    tooltip: ".. function:: freq() Returns CPU frequency in hertz. "
+
+  - type: machine_idle
+    fn: idle
+    label: " idle"
+    tooltip: ".. function:: idle() Gates the clock to the CPU, useful to reduce power consumption at any time du ring "
+
+  - type: machine_sleep
+    fn: sleep
+    label: " sleep"
+    tooltip: ".. function:: sleep() .. note:: This function is deprecated, use `lightsleep()` instead with no arg uments. "
+
+  - type: machine_lightsleep
+    fn: lightsleep
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " lightsleep"}
+
+  - type: machine_wake_reason
+    fn: wake_reason
+    kind: value
+    label: " wake_reason"
+    tooltip: ".. function:: wake_reason() Get the wake reason. See :ref:`constants <machine_constants>` for the possibl e return values. "
+
+  - type: machine_unique_id
+    fn: unique_id
+    kind: value
+    label: " unique_id"
+    tooltip: ".. function:: unique_id() Returns a byte string with a unique identifier of a board/SoC. It will vary from a board/SoC instance to another, if underlying hardware allows. Length "
+
+  - type: machine_time_pulse_us
+    fn: time_pulse_us
+    label: []
+    tooltip: ".. function:: time_pulse_us(pin, pulse_level, timeout_us=1000000, /) Time a pulse on the given *pin*, and return the duration of the pulse in microseconds. The *pulse_level* argument should be 0 to time a low pulse "
+    params:
+      - {name: pIn, label: " time_pulse_us"}
+
+  - type: machine_rng
+    fn: rng
+    kind: value
+    label: " rng"
+    tooltip: ".. function:: rng() Return a 24-bit software generated random number. "

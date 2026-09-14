@@ -1,0 +1,100 @@
+# Two DC motors driven through four PWM pins -- the Maker Nano / Maker Pi kit.
+# (The Pololu 3pi+ has a category called `Motors` too; it is a different part
+# and lives in threepi_motors.blockdef.yaml.)
+#
+# Two things were wrong with it, both of them ordering:
+#
+# * `motor_init` set neither a previous nor a next statement, so it could not
+#   be joined to anything -- it had to sit on its own somewhere in the
+#   workspace, and which of the top-level stacks Blockly generated first
+#   decided whether the seven driving functions existed by the time a movement
+#   block called one. It connects like every other init block now.
+# * It emitted those seven `def`s as part of its own code rather than as
+#   definitions, so a movement block dragged out on its own emitted a call to
+#   a function nothing defined -- the same NameError `init_servo` and
+#   `setServoAngle` had. The functions are a definitions_ entry now, registered
+#   by every block in the family; only the four PWM objects, which depend on
+#   the pins plugged into this block, are still emitted here.
+#
+# The functions still read `right_forward` and friends, so the program does
+# have to initialise the motors before it drives them. What it no longer does
+# is depend on where the blocks happen to sit on the canvas.
+
+module: machine
+colour: 230
+import:
+  - {key: import_pin, line: "from machine import Pin"}
+  - {key: import_pwm, line: "from machine import PWM"}
+  - key: motor_drive
+    line: |-
+      FULL_POWER_LEVEL = 65024
+      FREQUENCY = 1000
+      def forward():
+          right_reverse.duty_u16(0)
+          left_reverse.duty_u16(0)
+          right_forward.duty_u16(FULL_POWER_LEVEL)
+          left_forward.duty_u16(FULL_POWER_LEVEL)
+      def forwardSlow():
+          right_reverse.duty_u16(0)
+          left_reverse.duty_u16(0)
+          right_forward.duty_u16(FULL_POWER_LEVEL // 2)
+          left_forward.duty_u16(FULL_POWER_LEVEL // 2)
+      def reverse():
+          right_forward.duty_u16(0)
+          left_forward.duty_u16(0)
+          right_reverse.duty_u16(FULL_POWER_LEVEL)
+          left_reverse.duty_u16(FULL_POWER_LEVEL)
+      def reverseSlow():
+          right_forward.duty_u16(0)
+          left_forward.duty_u16(0)
+          right_reverse.duty_u16(FULL_POWER_LEVEL // 2)
+          left_reverse.duty_u16(FULL_POWER_LEVEL // 2)
+      def left():
+          left_forward.duty_u16(0)
+          right_reverse.duty_u16(0)
+          left_reverse.duty_u16(FULL_POWER_LEVEL // 2)
+          right_forward.duty_u16(FULL_POWER_LEVEL // 2)
+      def right():
+          right_forward.duty_u16(0)
+          left_reverse.duty_u16(0)
+          right_reverse.duty_u16(FULL_POWER_LEVEL // 2)
+          left_forward.duty_u16(FULL_POWER_LEVEL // 2)
+      def stop():
+          right_forward.duty_u16(0)
+          left_forward.duty_u16(0)
+          right_reverse.duty_u16(0)
+          left_reverse.duty_u16(0)
+
+category:
+  name: Motors
+  labels: [Motors]
+  toolboxes: [makernano, makerpi]
+
+blocks:
+  - type: motor_init
+    colour: 135
+    label:
+      - Init Motors
+      - {image: {src: media/motor.jpg, width: 55, height: 55}}
+    code: |-
+      right_forward = PWM(Pin({right_forward}))
+      right_forward.freq(FREQUENCY)
+      right_reverse = PWM(Pin({right_reverse}))
+      right_reverse.freq(FREQUENCY)
+      left_forward = PWM(Pin({left_forward}))
+      left_forward.freq(FREQUENCY)
+      left_reverse = PWM(Pin({left_reverse}))
+      left_reverse.freq(FREQUENCY)
+    params:
+      - {name: right_forward, label: Right Forward, pin: true}
+      - {name: right_reverse, label: Right Reverse, pin: true}
+      - {name: left_forward,  label: Left Forward,  pin: true}
+      - {name: left_reverse,  label: Left Reverse,  pin: true}
+
+  - {type: forward_fast,  label: Go Forward Quickly,  code: "forward()"}
+  - {type: forward_slow,  label: Go Forward Slowly,   code: "forwardSlow()"}
+  - {type: reverse_fast,  label: Go Backward Quickly, code: "reverse()"}
+  - {type: reverse_slow,  label: Go Backward Slowly,  code: "reverseSlow()"}
+  - {type: left,          label: Turn Left,           code: "left()"}
+  - {type: right,         label: Turn Right,          code: "right()"}
+  - {type: stop,          label: "Stop!",             code: "stop()"}

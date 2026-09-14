@@ -865,6 +865,89 @@ Blockly.Python['hcsr_read'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- machine (machine.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['machine_reset'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.reset()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_soft_reset'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.soft_reset()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_reset_cause'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.reset_cause()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine_disable_irq'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.disable_irq()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_enable_irq'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "machine.enable_irq(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine_freq'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.freq()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_idle'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.idle()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_sleep'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.sleep()";
+  return code + "\n";
+};
+
+Blockly.Python['machine_lightsleep'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "machine.lightsleep(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine_wake_reason'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.wake_reason()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine_unique_id'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.unique_id()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine_time_pulse_us'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "machine.time_pulse_us(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine_rng'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.rng()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- math (math.blockdef.yaml) -----------------------------------------------
 
 Blockly.Python['math_acos'] = function(block) {
@@ -1356,6 +1439,76 @@ Blockly.Python['micropython_schedule'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "micropython.schedule(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- Motors (motors.blockdef.yaml) -------------------------------------------
+
+Blockly.Python['motor_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var right_forward_ = Blockly.Python.valueToCode(block, "right_forward", Blockly.Python.ORDER_ATOMIC);
+  var right_reverse_ = Blockly.Python.valueToCode(block, "right_reverse", Blockly.Python.ORDER_ATOMIC);
+  var left_forward_ = Blockly.Python.valueToCode(block, "left_forward", Blockly.Python.ORDER_ATOMIC);
+  var left_reverse_ = Blockly.Python.valueToCode(block, "left_reverse", Blockly.Python.ORDER_ATOMIC);
+  var code = "right_forward = PWM(Pin(" + right_forward_ + "))\nright_forward.freq(FREQUENCY)\nright_reverse = PWM(Pin(" + right_reverse_ + "))\nright_reverse.freq(FREQUENCY)\nleft_forward = PWM(Pin(" + left_forward_ + "))\nleft_forward.freq(FREQUENCY)\nleft_reverse = PWM(Pin(" + left_reverse_ + "))\nleft_reverse.freq(FREQUENCY)";
+  return code + "\n";
+};
+
+Blockly.Python['forward_fast'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "forward()";
+  return code + "\n";
+};
+
+Blockly.Python['forward_slow'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "forwardSlow()";
+  return code + "\n";
+};
+
+Blockly.Python['reverse_fast'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "reverse()";
+  return code + "\n";
+};
+
+Blockly.Python['reverse_slow'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "reverseSlow()";
+  return code + "\n";
+};
+
+Blockly.Python['left'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "left()";
+  return code + "\n";
+};
+
+Blockly.Python['right'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "right()";
+  return code + "\n";
+};
+
+Blockly.Python['stop'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["motor_drive"] = "FULL_POWER_LEVEL = 65024\nFREQUENCY = 1000\ndef forward():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL)\n    left_forward.duty_u16(FULL_POWER_LEVEL)\ndef forwardSlow():\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef reverse():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL)\n    left_reverse.duty_u16(FULL_POWER_LEVEL)\ndef reverseSlow():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\ndef left():\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    right_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef right():\n    right_forward.duty_u16(0)\n    left_reverse.duty_u16(0)\n    right_reverse.duty_u16(FULL_POWER_LEVEL // 2)\n    left_forward.duty_u16(FULL_POWER_LEVEL // 2)\ndef stop():\n    right_forward.duty_u16(0)\n    left_forward.duty_u16(0)\n    right_reverse.duty_u16(0)\n    left_reverse.duty_u16(0)";
+  var code = "stop()";
   return code + "\n";
 };
 
@@ -2194,6 +2347,147 @@ Blockly.Python['sys_print_exception'] = function(block) {
   Blockly.Python.definitions_["import_sys"] = "import sys";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "sys.print_exception(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- Bump (threepi_bump.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['threepi_bump_calibrate'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibump_sensors"] = "threepi_bump_sensors = threepi_robot.BumpSensors()";
+  var code = "threepi_bump_sensors.calibrate()";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_bump_read'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibump_sensors"] = "threepi_bump_sensors = threepi_robot.BumpSensors()";
+  var code = "threepi_bump_sensors.read()";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_bump_left_is_pressed'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibump_sensors"] = "threepi_bump_sensors = threepi_robot.BumpSensors()";
+  var code = "threepi_bump_sensors.left_is_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_bump_right_is_pressed'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibump_sensors"] = "threepi_bump_sensors = threepi_robot.BumpSensors()";
+  var code = "threepi_bump_sensors.right_is_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Buttons (threepi_buttons.blockdef.yaml) ---------------------------------
+
+Blockly.Python['threepi_read_button_a'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_a"] = "threepi_button_a = threepi_robot.ButtonA()";
+  var code = "threepi_button_a.is_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_read_button_b'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_b"] = "threepi_button_b = threepi_robot.ButtonB()";
+  var code = "threepi_button_b.is_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_read_button_c'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_c"] = "threepi_button_c = threepi_robot.ButtonC()";
+  var code = "threepi_button_c.is_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_check_button_a'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_a"] = "threepi_button_a = threepi_robot.ButtonA()";
+  var code = "threepi_button_a.check()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_check_button_b'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_b"] = "threepi_button_b = threepi_robot.ButtonB()";
+  var code = "threepi_button_b.check()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['threepi_check_button_c'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pibutton_c"] = "threepi_button_c = threepi_robot.ButtonC()";
+  var code = "threepi_button_c.check()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Motors (threepi_motors.blockdef.yaml) -----------------------------------
+
+Blockly.Python['threepi_set_motor_speeds'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pimotors"] = "threepi_motors = threepi_robot.Motors()";
+  var lspeed_ = Blockly.Python.valueToCode(block, "lspeed", Blockly.Python.ORDER_ATOMIC);
+  var rspeed_ = Blockly.Python.valueToCode(block, "rspeed", Blockly.Python.ORDER_ATOMIC);
+  var code = "threepi_motors.set_speeds(" + lspeed_ + ", " + rspeed_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_set_motor_left_speed'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pimotors"] = "threepi_motors = threepi_robot.Motors()";
+  var speed_ = Blockly.Python.valueToCode(block, "speed", Blockly.Python.ORDER_ATOMIC);
+  var code = "threepi_motors.set_left_speed(" + speed_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_set_motor_right_speed'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pimotors"] = "threepi_motors = threepi_robot.Motors()";
+  var speed_ = Blockly.Python.valueToCode(block, "speed", Blockly.Python.ORDER_ATOMIC);
+  var code = "threepi_motors.set_right_speed(" + speed_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_motors_off'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pimotors"] = "threepi_motors = threepi_robot.Motors()";
+  var code = "threepi_motors.off()";
+  return code + "\n";
+};
+
+// ---- RGB LEDs (threepi_rgb_leds.blockdef.yaml) -------------------------------
+
+Blockly.Python['threepi_rgb_leds_set'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pirgb_leds"] = "threepi_rgb_leds = threepi_robot.RGBLEDs()";
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "threepi_rgb_leds.set(" + address_ + ", " + color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_rgb_leds_set_brightness'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pirgb_leds"] = "threepi_rgb_leds = threepi_robot.RGBLEDs()";
+  var brightness_ = Blockly.Python.valueToCode(block, "brightness", Blockly.Python.ORDER_ATOMIC);
+  var code = "threepi_rgb_leds.set_brightness(" + brightness_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_rgb_leds_off'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pirgb_leds"] = "threepi_rgb_leds = threepi_robot.RGBLEDs()";
+  var code = "threepi_rgb_leds.off()";
+  return code + "\n";
+};
+
+Blockly.Python['threepi_rgb_leds_show'] = function(block) {
+  Blockly.Python.definitions_["import_3pirobot"] = "from pololu_3pi_2040_robot import robot as threepi_robot";
+  Blockly.Python.definitions_["make_3pirgb_leds"] = "threepi_rgb_leds = threepi_robot.RGBLEDs()";
+  var code = "threepi_rgb_leds.show()";
   return code + "\n";
 };
 

@@ -4147,183 +4147,42 @@ Blockly.Blocks["machine.Pin_Pin.irq"] = {
 
 
 
-Blockly.Blocks["machine_reset"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" reset");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: reset() Resets the device in a manner similar to pushing the external RESET button. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_soft_reset"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" soft_reset");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: soft_reset() Performs a soft reset of the interpreter, deleting all Python objects and resetting the Python heap. It tries to retain the method by which the user ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_reset_cause"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" reset_cause");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. function:: reset_cause() Get the reset cause. See :ref:`constants <machine_constants>` for the possibl e return values. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_disable_irq"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" disable_irq");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: disable_irq() Disable interrupt requests. Returns the previous IRQ state which should be considered an opaque value. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_enable_irq"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" enable_irq");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: enable_irq(state) Re-enable interrupt requests. The *state* parameter should be the value that was returned from the most ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_freq"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" freq");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: freq() Returns CPU frequency in hertz. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_idle"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" idle");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: idle() Gates the clock to the CPU, useful to reduce power consumption at any time du ring ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_sleep"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" sleep");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sleep() .. note:: This function is deprecated, use `lightsleep()` instead with no arg uments. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_lightsleep"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" lightsleep");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_wake_reason"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" wake_reason");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. function:: wake_reason() Get the wake reason. See :ref:`constants <machine_constants>` for the possibl e return values. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_unique_id"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" unique_id");
-    this.setColour(0);
-
-    this.setOutput(true, null);
-
- this.setTooltip(".. function:: unique_id() Returns a byte string with a unique identifier of a board/SoC. It will vary from a board/SoC instance to another, if underlying hardware allows. Length ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_time_pulse_us"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" time_pulse_us");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: time_pulse_us(pin, pulse_level, timeout_us=1000000, /) Time a pulse on the given *pin*, and return the duration of the pulse in microseconds. The *pulse_level* argument should be 0 to time a low pulse ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine_rng"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" rng");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. function:: rng() Return a 24-bit software generated random number. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.html");
-  }
-};
 
 
 
@@ -7281,101 +7140,13 @@ Blockly.Blocks['python_try_catch'] = {
 };
 
 // Motors
-Blockly.Blocks['motor_init'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Init Motors");
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-          "media/motor.jpg",
-          55,
-          55,
-          "*"));
-    this.appendValueInput("right_forward")
-      .setCheck(null)
-      .appendField("Right Forward");
-    this.appendValueInput("right_reverse")
-      .setCheck(null)
-      .appendField("Right Reverse");                  
-    this.appendValueInput("left_forward")
-      .setCheck(null)
-      .appendField("Left Forward");
-    this.appendValueInput("left_reverse")
-      .setCheck(null)
-      .appendField("Left Reverse");                  
-  }
-}
 
-Blockly.Blocks['forward_fast'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Go Forward Quickly");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['forward_slow'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Go Forward Slowly");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['reverse_fast'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Go Backward Quickly");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['reverse_slow'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Go Backward Slowly");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['left'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Turn Left");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['right'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Turn Right");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
-Blockly.Blocks['stop'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Stop!");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-  }
-};
 
 //neopixel
 function componentToHex(c) {
@@ -7799,63 +7570,9 @@ Blockly.Blocks['tone_type'] = {
 };
 
 // Pololu 3pi+ 2040
-Blockly.Blocks['threepi_set_motor_left_speed'] = {
-  init: function() {
-    this.appendValueInput("speed")
-        .setCheck("Number")
-        .appendField("set motor left speed");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("set motor left speed");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_set_motor_right_speed'] = {
-  init: function() {
-    this.appendValueInput("speed")
-        .setCheck("Number")
-        .appendField("set motor right speed");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("set motor right speed");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_set_motor_speeds'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("set motor speeds");
-    this.appendValueInput("lspeed")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("left");
-    this.appendValueInput("rspeed")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("right");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("set motor speeds");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_motors_off'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("motors off");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("motors off");
-    this.setHelpUrl("");
-  }
-};
 
 // Pololu 3pi+ 2040
 Blockly.Python['threepi_set_motor_speeds'] = function(block) {
@@ -7893,177 +7610,19 @@ Blockly.Python['threepi_motors_off'] = function(block) {
 	return code
 };
 
-Blockly.Blocks['threepi_rgb_leds_set_brightness'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("RGB LEDs set");
-    this.appendValueInput("brightness")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .setCheck("Number")
-        .appendField("brightness");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("olive");
-    this.setTooltip("set RGB LEDs brightness");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_rgb_leds_show'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("RGB LEDs show");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("olive");
-    this.setTooltip("show RGB LEDs");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_rgb_leds_off'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("RGB LEDs off");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("olive");
-    this.setTooltip("turn off RGB LEDs");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_rgb_leds_set'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("RGB LEDs set");
-    this.appendValueInput("address")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .setCheck("Number")
-        .appendField("LED");
-      this.appendValueInput("color")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .setCheck("Number")
-        .appendField("Color");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("olive");
-    this.setTooltip("control RGB LEDs");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_read_button_a'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Read A Button");
-    this.setColour(230);
-    this.setTooltip("Read the A button");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_read_button_b'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Read B Button");
-    this.setColour(230);
-    this.setTooltip("Read the B button");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_read_button_c'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Read C Button");
-    this.setColour(230);
-    this.setTooltip("Read the C button");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_check_button_a'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Check A Button");
-    this.setColour(230);
-    this.setTooltip("Check the A button for press");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_check_button_b'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Check B Button");
-    this.setColour(230);
-    this.setTooltip("Check the B button for press");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_check_button_c'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Check C Button");
-    this.setColour(230);
-    this.setTooltip("Check the C button for press");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_bump_calibrate'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Calibrate Bump");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("calibrate bump sensor");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_bump_read'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Read Bump");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("read bump sensor");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_bump_left_is_pressed'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Bump Left");
-    this.setColour(230);
-    this.setTooltip("Check if left bump sensor is pressed");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['threepi_bump_right_is_pressed'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Bump Right");
-    this.setColour(230);
-    this.setTooltip("Check if right bump sensor is pressed");
-    this.setOutput(true, null);
-    this.setHelpUrl("");
-  }
-};
 
 //Fri Aug  6 23:23:55 -03 2021
 //Snek
