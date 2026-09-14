@@ -1004,32 +1004,29 @@
 
     </category>
 
+  <!-- blockdef:tm1640 -->
   <category name="LED Matrix">
-      <label text="TM1640 LED Matrix"></label>
-      <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
-        <button text="Install tm1640 library" callbackKey="installPyLib"></button>
-        <button text="Load example: tm1640" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
+    <label text="TM1640 LED Matrix"></label>
+    <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
+    <button text="Install tm1640 library" callbackKey="installPyLib"></button>
+    <button text="Load example: tm1640" callbackKey="loadExample"></button>
+    <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
 
     <block type="tm1640_init">
-
- <value name="clk">
+      <value name="clk">
         <shadow type="math_number">
           <field name="NUM">14</field>
         </shadow>
       </value>
-
- <value name="dio">
+      <value name="dio">
         <shadow type="math_number">
           <field name="NUM">13</field>
         </shadow>
       </value>
-
-
-      </block>
+    </block>
 
     <block type="tm1640_write">
-  <value name="vector">
+      <value name="vector">
         <shadow type="text">
           <field name="TEXT">1, 2, 4, 8, 16, 32, 64, 128</field>
         </shadow>
@@ -1037,17 +1034,15 @@
     </block>
 
     <block type="tm1640_brig">
-    <value name="brig">
+      <value name="brig">
         <shadow type="math_number">
           <field name="NUM">7</field>
         </shadow>
       </value>
-
     </block>
 
-
     <block type="tm1640_num">
-    <value name="num">
+      <value name="num">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
@@ -1055,74 +1050,73 @@
     </block>
 
     <block type="tm1640_custom">
-                    <field name="A0">FALSE</field>
-                    <field name="A1">FALSE</field>
-                    <field name="A2">FALSE</field>
-                    <field name="A3">FALSE</field>
-                    <field name="A4">FALSE</field>
-                    <field name="A5">FALSE</field>
-                    <field name="A6">FALSE</field>
-                    <field name="A7">FALSE</field>
-                    <field name="B0">FALSE</field>
-                    <field name="B1">FALSE</field>
-                    <field name="B2">FALSE</field>
-                    <field name="B3">FALSE</field>
-                    <field name="B4">FALSE</field>
-                    <field name="B5">FALSE</field>
-                    <field name="B6">FALSE</field>
-                    <field name="B7">FALSE</field>
-                    <field name="C0">FALSE</field>
-                    <field name="C1">FALSE</field>
-                    <field name="C2">FALSE</field>
-                    <field name="C3">FALSE</field>
-                    <field name="C4">FALSE</field>
-                    <field name="C5">FALSE</field>
-                    <field name="C6">FALSE</field>
-                    <field name="C7">FALSE</field>
-                    <field name="D0">FALSE</field>
-                    <field name="D1">FALSE</field>
-                    <field name="D2">FALSE</field>
-                    <field name="D3">FALSE</field>
-                    <field name="D4">FALSE</field>
-                    <field name="D5">FALSE</field>
-                    <field name="D6">FALSE</field>
-                    <field name="D7">FALSE</field>
-                    <field name="E0">FALSE</field>
-                    <field name="E1">FALSE</field>
-                    <field name="E2">FALSE</field>
-                    <field name="E3">FALSE</field>
-                    <field name="E4">FALSE</field>
-                    <field name="E5">FALSE</field>
-                    <field name="E6">FALSE</field>
-                    <field name="E7">FALSE</field>
-                    <field name="F0">FALSE</field>
-                    <field name="F1">FALSE</field>
-                    <field name="F2">FALSE</field>
-                    <field name="F3">FALSE</field>
-                    <field name="F4">FALSE</field>
-                    <field name="F5">FALSE</field>
-                    <field name="F6">FALSE</field>
-                    <field name="F7">FALSE</field>
-                    <field name="G0">FALSE</field>
-                    <field name="G1">FALSE</field>
-                    <field name="G2">FALSE</field>
-                    <field name="G3">FALSE</field>
-                    <field name="G4">FALSE</field>
-                    <field name="G5">FALSE</field>
-                    <field name="G6">FALSE</field>
-                    <field name="G7">FALSE</field>
-                    <field name="H0">FALSE</field>
-                    <field name="H1">FALSE</field>
-                    <field name="H2">FALSE</field>
-                    <field name="H3">FALSE</field>
-                    <field name="H4">FALSE</field>
-                    <field name="H5">FALSE</field>
-                    <field name="H6">FALSE</field>
-                    <field name="H7">FALSE</field>
-                </block>
-
-
+      <field name="A0">FALSE</field>
+      <field name="A1">FALSE</field>
+      <field name="A2">FALSE</field>
+      <field name="A3">FALSE</field>
+      <field name="A4">FALSE</field>
+      <field name="A5">FALSE</field>
+      <field name="A6">FALSE</field>
+      <field name="A7">FALSE</field>
+      <field name="B0">FALSE</field>
+      <field name="B1">FALSE</field>
+      <field name="B2">FALSE</field>
+      <field name="B3">FALSE</field>
+      <field name="B4">FALSE</field>
+      <field name="B5">FALSE</field>
+      <field name="B6">FALSE</field>
+      <field name="B7">FALSE</field>
+      <field name="C0">FALSE</field>
+      <field name="C1">FALSE</field>
+      <field name="C2">FALSE</field>
+      <field name="C3">FALSE</field>
+      <field name="C4">FALSE</field>
+      <field name="C5">FALSE</field>
+      <field name="C6">FALSE</field>
+      <field name="C7">FALSE</field>
+      <field name="D0">FALSE</field>
+      <field name="D1">FALSE</field>
+      <field name="D2">FALSE</field>
+      <field name="D3">FALSE</field>
+      <field name="D4">FALSE</field>
+      <field name="D5">FALSE</field>
+      <field name="D6">FALSE</field>
+      <field name="D7">FALSE</field>
+      <field name="E0">FALSE</field>
+      <field name="E1">FALSE</field>
+      <field name="E2">FALSE</field>
+      <field name="E3">FALSE</field>
+      <field name="E4">FALSE</field>
+      <field name="E5">FALSE</field>
+      <field name="E6">FALSE</field>
+      <field name="E7">FALSE</field>
+      <field name="F0">FALSE</field>
+      <field name="F1">FALSE</field>
+      <field name="F2">FALSE</field>
+      <field name="F3">FALSE</field>
+      <field name="F4">FALSE</field>
+      <field name="F5">FALSE</field>
+      <field name="F6">FALSE</field>
+      <field name="F7">FALSE</field>
+      <field name="G0">FALSE</field>
+      <field name="G1">FALSE</field>
+      <field name="G2">FALSE</field>
+      <field name="G3">FALSE</field>
+      <field name="G4">FALSE</field>
+      <field name="G5">FALSE</field>
+      <field name="G6">FALSE</field>
+      <field name="G7">FALSE</field>
+      <field name="H0">FALSE</field>
+      <field name="H1">FALSE</field>
+      <field name="H2">FALSE</field>
+      <field name="H3">FALSE</field>
+      <field name="H4">FALSE</field>
+      <field name="H5">FALSE</field>
+      <field name="H6">FALSE</field>
+      <field name="H7">FALSE</field>
+    </block>
   </category>
+  <!-- /blockdef:tm1640 -->
 
 
 
@@ -1298,30 +1292,31 @@
 
   </category>
 
+      <!-- blockdef:ds18x20 -->
       <category name="OneWire">
-      <label text="OneWire"></label>
-
+        <label text="OneWire"></label>
         <button text="Load example: ds1820" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: ds1820" callbackKey="loadDoc"></button>
 
-      <block type="onewire_ds18x20_init">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="onewire_ds18x20_scan"></block>
-      <block type="onewire_ds18x20_convert"></block>
-      <block type="onewire_ds18x20_read_temp">
-	  <value name="rom">
-          <shadow type="math_number">
-            <field name="NUM">10000</field>
-          </shadow>
-        </value>
- 
-      </block>
+        <block type="onewire_ds18x20_init">
+          <value name="pin">
+            <shadow type="pinout"></shadow>
+          </value>
+        </block>
+
+        <block type="onewire_ds18x20_scan"></block>
+
+        <block type="onewire_ds18x20_convert"></block>
+
+        <block type="onewire_ds18x20_read_temp">
+          <value name="rom">
+            <shadow type="math_number">
+              <field name="NUM">10000</field>
+            </shadow>
+          </value>
+        </block>
       </category>
+      <!-- /blockdef:ds18x20 -->
 
 
   <category name="RFID Reader">

@@ -1,0 +1,49 @@
+# CCS811 air quality sensor. The readings are attributes on the object, not
+# calls, and the init block is a different colour from the three readers --
+# which is how it shipped, so it is said here rather than smoothed over.
+
+module: CCS811
+instance: sCCS811
+colour: 230
+import: {line: "import CCS811", key: import_ccs811}
+
+category:
+  name: "%{BKY_CAT_AIR}"
+  library: CCS811
+  labels:
+    - CCS811
+    - "Library: https://github.com/Notthemarsian/CCS811"
+  toolboxes: [esp32, esp32c3]
+
+blocks:
+  - type: ccs811_init
+    label: Init CCS811
+    tooltip: ""
+    colour: 135
+    # SoftI2C, and the address is fixed at 0x5a.
+    i2c_bus: {scl: scl, sda: sda, soft: true}
+    code: "{instance} = CCS811.CCS811(i2c={bus}, addr=90)"
+    params:
+      - {name: scl, label: SCL, type: Number, default: 22, align: right}
+      - {name: sda, label: SDA, type: Number, default: 21, align: right}
+
+  - type: ccs811_data_ready
+    fn: data_ready
+    kind: value
+    label: CCS811 Data Ready
+    tooltip: Air Quality Sensor CCS811 Data Ready
+    url: http://www.bipes.net.br
+
+  - type: ccs811_eCO2
+    attr: eCO2
+    kind: value
+    label: CCS811 CO2
+    tooltip: Air Quality Sensor CCS811 CO2 reading
+    url: http://www.bipes.net.br
+
+  - type: ccs811_tVOC
+    attr: tVOC
+    kind: value
+    label: CCS811 tVOC
+    tooltip: Air Quality Sensor CCS811 VOC reading
+    url: http://www.bipes.net.br

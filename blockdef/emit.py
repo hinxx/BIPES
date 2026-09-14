@@ -59,8 +59,9 @@ def _block_js(definition: Definition, block: Block) -> str:
         lines.append('    this.setPreviousStatement(true, null);')
         lines.append('    this.setNextStatement(true, null);')
 
-    if definition.colour is not None:
-        lines.append(f'    this.setColour({_colour(definition.colour)});')
+    colour = block.colour if block.colour is not None else definition.colour
+    if colour is not None:
+        lines.append(f'    this.setColour({_colour(colour)});')
     if block.inline is not None:
         lines.append(f'    this.setInputsInline({"true" if block.inline else "false"});')
     if block.tooltip.given:
@@ -186,7 +187,13 @@ def _generator_js(definition: Definition, block: Block) -> str:
 
 def _read_js(param: Param) -> str:
     if param.kind == 'input':
-        return f'Blockly.Python.valueToCode(block, {_js(param.name)}, Blockly.Python.ORDER_ATOMIC)'
+        read = (f'Blockly.Python.valueToCode(block, {_js(param.name)}, '
+                f'Blockly.Python.ORDER_ATOMIC)')
+        if param.unquote:
+            # The value goes into the Python as code, not as a string, so the
+            # quotes a text block wraps it in have to come back off.
+            read += '.replace(/^\'|\'$/g, "")'
+        return read
     if param.kind == 'variable':
         return (f'Blockly.Python.nameDB_.getName(block.getFieldValue({_js(param.name)}), '
                 f'Blockly.VARIABLE_CATEGORY_NAME)')
@@ -208,6 +215,9 @@ def _code_js(definition: Definition, block: Block, reads: dict[str, str]) -> str
 
     names = block.args if block.args is not None else [p.name for p in block.params]
     keywords = {p.name: p.keyword for p in block.params}
+
+    if block.attr:
+        return _js(f'{definition.instance}.{block.attr}')
 
     if block.constructor:
         target = (f'{definition.module}.{definition.cls}' if _needs_prefix(definition)
@@ -278,7 +288,14 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
     for label in definition.labels:
         lines.append(f'  <label text="{_xml(label)}"></label>')
     for name in definition.library:
-        lines.append(f'  <button text="Install {_xml(name)} library" callbackKey="installPyLib"></button>')
+        lines.append(f'  <button text="Install {_xml(name)} library" '
+                     f'callbackKey="installPyLib"></button>')
+    for name in definition.examples:
+        lines.append(f'  <button text="Load example: {_xml(name)}" '
+                     f'callbackKey="loadExample"></button>')
+    for name in definition.docs:
+        lines.append(f'  <button text="Documentation and how to connect: {_xml(name)}" '
+                     f'callbackKey="loadDoc"></button>')
 
     for entry in definition.entries:
         lines.append('')

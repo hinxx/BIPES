@@ -144,3 +144,4 @@ Blockly.Msg['CAT_FILES'] = "Filer";
 Blockly.Msg['CAT_NET'] = "Nettverk og Internet";
 Blockly.Msg['CAT_CONTROL'] = "Kontroll";
 Blockly.Msg['CAT_ULTRASOUND'] = "Ultralyd";
+Blockly.Msg['CAT_AIR'] = "Luftkvalitet";

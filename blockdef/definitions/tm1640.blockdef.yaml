@@ -1,0 +1,130 @@
+# TM1640 8x8 LED matrix.
+#
+# Note that "LED Matrix" is also the name of the MAX7219 category on the Pico
+# boards -- a different chip with different blocks, still hand-written.
+
+module: tm1640
+instance: tm
+colour: 230
+url: http://www.bipes.net.br
+import:
+  - {line: "import tm1640", key: import_tm1640}
+  - {line: "from machine import Pin", key: import_pin}
+
+category:
+  name: LED Matrix
+  library: tm1640
+  examples: tm1640
+  docs: tm1640
+  labels:
+    - TM1640 LED Matrix
+    - "Library: https://github.com/mcauser/micropython-tm1640"
+  toolboxes: [esp32, esp32-basic, esp32S2, esp8266, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: tm1640_init
+    label:
+      - {image: {src: media/matrix.png, width: 55, height: 55}, text: Start TM1640 LED Matrix}
+    tooltip: Start TM1640 LED Matrix
+    # The hand-written generator read CLK and DIO and then emitted Pin(14) and
+    # Pin(13) regardless, so both inputs did nothing. They are used now.
+    code: "{instance} = tm1640.TM1640(clk=Pin({clk}), dio=Pin({dio}))"
+    params:
+      - {name: clk, label: CLK, type: Number, default: 14, align: right}
+      - {name: dio, label: DIO, type: Number, default: 13, align: right}
+
+  - type: tm1640_write
+    label: Write array to Led Matrix
+    tooltip: Write to TM1640 LED Matrix
+    code: "{instance}.write([{vector}])"
+    params:
+      # The text is a list of numbers to paste into the call, not a string.
+      - {name: vector, label: LED array value, type: String, unquote: true,
+         default: "1, 2, 4, 8, 16, 32, 64, 128"}
+
+  - type: tm1640_brig
+    fn: brightness
+    label: Set Brightness of Led Matrix
+    tooltip: Set brightness of TM1640 LED Matrix
+    params:
+      - {name: brig, label: value (1-7), type: Number, default: 7}
+
+  - type: tm1640_num
+    label: Write Number on Led Matrix
+    tooltip: Write number on TM1640 LED Matrix
+    # Reference: https://github.com/mcauser/micropython-tm1640
+    code: |-
+      digits = [0x3c66666e76663c00, 0x7e1818181c181800, 0x7e060c3060663c00, 0x3c66603860663c00, 0x30307e3234383000, 0x3c6660603e067e00, 0x3c66663e06663c00, 0x1818183030667e00, 0x3c66663c66663c00, 0x3c66607c66663c00]
+      {instance}.write_int(digits[{num}])
+    params:
+      - {name: num, label: value (0-9), type: Number, default: 0}
+
+  # 64 checkboxes bit-packed into 8 bytes: real computation, so the block and
+  # its generator stay hand-written. Only its toolbox entry is declared here.
+  - type: tm1640_custom
+    external: true
+    fields:
+      A0: FALSE
+      A1: FALSE
+      A2: FALSE
+      A3: FALSE
+      A4: FALSE
+      A5: FALSE
+      A6: FALSE
+      A7: FALSE
+      B0: FALSE
+      B1: FALSE
+      B2: FALSE
+      B3: FALSE
+      B4: FALSE
+      B5: FALSE
+      B6: FALSE
+      B7: FALSE
+      C0: FALSE
+      C1: FALSE
+      C2: FALSE
+      C3: FALSE
+      C4: FALSE
+      C5: FALSE
+      C6: FALSE
+      C7: FALSE
+      D0: FALSE
+      D1: FALSE
+      D2: FALSE
+      D3: FALSE
+      D4: FALSE
+      D5: FALSE
+      D6: FALSE
+      D7: FALSE
+      E0: FALSE
+      E1: FALSE
+      E2: FALSE
+      E3: FALSE
+      E4: FALSE
+      E5: FALSE
+      E6: FALSE
+      E7: FALSE
+      F0: FALSE
+      F1: FALSE
+      F2: FALSE
+      F3: FALSE
+      F4: FALSE
+      F5: FALSE
+      F6: FALSE
+      F7: FALSE
+      G0: FALSE
+      G1: FALSE
+      G2: FALSE
+      G3: FALSE
+      G4: FALSE
+      G5: FALSE
+      G6: FALSE
+      G7: FALSE
+      H0: FALSE
+      H1: FALSE
+      H2: FALSE
+      H3: FALSE
+      H4: FALSE
+      H5: FALSE
+      H6: FALSE
+      H7: FALSE

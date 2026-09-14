@@ -69,6 +69,8 @@ category:
   name: GY33 I2C
   labels: [...]          # <label> lines above the blocks
   library: gy33I2C       # "Install <name> library" button; a list works too
+  examples: gy33I2C      # "Load example: <name>"
+  docs: gy33I2C          # "Documentation and how to connect: <name>"
   toolboxes: [esp32, rpi_pico]        # ui/toolbox/<name>.xml
   defaults:                           # per-board shadow values    (optional)
     rpi_pico: {sda: 0, scl: 1}
@@ -89,6 +91,8 @@ blocks:
 | --- | --- |
 | `type` | the Blockly id. Defaults to `<file>_<fn>`; pin it for anything that has shipped. |
 | `fn` | Python method called on `instance`. With no `instance`, a function on the module. |
+| `attr` | attribute read off `instance`, with no call -- `sensor.eCO2`. Instead of `fn`. |
+| `colour` | overrides the family's colour for this block alone. |
 | `label` | text on the block: a string, or a list of rows (see below). Defaults to a humanised `fn`. |
 | `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. Either takes `{msg: key}`. |
 | `kind` | `statement` (default) or `value`. |
@@ -138,6 +142,7 @@ when a saved program is loaded.
 | `emit` | dropdown only: option value → the Python it stands for, when they differ. |
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
+| `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off. |
 
 A `type:` that is not one of Blockly's own (`Number`, `String`, `Boolean`,
 `Array`, `Colour`) is a custom type: it still constrains what can plug in, but

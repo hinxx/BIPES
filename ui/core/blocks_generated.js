@@ -36,6 +36,60 @@ Blockly.Blocks['bluetooth_repl_start'] = {
   }
 };
 
+// ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['ccs811_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init CCS811");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['ccs811_data_ready'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CCS811 Data Ready");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Air Quality Sensor CCS811 Data Ready");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['ccs811_eCO2'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CCS811 CO2");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Air Quality Sensor CCS811 CO2 reading");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['ccs811_tVOC'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CCS811 tVOC");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Air Quality Sensor CCS811 VOC reading");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- Character display (char_lcd.blockdef.yaml) ------------------------------
 
 Blockly.Blocks['char_lcd_init'] = {
@@ -149,6 +203,58 @@ Blockly.Blocks['char_lcd_display'] = {
     this.setNextStatement(true, null);
     this.setColour("olive");
     this.setTooltip("Turn ON/Off the display");
+  }
+};
+
+// ---- OneWire (ds18x20.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['onewire_ds18x20_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init OneWire Bus");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("GPIO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['onewire_ds18x20_scan'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Scan DS1820 sensors");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['onewire_ds18x20_convert'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Trigger DS1820 reading");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['onewire_ds18x20_read_temp'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1820 Temperature reading");
+    this.appendValueInput("rom")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ID");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
   }
 };
 
@@ -299,6 +405,74 @@ Blockly.Blocks['hcsr_read'] = {
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip(MSG["measure_distance"]);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- LED Matrix (tm1640.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['tm1640_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/matrix.png", 55, 55, "*"))
+        .appendField("Start TM1640 LED Matrix");
+    this.appendValueInput("clk")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CLK");
+    this.appendValueInput("dio")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("DIO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start TM1640 LED Matrix");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1640_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write array to Led Matrix");
+    this.appendValueInput("vector")
+        .setCheck("String")
+        .appendField("LED array value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write to TM1640 LED Matrix");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1640_brig'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Brightness of Led Matrix");
+    this.appendValueInput("brig")
+        .setCheck("Number")
+        .appendField("value (1-7)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set brightness of TM1640 LED Matrix");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1640_num'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write Number on Led Matrix");
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .appendField("value (0-9)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write number on TM1640 LED Matrix");
     this.setHelpUrl("http://www.bipes.net.br");
   }
 };

@@ -18,6 +18,35 @@ Blockly.Python['bluetooth_repl_start'] = function(block) {
   return code + "\n";
 };
 
+// ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
+
+Blockly.Python['ccs811_init'] = function(block) {
+  Blockly.Python.definitions_["import_ccs811"] = "import CCS811";
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({scl: scl_, sda: sda_, soft: true});
+  var code = "sCCS811 = CCS811.CCS811(i2c=" + bus_ + ", addr=90)";
+  return code + "\n";
+};
+
+Blockly.Python['ccs811_data_ready'] = function(block) {
+  Blockly.Python.definitions_["import_ccs811"] = "import CCS811";
+  var code = "sCCS811.data_ready()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ccs811_eCO2'] = function(block) {
+  Blockly.Python.definitions_["import_ccs811"] = "import CCS811";
+  var code = "sCCS811.eCO2";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ccs811_tVOC'] = function(block) {
+  Blockly.Python.definitions_["import_ccs811"] = "import CCS811";
+  var code = "sCCS811.tVOC";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Character display (char_lcd.blockdef.yaml) ------------------------------
 
 Blockly.Python['char_lcd_init'] = function(block) {
@@ -72,6 +101,35 @@ Blockly.Python['char_lcd_display'] = function(block) {
   var on_off_ = {"ON": "display_on", "OFF": "display_off"}[block.getFieldValue("on_off")];
   var code = "lcd." + on_off_ + "()";
   return code + "\n";
+};
+
+// ---- OneWire (ds18x20.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['onewire_ds18x20_init'] = function(block) {
+  Blockly.Python.definitions_["import_onewire"] = "import onewire,ds18x20";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "onewire_pin = Pin(" + pin_ + ")\nds = ds18x20.DS18X20(onewire.OneWire(onewire_pin))";
+  return code + "\n";
+};
+
+Blockly.Python['onewire_ds18x20_scan'] = function(block) {
+  Blockly.Python.definitions_["import_onewire"] = "import onewire,ds18x20";
+  var code = "ds.scan()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['onewire_ds18x20_convert'] = function(block) {
+  Blockly.Python.definitions_["import_onewire"] = "import onewire,ds18x20";
+  var code = "ds.convert_temp()";
+  return code + "\n";
+};
+
+Blockly.Python['onewire_ds18x20_read_temp'] = function(block) {
+  Blockly.Python.definitions_["import_onewire"] = "import onewire,ds18x20";
+  var rom_ = Blockly.Python.valueToCode(block, "rom", Blockly.Python.ORDER_ATOMIC);
+  var code = "ds.read_temp(" + rom_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
@@ -148,4 +206,39 @@ Blockly.Python['hcsr_read'] = function(block) {
   Blockly.Python.definitions_["import_hcr"] = "from hcsr04 import HCSR04";
   var code = "ultraSoundSensor.distance_mm()";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- LED Matrix (tm1640.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['tm1640_init'] = function(block) {
+  Blockly.Python.definitions_["import_tm1640"] = "import tm1640";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var clk_ = Blockly.Python.valueToCode(block, "clk", Blockly.Python.ORDER_ATOMIC);
+  var dio_ = Blockly.Python.valueToCode(block, "dio", Blockly.Python.ORDER_ATOMIC);
+  var code = "tm = tm1640.TM1640(clk=Pin(" + clk_ + "), dio=Pin(" + dio_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['tm1640_write'] = function(block) {
+  Blockly.Python.definitions_["import_tm1640"] = "import tm1640";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var vector_ = Blockly.Python.valueToCode(block, "vector", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var code = "tm.write([" + vector_ + "])";
+  return code + "\n";
+};
+
+Blockly.Python['tm1640_brig'] = function(block) {
+  Blockly.Python.definitions_["import_tm1640"] = "import tm1640";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var brig_ = Blockly.Python.valueToCode(block, "brig", Blockly.Python.ORDER_ATOMIC);
+  var code = "tm.brightness(" + brig_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['tm1640_num'] = function(block) {
+  Blockly.Python.definitions_["import_tm1640"] = "import tm1640";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
+  var code = "digits = [0x3c66666e76663c00, 0x7e1818181c181800, 0x7e060c3060663c00, 0x3c66603860663c00, 0x30307e3234383000, 0x3c6660603e067e00, 0x3c66663e06663c00, 0x1818183030667e00, 0x3c66663c66663c00, 0x3c66607c66663c00]\ntm.write_int(digits[" + num_ + "])";
+  return code + "\n";
 };

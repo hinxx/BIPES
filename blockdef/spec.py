@@ -101,6 +101,7 @@ class Param:
     max: Any = None
     precision: Any = None
     shadow: bool = True             # False -> no shadow in the toolbox entry
+    unquote: bool = False           # strip the quotes a text block puts around it
 
 
 @dataclass(slots=True)
@@ -110,6 +111,8 @@ class Block:
     tooltip: Text = field(default_factory=Text)
     kind: str = 'statement'         # 'statement' | 'value'
     fn: str | None = None           # Python method called on the instance
+    attr: str | None = None         # attribute read off the instance, with no call
+    colour: int | str | None = None # overrides the family's colour
     args: list[str] | None = None   # call arguments; defaults to the params
     code: str | None = None         # escape hatch: the Python, with {param} holes
     output: str | None = None       # setOutput type for value blocks
@@ -147,6 +150,8 @@ class Definition:
     category: str
     labels: list[str]
     library: list[str]              # "Install <name> library" buttons
+    examples: list[str]             # "Load example: <name>" buttons
+    docs: list[str]                 # "Documentation and how to connect: <name>" buttons
     toolboxes: list[str]
     defaults: dict[str, dict[str, Any]]   # board -> param -> shadow value
     help_url: str | None
@@ -190,6 +195,8 @@ def load(path: str | Path) -> Definition:
         category=_req_str(category, 'name', cat),
         labels=[str(x) for x in category.get('labels', [])],
         library=[str(x) for x in _as_list(category.get('library'))],
+        examples=[str(x) for x in _as_list(category.get('examples'))],
+        docs=[str(x) for x in _as_list(category.get('docs'))],
         toolboxes=[str(x) for x in _as_list(category.get('toolboxes'))],
         defaults={},
         help_url=raw.get('url'),
@@ -216,7 +223,8 @@ def load(path: str | Path) -> Definition:
 
     _check_unknown(raw, {'module', 'class', 'instance', 'import', 'url', 'colour',
                          'category', 'blocks'}, where)
-    _check_unknown(category, {'name', 'labels', 'library', 'toolboxes', 'defaults'}, cat)
+    _check_unknown(category, {'name', 'labels', 'library', 'examples', 'docs',
+                             'toolboxes', 'defaults'}, cat)
     return definition
 
 
@@ -273,9 +281,22 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
     if constructor and kind == 'value':
         raise BlockdefError(f'{at}: a constructor is a statement, not a value')
 
+    attr = entry.get('attr')
+    if fn and attr:
+        raise BlockdefError(f'{at}: `fn` calls a method and `attr` reads a value; '
+                            f'a block does one or the other')
     code = entry.get('code')
-    if code is None and not fn and not constructor:
-        raise BlockdefError(f'{at}: needs `fn` (a method to call), `code`, or `constructor`')
+    if code is None and not fn and not attr and not constructor:
+        raise BlockdefError(f'{at}: needs `fn` (a method to call), `attr` (a value to '
+                            f'read), `code`, or `constructor`')
+    if attr and not definition.instance:
+        raise BlockdefError(f'{at}: `attr` reads off the object, so the file needs '
+                            f'an `instance`')
+
+    colour = entry.get('colour')
+    if colour is not None and not isinstance(colour, (int, str)):
+        raise BlockdefError(f'{at}: `colour` is a hue number or a CSS colour name, '
+                            f'not {colour!r}')
 
     params = [_param(p, at) for p in entry.get('params', [])]
     names = {p.name for p in params}
@@ -291,19 +312,20 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
                 raise BlockdefError(f'{at}: `args` mentions {a!r}, which is neither a param '
                                     f'nor "bus"')
 
-    rows = _rows(entry.get('label'), fn or type_, at)
+    rows = _rows(entry.get('label'), fn or attr or type_, at)
 
     block = Block(
         type=str(type_), rows=rows, tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
-        kind=kind, fn=fn, args=args, code=code, output=entry.get('output'), params=params,
+        kind=kind, fn=fn, attr=attr, colour=colour, args=args, code=code,
+        output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
     )
-    _check_unknown(entry, {'type', 'fn', 'label', 'tooltip', 'kind', 'args', 'code', 'output',
-                           'params', 'inline', 'constructor', 'i2c_bus', 'url', 'external',
-                           'import', 'fields'}, at)
+    _check_unknown(entry, {'type', 'fn', 'attr', 'colour', 'label', 'tooltip', 'kind',
+                           'args', 'code', 'output', 'params', 'inline', 'constructor',
+                           'i2c_bus', 'url', 'external', 'import', 'fields'}, at)
     return block
 
 
@@ -394,14 +416,17 @@ def _param(entry: Any, where: _Where) -> Param:
         type=entry.get('type'), default=entry.get('default'), align=align,
         pin=bool(entry.get('pin')), keyword=entry.get('keyword'), options=options, emit=emit,
         min=entry.get('min'), max=entry.get('max'), precision=entry.get('precision'),
-        shadow=entry.get('shadow', True),
+        shadow=entry.get('shadow', True), unquote=bool(entry.get('unquote')),
     )
     if param.pin and param.kind != 'input':
         raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` '
                             f'must be "input"')
+    if param.unquote and param.kind != 'input':
+        raise BlockdefError(f'{at}: `unquote` is about the text a value block produces, '
+                            f'so `kind` must be "input"')
     _check_unknown(entry, {'name', 'label', 'kind', 'type', 'default', 'align', 'pin',
                            'keyword', 'options', 'emit', 'min', 'max', 'precision',
-                           'shadow'}, at)
+                           'shadow', 'unquote'}, at)
     return param
 
 

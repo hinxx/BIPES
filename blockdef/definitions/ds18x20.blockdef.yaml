@@ -1,0 +1,51 @@
+# DS18B20/DS1820 temperature sensors on a OneWire bus.
+#
+# No library to install -- onewire and ds18x20 are in the MicroPython firmware --
+# so the category offers only the example and the wiring notes.
+
+module: ds18x20
+instance: ds
+colour: 135
+import: {line: "import onewire,ds18x20", key: import_onewire}
+
+category:
+  name: OneWire
+  examples: ds1820
+  docs: ds1820
+  labels: [OneWire]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    rpi_pico:   {pin: 0}
+    rpi_pico_w: {pin: 0}
+
+blocks:
+  - type: onewire_ds18x20_init
+    label: Init OneWire Bus
+    tooltip: ""
+    # Not a plain constructor: the bus object is wrapped in the driver.
+    import: {line: "from machine import Pin", key: import_pin}
+    code: |-
+      onewire_pin = Pin({pin})
+      {instance} = ds18x20.DS18X20(onewire.OneWire(onewire_pin))
+    params:
+      - {name: pin, label: GPIO, type: Number, pin: true, align: right}
+
+  - type: onewire_ds18x20_scan
+    fn: scan
+    kind: value
+    label: Scan DS1820 sensors
+    tooltip: ""
+
+  - type: onewire_ds18x20_convert
+    fn: convert_temp
+    label: Trigger DS1820 reading
+    tooltip: ""
+
+  - type: onewire_ds18x20_read_temp
+    fn: read_temp
+    kind: value
+    label: DS1820 Temperature reading
+    tooltip: ""
+    params:
+      - {name: rom, label: ID, type: Number, default: 10000, align: right}

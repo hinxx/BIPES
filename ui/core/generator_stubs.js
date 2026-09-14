@@ -373,35 +373,6 @@ Blockly.Python['var_to_float'] = function(block) {
 
 //OneWire
 
-Blockly.Python['onewire_ds18x20_init'] = function(block) {
-  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_onewire'] = 'import onewire,ds18x20';
-
-  var code = 'onewire_pin = Pin(' + pin + ')\n';
-      code += 'ds = ds18x20.DS18X20(onewire.OneWire(onewire_pin))\n';
-
-  return code;
-};
-
-
-Blockly.Python['onewire_ds18x20_scan'] = function(block) {
-  var code = 'ds.scan()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['onewire_ds18x20_convert'] = function(block) {
-  var code = 'ds.convert_temp()\n';
-  return code;
-};
-
-Blockly.Python['onewire_ds18x20_read_temp'] = function(block) {
-  var rom = Blockly.Python.valueToCode(block, 'rom', Blockly.Python.ORDER_ATOMIC);
-  var code = 'ds.read_temp(' + rom + ')';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
 // ds3231
 Blockly.Python['init_ds3231'] = function(block) {
   var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
@@ -1218,40 +1189,6 @@ Blockly.Python['max7219_brig'] = function(block) {
 };
 
 
-
-Blockly.Python['tm1640_init'] = function(block) {
-  var clk = Blockly.Python.valueToCode(block, 'clk', Blockly.Python.ORDER_ATOMIC);
-  var dio = Blockly.Python.valueToCode(block, 'dio', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_tm1640'] = 'import tm1640';
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-
-  var code = 'tm = tm1640.TM1640(clk=Pin(14), dio=Pin(13))\n';
-  return code;
-};
-
-
-
-Blockly.Python['tm1640_write'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'vector', Blockly.Python.ORDER_ATOMIC);
-  var x = pIn.replace('\'','').replace('\'','');
-  var code = 'tm.write([' + x + '])\n';
-  return code;
-};
-
-Blockly.Python['tm1640_brig'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'brig', Blockly.Python.ORDER_ATOMIC);
-  var code = 'tm.brightness(' + pIn + ')\n';
-  return code;
-};
-
-Blockly.Python['tm1640_num'] = function(block) {
-  //Reference: https://github.com/mcauser/micropython-tm1640
-	//https://github.com/mcauser/micropython-tm1640/blob/master/tm1640_test.py
-  var pIn = Blockly.Python.valueToCode(block, 'num', Blockly.Python.ORDER_ATOMIC);
-  var code = 'digits = [0x3c66666e76663c00, 0x7e1818181c181800, 0x7e060c3060663c00, 0x3c66603860663c00, 0x30307e3234383000, 0x3c6660603e067e00, 0x3c66663e06663c00, 0x1818183030667e00, 0x3c66663c66663c00, 0x3c66607c66663c00]\ntm.write_int(digits[' + pIn + '])\n';
-  return code;
-};
 
 Blockly.Python['tm1640_custom'] = function (block) {
     var checkbox_a0 = block.getFieldValue('A0') == 'TRUE';
@@ -7388,34 +7325,6 @@ Blockly.Python['mcp23017_input'] = function(block) {
 };
 
 //CCS811
-Blockly.Python['ccs811_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_ccs811'] = 'import CCS811';
-
-	var bus_ = Blockly.Python.i2cBus_({scl: scl, sda: sda, soft: true});
-	var code = '';
-	code += 'sCCS811 = CCS811.CCS811(i2c=' + bus_ + ', addr=90)\n';
-
-	return code;
-};
-
-Blockly.Python['ccs811_data_ready'] = function(block) {
-	var code = 'sCCS811.data_ready()';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['ccs811_eCO2'] = function(block) {
-	var code = 'sCCS811.eCO2';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['ccs811_tVOC'] = function(block) {
-	var code = 'sCCS811.tVOC';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
 //SHT20
 Blockly.Python['sht20_init'] = function(block) {
 	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);

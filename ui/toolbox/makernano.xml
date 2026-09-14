@@ -2000,30 +2000,31 @@
     </block>
   </category>
 
+      <!-- blockdef:ds18x20 -->
       <category name="OneWire">
-      <label text="OneWire"></label>
-
+        <label text="OneWire"></label>
         <button text="Load example: ds1820" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: ds1820" callbackKey="loadDoc"></button>
 
-      <block type="onewire_ds18x20_init">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="onewire_ds18x20_scan"></block>
-      <block type="onewire_ds18x20_convert"></block>
-      <block type="onewire_ds18x20_read_temp">
-	  <value name="rom">
-          <shadow type="math_number">
-            <field name="NUM">10000</field>
-          </shadow>
-        </value>
+        <block type="onewire_ds18x20_init">
+          <value name="pin">
+            <shadow type="pinout"></shadow>
+          </value>
+        </block>
 
-      </block>
+        <block type="onewire_ds18x20_scan"></block>
+
+        <block type="onewire_ds18x20_convert"></block>
+
+        <block type="onewire_ds18x20_read_temp">
+          <value name="rom">
+            <shadow type="math_number">
+              <field name="NUM">10000</field>
+            </shadow>
+          </value>
+        </block>
       </category>
+      <!-- /blockdef:ds18x20 -->
 
 
   <category name="RFID Reader">
