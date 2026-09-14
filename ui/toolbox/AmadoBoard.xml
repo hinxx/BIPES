@@ -293,16 +293,32 @@
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
 
+    <!-- blockdef:ble_amado -->
     <category name="Bluetooth" colour="290">
+
       <block type="configurar_e_iniciar_bluetooth"></block>
-      <block type="handle_ble_data"></block>
+
+      <block type="handle_ble_data">
+        <value name="VAR">
+          <block type="variables_get">
+            <field name="VAR">dados</field>
+          </block>
+        </value>
+      </block>
+
       <block type="verificar_dados_ble"></block>
-      <block type="configurar_plotter_dados"></block>
+
+      <block type="configurar_plotter_dados">
+        <value name="SENSOR_0">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+
       <block type="chamar_formatar_dados_plotter"></block>
-      
-      
-      
     </category>
+    <!-- /blockdef:ble_amado -->
     <sep></sep>
    <!-- blockdef:bipes -->
    <category name="BIPES">

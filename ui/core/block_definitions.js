@@ -5571,50 +5571,8 @@ Blockly.Blocks['localstorage_store_item'] = {
 };
 
 //REPL over Web Bluetooth
-Blockly.Blocks['bluetooth_pico_w_setup'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Init Bluetooth");
 
-    this.appendValueInput("name")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Bluetooth name:");
 
-    this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);
-    this.setColour(135);
-    this.setTooltip("Initialize Bluetooth");
-    this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['bluetooth_pico_w_check_connection'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Is Connected");
-    this.setOutput(true, null);
-    this.setColour(230);
-
-    this.setTooltip("Check to see if Bluetooth is connected");
-    this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['bluetooth_pico_w_send'] = {
-  init: function() {
-    this.appendValueInput("TEXT")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Send Text:");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);    
-    this.setColour(230);
-
-    this.setTooltip("Send Text to connected Bluetooth Device");
-    this.setHelpUrl("www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['bluetooth_pico_w_receive'] = {
   init: function() {
@@ -5978,30 +5936,7 @@ Blockly.Blocks['bmp280_altitude'] = {
  * would have silently dropped them.
  * ---------------------------------------------------------------------- */
 
-Blockly.Blocks['chamar_formatar_dados_plotter'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Enviar dados ao plotter");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(160);
-    this.setTooltip("Chama a função que formata e envia os dados ao plotter");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['configurar_e_iniciar_bluetooth'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Configurar e iniciar Bluetooth com nome")
-        .appendField(new Blockly.FieldTextInput("MeuBluetooth"), "BLUETOOTH_NAME");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("Configura e inicia o Bluetooth BLE com o nome especificado.");
-    this.setHelpUrl("");
-  }
-};
 
 Blockly.Blocks['configurar_plotter_dados'] = {
   init: function() {
@@ -6084,18 +6019,6 @@ Blockly.Blocks['gps_get_datetime'] = {
   }
 };
 
-Blockly.Blocks['handle_ble_data'] = {
-  init: function() {
-    this.appendValueInput("VAR")  // Entrada para o nome da variável
-        .setCheck("Variable")
-        .appendField("Definir dados BLE recebidos para");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("Recebe os dados BLE e armazena na variável escolhida.");
-    this.setHelpUrl("");
-  }
-};
 
 
 
@@ -6133,15 +6056,4 @@ Blockly.Blocks['show_received_data'] = {
 };
 
 
-Blockly.Blocks['verificar_dados_ble'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Verificar dados recebidos");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(65);
-    this.setTooltip("Verifica se há dados recebidos via BLE e chama a função handle_ble_data.");
-    this.setHelpUrl("");
-  }
-};
 

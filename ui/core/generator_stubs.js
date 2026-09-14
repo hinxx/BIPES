@@ -3495,27 +3495,8 @@ Blockly.Python['localstorage_store'] = function(block) {
 };
 
 //REPL over Web Bluetooth
-Blockly.Python['bluetooth_pico_w_setup'] = function(block) {
-	Blockly.Python.definitions_['import_bluetooth'] = 'import bluetooth';
-	Blockly.Python.definitions_['import_ble_simple_peripheral'] = 'from ble_simple_peripheral import BLESimplePeripheral';
-	var t = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC);
-	var code = 'ble = bluetooth.BLE()\n';
-	code += 'sp = BLESimplePeripheral(ble, ' + t + ')\n';
-	return code;
-  };
   
-Blockly.Python['bluetooth_pico_w_check_connection'] = function(block) {
-	var code =  'sp.is_connected()';
 
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['bluetooth_pico_w_send'] = function(block) {
-	var t = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_ATOMIC);
-	var code =  'sp.send(' + t + ')\n';
-
-	return code;
-};
 
 Blockly.Python['bluetooth_pico_w_receive'] = function(block) {
 	var t = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);
@@ -3829,99 +3810,7 @@ Blockly.Python['bmp280_altitude'] = function(block) {
  * would have silently dropped them.
  * ---------------------------------------------------------------------- */
 
-Blockly.Python['chamar_formatar_dados_plotter'] = function(block) {
-  var code = 'formatar_dados_para_plotter()\n';
-  return code;
-};
 
-Blockly.Python['configurar_e_iniciar_bluetooth'] = function(block) {
-  var bluetooth_name = block.getFieldValue('BLUETOOTH_NAME');
-  var code = `
-import bluetooth
-import time
-from machine import Pin
-from micropython import const
-from ble_advertising import advertising_payload
-
-_IRQ_CENTRAL_CONNECT = const(1)
-_IRQ_CENTRAL_DISCONNECT = const(2)
-_IRQ_GATTS_WRITE = const(3)
-
-_FLAG_WRITE = const(0x0008)
-_FLAG_NOTIFY = const(0x0010)
-
-_UART_UUID = bluetooth.UUID("6E400001-B5A3-F393-E0A9-E50E24DCCA9E")
-_UART_TX = (
-    bluetooth.UUID("6E400003-B5A3-F393-E0A9-E50E24DCCA9E"),
-    _FLAG_NOTIFY,
-)
-_UART_RX = (
-    bluetooth.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E"),
-    _FLAG_WRITE,
-)
-_UART_SERVICE = (
-    _UART_UUID,
-    (_UART_TX, _UART_RX),
-)
-
-_ADV_APPEARANCE_GENERIC_COMPUTER = const(128)
-
-class BLEUART:
-    def __init__(self, ble, name="${bluetooth_name}", rxbuf=100):
-        self._ble = ble
-        self._ble.active(True)
-        self._ble.irq(self._irq)
-        ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))
-        self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)
-        self._connections = set()
-        self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)
-        self._advertise()
-        self._handler = None  # Adiciona o atributo handler para armazenar a função de callback
-        print("BLE Inicializado e anúncio iniciado.")
-
-    def irq(self, handler):
-        # Método para registrar a função de callback
-        self._handler = handler
-
-    def _irq(self, event, data):
-        if event == _IRQ_CENTRAL_CONNECT:
-            conn_handle, _, _ = data
-            self._connections.add(conn_handle)
-            print('Conectado')
-        elif event == _IRQ_CENTRAL_DISCONNECT:
-            conn_handle, _, _ = data
-            if conn_handle in self._connections:
-                self._connections.remove(conn_handle)
-            self._advertise()
-            print('Desconectado')
-        elif event == _IRQ_GATTS_WRITE:
-            conn_handle, value_handle = data
-            if conn_handle in self._connections and value_handle == self._rx_handle:
-                global received_data
-                received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')
-                print("Dados recebidos:", received_data)
-                if self._handler:
-                    self._handler()  # Chama o handler registrado se existir
-
-    def write(self, data):
-        for conn_handle in self._connections:
-            self._ble.gatts_notify(conn_handle, self._tx_handle, data)
-
-    def close(self):
-        for conn_handle in self._connections:
-            self._ble.gap_disconnect(conn_handle)
-        self._connections.clear()
-
-    def _advertise(self, interval_us=500000):
-        self._ble.gap_advertise(interval_us, adv_data=self._payload)
-        print("Anúncio de Bluetooth ativo.")
-
-ble = bluetooth.BLE()
-uart = BLEUART(ble, name="${bluetooth_name}")
-received_data = None
-`;
-  return code;
-};
 
 Blockly.Python['configurar_plotter_dados'] = function(block) {
   var sensorCount = block.sensorCount_;
@@ -3972,15 +3861,6 @@ Blockly.Python['gps_get_datetime'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['handle_ble_data'] = function(block) {
-  var variable = Blockly.Python.valueToCode(block, 'VAR', Blockly.Python.ORDER_ATOMIC);  // Obtém a variável selecionada pelo usuário
-  var code = `def handle_ble_data():\n` +
-             `    global received_data, ${variable}  # Declara received_data e a variável escolhida como globais\n` +
-             `    if received_data:\n` +  
-             `        ${variable} = received_data  # Armazena os dados recebidos na variável escolhida\n` +
-             `        received_data = None  # Limpa os dados após o processamento\n`;
-  return code;
-};
 
 
 
@@ -4029,11 +3909,4 @@ Blockly.Python['show_received_data'] = function(block) {
 };
 
 
-Blockly.Python['verificar_dados_ble'] = function(block) {
-  var code = `
-if received_data:
-    handle_ble_data()  # Processa os dados recebidos
-`;
-  return code;
-};
 

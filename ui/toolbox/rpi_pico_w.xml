@@ -2799,29 +2799,28 @@
   <!-- /blockdef:webrepl -->
   </category>
 
+<!-- blockdef:ble_pico_w -->
 <category name="BlueTooth">
-    <label text="This block allows terminal/console access using bluetooth."></label>
+  <label text="This block allows terminal/console access using bluetooth."></label>
+  <button text="Install ble_simple_peripheral library" callbackKey="installPyLib"></button>
 
-    <button text="Install ble_simple_peripheral library" callbackKey="installPyLib"></button>
+  <block type="bluetooth_pico_w_setup">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">BIPES-BLE</field>
+      </shadow>
+    </value>
+  </block>
 
-    <block type="bluetooth_pico_w_setup">
-      <value name="name">
-        <shadow type="text">
-          <field name="TEXT">BIPES-BLE</field>
-        </shadow>
-      </value>
-    </block>
+  <block type="bluetooth_pico_w_check_connection"></block>
 
-    <block type="bluetooth_pico_w_check_connection">
-    </block>
-
-    <block type="bluetooth_pico_w_send">
-      <value name="TEXT">
-        <shadow type="text">
-          <field name="TEXT">abc</field>
-        </shadow>
-      </value>
-    </block>
+  <block type="bluetooth_pico_w_send">
+    <value name="TEXT">
+      <shadow type="text">
+        <field name="TEXT">abc</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="bluetooth_pico_w_receive">
     <value name="VALUE">
@@ -2830,9 +2829,8 @@
       </block>
     </value>
   </block>
-
-
 </category>
+<!-- /blockdef:ble_pico_w -->
 
 <category name="micropython">
 <!-- blockdef:btree -->

@@ -168,6 +168,7 @@ class Definition:
     imports: list[Import]
     colour: int | str | None        # setColour for every block in the family
     category: str
+    category_colour: str | None     # colour="" on the <category> itself
     fragment: bool                  # entries go *inside* an existing category
     labels: list[str]
     library: list[str]              # "Install <name> library" buttons
@@ -214,6 +215,11 @@ def load(path: str | Path) -> Definition:
         imports=_imports(raw.get('import'), module, where),
         colour=colour,
         category=_req_str(category, 'name', cat),
+        # A `colour` on the category rather than the blocks. Only one leaf
+        # category in the tree has one -- AmadoBoard's Bluetooth -- and
+        # dropping it would recolour that board's tree.
+        category_colour=(str(category['colour']) if category.get('colour') is not None
+                         else None),
         # `fragment: true` -- the entries go *inside* a category that already
         # exists in the toolbox (BIPES adds four blocks to Blockly's own Math
         # category, and two to Text), so no <category> of our own is written
@@ -260,8 +266,8 @@ def load(path: str | Path) -> Definition:
 
     _check_unknown(raw, {'module', 'class', 'instance', 'import', 'url', 'colour',
                          'category', 'blocks'}, where)
-    _check_unknown(category, {'name', 'fragment', 'labels', 'library', 'examples',
-                             'docs', 'toolboxes', 'defaults'}, cat)
+    _check_unknown(category, {'name', 'colour', 'fragment', 'labels', 'library',
+                             'examples', 'docs', 'toolboxes', 'defaults'}, cat)
     return definition
 
 

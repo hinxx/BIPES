@@ -1,0 +1,156 @@
+# The AmadoBoard's own BLE UART: one block that emits a whole `BLEUART` class,
+# three that use it, and one with a mutator.
+#
+# The class, its five imports and its module-level constants were all emitted
+# as part of `configurar_e_iniciar_bluetooth`'s *own code*, at whatever point
+# in the program the block happened to sit. Put the init block below the blocks
+# that use `uart` and the program died on a NameError -- the same thing the
+# Maker motor kit did. The class and the constants are a `definitions_` entry
+# now, and the imports are import entries; only `ble = bluetooth.BLE()` and
+# `uart = BLEUART(...)`, which are what the block actually does, stay in place.
+#
+# `handle_ble_data` was the same shape: it emits a `def handle_ble_data()` that
+# `verificar_dados_ble` calls, as code rather than as a definition, so the two
+# blocks only worked in one order.
+#
+# `configurar_plotter_dados` carries a mutator and stays hand-written.
+
+module: bluetooth
+colour: 230
+import:
+  - {key: "import_bluetooth", line: "import bluetooth"}
+  - {key: "import_time", line: "import time"}
+  - {key: "import_pin", line: "from machine import Pin"}
+  - {key: "import_const", line: "from micropython import const"}
+  - {key: "import_ble_advertising", line: "from ble_advertising import advertising_payload"}
+  - key: bleuart_class
+    line: |-
+          _IRQ_CENTRAL_CONNECT = const(1)
+          _IRQ_CENTRAL_DISCONNECT = const(2)
+          _IRQ_GATTS_WRITE = const(3)
+
+          _FLAG_WRITE = const(0x0008)
+          _FLAG_NOTIFY = const(0x0010)
+
+          _UART_UUID = bluetooth.UUID("6E400001-B5A3-F393-E0A9-E50E24DCCA9E")
+          _UART_TX = (
+              bluetooth.UUID("6E400003-B5A3-F393-E0A9-E50E24DCCA9E"),
+              _FLAG_NOTIFY,
+          )
+          _UART_RX = (
+              bluetooth.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E"),
+              _FLAG_WRITE,
+          )
+          _UART_SERVICE = (
+              _UART_UUID,
+              (_UART_TX, _UART_RX),
+          )
+
+          _ADV_APPEARANCE_GENERIC_COMPUTER = const(128)
+
+          class BLEUART:
+              def __init__(self, ble, name={BLUETOOTH_NAME}, rxbuf=100):
+                  self._ble = ble
+                  self._ble.active(True)
+                  self._ble.irq(self._irq)
+                  ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))
+                  self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)
+                  self._connections = set()
+                  self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)
+                  self._advertise()
+                  self._handler = None  # Adiciona o atributo handler para armazenar a função de callback
+                  print("BLE Inicializado e anúncio iniciado.")
+
+              def irq(self, handler):
+                  # Método para registrar a função de callback
+                  self._handler = handler
+
+              def _irq(self, event, data):
+                  if event == _IRQ_CENTRAL_CONNECT:
+                      conn_handle, _, _ = data
+                      self._connections.add(conn_handle)
+                      print('Conectado')
+                  elif event == _IRQ_CENTRAL_DISCONNECT:
+                      conn_handle, _, _ = data
+                      if conn_handle in self._connections:
+                          self._connections.remove(conn_handle)
+                      self._advertise()
+                      print('Desconectado')
+                  elif event == _IRQ_GATTS_WRITE:
+                      conn_handle, value_handle = data
+                      if conn_handle in self._connections and value_handle == self._rx_handle:
+                          global received_data
+                          received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')
+                          print("Dados recebidos:", received_data)
+                          if self._handler:
+                              self._handler()  # Chama o handler registrado se existir
+
+              def write(self, data):
+                  for conn_handle in self._connections:
+                      self._ble.gatts_notify(conn_handle, self._tx_handle, data)
+
+              def close(self):
+                  for conn_handle in self._connections:
+                      self._ble.gap_disconnect(conn_handle)
+                  self._connections.clear()
+
+              def _advertise(self, interval_us=500000):
+                  self._ble.gap_advertise(interval_us, adv_data=self._payload)
+                  print("Anúncio de Bluetooth ativo.")
+  - {key: bleuart_received_data, line: "received_data = None"}
+
+category:
+  name: Bluetooth
+  # The one leaf category in the tree that colours its own label.
+  colour: 290
+  toolboxes: [AmadoBoard]
+
+blocks:
+  - type: configurar_e_iniciar_bluetooth
+    label: []
+    tooltip: Configura e inicia o Bluetooth BLE com o nome especificado.
+    url: ""
+    code: |-
+
+      ble = bluetooth.BLE()
+      uart = BLEUART(ble, name={BLUETOOTH_NAME})
+    params:
+      - {name: BLUETOOTH_NAME, label: Configurar e iniciar Bluetooth com nome,
+         kind: text, default: MeuBluetooth}
+
+  - type: handle_ble_data
+    tooltip: Recebe os dados BLE e armazena na variável escolhida.
+    url: ""
+    label: []
+    import:
+      - key: "def_handle_ble_data{VAR}"
+        line: |-
+          def handle_ble_data():
+              global received_data, {VAR}
+              if received_data:
+                  {VAR} = received_data
+                  received_data = None
+    code: ""
+    params:
+      - {name: VAR, label: Definir dados BLE recebidos para, type: Variable,
+         plug: {type: variables_get, fields: {VAR: dados}}}
+
+  - type: verificar_dados_ble
+    colour: 65
+    label: Verificar dados recebidos
+    tooltip: Verifica se há dados recebidos via BLE e chama a função handle_ble_data.
+    url: ""
+    code: |-
+
+      if received_data:
+          handle_ble_data()
+
+  - {type: configurar_plotter_dados, external: true,
+     params: [{name: SENSOR_0, type: Number, default: 0}]}
+
+  - type: chamar_formatar_dados_plotter
+    colour: 160
+    label: Enviar dados ao plotter
+    tooltip: Chama a função que formata e envia os dados ao plotter
+    url: ""
+    code: "formatar_dados_para_plotter()"

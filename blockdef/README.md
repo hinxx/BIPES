@@ -75,6 +75,7 @@ import: ...              # overrides "import <module>"              (optional)
 
 category:
   name: GY33 I2C          # also the banner in the two generated JS files
+  colour: 290             # colour="" on the <category> -- one category has one
   fragment: false         # true: no <category> of our own, see below
   labels: [...]          # <label> lines above the blocks
   library: gy33I2C       # "Install <name> library" button; a list works too

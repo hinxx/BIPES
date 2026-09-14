@@ -1,0 +1,57 @@
+# BLE terminal access on the Pico W, over `ble_simple_peripheral`.
+#
+# `bluetooth_pico_w_setup` was the one block in the tree with
+# `setPreviousStatement(false)` -- nothing could be attached above it, so a
+# program could not connect to Wi-Fi, read a sensor or do anything else before
+# starting Bluetooth. Every other init block in the tree connects both ways and
+# this one does now too.
+#
+# `bluetooth_pico_w_receive` stays hand-written: it walks the workspace for the
+# variables its callback has to declare `global`. (It also builds a `code`
+# variable holding a `def on_rx(…)` and then immediately overwrites it with the
+# `sp.on_write(on_rx)` line -- the first assignment is dead, and the handler it
+# meant to emit comes from the definitions_ entry above it.)
+
+module: bluetooth
+colour: 230
+url: www.bipes.net.br
+import: []
+
+category:
+  name: BlueTooth
+  labels: ["This block allows terminal/console access using bluetooth."]
+  library: ble_simple_peripheral
+  toolboxes: [rpi_pico_w]
+
+blocks:
+  - type: bluetooth_pico_w_setup
+    colour: 135
+    label: Init Bluetooth
+    tooltip: Initialize Bluetooth
+    import:
+      - {key: import_bluetooth, line: "import bluetooth"}
+      - {key: import_ble_simple_peripheral,
+         line: "from ble_simple_peripheral import BLESimplePeripheral"}
+    code: |-
+
+      ble = bluetooth.BLE()
+      sp = BLESimplePeripheral(ble, {name})
+    params:
+      - {name: name, label: "Bluetooth name:", type: String, default: BIPES-BLE,
+         align: right}
+
+  - type: bluetooth_pico_w_check_connection
+    kind: value
+    label: Is Connected
+    tooltip: Check to see if Bluetooth is connected
+    code: "sp.is_connected()"
+
+  - type: bluetooth_pico_w_send
+    label: []
+    tooltip: Send Text to connected Bluetooth Device
+    code: "sp.send({TEXT})"
+    params:
+      - {name: TEXT, label: "Send Text:", type: String, default: abc, align: right}
+
+  - {type: bluetooth_pico_w_receive, external: true,
+     params: [{name: VALUE, plug: {type: variables_get, fields: {VAR: data}}}]}

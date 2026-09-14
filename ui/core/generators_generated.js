@@ -89,6 +89,80 @@ Blockly.Python['bipes_plot'] = function(block) {
   return code + "\n";
 };
 
+// ---- Bluetooth (ble_amado.blockdef.yaml) -------------------------------------
+
+Blockly.Python['configurar_e_iniciar_bluetooth'] = function(block) {
+  Blockly.Python.definitions_["import_bluetooth"] = "import bluetooth";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_const"] = "from micropython import const";
+  Blockly.Python.definitions_["import_ble_advertising"] = "from ble_advertising import advertising_payload";
+  Blockly.Python.definitions_["bleuart_received_data"] = "received_data = None";
+  var BLUETOOTH_NAME_ = JSON.stringify(block.getFieldValue("BLUETOOTH_NAME"));
+  Blockly.Python.definitions_["bleuart_class"] = "_IRQ_CENTRAL_CONNECT = const(1)\n_IRQ_CENTRAL_DISCONNECT = const(2)\n_IRQ_GATTS_WRITE = const(3)\n\n_FLAG_WRITE = const(0x0008)\n_FLAG_NOTIFY = const(0x0010)\n\n_UART_UUID = bluetooth.UUID(\"6E400001-B5A3-F393-E0A9-E50E24DCCA9E\")\n_UART_TX = (\n    bluetooth.UUID(\"6E400003-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_NOTIFY,\n)\n_UART_RX = (\n    bluetooth.UUID(\"6E400002-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_WRITE,\n)\n_UART_SERVICE = (\n    _UART_UUID,\n    (_UART_TX, _UART_RX),\n)\n\n_ADV_APPEARANCE_GENERIC_COMPUTER = const(128)\n\nclass BLEUART:\n    def __init__(self, ble, name=" + BLUETOOTH_NAME_ + ", rxbuf=100):\n        self._ble = ble\n        self._ble.active(True)\n        self._ble.irq(self._irq)\n        ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))\n        self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)\n        self._connections = set()\n        self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)\n        self._advertise()\n        self._handler = None  # Adiciona o atributo handler para armazenar a fun\u00e7\u00e3o de callback\n        print(\"BLE Inicializado e an\u00fancio iniciado.\")\n\n    def irq(self, handler):\n        # M\u00e9todo para registrar a fun\u00e7\u00e3o de callback\n        self._handler = handler\n\n    def _irq(self, event, data):\n        if event == _IRQ_CENTRAL_CONNECT:\n            conn_handle, _, _ = data\n            self._connections.add(conn_handle)\n            print('Conectado')\n        elif event == _IRQ_CENTRAL_DISCONNECT:\n            conn_handle, _, _ = data\n            if conn_handle in self._connections:\n                self._connections.remove(conn_handle)\n            self._advertise()\n            print('Desconectado')\n        elif event == _IRQ_GATTS_WRITE:\n            conn_handle, value_handle = data\n            if conn_handle in self._connections and value_handle == self._rx_handle:\n                global received_data\n                received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')\n                print(\"Dados recebidos:\", received_data)\n                if self._handler:\n                    self._handler()  # Chama o handler registrado se existir\n\n    def write(self, data):\n        for conn_handle in self._connections:\n            self._ble.gatts_notify(conn_handle, self._tx_handle, data)\n\n    def close(self):\n        for conn_handle in self._connections:\n            self._ble.gap_disconnect(conn_handle)\n        self._connections.clear()\n\n    def _advertise(self, interval_us=500000):\n        self._ble.gap_advertise(interval_us, adv_data=self._payload)\n        print(\"An\u00fancio de Bluetooth ativo.\")";
+  var code = "\nble = bluetooth.BLE()\nuart = BLEUART(ble, name=" + BLUETOOTH_NAME_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['handle_ble_data'] = function(block) {
+  Blockly.Python.definitions_["import_bluetooth"] = "import bluetooth";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_const"] = "from micropython import const";
+  Blockly.Python.definitions_["import_ble_advertising"] = "from ble_advertising import advertising_payload";
+  Blockly.Python.definitions_["bleuart_class"] = "_IRQ_CENTRAL_CONNECT = const(1)\n_IRQ_CENTRAL_DISCONNECT = const(2)\n_IRQ_GATTS_WRITE = const(3)\n\n_FLAG_WRITE = const(0x0008)\n_FLAG_NOTIFY = const(0x0010)\n\n_UART_UUID = bluetooth.UUID(\"6E400001-B5A3-F393-E0A9-E50E24DCCA9E\")\n_UART_TX = (\n    bluetooth.UUID(\"6E400003-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_NOTIFY,\n)\n_UART_RX = (\n    bluetooth.UUID(\"6E400002-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_WRITE,\n)\n_UART_SERVICE = (\n    _UART_UUID,\n    (_UART_TX, _UART_RX),\n)\n\n_ADV_APPEARANCE_GENERIC_COMPUTER = const(128)\n\nclass BLEUART:\n    def __init__(self, ble, name={BLUETOOTH_NAME}, rxbuf=100):\n        self._ble = ble\n        self._ble.active(True)\n        self._ble.irq(self._irq)\n        ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))\n        self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)\n        self._connections = set()\n        self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)\n        self._advertise()\n        self._handler = None  # Adiciona o atributo handler para armazenar a fun\u00e7\u00e3o de callback\n        print(\"BLE Inicializado e an\u00fancio iniciado.\")\n\n    def irq(self, handler):\n        # M\u00e9todo para registrar a fun\u00e7\u00e3o de callback\n        self._handler = handler\n\n    def _irq(self, event, data):\n        if event == _IRQ_CENTRAL_CONNECT:\n            conn_handle, _, _ = data\n            self._connections.add(conn_handle)\n            print('Conectado')\n        elif event == _IRQ_CENTRAL_DISCONNECT:\n            conn_handle, _, _ = data\n            if conn_handle in self._connections:\n                self._connections.remove(conn_handle)\n            self._advertise()\n            print('Desconectado')\n        elif event == _IRQ_GATTS_WRITE:\n            conn_handle, value_handle = data\n            if conn_handle in self._connections and value_handle == self._rx_handle:\n                global received_data\n                received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')\n                print(\"Dados recebidos:\", received_data)\n                if self._handler:\n                    self._handler()  # Chama o handler registrado se existir\n\n    def write(self, data):\n        for conn_handle in self._connections:\n            self._ble.gatts_notify(conn_handle, self._tx_handle, data)\n\n    def close(self):\n        for conn_handle in self._connections:\n            self._ble.gap_disconnect(conn_handle)\n        self._connections.clear()\n\n    def _advertise(self, interval_us=500000):\n        self._ble.gap_advertise(interval_us, adv_data=self._payload)\n        print(\"An\u00fancio de Bluetooth ativo.\")";
+  Blockly.Python.definitions_["bleuart_received_data"] = "received_data = None";
+  var VAR_ = Blockly.Python.valueToCode(block, "VAR", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_["def_handle_ble_data" + VAR_] = "def handle_ble_data():\n    global received_data, " + VAR_ + "\n    if received_data:\n        " + VAR_ + " = received_data\n        received_data = None";
+  var code = "";
+  return code;
+};
+
+Blockly.Python['verificar_dados_ble'] = function(block) {
+  Blockly.Python.definitions_["import_bluetooth"] = "import bluetooth";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_const"] = "from micropython import const";
+  Blockly.Python.definitions_["import_ble_advertising"] = "from ble_advertising import advertising_payload";
+  Blockly.Python.definitions_["bleuart_class"] = "_IRQ_CENTRAL_CONNECT = const(1)\n_IRQ_CENTRAL_DISCONNECT = const(2)\n_IRQ_GATTS_WRITE = const(3)\n\n_FLAG_WRITE = const(0x0008)\n_FLAG_NOTIFY = const(0x0010)\n\n_UART_UUID = bluetooth.UUID(\"6E400001-B5A3-F393-E0A9-E50E24DCCA9E\")\n_UART_TX = (\n    bluetooth.UUID(\"6E400003-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_NOTIFY,\n)\n_UART_RX = (\n    bluetooth.UUID(\"6E400002-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_WRITE,\n)\n_UART_SERVICE = (\n    _UART_UUID,\n    (_UART_TX, _UART_RX),\n)\n\n_ADV_APPEARANCE_GENERIC_COMPUTER = const(128)\n\nclass BLEUART:\n    def __init__(self, ble, name={BLUETOOTH_NAME}, rxbuf=100):\n        self._ble = ble\n        self._ble.active(True)\n        self._ble.irq(self._irq)\n        ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))\n        self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)\n        self._connections = set()\n        self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)\n        self._advertise()\n        self._handler = None  # Adiciona o atributo handler para armazenar a fun\u00e7\u00e3o de callback\n        print(\"BLE Inicializado e an\u00fancio iniciado.\")\n\n    def irq(self, handler):\n        # M\u00e9todo para registrar a fun\u00e7\u00e3o de callback\n        self._handler = handler\n\n    def _irq(self, event, data):\n        if event == _IRQ_CENTRAL_CONNECT:\n            conn_handle, _, _ = data\n            self._connections.add(conn_handle)\n            print('Conectado')\n        elif event == _IRQ_CENTRAL_DISCONNECT:\n            conn_handle, _, _ = data\n            if conn_handle in self._connections:\n                self._connections.remove(conn_handle)\n            self._advertise()\n            print('Desconectado')\n        elif event == _IRQ_GATTS_WRITE:\n            conn_handle, value_handle = data\n            if conn_handle in self._connections and value_handle == self._rx_handle:\n                global received_data\n                received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')\n                print(\"Dados recebidos:\", received_data)\n                if self._handler:\n                    self._handler()  # Chama o handler registrado se existir\n\n    def write(self, data):\n        for conn_handle in self._connections:\n            self._ble.gatts_notify(conn_handle, self._tx_handle, data)\n\n    def close(self):\n        for conn_handle in self._connections:\n            self._ble.gap_disconnect(conn_handle)\n        self._connections.clear()\n\n    def _advertise(self, interval_us=500000):\n        self._ble.gap_advertise(interval_us, adv_data=self._payload)\n        print(\"An\u00fancio de Bluetooth ativo.\")";
+  Blockly.Python.definitions_["bleuart_received_data"] = "received_data = None";
+  var code = "\nif received_data:\n    handle_ble_data()";
+  return code + "\n";
+};
+
+Blockly.Python['chamar_formatar_dados_plotter'] = function(block) {
+  Blockly.Python.definitions_["import_bluetooth"] = "import bluetooth";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_const"] = "from micropython import const";
+  Blockly.Python.definitions_["import_ble_advertising"] = "from ble_advertising import advertising_payload";
+  Blockly.Python.definitions_["bleuart_class"] = "_IRQ_CENTRAL_CONNECT = const(1)\n_IRQ_CENTRAL_DISCONNECT = const(2)\n_IRQ_GATTS_WRITE = const(3)\n\n_FLAG_WRITE = const(0x0008)\n_FLAG_NOTIFY = const(0x0010)\n\n_UART_UUID = bluetooth.UUID(\"6E400001-B5A3-F393-E0A9-E50E24DCCA9E\")\n_UART_TX = (\n    bluetooth.UUID(\"6E400003-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_NOTIFY,\n)\n_UART_RX = (\n    bluetooth.UUID(\"6E400002-B5A3-F393-E0A9-E50E24DCCA9E\"),\n    _FLAG_WRITE,\n)\n_UART_SERVICE = (\n    _UART_UUID,\n    (_UART_TX, _UART_RX),\n)\n\n_ADV_APPEARANCE_GENERIC_COMPUTER = const(128)\n\nclass BLEUART:\n    def __init__(self, ble, name={BLUETOOTH_NAME}, rxbuf=100):\n        self._ble = ble\n        self._ble.active(True)\n        self._ble.irq(self._irq)\n        ((self._tx_handle, self._rx_handle),) = self._ble.gatts_register_services((_UART_SERVICE,))\n        self._ble.gatts_set_buffer(self._rx_handle, rxbuf, True)\n        self._connections = set()\n        self._payload = advertising_payload(name=name, appearance=_ADV_APPEARANCE_GENERIC_COMPUTER)\n        self._advertise()\n        self._handler = None  # Adiciona o atributo handler para armazenar a fun\u00e7\u00e3o de callback\n        print(\"BLE Inicializado e an\u00fancio iniciado.\")\n\n    def irq(self, handler):\n        # M\u00e9todo para registrar a fun\u00e7\u00e3o de callback\n        self._handler = handler\n\n    def _irq(self, event, data):\n        if event == _IRQ_CENTRAL_CONNECT:\n            conn_handle, _, _ = data\n            self._connections.add(conn_handle)\n            print('Conectado')\n        elif event == _IRQ_CENTRAL_DISCONNECT:\n            conn_handle, _, _ = data\n            if conn_handle in self._connections:\n                self._connections.remove(conn_handle)\n            self._advertise()\n            print('Desconectado')\n        elif event == _IRQ_GATTS_WRITE:\n            conn_handle, value_handle = data\n            if conn_handle in self._connections and value_handle == self._rx_handle:\n                global received_data\n                received_data = self._ble.gatts_read(self._rx_handle).decode('utf-8')\n                print(\"Dados recebidos:\", received_data)\n                if self._handler:\n                    self._handler()  # Chama o handler registrado se existir\n\n    def write(self, data):\n        for conn_handle in self._connections:\n            self._ble.gatts_notify(conn_handle, self._tx_handle, data)\n\n    def close(self):\n        for conn_handle in self._connections:\n            self._ble.gap_disconnect(conn_handle)\n        self._connections.clear()\n\n    def _advertise(self, interval_us=500000):\n        self._ble.gap_advertise(interval_us, adv_data=self._payload)\n        print(\"An\u00fancio de Bluetooth ativo.\")";
+  Blockly.Python.definitions_["bleuart_received_data"] = "received_data = None";
+  var code = "formatar_dados_para_plotter()";
+  return code + "\n";
+};
+
+// ---- BlueTooth (ble_pico_w.blockdef.yaml) ------------------------------------
+
+Blockly.Python['bluetooth_pico_w_setup'] = function(block) {
+  Blockly.Python.definitions_["import_bluetooth"] = "import bluetooth";
+  Blockly.Python.definitions_["import_ble_simple_peripheral"] = "from ble_simple_peripheral import BLESimplePeripheral";
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nble = bluetooth.BLE()\nsp = BLESimplePeripheral(ble, " + name_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bluetooth_pico_w_check_connection'] = function(block) {
+  var code = "sp.is_connected()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['bluetooth_pico_w_send'] = function(block) {
+  var TEXT_ = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_ATOMIC);
+  var code = "sp.send(" + TEXT_ + ")";
+  return code + "\n";
+};
+
 // ---- Bluetooth REPL (bluetooth_repl.blockdef.yaml) ---------------------------
 
 Blockly.Python['bluetooth_repl_setup'] = function(block) {
