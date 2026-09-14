@@ -373,6 +373,45 @@ Blockly.Python['esp32_cam_white_led'] = function(block) {
   return code + "\n";
 };
 
+// ---- gc (gc.blockdef.yaml) ---------------------------------------------------
+
+Blockly.Python['gc_enable'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var code = "gc.enable()";
+  return code + "\n";
+};
+
+Blockly.Python['gc_disable'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var code = "gc.disable()";
+  return code + "\n";
+};
+
+Blockly.Python['gc_collect'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var code = "gc.collect()";
+  return code + "\n";
+};
+
+Blockly.Python['gc_mem_alloc'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var code = "gc.mem_alloc()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gc_mem_free'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var code = "gc.mem_free()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gc_threshold'] = function(block) {
+  Blockly.Python.definitions_["import_gc"] = "import gc";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "gc.threshold(" + pIn_ + ")";
+  return code + "\n";
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Python['gps_init'] = function(block) {
@@ -865,6 +904,29 @@ Blockly.Python['stepper_step'] = function(block) {
   return code + "\n";
 };
 
+// ---- sys (sys.blockdef.yaml) -------------------------------------------------
+
+Blockly.Python['sys_exit'] = function(block) {
+  Blockly.Python.definitions_["import_sys"] = "import sys";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "sys.exit(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['sys_atexit'] = function(block) {
+  Blockly.Python.definitions_["import_sys"] = "import sys";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "sys.atexit(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['sys_print_exception'] = function(block) {
+  Blockly.Python.definitions_["import_sys"] = "import sys";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "sys.print_exception(" + pIn_ + ")";
+  return code + "\n";
+};
+
 // ---- 4 Digit Display (tm1637.blockdef.yaml) ----------------------------------
 
 Blockly.Python['tm1637_init'] = function(block) {
@@ -1016,6 +1078,105 @@ Blockly.Python['uart_any'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- ubinascii (ubinascii.blockdef.yaml) -------------------------------------
+
+Blockly.Python['ubinascii_hexlify'] = function(block) {
+  Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ubinascii.hexlify(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubinascii_unhexlify'] = function(block) {
+  Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ubinascii.unhexlify(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubinascii_a2b_base64'] = function(block) {
+  Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ubinascii.a2b_base64(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubinascii_b2a_base64'] = function(block) {
+  Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ubinascii.b2a_base64(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- ucryptolib (ucryptolib.blockdef.yaml) -----------------------------------
+
+Blockly.Python['ucryptolib_encrypt'] = function(block) {
+  Blockly.Python.definitions_["import_ucryptolib"] = "import ucryptolib";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ucryptolib.encrypt(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ucryptolib_decrypt'] = function(block) {
+  Blockly.Python.definitions_["import_ucryptolib"] = "import ucryptolib";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ucryptolib.decrypt(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- uheapq (uheapq.blockdef.yaml) -------------------------------------------
+
+Blockly.Python['uheapq_heappush'] = function(block) {
+  Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uheapq.heappush(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uheapq_heappop'] = function(block) {
+  Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uheapq.heappop(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uheapq_heapify'] = function(block) {
+  Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uheapq.heapify(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- ujson (ujson.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['ujson_dump'] = function(block) {
+  Blockly.Python.definitions_["import_ujson"] = "import ujson";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ujson.dump(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ujson_dumps'] = function(block) {
+  Blockly.Python.definitions_["import_ujson"] = "import ujson";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ujson.dumps(" + pIn_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ujson_load'] = function(block) {
+  Blockly.Python.definitions_["import_ujson"] = "import ujson";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ujson.load(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ujson_loads'] = function(block) {
+  Blockly.Python.definitions_["import_ujson"] = "import ujson";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ujson.loads(" + pIn_ + ")";
+  return code + "\n";
+};
+
 // ---- EMAIL (umail.blockdef.yaml) ---------------------------------------------
 
 Blockly.Python['umail_init'] = function(block) {
@@ -1035,6 +1196,15 @@ Blockly.Python['umail_send'] = function(block) {
   var contents_ = Blockly.Python.valueToCode(block, "contents", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
   var code = "smtp.to(" + to_ + ")\nsmtp.send('Subject: " + subject_ + "\\n\\n" + contents_ + "')\nsmtp.quit()";
   return code + "\n";
+};
+
+// ---- uzlib (uzlib.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['uzlib_decompress'] = function(block) {
+  Blockly.Python.definitions_["import_uzlib"] = "import uzlib";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uzlib.decompress(" + pIn_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- Time of Flight (vl53l0x.blockdef.yaml) ----------------------------------

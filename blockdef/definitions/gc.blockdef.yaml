@@ -1,0 +1,55 @@
+# The gc module, as generated from the MicroPython documentation.
+#
+# Five of the six imported `gc`; gc_threshold did not, so a program that only
+# set the threshold died on a NameError. All of them do now.
+
+module: gc
+colour: 0
+import: {line: "import gc", key: import_gc}
+
+category:
+  name: "gc"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: gc_enable
+    label: " enable"
+    tooltip: ".. function:: enable() Enable automatic garbage collection. "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.enable()"
+
+  - type: gc_disable
+    label: " disable"
+    tooltip: ".. function:: disable() Disable automatic garbage collection. Heap memory can still be allocated, and garbage collection can still be initiated manually using :meth:`gc.collec "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.disable()"
+
+  - type: gc_collect
+    label: " collect"
+    tooltip: ".. function:: collect() Run a garbage collection. "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.collect()"
+
+  - type: gc_mem_alloc
+    label: " mem_alloc"
+    kind: value
+    tooltip: ".. function:: mem_alloc() Return the number of bytes of heap RAM that are allocated. "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.mem_alloc()"
+
+  - type: gc_mem_free
+    label: " mem_free"
+    kind: value
+    tooltip: ".. function:: mem_free() Return the number of bytes of available heap RAM, or -1 if this amount is not known. "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.mem_free()"
+
+  - type: gc_threshold
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/gc.html"
+    code: "gc.threshold({pIn})"
+    params:
+      - {name: pIn, label: " threshold"}

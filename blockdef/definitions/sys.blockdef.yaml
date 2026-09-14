@@ -1,0 +1,39 @@
+# The sys module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported the module they call, so every program using
+# one died on a NameError. They do now.
+
+module: sys
+colour: 0
+import: {line: "import sys", key: import_sys}
+
+category:
+  name: "sys"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: sys_exit
+    label: []
+    tooltip: ".. function:: exit(retval=0, /) Terminate current program with a given exit code. Underlyingly, this function raise as `SystemExit` exception. If an argument is given, its "
+    url: "https://docs.micropython.org/en/latest/library/sys.html"
+    code: "sys.exit({pIn})"
+    params:
+      - {name: pIn, label: " exit"}
+
+  - type: sys_atexit
+    label: []
+    tooltip: ".. function:: atexit(func) Register functions.txt onlyfunctions.txt to be called upon termination. functions.txt onlyfunctions.txt must be a callable that takes no arguments, or ``None`` to disable the call. The ``atexit`` "
+    url: "https://docs.micropython.org/en/latest/library/sys.html"
+    code: "sys.atexit({pIn})"
+    params:
+      - {name: pIn, label: " atexit"}
+
+  - type: sys_print_exception
+    label: []
+    tooltip: ".. function:: print_exception(exc, file=sys.stdout, /) Print exception with a traceback to a file-like object Makefile (or `sys.stdout` by default). "
+    url: "https://docs.micropython.org/en/latest/library/sys.html"
+    code: "sys.print_exception({pIn})"
+    params:
+      - {name: pIn, label: " print_exception"}

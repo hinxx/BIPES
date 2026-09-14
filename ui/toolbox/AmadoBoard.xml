@@ -2723,20 +2723,22 @@
 <block type="framebuf_FrameBuffer.blit">
 </block>
 </category>
+<!-- blockdef:gc -->
 <category name="gc">
-<block type="gc_enable">
-</block>
-<block type="gc_disable">
-</block>
-<block type="gc_collect">
-</block>
-<block type="gc_mem_alloc">
-</block>
-<block type="gc_mem_free">
-</block>
-<block type="gc_threshold">
-</block>
+
+  <block type="gc_enable"></block>
+
+  <block type="gc_disable"></block>
+
+  <block type="gc_collect"></block>
+
+  <block type="gc_mem_alloc"></block>
+
+  <block type="gc_mem_free"></block>
+
+  <block type="gc_threshold"></block>
 </category>
+<!-- /blockdef:gc -->
 <category name="lcd160cr">
 <block type="lcd160cr_LCD160CR.set_power">
 </block>
@@ -3193,14 +3195,16 @@
 <block type="pyb_usb_mode">
 </block>
 </category>
+<!-- blockdef:sys -->
 <category name="sys">
-<block type="sys_exit">
-</block>
-<block type="sys_atexit">
-</block>
-<block type="sys_print_exception">
-</block>
+
+  <block type="sys_exit"></block>
+
+  <block type="sys_atexit"></block>
+
+  <block type="sys_print_exception"></block>
 </category>
+<!-- /blockdef:sys -->
 
 <category name="_thread">
 <block type="iniciar_thread">
@@ -3287,16 +3291,18 @@
 <block type="uasyncio_Loop.call_exception_handler">
 </block>
 </category>
+<!-- blockdef:ubinascii -->
 <category name="ubinascii">
-<block type="ubinascii_hexlify">
-</block>
-<block type="ubinascii_unhexlify">
-</block>
-<block type="ubinascii_a2b_base64">
-</block>
-<block type="ubinascii_b2a_base64">
-</block>
+
+  <block type="ubinascii_hexlify"></block>
+
+  <block type="ubinascii_unhexlify"></block>
+
+  <block type="ubinascii_a2b_base64"></block>
+
+  <block type="ubinascii_b2a_base64"></block>
 </category>
+<!-- /blockdef:ubinascii -->
 <category name="ubluetooth">
 <block type="ubluetooth_BLE.active">
 </block>
@@ -3345,12 +3351,14 @@
 <block type="ucollections_OrderedDict">
 </block>
 </category>
+<!-- blockdef:ucryptolib -->
 <category name="ucryptolib">
-<block type="ucryptolib_encrypt">
-</block>
-<block type="ucryptolib_decrypt">
-</block>
+
+  <block type="ucryptolib_encrypt"></block>
+
+  <block type="ucryptolib_decrypt"></block>
 </category>
+<!-- /blockdef:ucryptolib -->
 <category name="uctypes">
 <block type="uctypes_sizeof">
 </block>
@@ -3371,30 +3379,34 @@
 <block type="uhashlib_hash.hexdigest">
 </block>
 </category>
+<!-- blockdef:uheapq -->
 <category name="uheapq">
-<block type="uheapq_heappush">
-</block>
-<block type="uheapq_heappop">
-</block>
-<block type="uheapq_heapify">
-</block>
+
+  <block type="uheapq_heappush"></block>
+
+  <block type="uheapq_heappop"></block>
+
+  <block type="uheapq_heapify"></block>
 </category>
+<!-- /blockdef:uheapq -->
 <category name="uio">
 <block type="uio_open">
 </block>
 <block type="uio_getvalue">
 </block>
 </category>
+<!-- blockdef:ujson -->
 <category name="ujson">
-<block type="ujson_dump">
-</block>
-<block type="ujson_dumps">
-</block>
-<block type="ujson_load">
-</block>
-<block type="ujson_loads">
-</block>
+
+  <block type="ujson_dump"></block>
+
+  <block type="ujson_dumps"></block>
+
+  <block type="ujson_load"></block>
+
+  <block type="ujson_loads"></block>
 </category>
+<!-- /blockdef:ujson -->
 <category name="uos">
 <block type="uos_uname">
 </block>
@@ -3563,10 +3575,12 @@
 <block type="utime_time">
 </block>
 </category>
+<!-- blockdef:uzlib -->
 <category name="uzlib">
-<block type="uzlib_decompress">
-</block>
+
+  <block type="uzlib_decompress"></block>
 </category>
+<!-- /blockdef:uzlib -->
 <category name="wipy">
 <block type="wipy_heartbeat">
 </block>

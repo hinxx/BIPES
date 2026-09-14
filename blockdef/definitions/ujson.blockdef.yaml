@@ -1,0 +1,48 @@
+# The ujson module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported the module they call, so every program using
+# one died on a NameError. They do now.
+
+module: ujson
+colour: 0
+import: {line: "import ujson", key: import_ujson}
+
+category:
+  name: "ujson"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: ujson_dump
+    label: []
+    tooltip: ".. function:: dump(obj, stream) Serialise *obj* to a JSON string, writing it to the given *stream*. "
+    url: "https://docs.micropython.org/en/latest/library/ujson.html"
+    code: "ujson.dump({pIn})"
+    params:
+      - {name: pIn, label: " dump"}
+
+  - type: ujson_dumps
+    label: []
+    kind: value
+    tooltip: ".. function:: dumps(obj) Return *obj* represented as a JSON string. "
+    url: "https://docs.micropython.org/en/latest/library/ujson.html"
+    code: "ujson.dumps({pIn})"
+    params:
+      - {name: pIn, label: " dumps"}
+
+  - type: ujson_load
+    label: []
+    tooltip: ".. function:: load(stream) Parse the given *stream*, interpreting it as a JSON string and deserialising the data to a Python object. The resulting object is "
+    url: "https://docs.micropython.org/en/latest/library/ujson.html"
+    code: "ujson.load({pIn})"
+    params:
+      - {name: pIn, label: " load"}
+
+  - type: ujson_loads
+    label: []
+    tooltip: ".. function:: loads(str) Parse the JSON *str* and return an object. Raises :exc:`ValueError` if the string is not correctly formed. "
+    url: "https://docs.micropython.org/en/latest/library/ujson.html"
+    code: "ujson.loads({pIn})"
+    params:
+      - {name: pIn, label: " loads"}

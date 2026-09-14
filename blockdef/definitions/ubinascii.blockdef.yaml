@@ -1,0 +1,47 @@
+# The ubinascii module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported the module they call, so every program using
+# one died on a NameError. They do now.
+
+module: ubinascii
+colour: 0
+import: {line: "import ubinascii", key: import_ubinascii}
+
+category:
+  name: "ubinascii"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: ubinascii_hexlify
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/ubinascii.html"
+    code: "ubinascii.hexlify({pIn})"
+    params:
+      - {name: pIn, label: " hexlify"}
+
+  - type: ubinascii_unhexlify
+    label: []
+    tooltip: ".. function:: unhexlify(data) Convert hexadecimal data to binary representation. Returns bytes string. (i.e. inverse of hexlify) "
+    url: "https://docs.micropython.org/en/latest/library/ubinascii.html"
+    code: "ubinascii.unhexlify({pIn})"
+    params:
+      - {name: pIn, label: " unhexlify"}
+
+  - type: ubinascii_a2b_base64
+    label: []
+    tooltip: ".. function:: a2b_base64(data) Decode base64-encoded data, ignoring invalid characters in the input. Conforms to `RFC 2045 s.6.8 <https://tools.ietf.org/html/rfc2045#section-6.8> "
+    url: "https://docs.micropython.org/en/latest/library/ubinascii.html"
+    code: "ubinascii.a2b_base64({pIn})"
+    params:
+      - {name: pIn, label: " a2b_base64"}
+
+  - type: ubinascii_b2a_base64
+    label: []
+    tooltip: ".. function:: b2a_base64(data) Encode binary data in base64 format, as in `RFC 3548 <https://tools.ietf.org/html/rfc3548.html>`_. Returns the encoded data "
+    url: "https://docs.micropython.org/en/latest/library/ubinascii.html"
+    code: "ubinascii.b2a_base64({pIn})"
+    params:
+      - {name: pIn, label: " b2a_base64"}

@@ -1,0 +1,31 @@
+# The ucryptolib module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported the module they call, so every program using
+# one died on a NameError. They do now.
+
+module: ucryptolib
+colour: 0
+import: {line: "import ucryptolib", key: import_ucryptolib}
+
+category:
+  name: "ucryptolib"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: ucryptolib_encrypt
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/ucryptolib.html"
+    code: "ucryptolib.encrypt({pIn})"
+    params:
+      - {name: pIn, label: " encrypt"}
+
+  - type: ucryptolib_decrypt
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/ucryptolib.html"
+    code: "ucryptolib.decrypt({pIn})"
+    params:
+      - {name: pIn, label: " decrypt"}

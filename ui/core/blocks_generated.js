@@ -760,6 +760,79 @@ Blockly.Blocks['esp32_cam_white_led'] = {
   }
 };
 
+// ---- gc (gc.blockdef.yaml) ---------------------------------------------------
+
+Blockly.Blocks['gc_enable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" enable");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: enable() Enable automatic garbage collection. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
+Blockly.Blocks['gc_disable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" disable");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: disable() Disable automatic garbage collection. Heap memory can still be allocated, and garbage collection can still be initiated manually using :meth:`gc.collec ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
+Blockly.Blocks['gc_collect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" collect");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: collect() Run a garbage collection. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
+Blockly.Blocks['gc_mem_alloc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" mem_alloc");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: mem_alloc() Return the number of bytes of heap RAM that are allocated. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
+Blockly.Blocks['gc_mem_free'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" mem_free");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: mem_free() Return the number of bytes of available heap RAM, or -1 if this amount is not known. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
+Blockly.Blocks['gc_threshold'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" threshold");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/gc.html");
+  }
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Blocks['gps_init'] = {
@@ -1745,6 +1818,47 @@ Blockly.Blocks['stepper_step'] = {
   }
 };
 
+// ---- sys (sys.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['sys_exit'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" exit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: exit(retval=0, /) Terminate current program with a given exit code. Underlyingly, this function raise as `SystemExit` exception. If an argument is given, its ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/sys.html");
+  }
+};
+
+Blockly.Blocks['sys_atexit'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" atexit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: atexit(func) Register functions.txt onlyfunctions.txt to be called upon termination. functions.txt onlyfunctions.txt must be a callable that takes no arguments, or ``None`` to disable the call. The ``atexit`` ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/sys.html");
+  }
+};
+
+Blockly.Blocks['sys_print_exception'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" print_exception");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: print_exception(exc, file=sys.stdout, /) Print exception with a traceback to a file-like object Makefile (or `sys.stdout` by default). ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/sys.html");
+  }
+};
+
 // ---- 4 Digit Display (tm1637.blockdef.yaml) ----------------------------------
 
 Blockly.Blocks['tm1637_init'] = {
@@ -2061,6 +2175,182 @@ Blockly.Blocks['uart_any'] = {
   }
 };
 
+// ---- ubinascii (ubinascii.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['ubinascii_hexlify'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" hexlify");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubinascii.html");
+  }
+};
+
+Blockly.Blocks['ubinascii_unhexlify'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" unhexlify");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: unhexlify(data) Convert hexadecimal data to binary representation. Returns bytes string. (i.e. inverse of hexlify) ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubinascii.html");
+  }
+};
+
+Blockly.Blocks['ubinascii_a2b_base64'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" a2b_base64");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: a2b_base64(data) Decode base64-encoded data, ignoring invalid characters in the input. Conforms to `RFC 2045 s.6.8 <https://tools.ietf.org/html/rfc2045#section-6.8> ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubinascii.html");
+  }
+};
+
+Blockly.Blocks['ubinascii_b2a_base64'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" b2a_base64");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: b2a_base64(data) Encode binary data in base64 format, as in `RFC 3548 <https://tools.ietf.org/html/rfc3548.html>`_. Returns the encoded data ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubinascii.html");
+  }
+};
+
+// ---- ucryptolib (ucryptolib.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['ucryptolib_encrypt'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" encrypt");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucryptolib.html");
+  }
+};
+
+Blockly.Blocks['ucryptolib_decrypt'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" decrypt");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ucryptolib.html");
+  }
+};
+
+// ---- uheapq (uheapq.blockdef.yaml) -------------------------------------------
+
+Blockly.Blocks['uheapq_heappush'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" heappush");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heappush(heap, item) Push the ``item`` onto the ``heap``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uheapq.html");
+  }
+};
+
+Blockly.Blocks['uheapq_heappop'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" heappop");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heappop(heap) Pop the first item from the ``heap``, and return it. Raises IndexError if heap is empty. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uheapq.html");
+  }
+};
+
+Blockly.Blocks['uheapq_heapify'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" heapify");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heapify(x) Convert the list ``x`` into a heap. This is an in-place operation. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uheapq.html");
+  }
+};
+
+// ---- ujson (ujson.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['ujson_dump'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" dump");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: dump(obj, stream) Serialise *obj* to a JSON string, writing it to the given *stream*. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ujson.html");
+  }
+};
+
+Blockly.Blocks['ujson_dumps'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" dumps");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: dumps(obj) Return *obj* represented as a JSON string. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ujson.html");
+  }
+};
+
+Blockly.Blocks['ujson_load'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" load");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: load(stream) Parse the given *stream*, interpreting it as a JSON string and deserialising the data to a Python object. The resulting object is ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ujson.html");
+  }
+};
+
+Blockly.Blocks['ujson_loads'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" loads");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: loads(str) Parse the JSON *str* and return an object. Raises :exc:`ValueError` if the string is not correctly formed. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ujson.html");
+  }
+};
+
 // ---- EMAIL (umail.blockdef.yaml) ---------------------------------------------
 
 Blockly.Blocks['umail_init'] = {
@@ -2110,6 +2400,20 @@ Blockly.Blocks['umail_send'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- uzlib (uzlib.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['uzlib_decompress'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" decompress");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: decompress(data, wbits=0, bufsize=0, /) Return decompressed *data* as bytes. *wbits* is DEFLATE dictionary window size used during compression (8-15, the dictionary size is power of 2 of ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uzlib.html");
   }
 };
 
