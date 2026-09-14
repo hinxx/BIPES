@@ -5738,147 +5738,13 @@ Blockly.Python['max30100_ir'] = function(block) {
 
 
 //GY33 UART Module
-Blockly.Python['gy33_uart_init'] = function(block) {
-	var tx = Blockly.Python.valueToCode(block, 'tx', Blockly.Python.ORDER_ATOMIC);
-	var rx = Blockly.Python.valueToCode(block, 'rx', Blockly.Python.ORDER_ATOMIC);
-	var bps = Blockly.Python.valueToCode(block, 'bps', Blockly.Python.ORDER_ATOMIC);
-	var uart = Blockly.Python.valueToCode(block, 'uart', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_uart_pin'] = 'from machine import UART, Pin';
-	Blockly.Python.definitions_['import_gy33_uart'] = 'import gy33UART';
-
-	var code =  'uartGY33 = UART(' + uart + ', baudrate = ' + bps + ', tx=Pin(' + tx + '), rx=Pin(' + rx + '))\n';
-	    code += 'gy33_uart = gy33UART.GY33_UART(uartGY33)\n';
-		code += 'gy33_uart.set_output(False, False, False)\n';
-	return code;
-};
-Blockly.Python['gy33_uart_led_pwr'] = function(block) {
-	var pwr = Blockly.Python.valueToCode(block, 'led_pwr', Blockly.Python.ORDER_ATOMIC);
-
-	var code = 'gy33_uart.set_led(' + pwr + ')\n';
-	return code;
-};
-Blockly.Python['gy33_uart_integration_time'] = function(block) {
-	var time = block.getFieldValue('TIME');
-
-	var code = 'gy33_uart.set_integration_time(' + time + ')\n';
-	return code;
-};
 Blockly.Python['gy33_uart_uart_baud_rate'] = function(block) {
 	var baudrate = block.getFieldValue('BAUDRATE');
 
 	var code = 'gy33_uart.set_baudrate(' + baudrate + ')\n';
 	return code;
 };
-Blockly.Python['gy33_uart_i2c_addr'] = function(block) {
-	var addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
-
-	var code = 'gy33_uart.set_i2c_addr(' + addr + ')\n';
-	return code;
-};
-Blockly.Python['gy33_uart_cal_white_balance'] = function(block) {
-	var code = 'gy33_uart.calibrate_white_balance()\n';
-	return code;
-};
-Blockly.Python['gy33_uart_cal_white'] = function(block) {
-	var code = 'gy33_uart.calibrate_white()\n';
-	return code;
-};
-Blockly.Python['gy33_uart_cal_black'] = function(block) {
-	var code = 'gy33_uart.calibrate_black()\n';
-	return code;
-};
-Blockly.Python['gy33_uart_get_raw'] = function(block) {
-	var code = 'gy33_uart.get_raw()\n';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-Blockly.Python['gy33_uart_get_lcc'] = function(block) {
-var code = 'gy33_uart.get_lcc()\n';
-return [code, Blockly.Python.ORDER_NONE];
-};
-Blockly.Python['gy33_uart_get_processed'] = function(block) {
-var code = 'gy33_uart.get_processed()';
-return [code, Blockly.Python.ORDER_NONE];
-};
-  
-
 //GPS Module
-Blockly.Python['gps_init'] = function(block) {
-	var tx = Blockly.Python.valueToCode(block, 'tx', Blockly.Python.ORDER_ATOMIC);
-	var rx = Blockly.Python.valueToCode(block, 'rx', Blockly.Python.ORDER_ATOMIC);
-	var bps = Blockly.Python.valueToCode(block, 'bps', Blockly.Python.ORDER_ATOMIC);
-	var uart = Blockly.Python.valueToCode(block, 'uart', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_uart'] = 'from machine import UART';
-	Blockly.Python.definitions_['import_micropyGPS'] = 'from mini_micropyGPS import MicropyGPS';
-
-	var code =  'uartGPS = UART(' + uart + ', tx=Pin(' + tx + '), rx=Pin(' + rx + '))\n';
-	    code += 'uartGPS.init(' + bps + ', bits=8, parity=None, stop=1)\n';
-	    code += 'gps = MicropyGPS()\n';
-	return code;
-};
-
-Blockly.Python['gps_update'] = function(block) {
-
-	var code =  'if uartGPS.any():\n';
-	    code += '\tc=int.from_bytes(uartGPS.read(1), "big")\n';
-	    code += '\tstat = gps.update(chr(c))\n';
-
-	return code;
-};
-
-Blockly.Python['gps_get_lat'] = function(block) {
-
-  var code = 'gps.latitude';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gps_get_long'] = function(block) {
-
-  var code = 'gps.longitude';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['gps_get_height'] = function(block) {
-
-  var code = 'gps.altitude';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['gps_get_speed'] = function(block) {
-
-  var code = 'gps.speed';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['gps_get_date'] = function(block) {
-
-  var code = 'gps.date';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gps_get_time'] = function(block) {
-
-  var code = 'gps.timestamp';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gps_coord_format'] = function(block) {
-	var dropdown_format = block.getFieldValue('format');
-	var code = 'gps.coord_format=\'' + dropdown_format + '\'\n';
-	return code;
-};
-
-
 //Optical Encoder
 Blockly.Python['encoder_init'] = function(block) {
   var p0 = Blockly.Python.valueToCode(block, 'p0', Blockly.Python.ORDER_ATOMIC);
@@ -7220,78 +7086,11 @@ Blockly.Python['http_get_content'] = function(block) {
 };
 
 //BMP180
-Blockly.Python['bmp180_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_bmp180'] = 'from bmp180 import BMP180';
-
-	var bus_ = Blockly.Python.i2cBus_({scl: scl, sda: sda, freq: 100000, soft: true});
-	var code = '';
-	code += 'bmp180 = BMP180(' + bus_ + ')\n';
-	code += 'bmp180.oversample_sett = 2\n';
-	code += 'bmp180.baseline = 101325\n\n';
-
-	return code;
-};
-
-Blockly.Python['bmp180_temperature'] = function(block) {
-	var code = 'bmp180.temperature';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['bmp180_pressure'] = function(block) {
-	var code = 'bmp180.pressure';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['bmp180_altitude'] = function(block) {
-	var code = 'bmp180.altitude';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-
 //BMP280
-Blockly.Python['bmp280_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_bmp280'] = 'from bmp280 import *';
-
-	var bus_ = Blockly.Python.i2cBus_({scl: scl, sda: sda, soft: true});
-	var code = '';
-	code += 'bmp280 = BMP280(' + bus_ + ')\n';
-	code += 'bmp280.use_case(BMP280_CASE_WEATHER)\n';
-	code += 'bmp280.oversample(BMP280_OS_HIGH)\n';
-
-	return code;
-};
-
-Blockly.Python['bmp280_temperature'] = function(block) {
-	var code = 'bmp280.temperature';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['bmp280_pressure'] = function(block) {
-	var code = 'bmp280.pressure';
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
 Blockly.Python['bmp280_altitude'] = function(block) {
 	var code = 'bmp280.altitude';
 	return [code, Blockly.Python.ORDER_NONE];
 };
-
-Blockly.Python['bmp280_measure'] = function(block) {
-	var code = 'bmp280.normal_measure()\n';
-	return code;
-};
-
-Blockly.Python['bmp280_sleep'] = function(block) {
-	var code = 'bmp280.sleep()\n';
-	return code;
-};
-
 
 //MCP23017
 Blockly.Python['mcp23017_init'] = function(block) {

@@ -92,8 +92,9 @@ blocks:
 | `type` | the Blockly id. Defaults to `<file>_<fn>`; pin it for anything that has shipped. |
 | `fn` | Python method called on `instance`. With no `instance`, a function on the module. |
 | `attr` | attribute read off `instance`, with no call -- `sensor.eCO2`. Instead of `fn`. |
+| `instance` | overrides the family's object, for a category covering more than one part. |
 | `colour` | overrides the family's colour for this block alone. |
-| `label` | text on the block: a string, or a list of rows (see below). Defaults to a humanised `fn`. |
+| `label` | text on the block: a string, or a list of rows (see below). `[]` puts the text on the first param's row instead. Defaults to a humanised `fn`. |
 | `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. Either takes `{msg: key}`. |
 | `kind` | `statement` (default) or `value`. |
 | `output` | `setOutput()` type for a value block. Omit for "anything". |
@@ -107,8 +108,9 @@ blocks:
 | `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |
 
-An entry with nothing but `label:` is a `<label>` line in the toolbox, in
-whatever position it appears among the blocks.
+An entry with nothing but `label:` is a `<label>` line in the toolbox, and one
+naming `library:`, `example:` or `doc:` (with an optional `suffix:`) is that
+button -- both in whatever position they appear among the blocks.
 
 ### Label rows
 
@@ -138,7 +140,7 @@ when a saved program is loaded.
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |
 | `keyword` | passed as `<keyword>=<value>` in the generated call. |
 | `align` | `left` · `centre` · `right`. |
-| `options` | dropdown only: bare values, `[{Label: VALUE}, ...]` or `[[Label, VALUE], ...]`. |
+| `options` | dropdown only: bare values, `[{Label: VALUE}, ...]`, `[[Label, VALUE], ...]`, or `{label: {msg: key}, value: V}` when the label is translated. |
 | `emit` | dropdown only: option value → the Python it stands for, when they differ. |
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |

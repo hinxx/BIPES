@@ -139,4 +139,5 @@ Blockly.Msg['CAT_NET'] = "Rede e Internet";
 Blockly.Msg['CAT_CONTROL'] = "Controle";
 Blockly.Msg['CAT_ULTRASOUND'] = "Ultrassom";
 Blockly.Msg['CAT_AIR'] = "Qualidade do ar";
+Blockly.Msg['CAT_PRESS'] = "Pressão";
 

@@ -1,0 +1,104 @@
+# GY-33 colour sensor, UART interface. The I2C variant of the same sensor is a
+# separate family: different transport, different blocks.
+
+module: gy33UART
+instance: gy33_uart
+colour: 135
+import:
+  - {line: "from machine import UART, Pin", key: import_uart_pin}
+  - {line: "import gy33UART", key: import_gy33_uart}
+
+category:
+  name: GY33 UART
+  library: gy33UART
+  labels:
+    - GY33 Color Sensor - UART
+    - "Library: https://github.com/QuirkyCort/micropython-gy33"
+  toolboxes: [esp32, esp32-basic, esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+
+blocks:
+  - type: gy33_uart_init
+    label:
+      - Init GY33 UART Module
+      - {image: {src: media/GY-33.jpg, width: 65, height: 65}}
+    tooltip: Initalizes the GY-33 UART
+    code: |-
+      uartGY33 = UART({uart}, baudrate = {bps}, tx=Pin({tx}), rx=Pin({rx}))
+      {instance} = gy33UART.GY33_UART(uartGY33)
+      {instance}.set_output(False, False, False)
+    params:
+      - {name: uart, label: UART,      type: Number, default: 0,    align: right}
+      - {name: tx,   label: TX,        type: Number, pin: true,     align: right}
+      - {name: rx,   label: RX,        type: Number, pin: true,     align: right}
+      - {name: bps,  label: Baud Rate, type: Number, default: 9600, align: right}
+
+  - type: gy33_uart_led_pwr
+    fn: set_led
+    label: Set LED Power
+    tooltip: Sets the brightness of the LED (0 - 10)
+    params:
+      - {name: led_pwr, label: Power, type: Number, default: 10, align: right}
+
+  - type: gy33_uart_integration_time
+    fn: set_integration_time
+    label: Set Integration Time
+    tooltip: Sets the integration time in milliseconds
+    params:
+      - name: TIME
+        label: Time (ms)
+        kind: dropdown
+        options: ["700", "154", {100 (Default): "100"}, "24", "2.4"]
+
+  - type: gy33_uart_baud_rate
+    # This block shipped with no generator at all, so dragging it in broke code
+    # generation. gy33UART.py has set_baudrate(rate); the label above the
+    # dropdown still reads "Time (ms)", copied from the block before it.
+    fn: set_baudrate
+    label: Set Internal UART Baudrate
+    tooltip: Sets the baudrate
+    params:
+      - name: BAUDRATE
+        label: Time (ms)
+        kind: dropdown
+        options: ["9600", "115200"]
+
+  - type: gy33_uart_i2c_addr
+    fn: set_i2c_addr
+    label: Set I2C Address
+    tooltip: Sets the desired i2c address. Must be between 0 to 127
+    params:
+      - {name: addr, label: Address, type: Number, default: 41, align: right}
+
+  - type: gy33_uart_cal_white_balance
+    fn: calibrate_white_balance
+    label: White Balance Calibrate
+    tooltip: Performs a white balance calibration. The sensor should first be placed on a suitable white surface.
+
+  - type: gy33_uart_cal_white
+    fn: calibrate_white
+    label: White Calibrate
+    tooltip: Performs a white calibration. The sensor should first be placed on a suitable white surface.
+
+  - type: gy33_uart_cal_black
+    fn: calibrate_black
+    label: Black Calibrate
+    tooltip: Performs a black calibration. The sensor should first be placed on a suitable black surface.
+
+  - type: gy33_uart_get_raw
+    fn: get_raw
+    kind: value
+    label: Get Raw Data
+    tooltip: "Returns a list containing the raw Red, Green, Blue, Clear values."
+
+  - type: gy33_uart_get_lcc
+    fn: get_lcc
+    kind: value
+    label: Get LCC Data
+    tooltip: "Returns a list containing the Lux (brightness), Color Temperature, Color values."
+
+  - type: gy33_uart_get_processed
+    fn: get_processed
+    kind: value
+    label: Get Processed Data
+    tooltip: "Returns a list containing the processed Red, Green, Blue values."
+

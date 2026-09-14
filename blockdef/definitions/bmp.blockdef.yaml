@@ -1,0 +1,72 @@
+# Barometric pressure: two different chips sharing one toolbox category, so the
+# labels and install buttons are interleaved with the blocks and each half
+# names its own object.
+
+module: bmp180
+colour: 230
+# Each half imports its own driver, so there is nothing every block needs.
+import: []
+
+category:
+  name: "%{BKY_CAT_PRESS}"
+  toolboxes: [esp32, esp32c3, esp8266]
+
+blocks:
+  - label: BMP180
+  - label: "Library: https://github.com/micropython-IMU/micropython-bmp180"
+  - {library: bmp180, suffix: (BMP180)}
+
+  - type: bmp180_init
+    instance: bmp180
+    label: {msg: bmp180_init}
+    tooltip: ""
+    colour: 135
+    import: &bmp180_import {line: "from bmp180 import BMP180", key: import_bmp180}
+    i2c_bus: {scl: scl, sda: sda, freq: 100000, soft: true}
+    code: |
+      {instance} = BMP180({bus})
+      {instance}.oversample_sett = 2
+      {instance}.baseline = 101325
+    params:
+      - {name: scl, label: SCL, type: Number, default: 5, align: right}
+      - {name: sda, label: SDA, type: Number, default: 4, align: right}
+
+  - {type: bmp180_temperature, instance: bmp180, attr: temperature, kind: value,
+     label: {msg: temperature}, tooltip: Temperature from the BMP180 sensor,
+     url: http://www.bipes.net.br, import: *bmp180_import}
+  - {type: bmp180_pressure, instance: bmp180, attr: pressure, kind: value,
+     label: {msg: pressure}, tooltip: Pressure from the BMP180 sensor,
+     url: http://www.bipes.net.br, import: *bmp180_import}
+  - {type: bmp180_altitude, instance: bmp180, attr: altitude, kind: value,
+     label: {msg: altitude}, tooltip: Altitude from the BMP180 sensor,
+     url: http://www.bipes.net.br, import: *bmp180_import}
+
+  - label: BMP280
+  - label: "Library: "
+  - {library: bmp280, suffix: (BMP280)}
+
+  - type: bmp280_init
+    instance: bmp280
+    label: Init BMP280
+    tooltip: ""
+    colour: 135
+    import: &bmp280_import {line: "from bmp280 import *", key: import_bmp280}
+    i2c_bus: {scl: scl, sda: sda, soft: true}
+    code: |-
+      {instance} = BMP280({bus})
+      {instance}.use_case(BMP280_CASE_WEATHER)
+      {instance}.oversample(BMP280_OS_HIGH)
+    params:
+      - {name: scl, label: SCL, type: Number, default: 22, align: right}
+      - {name: sda, label: SDA, type: Number, default: 21, align: right}
+
+  - {type: bmp280_measure, instance: bmp280, fn: normal_measure, label: BMP280 Measure,
+     tooltip: "", import: *bmp280_import}
+  - {type: bmp280_sleep, instance: bmp280, fn: sleep, label: BMP280 Sleep,
+     tooltip: "", import: *bmp280_import}
+  - {type: bmp280_temperature, instance: bmp280, attr: temperature, kind: value,
+     label: {msg: temperature}, tooltip: Temperature from the BMP280 sensor,
+     url: http://www.bipes.net.br, import: *bmp280_import}
+  - {type: bmp280_pressure, instance: bmp280, attr: pressure, kind: value,
+     label: {msg: pressure}, tooltip: Pressure from the BMP280 sensor,
+     url: http://www.bipes.net.br, import: *bmp280_import}

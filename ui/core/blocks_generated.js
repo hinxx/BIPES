@@ -36,6 +36,123 @@ Blockly.Blocks['bluetooth_repl_start'] = {
   }
 };
 
+// ---- %{BKY_CAT_PRESS} (bmp.blockdef.yaml) ------------------------------------
+
+Blockly.Blocks['bmp180_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["bmp180_init"]);
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['bmp180_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["temperature"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Temperature from the BMP180 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['bmp180_pressure'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["pressure"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Pressure from the BMP180 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['bmp180_altitude'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["altitude"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Altitude from the BMP180 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['bmp280_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init BMP280");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['bmp280_measure'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BMP280 Measure");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['bmp280_sleep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BMP280 Sleep");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['bmp280_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["temperature"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Temperature from the BMP280 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['bmp280_pressure'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["pressure"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Pressure from the BMP280 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['ccs811_init'] = {
@@ -258,6 +375,120 @@ Blockly.Blocks['onewire_ds18x20_read_temp'] = {
   }
 };
 
+// ---- GPS (gps.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['gps_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init GPS Module");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ublox_gps.png", 55, 55, "*"));
+    this.appendValueInput("uart")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART");
+    this.appendValueInput("tx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX");
+    this.appendValueInput("rx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX");
+    this.appendValueInput("bps")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baud Rate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_update'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Update GPS Readings");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_coord_format'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Coordinate Format ")
+        .appendField(new Blockly.FieldDropdown([["Decimal Degrees (DD)", "dd"], ["Degree Minute Second (DMS)", "dms"]]), "format");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_lat'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Latitude");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_long'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Longitude");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_height'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Altitude");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Speed");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_date'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Date");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['gps_get_time'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("GPS Timestamp");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
 // ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['gy33_i2c_init'] = {
@@ -368,6 +599,158 @@ Blockly.Blocks['gy33_i2c_get_calibrated'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("Returns a tuple containing only the calibrated Red, Green, Blue, and Clear values.");
+  }
+};
+
+// ---- GY33 UART (gy33_uart.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['gy33_uart_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init GY33 UART Module");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/GY-33.jpg", 65, 65, "*"));
+    this.appendValueInput("uart")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART");
+    this.appendValueInput("tx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX");
+    this.appendValueInput("rx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX");
+    this.appendValueInput("bps")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baud Rate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Initalizes the GY-33 UART");
+  }
+};
+
+Blockly.Blocks['gy33_uart_led_pwr'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set LED Power");
+    this.appendValueInput("led_pwr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Power");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Sets the brightness of the LED (0 - 10)");
+  }
+};
+
+Blockly.Blocks['gy33_uart_integration_time'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Integration Time");
+    this.appendDummyInput()
+        .appendField("Time (ms)")
+        .appendField(new Blockly.FieldDropdown([["700", "700"], ["154", "154"], ["100 (Default)", "100"], ["24", "24"], ["2.4", "2.4"]]), "TIME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Sets the integration time in milliseconds");
+  }
+};
+
+Blockly.Blocks['gy33_uart_baud_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Internal UART Baudrate");
+    this.appendDummyInput()
+        .appendField("Time (ms)")
+        .appendField(new Blockly.FieldDropdown([["9600", "9600"], ["115200", "115200"]]), "BAUDRATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Sets the baudrate");
+  }
+};
+
+Blockly.Blocks['gy33_uart_i2c_addr'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set I2C Address");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Sets the desired i2c address. Must be between 0 to 127");
+  }
+};
+
+Blockly.Blocks['gy33_uart_cal_white_balance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("White Balance Calibrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Performs a white balance calibration. The sensor should first be placed on a suitable white surface.");
+  }
+};
+
+Blockly.Blocks['gy33_uart_cal_white'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("White Calibrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Performs a white calibration. The sensor should first be placed on a suitable white surface.");
+  }
+};
+
+Blockly.Blocks['gy33_uart_cal_black'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Black Calibrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Performs a black calibration. The sensor should first be placed on a suitable black surface.");
+  }
+};
+
+Blockly.Blocks['gy33_uart_get_raw'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Raw Data");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Returns a list containing the raw Red, Green, Blue, Clear values.");
+  }
+};
+
+Blockly.Blocks['gy33_uart_get_lcc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get LCC Data");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Returns a list containing the Lux (brightness), Color Temperature, Color values.");
+  }
+};
+
+Blockly.Blocks['gy33_uart_get_processed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Processed Data");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Returns a list containing the processed Red, Green, Blue values.");
   }
 };
 

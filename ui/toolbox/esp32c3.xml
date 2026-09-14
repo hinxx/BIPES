@@ -1600,25 +1600,26 @@
   </category>
   <!-- /blockdef:hcsr04 -->
 
+  <!-- blockdef:gps -->
   <category name="GPS">
-      <label text="Global Positioning System (GPS) sensor"></label>
-      <label text="Library: https://github.com/rafaelaroca/mini_micropyGPS"></label>
-      <button text="Install mini_micropyGPS library" callbackKey="installPyLib"></button>
+    <label text="Global Positioning System (GPS) sensor"></label>
+    <label text="Library: https://github.com/rafaelaroca/mini_micropyGPS"></label>
+    <button text="Install mini_micropyGPS library" callbackKey="installPyLib"></button>
 
-      <block type="gps_init">
+    <block type="gps_init">
       <value name="uart">
         <shadow type="math_number">
           <field name="NUM">2</field>
         </shadow>
       </value>
       <value name="tx">
-        <shadow type="math_number">
-          <field name="NUM">17</field>
+        <shadow type="pinout">
+          <field name="PIN">17</field>
         </shadow>
       </value>
       <value name="rx">
-        <shadow type="math_number">
-          <field name="NUM">16</field>
+        <shadow type="pinout">
+          <field name="PIN">16</field>
         </shadow>
       </value>
       <value name="bps">
@@ -1626,16 +1627,25 @@
           <field name="NUM">38400</field>
         </shadow>
       </value>
-      </block>
-	<block type="gps_update"> </block>
-	<block type="gps_coord_format"> </block>
-	<block type="gps_get_lat"> </block>
-	<block type="gps_get_long"> </block>
-	<block type="gps_get_height"> </block>
-	<block type="gps_get_speed"> </block>
-	<block type="gps_get_date"> </block>
-	<block type="gps_get_time"> </block>
+    </block>
+
+    <block type="gps_update"></block>
+
+    <block type="gps_coord_format"></block>
+
+    <block type="gps_get_lat"></block>
+
+    <block type="gps_get_long"></block>
+
+    <block type="gps_get_height"></block>
+
+    <block type="gps_get_speed"></block>
+
+    <block type="gps_get_date"></block>
+
+    <block type="gps_get_time"></block>
   </category>
+  <!-- /blockdef:gps -->
 
   <category name="Oximeter">
       <label text="MAX30100 pulse oximeter sensor"></label>
@@ -1656,10 +1666,14 @@
 
   </category>
 
+  <!-- blockdef:bmp -->
   <category name="%{BKY_CAT_PRESS}">
-      <label text="BMP180"></label>
-   <label text="Library: https://github.com/micropython-IMU/micropython-bmp180"></label>
-        <button text="Install bmp180 library (BMP180)" callbackKey="installPyLib"></button>
+
+    <label text="BMP180"></label>
+
+    <label text="Library: https://github.com/micropython-IMU/micropython-bmp180"></label>
+
+    <button text="Install bmp180 library (BMP180)" callbackKey="installPyLib"></button>
 
     <block type="bmp180_init">
       <value name="scl">
@@ -1674,13 +1688,17 @@
       </value>
     </block>
 
-    <block type="bmp180_temperature"> </block>
-    <block type="bmp180_pressure"> </block>
-    <block type="bmp180_altitude"> </block>
+    <block type="bmp180_temperature"></block>
+
+    <block type="bmp180_pressure"></block>
+
+    <block type="bmp180_altitude"></block>
 
     <label text="BMP280"></label>
-   <label text="Library: "></label>
-        <button text="Install bmp280 library (BMP280)" callbackKey="installPyLib"></button>
+
+    <label text="Library: "></label>
+
+    <button text="Install bmp280 library (BMP280)" callbackKey="installPyLib"></button>
 
     <block type="bmp280_init">
       <value name="scl">
@@ -1695,13 +1713,15 @@
       </value>
     </block>
 
-    <block type="bmp280_measure"> </block>
-    <block type="bmp280_sleep"> </block>
-    <block type="bmp280_temperature"> </block>
-    <block type="bmp280_pressure"> </block>
+    <block type="bmp280_measure"></block>
 
+    <block type="bmp280_sleep"></block>
 
+    <block type="bmp280_temperature"></block>
+
+    <block type="bmp280_pressure"></block>
   </category>
+  <!-- /blockdef:bmp -->
 
   <!-- blockdef:ccs811 -->
   <category name="%{BKY_CAT_AIR}">

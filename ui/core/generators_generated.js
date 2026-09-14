@@ -18,6 +18,68 @@ Blockly.Python['bluetooth_repl_start'] = function(block) {
   return code + "\n";
 };
 
+// ---- %{BKY_CAT_PRESS} (bmp.blockdef.yaml) ------------------------------------
+
+Blockly.Python['bmp180_init'] = function(block) {
+  Blockly.Python.definitions_["import_bmp180"] = "from bmp180 import BMP180";
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({scl: scl_, sda: sda_, freq: "100000", soft: true});
+  var code = "bmp180 = BMP180(" + bus_ + ")\nbmp180.oversample_sett = 2\nbmp180.baseline = 101325\n";
+  return code + "\n";
+};
+
+Blockly.Python['bmp180_temperature'] = function(block) {
+  Blockly.Python.definitions_["import_bmp180"] = "from bmp180 import BMP180";
+  var code = "bmp180.temperature";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['bmp180_pressure'] = function(block) {
+  Blockly.Python.definitions_["import_bmp180"] = "from bmp180 import BMP180";
+  var code = "bmp180.pressure";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['bmp180_altitude'] = function(block) {
+  Blockly.Python.definitions_["import_bmp180"] = "from bmp180 import BMP180";
+  var code = "bmp180.altitude";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['bmp280_init'] = function(block) {
+  Blockly.Python.definitions_["import_bmp280"] = "from bmp280 import *";
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({scl: scl_, sda: sda_, soft: true});
+  var code = "bmp280 = BMP280(" + bus_ + ")\nbmp280.use_case(BMP280_CASE_WEATHER)\nbmp280.oversample(BMP280_OS_HIGH)";
+  return code + "\n";
+};
+
+Blockly.Python['bmp280_measure'] = function(block) {
+  Blockly.Python.definitions_["import_bmp280"] = "from bmp280 import *";
+  var code = "bmp280.normal_measure()";
+  return code + "\n";
+};
+
+Blockly.Python['bmp280_sleep'] = function(block) {
+  Blockly.Python.definitions_["import_bmp280"] = "from bmp280 import *";
+  var code = "bmp280.sleep()";
+  return code + "\n";
+};
+
+Blockly.Python['bmp280_temperature'] = function(block) {
+  Blockly.Python.definitions_["import_bmp280"] = "from bmp280 import *";
+  var code = "bmp280.temperature";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['bmp280_pressure'] = function(block) {
+  Blockly.Python.definitions_["import_bmp280"] = "from bmp280 import *";
+  var code = "bmp280.pressure";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Python['ccs811_init'] = function(block) {
@@ -132,6 +194,77 @@ Blockly.Python['onewire_ds18x20_read_temp'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- GPS (gps.blockdef.yaml) -------------------------------------------------
+
+Blockly.Python['gps_init'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var uart_ = Blockly.Python.valueToCode(block, "uart", Blockly.Python.ORDER_ATOMIC);
+  var tx_ = Blockly.Python.valueToCode(block, "tx", Blockly.Python.ORDER_ATOMIC);
+  var rx_ = Blockly.Python.valueToCode(block, "rx", Blockly.Python.ORDER_ATOMIC);
+  var bps_ = Blockly.Python.valueToCode(block, "bps", Blockly.Python.ORDER_ATOMIC);
+  var code = "uartGPS = UART(" + uart_ + ", tx=Pin(" + tx_ + "), rx=Pin(" + rx_ + "))\nuartGPS.init(" + bps_ + ", bits=8, parity=None, stop=1)\ngps = MicropyGPS()";
+  return code + "\n";
+};
+
+Blockly.Python['gps_update'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "if uartGPS.any():\n\tc=int.from_bytes(uartGPS.read(1), \"big\")\n\tstat = gps.update(chr(c))";
+  return code + "\n";
+};
+
+Blockly.Python['gps_coord_format'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var format_ = block.getFieldValue("format");
+  var code = "gps.coord_format='" + format_ + "'";
+  return code + "\n";
+};
+
+Blockly.Python['gps_get_lat'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.latitude";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gps_get_long'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.longitude";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gps_get_height'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.altitude";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gps_get_speed'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.speed";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gps_get_date'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.date";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gps_get_time'] = function(block) {
+  Blockly.Python.definitions_["import_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_micropyGPS"] = "from mini_micropyGPS import MicropyGPS";
+  var code = "gps.timestamp";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['gy33_i2c_init'] = function(block) {
@@ -186,6 +319,93 @@ Blockly.Python['gy33_i2c_get_raw'] = function(block) {
 Blockly.Python['gy33_i2c_get_calibrated'] = function(block) {
   Blockly.Python.definitions_["import_gy33I2C"] = "import gy33I2C";
   var code = "gy33_i2c.read_calibrated()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- GY33 UART (gy33_uart.blockdef.yaml) -------------------------------------
+
+Blockly.Python['gy33_uart_init'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var uart_ = Blockly.Python.valueToCode(block, "uart", Blockly.Python.ORDER_ATOMIC);
+  var tx_ = Blockly.Python.valueToCode(block, "tx", Blockly.Python.ORDER_ATOMIC);
+  var rx_ = Blockly.Python.valueToCode(block, "rx", Blockly.Python.ORDER_ATOMIC);
+  var bps_ = Blockly.Python.valueToCode(block, "bps", Blockly.Python.ORDER_ATOMIC);
+  var code = "uartGY33 = UART(" + uart_ + ", baudrate = " + bps_ + ", tx=Pin(" + tx_ + "), rx=Pin(" + rx_ + "))\ngy33_uart = gy33UART.GY33_UART(uartGY33)\ngy33_uart.set_output(False, False, False)";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_led_pwr'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var led_pwr_ = Blockly.Python.valueToCode(block, "led_pwr", Blockly.Python.ORDER_ATOMIC);
+  var code = "gy33_uart.set_led(" + led_pwr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_integration_time'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var TIME_ = block.getFieldValue("TIME");
+  var code = "gy33_uart.set_integration_time(" + TIME_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_baud_rate'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var BAUDRATE_ = block.getFieldValue("BAUDRATE");
+  var code = "gy33_uart.set_baudrate(" + BAUDRATE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_i2c_addr'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var code = "gy33_uart.set_i2c_addr(" + addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_cal_white_balance'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.calibrate_white_balance()";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_cal_white'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.calibrate_white()";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_cal_black'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.calibrate_black()";
+  return code + "\n";
+};
+
+Blockly.Python['gy33_uart_get_raw'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.get_raw()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gy33_uart_get_lcc'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.get_lcc()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gy33_uart_get_processed'] = function(block) {
+  Blockly.Python.definitions_["import_uart_pin"] = "from machine import UART, Pin";
+  Blockly.Python.definitions_["import_gy33_uart"] = "import gy33UART";
+  var code = "gy33_uart.get_processed()";
   return [code, Blockly.Python.ORDER_NONE];
 };
 

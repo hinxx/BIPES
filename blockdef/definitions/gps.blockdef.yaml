@@ -1,0 +1,72 @@
+# u-blox style NMEA GPS on a UART.
+
+module: mini_micropyGPS
+class: MicropyGPS
+instance: gps
+colour: 135
+import:
+  - {line: "from machine import UART", key: import_uart}
+  - {line: "from mini_micropyGPS import MicropyGPS", key: import_micropyGPS}
+
+category:
+  name: GPS
+  library: mini_micropyGPS
+  labels:
+    - Global Positioning System (GPS) sensor
+    - "Library: https://github.com/rafaelaroca/mini_micropyGPS"
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    esp32:       {uart: 2, tx: 17, rx: 16, bps: 38400}
+    esp32-basic: {uart: 2, tx: 17, rx: 16, bps: 38400}
+    esp32c3:     {uart: 2, tx: 17, rx: 16, bps: 38400}
+    rpi_pico:    {tx: 0, rx: 1}
+    rpi_pico_w:  {tx: 0, rx: 1}
+
+blocks:
+  - type: gps_init
+    label:
+      - Init GPS Module
+      - {image: {src: media/ublox_gps.png, width: 55, height: 55}}
+    tooltip: ""
+    # The hand-written generator wrapped the pins in Pin() but only imported
+    # UART, so the code it produced raised NameError: name 'Pin' isn't defined.
+    import: {line: "from machine import Pin", key: import_pin}
+    code: |-
+      uartGPS = UART({uart}, tx=Pin({tx}), rx=Pin({rx}))
+      uartGPS.init({bps}, bits=8, parity=None, stop=1)
+      {instance} = MicropyGPS()
+    params:
+      - {name: uart, label: UART,      type: Number, default: 0,    align: right}
+      - {name: tx,   label: TX,        type: Number, pin: true,     align: right}
+      - {name: rx,   label: RX,        type: Number, pin: true,     align: right}
+      - {name: bps,  label: Baud Rate, type: Number, default: 9600, align: right}
+
+  - type: gps_update
+    label: Update GPS Readings
+    tooltip: ""
+    code: |-
+      if uartGPS.any():
+      	c=int.from_bytes(uartGPS.read(1), "big")
+      	stat = {instance}.update(chr(c))
+
+  - type: gps_coord_format
+    # The label shares a row with the dropdown, so it belongs to the param.
+    label: []
+    tooltip: ""
+    colour: 230
+    code: "{instance}.coord_format='{format}'"
+    params:
+      - name: format
+        label: "GPS Coordinate Format "
+        kind: dropdown
+        options:
+          - {Decimal Degrees (DD): dd}
+          - {Degree Minute Second (DMS): dms}
+
+  - {type: gps_get_lat,    attr: latitude,  kind: value, label: GPS Latitude,  tooltip: ""}
+  - {type: gps_get_long,   attr: longitude, kind: value, label: GPS Longitude, tooltip: ""}
+  - {type: gps_get_height, attr: altitude,  kind: value, label: GPS Altitude,  tooltip: ""}
+  - {type: gps_get_speed,  attr: speed,     kind: value, label: GPS Speed,     tooltip: ""}
+  - {type: gps_get_date,   attr: date,      kind: value, label: GPS Date,      tooltip: ""}
+  - {type: gps_get_time,   attr: timestamp, kind: value, label: GPS Timestamp, tooltip: ""}

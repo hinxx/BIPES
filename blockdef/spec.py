@@ -95,7 +95,7 @@ class Param:
     align: str | None = None
     pin: bool = False               # shadow is <pinout>, not <math_number>
     keyword: str | None = None      # passed as `<keyword>=<value>` in the call
-    options: list[tuple[str, str]] = field(default_factory=list)   # dropdown
+    options: list[tuple['Text', str]] = field(default_factory=list)   # dropdown
     emit: dict[str, str] | None = None    # dropdown value -> Python fragment
     min: Any = None                 # number field
     max: Any = None
@@ -112,6 +112,7 @@ class Block:
     kind: str = 'statement'         # 'statement' | 'value'
     fn: str | None = None           # Python method called on the instance
     attr: str | None = None         # attribute read off the instance, with no call
+    instance: str | None = None     # overrides the family's object for this block
     colour: int | str | None = None # overrides the family's colour
     args: list[str] | None = None   # call arguments; defaults to the params
     code: str | None = None         # escape hatch: the Python, with {param} holes
@@ -130,6 +131,13 @@ class Block:
 class Label:
     """A `<label>` between blocks in the toolbox category."""
     text: str
+
+
+@dataclass(slots=True)
+class Button:
+    """A `<button>` between blocks, for a category covering more than one part."""
+    text: str
+    key: str
 
 
 @dataclass(slots=True)
@@ -155,7 +163,7 @@ class Definition:
     toolboxes: list[str]
     defaults: dict[str, dict[str, Any]]   # board -> param -> shadow value
     help_url: str | None
-    entries: list[Block | Label]    # in the order the toolbox shows them
+    entries: list['Block | Label | Button']   # in the order the toolbox shows them
 
     @property
     def blocks(self) -> list[Block]:
@@ -244,13 +252,25 @@ class _Where:
         return ': '.join([str(self.path), *self.parts])
 
 
-def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
+BUTTONS = {'library': ('Install {} library', 'installPyLib'),
+           'example': ('Load example: {}', 'loadExample'),
+           'doc': ('Documentation and how to connect: {}', 'loadDoc')}
+
+
+def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label | Button':
     if not isinstance(entry, dict):
         raise BlockdefError(f'{where}: every entry under `blocks` must be a mapping')
 
-    # An entry with nothing but a label is a <label> line in the toolbox.
+    # An entry with nothing but a label is a <label> line in the toolbox, and
+    # one naming a library/example/doc is that button, in that position.
     if set(entry) == {'label'} and isinstance(entry['label'], str):
         return Label(text=entry['label'])
+    for key, (template, callback) in BUTTONS.items():
+        if key in entry and not set(entry) - {key, 'suffix'}:
+            text = template.format(entry[key])
+            if entry.get('suffix'):
+                text += f' {entry["suffix"]}'
+            return Button(text=text, key=callback)
 
     fn = entry.get('fn')
     type_ = entry.get('type') or (f'{definition.name}_{fn}' if fn else None)
@@ -276,8 +296,8 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
     constructor = bool(entry.get('constructor'))
     if constructor and not definition.cls:
         raise BlockdefError(f'{at}: `constructor` needs a top-level `class` to instantiate')
-    if constructor and not definition.instance:
-        raise BlockdefError(f'{at}: `constructor` needs a top-level `instance` to assign')
+    if constructor and not (entry.get('instance') or definition.instance):
+        raise BlockdefError(f'{at}: `constructor` needs an `instance` to assign')
     if constructor and kind == 'value':
         raise BlockdefError(f'{at}: a constructor is a statement, not a value')
 
@@ -289,9 +309,9 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
     if code is None and not fn and not attr and not constructor:
         raise BlockdefError(f'{at}: needs `fn` (a method to call), `attr` (a value to '
                             f'read), `code`, or `constructor`')
-    if attr and not definition.instance:
-        raise BlockdefError(f'{at}: `attr` reads off the object, so the file needs '
-                            f'an `instance`')
+    instance = entry.get('instance', definition.instance) or ''
+    if attr and not instance:
+        raise BlockdefError(f'{at}: `attr` reads off the object, so it needs an `instance`')
 
     colour = entry.get('colour')
     if colour is not None and not isinstance(colour, (int, str)):
@@ -316,16 +336,17 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
 
     block = Block(
         type=str(type_), rows=rows, tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
-        kind=kind, fn=fn, attr=attr, colour=colour, args=args, code=code,
+        kind=kind, fn=fn, attr=attr, instance=instance, colour=colour, args=args, code=code,
         output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
     )
-    _check_unknown(entry, {'type', 'fn', 'attr', 'colour', 'label', 'tooltip', 'kind',
-                           'args', 'code', 'output', 'params', 'inline', 'constructor',
-                           'i2c_bus', 'url', 'external', 'import', 'fields'}, at)
+    _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'tooltip',
+                           'kind', 'args', 'code', 'output', 'params', 'inline',
+                           'constructor', 'i2c_bus', 'url', 'external', 'import',
+                           'fields'}, at)
     return block
 
 
@@ -333,6 +354,10 @@ def _rows(value: Any, fallback: str, where: _Where) -> list[Row]:
     """`label:` -- one row of text, or a list of rows carrying text and images."""
     if value is None:
         return [Row(label=Text(text=_humanize(fallback)))]
+    if value == []:
+        # No row of its own: the block's text belongs to its first param, on the
+        # same line as the field.
+        return []
     entries = value if isinstance(value, list) else [value]
     rows: list[Row] = []
     for index, entry in enumerate(entries):
@@ -430,21 +455,27 @@ def _param(entry: Any, where: _Where) -> Param:
     return param
 
 
-def _options(raw: Any, where: _Where) -> list[tuple[str, str]]:
+def _options(raw: Any, where: _Where) -> list[tuple[Text, str]]:
     if not isinstance(raw, list) or not raw:
         raise BlockdefError(f'{where}: a dropdown needs a non-empty `options` list')
-    options: list[tuple[str, str]] = []
+    options: list[tuple[Text, str]] = []
     for opt in raw:
-        if isinstance(opt, dict) and len(opt) == 1:
-            label, value = next(iter(opt.items()))
+        if isinstance(opt, dict) and 'value' in opt:
+            # The long form, for when the label is translated: {label: {msg: k},
+            # value: "0"}. The value is what a saved program stores.
+            _check_unknown(opt, {'label', 'value'}, where.at('option'))
+            label, value = _text(opt.get('label'), where.at('option')), opt['value']
+        elif isinstance(opt, dict) and len(opt) == 1:
+            key, value = next(iter(opt.items()))
+            label = Text(text=str(key), given=True)
         elif isinstance(opt, list) and len(opt) == 2:
-            label, value = opt
+            label, value = Text(text=str(opt[0]), given=True), opt[1]
         elif isinstance(opt, (str, int, float)):
-            label = value = opt
+            label, value = Text(text=str(opt), given=True), opt
         else:
-            raise BlockdefError(f'{where}: an option is `label: value`, [label, value] or a '
-                                f'bare value, not {opt!r}')
-        options.append((str(label), str(value)))
+            raise BlockdefError(f'{where}: an option is `label: value`, [label, value], a '
+                                f'bare value, or `{{label, value}}`, not {opt!r}')
+        options.append((label, str(value)))
     return options
 
 
