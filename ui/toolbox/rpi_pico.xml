@@ -1996,37 +1996,37 @@
   </category>
   <!-- /blockdef:gps -->
 
+  <!-- blockdef:max30100 -->
   <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+    <label text="MAX30100 pulse oximeter sensor"></label>
+    <label text="Library: https://github.com/"></label>
+    <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
 
-	  <block type="max30100_init">
+    <block type="max30100_init">
       <value name="i2c">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
       </value>
-
       <value name="scl">
         <shadow type="pinout">
           <field name="PIN">1</field>
         </shadow>
       </value>
-
       <value name="sda">
         <shadow type="pinout">
           <field name="PIN">0</field>
         </shadow>
       </value>
     </block>
-	  <block type="max30100_read">
-    </block>
-	  <block type="max30100_red">
-    </block>
-	  <block type="max30100_ir">
-    </block>
+
+    <block type="max30100_read"></block>
+
+    <block type="max30100_red"></block>
+
+    <block type="max30100_ir"></block>
   </category>
+  <!-- /blockdef:max30100 -->
 
   <!-- blockdef:ds18x20 -->
   <category name="OneWire">
@@ -2197,8 +2197,10 @@
 <category name="%{BKY_CAT_COMM}">
   <label text="%{BKY_CAT_COMM}"></label>
 
+  <!-- blockdef:uart -->
   <category name="UART">
     <label text="UART Serial Port"></label>
+
     <block type="uart_init">
       <value name="port">
         <shadow type="math_number">
@@ -2225,19 +2227,34 @@
     <block type="uart_write">
       <value name="buf">
         <shadow type="text">
-          <field name="TEXT">Hello</field>
+          <field name="TEXT">hello</field>
         </shadow>
       </value>
     </block>
+
     <block type="uart_read">
+      <value name="s">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
     </block>
-    <block type="uart_readline">
+
+    <block type="uart_read_into">
+      <value name="b">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
     </block>
-    <block type="uart_read_all">
-    </block>
-    <block type="uart_any">
-    </block>
+
+    <block type="uart_readline"></block>
+
+    <block type="uart_read_all"></block>
+
+    <block type="uart_any"></block>
   </category>
+  <!-- /blockdef:uart -->
 
   <category name="SPI">
     <label text="SPI"></label>

@@ -1,0 +1,79 @@
+# Quadrature rotary encoder, driven by pin interrupts.
+#
+# The driver is not a library to install: the init block writes the Encoder
+# class into the program itself. `import:` here therefore carries a class
+# rather than an import line -- both are entries in Blockly.Python.definitions_,
+# which is what "appears once at the top of the program" means.
+
+module: machine
+instance: encoder
+colour: 135
+import: []
+
+category:
+  name: Rotatory Encoder
+  examples: encoder
+  docs: encoder
+  labels: [Rotatory Incremental Encoder]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard, default]
+
+blocks:
+  - type: encoder_init
+    label:
+      - Init Rotatory Encoder
+      - {image: {src: media/encoder.png, width: 55, height: 55}}
+    tooltip: ""
+    import:
+      - {line: "from machine import Pin", key: import_pin}
+      - key: import_encoder_class
+        line: |-
+
+
+          #Encoder class
+          #Source: https://github.com/peterhinch/micropython-samples/blob/master/encoders/encoder_portable.py
+          class Encoder(object):
+              def __init__(self, pin_x, pin_y, reverse, scale):
+                  self.reverse = reverse
+                  self.scale = scale
+                  self.forward = True
+                  self.pin_x = pin_x
+                  self.pin_y = pin_y
+                  self._pos = 0
+                  self.x_interrupt = pin_x.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.x_callback)
+                  self.y_interrupt = pin_y.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.y_callback)
+
+              def x_callback(self, line):
+                  self.forward = self.pin_x.value() ^ self.pin_y.value() ^ self.reverse
+                  self._pos += 1 if self.forward else -1
+
+              def y_callback(self, line):
+                  self.forward = self.pin_x.value() ^ self.pin_y.value() ^ self.reverse ^ 1
+                  self._pos += 1 if self.forward else -1
+
+              @property
+              def position(self):
+                  return self._pos * self.scale
+
+              @position.setter
+              def position(self, value):
+                  self._pos = value // self.scale
+
+            
+    code: |-
+      p00 = Pin({p0}, Pin.IN)
+      p11 = Pin({p1}, Pin.IN)
+      {instance} = Encoder(p00,p11,1,1)
+    params:
+      - {name: p0, label: ch0, type: Number, pin: true, align: right}
+      - {name: p1, label: ch1, type: Number, pin: true, align: right}
+
+  - type: encoder_reset
+    label: Reset Encoder
+    tooltip: ""
+    code: "{instance}.position=0"
+
+  - type: encoder_read
+    attr: position
+    kind: value
+    label: Read Encoder Value
+    tooltip: ""

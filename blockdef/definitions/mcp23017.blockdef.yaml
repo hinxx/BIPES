@@ -1,0 +1,62 @@
+# MCP23017 16-bit I2C I/O expander.
+
+module: mcp23017
+class: MCP23017
+instance: mcpIO
+colour: 230
+import: {line: "import mcp23017", key: import_mcp23017}
+
+category:
+  name: I/O Expander
+  library: mcp23017
+  labels:
+    - I/O Expander
+    - MCP23017
+    - "Library source: https://github.com/ShrimpingIt/micropython-mcp230xx/blob/master/mcp.py "
+  toolboxes: [esp32, esp32c3]
+
+blocks:
+  - type: mcp23017_init
+    label: Init MCP23017
+    tooltip: ""
+    colour: 135
+    # The hand-written generator read SCL and SDA and then emitted MCP23017()
+    # with no arguments, so both inputs on the block did nothing and the chip
+    # was always addressed on the driver's defaults, 22 and 21.
+    code: "{instance} = mcp23017.MCP23017(gpioScl={scl}, gpioSda={sda})"
+    params:
+      - {name: scl, label: SCL, type: Number, default: 22, align: right}
+      - {name: sda, label: SDA, type: Number, default: 21, align: right}
+
+  - type: mcp23017_setup
+    fn: setup
+    label: []
+    tooltip: MCP23017 directin setup
+    url: bipes.net.br
+    code: "{instance}.setup({pin},{value})"
+    params:
+      - {name: pin,   label: MCP23017 direction setup (IN/OUT), type: Number, align: right}
+      - {name: value, label: {msg: to}, align: right}
+
+  - type: mcp23017_output
+    label: []
+    tooltip: MCP23017 Write to GPIO digital pin
+    url: bipes.net.br
+    code: "{instance}.output({pin},{value})"
+    params:
+      - {name: pin,   label: MCP23017 set pin, type: Number, align: right}
+      - {name: value, label: {msg: to}, align: right}
+
+  - type: mcp23017_input
+    fn: input
+    kind: value
+    label: []
+    tooltip: MCP23017 Read digital pin
+    url: http://www.bipes.net.br
+    # `pullup` is an input on the block that the driver has no parameter for,
+    # so it is read by nobody -- left in place because removing an input would
+    # break every saved program that has something plugged into it.
+    args: [pin]
+    params:
+      - {name: pin,    label: MCP23017 input pin, type: Number}
+      - {name: pullup, label: Pull-up, align: right}

@@ -1,0 +1,76 @@
+# machine.UART. A platform peripheral, not a driver: nothing to install.
+#
+# Two block sets had drifted apart -- seven boards offered `uart_read_into` and
+# five offered `uart_any`. Both work anywhere, so every board now has both.
+
+module: machine
+instance: uart
+colour: 135
+import: []
+
+category:
+  name: UART
+  labels: [UART Serial Port]
+  # esp32-basic deliberately has no UART category.
+  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    rpi_pico:   {tx: 0, rx: 1}
+    rpi_pico_w: {tx: 0, rx: 1}
+
+blocks:
+  - type: uart_init
+    label: Init UART Serial Port
+    tooltip: ""
+    import:
+      - {line: "from machine import UART", key: import_machine_uart}
+      - {line: "from machine import Pin", key: import_pin}
+    code: "{instance} = UART({port}, baudrate={baud}, tx=Pin({tx}), rx=Pin({rx}))"
+    params:
+      - {name: port, label: "Port:",      type: Number, default: 0,    align: right}
+      - {name: baud, label: "Baud rate:", type: Number, default: 9600, align: right}
+      - {name: tx,   label: "TX Pin:",    type: Number, pin: true,     align: right}
+      - {name: rx,   label: "RX Pin:",    type: Number, pin: true,     align: right}
+
+  - type: uart_write
+    fn: write
+    label: Send data to UART
+    tooltip: ""
+    params:
+      - {name: buf, label: "Data:", type: String, default: hello, align: right}
+
+  - type: uart_read
+    kind: value
+    label: Read data from UART
+    tooltip: ""
+    code: "{instance}.read({s}).decode()"
+    params:
+      - {name: s, label: "Bytes to read:", type: Number, default: 1, align: right}
+
+  - type: uart_read_into
+    kind: value
+    label: Read from UART into a Buffer
+    tooltip: ""
+    # The hand-written generator read an input called 'buffer'; the block's
+    # input is called 'b', so it always read nothing and emitted readinto().
+    code: "{instance}.readinto({b})"
+    params:
+      - {name: b, label: "Destination Buffer:", type: Number, align: right}
+
+  - type: uart_readline
+    kind: value
+    label: Read one line from UART
+    tooltip: ""
+    code: "{instance}.readline().decode()"
+
+  - type: uart_read_all
+    kind: value
+    label: Read all data from UART
+    tooltip: ""
+    code: "{instance}.read().decode()"
+
+  - type: uart_any
+    fn: any
+    kind: value
+    label: Check to see if the uart has data
+    tooltip: ""

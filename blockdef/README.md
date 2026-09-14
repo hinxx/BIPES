@@ -64,6 +64,10 @@ instance: gy33_i2c       # variable the constructor assigns to      (optional)
 colour: 135              # setColour() -- a hue number or a CSS colour name
 url: https://...         # setHelpUrl() for every block             (optional)
 import: ...              # overrides "import <module>"              (optional)
+                         #   a line, {line, key}, or a list of either;
+                         #   `[]` for none. Each becomes one entry in
+                         #   Blockly.Python.definitions_, so a `line:` can be
+                         #   a whole class, not only an import.
 
 category:
   name: GY33 I2C
@@ -103,7 +107,7 @@ blocks:
 | `code` | escape hatch: the Python itself, with `{param}` and `{instance}` holes. Newlines are kept, so a block can emit several lines. Beats `fn`. |
 | `i2c_bus` | `{id, scl, sda, freq, soft}` → param names, or numbers for a fixed value; builds the shared bus. |
 | `inline` | `setInputsInline()`. Left alone if omitted. |
-| `import` | imports only this block needs, on top of the file's. |
+| `import` | entries only this block needs, on top of the file's. |
 | `external` | `true` means the block is written by hand; only its toolbox entry is generated. Then only `params` and `fields` apply. |
 | `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |

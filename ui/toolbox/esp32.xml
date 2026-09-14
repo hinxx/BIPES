@@ -1296,39 +1296,37 @@
   </category>
   <!-- /blockdef:gps -->
 
+  <!-- blockdef:max30100 -->
   <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-      <label text="Library: https://github.com/"></label>
-      <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+    <label text="MAX30100 pulse oximeter sensor"></label>
+    <label text="Library: https://github.com/"></label>
+    <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
 
     <block type="max30100_init">
-        <value name="i2c">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="scl">
-          <shadow type="pinout">
-            <field name="PIN">18</field>
-          </shadow>
-        </value>
-        <value name="sda">
-          <shadow type="pinout">
-            <field name="PIN">19</field>
-          </shadow>
-        </value>
-      </block>
-	<block type="max30100_read">
-      </block>
-	<block type="max30100_red">
-      </block>
-	<block type="max30100_ir">
-      </block>
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">18</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
+      </value>
+    </block>
 
+    <block type="max30100_read"></block>
 
+    <block type="max30100_red"></block>
 
-
+    <block type="max30100_ir"></block>
   </category>
+  <!-- /blockdef:max30100 -->
 
   <!-- blockdef:bmp -->
   <category name="%{BKY_CAT_PRESS}">
@@ -1546,28 +1544,26 @@
   </category>
 
 
+  <!-- blockdef:encoder -->
   <category name="Rotatory Encoder">
-      <label text="Rotatory Incremental Encoder"></label>
-        <button text="Load example: encoder" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
+    <label text="Rotatory Incremental Encoder"></label>
+    <button text="Load example: encoder" callbackKey="loadExample"></button>
+    <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
 
-      <block type="encoder_init">
-        <value name="p0">
-          <shadow type="pinout">
-            <field name="ch0"></field>
-          </shadow>
-        </value>
- 
-        <value name="p1">
-          <shadow type="pinout">
-            <field name="ch1"></field>
-          </shadow>
-        </value>
+    <block type="encoder_init">
+      <value name="p0">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="p1">
+        <shadow type="pinout"></shadow>
+      </value>
+    </block>
 
-      </block>
-      <block type="encoder_reset"></block>
-      <block type="encoder_read"></block>
+    <block type="encoder_reset"></block>
+
+    <block type="encoder_read"></block>
   </category>
+  <!-- /blockdef:encoder -->
 
   <category name="Camera (ESP32CAM)">
       <label text="OV2640 Camera on ESP32-CAM Board"></label>
@@ -1593,31 +1589,51 @@
       </block>
     </category>
 
+    <!-- blockdef:mcp23017 -->
     <category name="I/O Expander">
-	    <label text="I/O Expander"></label>
-	    <label text="MCP23017"></label>
-            <button text="Install mcp23017 library" callbackKey="installPyLib"></button>
-	    <label text="Library source: https://github.com/ShrimpingIt/micropython-mcp230xx/blob/master/mcp.py
-"></label>
+      <label text="I/O Expander"></label>
+      <label text="MCP23017"></label>
+      <label text="Library source: https://github.com/ShrimpingIt/micropython-mcp230xx/blob/master/mcp.py "></label>
+      <button text="Install mcp23017 library" callbackKey="installPyLib"></button>
 
-	    <block type="mcp23017_init">
-	      <value name="scl">
-		<shadow type="math_number">
-		  <field name="NUM">22</field>
-		</shadow>
-	      </value>
-	      <value name="sda">
-		<shadow type="math_number">
-		  <field name="NUM">21</field>
-		</shadow>
-	      </value>
-	    </block>
+      <block type="mcp23017_init">
+        <value name="scl">
+          <shadow type="math_number">
+            <field name="NUM">22</field>
+          </shadow>
+        </value>
+        <value name="sda">
+          <shadow type="math_number">
+            <field name="NUM">21</field>
+          </shadow>
+        </value>
+      </block>
 
-	    <block type="mcp23017_setup"></block>
-	    <block type="mcp23017_output"></block>
-	    <block type="mcp23017_input"></block>
+      <block type="mcp23017_setup">
+        <value name="pin">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
 
+      <block type="mcp23017_output">
+        <value name="pin">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="mcp23017_input">
+        <value name="pin">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
     </category>
+    <!-- /blockdef:mcp23017 -->
 
 
   <category name="RC Servo Motor">
@@ -1859,8 +1875,10 @@ _
   <category name="%{BKY_CAT_COMM}">
     <label text="%{BKY_CAT_COMM}"></label>
 
+    <!-- blockdef:uart -->
     <category name="UART">
       <label text="UART Serial Port"></label>
+
       <block type="uart_init">
         <value name="port">
           <shadow type="math_number">
@@ -1873,33 +1891,44 @@ _
           </shadow>
         </value>
         <value name="tx">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
         <value name="rx">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
 
       <block type="uart_write">
         <value name="buf">
           <shadow type="text">
-            <field name="TEXT">Hello</field>
+            <field name="TEXT">hello</field>
           </shadow>
         </value>
       </block>
+
       <block type="uart_read">
+        <value name="s">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
       </block>
-      <block type="uart_readline">
+
+      <block type="uart_read_into">
+        <value name="b">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
       </block>
-      <block type="uart_read_all">
-      </block>
-      <block type="uart_any">
-      </block>
+
+      <block type="uart_readline"></block>
+
+      <block type="uart_read_all"></block>
+
+      <block type="uart_any"></block>
     </category>
+    <!-- /blockdef:uart -->
 
 <!--
     <category name="SPI">

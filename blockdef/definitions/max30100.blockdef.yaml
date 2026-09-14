@@ -1,0 +1,39 @@
+# MAX30100 pulse oximeter.
+
+module: max30100
+class: MAX30100
+instance: max30100Sensor
+colour: 135
+import: {line: "import max30100", key: import_MAX30100}
+
+category:
+  name: Oximeter
+  library: MAX30100
+  labels:
+    - MAX30100 pulse oximeter sensor
+    - "Library: https://github.com/"
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    esp32:      {scl: 18, sda: 19}
+    rpi_pico:   {scl: 1,  sda: 0}
+    rpi_pico_w: {scl: 1,  sda: 0}
+
+blocks:
+  - type: max30100_init
+    label:
+      - Init MAX30100 Sensor
+      - {image: {src: media/max30100.png, width: 55, height: 55}}
+    tooltip: ""
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      {instance} = max30100.MAX30100(i2c = {bus})
+      {instance}.enable_spo2()
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+
+  - {type: max30100_read, fn: read_sensor, label: Update MAX30100 Reading, tooltip: ""}
+  - {type: max30100_red, attr: red, kind: value, label: Get MAX30100 Red Value, tooltip: ""}
+  - {type: max30100_ir, attr: ir, kind: value, label: Get MAX30100 IR Value, tooltip: ""}

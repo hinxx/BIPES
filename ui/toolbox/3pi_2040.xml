@@ -1301,24 +1301,33 @@
   </category>
   <!-- /blockdef:gps -->
 
+  <!-- blockdef:max30100 -->
   <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+    <label text="MAX30100 pulse oximeter sensor"></label>
+    <label text="Library: https://github.com/"></label>
+    <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
 
-	<block type="max30100_init">
-      </block>
-	<block type="max30100_read">
-      </block>
-	<block type="max30100_red">
-      </block>
-	<block type="max30100_ir">
-      </block>
+    <block type="max30100_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout"></shadow>
+      </value>
+    </block>
 
+    <block type="max30100_read"></block>
 
+    <block type="max30100_red"></block>
 
-
+    <block type="max30100_ir"></block>
   </category>
+  <!-- /blockdef:max30100 -->
 
   <category name="Inertial Measurement">
       <label text="MPU6050 IMU"></label>
@@ -1501,23 +1510,60 @@
 
   <category name="Communication">
       <label text="Communication"></label>
+      <!-- blockdef:uart -->
       <category name="UART">
-      <label text="UART Serial Port"></label>
-<block type="uart_init">
-</block>
+        <label text="UART Serial Port"></label>
 
-<block type="uart_write">
-</block>
-<block type="uart_read">
-</block>
-<block type="uart_read_into">
-</block>
-<block type="uart_readline">
-</block>
-<block type="uart_read_all">
-</block>
+        <block type="uart_init">
+          <value name="port">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="baud">
+            <shadow type="math_number">
+              <field name="NUM">9600</field>
+            </shadow>
+          </value>
+          <value name="tx">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="rx">
+            <shadow type="pinout"></shadow>
+          </value>
+        </block>
 
+        <block type="uart_write">
+          <value name="buf">
+            <shadow type="text">
+              <field name="TEXT">hello</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uart_read">
+          <value name="s">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uart_read_into">
+          <value name="b">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uart_readline"></block>
+
+        <block type="uart_read_all"></block>
+
+        <block type="uart_any"></block>
       </category>
+      <!-- /blockdef:uart -->
       <category name="SPI">
       <label text="SPI"></label>
 <block type="machine.SPI_SPI.init">

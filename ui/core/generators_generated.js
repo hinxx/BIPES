@@ -194,6 +194,27 @@ Blockly.Python['onewire_ds18x20_read_temp'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Rotatory Encoder (encoder.blockdef.yaml) --------------------------------
+
+Blockly.Python['encoder_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_encoder_class"] = "\n\n#Encoder class\n#Source: https://github.com/peterhinch/micropython-samples/blob/master/encoders/encoder_portable.py\nclass Encoder(object):\n    def __init__(self, pin_x, pin_y, reverse, scale):\n        self.reverse = reverse\n        self.scale = scale\n        self.forward = True\n        self.pin_x = pin_x\n        self.pin_y = pin_y\n        self._pos = 0\n        self.x_interrupt = pin_x.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.x_callback)\n        self.y_interrupt = pin_y.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.y_callback)\n\n    def x_callback(self, line):\n        self.forward = self.pin_x.value() ^ self.pin_y.value() ^ self.reverse\n        self._pos += 1 if self.forward else -1\n\n    def y_callback(self, line):\n        self.forward = self.pin_x.value() ^ self.pin_y.value() ^ self.reverse ^ 1\n        self._pos += 1 if self.forward else -1\n\n    @property\n    def position(self):\n        return self._pos * self.scale\n\n    @position.setter\n    def position(self, value):\n        self._pos = value // self.scale\n\n  ";
+  var p0_ = Blockly.Python.valueToCode(block, "p0", Blockly.Python.ORDER_ATOMIC);
+  var p1_ = Blockly.Python.valueToCode(block, "p1", Blockly.Python.ORDER_ATOMIC);
+  var code = "p00 = Pin(" + p0_ + ", Pin.IN)\np11 = Pin(" + p1_ + ", Pin.IN)\nencoder = Encoder(p00,p11,1,1)";
+  return code + "\n";
+};
+
+Blockly.Python['encoder_reset'] = function(block) {
+  var code = "encoder.position=0";
+  return code + "\n";
+};
+
+Blockly.Python['encoder_read'] = function(block) {
+  var code = "encoder.position";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Python['gps_init'] = function(block) {
@@ -428,6 +449,70 @@ Blockly.Python['hcsr_read'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Oximeter (max30100.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['max30100_init'] = function(block) {
+  Blockly.Python.definitions_["import_MAX30100"] = "import max30100";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "max30100Sensor = max30100.MAX30100(i2c = " + bus_ + ")\nmax30100Sensor.enable_spo2()";
+  return code + "\n";
+};
+
+Blockly.Python['max30100_read'] = function(block) {
+  Blockly.Python.definitions_["import_MAX30100"] = "import max30100";
+  var code = "max30100Sensor.read_sensor()";
+  return code + "\n";
+};
+
+Blockly.Python['max30100_red'] = function(block) {
+  Blockly.Python.definitions_["import_MAX30100"] = "import max30100";
+  var code = "max30100Sensor.red";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['max30100_ir'] = function(block) {
+  Blockly.Python.definitions_["import_MAX30100"] = "import max30100";
+  var code = "max30100Sensor.ir";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- I/O Expander (mcp23017.blockdef.yaml) -----------------------------------
+
+Blockly.Python['mcp23017_init'] = function(block) {
+  Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var code = "mcpIO = mcp23017.MCP23017(gpioScl=" + scl_ + ", gpioSda=" + sda_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mcp23017_setup'] = function(block) {
+  Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "mcpIO.setup(" + pin_ + "," + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mcp23017_output'] = function(block) {
+  Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "mcpIO.output(" + pin_ + "," + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mcp23017_input'] = function(block) {
+  Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var pullup_ = Blockly.Python.valueToCode(block, "pullup", Blockly.Python.ORDER_ATOMIC);
+  var code = "mcpIO.input(" + pin_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- LED Matrix (tm1640.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['tm1640_init'] = function(block) {
@@ -461,4 +546,50 @@ Blockly.Python['tm1640_num'] = function(block) {
   var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
   var code = "digits = [0x3c66666e76663c00, 0x7e1818181c181800, 0x7e060c3060663c00, 0x3c66603860663c00, 0x30307e3234383000, 0x3c6660603e067e00, 0x3c66663e06663c00, 0x1818183030667e00, 0x3c66663c66663c00, 0x3c66607c66663c00]\ntm.write_int(digits[" + num_ + "])";
   return code + "\n";
+};
+
+// ---- UART (uart.blockdef.yaml) -----------------------------------------------
+
+Blockly.Python['uart_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine_uart"] = "from machine import UART";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var baud_ = Blockly.Python.valueToCode(block, "baud", Blockly.Python.ORDER_ATOMIC);
+  var tx_ = Blockly.Python.valueToCode(block, "tx", Blockly.Python.ORDER_ATOMIC);
+  var rx_ = Blockly.Python.valueToCode(block, "rx", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart = UART(" + port_ + ", baudrate=" + baud_ + ", tx=Pin(" + tx_ + "), rx=Pin(" + rx_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['uart_write'] = function(block) {
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.write(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uart_read'] = function(block) {
+  var s_ = Blockly.Python.valueToCode(block, "s", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.read(" + s_ + ").decode()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uart_read_into'] = function(block) {
+  var b_ = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart.readinto(" + b_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uart_readline'] = function(block) {
+  var code = "uart.readline().decode()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uart_read_all'] = function(block) {
+  var code = "uart.read().decode()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uart_any'] = function(block) {
+  var code = "uart.any()";
+  return [code, Blockly.Python.ORDER_NONE];
 };

@@ -375,6 +375,50 @@ Blockly.Blocks['onewire_ds18x20_read_temp'] = {
   }
 };
 
+// ---- Rotatory Encoder (encoder.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['encoder_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init Rotatory Encoder");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/encoder.png", 55, 55, "*"));
+    this.appendValueInput("p0")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ch0");
+    this.appendValueInput("p1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ch1");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['encoder_reset'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Reset Encoder");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['encoder_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Encoder Value");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Blocks['gps_init'] = {
@@ -792,6 +836,137 @@ Blockly.Blocks['hcsr_read'] = {
   }
 };
 
+// ---- Oximeter (max30100.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['max30100_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init MAX30100 Sensor");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/max30100.png", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['max30100_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Update MAX30100 Reading");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['max30100_red'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get MAX30100 Red Value");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['max30100_ir'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get MAX30100 IR Value");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+// ---- I/O Expander (mcp23017.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['mcp23017_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init MCP23017");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['mcp23017_setup'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MCP23017 direction setup (IN/OUT)");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["to"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("MCP23017 directin setup");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mcp23017_output'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MCP23017 set pin");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["to"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("MCP23017 Write to GPIO digital pin");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['mcp23017_input'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .appendField("MCP23017 input pin");
+    this.appendValueInput("pullup")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pull-up");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("MCP23017 Read digital pin");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- LED Matrix (tm1640.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['tm1640_init'] = {
@@ -857,5 +1032,107 @@ Blockly.Blocks['tm1640_num'] = {
     this.setColour(230);
     this.setTooltip("Write number on TM1640 LED Matrix");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- UART (uart.blockdef.yaml) -----------------------------------------------
+
+Blockly.Blocks['uart_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init UART Serial Port");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port:");
+    this.appendValueInput("baud")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baud rate:");
+    this.appendValueInput("tx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin:");
+    this.appendValueInput("rx")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send data to UART");
+    this.appendValueInput("buf")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Data:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read data from UART");
+    this.appendValueInput("s")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Bytes to read:");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_read_into'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read from UART into a Buffer");
+    this.appendValueInput("b")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Destination Buffer:");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_readline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read one line from UART");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_read_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read all data from UART");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['uart_any'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Check to see if the uart has data");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
   }
 };
