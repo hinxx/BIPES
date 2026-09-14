@@ -1,0 +1,154 @@
+# HD44780-style character LCD behind a PCF8574 I2C backpack.
+#
+# The 13 hand-maintained copies of this category had drifted: six of them still
+# listed inputs called `scl`, `sda`, `lines` and `columns`, and the block has no
+# input called `lines` at all, so those shadows went nowhere and `i2c`/`rows`
+# had none. One description, one category.
+
+module: pico_i2c_lcd
+class: I2cLcd
+instance: lcd
+colour: olive
+import:
+  - {line: "from lcd_api import LcdApi", key: import_lcd_api}
+  - {line: "from pico_i2c_lcd import I2cLcd", key: import_pico_i2c_lcd}
+
+category:
+  name: Character display
+  library: [lcd_api, pico_i2c_lcd]
+  labels:
+    - PCF8574 Display controller
+    - "Library: https://github.com/dhylands/python_lcd"
+    - "Library: https://github.com/T-622/RPI-PICO-I2C-LCD"
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  # I2C lands on different pins per board; the boards that had no suggestion
+  # keep none, and the dropdown picks a pin that board actually has.
+  defaults:
+    esp32:       {sda: 21, scl: 22}
+    esp32-basic: {sda: 21, scl: 22}
+    esp32c3:     {sda: 6,  scl: 7}
+    rpi_pico:    {sda: 0,  scl: 1}
+    rpi_pico_w:  {sda: 0,  scl: 1}
+    makernano:   {sda: 0,  scl: 1}
+    makerpi:     {sda: 0,  scl: 1}
+
+blocks:
+  - type: char_lcd_init
+    label:
+      - {text: Init I2C Character LCD Display, align: left}
+      - {text: with the PCF8574 Display Controller, align: right}
+      - {image: {src: media/lcd20x4.jpg, width: 55, height: 55}}
+    tooltip: ""
+    constructor: true
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 400000}
+    # Two lines, and the address goes in its own variable so it is easy to spot
+    # and change on the board.
+    code: |-
+      I2C_ADDR = {LCD_hex_address} # NOTE: Be sure to set address
+      lcd = I2cLcd({bus}, I2C_ADDR, {rows}, {columns})
+    params:
+      - {name: i2c,     label: I2C,     type: Number, default: 0,  align: right}
+      - {name: sda,     label: SDA,     type: Number, align: right, pin: true}
+      - {name: scl,     label: SCL,     type: Number, align: right, pin: true}
+      - {name: rows,    label: Rows,    type: Number, default: 2,  align: right}
+      - {name: columns, label: Columns, type: Number, default: 16, align: right}
+      - name: LCD_hex_address
+        label: LCD I2C Address
+        kind: dropdown
+        align: right
+        options: ["0x27", "0x3F", "", "", "0x20", "0x21", "0x22", "0x23", "0x24",
+                  "0x25", "0x26", "0x27", "0x38", "0x39", "0x3A", "0x3B", "0x3C",
+                  "0x3D", "0x3E", "0x3F"]
+
+  - type: char_lcd_clear
+    fn: clear
+    label: Clear LCD
+    tooltip: ""
+
+  - type: char_lcd_putstr
+    fn: putstr
+    label: Write text on LCD
+    tooltip: ""
+    params:
+      - {name: text, label: Text, default: Hello, align: right}
+
+  - type: char_lcd_moveto
+    fn: move_to
+    label: Move LCD Cursor to
+    tooltip: ""
+    params:
+      - {name: x, label: X, type: Number, default: 0, align: right}
+      - {name: y, label: Y, type: Number, default: 0, align: right}
+
+  - type: char_lcd_backlight
+    label: LCD Backlight
+    tooltip: Turn On/Off the backlight
+    # The dropdown picks the method, so the value saved in a program (ON/OFF)
+    # is not the Python it stands for.
+    code: "{instance}.{on_off}()"
+    params:
+      - name: on_off
+        label: "On/Off:"
+        kind: dropdown
+        options: [ON, OFF]
+        emit: {ON: backlight_on, OFF: backlight_off}
+
+  - type: char_lcd_display
+    label: LCD Power
+    tooltip: Turn ON/Off the display
+    code: "{instance}.{on_off}()"
+    params:
+      - name: on_off
+        label: "On/Off:"
+        kind: dropdown
+        options: [ON, OFF]
+        emit: {ON: display_on, OFF: display_off}
+
+  # 40 checkboxes bit-packed into 8 bytes -- real computation, so the block and
+  # its generator stay hand-written. Only its toolbox entry is declared here.
+  - type: char_lcd_custom
+    external: true
+    params:
+      - {name: id, type: Number, default: 0}
+    fields:
+      A0: FALSE
+      A1: FALSE
+      A2: FALSE
+      A3: FALSE
+      A4: FALSE
+      B0: FALSE
+      B1: FALSE
+      B2: FALSE
+      B3: FALSE
+      B4: FALSE
+      C0: FALSE
+      C1: FALSE
+      C2: FALSE
+      C3: FALSE
+      C4: FALSE
+      D0: FALSE
+      D1: FALSE
+      D2: FALSE
+      D3: FALSE
+      D4: FALSE
+      E0: FALSE
+      E1: FALSE
+      E2: FALSE
+      E3: FALSE
+      E4: FALSE
+      F0: FALSE
+      F1: FALSE
+      F2: FALSE
+      F3: FALSE
+      F4: FALSE
+      G0: FALSE
+      G1: FALSE
+      G2: FALSE
+      G3: FALSE
+      G4: FALSE
+      H0: FALSE
+      H1: FALSE
+      H2: FALSE
+      H3: FALSE
+      H4: FALSE

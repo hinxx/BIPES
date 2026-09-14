@@ -2,7 +2,157 @@
 // Run `make blocks` after changing one. Hand-written blocks live in
 // block_definitions.js; a block belongs in exactly one of the two.
 
-// ---- GY33 I2C (gy33_i2c.blockdef.yaml) --------------------------
+// ---- Bluetooth REPL (bluetooth_repl.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['bluetooth_repl_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Setup Web Bluetooth REPL");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Bluetooth name:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Setup Web Bluetooth REPL");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['bluetooth_repl_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Start Web Bluetooth REPL");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Bluetooth name:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start REPL over Web Bluetooth");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+// ---- Character display (char_lcd.blockdef.yaml) ------------------------------
+
+Blockly.Blocks['char_lcd_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_LEFT)
+        .appendField("Init I2C Character LCD Display");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("with the PCF8574 Display Controller");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/lcd20x4.jpg", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("rows")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Rows");
+    this.appendValueInput("columns")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Columns");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LCD I2C Address")
+        .appendField(new Blockly.FieldDropdown([["0x27", "0x27"], ["0x3F", "0x3F"], ["", ""], ["", ""], ["0x20", "0x20"], ["0x21", "0x21"], ["0x22", "0x22"], ["0x23", "0x23"], ["0x24", "0x24"], ["0x25", "0x25"], ["0x26", "0x26"], ["0x27", "0x27"], ["0x38", "0x38"], ["0x39", "0x39"], ["0x3A", "0x3A"], ["0x3B", "0x3B"], ["0x3C", "0x3C"], ["0x3D", "0x3D"], ["0x3E", "0x3E"], ["0x3F", "0x3F"]]), "LCD_hex_address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['char_lcd_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Clear LCD");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['char_lcd_putstr'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write text on LCD");
+    this.appendValueInput("text")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['char_lcd_moveto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Move LCD Cursor to");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['char_lcd_backlight'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD Backlight");
+    this.appendDummyInput()
+        .appendField("On/Off:")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "on_off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Turn On/Off the backlight");
+  }
+};
+
+Blockly.Blocks['char_lcd_display'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD Power");
+    this.appendDummyInput()
+        .appendField("On/Off:")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "on_off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Turn ON/Off the display");
+  }
+};
+
+// ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['gy33_i2c_init'] = {
   init: function() {
@@ -112,5 +262,43 @@ Blockly.Blocks['gy33_i2c_get_calibrated'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("Returns a tuple containing only the calibrated Red, Green, Blue, and Clear values.");
+  }
+};
+
+// ---- %{BKY_CAT_ULTRASOUND} (hcsr04.blockdef.yaml) ----------------------------
+
+Blockly.Blocks['hcsr_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/hcsr04.png", 55, 55, "*"))
+        .appendField(MSG["hcsr_init"]);
+    this.appendValueInput("echo")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("echo pin");
+    this.appendValueInput("trigger")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("trigger pin");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable(MSG["hcsr_timeout"]), "DHT_PIN_MSG");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip(MSG["hcsr_init"]);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['hcsr_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["get_distance"]), "MSG_READ_DHT_TEMP");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip(MSG["measure_distance"]);
+    this.setHelpUrl("http://www.bipes.net.br");
   }
 };

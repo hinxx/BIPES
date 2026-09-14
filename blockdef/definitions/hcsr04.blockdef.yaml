@@ -1,0 +1,49 @@
+# HC-SR04 ultrasonic distance sensor.
+#
+# The driver takes keyword arguments, and the block's inputs are in a different
+# order from the constructor's, so this one leans on `keyword:` and `args:`.
+
+module: hcsr04
+class: HCSR04
+instance: ultraSoundSensor
+colour: 230
+url: http://www.bipes.net.br
+import: {line: "from hcsr04 import HCSR04", key: import_hcr}
+
+category:
+  name: "%{BKY_CAT_ULTRASOUND}"
+  library: HCSR04
+  labels:
+    - HCSR04 ultrasound distance sensor
+    - "Library: https://github.com/rsc1975/micropython-hcsr04"
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  # The only thing 13 boards genuinely disagreed about.
+  defaults:
+    rpi_pico: {echo: 0, trigger: 1}
+
+blocks:
+  - type: hcsr_init
+    label:
+      - {image: {src: media/hcsr04.png, width: 55, height: 55}, msg: hcsr_init}
+    tooltip: {msg: hcsr_init}
+    constructor: true
+    # Only the constructor needs these two; the reading block does not.
+    import:
+      - {line: "import time", key: import_time}
+      - {line: "from machine import Pin", key: import_pin}
+    args: [trigger, echo, timeout]
+    params:
+      - {name: echo,    label: echo pin,    type: Number, pin: true, align: right,
+         keyword: echo_pin}
+      - {name: trigger, label: trigger pin, type: Number, pin: true, align: right,
+         keyword: trigger_pin}
+      - {name: timeout, label: {msg: hcsr_timeout, field: DHT_PIN_MSG}, type: Number,
+         default: 10000, align: right, keyword: echo_timeout_us}
+
+  - type: hcsr_read
+    fn: distance_mm
+    kind: value
+    label:
+      - {msg: get_distance, field: MSG_READ_DHT_TEMP}
+    tooltip: {msg: measure_distance}

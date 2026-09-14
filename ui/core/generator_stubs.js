@@ -5209,92 +5209,7 @@ Blockly.Python['files_list'] = function(block) {
 
 //HCSR04 ultrasound
 
-Blockly.Python['hcsr_init'] = function(block) {
-  var pEcho = Blockly.Python.valueToCode(block, 'echo', Blockly.Python.ORDER_ATOMIC);
-  var pTrig = Blockly.Python.valueToCode(block, 'trigger', Blockly.Python.ORDER_ATOMIC);
-  var pTime = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_hcr'] = 'from hcsr04 import HCSR04';
-
-/*
- * while 1:
-	sensor = HCSR04(trigger_pin=13, echo_pin=15, echo_timeout_us=10000)
-	distance = sensor.distance_mm()
-	print(distance)
-	time.sleep(1)
-
-*/
-  var code = 'ultraSoundSensor = HCSR04(trigger_pin=' + pTrig + ', echo_pin=' + pEcho + ', echo_timeout_us=' + pTime + ')\n';
-
-  return code;
-};
-
-Blockly.Python['hcsr_read'] = function(block) {
-  var code = 'ultraSoundSensor.distance_mm()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
 //I2C Character LCD
-
-Blockly.Python['char_lcd_init'] = function(block) {
-Blockly.Python.definitions_['import_lcd_api'] = 'from lcd_api import LcdApi';
-Blockly.Python.definitions_['import_pico_i2c_lcd'] = 'from pico_i2c_lcd import I2cLcd';
-  
-  var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-  var pSda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-  var pScl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-  var rows = Blockly.Python.valueToCode(block, 'rows', Blockly.Python.ORDER_ATOMIC);
-  var cols = Blockly.Python.valueToCode(block, 'columns', Blockly.Python.ORDER_ATOMIC);
-  var dropdown_lcd_hex_address = block.getFieldValue('LCD_hex_address');
-
-  var code = 'I2C_ADDR = ' + dropdown_lcd_hex_address + ' # NOTE: Be sure to set address\n'
-  var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: pScl, sda: pSda, freq: 400000});
-  code += 'lcd = I2cLcd(' + bus_ + ', I2C_ADDR, ' + rows + ', ' + cols + ')\n'
-  return code;
-};
-
-Blockly.Python['char_lcd_clear'] = function(block) {
-  var code = 'lcd.clear()\n';
-  return code;
-};
-
-Blockly.Python['char_lcd_putstr'] = function(block) {
-  var text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
-
-  var code = "lcd.putstr(" + text + ")\n";
-  return code;
-};
-
-Blockly.Python['char_lcd_moveto'] = function(block) {
-  var x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
-  var y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
-
-  var code = 'lcd.move_to(' + x + ', ' + y + ')\n';
-  return code;
-};
-
-Blockly.Python['char_lcd_backlight'] = function(block) {
-  var on_off = block.getFieldValue('on_off');
-  var code = 'lcd.backlight_on()\n';
-  
-  if (on_off == 'OFF') {
-  	code = 'lcd.backlight_off()\n';
-  }
-  
-  return code;
-};
-
-Blockly.Python['char_lcd_display'] = function(block) {
-  var on_off = block.getFieldValue('on_off');
-  var code = 'lcd.display_on()\n';
-  
-  if (on_off == 'OFF') {
-  	code = 'lcd.display_off()\n';
-  }
-  return code;
-};
 
 Blockly.Python['char_lcd_custom'] = function (block) {
   var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_ATOMIC);
@@ -6494,13 +6409,6 @@ Blockly.Python['localstorage_store'] = function(block) {
 };
 
 //REPL over Web Bluetooth
-Blockly.Python['bluetooth_repl_start'] = function(block) {
-  Blockly.Python.definitions_['import_bluetoot_repl'] = 'import ble_uart_repl';
-  var t = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC);
-  var code = 'ble_uart_repl.start(' + t + ')\n';
-  return code;
-};
-
 Blockly.Python['bluetooth_pico_w_setup'] = function(block) {
 	Blockly.Python.definitions_['import_bluetooth'] = 'import bluetooth';
 	Blockly.Python.definitions_['import_ble_simple_peripheral'] = 'from ble_simple_peripheral import BLESimplePeripheral';
@@ -6554,12 +6462,6 @@ Blockly.Python['bluetooth_pico_w_receive'] = function(block) {
 	return code;
 };
 
-
-Blockly.Python['bluetooth_repl_setup'] = function(block) {
-  Blockly.Python.definitions_['import_bluetoot_repl'] = 'import ble_uart_repl';
-  var code = '\n';
-  return code;
-};
 
 //Russ Hughes ST7789 display
 Blockly.Python['rh_st7789_init'] = function(block) {

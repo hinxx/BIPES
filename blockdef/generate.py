@@ -51,7 +51,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     if verbose:
         blocks = sum(len(d.blocks) for d in definitions)
         print(f'{len(definitions)} definition(s), {blocks} blocks')
-        for path in written:
+        for path in dict.fromkeys(written):      # a toolbox can carry several
             print(f'  wrote {path}')
         if not written:
             print('  everything already up to date')
@@ -103,7 +103,7 @@ def _splice(path: Path, definition: Definition) -> list[Path]:
             f'{definition.category!r} category belongs in this board\'s tree.')
 
     indent = _indent_of(source, start)
-    body = emit_category_xml(definition, indent)
+    body = emit_category_xml(definition, indent, board=path.name.split('.')[0])
     pattern = re.compile(re.escape(start) + r'[\s\S]*?' + re.escape(end))
     # A callable replacement: re.sub() would otherwise read backslash escapes
     # in the generated XML as its own template syntax.

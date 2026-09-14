@@ -2,7 +2,79 @@
 // Run `make blocks` after changing one. Hand-written generators live in
 // generator_stubs.js; a generator belongs in exactly one of the two.
 
-// ---- GY33 I2C (gy33_i2c.blockdef.yaml) --------------------------
+// ---- Bluetooth REPL (bluetooth_repl.blockdef.yaml) ---------------------------
+
+Blockly.Python['bluetooth_repl_setup'] = function(block) {
+  Blockly.Python.definitions_["import_bluetoot_repl"] = "import ble_uart_repl";
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "";
+  return code + "\n";
+};
+
+Blockly.Python['bluetooth_repl_start'] = function(block) {
+  Blockly.Python.definitions_["import_bluetoot_repl"] = "import ble_uart_repl";
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble_uart_repl.start(" + name_ + ")";
+  return code + "\n";
+};
+
+// ---- Character display (char_lcd.blockdef.yaml) ------------------------------
+
+Blockly.Python['char_lcd_init'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var rows_ = Blockly.Python.valueToCode(block, "rows", Blockly.Python.ORDER_ATOMIC);
+  var columns_ = Blockly.Python.valueToCode(block, "columns", Blockly.Python.ORDER_ATOMIC);
+  var LCD_hex_address_ = block.getFieldValue("LCD_hex_address");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "I2C_ADDR = " + LCD_hex_address_ + " # NOTE: Be sure to set address\nlcd = I2cLcd(" + bus_ + ", I2C_ADDR, " + rows_ + ", " + columns_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['char_lcd_clear'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var code = "lcd.clear()";
+  return code + "\n";
+};
+
+Blockly.Python['char_lcd_putstr'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var text_ = Blockly.Python.valueToCode(block, "text", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.putstr(" + text_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['char_lcd_moveto'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.move_to(" + x_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['char_lcd_backlight'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var on_off_ = {"ON": "backlight_on", "OFF": "backlight_off"}[block.getFieldValue("on_off")];
+  var code = "lcd." + on_off_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['char_lcd_display'] = function(block) {
+  Blockly.Python.definitions_["import_lcd_api"] = "from lcd_api import LcdApi";
+  Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
+  var on_off_ = {"ON": "display_on", "OFF": "display_off"}[block.getFieldValue("on_off")];
+  var code = "lcd." + on_off_ + "()";
+  return code + "\n";
+};
+
+// ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['gy33_i2c_init'] = function(block) {
   Blockly.Python.definitions_["import_gy33I2C"] = "import gy33I2C";
@@ -11,7 +83,7 @@ Blockly.Python['gy33_i2c_init'] = function(block) {
   var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
   var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
-  var bus_ = Blockly.Python.i2cBus_({id: 'id=' + id_, scl: scl_, sda: sda_, freq: freq_});
+  var bus_ = Blockly.Python.i2cBus_({id: "id=" + id_, scl: scl_, sda: sda_, freq: freq_});
   var code = "gy33_i2c = gy33I2C.GY33_I2C(" + bus_ + ", " + addr_ + ")";
   return code + "\n";
 };
@@ -56,5 +128,24 @@ Blockly.Python['gy33_i2c_get_raw'] = function(block) {
 Blockly.Python['gy33_i2c_get_calibrated'] = function(block) {
   Blockly.Python.definitions_["import_gy33I2C"] = "import gy33I2C";
   var code = "gy33_i2c.read_calibrated()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- %{BKY_CAT_ULTRASOUND} (hcsr04.blockdef.yaml) ----------------------------
+
+Blockly.Python['hcsr_init'] = function(block) {
+  Blockly.Python.definitions_["import_hcr"] = "from hcsr04 import HCSR04";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var echo_ = Blockly.Python.valueToCode(block, "echo", Blockly.Python.ORDER_ATOMIC);
+  var trigger_ = Blockly.Python.valueToCode(block, "trigger", Blockly.Python.ORDER_ATOMIC);
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "ultraSoundSensor = HCSR04(" + "trigger_pin=" + trigger_ + ", echo_pin=" + echo_ + ", echo_timeout_us=" + timeout_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['hcsr_read'] = function(block) {
+  Blockly.Python.definitions_["import_hcr"] = "from hcsr04 import HCSR04";
+  var code = "ultraSoundSensor.distance_mm()";
   return [code, Blockly.Python.ORDER_NONE];
 };

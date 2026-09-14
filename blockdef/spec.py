@@ -14,7 +14,28 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import re
+
 import yaml
+
+
+class _Loader(yaml.SafeLoader):
+    """YAML, with only lowercase `true` and `false` read as booleans.
+
+    ON, OFF, YES, NO, TRUE and FALSE are block field *values* here -- an option
+    list of [ON, OFF], a checkbox preset of FALSE. YAML 1.1 turns all of them
+    into Python booleans, which reach the generated JavaScript as "True" and
+    "False": a different value from the one saved in every existing program,
+    with nothing to notice it. Booleans are only ever written lowercase in this
+    format, so nothing is lost by narrowing the rule.
+    """
+
+
+_Loader.add_implicit_resolver('tag:yaml.org,2002:bool', re.compile(r'^(?:true|false)$'), 'tf')
+for _ch in 'yYnNoOTF':
+    _Loader.yaml_implicit_resolvers[_ch] = [
+        (tag, regexp) for tag, regexp in _Loader.yaml_implicit_resolvers.get(_ch, [])
+        if tag != 'tag:yaml.org,2002:bool']
 
 
 class BlockdefError(ValueError):
@@ -36,15 +57,46 @@ PARAM_KINDS = frozenset({'input', 'dropdown', 'number', 'text', 'checkbox', 'var
 
 
 @dataclass(slots=True)
+class Text:
+    """A piece of block text: literal, or a key into the translation table."""
+    text: str = ''
+    msg: str | None = None          # -> MSG["<msg>"]
+    field: str | None = None        # -> a named FieldLabelSerializable
+    given: bool = False             # the key was there, even if the text is empty
+
+    @property
+    def empty(self) -> bool:
+        return not self.text and not self.msg
+
+
+@dataclass(slots=True)
+class Image:
+    src: str
+    width: int = 65
+    height: int = 65
+    alt: str = '*'
+
+
+@dataclass(slots=True)
+class Row:
+    """One `appendDummyInput()` of label: an image, some text, or both."""
+    label: Text = field(default_factory=Text)
+    image: Image | None = None
+    align: str | None = None
+
+
+@dataclass(slots=True)
 class Param:
     name: str                       # input/field name, and the {placeholder} in code
-    label: str = ''                 # text shown before it
+    label: Text = field(default_factory=Text)
     kind: str = 'input'
     type: str | None = None         # setCheck() for inputs; also picks the shadow
     default: Any = None
     align: str | None = None
     pin: bool = False               # shadow is <pinout>, not <math_number>
+    keyword: str | None = None      # passed as `<keyword>=<value>` in the call
     options: list[tuple[str, str]] = field(default_factory=list)   # dropdown
+    emit: dict[str, str] | None = None    # dropdown value -> Python fragment
     min: Any = None                 # number field
     max: Any = None
     precision: Any = None
@@ -52,29 +104,35 @@ class Param:
 
 
 @dataclass(slots=True)
-class Image:
-    src: str
-    width: int
-    height: int
-    alt: str = '*'
-
-
-@dataclass(slots=True)
 class Block:
     type: str                       # Blockly block id -- never change one that shipped
-    label: str
-    tooltip: str = ''
+    rows: list[Row] = field(default_factory=list)
+    tooltip: Text = field(default_factory=Text)
     kind: str = 'statement'         # 'statement' | 'value'
     fn: str | None = None           # Python method called on the instance
     args: list[str] | None = None   # call arguments; defaults to the params
-    code: str | None = None         # escape hatch: full Python template
+    code: str | None = None         # escape hatch: the Python, with {param} holes
     output: str | None = None       # setOutput type for value blocks
     params: list[Param] = field(default_factory=list)
-    image: Image | None = None
     inline: bool | None = None
     constructor: bool = False
-    i2c_bus: dict[str, str] | None = None   # -> Blockly.Python.i2cBus_()
+    i2c_bus: dict[str, Any] | None = None   # -> Blockly.Python.i2cBus_()
+    external: bool = False          # defined by hand; only the toolbox entry is ours
+    imports: list['Import'] = field(default_factory=list)   # on top of the file's
+    fields: dict[str, str] = field(default_factory=dict)    # toolbox <field> presets
     help_url: str | None = None
+
+
+@dataclass(slots=True)
+class Label:
+    """A `<label>` between blocks in the toolbox category."""
+    text: str
+
+
+@dataclass(slots=True)
+class Import:
+    line: str
+    key: str
 
 
 @dataclass(slots=True)
@@ -84,21 +142,26 @@ class Definition:
     module: str                     # Python module imported on the board
     cls: str | None                 # class instantiated by the constructor
     instance: str                   # variable the constructor assigns
-    import_line: str
-    import_key: str
+    imports: list[Import]
+    colour: int | str | None        # setColour for every block in the family
     category: str
-    colour: int | None              # setColour for every block in the family
     labels: list[str]
     library: list[str]              # "Install <name> library" buttons
     toolboxes: list[str]
+    defaults: dict[str, dict[str, Any]]   # board -> param -> shadow value
     help_url: str | None
-    blocks: list[Block]
+    entries: list[Block | Label]    # in the order the toolbox shows them
+
+    @property
+    def blocks(self) -> list[Block]:
+        """The blocks this file owns -- what the two JS files are written from."""
+        return [e for e in self.entries if isinstance(e, Block) and not e.external]
 
 
 def load(path: str | Path) -> Definition:
     path = Path(path)
     try:
-        raw = yaml.safe_load(path.read_text(encoding='utf-8'))
+        raw = yaml.load(path.read_text(encoding='utf-8'), Loader=_Loader)
     except yaml.YAMLError as e:
         raise BlockdefError(f'{path}: {e}') from None
     if not isinstance(raw, dict):
@@ -109,10 +172,12 @@ def load(path: str | Path) -> Definition:
     category = raw.get('category')
     if not isinstance(category, dict):
         raise BlockdefError(f'{where}: `category` must be a mapping')
-
     cat = _Where(path, f'category {category.get("name")!r}')
-    imports = raw.get('import')
-    import_line, import_key = _import(imports, module, where)
+
+    colour = raw.get('colour')
+    if colour is not None and not isinstance(colour, (int, str)):
+        raise BlockdefError(f'{where}: `colour` is a hue number or a CSS colour name, '
+                            f'not {colour!r}')
 
     definition = Definition(
         path=path,
@@ -120,15 +185,15 @@ def load(path: str | Path) -> Definition:
         module=module,
         cls=raw.get('class'),
         instance=raw.get('instance') or '',
-        import_line=import_line,
-        import_key=import_key,
+        imports=_imports(raw.get('import'), module, where),
+        colour=colour,
         category=_req_str(category, 'name', cat),
-        colour=_opt_int(raw, 'colour', where),
         labels=[str(x) for x in category.get('labels', [])],
         library=[str(x) for x in _as_list(category.get('library'))],
         toolboxes=[str(x) for x in _as_list(category.get('toolboxes'))],
+        defaults={},
         help_url=raw.get('url'),
-        blocks=[],
+        entries=[],
     )
 
     blocks = raw.get('blocks')
@@ -137,15 +202,21 @@ def load(path: str | Path) -> Definition:
 
     seen: set[str] = set()
     for entry in blocks:
-        block = _block(entry, definition, where)
-        if block.type in seen:
-            raise BlockdefError(f'{where}: two blocks both call themselves {block.type!r}')
-        seen.add(block.type)
-        definition.blocks.append(block)
+        parsed = _entry(entry, definition, where)
+        if isinstance(parsed, Block):
+            if parsed.type in seen:
+                raise BlockdefError(f'{where}: two blocks both call themselves {parsed.type!r}')
+            seen.add(parsed.type)
+        definition.entries.append(parsed)
+
+    if not definition.blocks:
+        raise BlockdefError(f'{where}: nothing here defines a block')
+
+    definition.defaults = _defaults(category.get('defaults'), definition, cat)
 
     _check_unknown(raw, {'module', 'class', 'instance', 'import', 'url', 'colour',
                          'category', 'blocks'}, where)
-    _check_unknown(category, {'name', 'labels', 'library', 'toolboxes'}, cat)
+    _check_unknown(category, {'name', 'labels', 'library', 'toolboxes', 'defaults'}, cat)
     return definition
 
 
@@ -165,15 +236,30 @@ class _Where:
         return ': '.join([str(self.path), *self.parts])
 
 
-def _block(entry: Any, definition: Definition, where: _Where) -> Block:
+def _entry(entry: Any, definition: Definition, where: _Where) -> Block | Label:
     if not isinstance(entry, dict):
         raise BlockdefError(f'{where}: every entry under `blocks` must be a mapping')
+
+    # An entry with nothing but a label is a <label> line in the toolbox.
+    if set(entry) == {'label'} and isinstance(entry['label'], str):
+        return Label(text=entry['label'])
 
     fn = entry.get('fn')
     type_ = entry.get('type') or (f'{definition.name}_{fn}' if fn else None)
     if not type_:
         raise BlockdefError(f'{where}: a block needs `type`, or `fn` to derive one from')
     at = where.at(f'block {type_!r}')
+
+    external = bool(entry.get('external'))
+    if external:
+        extra = set(entry) - {'type', 'external', 'params', 'fields'}
+        if extra:
+            raise BlockdefError(f'{at}: an `external` block is defined by hand, so only '
+                                f'`params` and `fields` (its toolbox entry) mean anything '
+                                f'here, not {sorted(extra)}')
+        return Block(type=str(type_), external=True,
+                     params=[_param(p, at) for p in entry.get('params', [])],
+                     fields=_fields(entry.get('fields'), at))
 
     kind = entry.get('kind', 'statement')
     if kind not in ('statement', 'value'):
@@ -184,33 +270,16 @@ def _block(entry: Any, definition: Definition, where: _Where) -> Block:
         raise BlockdefError(f'{at}: `constructor` needs a top-level `class` to instantiate')
     if constructor and not definition.instance:
         raise BlockdefError(f'{at}: `constructor` needs a top-level `instance` to assign')
+    if constructor and kind == 'value':
+        raise BlockdefError(f'{at}: a constructor is a statement, not a value')
 
     code = entry.get('code')
-    if not code and not fn and not constructor:
+    if code is None and not fn and not constructor:
         raise BlockdefError(f'{at}: needs `fn` (a method to call), `code`, or `constructor`')
-
-    image = entry.get('image')
-    if image is not None:
-        if not isinstance(image, dict) or 'src' not in image:
-            raise BlockdefError(f'{at}: `image` needs at least `src`')
-        image = Image(src=str(image['src']),
-                      width=int(image.get('width', 65)),
-                      height=int(image.get('height', 65)),
-                      alt=str(image.get('alt', '*')))
 
     params = [_param(p, at) for p in entry.get('params', [])]
     names = {p.name for p in params}
-
-    i2c = entry.get('i2c_bus')
-    if i2c is not None:
-        if not isinstance(i2c, dict):
-            raise BlockdefError(f'{at}: `i2c_bus` must be a mapping of scl/sda/id/freq to param names')
-        unknown = set(i2c) - {'scl', 'sda', 'id', 'freq', 'soft'}
-        if unknown:
-            raise BlockdefError(f'{at}: `i2c_bus` does not take {sorted(unknown)}')
-        for key, value in i2c.items():
-            if key != 'soft' and value not in names:
-                raise BlockdefError(f'{at}: `i2c_bus` {key} refers to {value!r}, which is not one of its params')
+    i2c = _i2c_bus(entry.get('i2c_bus'), names, at)
 
     args = entry.get('args')
     if args is not None:
@@ -219,26 +288,75 @@ def _block(entry: Any, definition: Definition, where: _Where) -> Block:
         allowed = names | ({'bus'} if i2c else set())
         for a in args:
             if a not in allowed:
-                raise BlockdefError(f'{at}: `args` mentions {a!r}, which is neither a param nor "bus"')
+                raise BlockdefError(f'{at}: `args` mentions {a!r}, which is neither a param '
+                                    f'nor "bus"')
 
-    if kind == 'value' and constructor:
-        raise BlockdefError(f'{at}: a constructor is a statement, not a value')
+    rows = _rows(entry.get('label'), fn or type_, at)
 
     block = Block(
-        type=str(type_), label=str(entry.get('label') or _humanize(fn or type_)),
-        tooltip=str(entry.get('tooltip', '')), kind=kind, fn=fn,
-        args=args, code=code, output=entry.get('output'), params=params, image=image,
+        type=str(type_), rows=rows, tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
+        kind=kind, fn=fn, args=args, code=code, output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
+        imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
+        fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
     )
     _check_unknown(entry, {'type', 'fn', 'label', 'tooltip', 'kind', 'args', 'code', 'output',
-                           'params', 'image', 'inline', 'constructor', 'i2c_bus', 'url'}, at)
+                           'params', 'inline', 'constructor', 'i2c_bus', 'url', 'external',
+                           'import', 'fields'}, at)
     return block
+
+
+def _rows(value: Any, fallback: str, where: _Where) -> list[Row]:
+    """`label:` -- one row of text, or a list of rows carrying text and images."""
+    if value is None:
+        return [Row(label=Text(text=_humanize(fallback)))]
+    entries = value if isinstance(value, list) else [value]
+    rows: list[Row] = []
+    for index, entry in enumerate(entries):
+        at = where.at(f'label row {index + 1}')
+        if isinstance(entry, str):
+            rows.append(Row(label=Text(text=entry)))
+            continue
+        if not isinstance(entry, dict):
+            raise BlockdefError(f'{at}: a label row is a string or a mapping, not {entry!r}')
+        image = entry.get('image')
+        if image is not None:
+            if not isinstance(image, dict) or 'src' not in image:
+                raise BlockdefError(f'{at}: `image` needs at least `src`')
+            _check_unknown(image, {'src', 'width', 'height', 'alt'}, at.at('image'))
+            image = Image(src=str(image['src']), width=int(image.get('width', 65)),
+                          height=int(image.get('height', 65)), alt=str(image.get('alt', '*')))
+        align = entry.get('align')
+        if align is not None and align not in ALIGNS:
+            raise BlockdefError(f'{at}: `align` is one of {sorted(ALIGNS)}, not {align!r}')
+        row = Row(label=_text(entry, at), image=image, align=align)
+        if row.label.empty and row.image is None:
+            raise BlockdefError(f'{at}: a label row needs `text`, `msg` or `image`')
+        _check_unknown(entry, {'text', 'msg', 'field', 'image', 'align'}, at)
+        rows.append(row)
+    return rows
+
+
+def _text(value: Any, where: _Where) -> Text:
+    """Literal text, or `{msg: key}` for something the translations carry."""
+    if value is None:
+        return Text()
+    if isinstance(value, str):
+        return Text(text=value, given=True)
+    if not isinstance(value, dict):
+        raise BlockdefError(f'{where}: expected text or a mapping, not {value!r}')
+    if 'text' in value and 'msg' in value:
+        raise BlockdefError(f'{where}: `text` and `msg` are two ways to say the same thing; '
+                            f'use one')
+    return Text(text=str(value.get('text', '')), msg=value.get('msg'),
+                field=value.get('field'), given=True)
 
 
 def _param(entry: Any, where: _Where) -> Param:
     if not isinstance(entry, dict) or 'name' not in entry:
-        raise BlockdefError(f'{where}: every entry under `params` must be a mapping with a `name`')
+        raise BlockdefError(f'{where}: every entry under `params` must be a mapping with '
+                            f'a `name`')
     at = where.at(f'param {entry["name"]!r}')
 
     kind = entry.get('kind', 'input')
@@ -251,54 +369,145 @@ def _param(entry: Any, where: _Where) -> Param:
 
     options: list[tuple[str, str]] = []
     if kind == 'dropdown':
-        raw_options = entry.get('options')
-        if not isinstance(raw_options, list) or not raw_options:
-            raise BlockdefError(f'{at}: a dropdown needs a non-empty `options` list')
-        for opt in raw_options:
-            if isinstance(opt, dict) and len(opt) == 1:
-                label, value = next(iter(opt.items()))
-            elif isinstance(opt, list) and len(opt) == 2:
-                label, value = opt
-            else:
-                raise BlockdefError(f'{at}: an option is `label: value` or [label, value], not {opt!r}')
-            options.append((str(label), str(value)))
+        options = _options(entry.get('options'), at)
     elif entry.get('options'):
         raise BlockdefError(f'{at}: `options` only means something on a dropdown')
 
+    emit = entry.get('emit')
+    if emit is not None:
+        if kind != 'dropdown':
+            raise BlockdefError(f'{at}: `emit` maps dropdown values to Python, so `kind` '
+                                f'must be "dropdown"')
+        if not isinstance(emit, dict):
+            raise BlockdefError(f'{at}: `emit` must be a mapping of option value to Python')
+        chosen = {value for _label, value in options}
+        unknown = sorted(str(k) for k in emit if str(k) not in chosen)
+        if unknown:
+            raise BlockdefError(f'{at}: `emit` mentions {unknown}, which are not option values')
+        missing = sorted(chosen - {str(k) for k in emit})
+        if missing:
+            raise BlockdefError(f'{at}: `emit` has nothing for option value(s) {missing}')
+        emit = {str(k): str(v) for k, v in emit.items()}
+
     param = Param(
-        name=str(entry['name']), label=str(entry.get('label', '')), kind=kind,
+        name=str(entry['name']), label=_text(entry.get('label'), at.at('label')), kind=kind,
         type=entry.get('type'), default=entry.get('default'), align=align,
-        pin=bool(entry.get('pin')), options=options,
+        pin=bool(entry.get('pin')), keyword=entry.get('keyword'), options=options, emit=emit,
         min=entry.get('min'), max=entry.get('max'), precision=entry.get('precision'),
         shadow=entry.get('shadow', True),
     )
     if param.pin and param.kind != 'input':
-        raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` must be "input"')
+        raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` '
+                            f'must be "input"')
     _check_unknown(entry, {'name', 'label', 'kind', 'type', 'default', 'align', 'pin',
-                           'options', 'min', 'max', 'precision', 'shadow'}, at)
+                           'keyword', 'options', 'emit', 'min', 'max', 'precision',
+                           'shadow'}, at)
     return param
 
 
-def _import(spec: Any, module: str, where: _Where) -> tuple[str, str]:
-    """The one import line every block in the file registers, and its key.
+def _options(raw: Any, where: _Where) -> list[tuple[str, str]]:
+    if not isinstance(raw, list) or not raw:
+        raise BlockdefError(f'{where}: a dropdown needs a non-empty `options` list')
+    options: list[tuple[str, str]] = []
+    for opt in raw:
+        if isinstance(opt, dict) and len(opt) == 1:
+            label, value = next(iter(opt.items()))
+        elif isinstance(opt, list) and len(opt) == 2:
+            label, value = opt
+        elif isinstance(opt, (str, int, float)):
+            label = value = opt
+        else:
+            raise BlockdefError(f'{where}: an option is `label: value`, [label, value] or a '
+                                f'bare value, not {opt!r}')
+        options.append((str(label), str(value)))
+    return options
 
-    `definitions_` is a dict, so the key is what decides whether two blocks
-    share an import or emit it twice. Deriving it from the line itself means
-    two files that import the same thing agree without being told to.
+
+def _i2c_bus(raw: Any, names: set[str], where: _Where) -> dict[str, Any] | None:
+    """`i2c_bus:` -- a string names one of the params, a number is a literal."""
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise BlockdefError(f'{where}: `i2c_bus` must be a mapping of scl/sda/id/freq to '
+                            f'param names or literal values')
+    unknown = set(raw) - {'scl', 'sda', 'id', 'freq', 'soft'}
+    if unknown:
+        raise BlockdefError(f'{where}: `i2c_bus` does not take {sorted(unknown)}')
+    for key, value in raw.items():
+        if key == 'soft' or isinstance(value, (int, float)):
+            continue
+        if value not in names:
+            raise BlockdefError(f'{where}: `i2c_bus` {key} is {value!r}, which is neither one '
+                                f'of its params nor a number')
+    return dict(raw)
+
+
+def _defaults(raw: Any, definition: Definition, where: _Where) -> dict[str, dict[str, Any]]:
+    """Per-board shadow values, for the pins that genuinely differ per board.
+
+    Everything else about a category is the same everywhere, and saying so once
+    is the point; this is the one axis on which boards legitimately disagree.
+    """
+    if raw is None:
+        return {}
+    if not isinstance(raw, dict):
+        raise BlockdefError(f'{where}: `defaults` must be a mapping of board to '
+                            f'param overrides')
+    params = {p.name for block in definition.blocks for p in block.params}
+    out: dict[str, dict[str, Any]] = {}
+    for board, overrides in raw.items():
+        if board not in definition.toolboxes:
+            raise BlockdefError(f'{where}: `defaults` has {board!r}, which is not one of '
+                                f'`toolboxes`')
+        if not isinstance(overrides, dict):
+            raise BlockdefError(f'{where}: `defaults` for {board!r} must be a mapping of '
+                                f'param name to value')
+        unknown = sorted(str(k) for k in overrides if str(k) not in params)
+        if unknown:
+            raise BlockdefError(f'{where}: `defaults` for {board!r} mentions {unknown}, '
+                                f'which no block here has as a param')
+        out[str(board)] = {str(k): v for k, v in overrides.items()}
+    return out
+
+
+def _fields(raw: Any, where: _Where) -> dict[str, str]:
+    """`fields:` -- values the toolbox entry starts with, as <field> elements."""
+    if raw is None:
+        return {}
+    if not isinstance(raw, dict):
+        raise BlockdefError(f'{where}: `fields` must be a mapping of field name to value')
+    return {str(k): str(v) for k, v in raw.items()}
+
+
+def _imports(spec: Any, module: str | None, where: _Where) -> list[Import]:
+    """The import lines every block in the file registers, and their keys.
+
+    `definitions_` is a dict, so the key decides whether two blocks share an
+    import or emit it twice. Deriving it from the line means two families that
+    import the same thing agree without being told to -- but a hand-written
+    generator elsewhere may already use a key of its own for that same line, so
+    `key:` exists to match it and keep the output free of duplicates.
     """
     if spec is None:
-        line = f'import {module}'
-    elif isinstance(spec, str):
-        line = spec
-    elif isinstance(spec, dict):
-        names = _as_list(spec.get('names'))
-        if 'from' not in spec or not names:
-            raise BlockdefError(f'{where}: `import` as a mapping needs `from` and `names`')
-        line = f'from {spec["from"]} import {", ".join(str(n) for n in names)}'
-    else:
-        raise BlockdefError(f'{where}: `import` is a string or a from/names mapping')
-    key = ''.join(c if c.isalnum() else '_' for c in line).strip('_')
-    return line, key
+        spec = [f'import {module}'] if module else []
+    for entry in _as_list(spec):
+        if isinstance(entry, dict):
+            _check_unknown(entry, {'line', 'key'}, where.at('import'))
+    imports: list[Import] = []
+    for entry in _as_list(spec):
+        if isinstance(entry, str):
+            line, key = entry, None
+        elif isinstance(entry, dict) and 'line' in entry:
+            line, key = str(entry['line']), entry.get('key')
+        else:
+            raise BlockdefError(f'{where}: `import` is a line, a `{{line, key}}` mapping, '
+                                f'or a list of either')
+        imports.append(Import(line=line, key=str(key) if key else _derive_key(line)))
+    return imports
+
+
+def _derive_key(line: str) -> str:
+    return ''.join(c if c.isalnum() else '_' for c in line).strip('_')
 
 
 def _humanize(name: str) -> str:
@@ -316,16 +525,6 @@ def _req_str(mapping: dict, key: str, where: _Where) -> str:
     if not isinstance(value, str) or not value.strip():
         raise BlockdefError(f'{where}: `{key}` is required and must be a non-empty string')
     return value.strip()
-
-
-def _opt_int(mapping: dict, key: str, where: _Where) -> int | None:
-    value = mapping.get(key)
-    if value is None:
-        return None
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        raise BlockdefError(f'{where}: `{key}` must be a number, not {value!r}') from None
 
 
 def _check_unknown(mapping: dict, known: set[str], where: _Where) -> None:

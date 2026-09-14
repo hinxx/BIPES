@@ -18,15 +18,16 @@ category:
 
 blocks:
   - type: gy33_i2c_init
-    label: Init GY33 I2C Module
+    label:
+      - Init GY33 I2C Module
+      - {image: {src: media/GY-33.jpg, width: 65, height: 65}}
     tooltip: Initalizes the GY-33 I2C Interface
     constructor: true
-    image: {src: media/GY-33.jpg, width: 65, height: 65}
     # The bus object is shared with every other I2C block on the same pins.
     i2c_bus: {id: id, scl: scl, sda: sda, freq: freq}
     args: [bus, addr]
     params:
-      - {name: id,   label: ID,        type: Number, default: 0,      align: right}
+      - {name: id,   label: ID,        type: Number, default: 0,      align: right, keyword: id}
       - {name: sda,  label: SDA,       type: Number, pin: true,       align: right}
       - {name: scl,  label: SCL,       type: Number, pin: true,       align: right}
       - {name: freq, label: Frequency, type: Number, default: 100000, align: right}

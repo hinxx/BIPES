@@ -1,0 +1,42 @@
+# REPL over Web Bluetooth. Three library files, no object: the module is called
+# directly, and the setup block exists only to pull the import in.
+
+module: ble_uart_repl
+colour: 0
+url: www.bipes.net.br
+import: {line: "import ble_uart_repl", key: import_bluetoot_repl}
+
+category:
+  name: Bluetooth REPL
+  library: [ble_advertising, ble_uart_peripheral, ble_uart_repl]
+  labels:
+    - Bluetooth REPL
+    - This block allows terminal/console access using bluetooth.
+    - "Library: https://github.com/micropython/micropython/tree/master/examples/bluetooth"
+    - "You need to install 3 files to use:"
+  toolboxes: [esp32, esp32c3, esp32S2, AmadoBoard]
+
+blocks:
+  - label: Web Bluetooth REPL
+
+  - type: bluetooth_repl_setup
+    label: Setup Web Bluetooth REPL
+    tooltip: Setup Web Bluetooth REPL
+    # Emits nothing: registering the import is the whole job.
+    code: ""
+    params:
+      - {name: name, label: "Bluetooth name:", type: String, default: BIPES-BLE, align: right}
+
+  - type: bluetooth_repl_start
+    fn: start
+    label: Start Web Bluetooth REPL
+    tooltip: Start REPL over Web Bluetooth
+    params:
+      - {name: name, label: "Bluetooth name:", type: String, default: BIPES-BLE, align: right}
+
+  - label: "Usage:"
+  - label: 1. Install the 3 files above
+  - label: 2. Start Web Bluetooth REPL
+  - label: 3. Pair the ESP32 with your device /
+  - label: 4. Go to https://bipes.net.br/beta2/ui/
+  - label: 5. Select the bluetooth option and Connect (Web Bluetooth)

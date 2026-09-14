@@ -61,7 +61,7 @@ differs here:
 module: gy33I2C          # Python module imported on the board
 class: GY33_I2C          # class the constructor instantiates      (optional)
 instance: gy33_i2c       # variable the constructor assigns to      (optional)
-colour: 135              # setColour() for every block in the family
+colour: 135              # setColour() -- a hue number or a CSS colour name
 url: https://...         # setHelpUrl() for every block             (optional)
 import: ...              # overrides "import <module>"              (optional)
 
@@ -70,9 +70,11 @@ category:
   labels: [...]          # <label> lines above the blocks
   library: gy33I2C       # "Install <name> library" button; a list works too
   toolboxes: [esp32, rpi_pico]        # ui/toolbox/<name>.xml
+  defaults:                           # per-board shadow values    (optional)
+    rpi_pico: {sda: 0, scl: 1}
 
 blocks:
-  - type: gy33_i2c_led_pwr   # the Blockly block id — never change a shipped one
+  - type: gy33_i2c_led_pwr   # the Blockly block id -- never change a shipped one
     fn: set_led              # method called on `instance`
     label: Set LED Power     # text on the block
     tooltip: ...
@@ -86,34 +88,65 @@ blocks:
 | Key | Meaning |
 | --- | --- |
 | `type` | the Blockly id. Defaults to `<file>_<fn>`; pin it for anything that has shipped. |
-| `fn` | Python method called on `instance` (or a bare function if there is no `instance`). |
-| `label` | text on the block. Defaults to a humanised `fn`. |
-| `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. |
+| `fn` | Python method called on `instance`. With no `instance`, a function on the module. |
+| `label` | text on the block: a string, or a list of rows (see below). Defaults to a humanised `fn`. |
+| `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. Either takes `{msg: key}`. |
 | `kind` | `statement` (default) or `value`. |
 | `output` | `setOutput()` type for a value block. Omit for "anything". |
 | `constructor` | `true` emits `instance = Class(...)` instead of a method call. |
 | `args` | call arguments, if they are not just the params in order. `bus` is available when `i2c_bus` is set. |
-| `code` | escape hatch: the whole Python line, with `{param}` interpolation. Beats `fn`. |
-| `i2c_bus` | `{id, scl, sda, freq, soft}` → param names; builds the shared bus. |
-| `image` | `{src, width, height, alt}` — a `FieldImage` under the label. |
+| `code` | escape hatch: the Python itself, with `{param}` and `{instance}` holes. Newlines are kept, so a block can emit several lines. Beats `fn`. |
+| `i2c_bus` | `{id, scl, sda, freq, soft}` → param names, or numbers for a fixed value; builds the shared bus. |
 | `inline` | `setInputsInline()`. Left alone if omitted. |
+| `import` | imports only this block needs, on top of the file's. |
+| `external` | `true` means the block is written by hand; only its toolbox entry is generated. Then only `params` and `fields` apply. |
+| `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |
+
+An entry with nothing but `label:` is a `<label>` line in the toolbox, in
+whatever position it appears among the blocks.
+
+### Label rows
+
+`label:` is one row of text, or a list of rows. A row is a string, or a mapping
+of `text` (or `msg`), `image` and `align`:
+
+```yaml
+label:
+  - {image: {src: media/hcsr04.png, width: 55, height: 55}, msg: hcsr_init}
+  - {text: with the PCF8574 Display Controller, align: right}
+```
+
+`msg:` is a key in `ui/msg/<lang>.js`, so the text is translated rather than
+frozen in English. `field: SOME_NAME` on a row or a param label makes it a
+`FieldLabelSerializable` under that name, which is how a label gets re-read
+when a saved program is loaded.
 
 ### Keys on a param
 
 | Key | Meaning |
 | --- | --- |
 | `name` | the input/field name, and what `{name}` means in `code`. |
-| `label` | text before it. |
+| `label` | text before it -- a string, or `{msg: key}` / `{field: NAME}`. |
 | `kind` | `input` (default, a socket) · `dropdown` · `number` · `text` · `checkbox` · `variable`. |
 | `type` | `setCheck()` for an input; also picks the shadow block. |
 | `default` | the shadow's value, or the field's initial value. |
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |
+| `keyword` | passed as `<keyword>=<value>` in the generated call. |
 | `align` | `left` · `centre` · `right`. |
-| `options` | dropdown only: `[{Label: VALUE}, ...]` or `[[Label, VALUE], ...]`. |
+| `options` | dropdown only: bare values, `[{Label: VALUE}, ...]` or `[[Label, VALUE], ...]`. |
+| `emit` | dropdown only: option value → the Python it stands for, when they differ. |
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
 
 A `type:` that is not one of Blockly's own (`Number`, `String`, `Boolean`,
 `Array`, `Colour`) is a custom type: it still constrains what can plug in, but
 gets no shadow, because nothing here knows what block would fit.
+
+### A note on YAML booleans
+
+Only lowercase `true` and `false` are booleans in a `.blockdef.yaml`. YAML
+itself also reads `ON`, `OFF`, `YES`, `NO`, `TRUE` and `FALSE` that way, which
+would quietly rewrite an option value of `ON` to `True` in the generated
+JavaScript -- a different value from the one saved in every existing program.
+The loader narrows the rule, so those six are ordinary strings here.

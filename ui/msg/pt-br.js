@@ -137,4 +137,5 @@ Blockly.Msg['CAT_COMM'] = "Comunicação";
 Blockly.Msg['CAT_FILES'] = "Arquivos";
 Blockly.Msg['CAT_NET'] = "Rede e Internet";
 Blockly.Msg['CAT_CONTROL'] = "Controle";
+Blockly.Msg['CAT_ULTRASOUND'] = "Ultrassom";
 
