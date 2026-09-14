@@ -1247,17 +1247,6 @@ Blockly.Blocks["esp32_Partition.info"] = {
 
 
 
-Blockly.Blocks["esp32_Partition.readblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Partition.readblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.readblocks(block_num, buf) .. method:: Partition.readblocks(block_num, buf, offset) .. method:: Partition.writeblocks(block_num, buf) .. method:: Partition.writeblocks(block_num, buf, offset) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
 
 
 
@@ -1275,17 +1264,6 @@ Blockly.Blocks["esp32_Partition.readblocks"] = {
 
 
 
-Blockly.Blocks["esp32_Partition.writeblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Partition.writeblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.writeblocks(block_num, buf) .. method:: Partition.writeblocks(block_num, buf, offset) .. method:: Partition.ioctl(cmd, arg) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
 
 
 
@@ -3640,17 +3618,6 @@ Blockly.Blocks["uhashlib_hash.hexdigest"] = {
 
 
 
-Blockly.Blocks["uos_readblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" readblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: readblocks(block_num, buf) .. method:: readblocks(block_num, buf, offset) The first form reads aligned, multiples of blocks. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
-  }
-};
 
 
 
@@ -3668,17 +3635,6 @@ Blockly.Blocks["uos_readblocks"] = {
 
 
 
-Blockly.Blocks["uos_writeblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" writeblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: writeblocks(block_num, buf) .. method:: writeblocks(block_num, buf, offset) The first form writes aligned, multiples of blocks, and requires that th ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
-  }
-};
 
 
 

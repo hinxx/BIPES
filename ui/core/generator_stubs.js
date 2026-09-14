@@ -767,16 +767,6 @@ Blockly.Python["esp32_Partition.readblocks"] = function(block) {
 	var code = "esp32.Partition.readblocks(" + value_pIn + ")\n"; 
 	return code;
 };
-Blockly.Python["esp32_Partition.readblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "esp32.Partition.readblocks(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["esp32_Partition.writeblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "esp32.Partition.writeblocks(" + value_pIn + ")\n"; 
-	return code;
-};
 Blockly.Python["esp32_Partition.writeblocks"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "esp32.Partition.writeblocks(" + value_pIn + ")\n"; 
@@ -1552,16 +1542,6 @@ Blockly.Python["uhashlib_hash.hexdigest"] = function(block) {
 Blockly.Python["uos_readblocks"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "uos.readblocks(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uos_readblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uos.readblocks(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uos_writeblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uos.writeblocks(" + value_pIn + ")\n"; 
 	return code;
 };
 Blockly.Python["uos_writeblocks"] = function(block) {

@@ -36,6 +36,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
 
     _check_block_types_are_unique(definitions)
     _check_no_clash_with_handwritten(root, definitions)
+    _check_no_duplicate_handwritten(root)
 
     written += _write(root / BLOCKS_JS, emit_blocks_js(definitions))
     written += _write(root / GENERATORS_JS, emit_generators_js(definitions))
@@ -93,6 +94,39 @@ def _check_no_clash_with_handwritten(root: Path, definitions: list[Definition]) 
             raise BlockdefError(
                 f'{definition.path}: {clashing} are still defined by hand in '
                 f'{handwritten}. Delete them there -- a block belongs to one file.')
+
+
+def _check_no_duplicate_handwritten(root: Path) -> None:
+    """The same type assigned twice in one hand-written file.
+
+    Whichever assignment comes last wins, silently, so the other one is a block
+    someone wrote and nobody can drag. Four did that before anyone looked --
+    the `uos` and `esp32.Partition` block-device methods, scraped twice from
+    overlapping paragraphs of the same docs page.
+
+    Comments are stripped first: both files park a superseded block behind
+    `//~`, and a commented-out copy is not a definition.
+    """
+    for name in ('ui/core/block_definitions.js', 'ui/core/generator_stubs.js'):
+        path = root / name
+        if not path.exists():
+            continue
+        source = _without_comments(path.read_text(encoding='utf-8'))
+        for table in ('Blockly.Blocks', 'Blockly.Python'):
+            seen: set[str] = set()
+            twice: list[str] = []
+            for t in re.findall(re.escape(table) + r"""\[\s*['"]([^'"]+)['"]\s*\]\s*=""", source):
+                (twice.append(t) if t in seen else seen.add(t))
+            if twice:
+                raise BlockdefError(
+                    f'{path}: {sorted(set(twice))} assigned to {table} more than once. The '
+                    f'last one wins and the rest are dead; delete all but one.')
+
+
+def _without_comments(js: str) -> str:
+    js = re.sub(r'/\*[\s\S]*?\*/', '', js)
+    return '\n'.join('' if line.lstrip().startswith('//') else line
+                     for line in js.split('\n'))
 
 
 def _check_toolbox_block_types_exist(root: Path) -> None:

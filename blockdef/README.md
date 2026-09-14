@@ -29,6 +29,13 @@ files register in `Blockly.Blocks` and `Blockly.Python` -- the two
 output -- so adding a script to the page is all it takes to have its blocks
 counted.
 
+It refuses one more thing: the same type assigned twice inside one
+hand-written file. The last assignment wins silently, so the other is a block
+somebody wrote and nobody can drag -- which is what had happened to the `uos`
+and `esp32.Partition` block-device methods, scraped twice from overlapping
+paragraphs of one docs page. Comments are stripped before the check, because
+both files park a superseded block behind `//~`.
+
 A generated category with no blocks on a board is not written at all, which
 makes `toolboxes:` say where a category *may* appear: a family whose every
 block is `boards:`-restricted away from a board simply does not appear there,
