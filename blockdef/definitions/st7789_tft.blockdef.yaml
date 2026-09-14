@@ -1,0 +1,191 @@
+# The same ST7789 panel as `st7789`, but through russhughes' compiled st7789
+# module, which the board has to be flashed with. Different object (`tft`),
+# different API, so the two are separate categories -- esp32c3 had this family
+# under the other one's name.
+#
+# Every drawing block arrives with a colour block already plugged into it
+# (`plug:`), which is what makes the category usable: the colour blocks emit a
+# bare `r,g,b` that Blockly parenthesises on the way in, so `color565` closes
+# its own call.
+
+module: st7789
+colour: olive
+import:
+  - {line: "from machine import Pin, SPI", key: import_pin_spi}
+  - {line: "import st7789", key: import_st7789}
+  - {line: "import vga2_8x8", key: import_vga2_8x8}
+  - {line: "import vga2_8x16", key: import_vga2_8x16}
+  - {line: "import vga2_16x16", key: import_vga2_16x16}
+  - {line: "import vga2_16x32", key: import_vga2_16x32}
+  - {line: "import vga2_bold_16x16", key: import_bold_vga2_16x16}
+  - {line: "import vga2_bold_16x32", key: import_bold_vga2_16x32}
+
+category:
+  name: TFT Display
+  labels:
+    - ST7789 TFT SPI Display
+    - "Firmware for your board: https://github.com/russhughes/st7789_mpy/tree/master/firmware"
+  toolboxes: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi]
+  defaults:
+    esp32c3: {backlight: 2, reset: 3, dc: 5, cs: 4, sck: 8, mosi: 10}
+    makernano: {backlight: 17}
+
+blocks:
+  - type: rh_st7789_init
+    label:
+      - Init SPI ST7789 TFT Display
+      - {image: {src: media/st7789.png, width: 55, height: 55}}
+    tooltip: Initialize the TFT Display
+    # `machine.Pin` here, with only `from machine import Pin` imported, is a
+    # NameError on the first line of the program: the rest of the same call
+    # already says `Pin`.
+    code: |-
+      spi{spi} = SPI({spi}, baudrate=31250000, polarity=1, phase=0, sck=Pin({sck}), mosi=Pin({mosi}))
+      tft = st7789.ST7789(spi{spi}, {width},  {height}, reset=Pin({reset}, Pin.OUT), cs=Pin({cs}, Pin.OUT), dc=Pin({dc}, Pin.OUT),backlight=Pin({backlight}, Pin.OUT),rotation={ROTATION_TYPE})
+      tft.init()
+    params:
+      - {name: spi,       label: SPI,       type: Number, default: 1, align: right}
+      - {name: backlight, label: Backlight, type: Number, pin: true,  align: right, default: 10}
+      - {name: reset,     label: Reset,     type: Number, pin: true,  align: right, default: 11}
+      - {name: dc,        label: DC,        type: Number, pin: true,  align: right, default: 12}
+      - {name: cs,        label: CS,        type: Number, pin: true,  align: right, default: 13}
+      - {name: sck,       label: SCK,       type: Number, pin: true,  align: right, default: 14}
+      - {name: mosi,      label: MOSI,      type: Number, pin: true,  align: right, default: 15}
+      - {name: width,     label: Width,     type: Number, default: 135, align: right}
+      - {name: height,    label: Height,    type: Number, default: 240, align: right}
+      - name: ROTATION_TYPE
+        label: Rotation
+        kind: dropdown
+        align: right
+        options:
+          - [Portrait, "0"]
+          - [Landscape, "1"]
+          - [Inverted Portrait, "2"]
+          - [Inverted Landscape, "3"]
+
+  - type: rh_st7789_text
+    label: "Write text on the display\n"
+    tooltip: Write Text on the TFT Display
+    inline: false
+    code: "tft.text({FONT_TYPE}, {text}, {x}, {y}, st7789.color565{fg_color}, st7789.color565{bg_color})"
+    params:
+      - {name: x, label: X position, type: Number, default: 0, align: right}
+      - {name: y, label: Y position, type: Number, default: 0, align: right}
+      - {name: text, label: Text, type: String, default: Hello, align: right}
+      - name: FONT_TYPE
+        label: Font
+        kind: dropdown
+        align: right
+        options:
+          - [8x8, vga2_8x8]
+          - [8x16, vga2_8x16]
+          - [16x16, vga2_16x16]
+          - [16x32, vga2_16x32]
+          - [Bold 16x16, vga2_bold_16x16]
+          - [Bold 16x32, vga2_bold_16x32]
+      - {name: fg_color, label: Foreground Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 255, fg_green: 255, fg_blue: 255}}}
+      - {name: bg_color, label: Background Color, type: Number, align: right,
+         plug: {type: rh_st7789_bg_color_numbers,
+                values: {bg_red: 0, bg_green: 0, bg_blue: 0}}}
+
+  - type: rh_st7789_rect
+    label: "Draw a rectangle on the display\n"
+    tooltip: Draw a rectangle on the TFT Display
+    inline: false
+    code: "tft.rect({x}, {y}, {width}, {height}, st7789.color565{fg_color})"
+    params:
+      - {name: x,      label: X position, type: Number, default: 0,   align: right}
+      - {name: y,      label: Y position, type: Number, default: 0,   align: right}
+      - {name: width,  label: Width,      type: Number, default: 135, align: right}
+      - {name: height, label: Height,     type: Number, default: 240, align: right}
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 255, fg_green: 0, fg_blue: 0}}}
+
+  - type: rh_st7789_fill_rect
+    label: "Draw a filled rectangle on the display\n"
+    tooltip: Draw a filled rectangle on the TFT Display
+    inline: false
+    code: "tft.fill_rect({x}, {y}, {width}, {height}, st7789.color565{fg_color})"
+    params:
+      - {name: x,      label: X position, type: Number, default: 0,   align: right}
+      - {name: y,      label: Y position, type: Number, default: 0,   align: right}
+      - {name: width,  label: Width,      type: Number, default: 135, align: right}
+      - {name: height, label: Height,     type: Number, default: 240, align: right}
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 0, fg_green: 255, fg_blue: 0}}}
+
+  - type: rh_st7789_circle
+    label: "Draw a circle on the display\n"
+    tooltip: Draw a circle on the TFT Display
+    inline: false
+    code: "tft.circle({x}, {y}, {radius}, st7789.color565{fg_color})"
+    params:
+      - {name: x,      label: X position, type: Number, default: 100, align: right}
+      - {name: y,      label: Y position, type: Number, default: 100, align: right}
+      - {name: radius, label: Radius,     type: Number, default: 50,  align: right}
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 255, fg_green: 0, fg_blue: 0}}}
+
+  - type: rh_st7789_fill_circle
+    label: "Draw a filled circle on the display\n"
+    tooltip: Draw a filled circle on the TFT Display
+    inline: false
+    code: "tft.fill_circle({x}, {y}, {radius}, st7789.color565{fg_color})"
+    params:
+      - {name: x,      label: X position, type: Number, default: 100, align: right}
+      - {name: y,      label: Y position, type: Number, default: 100, align: right}
+      - {name: radius, label: Radius,     type: Number, default: 50,  align: right}
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 0, fg_green: 255, fg_blue: 0}}}
+
+  - type: rh_st7789_line
+    label: "Draw on the display\n"
+    tooltip: Draw a line on the TFT Display
+    inline: false
+    code: "tft.line({x1}, {y1}, {x2}, {y2}, st7789.color565{fg_color})"
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0,   align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0,   align: right}
+      - {name: x2, label: Final X position,   type: Number, default: 135, align: right}
+      - {name: y2, label: Final Y position,   type: Number, default: 240, align: right}
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 0, fg_green: 0, fg_blue: 255}}}
+
+  - type: rh_st7789_fill
+    label: "Fill the display\n"
+    tooltip: Fill the TFT Display with a color
+    inline: false
+    code: "tft.fill(st7789.color565{fg_color})"
+    params:
+      - {name: fg_color, label: Color, type: Number, align: right,
+         plug: {type: rh_st7789_fg_color_numbers,
+                values: {fg_red: 0, fg_green: 0, fg_blue: 0}}}
+
+  - type: rh_st7789_fg_color_numbers
+    kind: value
+    label: []
+    tooltip: "TFT RGB "
+    inline: true
+    code: "{fg_red},{fg_green},{fg_blue}"
+    params:
+      - {name: fg_red,   label: Red,   default: 255}
+      - {name: fg_green, label: Green, default: 255}
+      - {name: fg_blue,  label: Blue,  default: 255}
+
+  - type: rh_st7789_bg_color_numbers
+    kind: value
+    label: []
+    tooltip: "TFT RGB "
+    inline: true
+    code: "{bg_red},{bg_green},{bg_blue}"
+    params:
+      - {name: bg_red,   label: Red,   default: 0}
+      - {name: bg_green, label: Green, default: 0}
+      - {name: bg_blue,  label: Blue,  default: 0}

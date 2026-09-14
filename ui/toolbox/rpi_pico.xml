@@ -715,10 +715,11 @@
       <block type="fill_oled"></block>
     </category>
 
+    <!-- blockdef:st7789_tft -->
     <category name="TFT Display">
       <label text="ST7789 TFT SPI Display"></label>
-      <label text="Use https://github.com/russhughes/st7789_mpy/tree/master/firmware/RP2 UF2 file"></label>
-  
+      <label text="Firmware for your board: https://github.com/russhughes/st7789_mpy/tree/master/firmware"></label>
+
       <block type="rh_st7789_init">
         <value name="spi">
           <shadow type="math_number">
@@ -767,7 +768,7 @@
         </value>
       </block>
 
-     <block type="rh_st7789_text">
+      <block type="rh_st7789_text">
         <value name="x">
           <shadow type="math_number">
             <field name="NUM">0</field>
@@ -784,43 +785,43 @@
           </shadow>
         </value>
         <value name="fg_color">
-        <block type="rh_st7789_fg_color_numbers">
-         <value name="fg_red">
-          <shadow type="math_number">
-            <field name="NUM">255</field>
-          </shadow>
-         </value>
-        <value name="fg_green">
-          <shadow type="math_number">
-            <field name="NUM">255</field>
-          </shadow>
-         </value>
-         <value name="fg_blue">
-          <shadow type="math_number">
-            <field name="NUM">255</field>
-          </shadow>
-         </value>
-        </block>
-       </value>
-       <value name="bg_color">
-        <block type="rh_st7789_bg_color_numbers">
-         <value name="bg_red">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-         </value>
-         <value name="bg_green">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-         </value>
-         <value name="bg_blue">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-         </value>
-        </block>
-       </value>
+          <block type="rh_st7789_fg_color_numbers">
+            <value name="fg_red">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_green">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+            <value name="fg_blue">
+              <shadow type="math_number">
+                <field name="NUM">255</field>
+              </shadow>
+            </value>
+          </block>
+        </value>
+        <value name="bg_color">
+          <block type="rh_st7789_bg_color_numbers">
+            <value name="bg_red">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="bg_green">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <value name="bg_blue">
+              <shadow type="math_number">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+          </block>
+        </value>
       </block>
 
       <block type="rh_st7789_rect">
@@ -862,7 +863,7 @@
               </shadow>
             </value>
           </block>
-       </value>
+        </value>
       </block>
 
       <block type="rh_st7789_fill_rect">
@@ -904,8 +905,8 @@
               </shadow>
             </value>
           </block>
-       </value>
-      </block>     
+        </value>
+      </block>
 
       <block type="rh_st7789_circle">
         <value name="x">
@@ -941,7 +942,7 @@
               </shadow>
             </value>
           </block>
-       </value>
+        </value>
       </block>
 
       <block type="rh_st7789_fill_circle">
@@ -978,8 +979,8 @@
               </shadow>
             </value>
           </block>
-       </value>
-      </block>     
+        </value>
+      </block>
 
       <block type="rh_st7789_line">
         <value name="x1">
@@ -1020,9 +1021,9 @@
               </shadow>
             </value>
           </block>
-       </value>
+        </value>
       </block>
-      
+
       <block type="rh_st7789_fill">
         <value name="fg_color">
           <block type="rh_st7789_fg_color_numbers">
@@ -1042,12 +1043,46 @@
               </shadow>
             </value>
           </block>
-       </value>
+        </value>
       </block>
-      
 
+      <block type="rh_st7789_fg_color_numbers">
+        <value name="fg_red">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+        </value>
+        <value name="fg_green">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+        </value>
+        <value name="fg_blue">
+          <shadow type="math_number">
+            <field name="NUM">255</field>
+          </shadow>
+        </value>
+      </block>
 
+      <block type="rh_st7789_bg_color_numbers">
+        <value name="bg_red">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="bg_green">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="bg_blue">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
     </category>
+    <!-- /blockdef:st7789_tft -->
 
     <category name="NeoPixel LED Strip">
       <label text="NeoPixel RGB LED Strip"></label>

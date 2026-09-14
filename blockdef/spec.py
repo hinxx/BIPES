@@ -104,6 +104,7 @@ class Param:
     unquote: bool = False           # strip the quotes a text block puts around it
     row: str | None = None          # 'next': ride on the next param's row
     suffix: Text = field(default_factory=Text)   # label after the field
+    plug: dict[str, Any] | None = None   # a real block in the socket, not a shadow
 
 
 @dataclass(slots=True)
@@ -452,6 +453,7 @@ def _param(entry: Any, where: _Where) -> Param:
         min=entry.get('min'), max=entry.get('max'), precision=entry.get('precision'),
         shadow=entry.get('shadow', True), unquote=bool(entry.get('unquote')),
         row=entry.get('row'), suffix=_text(entry.get('suffix'), at.at('suffix')),
+        plug=_plug(entry.get('plug'), at),
     )
     if param.pin and param.kind != 'input':
         raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` '
@@ -459,6 +461,8 @@ def _param(entry: Any, where: _Where) -> Param:
     if param.unquote and param.kind != 'input':
         raise BlockdefError(f'{at}: `unquote` is about the text a value block produces, '
                             f'so `kind` must be "input"')
+    if param.plug and param.kind != 'input':
+        raise BlockdefError(f'{at}: `plug` fills a socket, so `kind` must be "input"')
     if not param.suffix.empty and param.kind == 'input':
         raise BlockdefError(f'{at}: `suffix` is the label after a field; a socket\'s label '
                             f'already comes last on its row')
@@ -471,8 +475,31 @@ def _param(entry: Any, where: _Where) -> Param:
                                 f'and a socket already brings a row of its own')
     _check_unknown(entry, {'name', 'label', 'kind', 'type', 'default', 'align', 'pin',
                            'keyword', 'options', 'emit', 'min', 'max', 'precision',
-                           'shadow', 'unquote', 'row', 'suffix'}, at)
+                           'shadow', 'unquote', 'row', 'suffix', 'plug'}, at)
     return param
+
+
+def _plug(raw: Any, where: _Where) -> dict[str, Any] | None:
+    """`plug:` -- the toolbox entry comes with a real block already in the socket.
+
+    A shadow is a placeholder the user types over; a plugged block is a block,
+    and several categories are only usable because one is already there (every
+    TFT drawing block arrives with its colour block attached).
+    """
+    if raw is None:
+        return None
+    if not isinstance(raw, dict) or 'type' not in raw:
+        raise BlockdefError(f'{where}: `plug` needs at least a `type` -- the block to put '
+                            f'in the socket')
+    _check_unknown(raw, {'type', 'values', 'fields'}, where.at('plug'))
+    values = raw.get('values') or {}
+    fields = raw.get('fields') or {}
+    for name, mapping in (('values', values), ('fields', fields)):
+        if not isinstance(mapping, dict):
+            raise BlockdefError(f'{where}: `plug.{name}` must be a mapping')
+    return {'type': str(raw['type']),
+            'values': {str(k): v for k, v in values.items()},
+            'fields': {str(k): str(v) for k, v in fields.items()}}
 
 
 def _options(raw: Any, where: _Where) -> list[tuple[Text, str]]:

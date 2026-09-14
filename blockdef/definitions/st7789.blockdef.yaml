@@ -1,0 +1,101 @@
+# ST7789 display over SPI, through the pure-Python st7789py driver. The object
+# is `display7789`, and the backlight is a PWM pin set up beside it.
+#
+# The sibling category is `st7789_tft`: the same panel through russhughes'
+# compiled st7789 module, which is a different object with a different API.
+#
+# Two blocks stay hand-written. `st7789_color_colors` reads a `FieldColour` and
+# converts it with `Tool.HEX2RGB`, and `st7789_color_numbers` restyles itself in
+# the colour it is emitting -- a `styleBlock` method. Only their toolbox entries
+# are generated.
+
+module: st7789py
+colour: olive
+url: http://www.bipes.net.br
+import:
+  - {line: "import machine", key: import_machine}
+  - {line: "import st7789py", key: import_st7789py}
+
+category:
+  name: ST7789 Display
+  library: st7789py
+  labels:
+    - ST7789 Display
+    - "Library: https://github.com/devbis/st7789py_mpy"
+  toolboxes: [esp32, esp32-basic, esp32S2, esp8266, AmadoBoard]
+
+blocks:
+  - type: st7789_init
+    label:
+      - Init ST7789 Display
+      - {image: {src: media/st7789.png, width: 55, height: 55}}
+    tooltip: ""
+    url: ""
+    # Built from the backlight input, so it has to wait for it to be read. One
+    # entry rather than two, because the PWM line only makes sense after the
+    # Pin line and `definitions_` keeps the order it was filled in.
+    import:
+      - key: import_st7789bl1
+        line: |-
+          st7789_bl = machine.Pin({bl}, machine.Pin.OUT)
+          st7789_blp=machine.PWM(st7789_bl)
+    code: |-
+      st7789_blp.duty(100)
+      spi = machine.SPI({spi}, baudrate=20000000, polarity=1, phase=1, sck=machine.Pin({sck}), mosi=machine.Pin({mosi}))
+      display7789 = st7789py.ST7789(spi, 135, 240, reset=machine.Pin({reset}, machine.Pin.OUT), cs=machine.Pin({cs}, machine.Pin.OUT), dc=machine.Pin({dc}, machine.Pin.OUT))
+      display7789.init()
+    params:
+      - {name: spi,   label: SPI,       type: Number, default: 1, align: right}
+      - {name: bl,    label: Backlight, type: Number, pin: true,  align: right}
+      - {name: sck,   label: SCK,       type: Number, pin: true,  align: right}
+      - {name: mosi,  label: MOSI,      type: Number, pin: true,  align: right}
+      - {name: reset, label: Reset,     type: Number, pin: true,  align: right}
+      - {name: dc,    label: DC,        type: Number, pin: true,  align: right}
+      - {name: cs,    label: CS,        type: Number, pin: true,  align: right}
+
+  - type: st7789_bl_power
+    label: ST7789 backlight intensity
+    tooltip: Set ST7789 backlight intensity
+    code: "st7789_blp.duty({val})"
+    params:
+      - {name: val, label: Value, type: Number, default: 50, align: right}
+
+  - type: st7789_color_numbers
+    external: true
+    params:
+      - {name: red,   default: 50}
+      - {name: green, default: 152}
+      - {name: blue,  default: 220}
+
+  - {type: st7789_color_colors, external: true}
+
+  - type: st7789_fill
+    label: Fill ST7789 display
+    tooltip: Plot pixel to ST7789 display
+    code: "display7789.fill(st7789py.color565({r}, {g}, {b}))"
+    params:
+      - {name: r, label: Red,   type: Number, default: 40, align: right}
+      - {name: g, label: Green, type: Number, default: 40, align: right}
+      - {name: b, label: Blue,  type: Number, default: 1,  align: right}
+
+  - type: st7789_pixel
+    label: Draw pixel on ST7789 display
+    tooltip: Plot pixel to ST7789 display
+    # The colour block returns a bare `r,g,b`, which Blockly parenthesises on
+    # the way in, so the call closes itself: color565((40,40,1)).
+    code: "display7789.pixel({x}, {y}, st7789py.color565{color})"
+    params:
+      - {name: x,     label: X position, type: Number, default: 40, align: right}
+      - {name: y,     label: Y position, type: Number, default: 40, align: right}
+      - {name: color, label: Color,      type: Number, default: 1,  align: right}
+
+  - type: st7789_line
+    label: Draw line on ST7789 display
+    tooltip: Draw line on ST7789 display
+    code: "display7789.line({x0},{y0},{x1},{y1}, st7789py.color565{color})"
+    params:
+      - {name: x0,    label: X0 position, type: Number, default: 40, align: right}
+      - {name: y0,    label: Y0 position, type: Number, default: 40, align: right}
+      - {name: x1,    label: X1 position, type: Number, default: 40, align: right}
+      - {name: y1,    label: Y1 position, type: Number, default: 40, align: right}
+      - {name: color, label: Color,       type: Number, default: 1,  align: right}

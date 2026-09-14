@@ -162,10 +162,20 @@ def _terminate(lines: list[str]) -> list[str]:
 
 def _generator_js(definition: Definition, block: Block) -> str:
     lines = [f"\nBlockly.Python['{block.type}'] = function(block) {{"]
+
+    # An import naming one of this block's params is built from what is plugged
+    # in, so it has to wait until the inputs have been read -- `st7789_init`
+    # registers `st7789_bl = machine.Pin(<backlight>, machine.Pin.OUT)` that
+    # way. The rest keep their place at the top, where they have always been.
+    names = {p.name for p in block.params} | ({'bus'} if block.i2c_bus else set())
+    imports = definition.imports + block.imports
+    fixed = [i for i in imports if not _mentions(i, names)]
+    built = [i for i in imports if _mentions(i, names)]
+
     # Every block in the family registers the imports, not just the constructor:
     # definitions_ is a dict, so repeating one costs nothing, and a method block
     # dragged out on its own still produces importable code.
-    for spec in definition.imports + block.imports:
+    for spec in fixed:
         lines.append(f'  Blockly.Python.definitions_[{_js(spec.key)}] = {_js(spec.line)};')
 
     reads: dict[str, str] = {}
@@ -197,6 +207,12 @@ def _generator_js(definition: Definition, block: Block) -> str:
         lines.append(f'  var bus_ = Blockly.Python.i2cBus_({{{", ".join(parts)}}});')
         reads['bus'] = 'bus_'
 
+    instance = block.instance or definition.instance
+    for spec in built:
+        key = _template_js(spec.key, reads, instance)
+        line = _template_js(spec.line, reads, instance)
+        lines.append(f'  Blockly.Python.definitions_[{key}] = {line};')
+
     lines.append(f'  var code = {_code_js(definition, block, reads)};')
     if block.kind == 'value':
         lines.append('  return [code, Blockly.Python.ORDER_NONE];')
@@ -204,6 +220,11 @@ def _generator_js(definition: Definition, block: Block) -> str:
         lines.append('  return code + "\\n";')
     lines.append('};\n')
     return '\n'.join(lines)
+
+
+def _mentions(spec, names: set[str]) -> bool:
+    """Does this import interpolate one of the block's own values?"""
+    return any(f'{{{name}}}' in spec.line or f'{{{name}}}' in spec.key for name in names)
 
 
 def _read_js(param: Param) -> str:
@@ -356,7 +377,11 @@ _UNSET = object()
 
 def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
     """The block sitting in an empty socket, so the toolbox entry is usable."""
-    if param.kind != 'input' or not param.shadow:
+    if param.kind != 'input':
+        return None
+    if param.plug:
+        return _plug_xml(param.plug)
+    if not param.shadow:
         return None
     default = param.default if override is _UNSET else override
     if param.pin:
@@ -386,6 +411,22 @@ def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
         return ['<shadow type="text">',
                 f'  <field name="TEXT">{_xml(default)}</field>', '</shadow>']
     return None     # no type and no default: we have no idea what fits
+
+
+def _plug_xml(plug: dict) -> list[str]:
+    """A real block in the socket, with shadows of its own."""
+    lines = [f'<block type="{_xml(plug["type"])}">']
+    for name, value in plug['values'].items():
+        inner = _shadow_xml(Param(name=name, default=value))
+        if inner is None:
+            continue
+        lines.append(f'  <value name="{_xml(name)}">')
+        lines.extend('    ' + line for line in inner)
+        lines.append('  </value>')
+    for name, value in plug['fields'].items():
+        lines.append(f'  <field name="{_xml(name)}">{_xml(value)}</field>')
+    lines.append('</block>')
+    return lines
 
 
 # --- helpers ----------------------------------------------------------------

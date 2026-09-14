@@ -68,7 +68,10 @@ import: ...              # overrides "import <module>"              (optional)
                          #   a line, {line, key}, or a list of either;
                          #   `[]` for none. Each becomes one entry in
                          #   Blockly.Python.definitions_, so a `line:` can be
-                         #   a whole class, not only an import.
+                         #   a whole class, not only an import. A line or key
+                         #   naming a `{param}` is built from what is plugged
+                         #   into the block, and is registered after the
+                         #   inputs have been read.
 
 category:
   name: GY33 I2C
@@ -149,6 +152,7 @@ when a saved program is loaded.
 | `emit` | dropdown only: option value → the Python it stands for, when they differ. |
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
+| `plug` | a real block in the socket in the toolbox, instead of a shadow. |
 | `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off. |
 | `row` | `next` puts this field on the following param's row instead of a row of its own. |
 | `suffix` | label after the field, for a row that ends in text. |
@@ -183,6 +187,22 @@ without `row: next`.
 A `type:` that is not one of Blockly's own (`Number`, `String`, `Boolean`,
 `Array`, `Colour`) is a custom type: it still constrains what can plug in, but
 gets no shadow, because nothing here knows what block would fit.
+
+### A block already in the socket
+
+A shadow is a placeholder the user types over. `plug:` puts a real block there
+instead, which is what makes some categories usable at all -- every TFT drawing
+block arrives with its colour block attached:
+
+```yaml
+- {name: fg_color, label: Color, type: Number,
+   plug: {type: rh_st7789_fg_color_numbers,
+          values: {fg_red: 255, fg_green: 0, fg_blue: 0}}}
+```
+
+`values:` fills the plugged block's own sockets with shadows, by the same rules
+as `default:`; `fields:` sets its fields (`{VAR: data}` for a `variables_get`).
+A plugged block replaces the shadow rather than sitting beside it.
 
 ### A note on YAML booleans
 

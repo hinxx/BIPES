@@ -1743,6 +1743,241 @@ Blockly.Python['net_socket_close'] = function(block) {
   return code + "\n";
 };
 
+// ---- ST7789 Display (st7789.blockdef.yaml) -----------------------------------
+
+Blockly.Python['st7789_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var spi_ = Blockly.Python.valueToCode(block, "spi", Blockly.Python.ORDER_ATOMIC);
+  var bl_ = Blockly.Python.valueToCode(block, "bl", Blockly.Python.ORDER_ATOMIC);
+  var sck_ = Blockly.Python.valueToCode(block, "sck", Blockly.Python.ORDER_ATOMIC);
+  var mosi_ = Blockly.Python.valueToCode(block, "mosi", Blockly.Python.ORDER_ATOMIC);
+  var reset_ = Blockly.Python.valueToCode(block, "reset", Blockly.Python.ORDER_ATOMIC);
+  var dc_ = Blockly.Python.valueToCode(block, "dc", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_["import_st7789bl1"] = "st7789_bl = machine.Pin(" + bl_ + ", machine.Pin.OUT)\nst7789_blp=machine.PWM(st7789_bl)";
+  var code = "st7789_blp.duty(100)\nspi = machine.SPI(" + spi_ + ", baudrate=20000000, polarity=1, phase=1, sck=machine.Pin(" + sck_ + "), mosi=machine.Pin(" + mosi_ + "))\ndisplay7789 = st7789py.ST7789(spi, 135, 240, reset=machine.Pin(" + reset_ + ", machine.Pin.OUT), cs=machine.Pin(" + cs_ + ", machine.Pin.OUT), dc=machine.Pin(" + dc_ + ", machine.Pin.OUT))\ndisplay7789.init()";
+  return code + "\n";
+};
+
+Blockly.Python['st7789_bl_power'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var val_ = Blockly.Python.valueToCode(block, "val", Blockly.Python.ORDER_ATOMIC);
+  var code = "st7789_blp.duty(" + val_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['st7789_fill'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var r_ = Blockly.Python.valueToCode(block, "r", Blockly.Python.ORDER_ATOMIC);
+  var g_ = Blockly.Python.valueToCode(block, "g", Blockly.Python.ORDER_ATOMIC);
+  var b_ = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
+  var code = "display7789.fill(st7789py.color565(" + r_ + ", " + g_ + ", " + b_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['st7789_pixel'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "display7789.pixel(" + x_ + ", " + y_ + ", st7789py.color565" + color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['st7789_line'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var x0_ = Blockly.Python.valueToCode(block, "x0", Blockly.Python.ORDER_ATOMIC);
+  var y0_ = Blockly.Python.valueToCode(block, "y0", Blockly.Python.ORDER_ATOMIC);
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var color_ = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var code = "display7789.line(" + x0_ + "," + y0_ + "," + x1_ + "," + y1_ + ", st7789py.color565" + color_ + ")";
+  return code + "\n";
+};
+
+// ---- TFT Display (st7789_tft.blockdef.yaml) ----------------------------------
+
+Blockly.Python['rh_st7789_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var spi_ = Blockly.Python.valueToCode(block, "spi", Blockly.Python.ORDER_ATOMIC);
+  var backlight_ = Blockly.Python.valueToCode(block, "backlight", Blockly.Python.ORDER_ATOMIC);
+  var reset_ = Blockly.Python.valueToCode(block, "reset", Blockly.Python.ORDER_ATOMIC);
+  var dc_ = Blockly.Python.valueToCode(block, "dc", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  var sck_ = Blockly.Python.valueToCode(block, "sck", Blockly.Python.ORDER_ATOMIC);
+  var mosi_ = Blockly.Python.valueToCode(block, "mosi", Blockly.Python.ORDER_ATOMIC);
+  var width_ = Blockly.Python.valueToCode(block, "width", Blockly.Python.ORDER_ATOMIC);
+  var height_ = Blockly.Python.valueToCode(block, "height", Blockly.Python.ORDER_ATOMIC);
+  var ROTATION_TYPE_ = block.getFieldValue("ROTATION_TYPE");
+  var code = "spi" + spi_ + " = SPI(" + spi_ + ", baudrate=31250000, polarity=1, phase=0, sck=Pin(" + sck_ + "), mosi=Pin(" + mosi_ + "))\ntft = st7789.ST7789(spi" + spi_ + ", " + width_ + ",  " + height_ + ", reset=Pin(" + reset_ + ", Pin.OUT), cs=Pin(" + cs_ + ", Pin.OUT), dc=Pin(" + dc_ + ", Pin.OUT),backlight=Pin(" + backlight_ + ", Pin.OUT),rotation=" + ROTATION_TYPE_ + ")\ntft.init()";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_text'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var text_ = Blockly.Python.valueToCode(block, "text", Blockly.Python.ORDER_ATOMIC);
+  var FONT_TYPE_ = block.getFieldValue("FONT_TYPE");
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var bg_color_ = Blockly.Python.valueToCode(block, "bg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.text(" + FONT_TYPE_ + ", " + text_ + ", " + x_ + ", " + y_ + ", st7789.color565" + fg_color_ + ", st7789.color565" + bg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_rect'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var width_ = Blockly.Python.valueToCode(block, "width", Blockly.Python.ORDER_ATOMIC);
+  var height_ = Blockly.Python.valueToCode(block, "height", Blockly.Python.ORDER_ATOMIC);
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.rect(" + x_ + ", " + y_ + ", " + width_ + ", " + height_ + ", st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_fill_rect'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var width_ = Blockly.Python.valueToCode(block, "width", Blockly.Python.ORDER_ATOMIC);
+  var height_ = Blockly.Python.valueToCode(block, "height", Blockly.Python.ORDER_ATOMIC);
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.fill_rect(" + x_ + ", " + y_ + ", " + width_ + ", " + height_ + ", st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_circle'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var radius_ = Blockly.Python.valueToCode(block, "radius", Blockly.Python.ORDER_ATOMIC);
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.circle(" + x_ + ", " + y_ + ", " + radius_ + ", st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_fill_circle'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var radius_ = Blockly.Python.valueToCode(block, "radius", Blockly.Python.ORDER_ATOMIC);
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.fill_circle(" + x_ + ", " + y_ + ", " + radius_ + ", st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_line'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.line(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_fill'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var fg_color_ = Blockly.Python.valueToCode(block, "fg_color", Blockly.Python.ORDER_ATOMIC);
+  var code = "tft.fill(st7789.color565" + fg_color_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rh_st7789_fg_color_numbers'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var fg_red_ = Blockly.Python.valueToCode(block, "fg_red", Blockly.Python.ORDER_ATOMIC);
+  var fg_green_ = Blockly.Python.valueToCode(block, "fg_green", Blockly.Python.ORDER_ATOMIC);
+  var fg_blue_ = Blockly.Python.valueToCode(block, "fg_blue", Blockly.Python.ORDER_ATOMIC);
+  var code = fg_red_ + "," + fg_green_ + "," + fg_blue_;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['rh_st7789_bg_color_numbers'] = function(block) {
+  Blockly.Python.definitions_["import_pin_spi"] = "from machine import Pin, SPI";
+  Blockly.Python.definitions_["import_st7789"] = "import st7789";
+  Blockly.Python.definitions_["import_vga2_8x8"] = "import vga2_8x8";
+  Blockly.Python.definitions_["import_vga2_8x16"] = "import vga2_8x16";
+  Blockly.Python.definitions_["import_vga2_16x16"] = "import vga2_16x16";
+  Blockly.Python.definitions_["import_vga2_16x32"] = "import vga2_16x32";
+  Blockly.Python.definitions_["import_bold_vga2_16x16"] = "import vga2_bold_16x16";
+  Blockly.Python.definitions_["import_bold_vga2_16x32"] = "import vga2_bold_16x32";
+  var bg_red_ = Blockly.Python.valueToCode(block, "bg_red", Blockly.Python.ORDER_ATOMIC);
+  var bg_green_ = Blockly.Python.valueToCode(block, "bg_green", Blockly.Python.ORDER_ATOMIC);
+  var bg_blue_ = Blockly.Python.valueToCode(block, "bg_blue", Blockly.Python.ORDER_ATOMIC);
+  var code = bg_red_ + "," + bg_green_ + "," + bg_blue_;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Stepper Motor (stepper.blockdef.yaml) -----------------------------------
 
 Blockly.Python['stepper_init'] = function(block) {

@@ -3334,6 +3334,440 @@ Blockly.Blocks['net_socket_close'] = {
   }
 };
 
+// ---- ST7789 Display (st7789.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['st7789_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init ST7789 Display");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/st7789.png", 55, 55, "*"));
+    this.appendValueInput("spi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SPI");
+    this.appendValueInput("bl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Backlight");
+    this.appendValueInput("sck")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCK");
+    this.appendValueInput("mosi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MOSI");
+    this.appendValueInput("reset")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Reset");
+    this.appendValueInput("dc")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("DC");
+    this.appendValueInput("cs")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['st7789_bl_power'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ST7789 backlight intensity");
+    this.appendValueInput("val")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Set ST7789 backlight intensity");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['st7789_fill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Fill ST7789 display");
+    this.appendValueInput("r")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Red");
+    this.appendValueInput("g")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Green");
+    this.appendValueInput("b")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Blue");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Plot pixel to ST7789 display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['st7789_pixel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw pixel on ST7789 display");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Plot pixel to ST7789 display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['st7789_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw line on ST7789 display");
+    this.appendValueInput("x0")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X0 position");
+    this.appendValueInput("y0")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y0 position");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X1 position");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y1 position");
+    this.appendValueInput("color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Draw line on ST7789 display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- TFT Display (st7789_tft.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['rh_st7789_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init SPI ST7789 TFT Display");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/st7789.png", 55, 55, "*"));
+    this.appendValueInput("spi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SPI");
+    this.appendValueInput("backlight")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Backlight");
+    this.appendValueInput("reset")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Reset");
+    this.appendValueInput("dc")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("DC");
+    this.appendValueInput("cs")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CS");
+    this.appendValueInput("sck")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCK");
+    this.appendValueInput("mosi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MOSI");
+    this.appendValueInput("width")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Width");
+    this.appendValueInput("height")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Height");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Rotation")
+        .appendField(new Blockly.FieldDropdown([["Portrait", "0"], ["Landscape", "1"], ["Inverted Portrait", "2"], ["Inverted Landscape", "3"]]), "ROTATION_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Initialize the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write text on the display\n");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Font")
+        .appendField(new Blockly.FieldDropdown([["8x8", "vga2_8x8"], ["8x16", "vga2_8x16"], ["16x16", "vga2_16x16"], ["16x32", "vga2_16x32"], ["Bold 16x16", "vga2_bold_16x16"], ["Bold 16x32", "vga2_bold_16x32"]]), "FONT_TYPE");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Foreground Color");
+    this.appendValueInput("bg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Background Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Write Text on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_rect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a rectangle on the display\n");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("width")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Width");
+    this.appendValueInput("height")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Height");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Draw a rectangle on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_fill_rect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a filled rectangle on the display\n");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("width")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Width");
+    this.appendValueInput("height")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Height");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Draw a filled rectangle on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_circle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a circle on the display\n");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("radius")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Radius");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Draw a circle on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_fill_circle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a filled circle on the display\n");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("radius")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Radius");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Draw a filled circle on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw on the display\n");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial X position");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial Y position");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Final X position");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Final Y position");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Draw a line on the TFT Display");
+  }
+};
+
+Blockly.Blocks['rh_st7789_fill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Fill the display\n");
+    this.appendValueInput("fg_color")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Color");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setInputsInline(false);
+    this.setTooltip("Fill the TFT Display with a color");
+  }
+};
+
+Blockly.Blocks['rh_st7789_fg_color_numbers'] = {
+  init: function() {
+    this.appendValueInput("fg_red")
+        .setCheck(null)
+        .appendField("Red");
+    this.appendValueInput("fg_green")
+        .setCheck(null)
+        .appendField("Green");
+    this.appendValueInput("fg_blue")
+        .setCheck(null)
+        .appendField("Blue");
+    this.setOutput(true, null);
+    this.setColour("olive");
+    this.setInputsInline(true);
+    this.setTooltip("TFT RGB ");
+  }
+};
+
+Blockly.Blocks['rh_st7789_bg_color_numbers'] = {
+  init: function() {
+    this.appendValueInput("bg_red")
+        .setCheck(null)
+        .appendField("Red");
+    this.appendValueInput("bg_green")
+        .setCheck(null)
+        .appendField("Green");
+    this.appendValueInput("bg_blue")
+        .setCheck(null)
+        .appendField("Blue");
+    this.setOutput(true, null);
+    this.setColour("olive");
+    this.setInputsInline(true);
+    this.setTooltip("TFT RGB ");
+  }
+};
+
 // ---- Stepper Motor (stepper.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['stepper_init'] = {
