@@ -290,6 +290,68 @@ Blockly.Python['cmath_sqrt'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- PID (control_pid.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['control_pid.compute'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var INPUT_ = Blockly.Python.valueToCode(block, "INPUT", Blockly.Python.ORDER_ATOMIC);
+  var code = "pid" + ID_ + "(" + INPUT_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['control_pid.compute_not_realtime'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var INPUT_ = Blockly.Python.valueToCode(block, "INPUT", Blockly.Python.ORDER_ATOMIC);
+  var DT_ = Blockly.Python.valueToCode(block, "DT", Blockly.Python.ORDER_ATOMIC);
+  var code = "pid" + ID_ + "(" + INPUT_ + "," + DT_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['control_pid.tunings'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var KP_ = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_ATOMIC);
+  var KI_ = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_ATOMIC);
+  var KD_ = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_ATOMIC);
+  var code = "pid" + ID_ + ".tunings = (" + KP_ + ", " + KI_ + ", " + KD_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['control_pid.setpoint'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var SETPOINT_ = Blockly.Python.valueToCode(block, "SETPOINT", Blockly.Python.ORDER_ATOMIC);
+  var code = "pid" + ID_ + ".setpoint = " + SETPOINT_;
+  return code + "\n";
+};
+
+Blockly.Python['control_pid.auto_mode'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var ENABLE_ = (block.getFieldValue("ENABLE") == 'TRUE' ? 'True' : 'False');
+  var code = "pid" + ID_ + ".auto_mode = " + ENABLE_;
+  return code + "\n";
+};
+
+Blockly.Python['control_pid.output_limits'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var LOWER_ = block.getFieldValue("LOWER");
+  var UPPER_ = block.getFieldValue("UPPER");
+  var code = "pid" + ID_ + ".output_limits = (" + LOWER_ + ", " + UPPER_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['control_pid.vars'] = function(block) {
+  Blockly.Python.definitions_["import_pid"] = "from control import PID";
+  var ID_ = block.getFieldValue("ID");
+  var VARS_ = block.getFieldValue("VARS");
+  var code = "pid" + ID_ + "." + VARS_;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['dc_motor_init'] = function(block) {

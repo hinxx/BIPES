@@ -150,14 +150,16 @@ when a saved program is loaded.
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
 | `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off. |
-| `row` | `next` puts this field on the following socket's row instead of a row of its own. |
+| `row` | `next` puts this field on the following param's row instead of a row of its own. |
+| `suffix` | label after the field, for a row that ends in text. |
 
-### A field on a socket's row
+### Several things on one row
 
 Each param normally gets a row to itself. `row: next` holds a field back so it
-lands on the row of the param after it, between that row's labels -- which is
-how `relay_switch` reads "turn `[off]` relay on pin `[ ]`" and `move_servo`
-reads "Servo # `[0]` ANGLE `[ ]`":
+lands on the row of the param after it -- a socket, as in `relay_switch`'s
+"turn `[off]` relay on pin `[ ]`" and `move_servo`'s "Servo # `[0]` ANGLE
+`[ ]`", or another field, as in `control_pid.vars`' "get PID # `[0]` .
+`[setpoint]`":
 
 ```yaml
 params:
@@ -165,9 +167,18 @@ params:
   - {name: pin, label: {msg: relay_on}, type: Number, pin: true}
 ```
 
-The fields come out in the order they are written, before the socket's own
-label. Only a socket can be ridden: `row: next` in front of anything else is an
-error, because a field's row has no socket to share.
+A row comes out as label, field, label, field... in the order the params are
+written, and a socket's own label comes last, after everything riding on it.
+When the row *ends* in text rather than a field, that is the last field's
+`suffix:`:
+
+```yaml
+params:
+  - {name: ID, label: "PID #", suffix: output limits, kind: number}
+```
+
+`align:` for such a row is taken from the param that carries it -- the one
+without `row: next`.
 
 A `type:` that is not one of Blockly's own (`Number`, `String`, `Boolean`,
 `Array`, `Colour`) is a custom type: it still constrains what can plug in, but

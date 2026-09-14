@@ -52,9 +52,9 @@ def _block_js(definition: Definition, block: Block) -> str:
         lines.extend(_row_js(row))
     riding: list[Param] = []
     for param in block.params:
-        # `row: next` holds a field back so it lands on the following socket's
-        # row, between that row's labels -- relay_switch's on/off dropdown and
-        # move_servo's servo number are both written that way by hand.
+        # `row: next` holds a field back so it lands on the row of whatever
+        # comes next -- a socket (relay_switch's on/off dropdown, move_servo's
+        # servo number) or another field (the PID id in front of its dropdown).
         if param.row == 'next':
             riding.append(param)
             continue
@@ -100,23 +100,29 @@ def _param_js(param: Param, riding: list[Param]) -> list[str]:
         lines.append(f'        .setCheck({_js(param.type) if param.type else "null"})')
         if param.align:
             lines.append(f'        .setAlign({ALIGNS[param.align]})')
-        for field in riding:
-            if not field.label.empty:
-                lines.append('        ' + _append_field(field.label))
-            lines.append(f'        .appendField({_field_js(field)}, {_js(field.name)})')
+        lines.extend(_riding_js(riding))
+        # The socket's own label comes last, after everything riding on it.
         if not param.label.empty:
             lines.append('        ' + _append_field(param.label))
         return _terminate(lines)
 
-    # Nothing can be riding here: spec.py only accepts `row: next` in front of
-    # a socket, which is the branch above.
     lines = ['    this.appendDummyInput()']
     if param.align:
         lines.append(f'        .setAlign({ALIGNS[param.align]})')
-    if not param.label.empty:
-        lines.append('        ' + _append_field(param.label))
-    lines.append(f'        .appendField({_field_js(param)}, {_js(param.name)})')
+    lines.extend(_riding_js(riding + [param]))
     return _terminate(lines)
+
+
+def _riding_js(params: list[Param]) -> list[str]:
+    """Label, field, label, field... in the order the params are written."""
+    lines = []
+    for param in params:
+        if not param.label.empty:
+            lines.append('        ' + _append_field(param.label))
+        lines.append(f'        .appendField({_field_js(param)}, {_js(param.name)})')
+        if not param.suffix.empty:
+            lines.append('        ' + _append_field(param.suffix))
+    return lines
 
 
 def _append_field(text: Text) -> str:

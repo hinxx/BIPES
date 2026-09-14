@@ -1,0 +1,120 @@
+# PID controller, from micropython-simple-pid. Up to ten of them: every block
+# carries the controller's number as a field, and the object is `pid<N>`.
+#
+# `control_pid.__init__` stays hand-written. It is one of the ~20 blocks in the
+# tree with a method beyond `init` -- a `check` that warns when the gains have
+# mixed signs or the timestep is non-fixed -- and its generator leaves
+# `sample_time` out of the call when the field is zero. Only its toolbox entry
+# is ours.
+
+module: control
+colour: "#7b49ad"
+url: https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics
+import: {line: "from control import PID", key: import_pid}
+
+category:
+  name: PID
+  library: control
+  labels:
+    - Proportional–integral–derivative Controller
+    - "Library: https://github.com/JorgeGMarques/micropython-simple-pid"
+  examples: pid_water_boiler
+  toolboxes: [esp32, esp32c3, esp32S2, esp8266, AmadoBoard]
+
+blocks:
+  - type: control_pid.__init__
+    external: true
+    params:
+      - {name: SETPOINT, type: Number, default: 1}
+
+  - type: control_pid.compute
+    kind: value
+    label: []
+    tooltip: Returns PID control action computed with current system value.
+    inline: false
+    code: "pid{ID}({INPUT})"
+    params:
+      - {name: ID, row: next, label: "compute PID #", kind: number, default: 0, min: 0,
+         max: 9, precision: 1}
+      - {name: INPUT, label: with, align: right, shadow: false}
+
+  - type: control_pid.compute_not_realtime
+    kind: value
+    label: []
+    tooltip: Returns PID control action computed with current system value and timestep (not realtime).
+    inline: false
+    code: "pid{ID}({INPUT},{DT})"
+    params:
+      - {name: ID, row: next, label: "compute PID #", kind: number, default: 0, min: 0,
+         max: 9, precision: 1}
+      - {name: INPUT, label: with, align: right, shadow: false}
+      - {name: DT, label: timestep (s), align: right, shadow: false}
+
+  - type: control_pid.tunings
+    label: []
+    tooltip: Set PID controller tunings
+    inline: true
+    code: "pid{ID}.tunings = ({KP}, {KI}, {KD})"
+    params:
+      - {name: ID, label: "PID #", suffix: tunings, kind: number, default: 0, min: 0,
+         max: 9, precision: 1, align: centre}
+      - {name: KP, label: Kp, default: 1}
+      - {name: KI, label: Ki, default: 0}
+      - {name: KD, label: Kd, default: 0}
+
+  - type: control_pid.setpoint
+    label: []
+    tooltip: Set PID controller setpoint
+    code: "pid{ID}.setpoint = {SETPOINT}"
+    params:
+      - {name: ID, row: next, label: "PID #", kind: number, default: 0, min: 0, max: 9,
+         precision: 1}
+      - {name: SETPOINT, label: setpoint, default: 1}
+
+  - type: control_pid.auto_mode
+    label: []
+    tooltip: Enable or disable PID controller
+    inline: false
+    code: "pid{ID}.auto_mode = {ENABLE}"
+    params:
+      - {name: ID, row: next, label: "PID #", kind: number, default: 0, min: 0, max: 9,
+         precision: 1}
+      - {name: ENABLE, label: enable, kind: checkbox, default: true}
+
+  - type: control_pid.output_limits
+    label: []
+    tooltip: Set PID controller lower and upper bonds
+    url: https://micropython-simple-pid.readthedocs.io/en/latest/#auto-mode
+    inline: false
+    code: "pid{ID}.output_limits = ({LOWER}, {UPPER})"
+    params:
+      - {name: ID, label: "PID #", suffix: output limits, kind: number, default: 0,
+         min: 0, max: 9, precision: 1}
+      - {name: LOWER, row: next, label: from, kind: number, default: 0}
+      - {name: UPPER, label: to, kind: number, default: 100}
+
+  - type: control_pid.vars
+    kind: value
+    label: []
+    tooltip: >-
+      Returns PID controller values, "auto mode" returns a boolean if the controller is on
+      or off and "power components" Kp, Ki and Kd contribution to the output.
+    url: https://micropython-simple-pid.readthedocs.io/
+    inline: false
+    code: "pid{ID}.{VARS}"
+    params:
+      - {name: ID, row: next, label: "get PID #", kind: number, default: 0, min: 0,
+         max: 9, precision: 1}
+      - name: VARS
+        label: "."
+        kind: dropdown
+        options:
+          - [Kp gain, Kp]
+          - [Ki gain, Ki]
+          - [Kd gain, Kd]
+          - ["tunings (Kp, Ki, Kd)", tunings]
+          - [last time, _last_time]
+          - [setpoint, setpoint]
+          - ["output limits (lower, upper)", output_limits]
+          - [auto mode, auto_mode]
+          - [power components, components]

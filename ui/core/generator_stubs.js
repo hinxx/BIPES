@@ -4907,60 +4907,6 @@ Blockly.Python['control_pid.__init__'] = function(block) {
   return code;
 };
 
-Blockly.Python['control_pid.compute'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_input = Blockly.Python.valueToCode(block, 'INPUT', Blockly.Python.ORDER_NONE);
-
-  return [`pid${number_id}(${value_input})`, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['control_pid.compute_not_realtime'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_input = Blockly.Python.valueToCode(block, 'INPUT', Blockly.Python.ORDER_NONE);
-  var value_dt = Blockly.Python.valueToCode(block, 'DT', Blockly.Python.ORDER_NONE);
-
-  return [`pid${number_id}(${value_input},${value_dt})`, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['control_pid.tunings'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_kp = Blockly.Python.valueToCode(block, 'KP', Blockly.Python.ORDER_NONE);
-  var value_ki = Blockly.Python.valueToCode(block, 'KI', Blockly.Python.ORDER_NONE);
-  var value_kd = Blockly.Python.valueToCode(block, 'KD', Blockly.Python.ORDER_NONE);
-  var code = `pid${number_id}.tunings = (${value_kp}, ${value_ki}, ${value_kd})\n`;
-  return code;
-};
-
-Blockly.Python['control_pid.setpoint'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_setpoint = Blockly.Python.valueToCode(block, 'SETPOINT', Blockly.Python.ORDER_NONE);
-
-  var code = `pid${number_id}.setpoint = ${value_setpoint}\n`;
-  return code;
-};
-
-Blockly.Python['control_pid.output_limits'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var number_lower = block.getFieldValue('LOWER');
-  var number_upper = block.getFieldValue('UPPER');
-
-  var code = `pid${number_id}.output_limits = (${number_lower}, ${number_upper})\n`;
-  return code;
-};
-
-Blockly.Python['control_pid.auto_mode'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var checkbox_enable = block.getFieldValue('ENABLE') == 'TRUE' ? 'True' : 'False';
-  var code =  `pid${number_id}.auto_mode = ${checkbox_enable}\n`;
-  return code;
-};
-Blockly.Python['control_pid.vars'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var dropdown_vars = block.getFieldValue('VARS');
-  var code =  `pid${number_id}.${dropdown_vars}`;
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
 UPythonClass.WaterBoiler = `class WaterBoiler:\n    """\n    Simple simulation of a water boiler which can heat up water\n    and where the heat dissipates slowly over time\n    """\n\n    def __init__(self, dissipation=0.2):\n        self.water_temp = 20\n        self.ambient = 20\n        self.dissipation = dissipation\n        self._last_time = utime.ticks_ms()\n\n    def update(self, boiler_power):\n    	now = utime.ticks_ms()\n    	dt = utime.ticks_diff(now,self._last_time) if (utime.ticks_diff(now,self._last_time)) else 1e-16\n        if boiler_power > 0:\n        	# Boiler can only produce heat, not cold\n        	self.water_temp += 1 * boiler_power * dt / 1000\n\n        # Some heat dissipation\n        self.water_temp -= (self.water_temp - self.ambient) * self.dissipation * dt\n\n        self._last_time = now\n        return self.water_temp`;
 Blockly.Python['simulate_water_boiler'] = function(block) {
   var number_id = block.getFieldValue('ID');

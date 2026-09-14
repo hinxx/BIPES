@@ -565,6 +565,135 @@ Blockly.Blocks['cmath_sqrt'] = {
   }
 };
 
+// ---- PID (control_pid.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['control_pid.compute'] = {
+  init: function() {
+    this.appendValueInput("INPUT")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("compute PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("with");
+    this.setOutput(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(false);
+    this.setTooltip("Returns PID control action computed with current system value.");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics");
+  }
+};
+
+Blockly.Blocks['control_pid.compute_not_realtime'] = {
+  init: function() {
+    this.appendValueInput("INPUT")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("compute PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("with");
+    this.appendValueInput("DT")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timestep (s)");
+    this.setOutput(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(false);
+    this.setTooltip("Returns PID control action computed with current system value and timestep (not realtime).");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics");
+  }
+};
+
+Blockly.Blocks['control_pid.tunings'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("tunings");
+    this.appendValueInput("KP")
+        .setCheck(null)
+        .appendField("Kp");
+    this.appendValueInput("KI")
+        .setCheck(null)
+        .appendField("Ki");
+    this.appendValueInput("KD")
+        .setCheck(null)
+        .appendField("Kd");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(true);
+    this.setTooltip("Set PID controller tunings");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics");
+  }
+};
+
+Blockly.Blocks['control_pid.setpoint'] = {
+  init: function() {
+    this.appendValueInput("SETPOINT")
+        .setCheck(null)
+        .appendField("PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("setpoint");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#7b49ad");
+    this.setTooltip("Set PID controller setpoint");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics");
+  }
+};
+
+Blockly.Blocks['control_pid.auto_mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("enable")
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "ENABLE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(false);
+    this.setTooltip("Enable or disable PID controller");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#the-basics");
+  }
+};
+
+Blockly.Blocks['control_pid.output_limits'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField("output limits");
+    this.appendDummyInput()
+        .appendField("from")
+        .appendField(new Blockly.FieldNumber(0), "LOWER")
+        .appendField("to")
+        .appendField(new Blockly.FieldNumber(100), "UPPER");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(false);
+    this.setTooltip("Set PID controller lower and upper bonds");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/en/latest/#auto-mode");
+  }
+};
+
+Blockly.Blocks['control_pid.vars'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("get PID #")
+        .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
+        .appendField(".")
+        .appendField(new Blockly.FieldDropdown([["Kp gain", "Kp"], ["Ki gain", "Ki"], ["Kd gain", "Kd"], ["tunings (Kp, Ki, Kd)", "tunings"], ["last time", "_last_time"], ["setpoint", "setpoint"], ["output limits (lower, upper)", "output_limits"], ["auto mode", "auto_mode"], ["power components", "components"]]), "VARS");
+    this.setOutput(true, null);
+    this.setColour("#7b49ad");
+    this.setInputsInline(false);
+    this.setTooltip("Returns PID controller values, \"auto mode\" returns a boolean if the controller is on or off and \"power components\" Kp, Ki and Kd contribution to the output.");
+    this.setHelpUrl("https://micropython-simple-pid.readthedocs.io/");
+  }
+};
+
 // ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['dc_motor_init'] = {
