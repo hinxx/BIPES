@@ -1535,86 +1535,82 @@
     </block>
   </category>
 
+  <!-- blockdef:pca9685 -->
   <category name="PCA9685 Servo Driver">
-      <label text="PCA9685 Servo Driver Board"></label>
-      <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+    <label text="PCA9685 Servo Driver Board"></label>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
 
-      <block type="init_pca9685">
-        <value name="i2c">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="sda">
-          <shadow type="pinout">
-            <field name="PIN">26</field>
-          </shadow>
-        </value>
-        <value name="scl">
-          <shadow type="pinout">
-            <field name="PIN">25</field>
-          </shadow>
-        </value>
-        <value name="min_pulse_width">
-          <shadow type="math_number">
-            <field name="NUM">500</field>
-          </shadow>
-        </value>
-        <value name="max_pulse_width">
-          <shadow type="math_number">
-            <field name="NUM">2500</field>
-          </shadow>
-        </value>
-      </block>
+    <block type="init_pca9685">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">25</field>
+        </shadow>
+      </value>
+      <value name="min_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+      <value name="max_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">2500</field>
+        </shadow>
+      </value>
+    </block>
 
-      <block type="move_pca9685">
-        <value name="servo_id">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="angle">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>      
-
+    <block type="move_pca9685">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
   </category>
+  <!-- /blockdef:pca9685 -->
 
+  <!-- blockdef:stepper -->
   <category name="Stepper Motor">
-      <label text="Stepper Motor"></label>
+    <label text="Stepper Motor"></label>
+
     <block type="stepper_init">
       <value name="p0">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p1">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p2">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p3">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
     </block>
 
     <block type="stepper_step">
-     <value name="steps">
+      <value name="steps">
         <shadow type="math_number">
-          <field name="NUM">1</field>
+          <field name="NUM">100</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:stepper -->
 
   <!-- blockdef:dc_motor -->
   <category name="DC Motor">

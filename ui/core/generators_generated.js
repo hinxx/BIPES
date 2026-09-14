@@ -590,6 +590,93 @@ Blockly.Python['max30100_ir'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- LED Matrix (max7219.blockdef.yaml) --------------------------------------
+
+Blockly.Python['max7219_init'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var spi_ = Blockly.Python.valueToCode(block, "spi", Blockly.Python.ORDER_ATOMIC);
+  var clk_ = Blockly.Python.valueToCode(block, "clk", Blockly.Python.ORDER_ATOMIC);
+  var tx_ = Blockly.Python.valueToCode(block, "tx", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  var code = "spi" + spi_ + "=SPI(" + spi_ + ",baudrate=10000000, polarity=1, phase=0, sck=Pin(" + clk_ + "), mosi=Pin(" + tx_ + "))\ncs = Pin(" + cs_ + ", Pin.OUT)\nmatrix = max7219.Matrix8x8(spi" + spi_ + ", cs , 1)";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_write'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var character_ = Blockly.Python.valueToCode(block, "character", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.text(" + character_ + ", " + x_ + ", " + y_ + ", 1)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_line'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.line(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_rect'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.rect(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_fill_rect'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.fill_rect(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_scroll'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.scroll(" + x_ + ", " + y_ + ")\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_clear'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var code = "matrix.fill(0)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_fill'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var code = "matrix.fill(1)\nmatrix.show()";
+  return code + "\n";
+};
+
+Blockly.Python['max7219_brig'] = function(block) {
+  Blockly.Python.definitions_["import_max7219"] = "import max7219";
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  var brig_ = Blockly.Python.valueToCode(block, "brig", Blockly.Python.ORDER_ATOMIC);
+  var code = "matrix.brightness(" + brig_ + ")";
+  return code + "\n";
+};
+
 // ---- I/O Expander (mcp23017.blockdef.yaml) -----------------------------------
 
 Blockly.Python['mcp23017_init'] = function(block) {
@@ -643,6 +730,28 @@ Blockly.Python['mpr121_key_pressed'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
+
+Blockly.Python['init_pca9685'] = function(block) {
+  Blockly.Python.definitions_["import_pca9685"] = "from pca9685 import PCA9685";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var min_pulse_width_ = Blockly.Python.valueToCode(block, "min_pulse_width", Blockly.Python.ORDER_ATOMIC);
+  var max_pulse_width_ = Blockly.Python.valueToCode(block, "max_pulse_width", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "MIN_DUTY = int(4096 * " + min_pulse_width_ + " / 20000)\nMAX_DUTY = int(4096 * " + max_pulse_width_ + " / 20000)\nSERVO_SPAN = MAX_DUTY - MIN_DUTY\n\ndef angleToDutyCycle(angle):\n\tdutyCycle = int(MIN_DUTY + (angle * SERVO_SPAN / 180))\n\tdutyCycle = min(MAX_DUTY, max(MIN_DUTY, dutyCycle))\n\treturn dutyCycle\n\npca9685 = PCA9685(" + bus_ + ")\npca9685.freq(50)";
+  return code + "\n";
+};
+
+Blockly.Python['move_pca9685'] = function(block) {
+  Blockly.Python.definitions_["import_pca9685"] = "from pca9685 import PCA9685";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var code = "pca9685.duty(" + servo_id_ + ", angleToDutyCycle(" + angle_ + "))";
+  return code + "\n";
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Python['net_socket_connect'] = function(block) {
@@ -670,6 +779,25 @@ Blockly.Python['net_socket_send'] = function(block) {
 Blockly.Python['net_socket_close'] = function(block) {
   Blockly.Python.definitions_["import_socket"] = "import socket";
   var code = "s.close()";
+  return code + "\n";
+};
+
+// ---- Stepper Motor (stepper.blockdef.yaml) -----------------------------------
+
+Blockly.Python['stepper_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var p0_ = Blockly.Python.valueToCode(block, "p0", Blockly.Python.ORDER_ATOMIC);
+  var p1_ = Blockly.Python.valueToCode(block, "p1", Blockly.Python.ORDER_ATOMIC);
+  var p2_ = Blockly.Python.valueToCode(block, "p2", Blockly.Python.ORDER_ATOMIC);
+  var p3_ = Blockly.Python.valueToCode(block, "p3", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nstepper_pin0 = Pin(" + p0_ + ", Pin.OUT)\nstepper_pin1 = Pin(" + p1_ + ", Pin.OUT)\nstepper_pin2 = Pin(" + p2_ + ", Pin.OUT)\nstepper_pin3 = Pin(" + p3_ + ", Pin.OUT)\nstepper_pins = [stepper_pin0, stepper_pin1, stepper_pin2, stepper_pin3]\n\npos_dir_steps = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]\nneg_dir_steps = [[0,0,0,1],[0,0,1,0],[0,1,0,0],[1,0,0,0]]";
+  return code + "\n";
+};
+
+Blockly.Python['stepper_step'] = function(block) {
+  var steps_ = Blockly.Python.valueToCode(block, "steps", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nfor i in range(1, abs(" + steps_ + ")):\n    if " + steps_ + " >= 0:\n        for step in pos_dir_steps:\n            for n in range(len(stepper_pins)):\n                stepper_pins[n].value(step[n])\n                time.sleep(0.001)\n    else:\n        for step in neg_dir_steps:\n            for n in range(len(stepper_pins)):\n                stepper_pins[n].value(step[n])\n                time.sleep(0.001)";
   return code + "\n";
 };
 
@@ -843,4 +971,22 @@ Blockly.Python['umail_send'] = function(block) {
   var contents_ = Blockly.Python.valueToCode(block, "contents", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
   var code = "smtp.to(" + to_ + ")\nsmtp.send('Subject: " + subject_ + "\\n\\n" + contents_ + "')\nsmtp.quit()";
   return code + "\n";
+};
+
+// ---- Time of Flight (vl53l0x.blockdef.yaml) ----------------------------------
+
+Blockly.Python['init_vl53l0x'] = function(block) {
+  Blockly.Python.definitions_["import_vl53l0x"] = "from vl53l0x import VL53L0X";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "tof = VL53L0X(" + bus_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['vl53l0x_read_tof'] = function(block) {
+  Blockly.Python.definitions_["import_vl53l0x"] = "from vl53l0x import VL53L0X";
+  var code = "tof.ping()";
+  return [code, Blockly.Python.ORDER_NONE];
 };

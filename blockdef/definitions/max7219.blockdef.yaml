@@ -1,0 +1,125 @@
+# MAX7219 8x8 LED matrix over SPI.
+#
+# "LED Matrix" is also the TM1640 category on the ESP32 boards; these are
+# different chips with different blocks.
+
+module: max7219
+instance: matrix
+colour: olive
+url: http://www.bipes.net.br
+import:
+  - {line: "import max7219", key: import_max7219}
+  - {line: "from machine import Pin,SPI", key: import_Pin_SPI}
+
+category:
+  name: LED Matrix
+  library: max7219
+  labels:
+    - MAX7219 LED Matrix
+    - "Library: https://github.com/mcauser/micropython-max7219"
+  toolboxes: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi]
+  defaults:
+    esp32c3:    {clk: 2, tx: 3, cs: 5}
+    rpi_pico:   {clk: 2, tx: 3, cs: 5}
+    rpi_pico_w: {clk: 2, tx: 3, cs: 5}
+    makernano:  {clk: 2, tx: 3, cs: 5}
+    makerpi:    {clk: 2, tx: 3, cs: 5}
+
+blocks:
+  - type: max7219_init
+    label:
+      - {image: {src: media/matrix.png, width: 55, height: 55}, text: Init MAX7219 LED Matrix}
+    tooltip: Init MAX7219 LED Matrix
+    # The bus variable is named after the SPI id, so `spi` lands in the name
+    # as well as in the call.
+    code: |-
+      spi{spi}=SPI({spi},baudrate=10000000, polarity=1, phase=0, sck=Pin({clk}), mosi=Pin({tx}))
+      cs = Pin({cs}, Pin.OUT)
+      {instance} = max7219.Matrix8x8(spi{spi}, cs , 1)
+    params:
+      - {name: spi, label: SPI, type: Number, default: 0, align: right}
+      - {name: clk, label: CLK, type: Number, pin: true,  align: right}
+      - {name: tx,  label: TX,  type: Number, pin: true,  align: right}
+      - {name: cs,  label: CS,  type: Number, pin: true,  align: right}
+
+  - type: max7219_write
+    label: Write a Single Character to LED Matrix
+    tooltip: Write to MAX7219 LED Matrix
+    code: |-
+      {instance}.text({character}, {x}, {y}, 1)
+      {instance}.show()
+    params:
+      - {name: x, label: X, type: Number, default: 0, align: right}
+      - {name: y, label: Y, type: Number, default: 0, align: right}
+      - {name: character, label: CHARACTER, type: String, default: A, align: right}
+
+  - type: max7219_line
+    label: Draw a line on LED Matrix
+    tooltip: Draw a line on LED Matrix
+    code: |-
+      {instance}.line({x1}, {y1}, {x2}, {y2}, 1)
+      {instance}.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0, align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0, align: right}
+      - {name: x2, label: Final X position,   type: Number, default: 7, align: right}
+      - {name: y2, label: Final Y position,   type: Number, default: 7, align: right}
+
+  - type: max7219_rect
+    label: Draw a rectangle outline on LED Matrix
+    tooltip: Draw a rectangle on LED Matrix
+    code: |-
+      {instance}.rect({x1}, {y1}, {x2}, {y2}, 1)
+      {instance}.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0, align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0, align: right}
+      - {name: x2, label: Width,  type: Number, default: 7, align: right}
+      - {name: y2, label: Height, type: Number, default: 7, align: right}
+
+  - type: max7219_fill_rect
+    label: Draw a solid rectangle on LED Matrix
+    tooltip: Draw a solid rectangle on LED Matrix
+    code: |-
+      {instance}.fill_rect({x1}, {y1}, {x2}, {y2}, 1)
+      {instance}.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0, align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0, align: right}
+      - {name: x2, label: Width,  type: Number, default: 7, align: right}
+      - {name: y2, label: Height, type: Number, default: 7, align: right}
+
+  - type: max7219_scroll
+    label: scroll the LED Matrix
+    tooltip: Scroll the LED Matrix
+    code: |-
+      {instance}.scroll({x}, {y})
+      {instance}.show()
+    params:
+      - {name: x, label: Scroll back(-) or forth(+), type: Number, default: 1, align: right}
+      - {name: y, label: Scroll up (-) or down(+),   type: Number, default: 0, align: right}
+
+  - type: max7219_clear
+    label: Clear LED Matrix
+    tooltip: Clear LED Matrix
+    code: |-
+      {instance}.fill(0)
+      {instance}.show()
+
+  - type: max7219_fill
+    label: Fill LED Matrix
+    tooltip: Fill LED Matrix
+    code: |-
+      {instance}.fill(1)
+      {instance}.show()
+
+  - type: max7219_brig
+    fn: brightness
+    label: Set Brightness of Led Matrix
+    tooltip: Set brightness of MAX7129 LED Matrix
+    params:
+      - {name: brig, label: value (0-15), type: Number, default: 7}
+
+  # 64 checkboxes turned into 64 matrix.pixel() calls: real computation, so the
+  # block and its generator stay hand-written.
+  - {type: max7219_custom, external: true}

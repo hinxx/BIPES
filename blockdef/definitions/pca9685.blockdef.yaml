@@ -1,0 +1,54 @@
+# PCA9685 16-channel PWM board driving hobby servos.
+
+module: pca9685
+class: PCA9685
+instance: pca9685
+colour: 135
+import: {line: "from pca9685 import PCA9685", key: import_pca9685}
+
+category:
+  name: PCA9685 Servo Driver
+  library: pca9685
+  labels: [PCA9685 Servo Driver Board]
+  toolboxes: [esp32, esp32-basic, rpi_pico, rpi_pico_w]
+  defaults:
+    esp32:       {sda: 26, scl: 25}
+    esp32-basic: {sda: 26, scl: 25}
+    rpi_pico:    {sda: 0,  scl: 1}
+    rpi_pico_w:  {sda: 0,  scl: 1}
+
+blocks:
+  - type: init_pca9685
+    label:
+      - Init PCA9685 Servo Driver
+      - {image: {src: media/pca9685.jpg, width: 55, height: 55}}
+    tooltip: ""
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      MIN_DUTY = int(4096 * {min_pulse_width} / 20000)
+      MAX_DUTY = int(4096 * {max_pulse_width} / 20000)
+      SERVO_SPAN = MAX_DUTY - MIN_DUTY
+
+      def angleToDutyCycle(angle):
+      	dutyCycle = int(MIN_DUTY + (angle * SERVO_SPAN / 180))
+      	dutyCycle = min(MAX_DUTY, max(MIN_DUTY, dutyCycle))
+      	return dutyCycle
+
+      {instance} = PCA9685({bus})
+      {instance}.freq(50)
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+      - {name: min_pulse_width, label: Min Pulse Width, type: Number, default: 500,  align: right}
+      - {name: max_pulse_width, label: Max Pulse Width, type: Number, default: 2500, align: right}
+
+  - type: move_pca9685
+    label: Position Servo
+    tooltip: Position one of the servos
+    url: http://www.bipes.net.br
+    colour: 230
+    code: "{instance}.duty({servo_id}, angleToDutyCycle({angle}))"
+    params:
+      - {name: servo_id, label: Servo ID (0 - 15), type: Number, default: 0, align: right}
+      - {name: angle,    label: Angle (0 - 180,    type: Number, default: 90, align: right}

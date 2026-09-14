@@ -1,0 +1,58 @@
+# 28BYJ-48 style unipolar stepper on four GPIO pins.
+# Source example: http://mpy-tut.zoic.org/tut/motors.html
+
+module: machine
+colour: 135
+import: []
+
+category:
+  name: Stepper Motor
+  labels: [Stepper Motor]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard, default]
+
+blocks:
+  - type: stepper_init
+    label:
+      - Init Stepper Motor
+      - {image: {src: media/stepper.png, width: 55, height: 55}}
+    tooltip: ""
+    import:
+      - {line: "from machine import Pin", key: import_pin}
+      - {line: "import time", key: import_time}
+    code: |-
+
+      stepper_pin0 = Pin({p0}, Pin.OUT)
+      stepper_pin1 = Pin({p1}, Pin.OUT)
+      stepper_pin2 = Pin({p2}, Pin.OUT)
+      stepper_pin3 = Pin({p3}, Pin.OUT)
+      stepper_pins = [stepper_pin0, stepper_pin1, stepper_pin2, stepper_pin3]
+
+      pos_dir_steps = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
+      neg_dir_steps = [[0,0,0,1],[0,0,1,0],[0,1,0,0],[1,0,0,0]]
+    params:
+      - {name: p0, label: Pin0, type: Number, pin: true, align: right}
+      - {name: p1, label: Pin1, type: Number, pin: true, align: right}
+      - {name: p2, label: Pin2, type: Number, pin: true, align: right}
+      - {name: p3, label: Pin3, type: Number, pin: true, align: right}
+
+  - type: stepper_step
+    label: Stepper Step
+    tooltip: ""
+    # The hand-written generator indented the `if` with two spaces and its body
+    # with tabs, which Python 3 rejects outright: "TabError: inconsistent use
+    # of tabs and spaces in indentation". Same structure, spaces throughout.
+    code: |-
+
+      for i in range(1, abs({steps})):
+          if {steps} >= 0:
+              for step in pos_dir_steps:
+                  for n in range(len(stepper_pins)):
+                      stepper_pins[n].value(step[n])
+                      time.sleep(0.001)
+          else:
+              for step in neg_dir_steps:
+                  for n in range(len(stepper_pins)):
+                      stepper_pins[n].value(step[n])
+                      time.sleep(0.001)
+    params:
+      - {name: steps, label: Steps, type: Number, default: 100, align: right}

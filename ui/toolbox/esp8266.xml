@@ -1383,39 +1383,34 @@
   </category>
 
 
+  <!-- blockdef:stepper -->
   <category name="Stepper Motor">
-      <label text="Stepper Motor"></label>
+    <label text="Stepper Motor"></label>
+
     <block type="stepper_init">
       <value name="p0">
-        <shadow type="pinout">
-          <field name="Pin0"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p1">
-        <shadow type="pinout">
-          <field name="Pin1"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p2">
-        <shadow type="pinout">
-          <field name="Pin2"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="p3">
-        <shadow type="pinout">
-          <field name="Pin3"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
     </block>
 
     <block type="stepper_step">
-     <value name="steps">
+      <value name="steps">
         <shadow type="math_number">
-          <field name="NUM">1</field>
+          <field name="NUM">100</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:stepper -->
 
   <!-- blockdef:dc_motor -->
   <category name="DC Motor">

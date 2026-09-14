@@ -1274,6 +1274,7 @@
 	  </category>
 	  <!-- /blockdef:char_lcd -->
 
+  <!-- blockdef:max7219 -->
   <category name="LED Matrix">
     <label text="MAX7219 LED Matrix"></label>
     <label text="Library: https://github.com/mcauser/micropython-max7219"></label>
@@ -1356,12 +1357,12 @@
       </value>
       <value name="x2">
         <shadow type="math_number">
-          <field name="NUM">8</field>
+          <field name="NUM">7</field>
         </shadow>
       </value>
       <value name="y2">
         <shadow type="math_number">
-          <field name="NUM">8</field>
+          <field name="NUM">7</field>
         </shadow>
       </value>
     </block>
@@ -1371,7 +1372,7 @@
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
-      </value>     
+      </value>
       <value name="y1">
         <shadow type="math_number">
           <field name="NUM">0</field>
@@ -1379,30 +1380,31 @@
       </value>
       <value name="x2">
         <shadow type="math_number">
-          <field name="NUM">8</field>
+          <field name="NUM">7</field>
         </shadow>
       </value>
       <value name="y2">
         <shadow type="math_number">
-          <field name="NUM">8</field>
+          <field name="NUM">7</field>
         </shadow>
       </value>
-    </block>  
+    </block>
 
     <block type="max7219_scroll">
       <value name="x">
         <shadow type="math_number">
           <field name="NUM">1</field>
         </shadow>
-      </value>     
+      </value>
       <value name="y">
         <shadow type="math_number">
-          <field name="NUM">1</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
-    </block>     
+    </block>
 
     <block type="max7219_clear"></block>
+
     <block type="max7219_fill"></block>
 
     <block type="max7219_brig">
@@ -1413,74 +1415,9 @@
       </value>
     </block>
 
-    <block type="max7219_custom">
-      <field name="A0">FALSE</field>
-      <field name="A1">FALSE</field>
-      <field name="A2">FALSE</field>
-      <field name="A3">FALSE</field>
-      <field name="A4">FALSE</field>
-      <field name="A5">FALSE</field>
-      <field name="A6">FALSE</field>
-      <field name="A7">FALSE</field>
-      <field name="B0">FALSE</field>
-      <field name="B1">FALSE</field>
-      <field name="B2">FALSE</field>
-      <field name="B3">FALSE</field>
-      <field name="B4">FALSE</field>
-      <field name="B5">FALSE</field>
-      <field name="B6">FALSE</field>
-      <field name="B7">FALSE</field>
-      <field name="C0">FALSE</field>
-      <field name="C1">FALSE</field>
-      <field name="C2">FALSE</field>
-      <field name="C3">FALSE</field>
-      <field name="C4">FALSE</field>
-      <field name="C5">FALSE</field>
-      <field name="C6">FALSE</field>
-      <field name="C7">FALSE</field>
-      <field name="D0">FALSE</field>
-      <field name="D1">FALSE</field>
-      <field name="D2">FALSE</field>
-      <field name="D3">FALSE</field>
-      <field name="D4">FALSE</field>
-      <field name="D5">FALSE</field>
-      <field name="D6">FALSE</field>
-      <field name="D7">FALSE</field>
-      <field name="E0">FALSE</field>
-      <field name="E1">FALSE</field>
-      <field name="E2">FALSE</field>
-      <field name="E3">FALSE</field>
-      <field name="E4">FALSE</field>
-      <field name="E5">FALSE</field>
-      <field name="E6">FALSE</field>
-      <field name="E7">FALSE</field>
-      <field name="F0">FALSE</field>
-      <field name="F1">FALSE</field>
-      <field name="F2">FALSE</field>
-      <field name="F3">FALSE</field>
-      <field name="F4">FALSE</field>
-      <field name="F5">FALSE</field>
-      <field name="F6">FALSE</field>
-      <field name="F7">FALSE</field>
-      <field name="G0">FALSE</field>
-      <field name="G1">FALSE</field>
-      <field name="G2">FALSE</field>
-      <field name="G3">FALSE</field>
-      <field name="G4">FALSE</field>
-      <field name="G5">FALSE</field>
-      <field name="G6">FALSE</field>
-      <field name="G7">FALSE</field>
-      <field name="H0">FALSE</field>
-      <field name="H1">FALSE</field>
-      <field name="H2">FALSE</field>
-      <field name="H3">FALSE</field>
-      <field name="H4">FALSE</field>
-      <field name="H5">FALSE</field>
-      <field name="H6">FALSE</field>
-      <field name="H7">FALSE</field>
-    </block>
-
+    <block type="max7219_custom"></block>
   </category>
+  <!-- /blockdef:max7219 -->
 
   <!-- blockdef:tm1637 -->
   <category name="4 Digit Display">
@@ -1740,12 +1677,11 @@
     </category>
     <!-- /blockdef:hcsr04 -->
 
+  <!-- blockdef:vl53l0x -->
   <category name="Time of Flight">
-      <label text="VL53L0X"></label>
-   <label text="Library: https://github.com/kevinmcaleer/vl53l0x"></label>
-        <button text="Install vl53l0x library" callbackKey="installPyLib"></button>
-
-
+    <label text="VL53L0X"></label>
+    <label text="Library: https://github.com/kevinmcaleer/vl53l0x"></label>
+    <button text="Install vl53l0x library" callbackKey="installPyLib"></button>
 
     <block type="init_vl53l0x">
       <value name="i2c">
@@ -1753,23 +1689,21 @@
           <field name="NUM">0</field>
         </shadow>
       </value>
-
       <value name="scl">
         <shadow type="pinout">
           <field name="PIN">1</field>
         </shadow>
       </value>
-
       <value name="sda">
         <shadow type="pinout">
           <field name="PIN">0</field>
         </shadow>
       </value>
-
     </block>
 
-    <block type="vl53l0x_read_tof"> </block>
+    <block type="vl53l0x_read_tof"></block>
   </category>
+  <!-- /blockdef:vl53l0x -->
 
   <category name="Inertial Measurement">
       <label text="MPU6050 IMU"></label>
@@ -2156,52 +2090,53 @@
     </block>
   </category>
 
+  <!-- blockdef:pca9685 -->
   <category name="PCA9685 Servo Driver">
-      <label text="PCA9685 Servo Driver Board"></label>
-      <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+    <label text="PCA9685 Servo Driver Board"></label>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
 
-      <block type="init_pca9685">
-        <value name="i2c">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="sda">
-          <shadow type="pinout">
-            <field name="PIN">0</field>
-          </shadow>
-        </value>
-        <value name="scl">
-          <shadow type="pinout">
-            <field name="PIN">1</field>
-          </shadow>
-        </value>
-        <value name="min_pulse_width">
-          <shadow type="math_number">
-            <field name="NUM">500</field>
-          </shadow>
-        </value>
-        <value name="max_pulse_width">
-          <shadow type="math_number">
-            <field name="NUM">2500</field>
-          </shadow>
-        </value>
-      </block>
+    <block type="init_pca9685">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="min_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+      <value name="max_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">2500</field>
+        </shadow>
+      </value>
+    </block>
 
-      <block type="move_pca9685">
-        <value name="servo_id">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="angle">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>      
-
+    <block type="move_pca9685">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
   </category>
+  <!-- /blockdef:pca9685 -->
 
 </category>
 
