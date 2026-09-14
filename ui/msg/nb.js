@@ -126,6 +126,11 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+  math_min_of: "min av",
+  math_max_of: "maks av",
+  math_and: "og",
+  math_min_tooltip: "Returnerer den minste av de to verdiene.",
+  math_max_tooltip: "Returnerer den største av de to verdiene.",
   sht20_temperature: "SHT20-temperatur",
   sht20_humidity: "SHT20-fuktighet",
   mqtt_init: "Start MQTT-klient",

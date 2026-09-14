@@ -292,35 +292,11 @@ Blockly.Python['pinout'] = function(block) {
 };
 
 /// Convert to Str
-Blockly.Python['text_to_str'] = function(block) {
-  var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
-  var code = 'str(' + variable + ')';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 /// Decode Bytes to Str
-Blockly.Python['decode_bytes_to_text'] = function(block) {
-	var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
-	var code =  variable + '.decode()';
-
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
 /// Convert to Int
-Blockly.Python['var_to_int'] = function(block) {
-  var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
-  var code = 'int(' + variable + ')';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 /// Convert to Float
-Blockly.Python['var_to_float'] = function(block) {
-	var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
-	var code = 'float(' + variable + ')';
-  
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
 //OneWire
 
@@ -3377,29 +3353,9 @@ Blockly.Python['pwm.deinit'] = function(block) {
 //Sckit-Learn Test
 //Author: Andouglas Junior
 
-Blockly.Python['randomforestclassifier'] = function(block) {
-	var value_random_state = Blockly.Python.valueToCode(block, 'random_state', Blockly.Python.ORDER_ATOMIC);
-	Blockly.Python.definitions_['import_random_forest_classifier'] = 'from sklearn.ensemble import RandomForestClassifier';
-	var code = 'RandomForestClassifier(random_state='+value_random_state+')\n';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
 
-  Blockly.Python['fit'] = function(block) {
-	var value_classifier = Blockly.Python.valueToCode(block, 'classifier', Blockly.Python.ORDER_ATOMIC);
-	var value_x = Blockly.Python.valueToCode(block, 'X', Blockly.Python.ORDER_ATOMIC);
-	var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
-	var code = value_classifier+'.fit('+value_x+','+value_y+')\n';
-	return code;
-  };
-
-  Blockly.Python['predict'] = function(block) {
-	var value_classifier = Blockly.Python.valueToCode(block, 'classifier', Blockly.Python.ORDER_ATOMIC);
-	var value_x = Blockly.Python.valueToCode(block, 'X', Blockly.Python.ORDER_ATOMIC);
-	var code = value_classifier+'.predict('+value_x+')\n';
-	// TODO: Change ORDER_NONE to the correct strength.
-	return [code, Blockly.Python.ORDER_NONE];
-  };
   
+    
 
 
 
@@ -4442,19 +4398,7 @@ Blockly.Python['iniciar_thread'] = function(block) {
 	return code;
   };
 
-Blockly.Python['math_max'] = function(block) {
-  var value1 = Blockly.Python.valueToCode(block, 'VALUE1', Blockly.Python.ORDER_ATOMIC);
-  var value2 = Blockly.Python.valueToCode(block, 'VALUE2', Blockly.Python.ORDER_ATOMIC);
-  var code = 'max(' + value1 + ', ' + value2 + ')';
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
-};
 
-Blockly.Python['math_min'] = function(block) {
-  var value1 = Blockly.Python.valueToCode(block, 'VALUE1', Blockly.Python.ORDER_ATOMIC);
-  var value2 = Blockly.Python.valueToCode(block, 'VALUE2', Blockly.Python.ORDER_ATOMIC);
-  var code = 'min(' + value1 + ', ' + value2 + ')';
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
-};
 
 Blockly.Python['pico_timer'] = function(block) {
 

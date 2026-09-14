@@ -168,6 +168,11 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+  math_min_of: "מינימום של",
+  math_max_of: "מקסימום של",
+  math_and: "ו",
+  math_min_tooltip: "מחזיר את הקטן מבין שני הערכים.",
+  math_max_tooltip: "מחזיר את הגדול מבין שני הערכים.",
   sht20_temperature: "SHT20 טֶמפֶּרָטוּרָה",
   sht20_humidity: "SHT20 לחות",
   aht_init: "Init AHT10/20",

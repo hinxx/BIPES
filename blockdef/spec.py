@@ -168,6 +168,7 @@ class Definition:
     imports: list[Import]
     colour: int | str | None        # setColour for every block in the family
     category: str
+    fragment: bool                  # entries go *inside* an existing category
     labels: list[str]
     library: list[str]              # "Install <name> library" buttons
     examples: list[str]             # "Load example: <name>" buttons
@@ -213,6 +214,11 @@ def load(path: str | Path) -> Definition:
         imports=_imports(raw.get('import'), module, where),
         colour=colour,
         category=_req_str(category, 'name', cat),
+        # `fragment: true` -- the entries go *inside* a category that already
+        # exists in the toolbox (BIPES adds four blocks to Blockly's own Math
+        # category, and two to Text), so no <category> of our own is written
+        # and `name:` only labels the banner in the generated files.
+        fragment=bool(category.get('fragment')),
         labels=[str(x) for x in category.get('labels', [])],
         library=[str(x) for x in _as_list(category.get('library'))],
         examples=[str(x) for x in _as_list(category.get('examples'))],
@@ -254,8 +260,8 @@ def load(path: str | Path) -> Definition:
 
     _check_unknown(raw, {'module', 'class', 'instance', 'import', 'url', 'colour',
                          'category', 'blocks'}, where)
-    _check_unknown(category, {'name', 'labels', 'library', 'examples', 'docs',
-                             'toolboxes', 'defaults'}, cat)
+    _check_unknown(category, {'name', 'fragment', 'labels', 'library', 'examples',
+                             'docs', 'toolboxes', 'defaults'}, cat)
     return definition
 
 

@@ -74,7 +74,8 @@ import: ...              # overrides "import <module>"              (optional)
                          #   inputs have been read.
 
 category:
-  name: GY33 I2C
+  name: GY33 I2C          # also the banner in the two generated JS files
+  fragment: false         # true: no <category> of our own, see below
   labels: [...]          # <label> lines above the blocks
   library: gy33I2C       # "Install <name> library" button; a list works too
   examples: gy33I2C      # "Load example: <name>"
@@ -92,6 +93,24 @@ blocks:
     params:
       - {name: led_pwr, label: Power, type: Number, default: 10, align: right}
 ```
+
+### A category that already exists
+
+Some blocks are not a category of their own: BIPES adds four to Blockly's Math
+category and two to its Text category, and `scikit-learn` on `linux` holds two
+blocks *and* nests another category inside it. `fragment: true` writes the
+entries with no `<category>` wrapper, so the marker pair goes inside the
+category that is already there:
+
+```xml
+      <block type="math_random_float"></block>
+      <!-- blockdef:math_extra -->
+      <!-- /blockdef:math_extra -->
+    </category>
+```
+
+`name:` is still required; for a fragment it only labels the banner in
+`blocks_generated.js` and `generators_generated.js`.
 
 ### Keys on a block
 

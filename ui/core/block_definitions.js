@@ -1126,52 +1126,12 @@ Blockly.Blocks['easymqtt_disconnect'] = {
 };
 
 /// Convert to Str
-Blockly.Blocks['text_to_str'] = {
-  init: function() {
-    this.appendValueInput("var")
-        .appendField(new Blockly.FieldLabelSerializable("to str"), "VAR");
-    this.setColour(160);
-    this.setOutput(true, null);
-    this.setTooltip("Convert anything to String.");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 /// Decode Bytes to Str
-Blockly.Blocks['decode_bytes_to_text'] = {
-  init: function() {
-    this.appendValueInput("var")
-        .appendField(new Blockly.FieldLabelSerializable("decode bytes to text"), "VAR");
-    this.setColour(160);
-    this.setOutput(true, null);
-    this.setTooltip("Decode bytes to a String.");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 /// Convert to Int
-Blockly.Blocks['var_to_int'] = {
-  init: function() {
-    this.appendValueInput("var")
-        .appendField(new Blockly.FieldLabelSerializable("to int"), "VAR");
-    this.setColour(230);
-    this.setOutput(true, null);
-    this.setTooltip("Convert anything to Int.");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 /// Convert to Float
-Blockly.Blocks['var_to_float'] = {
-  init: function() {
-    this.appendValueInput("var")
-        .appendField(new Blockly.FieldLabelSerializable("to float"), "VAR");
-    this.setColour(230);
-    this.setOutput(true, null);
-    this.setTooltip("Convert anything to float.");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 Blockly.Blocks['control_pid.__init__'] = {
@@ -5712,64 +5672,8 @@ Blockly.Blocks["wipy_heartbeat"] = {
 
 
 
-Blockly.Blocks['randomforestclassifier'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Random Forest Classifier");
-    this.appendValueInput("random_state")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("random_state");
-    this.setOutput(true, null);
-    this.setColour(60);
- this.setTooltip("randomforestclassifier");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
-Blockly.Blocks['fit'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("fit");
-    this.appendValueInput("classifier")
-        .setCheck(null)
-        .appendField("classifier");
-    this.appendValueInput("X")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("X");
-    this.appendValueInput("y")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("y");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(60);
- this.setTooltip("fit");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
-Blockly.Blocks['predict'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("predict");
-    this.appendValueInput("classifier")
-        .setCheck(null)
-        .appendField("classifier");
-    this.appendValueInput("X")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("X");
-    this.setOutput(true, null);
-    this.setColour(60);
- this.setTooltip("predict");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 //RC522 RFID module
 
@@ -7093,37 +6997,7 @@ Blockly.Blocks['iniciar_thread'] = {
   }
 };
 
-Blockly.Blocks['math_max'] = {
-  init: function() {
-    this.appendValueInput("VALUE1")
-        .setCheck("Number")
-        .appendField("max de");
-    this.appendValueInput("VALUE2")
-        .setCheck("Number")
-        .appendField("e");
-    this.setInputsInline(true);
-    this.setOutput(true, "Number");
-    this.setColour(230);
-    this.setTooltip("Retorna o maior dos dois valores.");
-    this.setHelpUrl("");
-  }
-};
 
-Blockly.Blocks['math_min'] = {
-  init: function() {
-    this.appendValueInput("VALUE1")
-        .setCheck("Number")
-        .appendField("min de");
-    this.appendValueInput("VALUE2")
-        .setCheck("Number")
-        .appendField("e");
-    this.setInputsInline(true);
-    this.setOutput(true, "Number");
-    this.setColour(230);
-    this.setTooltip("Retorna o menor dos dois valores.");
-    this.setHelpUrl("");
-  }
-};
 
 Blockly.Blocks['sensor_container'] = {
   init: function() {

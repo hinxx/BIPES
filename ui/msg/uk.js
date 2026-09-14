@@ -253,6 +253,11 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+    math_min_of: "мінімум з",
+    math_max_of: "максимум з",
+    math_and: "та",
+    math_min_tooltip: "Повертає менше з двох значень.",
+    math_max_tooltip: "Повертає більше з двох значень.",
     sht20_temperature: "температура SHT20",
     sht20_humidity: "вологість SHT20",
     aht_init: "Ініціалізувати AHT10/20",

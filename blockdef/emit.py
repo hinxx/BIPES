@@ -361,7 +361,11 @@ def _needs_prefix(definition: Definition, block: Block) -> bool:
 def emit_category_xml(definition: Definition, indent: str = '    ', board: str = '') -> str:
     # No colour attribute: the blocks carry the colour, and no leaf category in
     # this tree colours its own label.
-    lines = [f'<category name="{_xml(definition.category)}">']
+    #
+    # A `fragment:` definition writes no <category> at all: its markers sit
+    # inside one that already exists, which is how the four blocks BIPES adds
+    # to Blockly's Math category get generated without owning the category.
+    lines = [] if definition.fragment else [f'<category name="{_xml(definition.category)}">']
     for label in definition.labels:
         lines.append(f'  <label text="{_xml(label)}"></label>')
     for name in definition.library:
@@ -402,7 +406,14 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
             lines.append(f'    <field name="{_xml(name)}">{_xml(value)}</field>')
         lines.append('  </block>')
 
-    lines.append('</category>')
+    if not definition.fragment:
+        lines.append('</category>')
+    else:
+        # The two-space indent every entry carries belongs to the <category>
+        # that is not being written here.
+        lines = [line[2:] if line.startswith('  ') else line for line in lines]
+        while lines and not lines[0]:
+            lines.pop(0)
     return '\n'.join(indent + line if line else '' for line in lines)
 
 

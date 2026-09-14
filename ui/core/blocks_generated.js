@@ -498,6 +498,24 @@ Blockly.Blocks['char_lcd_display'] = {
   }
 };
 
+// ---- classifier (classifier.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['randomforestclassifier'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("Random Forest Classifier");
+    this.appendValueInput("random_state")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("random_state");
+    this.setOutput(true, null);
+    this.setColour(60);
+    this.setTooltip("randomforestclassifier");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- cmath (cmath.blockdef.yaml) ---------------------------------------------
 
 Blockly.Blocks['cmath_cos'] = {
@@ -2571,6 +2589,62 @@ Blockly.Blocks['math_trunc'] = {
   }
 };
 
+// ---- Math additions (math_extra.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['var_to_int'] = {
+  init: function() {
+    this.appendValueInput("var")
+        .setCheck(null)
+        .appendField(new Blockly.FieldLabelSerializable("to int"), "VAR");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Convert anything to Int.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['var_to_float'] = {
+  init: function() {
+    this.appendValueInput("var")
+        .setCheck(null)
+        .appendField(new Blockly.FieldLabelSerializable("to float"), "VAR");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Convert anything to float.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['math_min'] = {
+  init: function() {
+    this.appendValueInput("VALUE1")
+        .setCheck("Number")
+        .appendField(MSG["math_min_of"]);
+    this.appendValueInput("VALUE2")
+        .setCheck("Number")
+        .appendField(MSG["math_and"]);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setInputsInline(true);
+    this.setTooltip(MSG["math_min_tooltip"]);
+  }
+};
+
+Blockly.Blocks['math_max'] = {
+  init: function() {
+    this.appendValueInput("VALUE1")
+        .setCheck("Number")
+        .appendField(MSG["math_max_of"]);
+    this.appendValueInput("VALUE2")
+        .setCheck("Number")
+        .appendField(MSG["math_and"]);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setInputsInline(true);
+    this.setTooltip(MSG["math_max_tooltip"]);
+  }
+};
+
 // ---- Oximeter (max30100.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['max30100_init'] = {
@@ -4555,6 +4629,51 @@ Blockly.Blocks['simulate_dcmotor.vars'] = {
   }
 };
 
+// ---- scikit-learn (sklearn.blockdef.yaml) ------------------------------------
+
+Blockly.Blocks['fit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("fit");
+    this.appendValueInput("classifier")
+        .setCheck(null)
+        .appendField("classifier");
+    this.appendValueInput("X")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X");
+    this.appendValueInput("y")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(60);
+    this.setTooltip("fit");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['predict'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("predict");
+    this.appendValueInput("classifier")
+        .setCheck(null)
+        .appendField("classifier");
+    this.appendValueInput("X")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X");
+    this.setOutput(true, null);
+    this.setColour(60);
+    this.setTooltip("predict");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['net_socket_connect'] = {
@@ -5213,6 +5332,32 @@ Blockly.Blocks['sys_print_exception'] = {
     this.setColour(0);
     this.setTooltip(".. function:: print_exception(exc, file=sys.stdout, /) Print exception with a traceback to a file-like object Makefile (or `sys.stdout` by default). ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/sys.html");
+  }
+};
+
+// ---- Text additions (text_extra.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['text_to_str'] = {
+  init: function() {
+    this.appendValueInput("var")
+        .setCheck(null)
+        .appendField(new Blockly.FieldLabelSerializable("to str"), "VAR");
+    this.setOutput(true, null);
+    this.setColour(160);
+    this.setTooltip("Convert anything to String.");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['decode_bytes_to_text'] = {
+  init: function() {
+    this.appendValueInput("var")
+        .setCheck(null)
+        .appendField(new Blockly.FieldLabelSerializable("decode bytes to text"), "VAR");
+    this.setOutput(true, null);
+    this.setColour(160);
+    this.setTooltip("Decode bytes to a String.");
+    this.setHelpUrl("http://www.bipes.net.br");
   }
 };
 

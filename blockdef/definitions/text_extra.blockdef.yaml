@@ -1,0 +1,31 @@
+# The two blocks BIPES adds to Blockly's own Text category. A `fragment:`, like
+# the Math ones: the markers go inside `%{BKY_CATTEXT}`.
+
+module: builtins
+colour: 160
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: Text additions
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: text_to_str
+    kind: value
+    label: []
+    tooltip: Convert anything to String.
+    code: "str({var})"
+    params:
+      - {name: var, label: {text: to str, field: VAR}}
+
+  - type: decode_bytes_to_text
+    kind: value
+    label: []
+    tooltip: Decode bytes to a String.
+    boards: [default]
+    code: "{var}.decode()"
+    params:
+      - {name: var, label: {text: decode bytes to text, field: VAR}}

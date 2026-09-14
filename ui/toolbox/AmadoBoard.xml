@@ -125,14 +125,37 @@
         </value>
       </block>
       <block type="math_random_float"></block>
-      <block type="var_to_int">  
-        <field name="VAR">to int</field>
+      <!-- blockdef:math_extra -->
+      <block type="var_to_int"></block>
+
+      <block type="var_to_float"></block>
+
+      <block type="math_min">
+        <value name="VALUE1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="VALUE2">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
       </block>
-      <block type="var_to_float">  
-        <field name="VAR">to float</field> 
+
+      <block type="math_max">
+        <value name="VALUE1">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="VALUE2">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
       </block>
-      <block type="math_min"></block>
-      <block type="math_max"></block>
+      <!-- /blockdef:math_extra -->
     </category>
     <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
@@ -210,9 +233,9 @@
           </shadow>
         </value>
       </block>
-      <block type="text_to_str">  
-        <field name="VAR">to str</field>
-      </block>
+      <!-- blockdef:text_extra -->
+      <block type="text_to_str"></block>
+      <!-- /blockdef:text_extra -->
     </category>
     <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_with">

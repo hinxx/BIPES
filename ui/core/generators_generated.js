@@ -252,6 +252,15 @@ Blockly.Python['char_lcd_display'] = function(block) {
   return code + "\n";
 };
 
+// ---- classifier (classifier.blockdef.yaml) -----------------------------------
+
+Blockly.Python['randomforestclassifier'] = function(block) {
+  Blockly.Python.definitions_["import_random_forest_classifier"] = "from sklearn.ensemble import RandomForestClassifier";
+  var random_state_ = Blockly.Python.valueToCode(block, "random_state", Blockly.Python.ORDER_ATOMIC);
+  var code = "RandomForestClassifier(random_state=" + random_state_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- cmath (cmath.blockdef.yaml) ---------------------------------------------
 
 Blockly.Python['cmath_cos'] = function(block) {
@@ -1346,6 +1355,34 @@ Blockly.Python['math_trunc'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Math additions (math_extra.blockdef.yaml) -------------------------------
+
+Blockly.Python['var_to_int'] = function(block) {
+  var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  var code = "int(" + var_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['var_to_float'] = function(block) {
+  var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  var code = "float(" + var_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['math_min'] = function(block) {
+  var VALUE1_ = Blockly.Python.valueToCode(block, "VALUE1", Blockly.Python.ORDER_ATOMIC);
+  var VALUE2_ = Blockly.Python.valueToCode(block, "VALUE2", Blockly.Python.ORDER_ATOMIC);
+  var code = "min(" + VALUE1_ + ", " + VALUE2_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['math_max'] = function(block) {
+  var VALUE1_ = Blockly.Python.valueToCode(block, "VALUE1", Blockly.Python.ORDER_ATOMIC);
+  var VALUE2_ = Blockly.Python.valueToCode(block, "VALUE2", Blockly.Python.ORDER_ATOMIC);
+  var code = "max(" + VALUE1_ + ", " + VALUE2_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Oximeter (max30100.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['max30100_init'] = function(block) {
@@ -2342,6 +2379,23 @@ Blockly.Python['simulate_dcmotor.vars'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- scikit-learn (sklearn.blockdef.yaml) ------------------------------------
+
+Blockly.Python['fit'] = function(block) {
+  var classifier_ = Blockly.Python.valueToCode(block, "classifier", Blockly.Python.ORDER_ATOMIC);
+  var X_ = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = classifier_ + ".fit(" + X_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['predict'] = function(block) {
+  var classifier_ = Blockly.Python.valueToCode(block, "classifier", Blockly.Python.ORDER_ATOMIC);
+  var X_ = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_ATOMIC);
+  var code = classifier_ + ".predict(" + X_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Python['net_socket_connect'] = function(block) {
@@ -2688,6 +2742,20 @@ Blockly.Python['sys_print_exception'] = function(block) {
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "sys.print_exception(" + pIn_ + ")";
   return code + "\n";
+};
+
+// ---- Text additions (text_extra.blockdef.yaml) -------------------------------
+
+Blockly.Python['text_to_str'] = function(block) {
+  var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  var code = "str(" + var_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['decode_bytes_to_text'] = function(block) {
+  var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  var code = var_ + ".decode()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- Bump (threepi_bump.blockdef.yaml) ---------------------------------------

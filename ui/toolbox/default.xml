@@ -125,12 +125,11 @@
         </value>
       </block>
       <block type="math_random_float"></block>
-      <block type="var_to_int">
-        <field name="VAR">to int</field>
-      </block>
-      <block type="var_to_float">
-        <field name="VAR">to float</field>
-      </block>
+      <!-- blockdef:math_extra -->
+      <block type="var_to_int"></block>
+
+      <block type="var_to_float"></block>
+      <!-- /blockdef:math_extra -->
     </category>
     <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
@@ -208,12 +207,11 @@
           </shadow>
         </value>
       </block>
-      <block type="text_to_str">
-        <field name="VAR">to str</field>
-      </block>
-      <block type="decode_bytes_to_text">
-        <field name="VAR">decode bytes to text</field>
-      </block>
+      <!-- blockdef:text_extra -->
+      <block type="text_to_str"></block>
+
+      <block type="decode_bytes_to_text"></block>
+      <!-- /blockdef:text_extra -->
     </category>
     <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_with">

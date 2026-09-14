@@ -1,0 +1,37 @@
+# scikit-learn on the Linux board. `fit` and `predict` sit directly inside the
+# `scikit-learn` category, which also *nests* the `classifier` category below,
+# so this is a `fragment:` -- the markers go inside the parent and the nested
+# category keeps its own file. That shape is why this one could not be spliced
+# before.
+#
+# `predict` and `randomforestclassifier` both returned their call with a
+# trailing newline as a *value*; generated value blocks cannot.
+
+module: sklearn
+colour: 60
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: scikit-learn
+  fragment: true
+  toolboxes: [linux]
+
+blocks:
+  - type: fit
+    label: [{text: fit, align: centre}]
+    tooltip: fit
+    code: "{classifier}.fit({X}, {y})"
+    params:
+      - {name: classifier, label: classifier}
+      - {name: X, label: X, align: right}
+      - {name: y, label: y, align: right}
+
+  - type: predict
+    kind: value
+    label: [{text: predict, align: centre}]
+    tooltip: predict
+    code: "{classifier}.predict({X})"
+    params:
+      - {name: classifier, label: classifier}
+      - {name: X, label: X, align: right}

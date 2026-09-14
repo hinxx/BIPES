@@ -1,0 +1,64 @@
+# The four blocks BIPES adds to Blockly's own Math category.
+#
+# They are not a category of their own -- they sit among `math_number`,
+# `math_arithmetic` and the rest -- so this file is a `fragment:`: the markers
+# go inside `%{BKY_CATMATH}` and no `<category>` is written.
+#
+# `math_min` and `math_max` were labelled in Portuguese ("min de … e",
+# "Retorna o menor dos dois valores") on a board whose every other block goes
+# through `MSG`, so the other ten languages got Portuguese. They have keys now.
+
+module: builtins
+colour: 230
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: Math additions
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: var_to_int
+    kind: value
+    label: []
+    tooltip: Convert anything to Int.
+    code: "int({var})"
+    params:
+      - {name: var, label: {text: to int, field: VAR}}
+
+  - type: var_to_float
+    kind: value
+    label: []
+    tooltip: Convert anything to float.
+    boards: [AmadoBoard, default]
+    code: "float({var})"
+    params:
+      - {name: var, label: {text: to float, field: VAR}}
+
+  - type: math_min
+    kind: value
+    output: Number
+    inline: true
+    label: []
+    tooltip: {msg: math_min_tooltip}
+    url: ""
+    boards: [AmadoBoard]
+    code: "min({VALUE1}, {VALUE2})"
+    params:
+      - {name: VALUE1, label: {msg: math_min_of}, type: Number, default: 0}
+      - {name: VALUE2, label: {msg: math_and},    type: Number, default: 0}
+
+  - type: math_max
+    kind: value
+    output: Number
+    inline: true
+    label: []
+    tooltip: {msg: math_max_tooltip}
+    url: ""
+    boards: [AmadoBoard]
+    code: "max({VALUE1}, {VALUE2})"
+    params:
+      - {name: VALUE1, label: {msg: math_max_of}, type: Number, default: 0}
+      - {name: VALUE2, label: {msg: math_and},    type: Number, default: 0}
