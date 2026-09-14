@@ -1,0 +1,74 @@
+# DS3231 battery-backed real-time clock.
+#
+# The init block installs a small dt_tuple() helper alongside the import: like
+# the encoder's class, it is an entry in definitions_, so `import:` carries it.
+
+module: ds3231_gen
+class: DS3231
+instance: ds3231
+colour: 135
+import: {line: "from ds3231_gen import DS3231", key: import_ds3231}
+
+category:
+  name: DS3231 RTC
+  library: ds3231_gen
+  labels:
+    - DS3231 Real Time Clock
+    - "Library: https://github.com/peterhinch/micropython-samples/blob/master/DS3231/ds3231_gen.py"
+  toolboxes: [rpi_pico, rpi_pico_w]
+  defaults:
+    rpi_pico:   {scl: 1, sda: 0}
+    rpi_pico_w: {scl: 1, sda: 0}
+
+blocks:
+  - type: init_ds3231
+    label:
+      - Init DS3231 RTC
+      - {image: {src: media/ds3231.jpg, width: 55, height: 55}}
+    tooltip: ""
+    import:
+      - {line: "import time", key: import_time}
+      - key: dt_tuple
+        line: "def dt_tuple(dt):\n\treturn time.localtime(time.mktime(dt))\n"
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    args: [bus]
+    constructor: true
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+
+  - type: set_time_ds3231
+    label: Set the Date and Time (24 Hr Clock)
+    tooltip: Set Time and Date
+    code: |-
+      dt = dt_tuple(({year}, {month}, {day}, {hour}, {min}, {sec}, 0, 0))
+      {instance}.set_time(dt)
+    params:
+      - {name: year,  label: Year,            type: Number, default: 2024, align: right}
+      - {name: month, label: Month (1 - 12),  type: Number, default: 1,    align: right}
+      - {name: day,   label: Day,             type: Number, default: 1,    align: right}
+      - {name: hour,  label: Hour (0 - 23),   type: Number, default: 0,    align: right}
+      - {name: min,   label: Minutes (0 - 59), type: Number, default: 0,   align: right}
+      - {name: sec,   label: Seconds (0 - 59), type: Number, default: 0,   align: right}
+
+  - type: read_time_ds3231
+    fn: get_time
+    kind: value
+    label: Get the Date and Time (24 Hr Clock)
+    tooltip: Get the date and time
+    url: http://www.bipes.net.br
+    colour: 230
+
+  - type: read_temp_ds3231
+    fn: temperature
+    kind: value
+    label: Get the Temperature
+    tooltip: Get the temperature
+    url: http://www.bipes.net.br
+    colour: 230
+    params:
+      - name: degree_f
+        label: "Degrees "
+        kind: dropdown
+        options: [{C: "False"}, {F: "True"}]

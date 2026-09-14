@@ -537,6 +537,93 @@ Blockly.Blocks['onewire_ds18x20_read_temp'] = {
   }
 };
 
+// ---- DS3231 RTC (ds3231.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['init_ds3231'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init DS3231 RTC");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ds3231.jpg", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['set_time_ds3231'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set the Date and Time (24 Hr Clock)");
+    this.appendValueInput("year")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Year");
+    this.appendValueInput("month")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Month (1 - 12)");
+    this.appendValueInput("day")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Day");
+    this.appendValueInput("hour")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Hour (0 - 23)");
+    this.appendValueInput("min")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Minutes (0 - 59)");
+    this.appendValueInput("sec")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Seconds (0 - 59)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Set Time and Date");
+  }
+};
+
+Blockly.Blocks['read_time_ds3231'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get the Date and Time (24 Hr Clock)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get the date and time");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['read_temp_ds3231'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get the Temperature");
+    this.appendDummyInput()
+        .appendField("Degrees ")
+        .appendField(new Blockly.FieldDropdown([["C", "False"], ["F", "True"]]), "degree_f");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get the temperature");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- Rotatory Encoder (encoder.blockdef.yaml) --------------------------------
 
 Blockly.Blocks['encoder_init'] = {
@@ -1129,6 +1216,48 @@ Blockly.Blocks['mcp23017_input'] = {
   }
 };
 
+// ---- MPR121 (mpr121.blockdef.yaml) -------------------------------------------
+
+Blockly.Blocks['mpr121_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init MPR121 Keypad");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mpr121.jpg", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Initializes the MPR121 interface");
+  }
+};
+
+Blockly.Blocks['mpr121_key_pressed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Is Key Pressed");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("KEY");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Is key pressed");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['net_socket_connect'] = {
@@ -1187,6 +1316,152 @@ Blockly.Blocks['net_socket_close'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- 4 Digit Display (tm1637.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['tm1637_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/tm1637.jpg", 55, 55, "*"))
+        .appendField("Init TM1637 4 Digit Display");
+    this.appendValueInput("clk")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CLK");
+    this.appendValueInput("dio")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("DIO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Init TM1637 4 Digit Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_write_char'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write a Single Character to Display");
+    this.appendValueInput("character")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Character");
+    this.appendValueInput("position")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Position (0-3)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write a character to the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_write_text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write Text to Display");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write text to the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_scroll_text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Scroll Text to Display");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.appendValueInput("speed")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Speed (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Scroll text to the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_set_time'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write Time to Display");
+    this.appendValueInput("hour")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Hour");
+    this.appendValueInput("minute")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Minute");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write time to the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_set_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write Temperature to Display");
+    this.appendValueInput("temperature")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Temperature");
+    this.appendDummyInput()
+        .appendField("Degrees")
+        .appendField(new Blockly.FieldDropdown([["C", "True"], ["F", "False"]]), "DEGREE_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write temperature to the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_set_brightness'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set the Brightness of the Display");
+    this.appendValueInput("brightness")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("BRIGHTNESS (0-7)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Set the brightness of the display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['tm1637_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Clear the Display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Clear the display");
+    this.setHelpUrl("http://www.bipes.net.br");
   }
 };
 
@@ -1355,6 +1630,58 @@ Blockly.Blocks['uart_any'] = {
     this.appendDummyInput()
         .appendField("Check to see if the uart has data");
     this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+// ---- EMAIL (umail.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['umail_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init uMail Email Sender");
+    this.appendValueInput("host")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Host:");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port:");
+    this.appendValueInput("username")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Username:");
+    this.appendValueInput("password")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Password:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['umail_send'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send email");
+    this.appendValueInput("to")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("To email:");
+    this.appendValueInput("subject")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Subject:");
+    this.appendValueInput("contents")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Email message:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
   }

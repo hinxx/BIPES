@@ -1,0 +1,44 @@
+# MPR121 capacitive touch keypad.
+
+module: mpr121
+class: MPR121
+instance: mpr
+colour: 135
+import: {line: "from mpr121 import MPR121", key: import_mpr121}
+
+category:
+  name: MPR121
+  library: mpr121
+  labels:
+    - MPR121 Capacitive Touch Keypad
+    - "Library: https://github.com/mcauser/micropython-mpr121"
+  toolboxes: [rpi_pico, rpi_pico_w, makernano, makerpi]
+  defaults:
+    rpi_pico:   {sda: 0, scl: 1}
+    rpi_pico_w: {sda: 0, scl: 1}
+    makernano:  {sda: 0, scl: 1}
+    makerpi:    {sda: 0, scl: 1}
+
+blocks:
+  - type: mpr121_init
+    label:
+      - Init MPR121 Keypad
+      - {image: {src: media/mpr121.jpg, width: 55, height: 55}}
+    tooltip: Initializes the MPR121 interface
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    args: [bus]
+    constructor: true
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+
+  - type: mpr121_key_pressed
+    fn: is_touched
+    kind: value
+    label: Is Key Pressed
+    tooltip: Is key pressed
+    url: http://www.bipes.net.br
+    colour: 135
+    params:
+      - {name: id, label: KEY, type: Number, default: 0, align: right}

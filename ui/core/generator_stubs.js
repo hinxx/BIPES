@@ -374,72 +374,7 @@ Blockly.Python['var_to_float'] = function(block) {
 //OneWire
 
 // ds3231
-Blockly.Python['init_ds3231'] = function(block) {
-  var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-  var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-  var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_ds3231'] = 'from ds3231_gen import DS3231';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['dt_tuple'] =  ``
-  + 'def dt_tuple(dt):\n'
-  + '	return time.localtime(time.mktime(dt))\n';
-
-  var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: scl, sda: sda});
-  var code = '';
-  code += "ds3231 = DS3231(" + bus_ + ")\n";
-
-  return code;
-};
-
-Blockly.Python['set_time_ds3231'] = function(block) {
-	var year = Blockly.Python.valueToCode(block, 'year', Blockly.Python.ORDER_ATOMIC);
-	var month = Blockly.Python.valueToCode(block, 'month', Blockly.Python.ORDER_ATOMIC);
-	var day = Blockly.Python.valueToCode(block, 'day', Blockly.Python.ORDER_ATOMIC);
-	var hour = Blockly.Python.valueToCode(block, 'hour', Blockly.Python.ORDER_ATOMIC);
-	var min = Blockly.Python.valueToCode(block, 'min', Blockly.Python.ORDER_ATOMIC);
-	var sec = Blockly.Python.valueToCode(block, 'sec', Blockly.Python.ORDER_ATOMIC);
-  	
-	var code = 'dt = dt_tuple((' + year + ', ' + month + ', ' + day + ', ' + hour + ', ' + min + ', ' + sec + ', 0, 0))\n'
-	code += "ds3231.set_time(dt)\n";
-  
-	return code;
-  };
-  
-  Blockly.Python['read_time_ds3231'] = function(block) {
-	var code = 'ds3231.get_time()';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-
-  Blockly.Python['read_temp_ds3231'] = function(block) {
-	var degree_f = block.getFieldValue('degree_f');
-	var code = 'ds3231.temperature(' + degree_f + ')';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-
 // MPR121
-Blockly.Python['mpr121_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-	var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-  
-	Blockly.Python.definitions_['import_mpr121'] = 'from mpr121 import MPR121';
-  
-	  var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: scl, sda: sda});
-  var code = '';
-	  code += "mpr = MPR121(" + bus_ + ")\n";
-  
-	return code;
-  };
-
-    Blockly.Python['mpr121_key_pressed'] = function(block) {
-	var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_ATOMIC);
-
-	var code = 'mpr.is_touched(' + id + ')';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
- 
-
 // vl53l0x
 Blockly.Python['init_vl53l0x'] = function(block) {
 	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
@@ -859,77 +794,13 @@ Blockly.Python['dht_read_humidity'] = function(block) {
 /// Start BH1750 Sensor
 /// Read BH1750
   /// TM1637 Display
-Blockly.Python['tm1637_init'] = function(block) {
-	var clk = Blockly.Python.valueToCode(block, 'clk', Blockly.Python.ORDER_ATOMIC);
-	var dio = Blockly.Python.valueToCode(block, 'dio', Blockly.Python.ORDER_ATOMIC);
-  
-	Blockly.Python.definitions_['import_tm1637'] = 'import tm1637';
-	Blockly.Python.definitions_['import_Pin'] = 'from machine import Pin';
-  
-    var code = 'tm = tm1637.TM1637(clk = Pin('+ clk + '), dio = Pin(' + dio + '))\n';
-	return code;
-}
-
 /// TM1637 Write a character at a position
-Blockly.Python['tm1637_write_char'] = function(block) {
-	var position = Blockly.Python.valueToCode(block, 'position', Blockly.Python.ORDER_ATOMIC);
-	var character = Blockly.Python.valueToCode(block, 'character', Blockly.Python.ORDER_ATOMIC);
-  
-	var code = 'tm.write([tm.encode_char(' + character + ')], ' + position + ')\n';
-	return code;
-}
-
 /// TM1637 Write Text
-Blockly.Python['tm1637_write_text'] = function(block) {
-	var position = Blockly.Python.valueToCode(block, 'position', Blockly.Python.ORDER_ATOMIC);
-	var text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
-  
-	var code = 'tm.show(' + text + ')\n';
-	return code;
-}
-
 /// TM1637 Scroll Text
-Blockly.Python['tm1637_scroll_text'] = function(block) {
-	var text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
-	var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-  
-	var code = 'tm.scroll(' + text + ', ' + speed + ')\n';
-	return code;
-}
-
 /// TM1637 Clear Display
-Blockly.Python['tm1637_clear'] = function(block) {
-  
-	var code = 'tm.write([0, 0, 0, 0])\n';
-	return code;
-}
-
 /// TM1637 Set Brightness
-Blockly.Python['tm1637_set_brightness'] = function(block) {
-	var brightness = Blockly.Python.valueToCode(block, 'brightness', Blockly.Python.ORDER_ATOMIC);
-  
-	var code = 'tm.brightness(' + brightness + ')\n';
-	return code;
-}
-
 /// TM1637 Set Time
-Blockly.Python['tm1637_set_time'] = function(block) {
-	var hour = Blockly.Python.valueToCode(block, 'hour', Blockly.Python.ORDER_ATOMIC);
-	var minute = Blockly.Python.valueToCode(block, 'minute', Blockly.Python.ORDER_ATOMIC);
-  
-	var code = 'tm.numbers(' + hour + ', ' + minute + ')\n';
-	return code;
-}
-
 /// TM1637 Set Temperature
-Blockly.Python['tm1637_set_temperature'] = function(block) {
-	var temperature = Blockly.Python.valueToCode(block, 'temperature', Blockly.Python.ORDER_ATOMIC);
-	var degree = block.getFieldValue('DEGREE_TYPE');
-
-	var code = 'tm.temperature(' + temperature + ', ' + degree + ')\n';
-	return code;
-}
-
 /// MAX7219 Display
 Blockly.Python['max7219_init'] = function(block) {
 	var spi = Blockly.Python.valueToCode(block, 'spi', Blockly.Python.ORDER_ATOMIC);
@@ -5225,37 +5096,6 @@ Blockly.Python['rfid_rc522_read_card'] = function(block) {
 Blockly.Python['rfid_rc522_write_card'] = function(block) {
   var code = 'rdr=mfrc522.MFRC522(0,2,4,5,14)\n';
   return code;
-};
-
-
-Blockly.Python['umail_init'] = function(block) {
-  var host = Blockly.Python.valueToCode(block, 'host', Blockly.Python.ORDER_ATOMIC);
-  var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
-  var username = Blockly.Python.valueToCode(block, 'username', Blockly.Python.ORDER_ATOMIC);
-  var password = Blockly.Python.valueToCode(block, 'password', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_umail'] = 'import umail';
-
-  var code = 'smtp = umail.SMTP(' + host + ',' + port + ',' + 'username=' + username + ',' + 'password=' + password + ')\n';
-  return code;
-
-};
-
-Blockly.Python['umail_send'] = function(block) {
-  var to = Blockly.Python.valueToCode(block, 'to', Blockly.Python.ORDER_ATOMIC);
-  var subject = Blockly.Python.valueToCode(block, 'subject', Blockly.Python.ORDER_ATOMIC);
-  var contents = Blockly.Python.valueToCode(block, 'contents', Blockly.Python.ORDER_ATOMIC);
-
-  var s = subject.replace('\'','').replace('\'','');
-  var c = contents.replace('\'','').replace('\'','');
-  var msg = 'Subject: ' + s + '\\n\\n' + c;
-
-
-  var code = 'smtp.to(' + to + ')\n';
-	code += 'smtp.send(\'' + msg + '\')\n';
-	code += 'smtp.quit()\n';
-  return code;
-
 };
 
 

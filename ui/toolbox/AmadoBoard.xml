@@ -2105,14 +2105,15 @@
 
     </category>
 
+    <!-- blockdef:umail -->
     <category name="EMAIL">
       <label text="Email sender using uMail"></label>
       <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
+      <button text="Install umail library" callbackKey="installPyLib"></button>
+      <button text="Documentation and how to connect: uMail" callbackKey="loadDoc"></button>
 
       <block type="umail_init">
-	  <value name="host">
+        <value name="host">
           <shadow type="text">
             <field name="TEXT">smtp.gmail.com</field>
           </shadow>
@@ -2135,23 +2136,24 @@
       </block>
 
       <block type="umail_send">
-	  <value name="to">
+        <value name="to">
           <shadow type="text">
-            <field name="TEXT">email@email.com</field>
+            <field name="TEXT">email@gmail.com</field>
           </shadow>
         </value>
         <value name="subject">
           <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
+            <field name="TEXT">BIPES</field>
           </shadow>
         </value>
         <value name="contents">
           <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
+            <field name="TEXT">Hello</field>
           </shadow>
         </value>
       </block>
     </category>
+    <!-- /blockdef:umail -->
 
 
     <category name="NTP Time">

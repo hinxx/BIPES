@@ -1403,6 +1403,7 @@
 
   </category>
 
+  <!-- blockdef:tm1637 -->
   <category name="4 Digit Display">
     <label text="TM1637 Display"></label>
     <label text="Library: https://github.com/mcauser/micropython-tm1637"></label>
@@ -1424,12 +1425,12 @@
     <block type="tm1637_write_char">
       <value name="character">
         <shadow type="text">
-          <field name="TEXT">E</field>
+          <field name="TEXT">A</field>
         </shadow>
       </value>
       <value name="position">
         <shadow type="math_number">
-          <field name="NUM">2</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
@@ -1437,7 +1438,7 @@
     <block type="tm1637_write_text">
       <value name="text">
         <shadow type="text">
-          <field name="TEXT">COOL</field>
+          <field name="TEXT">bipe</field>
         </shadow>
       </value>
     </block>
@@ -1445,12 +1446,12 @@
     <block type="tm1637_scroll_text">
       <value name="text">
         <shadow type="text">
-          <field name="TEXT">HELLO WORLD</field>
+          <field name="TEXT">hello world</field>
         </shadow>
       </value>
       <value name="speed">
         <shadow type="math_number">
-          <field name="NUM">1000</field>
+          <field name="NUM">200</field>
         </shadow>
       </value>
     </block>
@@ -1458,12 +1459,12 @@
     <block type="tm1637_set_time">
       <value name="hour">
         <shadow type="math_number">
-          <field name="NUM">11</field>
+          <field name="NUM">12</field>
         </shadow>
       </value>
       <value name="minute">
         <shadow type="math_number">
-          <field name="NUM">45</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
@@ -1471,7 +1472,7 @@
     <block type="tm1637_set_temperature">
       <value name="temperature">
         <shadow type="math_number">
-          <field name="NUM">23</field>
+          <field name="NUM">20</field>
         </shadow>
       </value>
     </block>
@@ -1486,6 +1487,7 @@
 
     <block type="tm1637_clear"></block>
   </category>
+  <!-- /blockdef:tm1637 -->
   </category>
 
   <category name="%{BKY_CAT_SENSORS}">
@@ -2697,14 +2699,15 @@
 
     </category>
 
+    <!-- blockdef:umail -->
     <category name="EMAIL">
       <label text="Email sender using uMail"></label>
       <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
+      <button text="Install umail library" callbackKey="installPyLib"></button>
+      <button text="Documentation and how to connect: uMail" callbackKey="loadDoc"></button>
 
       <block type="umail_init">
-	  <value name="host">
+        <value name="host">
           <shadow type="text">
             <field name="TEXT">smtp.gmail.com</field>
           </shadow>
@@ -2727,23 +2730,24 @@
       </block>
 
       <block type="umail_send">
-	  <value name="to">
+        <value name="to">
           <shadow type="text">
-            <field name="TEXT">email@email.com</field>
+            <field name="TEXT">email@gmail.com</field>
           </shadow>
         </value>
         <value name="subject">
           <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
+            <field name="TEXT">BIPES</field>
           </shadow>
         </value>
         <value name="contents">
           <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
+            <field name="TEXT">Hello</field>
           </shadow>
         </value>
       </block>
     </category>
+    <!-- /blockdef:umail -->
 
 
     <category name="NTP Time">

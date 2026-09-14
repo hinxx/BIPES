@@ -1,0 +1,90 @@
+# TM1637 four-digit seven-segment display.
+#
+# Note that this and the TM1640 matrix both name their object `tm`, so a
+# program using both would have them fight -- that predates this file.
+
+module: tm1637
+instance: tm
+colour: olive
+url: http://www.bipes.net.br
+import:
+  - {line: "import tm1637", key: import_tm1637}
+  - {line: "from machine import Pin", key: import_Pin}
+
+category:
+  name: 4 Digit Display
+  library: tm1637
+  labels:
+    - TM1637 Display
+    - "Library: https://github.com/mcauser/micropython-tm1637"
+  toolboxes: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi]
+  defaults:
+    esp32c3:    {clk: 18, dio: 17}
+    rpi_pico:   {clk: 18, dio: 17}
+    rpi_pico_w: {clk: 18, dio: 17}
+    makernano:  {clk: 18, dio: 17}
+    makerpi:    {clk: 18, dio: 17}
+
+blocks:
+  - type: tm1637_init
+    label:
+      - {image: {src: media/tm1637.jpg, width: 55, height: 55}, text: Init TM1637 4 Digit Display}
+    tooltip: Init TM1637 4 Digit Display
+    code: "{instance} = tm1637.TM1637(clk = Pin({clk}), dio = Pin({dio}))"
+    params:
+      - {name: clk, label: CLK, type: Number, pin: true, align: right}
+      - {name: dio, label: DIO, type: Number, pin: true, align: right}
+
+  - type: tm1637_write_char
+    label: Write a Single Character to Display
+    tooltip: Write a character to the display
+    code: "{instance}.write([{instance}.encode_char({character})], {position})"
+    params:
+      - {name: character, label: Character, type: String, default: A, align: right}
+      - {name: position, label: Position (0-3), type: Number, default: 0, align: right}
+
+  - type: tm1637_write_text
+    fn: show
+    label: Write Text to Display
+    tooltip: Write text to the display
+    params:
+      - {name: text, label: Text, type: String, default: bipe, align: right}
+
+  - type: tm1637_scroll_text
+    fn: scroll
+    label: Scroll Text to Display
+    tooltip: Scroll text to the display
+    params:
+      - {name: text,  label: Text, type: String, default: hello world, align: right}
+      - {name: speed, label: Speed (ms), type: Number, default: 200, align: right}
+
+  - type: tm1637_set_time
+    fn: numbers
+    label: Write Time to Display
+    tooltip: Write time to the display
+    params:
+      - {name: hour,   label: Hour, type: Number, default: 12, align: right}
+      - {name: minute, label: Minute, type: Number, default: 0, align: right}
+
+  - type: tm1637_set_temperature
+    fn: temperature
+    label: Write Temperature to Display
+    tooltip: Write temperature to the display
+    params:
+      - {name: temperature, label: Temperature, type: Number, default: 20, align: right}
+      - name: DEGREE_TYPE
+        label: Degrees
+        kind: dropdown
+        options: [{C: "True"}, {F: "False"}]
+
+  - type: tm1637_set_brightness
+    fn: brightness
+    label: Set the Brightness of the Display
+    tooltip: Set the brightness of the display
+    params:
+      - {name: brightness, label: BRIGHTNESS (0-7), type: Number, default: 7, align: right}
+
+  - type: tm1637_clear
+    label: Clear the Display
+    tooltip: Clear the display
+    code: "{instance}.write([0, 0, 0, 0])"

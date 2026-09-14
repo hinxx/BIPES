@@ -1,0 +1,42 @@
+# Sending mail over SMTP with uMail.
+
+module: umail
+class: SMTP
+instance: smtp
+colour: 135
+import: {line: "import umail", key: import_umail}
+
+category:
+  name: EMAIL
+  library: umail
+  docs: uMail
+  labels:
+    - Email sender using uMail
+    - "Library: https://github.com/shawwwn/uMail"
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico_w,
+              AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: umail_init
+    label: Init uMail Email Sender
+    tooltip: ""
+    code: "{instance} = umail.SMTP({host},{port},username={username},password={password})"
+    params:
+      - {name: host,     label: "Host:",     type: String, default: smtp.gmail.com, align: right}
+      - {name: port,     label: "Port:",     type: Number, default: 587, align: right}
+      - {name: username, label: "Username:", type: String, default: email@gmail.com, align: right}
+      - {name: password, label: "Password:", type: String, default: gmail_password, align: right}
+
+  - type: umail_send
+    label: Send email
+    tooltip: ""
+    # Subject and body are pasted inside one Python string literal, so the
+    # quotes the text blocks put around them have to come off first.
+    code: |-
+      {instance}.to({to})
+      {instance}.send('Subject: {subject}\n\n{contents}')
+      {instance}.quit()
+    params:
+      - {name: to,       label: "To email:",      type: String, default: email@gmail.com, align: right}
+      - {name: subject,  label: "Subject:",       type: String, default: BIPES, unquote: true, align: right}
+      - {name: contents, label: "Email message:", type: String, default: Hello, unquote: true, align: right}
