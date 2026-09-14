@@ -54,36 +54,11 @@ Blockly.Python['delay_old'] = function(block) {
   return code;
 };
 
-Blockly.Python['reset'] = function(block) {
-  Blockly.Python.definitions_['import_machine'] = 'import machine';
-  var code = 'machine.reset()\n';
-  return code;
-};
-
-Blockly.Python["reset_cause_soft"] = function(block) {
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = "machine.SOFT_RESET"; 
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
 
-Blockly.Python["reset_cause_hard"] = function(block) {
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = "machine.HARD_RESET"; 
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
-Blockly.Python["reset_cause_wdt"] = function(block) {
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = "machine.WDT_RESET"; 
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
-Blockly.Python["reset_cause_deep"] = function(block) {
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = "machine.DEEPSLEEP_RESET"; 
-	return [code, Blockly.Python.ORDER_NONE];
-};
+
 
 Blockly.Python['gpio_set'] = function(block) {
 	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
@@ -109,19 +84,8 @@ Blockly.Python['gpio_set'] = function(block) {
 
 
 
-Blockly.Python['set_freq'] = function(block) {
-  Blockly.Python.definitions_['import_machine'] = 'import machine';
-  var value_command = Blockly.Python.valueToCode(block, 'freq', Blockly.Python.ORDER_ATOMIC);
-  var code = 'machine.freq(' + value_command + ')\n';
-  return code;
-};
 
 
-Blockly.Python['get_freq'] = function(block) {
-  Blockly.Python.definitions_['import_machine'] = 'import machine';
-  var code = 'machine.freq()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
@@ -674,23 +638,8 @@ Blockly.Python['easymqtt_init'] = function(block) {
 };
 
 /// EasyMQTT Publish Data
-Blockly.Python['easymqtt_publish_data'] = function(block) {
-  var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-  var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'easymqtt_client.publish(easymqtt_session + "/" + ' + topic + ', str(' + data + '))\nprint("EasyMQTT Publish - Session:",easymqtt_session,"Topic:",' + topic + ',"Value:",str(' + data + '))\n'
-  return code;
-};
 
 /// EasyMQTT Disconnect
-Blockly.Python['easymqtt_disconnect'] = function(block) {
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'easymqtt_client.disconnect()\nprint("EasyMQTT disconnected")\n';
-  return code;
-};
 
 ///EasyMQTT Subscribe
 Blockly.Python['easymqtt_subscribe'] = function(block) {
@@ -736,17 +685,6 @@ Blockly.Python['easymqtt_subscribe'] = function(block) {
 };
 
 /// EasyMQTT Receive Data
-Blockly.Python['easymqtt_receive_data'] = function(block) {
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-  var wait = block.getFieldValue('EASYMQTT_WAIT');
-  if (wait == '1'){
-    var code = 'easymqtt_client.wait_msg()\n';
-  }else{
-    var code = 'easymqtt_client.check_msg()\n';
-  }
-  
-  return code;
-};
 
 
 

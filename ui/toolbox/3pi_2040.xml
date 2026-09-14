@@ -573,26 +573,36 @@
 
   <category name="%{BKY_CAT_MACHINE}">
       <label text="%{BKY_CAT_MACHINE}"></label>
+      <!-- blockdef:cpu -->
       <category name="CPU">
-      <label text="Raspberry Pi Pico CPU"></label>
 
-    <block type="get_freq"></block>
-    <block type="set_freq">
-     <value name="freq">
-        <shadow type="math_number">
-          <field name="NUM">160000000</field>
-        </shadow>
-      </value>
-    </block>
+        <label text="Raspberry Pi Pico CPU"></label>
 
-    <block type="reset"></block>
-    <block type="machine_unique_id"></block>
-    <block type="machine_reset_cause"></block>
-    <block type="reset_cause_soft"></block>
-    <block type="reset_cause_hard"></block>
-    <block type="reset_cause_wdt"></block>
-    <block type="reset_cause_deep"></block>
+        <block type="get_freq"></block>
+
+        <block type="set_freq">
+          <value name="freq">
+            <shadow type="math_number">
+              <field name="NUM">160000000</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="reset"></block>
+
+        <block type="machine_unique_id"></block>
+
+        <block type="machine_reset_cause"></block>
+
+        <block type="reset_cause_soft"></block>
+
+        <block type="reset_cause_hard"></block>
+
+        <block type="reset_cause_wdt"></block>
+
+        <block type="reset_cause_deep"></block>
       </category>
+      <!-- /blockdef:cpu -->
       <category name="In/Out Pins">
       <label text="In/Out Pins"></label>
     <block type="pinout"></block>
@@ -2056,13 +2066,13 @@
       <block type="mqtt_disconnect"></block>
     </category>
     <!-- /blockdef:mqtt -->
+    <!-- blockdef:easymqtt -->
     <category name="EasyMQTT">
       <label text="IoT: EasyMQTT"></label>
-      <block type="easymqtt_init">
-        <field name="BLOCK_EASYMQTT_INIT">EasyMQTT Start</field>
-      </block>
+
+      <block type="easymqtt_init"></block>
+
       <block type="easymqtt_publish_data">
-        <field name="BLOCK_EASYMQTT_PUBLISH">EasyMQTT Publish Data</field>
         <value name="topic">
           <shadow type="text">
             <field name="TEXT"></field>
@@ -2070,10 +2080,11 @@
         </value>
         <value name="data">
           <shadow type="math_number">
-            <field name="NUM"></field>
+            <field name="NUM">0</field>
           </shadow>
         </value>
       </block>
+
       <block type="easymqtt_subscribe">
         <value name="topic">
           <shadow type="text">
@@ -2081,11 +2092,12 @@
           </shadow>
         </value>
       </block>
+
       <block type="easymqtt_receive_data"></block>
-      <block type="easymqtt_disconnect">
-        <field name="BLOCK_EASYMQTT_DISCONNECT">EasyMQTT Stop</field>
-      </block>
+
+      <block type="easymqtt_disconnect"></block>
     </category>
+    <!-- /blockdef:easymqtt -->
 
   <!-- blockdef:webrepl -->
   <category name="WebREPL">

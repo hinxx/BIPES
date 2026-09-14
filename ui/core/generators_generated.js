@@ -388,6 +388,51 @@ Blockly.Python['control_pid.vars'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- CPU (cpu.blockdef.yaml) -------------------------------------------------
+
+Blockly.Python['get_freq'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.freq()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['set_freq'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "machine.freq(" + freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['reset'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.reset()";
+  return code + "\n";
+};
+
+Blockly.Python['reset_cause_soft'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.SOFT_RESET";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['reset_cause_hard'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.HARD_RESET";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['reset_cause_wdt'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.WDT_RESET";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['reset_cause_deep'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var code = "machine.DEEPSLEEP_RESET";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['dc_motor_init'] = function(block) {
@@ -513,6 +558,29 @@ Blockly.Python['read_temp_ds3231'] = function(block) {
   var degree_f_ = block.getFieldValue("degree_f");
   var code = "ds3231.temperature(" + degree_f_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- EasyMQTT (easymqtt.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['easymqtt_publish_data'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var topic_ = Blockly.Python.valueToCode(block, "topic", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "\neasymqtt_client.publish(easymqtt_session + \"/\" + " + topic_ + ", str(" + data_ + "))\nprint(\"EasyMQTT Publish - Session:\", easymqtt_session, \"Topic:\", " + topic_ + ", \"Value:\", str(" + data_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['easymqtt_receive_data'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var EASYMQTT_WAIT_ = {"0": "check_msg", "1": "wait_msg"}[block.getFieldValue("EASYMQTT_WAIT")];
+  var code = "easymqtt_client." + EASYMQTT_WAIT_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['easymqtt_disconnect'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var code = "\neasymqtt_client.disconnect()\nprint(\"EasyMQTT disconnected\")";
+  return code + "\n";
 };
 
 // ---- Rotatory Encoder (encoder.blockdef.yaml) --------------------------------

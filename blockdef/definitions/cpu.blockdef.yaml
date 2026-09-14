@@ -1,0 +1,63 @@
+# Clock frequency, reset, and the reset-cause constants.
+#
+# Every block here is a plain `machine` call or constant, and every one of them
+# overlaps the converted `machine` category: `reset` is `machine_reset`,
+# `get_freq`/`set_freq` are `machine_freq` with and without an argument, and
+# the four `reset_cause_*` constants are the values `machine_reset_cause`
+# returns. Two of the nine entries this category lists *are* `machine` blocks
+# and appear here as `external:`. Which of each pair to keep is a decision
+# about the blocks and about saved programs; both stay for now, and the
+# duplication is at least visible in one file.
+
+module: machine
+colour: 230
+url: http://www.bipes.net.br
+import: {key: import_machine, line: "import machine"}
+
+category:
+  name: CPU
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  # The one thing that differs between boards, and two of them are wrong: the
+  # generic `default` board and `stm32` both announce an ESP8266. `set_freq`'s
+  # tooltip says "Set ESP8266 CPU Clock Frequency" on all thirteen. Left as
+  # they are -- renaming a board's label is a decision about that board.
+  - {label: Raspberry Pi Pico CPU,
+     boards: [3pi_2040, makernano, makerpi, rpi_pico, rpi_pico_w]}
+  - {label: ESP32 CPU, boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3]}
+  - {label: ESP8266 CPU, boards: [default, esp8266, stm32]}
+
+  - type: get_freq
+    kind: value
+    label: Get CPU Clock Frequency
+    tooltip: Get current CPU Clock Frequency
+    code: "machine.freq()"
+
+  - type: set_freq
+    label: Set CPU Clock Frequency
+    tooltip: Set ESP8266 CPU Clock Frequency
+    code: "machine.freq({freq})"
+    params:
+      - {name: freq, label: Frequency (Hz), type: Number, default: 160000000}
+
+  - type: reset
+    colour: 0
+    label: reset
+    tooltip: Reset Device
+    url: www.bipes.net.br
+    code: "machine.reset()"
+
+  - {type: machine_unique_id,   external: true}
+  - {type: machine_reset_cause, external: true}
+
+  # Constants, not calls. No tooltip on any of the four, as before.
+  - {type: reset_cause_soft, kind: value, label: "Cause: soft reset",
+     code: "machine.SOFT_RESET"}
+  - {type: reset_cause_hard, kind: value, label: "Cause: hard reset",
+     code: "machine.HARD_RESET"}
+  - {type: reset_cause_wdt, kind: value, label: "Cause: reset by watchdog timer",
+     code: "machine.WDT_RESET"}
+  - {type: reset_cause_deep, kind: value, label: "Cause: woke up from deepsleep",
+     code: "machine.DEEPSLEEP_RESET"}

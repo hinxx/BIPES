@@ -1,0 +1,70 @@
+# The hosted EasyMQTT bridge at bipes.net.br.
+#
+# Three of the five blocks convert. `easymqtt_init` carries a `generate_id`
+# method that seeds its session field with a random string, and
+# `easymqtt_subscribe` registers a callback through `provideFunction_` after
+# walking the workspace for the variables it has to declare `global` -- both
+# are behaviour, not declaration, so they stay hand-written and appear here as
+# `external:` entries.
+#
+# `esp32c3` also listed `easymqtt_publish_data2` and
+# `easymqtt_publish_dataHTTP`, **neither of which is defined anywhere in the
+# tree**: two blanks in the flyout on that one board. They are gone.
+
+module: robust
+colour: 230
+url: http://www.bipes.net.br
+import: {key: import_robust, line: "import robust"}
+
+category:
+  name: EasyMQTT
+  labels: ["IoT: EasyMQTT"]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp8266, rpi_pico_w, stm32]
+
+blocks:
+  - {example: easymqtt, boards: [default, rpi_pico_w]}
+  - {doc: easymqtt, boards: [default]}
+  - {library: simple, boards: [rpi_pico_w]}
+  - {library: robust, boards: [rpi_pico_w]}
+
+  - {type: easymqtt_init, external: true}
+
+  - type: easymqtt_publish_data
+    label: [{msg: easymqtt_publish, field: BLOCK_EASYMQTT_PUBLISH}]
+    tooltip: Publish Data to EasyMQTT Server
+    code: |-
+
+      easymqtt_client.publish(easymqtt_session + "/" + {topic}, str({data}))
+      print("EasyMQTT Publish - Session:", easymqtt_session, "Topic:", {topic}, "Value:", str({data}))
+    params:
+      - {name: topic, label: {msg: topic, field: EASYMQTT_TOPIC}, type: String,
+         align: right}
+      - {name: data,  label: {msg: data,  field: EASYMQTT_PAYLOAD}, type: Number,
+         default: 0, align: right}
+
+  - {type: easymqtt_subscribe, external: true,
+     params: [{name: topic, type: String}]}
+
+  # The wait/no-wait choice was an `if` in JavaScript on the dropdown's value;
+  # it is the method name the option stands for.
+  - type: easymqtt_receive_data
+    label: [{msg: easymqtt_receive, field: BLOCK_EASYMQTT_RECEIVE}]
+    tooltip: Receive Data from EasyMQTT Server
+    code: "easymqtt_client.{EASYMQTT_WAIT}()"
+    params:
+      - name: EASYMQTT_WAIT
+        label: {msg: wait_for_data}
+        kind: dropdown
+        options:
+          - {label: {msg: "no"},  value: "0"}
+          - {label: {msg: "yes"}, value: "1"}
+        emit: {"0": check_msg, "1": wait_msg}
+
+  - type: easymqtt_disconnect
+    label: [{text: EasyMQTT Stop, field: BLOCK_EASYMQTT_DISCONNECT}]
+    tooltip: Disconnect the EasyMQTT Client from Server.
+    code: |-
+
+      easymqtt_client.disconnect()
+      print("EasyMQTT disconnected")

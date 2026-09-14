@@ -758,6 +758,86 @@ Blockly.Blocks['control_pid.vars'] = {
   }
 };
 
+// ---- CPU (cpu.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['get_freq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get CPU Clock Frequency");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get current CPU Clock Frequency");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['set_freq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set CPU Clock Frequency");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .appendField("Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set ESP8266 CPU Clock Frequency");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['reset'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("reset");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Reset Device");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['reset_cause_soft'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Cause: soft reset");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['reset_cause_hard'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Cause: hard reset");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['reset_cause_wdt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Cause: reset by watchdog timer");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['reset_cause_deep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Cause: woke up from deepsleep");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['dc_motor_init'] = {
@@ -1017,6 +1097,55 @@ Blockly.Blocks['read_temp_ds3231'] = {
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip("Get the temperature");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- EasyMQTT (easymqtt.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['easymqtt_publish_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["easymqtt_publish"]), "BLOCK_EASYMQTT_PUBLISH");
+    this.appendValueInput("topic")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable(MSG["topic"]), "EASYMQTT_TOPIC");
+    this.appendValueInput("data")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable(MSG["data"]), "EASYMQTT_PAYLOAD");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Publish Data to EasyMQTT Server");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['easymqtt_receive_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable(MSG["easymqtt_receive"]), "BLOCK_EASYMQTT_RECEIVE");
+    this.appendDummyInput()
+        .appendField(MSG["wait_for_data"])
+        .appendField(new Blockly.FieldDropdown([[MSG["no"], "0"], [MSG["yes"], "1"]]), "EASYMQTT_WAIT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Receive Data from EasyMQTT Server");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['easymqtt_disconnect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("EasyMQTT Stop"), "BLOCK_EASYMQTT_DISCONNECT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disconnect the EasyMQTT Client from Server.");
     this.setHelpUrl("http://www.bipes.net.br");
   }
 };
