@@ -2839,26 +2839,28 @@
 <block type="builtins_zip">
 </block>
 </category>
+<!-- blockdef:cmath -->
 <category name="cmath">
-<block type="cmath_cos">
-</block>
-<block type="cmath_exp">
-</block>
-<block type="cmath_log">
-</block>
-<block type="cmath_log10">
-</block>
-<block type="cmath_phase">
-</block>
-<block type="cmath_polar">
-</block>
-<block type="cmath_rect">
-</block>
-<block type="cmath_sin">
-</block>
-<block type="cmath_sqrt">
-</block>
+
+  <block type="cmath_cos"></block>
+
+  <block type="cmath_exp"></block>
+
+  <block type="cmath_log"></block>
+
+  <block type="cmath_log10"></block>
+
+  <block type="cmath_phase"></block>
+
+  <block type="cmath_polar"></block>
+
+  <block type="cmath_rect"></block>
+
+  <block type="cmath_sin"></block>
+
+  <block type="cmath_sqrt"></block>
 </category>
+<!-- /blockdef:cmath -->
 <category name="esp32">
 <block type="esp32_wake_on_touch">
 </block>
@@ -2905,26 +2907,28 @@
 <block type="esp32_ULP.run">
 </block>
 </category>
+<!-- blockdef:esp -->
 <category name="esp">
-<block type="esp_sleep_type">
-</block>
-<block type="esp_deepsleep">
-</block>
-<block type="esp_flash_id">
-</block>
-<block type="esp_flash_size">
-</block>
-<block type="esp_flash_user_start">
-</block>
-<block type="esp_flash_read">
-</block>
-<block type="esp_flash_write">
-</block>
-<block type="esp_flash_erase">
-</block>
-<block type="esp_set_native_code_location">
-</block>
+
+  <block type="esp_sleep_type"></block>
+
+  <block type="esp_deepsleep"></block>
+
+  <block type="esp_flash_id"></block>
+
+  <block type="esp_flash_size"></block>
+
+  <block type="esp_flash_user_start"></block>
+
+  <block type="esp_flash_read"></block>
+
+  <block type="esp_flash_write"></block>
+
+  <block type="esp_flash_erase"></block>
+
+  <block type="esp_set_native_code_location"></block>
 </category>
+<!-- /blockdef:esp -->
 <category name="framebuf">
 <block type="framebuf_FrameBuffer.fill">
 </block>
@@ -3323,30 +3327,32 @@
 <block type="math_trunc">
 </block>
 </category>
+<!-- blockdef:micropython -->
 <category name="micropython">
-<block type="micropython_const">
-</block>
-<block type="micropython_opt_level">
-</block>
-<block type="micropython_alloc_emergency_exception_buf">
-</block>
-<block type="micropython_mem_info">
-</block>
-<block type="micropython_qstr_info">
-</block>
-<block type="micropython_stack_use">
-</block>
-<block type="micropython_heap_lock">
-</block>
-<block type="micropython_heap_unlock">
-</block>
-<block type="micropython_heap_locked">
-</block>
-<block type="micropython_kbd_intr">
-</block>
-<block type="micropython_schedule">
-</block>
+
+  <block type="micropython_const"></block>
+
+  <block type="micropython_opt_level"></block>
+
+  <block type="micropython_alloc_emergency_exception_buf"></block>
+
+  <block type="micropython_mem_info"></block>
+
+  <block type="micropython_qstr_info"></block>
+
+  <block type="micropython_stack_use"></block>
+
+  <block type="micropython_heap_lock"></block>
+
+  <block type="micropython_heap_unlock"></block>
+
+  <block type="micropython_heap_locked"></block>
+
+  <block type="micropython_kbd_intr"></block>
+
+  <block type="micropython_schedule"></block>
 </category>
+<!-- /blockdef:micropython -->
 <category name="network">
 <block type="network_AbstractNIC.active">
 </block>
@@ -3579,16 +3585,18 @@
   <block type="ucryptolib_decrypt"></block>
 </category>
 <!-- /blockdef:ucryptolib -->
+<!-- blockdef:uctypes -->
 <category name="uctypes">
-<block type="uctypes_sizeof">
-</block>
-<block type="uctypes_addressof">
-</block>
-<block type="uctypes_bytes_at">
-</block>
-<block type="uctypes_bytearray_at">
-</block>
+
+  <block type="uctypes_sizeof"></block>
+
+  <block type="uctypes_addressof"></block>
+
+  <block type="uctypes_bytes_at"></block>
+
+  <block type="uctypes_bytearray_at"></block>
 </category>
+<!-- /blockdef:uctypes -->
 <category name="uerrno">
 </category>
 <category name="uhashlib">
@@ -3759,42 +3767,46 @@
 <block type="ussl_ussl.wrap_socket">
 </block>
 </category>
+<!-- blockdef:ustruct -->
 <category name="ustruct">
-<block type="ustruct_calcsize">
-</block>
-<block type="ustruct_pack">
-</block>
-<block type="ustruct_pack_into">
-</block>
-<block type="ustruct_unpack">
-</block>
-<block type="ustruct_unpack_from">
-</block>
+
+  <block type="ustruct_calcsize"></block>
+
+  <block type="ustruct_pack"></block>
+
+  <block type="ustruct_pack_into"></block>
+
+  <block type="ustruct_unpack"></block>
+
+  <block type="ustruct_unpack_from"></block>
 </category>
+<!-- /blockdef:ustruct -->
+<!-- blockdef:utime -->
 <category name="utime">
-<block type="utime_localtime">
-</block>
-<block type="utime_mktime">
-</block>
-<block type="utime_sleep">
-</block>
-<block type="utime_sleep_ms">
-</block>
-<block type="utime_sleep_us">
-</block>
-<block type="utime_ticks_ms">
-</block>
-<block type="utime_ticks_us">
-</block>
-<block type="utime_ticks_cpu">
-</block>
-<block type="utime_ticks_add">
-</block>
-<block type="utime_ticks_diff">
-</block>
-<block type="utime_time">
-</block>
+
+  <block type="utime_localtime"></block>
+
+  <block type="utime_mktime"></block>
+
+  <block type="utime_sleep"></block>
+
+  <block type="utime_sleep_ms"></block>
+
+  <block type="utime_sleep_us"></block>
+
+  <block type="utime_ticks_ms"></block>
+
+  <block type="utime_ticks_us"></block>
+
+  <block type="utime_ticks_cpu"></block>
+
+  <block type="utime_ticks_add"></block>
+
+  <block type="utime_ticks_diff"></block>
+
+  <block type="utime_time"></block>
 </category>
+<!-- /blockdef:utime -->
 <!-- blockdef:uzlib -->
 <category name="uzlib">
 

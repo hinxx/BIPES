@@ -1,0 +1,96 @@
+# The micropython module, as generated from the MicroPython documentation.
+#
+# 7 of the 11 blocks here did not import `micropython`, so a program using
+# one died on a NameError. All of them do now.
+
+module: micropython
+colour: 0
+import: {line: "import micropython", key: import_micropython}
+
+category:
+  name: "micropython"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: micropython_const
+    label: []
+    tooltip: ".. function:: const(expr) Used to declare that the expression is a constant so that the compile can optimise it. The use of this function should be as follows:: "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.const({pIn})"
+    params:
+      - {name: pIn, label: " const"}
+
+  - type: micropython_opt_level
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.opt_level({pIn})"
+    params:
+      - {name: pIn, label: " opt_level"}
+
+  - type: micropython_alloc_emergency_exception_buf
+    label: []
+    tooltip: ".. function:: alloc_emergency_exception_buf(size) Allocate *size* bytes of RAM for the emergency exception buffer (a good size is around 100 bytes). The buffer is used to create exceptions in cases "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.alloc_emergency_exception_buf({pIn})"
+    params:
+      - {name: pIn, label: " alloc_emergency_exception_buf"}
+
+  - type: micropython_mem_info
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.mem_info({pIn})"
+    params:
+      - {name: pIn, label: " mem_info"}
+
+  - type: micropython_qstr_info
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.qstr_info({pIn})"
+    params:
+      - {name: pIn, label: " qstr_info"}
+
+  - type: micropython_stack_use
+    label: " stack_use"
+    kind: value
+    tooltip: ".. function:: stack_use() Return an integer representing the current amount of stack that is being used. The absolute value of this is not particularly useful, rather it "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.stack_use()"
+
+  - type: micropython_heap_lock
+    label: " heap_lock"
+    tooltip: ".. function:: heap_lock() .. function:: heap_unlock() .. function:: heap_locked() "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.heap_lock()"
+
+  - type: micropython_heap_unlock
+    label: " heap_unlock"
+    tooltip: ".. function:: heap_unlock() .. function:: heap_locked() Lock or unlock the heap. When locked no memory allocation can occur and a "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.heap_unlock()"
+
+  - type: micropython_heap_locked
+    label: " heap_locked"
+    tooltip: ".. function:: heap_locked() Lock or unlock the heap. When locked no memory allocation can occur and a `MemoryError` will be raised if any heap allocation is attempted. "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.heap_locked()"
+
+  - type: micropython_kbd_intr
+    label: []
+    tooltip: ".. function:: kbd_intr(chr) Set the character that will raise a `KeyboardInterrupt` exception. By default this is set to 3 during script execution, corresponding to Ctrl-C. "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.kbd_intr({pIn})"
+    params:
+      - {name: pIn, label: " kbd_intr"}
+
+  - type: micropython_schedule
+    label: []
+    tooltip: ".. function:: schedule(func, arg) Schedule the function functions.txt onlyfunctions.txt to be executed very soon. The function is passed the value *arg* as its single argument. Very soon means that "
+    url: "https://docs.micropython.org/en/latest/library/micropython.html"
+    code: "micropython.schedule({pIn})"
+    params:
+      - {name: pIn, label: " schedule"}

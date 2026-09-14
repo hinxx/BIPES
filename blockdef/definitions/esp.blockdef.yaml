@@ -1,0 +1,83 @@
+# The esp module, as generated from the MicroPython documentation.
+#
+# 6 of the 9 blocks here did not import `esp`, so a program using
+# one died on a NameError. All of them do now.
+
+module: esp
+colour: 0
+import: {line: "import esp", key: import_esp}
+
+category:
+  name: "esp"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: esp_sleep_type
+    label: []
+    tooltip: " "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.sleep_type({pIn})"
+    params:
+      - {name: pIn, label: " sleep_type"}
+
+  - type: esp_deepsleep
+    label: []
+    tooltip: ".. function:: deepsleep(time=0, /) **Note**: ESP8266 only - use `machine.deepsleep()` on ESP32 "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.deepsleep({pIn})"
+    params:
+      - {name: pIn, label: " deepsleep"}
+
+  - type: esp_flash_id
+    label: " flash_id"
+    tooltip: ".. function:: flash_id() **Note**: ESP8266 only "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_id()"
+
+  - type: esp_flash_size
+    label: " flash_size"
+    kind: value
+    tooltip: ".. function:: flash_size() Read the total size of the flash memory. "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_size()"
+
+  - type: esp_flash_user_start
+    label: " flash_user_start"
+    kind: value
+    tooltip: ".. function:: flash_user_start() Read the memory offset at which the user flash space begins. "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_user_start()"
+
+  - type: esp_flash_read
+    label: []
+    tooltip: ".. function:: flash_read(byte_offset, length_or_buffer) .. function:: flash_write(byte_offset, bytes) "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_read({pIn})"
+    params:
+      - {name: pIn, label: " flash_read"}
+
+  - type: esp_flash_write
+    label: []
+    tooltip: ".. function:: flash_write(byte_offset, bytes) .. function:: flash_erase(sector_no) "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_write({pIn})"
+    params:
+      - {name: pIn, label: " flash_write"}
+
+  - type: esp_flash_erase
+    label: []
+    tooltip: ".. function:: flash_erase(sector_no) .. function:: set_native_code_location(start, length) "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.flash_erase({pIn})"
+    params:
+      - {name: pIn, label: " flash_erase"}
+
+  - type: esp_set_native_code_location
+    label: []
+    tooltip: ".. function:: set_native_code_location(start, length) **Note**: ESP8266 only "
+    url: "https://docs.micropython.org/en/latest/library/esp.html"
+    code: "esp.set_native_code_location({pIn})"
+    params:
+      - {name: pIn, label: " set_native_code_location"}

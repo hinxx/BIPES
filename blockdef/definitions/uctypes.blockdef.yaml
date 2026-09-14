@@ -1,0 +1,49 @@
+# The uctypes module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported `uctypes`, so every program using one died on a
+# NameError. They do now.
+
+module: uctypes
+colour: 0
+import: {line: "import uctypes", key: import_uctypes}
+
+category:
+  name: "uctypes"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: uctypes_sizeof
+    label: []
+    kind: value
+    tooltip: ".. function:: sizeof(struct, layout_type=NATIVE, /) Return size of data structure in bytes. The *struct* argument can be either a structure class or a specific instantiated structure object "
+    url: "https://docs.micropython.org/en/latest/library/uctypes.html"
+    code: "uctypes.sizeof({pIn})"
+    params:
+      - {name: pIn, label: " sizeof"}
+
+  - type: uctypes_addressof
+    label: []
+    kind: value
+    tooltip: ".. function:: addressof(obj) Return address of an object. Argument should be bytes, bytearray or other object supporting buffer protocol (and address of this buffer "
+    url: "https://docs.micropython.org/en/latest/library/uctypes.html"
+    code: "uctypes.addressof({pIn})"
+    params:
+      - {name: pIn, label: " addressof"}
+
+  - type: uctypes_bytes_at
+    label: []
+    tooltip: ".. function:: bytes_at(addr, size) Capture memory at the given address and size as bytes object. As bytes object is immutable, memory is actually duplicated and copied into "
+    url: "https://docs.micropython.org/en/latest/library/uctypes.html"
+    code: "uctypes.bytes_at({pIn})"
+    params:
+      - {name: pIn, label: " bytes_at"}
+
+  - type: uctypes_bytearray_at
+    label: []
+    tooltip: ".. function:: bytearray_at(addr, size) Capture memory at the given address and size as bytearray object. Unlike bytes_at() function above, memory is captured by reference, "
+    url: "https://docs.micropython.org/en/latest/library/uctypes.html"
+    code: "uctypes.bytearray_at({pIn})"
+    params:
+      - {name: pIn, label: " bytearray_at"}

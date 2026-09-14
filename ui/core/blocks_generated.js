@@ -452,6 +452,119 @@ Blockly.Blocks['char_lcd_display'] = {
   }
 };
 
+// ---- cmath (cmath.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['cmath_cos'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" cos");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: cos(z) Return the cosine of ``z``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_exp'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" exp");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: exp(z) Return the exponential of ``z``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_log'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" log");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: log(z) Return the natural logarithm of ``z``. The branch cut is along the negative eeal axis. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_log10'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" log10");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: log10(z) Return the base-10 logarithm of ``z``. The branch cut is along the negative real axis. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_phase'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" phase");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: phase(z) Returns the phase of the number ``z``, in the range (-pi, +pi]. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_polar'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" polar");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: polar(z) Returns, as a tuple, the polar form of ``z``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_rect'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" rect");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: rect(r, phi) Returns the complex number with modulus ``r`` and phase ``phi``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_sin'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sin");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sin(z) Return the sine of ``z``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
+Blockly.Blocks['cmath_sqrt'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sqrt");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sqrt(z) Return the square-root of ``z``. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/cmath.html");
+  }
+};
+
 // ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['dc_motor_init'] = {
@@ -700,6 +813,120 @@ Blockly.Blocks['encoder_read'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- esp (esp.blockdef.yaml) -------------------------------------------------
+
+Blockly.Blocks['esp_sleep_type'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sleep_type");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_deepsleep'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" deepsleep");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: deepsleep(time=0, /) **Note**: ESP8266 only - use `machine.deepsleep()` on ESP32 ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_id'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" flash_id");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_id() **Note**: ESP8266 only ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_size'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" flash_size");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_size() Read the total size of the flash memory. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_user_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" flash_user_start");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_user_start() Read the memory offset at which the user flash space begins. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_read'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" flash_read");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_read(byte_offset, length_or_buffer) .. function:: flash_write(byte_offset, bytes) ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_write'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" flash_write");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_write(byte_offset, bytes) .. function:: flash_erase(sector_no) ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_flash_erase'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" flash_erase");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: flash_erase(sector_no) .. function:: set_native_code_location(start, length) ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
+  }
+};
+
+Blockly.Blocks['esp_set_native_code_location'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" set_native_code_location");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: set_native_code_location(start, length) **Note**: ESP8266 only ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp.html");
   }
 };
 
@@ -1579,6 +1806,146 @@ Blockly.Blocks['mcp23017_input'] = {
   }
 };
 
+// ---- micropython (micropython.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['micropython_const'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" const");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: const(expr) Used to declare that the expression is a constant so that the compile can optimise it. The use of this function should be as follows:: ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_opt_level'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" opt_level");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_alloc_emergency_exception_buf'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" alloc_emergency_exception_buf");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: alloc_emergency_exception_buf(size) Allocate *size* bytes of RAM for the emergency exception buffer (a good size is around 100 bytes). The buffer is used to create exceptions in cases ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_mem_info'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" mem_info");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_qstr_info'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" qstr_info");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_stack_use'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" stack_use");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: stack_use() Return an integer representing the current amount of stack that is being used. The absolute value of this is not particularly useful, rather it ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_heap_lock'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" heap_lock");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heap_lock() .. function:: heap_unlock() .. function:: heap_locked() ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_heap_unlock'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" heap_unlock");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heap_unlock() .. function:: heap_locked() Lock or unlock the heap. When locked no memory allocation can occur and a ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_heap_locked'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" heap_locked");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: heap_locked() Lock or unlock the heap. When locked no memory allocation can occur and a `MemoryError` will be raised if any heap allocation is attempted. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_kbd_intr'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" kbd_intr");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: kbd_intr(chr) Set the character that will raise a `KeyboardInterrupt` exception. By default this is set to 3 during script execution, corresponding to Ctrl-C. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
+Blockly.Blocks['micropython_schedule'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" schedule");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: schedule(func, arg) Schedule the function functions.txt onlyfunctions.txt to be executed very soon. The function is passed the value *arg* as its single argument. Very soon means that ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/micropython.html");
+  }
+};
+
 // ---- MPR121 (mpr121.blockdef.yaml) -------------------------------------------
 
 Blockly.Blocks['mpr121_init'] = {
@@ -2257,6 +2624,58 @@ Blockly.Blocks['ucryptolib_decrypt'] = {
   }
 };
 
+// ---- uctypes (uctypes.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['uctypes_sizeof'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sizeof");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sizeof(struct, layout_type=NATIVE, /) Return size of data structure in bytes. The *struct* argument can be either a structure class or a specific instantiated structure object ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uctypes.html");
+  }
+};
+
+Blockly.Blocks['uctypes_addressof'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" addressof");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: addressof(obj) Return address of an object. Argument should be bytes, bytearray or other object supporting buffer protocol (and address of this buffer ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uctypes.html");
+  }
+};
+
+Blockly.Blocks['uctypes_bytes_at'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" bytes_at");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: bytes_at(addr, size) Capture memory at the given address and size as bytes object. As bytes object is immutable, memory is actually duplicated and copied into ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uctypes.html");
+  }
+};
+
+Blockly.Blocks['uctypes_bytearray_at'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" bytearray_at");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: bytearray_at(addr, size) Capture memory at the given address and size as bytearray object. Unlike bytes_at() function above, memory is captured by reference, ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uctypes.html");
+  }
+};
+
 // ---- uheapq (uheapq.blockdef.yaml) -------------------------------------------
 
 Blockly.Blocks['uheapq_heappush'] = {
@@ -2400,6 +2819,212 @@ Blockly.Blocks['umail_send'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- ustruct (ustruct.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['ustruct_calcsize'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" calcsize");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: calcsize(fmt) Return the number of bytes needed to store the given *fmt*. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ustruct.html");
+  }
+};
+
+Blockly.Blocks['ustruct_pack'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" pack");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: pack(fmt, v1, v2, ...) Pack the values *v1*, *v2*, ... according to the format string *fmt*. The return value is a bytes object encoding the values. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ustruct.html");
+  }
+};
+
+Blockly.Blocks['ustruct_pack_into'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" pack_into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: pack_into(fmt, buffer, offset, v1, v2, ...) Pack the values *v1*, *v2*, ... according to the format string *fmt* into a *buffer* starting at *offset*. *offset* may be negative to count ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ustruct.html");
+  }
+};
+
+Blockly.Blocks['ustruct_unpack'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" unpack");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: unpack(fmt, data) Unpack from the *data* according to the format string *fmt*. The return value is a tuple of the unpacked values. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ustruct.html");
+  }
+};
+
+Blockly.Blocks['ustruct_unpack_from'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" unpack_from");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: unpack_from(fmt, data, offset=0, /) Unpack from the *data* starting at *offset* according to the format string *fmt*. *offset* may be negative to count from the end of *buffer*. The return ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/ustruct.html");
+  }
+};
+
+// ---- utime (utime.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['utime_localtime'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" localtime");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(" ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_mktime'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" mktime");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: mktime() This is inverse function of localtime. It's argument is a full 8-tuple which expresses a time as per localtime. It returns an integer which is ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_sleep'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sleep");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sleep(seconds) Sleep for the given number of seconds. Some boards may accept *seconds* as a floating-point number to sleep for a fractional number of seconds. Note that ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_sleep_ms'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sleep_ms");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sleep_ms(ms) Delay for given number of milliseconds, should be positive or 0. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_sleep_us'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" sleep_us");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: sleep_us(us) Delay for given number of microseconds, should be positive or 0. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_ticks_ms'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" ticks_ms");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ticks_ms() Returns an increasing millisecond counter with an arbitrary reference point, that ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_ticks_us'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" ticks_us");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ticks_us() Just like `ticks_ms()` above, but in microseconds. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_ticks_cpu'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" ticks_cpu");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ticks_cpu() Similar to `ticks_ms()` and `ticks_us()`, but with the highest possible resol ution ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_ticks_add'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" ticks_add");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ticks_add(ticks, delta) Offset ticks value by a given number, which can be either positive or negativ e. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_ticks_diff'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" ticks_diff");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: ticks_diff(ticks1, ticks2) Measure ticks difference between values returned from `ticks_ms()`, `ticks_us ()`, ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+Blockly.Blocks['utime_time'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" time");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: time() Returns the number of seconds, as an integer, since the Epoch, assuming that underlying RTC is set and maintained as described above. If an RTC is not set ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
   }
 };
 

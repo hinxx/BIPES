@@ -1,0 +1,56 @@
+# The ustruct module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported `ustruct`, so every program using one died on a
+# NameError. They do now.
+
+module: ustruct
+colour: 0
+import: {line: "import ustruct", key: import_ustruct}
+
+category:
+  name: "ustruct"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: ustruct_calcsize
+    label: []
+    kind: value
+    tooltip: ".. function:: calcsize(fmt) Return the number of bytes needed to store the given *fmt*. "
+    url: "https://docs.micropython.org/en/latest/library/ustruct.html"
+    code: "ustruct.calcsize({pIn})"
+    params:
+      - {name: pIn, label: " calcsize"}
+
+  - type: ustruct_pack
+    label: []
+    tooltip: ".. function:: pack(fmt, v1, v2, ...) Pack the values *v1*, *v2*, ... according to the format string *fmt*. The return value is a bytes object encoding the values. "
+    url: "https://docs.micropython.org/en/latest/library/ustruct.html"
+    code: "ustruct.pack({pIn})"
+    params:
+      - {name: pIn, label: " pack"}
+
+  - type: ustruct_pack_into
+    label: []
+    tooltip: ".. function:: pack_into(fmt, buffer, offset, v1, v2, ...) Pack the values *v1*, *v2*, ... according to the format string *fmt* into a *buffer* starting at *offset*. *offset* may be negative to count "
+    url: "https://docs.micropython.org/en/latest/library/ustruct.html"
+    code: "ustruct.pack_into({pIn})"
+    params:
+      - {name: pIn, label: " pack_into"}
+
+  - type: ustruct_unpack
+    label: []
+    tooltip: ".. function:: unpack(fmt, data) Unpack from the *data* according to the format string *fmt*. The return value is a tuple of the unpacked values. "
+    url: "https://docs.micropython.org/en/latest/library/ustruct.html"
+    code: "ustruct.unpack({pIn})"
+    params:
+      - {name: pIn, label: " unpack"}
+
+  - type: ustruct_unpack_from
+    label: []
+    tooltip: ".. function:: unpack_from(fmt, data, offset=0, /) Unpack from the *data* starting at *offset* according to the format string *fmt*. *offset* may be negative to count from the end of *buffer*. The return "
+    url: "https://docs.micropython.org/en/latest/library/ustruct.html"
+    code: "ustruct.unpack_from({pIn})"
+    params:
+      - {name: pIn, label: " unpack_from"}

@@ -1,0 +1,93 @@
+# The cmath module, as generated from the MicroPython documentation.
+#
+# None of these blocks imported `cmath`, so every program using one died on a
+# NameError. They do now.
+
+module: cmath
+colour: 0
+import: {line: "import cmath", key: import_cmath}
+
+category:
+  name: "cmath"
+  # esp32 has these categories too, but inside a "blocks below need
+  # development" XML comment, so they are not offered there.
+  toolboxes: [esp32S2, esp32c3, esp8266, rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+
+blocks:
+  - type: cmath_cos
+    label: []
+    kind: value
+    tooltip: ".. function:: cos(z) Return the cosine of ``z``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.cos({pIn})"
+    params:
+      - {name: pIn, label: " cos"}
+
+  - type: cmath_exp
+    label: []
+    kind: value
+    tooltip: ".. function:: exp(z) Return the exponential of ``z``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.exp({pIn})"
+    params:
+      - {name: pIn, label: " exp"}
+
+  - type: cmath_log
+    label: []
+    kind: value
+    tooltip: ".. function:: log(z) Return the natural logarithm of ``z``. The branch cut is along the negative eeal axis. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.log({pIn})"
+    params:
+      - {name: pIn, label: " log"}
+
+  - type: cmath_log10
+    label: []
+    kind: value
+    tooltip: ".. function:: log10(z) Return the base-10 logarithm of ``z``. The branch cut is along the negative real axis. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.log10({pIn})"
+    params:
+      - {name: pIn, label: " log10"}
+
+  - type: cmath_phase
+    label: []
+    tooltip: ".. function:: phase(z) Returns the phase of the number ``z``, in the range (-pi, +pi]. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.phase({pIn})"
+    params:
+      - {name: pIn, label: " phase"}
+
+  - type: cmath_polar
+    label: []
+    tooltip: ".. function:: polar(z) Returns, as a tuple, the polar form of ``z``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.polar({pIn})"
+    params:
+      - {name: pIn, label: " polar"}
+
+  - type: cmath_rect
+    label: []
+    tooltip: ".. function:: rect(r, phi) Returns the complex number with modulus ``r`` and phase ``phi``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.rect({pIn})"
+    params:
+      - {name: pIn, label: " rect"}
+
+  - type: cmath_sin
+    label: []
+    kind: value
+    tooltip: ".. function:: sin(z) Return the sine of ``z``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.sin({pIn})"
+    params:
+      - {name: pIn, label: " sin"}
+
+  - type: cmath_sqrt
+    label: []
+    kind: value
+    tooltip: ".. function:: sqrt(z) Return the square-root of ``z``. "
+    url: "https://docs.micropython.org/en/latest/library/cmath.html"
+    code: "cmath.sqrt({pIn})"
+    params:
+      - {name: pIn, label: " sqrt"}
