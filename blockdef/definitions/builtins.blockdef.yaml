@@ -18,6 +18,10 @@
 #
 # `to_bytes` is `int.to_bytes`, a method the docs list on this page rather than
 # a function, so it is the one block here that calls something on its input.
+#
+# The blocks whose argument is a number carry a number shadow, so they generate
+# Python that runs the moment they are dragged out; the ones that take a list,
+# an object or a function do not, because there is no literal to put there.
 
 module: builtins
 colour: 0
@@ -32,7 +36,7 @@ category:
 blocks:
   - {type: builtins_abs, kind: value, label: [], inline: true, code: "abs({x})",
      tooltip: "The absolute value of a number.",
-     params: [{name: x, label: abs}]}
+     params: [{name: x, label: abs, type: Number, default: 0}]}
 
   - {type: builtins_all, kind: value, label: [], inline: true, code: "all({iterable})",
      tooltip: "True if every item is true (and if there are none).",
@@ -44,7 +48,7 @@ blocks:
 
   - {type: builtins_bin, kind: value, label: [], inline: true, code: "bin({x})",
      tooltip: "A number as a binary string: 5 becomes '0b101'.",
-     params: [{name: x, label: binary of}]}
+     params: [{name: x, label: binary of, type: Number, default: 5}]}
 
   - {type: builtins_callable, kind: value, label: [], inline: true, code: "callable({obj})",
      tooltip: "True if the object can be called like a function.",
@@ -52,7 +56,7 @@ blocks:
 
   - {type: builtins_chr, kind: value, label: [], inline: true, code: "chr({i})",
      tooltip: "The character with this code point: 65 becomes 'A'.",
-     params: [{name: i, label: character with code}]}
+     params: [{name: i, label: character with code, type: Number, default: 65}]}
 
   - {type: builtins_classmethod, kind: value, label: [], inline: true,
      code: "classmethod({function})",
@@ -77,7 +81,8 @@ blocks:
 
   - {type: builtins_divmod, kind: value, label: [], inline: true, code: "divmod({a}, {b})",
      tooltip: "Quotient and remainder at once, as a pair.",
-     params: [{name: a, label: divmod}, {name: b, label: by}]}
+     params: [{name: a, label: divmod, type: Number, default: 7},
+              {name: b, label: by, type: Number, default: 2}]}
 
   - {type: builtins_enumerate, kind: value, label: [], inline: true,
      code: "enumerate({iterable})",
@@ -118,7 +123,7 @@ blocks:
 
   - {type: builtins_hex, kind: value, label: [], inline: true, code: "hex({x})",
      tooltip: "A number as a hexadecimal string: 255 becomes '0xff'.",
-     params: [{name: x, label: hex of}]}
+     params: [{name: x, label: hex of, type: Number, default: 255}]}
 
   - {type: builtins_id, kind: value, label: [], inline: true, code: "id({obj})",
      tooltip: "The identity of an object, as a number.",
@@ -176,7 +181,7 @@ blocks:
 
   - {type: builtins_oct, kind: value, label: [], inline: true, code: "oct({x})",
      tooltip: "A number as an octal string: 8 becomes '0o10'.",
-     params: [{name: x, label: octal of}]}
+     params: [{name: x, label: octal of, type: Number, default: 8}]}
 
   - {type: builtins_open, kind: value, label: [], inline: true, code: "open({file}, {mode})",
      tooltip: "Open a file and return the file object.",
@@ -191,7 +196,8 @@ blocks:
 
   - {type: builtins_pow, kind: value, label: [], inline: true, code: "pow({x}, {y})",
      tooltip: "One number raised to the power of another.",
-     params: [{name: x, label: pow}, {name: y, label: to the power}]}
+     params: [{name: x, label: pow, type: Number, default: 2},
+              {name: y, label: to the power, type: Number, default: 8}]}
 
   - {type: builtins_print, label: [], inline: true, code: "print({value})",
      tooltip: "Print to the serial console.",
@@ -218,7 +224,7 @@ blocks:
   - {type: builtins_round, kind: value, label: [], inline: true,
      code: "round({x}, {ndigits})",
      tooltip: "Round a number to that many decimal places.",
-     params: [{name: x, label: round},
+     params: [{name: x, label: round, type: Number, default: 3.14159},
               {name: ndigits, label: "to (decimal places)", type: Number, default: 2}]}
 
   - {type: builtins_setattr, label: [], inline: true,

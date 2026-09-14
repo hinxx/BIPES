@@ -2666,17 +2666,35 @@
 <!-- blockdef:builtins -->
 <category name="builtins">
 
-  <block type="builtins_abs"></block>
+  <block type="builtins_abs">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_all"></block>
 
   <block type="builtins_any"></block>
 
-  <block type="builtins_bin"></block>
+  <block type="builtins_bin">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">5</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_callable"></block>
 
-  <block type="builtins_chr"></block>
+  <block type="builtins_chr">
+    <value name="i">
+      <shadow type="math_number">
+        <field name="NUM">65</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_classmethod"></block>
 
@@ -2703,7 +2721,18 @@
 
   <block type="builtins_dir"></block>
 
-  <block type="builtins_divmod"></block>
+  <block type="builtins_divmod">
+    <value name="a">
+      <shadow type="math_number">
+        <field name="NUM">7</field>
+      </shadow>
+    </value>
+    <value name="b">
+      <shadow type="math_number">
+        <field name="NUM">2</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_enumerate"></block>
 
@@ -2745,7 +2774,13 @@
 
   <block type="builtins_hash"></block>
 
-  <block type="builtins_hex"></block>
+  <block type="builtins_hex">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">255</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_id"></block>
 
@@ -2783,7 +2818,13 @@
 
   <block type="builtins_next"></block>
 
-  <block type="builtins_oct"></block>
+  <block type="builtins_oct">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">8</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_open">
     <value name="file">
@@ -2801,7 +2842,18 @@
     </value>
   </block>
 
-  <block type="builtins_pow"></block>
+  <block type="builtins_pow">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">2</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">8</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="builtins_print"></block>
 
@@ -2820,6 +2872,11 @@
   <block type="builtins_reversed"></block>
 
   <block type="builtins_round">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">3.14159</field>
+      </shadow>
+    </value>
     <value name="ndigits">
       <shadow type="math_number">
         <field name="NUM">2</field>

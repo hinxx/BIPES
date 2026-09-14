@@ -501,7 +501,7 @@ Blockly.Blocks['btree_btree.keys'] = {
 Blockly.Blocks['builtins_abs'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("abs");
     this.setOutput(true, null);
     this.setColour(0);
@@ -540,7 +540,7 @@ Blockly.Blocks['builtins_any'] = {
 Blockly.Blocks['builtins_bin'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("binary of");
     this.setOutput(true, null);
     this.setColour(0);
@@ -566,7 +566,7 @@ Blockly.Blocks['builtins_callable'] = {
 Blockly.Blocks['builtins_chr'] = {
   init: function() {
     this.appendValueInput("i")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("character with code");
     this.setOutput(true, null);
     this.setColour(0);
@@ -641,10 +641,10 @@ Blockly.Blocks['builtins_dir'] = {
 Blockly.Blocks['builtins_divmod'] = {
   init: function() {
     this.appendValueInput("a")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("divmod");
     this.appendValueInput("b")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("by");
     this.setOutput(true, null);
     this.setColour(0);
@@ -770,7 +770,7 @@ Blockly.Blocks['builtins_hash'] = {
 Blockly.Blocks['builtins_hex'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("hex of");
     this.setOutput(true, null);
     this.setColour(0);
@@ -953,7 +953,7 @@ Blockly.Blocks['builtins_next'] = {
 Blockly.Blocks['builtins_oct'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("octal of");
     this.setOutput(true, null);
     this.setColour(0);
@@ -995,10 +995,10 @@ Blockly.Blocks['builtins_ord'] = {
 Blockly.Blocks['builtins_pow'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("pow");
     this.appendValueInput("y")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("to the power");
     this.setOutput(true, null);
     this.setColour(0);
@@ -1077,7 +1077,7 @@ Blockly.Blocks['builtins_reversed'] = {
 Blockly.Blocks['builtins_round'] = {
   init: function() {
     this.appendValueInput("x")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("round");
     this.appendValueInput("ndigits")
         .setCheck("Number")
