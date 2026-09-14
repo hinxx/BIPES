@@ -1,0 +1,44 @@
+# The same fourteen blocks as machine_i2c.blockdef.yaml, under the name the
+# `Communication` tree gives the category. The blocks are declared once, there;
+# this file only places them a second time.
+
+module: machine
+import: []
+
+category:
+  name: I2C
+  labels: [I2C]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: machine.I2C_I2C.init, external: true, params: [
+      {name: id, type: Number, default: 0, align: right},
+      {name: scl, pin: true, align: right},
+      {name: sda, pin: true, align: right},
+      {name: freq, type: Number, default: 400000, align: right}]}
+  - {type: machine.I2C_I2C.deinit, external: true}
+  - {type: machine.I2C_I2C.scan, external: true}
+  - {type: machine.I2C_I2C.start, external: true}
+  - {type: machine.I2C_I2C.stop, external: true}
+  - {type: machine.I2C_I2C.readinto, external: true}
+  - {type: machine.I2C_I2C.write, external: true}
+  - {type: machine.I2C_I2C.readfrom, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right},
+      {name: nbytes, type: Number, default: 1, align: right}]}
+  - {type: machine.I2C_I2C.readfrom_into, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right}]}
+  - {type: machine.I2C_I2C.writeto, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right}]}
+  - {type: machine.I2C_I2C.writevto, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right}]}
+  - {type: machine.I2C_I2C.readfrom_mem, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right},
+      {name: memaddr, type: Number, default: 0, align: right},
+      {name: nbytes, type: Number, default: 1, align: right}]}
+  - {type: machine.I2C_I2C.readfrom_mem_into, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right},
+      {name: memaddr, type: Number, default: 0, align: right}]}
+  - {type: machine.I2C_I2C.writeto_mem, external: true, params: [
+      {name: addr, type: Number, default: 0, align: right},
+      {name: memaddr, type: Number, default: 0, align: right}]}

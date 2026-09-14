@@ -2293,38 +2293,123 @@
 
 
       </category>
+      <!-- blockdef:comm_i2c -->
       <category name="I2C">
-      <label text="I2c"></label>
-<block type="machine.I2C_I2C.init">
-</block>
-<block type="machine.I2C_I2C.deinit">
-</block>
-<block type="machine.I2C_I2C.scan">
-</block>
-<block type="machine.I2C_I2C.start">
-</block>
-<block type="machine.I2C_I2C.stop">
-</block>
-<block type="machine.I2C_I2C.readinto">
-</block>
-<block type="machine.I2C_I2C.write">
-</block>
-<block type="machine.I2C_I2C.readfrom">
-</block>
-<block type="machine.I2C_I2C.readfrom_into">
-</block>
-<block type="machine.I2C_I2C.writeto">
-</block>
-<block type="machine.I2C_I2C.writevto">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem_into">
-</block>
-<block type="machine.I2C_I2C.writeto_mem">
-</block>
+        <label text="I2C"></label>
 
+        <block type="machine.I2C_I2C.init">
+          <value name="id">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="scl">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="sda">
+            <shadow type="pinout"></shadow>
+          </value>
+          <value name="freq">
+            <shadow type="math_number">
+              <field name="NUM">400000</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.deinit"></block>
+
+        <block type="machine.I2C_I2C.scan"></block>
+
+        <block type="machine.I2C_I2C.start"></block>
+
+        <block type="machine.I2C_I2C.stop"></block>
+
+        <block type="machine.I2C_I2C.readinto"></block>
+
+        <block type="machine.I2C_I2C.write"></block>
+
+        <block type="machine.I2C_I2C.readfrom">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="nbytes">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.readfrom_into">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.writeto">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.writevto">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.readfrom_mem">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="memaddr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="nbytes">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.readfrom_mem_into">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="memaddr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="machine.I2C_I2C.writeto_mem">
+          <value name="addr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="memaddr">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
       </category>
+      <!-- /blockdef:comm_i2c -->
   </category>
 
 
@@ -2727,36 +2812,122 @@
 <block type="machine.ADCWiPy_adcchannel.deinit">
 </block>
 </category>
+<!-- blockdef:machine_i2c -->
 <category name="machine.I2C">
-<block type="machine.I2C_I2C.init">
-</block>
-<block type="machine.I2C_I2C.deinit">
-</block>
-<block type="machine.I2C_I2C.scan">
-</block>
-<block type="machine.I2C_I2C.start">
-</block>
-<block type="machine.I2C_I2C.stop">
-</block>
-<block type="machine.I2C_I2C.readinto">
-</block>
-<block type="machine.I2C_I2C.write">
-</block>
-<block type="machine.I2C_I2C.readfrom">
-</block>
-<block type="machine.I2C_I2C.readfrom_into">
-</block>
-<block type="machine.I2C_I2C.writeto">
-</block>
-<block type="machine.I2C_I2C.writevto">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem">
-</block>
-<block type="machine.I2C_I2C.readfrom_mem_into">
-</block>
-<block type="machine.I2C_I2C.writeto_mem">
-</block>
+
+  <block type="machine.I2C_I2C.init">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="scl">
+      <shadow type="pinout"></shadow>
+    </value>
+    <value name="sda">
+      <shadow type="pinout"></shadow>
+    </value>
+    <value name="freq">
+      <shadow type="math_number">
+        <field name="NUM">400000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.deinit"></block>
+
+  <block type="machine.I2C_I2C.scan"></block>
+
+  <block type="machine.I2C_I2C.start"></block>
+
+  <block type="machine.I2C_I2C.stop"></block>
+
+  <block type="machine.I2C_I2C.readinto"></block>
+
+  <block type="machine.I2C_I2C.write"></block>
+
+  <block type="machine.I2C_I2C.readfrom">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="nbytes">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.readfrom_into">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.writeto">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.writevto">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.readfrom_mem">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="memaddr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="nbytes">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.readfrom_mem_into">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="memaddr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.I2C_I2C.writeto_mem">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="memaddr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 </category>
+<!-- /blockdef:machine_i2c -->
 <category name="machine.Pin">
 <block type="machine.Pin_Pin.init">
 </block>

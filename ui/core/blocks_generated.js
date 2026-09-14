@@ -2502,6 +2502,265 @@ Blockly.Blocks['machine_rng'] = {
   }
 };
 
+// ---- machine.I2C (machine_i2c.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['machine.I2C_I2C.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.init");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bus");
+    this.appendValueInput("scl")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build the I2C bus: I2C(id, scl=Pin(x), sda=Pin(y), freq=f)");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn off the I2C bus.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.scan'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.scan");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Scan addresses 0x08 to 0x77 and return a list of those that answered.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.start");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Generate a START condition on the bus. SoftI2C only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.stop");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Generate a STOP condition on the bus. SoftI2C only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.readinto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.readinto");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read into the buffer, acknowledging every byte but the last. SoftI2C only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.write");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write the buffer to the bus. SoftI2C only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.readfrom'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.readfrom");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("nbytes")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bytes");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read the given number of bytes from a device and return them.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.readfrom_into'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.readfrom_into");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read from a device into the buffer, as many bytes as it is long.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.writeto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.writeto");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write the buffer to a device.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.writevto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.writevto");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("vector")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffers");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write several buffers to a device in one transaction, as one list.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.readfrom_mem'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.readfrom_mem");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("memaddr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("register");
+    this.appendValueInput("nbytes")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bytes");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read the given number of bytes from a register of a device.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.readfrom_mem_into'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.readfrom_mem_into");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("memaddr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("register");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read from a register of a device into the buffer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
+Blockly.Blocks['machine.I2C_I2C.writeto_mem'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("I2C.writeto_mem");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.appendValueInput("memaddr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("register");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write the buffer to a register of a device.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.I2C.html");
+  }
+};
+
 // ---- math (math.blockdef.yaml) -----------------------------------------------
 
 Blockly.Blocks['math_acos'] = {

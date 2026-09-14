@@ -1,0 +1,155 @@
+# `machine.I2C` -- the raw I2C bus, as opposed to the sensor families that sit
+# on top of one.
+#
+# All fourteen blocks emitted code that cannot run. They were generated from
+# the MicroPython docs by whatever produced the rest of the `micropython` tree,
+# and that tool turned every method into a call on the module path:
+#
+#     import machine.I2C          # ImportError: no module named 'machine.I2C'
+#     machine.I2C.I2C.scan()      # and I2C.scan is an instance method anyway
+#
+# Thirteen of the fourteen also took one untyped `pIn` socket standing for the
+# whole argument list, so `readfrom_mem` asked for "the arguments" rather than
+# an address, a register and a length.
+#
+# So this is a redesign rather than a transcription, and it follows the shape
+# seven other families here already use: `I2C.init` builds the object, the
+# other thirteen call a method on it. Three consequences worth knowing:
+#
+# * `scan` becomes a value block -- it returns the list of addresses that
+#   answered, and as a statement that list went nowhere. `readinto` and
+#   `readfrom_into` go the other way: they fill a buffer and return None, so
+#   they are statements now.
+# * The socket names changed (`pIn` -> `addr`, `buf`, ...), so a saved program
+#   holding one of these blocks keeps the block and loses whatever was plugged
+#   into it. Nothing that ran can break: none of this generated running code.
+# * `start`, `stop`, `readinto` and `write` are the primitive bus operations,
+#   which MicroPython only implements on `SoftI2C`. They are kept because they
+#   are in the docs this category mirrors, not because hardware I2C answers
+#   them.
+#
+# The sensor families build their bus through `Blockly.Python.i2cBus_()`, which
+# names it after its pins so that two devices on the same pins share one
+# object. This category does not: it is the bus, an explicit `i2c = I2C(...)`
+# is what its user is asking for, and a program that drags in a sensor block
+# as well simply constructs a second object over the same pins, which
+# MicroPython allows.
+
+module: machine
+class: I2C
+instance: i2c
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.I2C.html
+import: {key: import_I2C_Pin, line: "from machine import I2C, Pin"}
+
+category:
+  name: machine.I2C
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: machine.I2C_I2C.init
+    label: I2C.init
+    tooltip: "Build the I2C bus: I2C(id, scl=Pin(x), sda=Pin(y), freq=f)"
+    code: "{instance} = I2C({id}, scl=Pin({scl}), sda=Pin({sda}), freq={freq})"
+    params:
+      - {name: id,   label: bus,             type: Number, default: 0, align: right}
+      - {name: scl,  label: SCL,             pin: true,   align: right}
+      - {name: sda,  label: SDA,             pin: true,   align: right}
+      - {name: freq, label: "frequency (Hz)", type: Number, default: 400000, align: right}
+
+  - type: machine.I2C_I2C.deinit
+    fn: deinit
+    label: I2C.deinit
+    tooltip: Turn off the I2C bus.
+
+  - type: machine.I2C_I2C.scan
+    fn: scan
+    kind: value
+    label: I2C.scan
+    tooltip: Scan addresses 0x08 to 0x77 and return a list of those that answered.
+
+  - type: machine.I2C_I2C.start
+    fn: start
+    label: I2C.start
+    tooltip: Generate a START condition on the bus. SoftI2C only.
+
+  - type: machine.I2C_I2C.stop
+    fn: stop
+    label: I2C.stop
+    tooltip: Generate a STOP condition on the bus. SoftI2C only.
+
+  - type: machine.I2C_I2C.readinto
+    fn: readinto
+    label: I2C.readinto
+    tooltip: Read into the buffer, acknowledging every byte but the last. SoftI2C only.
+    params:
+      - {name: buf, label: buffer, align: right}
+
+  - type: machine.I2C_I2C.write
+    fn: write
+    label: I2C.write
+    tooltip: Write the buffer to the bus. SoftI2C only.
+    params:
+      - {name: buf, label: buffer, align: right}
+
+  - type: machine.I2C_I2C.readfrom
+    fn: readfrom
+    kind: value
+    label: I2C.readfrom
+    tooltip: Read the given number of bytes from a device and return them.
+    params:
+      - {name: addr,   label: address, type: Number, default: 0, align: right}
+      - {name: nbytes, label: bytes,   type: Number, default: 1, align: right}
+
+  - type: machine.I2C_I2C.readfrom_into
+    fn: readfrom_into
+    label: I2C.readfrom_into
+    tooltip: Read from a device into the buffer, as many bytes as it is long.
+    params:
+      - {name: addr, label: address, type: Number, default: 0, align: right}
+      - {name: buf,  label: buffer,  align: right}
+
+  - type: machine.I2C_I2C.writeto
+    fn: writeto
+    label: I2C.writeto
+    tooltip: Write the buffer to a device.
+    params:
+      - {name: addr, label: address, type: Number, default: 0, align: right}
+      - {name: buf,  label: buffer,  align: right}
+
+  - type: machine.I2C_I2C.writevto
+    fn: writevto
+    label: I2C.writevto
+    tooltip: Write several buffers to a device in one transaction, as one list.
+    params:
+      - {name: addr,   label: address, type: Number, default: 0, align: right}
+      - {name: vector, label: buffers, align: right}
+
+  - type: machine.I2C_I2C.readfrom_mem
+    fn: readfrom_mem
+    kind: value
+    label: I2C.readfrom_mem
+    tooltip: Read the given number of bytes from a register of a device.
+    params:
+      - {name: addr,    label: address,  type: Number, default: 0, align: right}
+      - {name: memaddr, label: register, type: Number, default: 0, align: right}
+      - {name: nbytes,  label: bytes,    type: Number, default: 1, align: right}
+
+  - type: machine.I2C_I2C.readfrom_mem_into
+    fn: readfrom_mem_into
+    label: I2C.readfrom_mem_into
+    tooltip: Read from a register of a device into the buffer.
+    params:
+      - {name: addr,    label: address,  type: Number, default: 0, align: right}
+      - {name: memaddr, label: register, type: Number, default: 0, align: right}
+      - {name: buf,     label: buffer,   align: right}
+
+  - type: machine.I2C_I2C.writeto_mem
+    fn: writeto_mem
+    label: I2C.writeto_mem
+    tooltip: Write the buffer to a register of a device.
+    params:
+      - {name: addr,    label: address,  type: Number, default: 0, align: right}
+      - {name: memaddr, label: register, type: Number, default: 0, align: right}
+      - {name: buf,     label: buffer,   align: right}
