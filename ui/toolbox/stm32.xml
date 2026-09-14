@@ -968,51 +968,73 @@
       <!-- /blockdef:ds18x20 -->
 
 
+  <!-- blockdef:rfid -->
   <category name="RFID Reader">
-      <label text="RC522 13.56MHz RFID Reader"></label>
-      <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
-        <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
-        <button text="Load example: mfrc522" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
 
-      <block type="rfid_rc522_init">
-        <value name="sck">
-          <shadow type="pinout">
-            <field name="SCK"></field>
-          </shadow>
-        </value>
- 
-        <value name="mosi">
-          <shadow type="pinout">
-            <field name="MOSI"></field>
-          </shadow>
-        </value>
+    <label text="RC522 13.56MHz RFID Reader"></label>
 
-         <value name="miso">
-          <shadow type="pinout">
-            <field name="MISO"></field>
-          </shadow>
-        </value>
- 
-        <value name="rst">
-          <shadow type="pinout">
-            <field name="RST"></field>
-          </shadow>
-        </value>
- 
-        <value name="cs">
-          <shadow type="pinout">
-            <field name="RST"></field>
-          </shadow>
-        </value>
+    <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
 
-      </block>
-      <block type="rfid_rc522_detect_card"></block>
-      <block type="rfid_rc522_anticoll"></block>
-      <block type="rfid_rc522_read_card"></block>
-      <block type="rfid_rc522_write_card"></block>
+    <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
 
+    <button text="Load example: mfrc522" callbackKey="loadExample"></button>
+
+    <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
+
+    <block type="rfid_rc522_init">
+      <value name="spi">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="cs">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="sck">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="mosi">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="miso">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="rst">
+        <shadow type="pinout"></shadow>
+      </value>
+    </block>
+
+    <block type="rfid_rc522_detect_card">
+      <value name="stat">
+        <block type="variables_get">
+          <field name="VAR">status</field>
+        </block>
+      </value>
+      <value name="tag">
+        <block type="variables_get">
+          <field name="VAR">tag</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="rfid_rc522_anticoll">
+      <value name="stat">
+        <block type="variables_get">
+          <field name="VAR">status</field>
+        </block>
+      </value>
+      <value name="tag">
+        <block type="variables_get">
+          <field name="VAR">uid</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="rfid_rc522_read_card"></block>
+
+    <block type="rfid_rc522_write_card"></block>
   </category>
+  <!-- /blockdef:rfid -->
 
   </category>
 

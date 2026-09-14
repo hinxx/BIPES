@@ -2445,6 +2445,46 @@ Blockly.Python['relay_switch'] = function(block) {
   return code + "\n";
 };
 
+// ---- RFID Reader (rfid.blockdef.yaml) ----------------------------------------
+
+Blockly.Python['rfid_rc522_init'] = function(block) {
+  Blockly.Python.definitions_["import_mfrc522"] = "from mfrc522 import MFRC522";
+  Blockly.Python.definitions_["rfid_getSerialNumber"] = "def getSerialNumber():\n    serialNumber = 0\n    (stat, tag_type) = rdr.request(rdr.REQIDL)\n    if stat == rdr.OK:\n        (stat, uid) = rdr.SelectTagSN()\n        if stat == rdr.OK:\n            serialNumber = int.from_bytes(bytes(uid), \"little\", False)\n    return serialNumber";
+  var spi_ = Blockly.Python.valueToCode(block, "spi", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  var sck_ = Blockly.Python.valueToCode(block, "sck", Blockly.Python.ORDER_ATOMIC);
+  var mosi_ = Blockly.Python.valueToCode(block, "mosi", Blockly.Python.ORDER_ATOMIC);
+  var miso_ = Blockly.Python.valueToCode(block, "miso", Blockly.Python.ORDER_ATOMIC);
+  var rst_ = Blockly.Python.valueToCode(block, "rst", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nrdr = MFRC522(spi_id=" + spi_ + ", sck=" + sck_ + ", mosi=" + mosi_ + ", miso=" + miso_ + ", rst=" + rst_ + ", cs=" + cs_ + ")\nrdr.init()";
+  return code + "\n";
+};
+
+Blockly.Python['rfid_rc522_detect_card'] = function(block) {
+  Blockly.Python.definitions_["import_mfrc522"] = "from mfrc522 import MFRC522";
+  Blockly.Python.definitions_["rfid_getSerialNumber"] = "def getSerialNumber():\n    serialNumber = 0\n    (stat, tag_type) = rdr.request(rdr.REQIDL)\n    if stat == rdr.OK:\n        (stat, uid) = rdr.SelectTagSN()\n        if stat == rdr.OK:\n            serialNumber = int.from_bytes(bytes(uid), \"little\", False)\n    return serialNumber";
+  var stat_ = Blockly.Python.valueToCode(block, "stat", Blockly.Python.ORDER_ATOMIC);
+  var tag_ = Blockly.Python.valueToCode(block, "tag", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nrdr.init()\n(" + stat_ + ", " + tag_ + ") = rdr.request(rdr.REQIDL)";
+  return code + "\n";
+};
+
+Blockly.Python['rfid_rc522_anticoll'] = function(block) {
+  Blockly.Python.definitions_["import_mfrc522"] = "from mfrc522 import MFRC522";
+  Blockly.Python.definitions_["rfid_getSerialNumber"] = "def getSerialNumber():\n    serialNumber = 0\n    (stat, tag_type) = rdr.request(rdr.REQIDL)\n    if stat == rdr.OK:\n        (stat, uid) = rdr.SelectTagSN()\n        if stat == rdr.OK:\n            serialNumber = int.from_bytes(bytes(uid), \"little\", False)\n    return serialNumber";
+  var stat_ = Blockly.Python.valueToCode(block, "stat", Blockly.Python.ORDER_ATOMIC);
+  var tag_ = Blockly.Python.valueToCode(block, "tag", Blockly.Python.ORDER_ATOMIC);
+  var code = "(" + stat_ + ", " + tag_ + ") = rdr.anticoll(rdr.PICC_ANTICOLL1)";
+  return code + "\n";
+};
+
+Blockly.Python['rfid_rc522_serial_number'] = function(block) {
+  Blockly.Python.definitions_["import_mfrc522"] = "from mfrc522 import MFRC522";
+  Blockly.Python.definitions_["rfid_getSerialNumber"] = "def getSerialNumber():\n    serialNumber = 0\n    (stat, tag_type) = rdr.request(rdr.REQIDL)\n    if stat == rdr.OK:\n        (stat, uid) = rdr.SelectTagSN()\n        if stat == rdr.OK:\n            serialNumber = int.from_bytes(bytes(uid), \"little\", False)\n    return serialNumber";
+  var code = "getSerialNumber()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- RC Servo Motor (servo.blockdef.yaml) ------------------------------------
 
 Blockly.Python['init_servo'] = function(block) {

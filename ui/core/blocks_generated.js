@@ -4749,6 +4749,94 @@ Blockly.Blocks['relay_switch'] = {
   }
 };
 
+// ---- RFID Reader (rfid.blockdef.yaml) ----------------------------------------
+
+Blockly.Blocks['rfid_rc522_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init RC522 RFID Module");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/RC522.jpg", 55, 55, "*"));
+    this.appendValueInput("spi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SPI");
+    this.appendValueInput("cs")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CS");
+    this.appendValueInput("sck")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCK");
+    this.appendValueInput("mosi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MOSI");
+    this.appendValueInput("miso")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("MISO");
+    this.appendValueInput("rst")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RST");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['rfid_rc522_detect_card'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Check if RFID Card is present");
+    this.appendValueInput("stat")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("status");
+    this.appendValueInput("tag")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("tag");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['rfid_rc522_anticoll'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get card identification (UID)");
+    this.appendValueInput("stat")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("status");
+    this.appendValueInput("tag")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("tag");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['rfid_rc522_serial_number'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Read Serial Number"), "MSG_READ_SERIAL_NUMBER");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("Read Serial Number");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- RC Servo Motor (servo.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['init_servo'] = {

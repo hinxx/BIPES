@@ -1,0 +1,120 @@
+# RC522 RFID reader. The backlog had this category on the "wants a decision
+# first" list because two of its six blocks are placeholders; the other four
+# work, and converting them fixed four separate things.
+#
+# * **`rfid_rc522_init` had no `spi` shadow on nine of the thirteen boards**,
+#   so straight out of the flyout it emitted
+#   `MFRC522(spi_id=, sck=…, …)` -- a SyntaxError. It has one everywhere now.
+# * Those same nine named the `pinout` shadows `SCK`, `MOSI`, `MISO` and `RST`
+#   rather than `PIN`, which Blockly ignores, so all of them fell back to the
+#   first pin; `cs`'s shadow was named `RST` as well, a copy-paste slip.
+#   makernano and makerpi did the same with `CS`. Only the two Picos had it
+#   right, and their pin defaults are kept.
+# * **`rfid_rc522_anticoll` called `rdr.anticoll()` with no argument**, but
+#   `ui/pylibs/mfrc522.py` -- the library the category's own install button
+#   pushes to the board -- declares `def anticoll(self, anticolN)`, and uses it
+#   as `self.anticoll(self.PICC_ANTICOLL1)`. The block raised a TypeError on
+#   every card. It passes `rdr.PICC_ANTICOLL1` now.
+# * `rfid_rc522_detect_card` and `rfid_rc522_anticoll` assign into two value
+#   sockets and neither had a shadow, so both emitted `(,) = rdr.request(…)`.
+#   They arrive with a variable in each socket now, which is what they want.
+#   `rfid_rc522_serial_number` was a value block returning `getSerialNumber()\n`.
+#
+# `getSerialNumber` was emitted as part of `init`'s own code; it is a
+# definitions_ entry now, so the four boards that offer the serial-number block
+# get the helper wherever the init block sits.
+#
+# **`rfid_rc522_read_card` and `rfid_rc522_write_card` are not implemented.**
+# Both emit `rdr=mfrc522.MFRC522(0,2,4,5,14)` -- re-initialising the reader on
+# hardcoded pins, through a module name nothing imports -- and read or write
+# nothing. They stay hand-written and stay in the toolbox; whether a category
+# should offer two blocks that quietly reset the reader is a decision about the
+# blocks, not something a conversion should bless by transcribing.
+
+module: mfrc522
+class: MFRC522
+instance: rdr
+colour: 135
+import:
+  - {key: import_mfrc522, line: "from mfrc522 import MFRC522"}
+  - key: rfid_getSerialNumber
+    line: |-
+      def getSerialNumber():
+          serialNumber = 0
+          (stat, tag_type) = rdr.request(rdr.REQIDL)
+          if stat == rdr.OK:
+              (stat, uid) = rdr.SelectTagSN()
+              if stat == rdr.OK:
+                  serialNumber = int.from_bytes(bytes(uid), "little", False)
+          return serialNumber
+
+category:
+  name: RFID Reader
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  defaults:
+    rpi_pico:   {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
+    rpi_pico_w: {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
+
+blocks:
+  - {label: RC522 13.56MHz RFID Reader}
+  - {label: "Library: https://github.com/wendlers/micropython-mfrc522",
+     boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp8266, stm32]}
+  - {label: "Library: https://github.com/kevinmcaleer/pico-rfid",
+     boards: [makernano, makerpi, rpi_pico, rpi_pico_w]}
+  - {library: mfrc522}
+  - {example: mfrc522}
+  - {doc: mfrc522}
+
+  - type: rfid_rc522_init
+    label:
+      - Init RC522 RFID Module
+      - {image: {src: media/RC522.jpg, width: 55, height: 55}}
+    tooltip: ""
+    code: |-
+
+      rdr = MFRC522(spi_id={spi}, sck={sck}, mosi={mosi}, miso={miso}, rst={rst}, cs={cs})
+      rdr.init()
+    params:
+      - {name: spi,  label: SPI,  type: Number, default: 0, align: right}
+      - {name: cs,   label: CS,   type: Number, pin: true,  align: right}
+      - {name: sck,  label: SCK,  type: Number, pin: true,  align: right}
+      - {name: mosi, label: MOSI, type: Number, pin: true,  align: right}
+      - {name: miso, label: MISO, type: Number, pin: true,  align: right}
+      - {name: rst,  label: RST,  type: Number, pin: true,  align: right}
+
+  - type: rfid_rc522_detect_card
+    label: Check if RFID Card is present
+    tooltip: ""
+    code: |-
+
+      rdr.init()
+      ({stat}, {tag}) = rdr.request(rdr.REQIDL)
+    params:
+      - {name: stat, label: status, type: Number, align: right,
+         plug: {type: variables_get, fields: {VAR: status}}}
+      - {name: tag,  label: tag,    type: Number, align: right,
+         plug: {type: variables_get, fields: {VAR: tag}}}
+
+  - type: rfid_rc522_anticoll
+    label: Get card identification (UID)
+    tooltip: ""
+    code: "({stat}, {tag}) = rdr.anticoll(rdr.PICC_ANTICOLL1)"
+    params:
+      - {name: stat, label: status, type: Number, align: right,
+         plug: {type: variables_get, fields: {VAR: status}}}
+      - {name: tag,  label: tag,    type: Number, align: right,
+         plug: {type: variables_get, fields: {VAR: uid}}}
+
+  - type: rfid_rc522_serial_number
+    kind: value
+    label: [{text: Read Serial Number, field: MSG_READ_SERIAL_NUMBER}]
+    tooltip: Read Serial Number
+    url: http://www.bipes.net.br
+    boards: [makernano, makerpi, rpi_pico, rpi_pico_w]
+    code: "getSerialNumber()"
+
+  # Not implemented -- see the note at the top of this file.
+  - {type: rfid_rc522_read_card,  external: true}
+  - {type: rfid_rc522_write_card, external: true}
