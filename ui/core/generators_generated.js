@@ -12,6 +12,14 @@ Blockly.Python.blockdefUnquote_ = function(code) {
   return match ? match[1].replace(/\\(['"\\])/g, '$1') : code;
 };
 
+// `variants:` on a block: which board is selected decides what it emits. The
+// value is the one on the `<option>` in index.html -- "ESP32S2", not the
+// toolbox name and not the label the dropdown shows. Guarded, because code is
+// also generated in places where the page around it is not there.
+Blockly.Python.blockdefBoard_ = function() {
+  try { return UI['workspace'].selector.value; } catch (e) { return ''; }
+};
+
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
 
 Blockly.Python['aht_init'] = function(block) {
@@ -3961,6 +3969,20 @@ Blockly.Python['ticks_diff'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['utime.vars'] = function(block) {
+  var VARS_ = block.getFieldValue("VARS");
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_time"] = "import time";
+    code = "time.monotonic()";
+  } else {
+    Blockly.Python.definitions_["import_utime"] = "import utime";
+    code = "utime." + VARS_ + "()";
+  }
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Python['utime.ticks_add'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var TIME1_ = Blockly.Python.valueToCode(block, "TIME1", Blockly.Python.ORDER_ATOMIC);
@@ -4929,6 +4951,81 @@ Blockly.Python['webrepl_start'] = function(block) {
   Blockly.Python.definitions_["import_webrepl"] = "import webrepl";
   var code = "webrepl.start()";
   return code + "\n";
+};
+
+// ---- Network (wifi.blockdef.yaml) --------------------------------------------
+
+Blockly.Python['wifi_client_connect'] = function(block) {
+  var wifi_client_essid_ = Blockly.Python.valueToCode(block, "wifi_client_essid", Blockly.Python.ORDER_ATOMIC);
+  var wifi_client_key_ = Blockly.Python.valueToCode(block, "wifi_client_key", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_ipaddress"] = "import ipaddress";
+    Blockly.Python.definitions_["import_ssl"] = "import ssl";
+    Blockly.Python.definitions_["import_wifi"] = "import wifi";
+    Blockly.Python.definitions_["import_socketpool"] = "import socketpool";
+    code = "print(\"Connecting to\", " + wifi_client_essid_ + ")\nwifi.radio.connect(" + wifi_client_essid_ + ", " + wifi_client_key_ + ")\nprint(\"Connected\")\nprint(\"My IP address is\", wifi.radio.ipv4_address)";
+  } else {
+    Blockly.Python.definitions_["import_network"] = "import network";
+    Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+    Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+    Blockly.Python.definitions_["import_time"] = "import time";
+    code = "sta_if.connect(" + wifi_client_essid_ + ", " + wifi_client_key_ + ")\nprint(\"Waiting for Wifi connection\")\nwhile not sta_if.isconnected():\n    time.sleep(1)\nprint(\"Connected\")";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['net_ap_mode'] = function(block) {
+  var wifi_essid_ = Blockly.Python.valueToCode(block, "wifi_essid", Blockly.Python.ORDER_ATOMIC);
+  var wifi_key_ = Blockly.Python.valueToCode(block, "wifi_key", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "RPI_Pico_W") {
+    Blockly.Python.definitions_["import_network"] = "import network";
+    code = "ap = network.WLAN(network.AP_IF)\nap.config(essid=" + wifi_essid_ + ")\nap.config(password=" + wifi_key_ + ")\nap.active(True)";
+  } else {
+    Blockly.Python.definitions_["import_network"] = "import network";
+    code = "ap = network.WLAN(network.AP_IF)\nap.active(True)\nap.config(essid=" + wifi_essid_ + ", password=" + wifi_key_ + ")";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['wifi_client_scan_networks'] = function(block) {
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_ipaddress"] = "import ipaddress";
+    Blockly.Python.definitions_["import_ssl"] = "import ssl";
+    Blockly.Python.definitions_["import_wifi"] = "import wifi";
+    Blockly.Python.definitions_["import_socketpool"] = "import socketpool";
+    Blockly.Python.definitions_["import_scan_wifi"] = "def scan_wifi():\n\tfor network in wifi.radio.start_scanning_networks():\n\t\tprint(\"\t%s\t\tRSSI: %d\tChannel: %d\" % (str(network.ssid, \"utf-8\"), network.rssi, network.channel))\n\twifi.radio.stop_scanning_networks()\n";
+    code = "scan_wifi()";
+  } else {
+    Blockly.Python.definitions_["import_network"] = "import network";
+    Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+    Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+    code = "sta_if.scan()";
+  }
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_ifconfig'] = function(block) {
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_ipaddress"] = "import ipaddress";
+    Blockly.Python.definitions_["import_ssl"] = "import ssl";
+    Blockly.Python.definitions_["import_wifi"] = "import wifi";
+    Blockly.Python.definitions_["import_socketpool"] = "import socketpool";
+    code = "wifi.radio.ipv4_address";
+  } else {
+    Blockly.Python.definitions_["import_network"] = "import network";
+    Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+    Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+    code = "sta_if.ifconfig()";
+  }
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- wipy (wipy.blockdef.yaml) -----------------------------------------------

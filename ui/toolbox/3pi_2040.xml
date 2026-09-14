@@ -1981,8 +1981,8 @@
 
 
   <category name="Network">
+    <!-- blockdef:wifi -->
     <block type="wifi_client_connect">
-      <field name="NAME">Connect to Wifi network</field>
       <value name="wifi_client_essid">
         <shadow type="text">
           <field name="TEXT"></field>
@@ -1994,8 +1994,8 @@
         </shadow>
       </value>
     </block>
+
     <block type="net_ap_mode">
-      <field name="NAME">Configure Access Point Mode</field>
       <value name="wifi_essid">
         <shadow type="text">
           <field name="TEXT"></field>
@@ -2007,12 +2007,11 @@
         </shadow>
       </value>
     </block>
-    <block type="wifi_client_scan_networks">
-      <field name="NET_SCAN_WIFI">Scan Wifi networks</field>
-    </block>
-    <block type="net_ifconfig">
-      <field name="NET_IFCONFIG">Wifi current IP</field>
-    </block>
+
+    <block type="wifi_client_scan_networks"></block>
+
+    <block type="net_ifconfig"></block>
+    <!-- /blockdef:wifi -->
 
     <block type="net_wiznet5k_init">
     </block>

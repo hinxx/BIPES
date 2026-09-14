@@ -135,6 +135,7 @@ class Block:
     fields: dict[str, str] = field(default_factory=dict)    # toolbox <field> presets
     help_url: str | None = None
     boards: list[str] = field(default_factory=list)   # toolboxes that list it; all if empty
+    variants: list['Variant'] = field(default_factory=list)  # per-board code, if it differs
 
 
 @dataclass(slots=True)
@@ -156,6 +157,26 @@ class Button:
 class Import:
     line: str
     key: str
+
+
+@dataclass(slots=True)
+class Variant:
+    """One board's version of what a block emits.
+
+    A handful of blocks emit different Python depending on which board is
+    selected -- the Franzininho runs CircuitPython, where a pin is
+    `DigitalInOut(board.IO4)` and Wi-Fi is the `wifi` module rather than
+    `network`. The board is a runtime choice (the dropdown above the
+    workspace), not a build-time one, so this becomes a branch in the
+    generated generator rather than two generated files.
+
+    `device` is the *selector value* -- the `<option value>` in index.html,
+    `ESP32S2`, not `esp32S2` and not "Franzininho Wifi". `device: None` is the
+    fallback branch, and every block with variants has exactly one, last.
+    """
+    code: str
+    device: str | None = None
+    imports: list[Import] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -342,9 +363,13 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         raise BlockdefError(f'{at}: `fn` calls a method and `attr` reads a value; '
                             f'a block does one or the other')
     code = entry.get('code')
-    if code is None and not fn and not attr and not constructor:
+    variants = _variants(entry.get('variants'), at)
+    if variants and (code is not None or fn or attr or constructor):
+        raise BlockdefError(f'{at}: `variants` is the code, one branch per board, so the '
+                            f'block cannot also have `code`, `fn`, `attr` or `constructor`')
+    if code is None and not variants and not fn and not attr and not constructor:
         raise BlockdefError(f'{at}: needs `fn` (a method to call), `attr` (a value to '
-                            f'read), `code`, or `constructor`')
+                            f'read), `code`, `variants`, or `constructor`')
     instance = entry.get('instance', definition.instance) or ''
     if attr and not instance:
         raise BlockdefError(f'{at}: `attr` reads off the object, so it needs an `instance`')
@@ -389,13 +414,13 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
-        boards=boards,
+        boards=boards, variants=variants,
     )
     _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'footer',
                            'tooltip',
                            'kind', 'args', 'code', 'output', 'params', 'inline',
                            'constructor', 'i2c_bus', 'url', 'external', 'import',
-                           'fields', 'boards'}, at)
+                           'fields', 'boards', 'variants'}, at)
     return block
 
 
@@ -525,6 +550,46 @@ def _param(entry: Any, where: _Where) -> Param:
                            'keyword', 'options', 'emit', 'min', 'max', 'precision',
                            'shadow', 'unquote', 'row', 'suffix', 'plug'}, at)
     return param
+
+
+def _variants(raw: Any, where: _Where) -> list[Variant]:
+    """`variants:` -- the block emits different Python on different boards.
+
+    Each entry is a `device:` (the board selector's value) with its own `code:`
+    and, because the two ports rarely import the same things, its own
+    `import:`. The last entry carries no `device:` and is the fallback, which
+    is how the hand-written versions of these blocks are written too: one
+    `if (UI['workspace'].selector.value == "ESP32S2")` and an `else`.
+    """
+    if raw is None:
+        return []
+    if not isinstance(raw, list) or not raw:
+        raise BlockdefError(f'{where}: `variants` is a list, one entry per board')
+    out: list[Variant] = []
+    for index, entry in enumerate(raw):
+        at = where.at(f'variants[{index}]')
+        if not isinstance(entry, dict):
+            raise BlockdefError(f'{at}: each variant is a mapping with `code`')
+        _check_unknown(entry, {'device', 'code', 'import'}, at)
+        if 'code' not in entry:
+            raise BlockdefError(f'{at}: a variant needs `code` -- what this board emits')
+        device = entry.get('device')
+        if device is not None and not isinstance(device, str):
+            raise BlockdefError(f'{at}: `device` is the board selector\'s value, a string')
+        if device is None and index != len(raw) - 1:
+            raise BlockdefError(f'{at}: the variant with no `device` is the fallback, so '
+                                f'nothing can come after it')
+        out.append(Variant(code=str(entry['code']), device=device,
+                           imports=_imports(entry.get('import'), None, at)
+                           if 'import' in entry else []))
+    if out[-1].device is not None:
+        raise BlockdefError(f'{where}: the last variant is the fallback and carries no '
+                            f'`device` -- a board nobody listed still has to generate '
+                            f'something')
+    devices = [v.device for v in out[:-1]]
+    if len(set(devices)) != len(devices):
+        raise BlockdefError(f'{where}: two variants name the same `device`')
+    return out
 
 
 def _plug(raw: Any, where: _Where) -> dict[str, Any] | None:

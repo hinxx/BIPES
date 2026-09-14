@@ -154,6 +154,7 @@ category that is already there:
 | `constructor` | `true` emits `instance = Class(...)` instead of a method call. |
 | `args` | call arguments, if they are not just the params in order. `bus` is available when `i2c_bus` is set. |
 | `code` | escape hatch: the Python itself, with `{param}` and `{instance}` holes. Newlines are kept, so a block can emit several lines. Beats `fn`. |
+| `variants` | `code` (and `import`) that differ by board -- see below. Instead of `code`/`fn`/`attr`/`constructor`. |
 | `i2c_bus` | `{id, scl, sda, freq, soft}` → param names, or numbers for a fixed value; builds the shared bus. |
 | `inline` | `setInputsInline()`. Left alone if omitted. |
 | `import` | entries only this block needs, on top of the file's. |
@@ -205,6 +206,34 @@ block ends on rather than starts with:
 label: Tone (Hz)
 footer: "(0 for infinite duration)"
 ```
+
+### Boards that need different Python
+
+A few blocks emit one thing on one board and something else everywhere else:
+the Franzininho (`ESP32S2`) runs CircuitPython, where Wi-Fi is the `wifi`
+module rather than `network` and a tick counter is `time.monotonic()`. The
+board is a *runtime* choice -- the dropdown above the workspace -- so this is a
+branch inside the generated generator, which is what `variants:` writes:
+
+```yaml
+variants:
+  - device: ESP32S2
+    import: {key: import_time, line: "import time"}
+    code: "time.monotonic()"
+  - import: {key: import_utime, line: "import utime"}
+    code: "utime.{VARS}()"
+```
+
+`device:` is the **selector value** -- what `<option value=>` says in
+`index.html` (`ESP32S2`, `RPI_Pico_W`), not the toolbox file name and not the
+label the dropdown shows. `make blocks` checks each one against the page, which
+is how `net_ap_mode` was found comparing against `"Raspberry Pi Pico W"`: a
+Pico W branch that had never run. The last variant carries no `device:` and is
+the fallback, so a board nobody listed still generates something.
+
+Each variant brings its own `import:` because the two ports rarely import the
+same things; the file's and the block's imports are registered for every board
+as usual.
 
 ### Keys on a param
 

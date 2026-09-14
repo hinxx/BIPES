@@ -37,6 +37,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     _check_block_types_are_unique(definitions)
     _check_no_clash_with_handwritten(root, definitions)
     _check_no_duplicate_handwritten(root)
+    _check_variant_devices_exist(root, definitions)
 
     written += _write(root / BLOCKS_JS, emit_blocks_js(definitions))
     written += _write(root / GENERATORS_JS, emit_generators_js(definitions))
@@ -94,6 +95,31 @@ def _check_no_clash_with_handwritten(root: Path, definitions: list[Definition]) 
             raise BlockdefError(
                 f'{definition.path}: {clashing} are still defined by hand in '
                 f'{handwritten}. Delete them there -- a block belongs to one file.')
+
+
+def _check_variant_devices_exist(root: Path, definitions: list[Definition]) -> None:
+    """A `device:` nobody can select is a branch that never runs.
+
+    `net_ap_mode` compared the selector against "Raspberry Pi Pico W", which is
+    the *label* on the `<option>`; its value is `RPI_Pico_W`, so the Pico W
+    branch someone wrote for it had never executed. The option values are read
+    out of the page, so the list cannot drift from the dropdown.
+    """
+    page = root / 'ui/index.html'
+    if not page.exists():
+        return
+    known = set(re.findall(r'<option[^>]+value="([^"]+)"', page.read_text(encoding='utf-8')))
+    if not known:
+        return
+    for definition in definitions:
+        for block in definition.blocks:
+            for variant in block.variants:
+                if variant.device is not None and variant.device not in known:
+                    raise BlockdefError(
+                        f'{definition.path}: block {block.type!r} has a variant for device '
+                        f'{variant.device!r}, which is not one of the board selector\'s '
+                        f'values in ui/index.html. The value is what `<option value=>` '
+                        f'says, not the label the dropdown shows.')
 
 
 def _check_no_duplicate_handwritten(root: Path) -> None:

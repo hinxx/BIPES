@@ -24,12 +24,13 @@
 #   so the ESP32 boards get the translation they were missing. Which of the two
 #   ids to keep is a decision about saved programs, so both stay.
 #
-# Three blocks here stay hand-written and appear as `external:` entries:
-# `timer` and `utime.vars` because they are not declarations (`timer` walks the
-# workspace for the variables its callback has to declare `global`;
-# `utime.vars` emits CircuitPython on ESP32S2 and MicroPython elsewhere), and
-# `utime.deadline` because its id field defaults to a *random* number, which is
-# a method, not a value.
+# Two blocks here stay hand-written and appear as `external:` entries: `timer`
+# because it is not a declaration (it walks the workspace for the variables its
+# callback has to declare `global`), and `utime.deadline` because its id field
+# defaults to a *random* number, which is a method, not a value.
+#
+# `utime.vars` was a third until `variants:` arrived: it emits CircuitPython on
+# the ESP32S2 and MicroPython everywhere else, which the format can now say.
 
 module: utime
 colour: 230
@@ -131,8 +132,33 @@ blocks:
       - {name: end,   label: end,   type: Number, default: 1, align: right}
       - {name: start, label: start, type: Number, default: 1, align: right}
 
-  - {type: "utime.vars", external: true,
-     boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]}
+  # The ESP32S2 runs CircuitPython, which has `time.monotonic()` and none of
+  # utime's tick counters, so the dropdown means nothing there -- which is
+  # what the hand-written generator did too, and now says so in one place.
+  - type: "utime.vars"
+    kind: value
+    inline: true
+    label: []
+    tooltip: Returns a counter in the defined scale, only integer values.
+    url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_ms
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    variants:
+      - device: ESP32S2
+        import: {key: import_time, line: "import time"}
+        code: "time.monotonic()"
+      - import: {key: import_utime, line: "import utime"}
+        code: "utime.{VARS}()"
+    params:
+      - name: VARS
+        label: get
+        suffix: counter
+        kind: dropdown
+        options:
+          - {seconds: time}
+          - {milliseconds: ticks_ms}
+          - {microseconds: ticks_us}
+          - {nanoseconds: time_ns}
+          - {"cpu ticks": ticks_cpu}
 
   - type: utime.ticks_add
     kind: value

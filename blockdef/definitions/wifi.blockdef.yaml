@@ -1,0 +1,131 @@
+# The four Wi-Fi blocks at the top of the Network category, and the first use
+# of `variants:` -- the format key for a block that emits different Python
+# depending on which board is selected. The Franzininho (`ESP32S2`) runs
+# CircuitPython, where Wi-Fi is the `wifi` module and not `network`.
+#
+# `fragment: true` because the category around them is still hand-written and
+# is not the same everywhere: four boards call it `Network` and six use
+# `%{BKY_CAT_NET}`, and each has its own blocks after these. The marker pair
+# sits where the four blocks were.
+#
+# Three things the conversion fixes:
+#
+# * **`net_ap_mode`'s Pico W branch had never run.** It compared the selector
+#   against `"Raspberry Pi Pico W"`, which is the *label* on the `<option>`;
+#   the value is `RPI_Pico_W`. So the Pico W took the other branch and got
+#   `ap.active(True)` before `ap.config(...)`, which its cyw43 driver does not
+#   accept -- the branch someone wrote for it, config first, is the one that
+#   works. `make blocks` now refuses a `device:` that is not a selector value,
+#   so this particular mistake cannot come back.
+# * **The toolboxes pinned English over the translations.** Every entry carried
+#   `<field name="NAME">Connect to Wifi network</field>`, and a `<field>`
+#   preset overwrites a `FieldLabelSerializable` -- including the one built
+#   from `MSG["wifi_connect"]`, which eleven language files translate. The
+#   generated entries carry no such presets.
+# * **`sta_if` was defined twice.** `net_ifconfig` registered it under
+#   `import_network_a`/`_b` and `wifi_client_scan_networks` under
+#   `import_network_sta_init`, so a program using both got two assignments of
+#   the same variable. One pair of keys now, shared with network.blockdef.yaml.
+#
+# The CircuitPython connect block also used to print `Connecting to 'MyNet'`,
+# the quotes included, by splicing the quoted literal inside another string.
+# It prints the name as a second argument now.
+
+module: network
+colour: 230
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: Network
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, rpi_pico_w, stm32]
+
+blocks:
+  - type: wifi_client_connect
+    label: [{msg: wifi_connect, field: NAME}]
+    tooltip: Connect to a Wifi network
+    variants:
+      - device: ESP32S2
+        import: &circuitpython
+          - {key: import_ipaddress,  line: "import ipaddress"}
+          - {key: import_ssl,        line: "import ssl"}
+          - {key: import_wifi,       line: "import wifi"}
+          - {key: import_socketpool, line: "import socketpool"}
+        code: |-
+          print("Connecting to", {wifi_client_essid})
+          wifi.radio.connect({wifi_client_essid}, {wifi_client_key})
+          print("Connected")
+          print("My IP address is", wifi.radio.ipv4_address)
+      - import:
+          - {key: import_network,   line: "import network"}
+          - {key: import_network_a, line: "sta_if = network.WLAN(network.STA_IF)"}
+          - {key: import_network_b, line: "sta_if.active(True)"}
+          - {key: import_time,      line: "import time"}
+          # (the same three as `station:` below, plus `time` for the wait loop)
+        code: |-
+          sta_if.connect({wifi_client_essid}, {wifi_client_key})
+          print("Waiting for Wifi connection")
+          while not sta_if.isconnected():
+              time.sleep(1)
+          print("Connected")
+    params:
+      - {name: wifi_client_essid, label: {msg: wifi_name, field: WIFI_CLIENT_NET_NAME},
+         type: String, default: "", align: right}
+      - {name: wifi_client_key, label: {msg: wifi_key, field: WIFI_CLIENT_NET_KEY},
+         type: String, default: "", align: right}
+
+  - type: net_ap_mode
+    label: [{text: Configure Access Point Mode, field: NAME}]
+    tooltip: Configure Access Point Mode
+    variants:
+      # The Pico W's driver wants the network configured before the interface
+      # comes up; everyone else is the other way round.
+      - device: RPI_Pico_W
+        import: {key: import_network, line: "import network"}
+        code: |-
+          ap = network.WLAN(network.AP_IF)
+          ap.config(essid={wifi_essid})
+          ap.config(password={wifi_key})
+          ap.active(True)
+      - import: {key: import_network, line: "import network"}
+        code: |-
+          ap = network.WLAN(network.AP_IF)
+          ap.active(True)
+          ap.config(essid={wifi_essid}, password={wifi_key})
+    params:
+      - {name: wifi_essid, label: {text: Network name, field: NET_NETWORK_NAME},
+         type: String, default: "", align: right}
+      - {name: wifi_key, label: {text: Network password, field: NET_NETWORK_KEY},
+         type: String, default: "", align: right}
+
+  - type: wifi_client_scan_networks
+    kind: value
+    label: [{msg: wifi_scan, field: NET_SCAN_WIFI}]
+    tooltip: Scan wifi networks
+    variants:
+      - device: ESP32S2
+        import:
+          - {key: import_ipaddress,  line: "import ipaddress"}
+          - {key: import_ssl,        line: "import ssl"}
+          - {key: import_wifi,       line: "import wifi"}
+          - {key: import_socketpool, line: "import socketpool"}
+          - {key: import_scan_wifi, line: "def scan_wifi():\n\tfor network in wifi.radio.start_scanning_networks():\n\t\tprint(\"\t%s\t\tRSSI: %d\tChannel: %d\" % (str(network.ssid, \"utf-8\"), network.rssi, network.channel))\n\twifi.radio.stop_scanning_networks()\n"}
+        code: "scan_wifi()"
+      - import: &station
+          - {key: import_network,   line: "import network"}
+          - {key: import_network_a, line: "sta_if = network.WLAN(network.STA_IF)"}
+          - {key: import_network_b, line: "sta_if.active(True)"}
+        code: "sta_if.scan()"
+
+  - type: net_ifconfig
+    kind: value
+    label: [{text: Wifi current IP, field: NET_IFCONFIG}]
+    tooltip: Wifi current IP
+    variants:
+      - device: ESP32S2
+        import: *circuitpython
+        code: "wifi.radio.ipv4_address"
+      - import: *station
+        code: "sta_if.ifconfig()"
