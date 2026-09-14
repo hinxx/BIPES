@@ -613,31 +613,6 @@ Blockly.Blocks['gpio_set'] = {
   }
 };
 
-Blockly.Blocks['exec_python'] = {
-  init: function() {
-
- this.appendDummyInput()
-      .appendField(new Blockly.FieldImage(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png",
-        55,
-        55,
-        "*"))
-      .appendField("Run Python Code")
-	  ;
-
-
-    this.appendValueInput("command")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Command");
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(240);
- this.setTooltip("Execute custom Python Code");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['adc'] = {
   init: function() {
@@ -927,17 +902,6 @@ Blockly.Blocks['net_ifconfig'] = {
   }
 };
 
-Blockly.Blocks['exec_python_output'] = {
-  init: function() {
-    this.appendValueInput("command")
-        .setCheck("String")
-        .appendField(new Blockly.FieldLabelSerializable("Execute Python custom with output"), "EXEC_PYTHON_OUTPUT");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Execute custom Python Code");
- this.setHelpUrl("");
-  }
-};
 
 Blockly.Blocks['net_ap_mode'] = {
   init: function() {
@@ -6334,32 +6298,8 @@ Blockly.Blocks["wipy_heartbeat"] = {
 };
 
 
-Blockly.Blocks['run_cmd'] = {
-  init: function() {
-    this.appendValueInput("command")
-        .setCheck("String")
-        .appendField("Run Linux command");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(240);
- this.setTooltip("Run custo Linux command");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
-Blockly.Blocks['play_mp3'] = {
-  init: function() {
-    this.appendValueInput("command")
-        .setCheck("String")
-        .appendField("Play MP3 file");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(240);
- this.setTooltip("Play MP3 file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['randomforestclassifier'] = {
   init: function() {
@@ -7025,26 +6965,6 @@ Blockly.Blocks['esp32_can_recv'] = {
 };
 
 
-Blockly.Blocks['python_try_catch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Try/Catch");
-
-
-    this.appendStatementInput('try')
-        .appendField('try');
-
-    this.appendStatementInput('catch')
-        .appendField('catch');
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setInputsInline(false);
-    this.setTooltip("Python Try/Catch");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 // Motors
 
@@ -7596,49 +7516,8 @@ Blockly.Blocks['cell_value'] = {
 //Parar Anemômetro
 //Blocos de Interrupção
 // Iniciar interrupção
-Blockly.Blocks['inter_init'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png",
-        55,
-        55,
-        "*"))
-        .appendField("Iniciar Interrupção");
-    this.appendValueInput("Nome")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Nome");
-    this.appendValueInput("Função")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Função");
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabelSerializable("pin"), "INTERRUPT_PIN");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(240);
-  }
-};
 
 
-Blockly.Blocks['try_catch'] = {
-  init: function() {
-    this.appendStatementInput("main_code")
-        .setCheck(null)
-        .appendField(MSG["try1"]);
-    this.appendStatementInput("catch_code")
-        .setCheck(null)
-        .appendField(MSG["exp1"]);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
 
 Blockly.Blocks['http_get_status'] = {
   init: function() {
@@ -7930,19 +7809,6 @@ Blockly.Blocks['show_received_data'] = {
   }
 };
 
-Blockly.Blocks['try_except_oserror'] = {
-  init: function() {
-    this.appendDummyInput().appendField("try");  // Título do bloco 'try'
-    this.appendStatementInput("TRY").setCheck(null);  // Blocos encaixados no 'try'
-    this.appendDummyInput().appendField("except OSError");
-    this.appendStatementInput("EXCEPT").setCheck(null);  // Blocos encaixados no 'except'
-    this.setPreviousStatement(true, null);  // Adiciona a curvinha superior (permite encaixar)
-    this.setNextStatement(true, null);  // Adiciona a curvinha inferior (permite sequência)
-    this.setColour(230);  // Cor do bloco
-    this.setTooltip("Bloco try-except para capturar OSError.");
-    this.setHelpUrl("");
-  }
-};
 
 Blockly.Blocks['verificar_dados_ble'] = {
   init: function() {

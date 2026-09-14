@@ -1708,6 +1708,34 @@ Blockly.Blocks['hcsr_read'] = {
   }
 };
 
+// ---- Linux (linux.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['play_mp3'] = {
+  init: function() {
+    this.appendValueInput("command")
+        .setCheck("String")
+        .appendField("Play MP3 file");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(240);
+    this.setTooltip("Play MP3 file");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['run_cmd'] = {
+  init: function() {
+    this.appendValueInput("command")
+        .setCheck("String")
+        .appendField("Run Linux command");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(240);
+    this.setTooltip("Run custo Linux command");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- machine (machine.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['machine_reset'] = {
@@ -3872,6 +3900,110 @@ Blockly.Blocks['pyb_usb_mode'] = {
     this.setColour(0);
     this.setTooltip(" ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+// ---- Python (python.blockdef.yaml) -------------------------------------------
+
+Blockly.Blocks['try_catch'] = {
+  init: function() {
+    this.appendStatementInput("main_code")
+        .setCheck(null)
+        .appendField(MSG["try1"]);
+    this.appendStatementInput("catch_code")
+        .setCheck(null)
+        .appendField(MSG["exp1"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['python_try_catch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Try/Catch");
+    this.appendStatementInput("try")
+        .setCheck(null)
+        .appendField("try");
+    this.appendStatementInput("catch")
+        .setCheck(null)
+        .appendField("catch");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setInputsInline(false);
+    this.setTooltip("Python Try/Catch");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['try_except_oserror'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("try");
+    this.appendStatementInput("TRY")
+        .setCheck(null);
+    this.appendStatementInput("EXCEPT")
+        .setCheck(null)
+        .appendField("except OSError");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Bloco try-except para capturar OSError.");
+  }
+};
+
+Blockly.Blocks['exec_python'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png", 55, 55, "*"))
+        .appendField("Run Python Code");
+    this.appendValueInput("command")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Command");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(240);
+    this.setTooltip("Execute custom Python Code");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['exec_python_output'] = {
+  init: function() {
+    this.appendValueInput("command")
+        .setCheck("String")
+        .appendField(new Blockly.FieldLabelSerializable("Execute Python custom with output"), "EXEC_PYTHON_OUTPUT");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Execute custom Python Code");
+  }
+};
+
+Blockly.Blocks['inter_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png", 55, 55, "*"))
+        .appendField("Iniciar Interrup\u00e7\u00e3o");
+    this.appendValueInput("Nome")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Nome");
+    this.appendValueInput("Fun\u00e7\u00e3o")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fun\u00e7\u00e3o");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable("pin"), "INTERRUPT_PIN");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(240);
+    this.setTooltip("");
   }
 };
 

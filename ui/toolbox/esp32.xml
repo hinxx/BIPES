@@ -315,9 +315,12 @@
 
   <sep></sep>
 
+  <!-- blockdef:python -->
   <category name="Python">
     <label text="Python"></label>
+
     <block type="try_catch"></block>
+
     <block type="exec_python">
       <value name="command">
         <shadow type="text">
@@ -325,14 +328,15 @@
         </shadow>
       </value>
     </block>
+
     <block type="exec_python_output">
-      <field name="EXEC_PYTHON_OUTPUT">Execute Python custom with output</field>
       <value name="command">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
       </value>
     </block>
+
     <block type="inter_init">
       <value name="Nome">
         <shadow type="text">
@@ -345,12 +349,11 @@
         </shadow>
       </value>
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:python -->
 
   <category name="%{BKY_CAT_TIMING}">
 	  <label text="%{BKY_CAT_TIMING}"></label>

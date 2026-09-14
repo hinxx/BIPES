@@ -168,7 +168,7 @@ footer: "(0 for infinite duration)"
 | --- | --- |
 | `name` | the input/field name, and what `{name}` means in `code`. |
 | `label` | text before it -- a string, or `{msg: key}` / `{field: NAME}`. |
-| `kind` | `input` (default, a socket) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle`. |
+| `kind` | `input` (default, a socket for one value) · `statements` (a socket for a stack of blocks) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle`. |
 | `type` | `setCheck()` for an input; also picks the shadow block. |
 | `default` | the shadow's value, or the field's initial value. |
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |
@@ -179,9 +179,36 @@ footer: "(0 for infinite duration)"
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
 | `plug` | a real block in the socket in the toolbox, instead of a shadow. |
-| `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off. |
+| `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off -- either kind, and the escaping with them. Anything that is not a quoted literal is left alone. |
 | `row` | `next` puts this field on the following param's row instead of a row of its own. |
 | `suffix` | label after the field, for a row that ends in text. |
+
+### Statement sockets
+
+`kind: statements` is `appendStatementInput()` -- the socket a stack of blocks
+goes inside, as the body of a `try` or a loop. `{name}` in `code:` is the code
+of that stack, already indented one level and ending in a newline, so the
+template supplies the header line above it and nothing else:
+
+```yaml
+code: |-
+  try:
+  {main_code}except:
+  {catch_code}
+params:
+  - {name: main_code,  kind: statements, label: {msg: try1}}
+  - {name: catch_code, kind: statements, label: {msg: exp1}}
+```
+
+An empty socket reads as `Blockly.Python.PASS`, one indented `pass`, because
+Python needs a body where a stack of blocks is missing. A `statements` param
+has no `type` and no `default` -- it holds blocks, not a value -- and gets no
+shadow in the toolbox.
+
+A statement socket is not enough on its own for a block whose stack becomes a
+*callback*: `timer`, `gpio_interrupt` and `easymqtt_subscribe` also walk the
+workspace for the variables the callback has to declare `global`, which is
+computation and stays hand-written.
 
 ### Several things on one row
 

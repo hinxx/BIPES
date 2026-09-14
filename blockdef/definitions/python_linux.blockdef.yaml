@@ -1,0 +1,22 @@
+# The two raw-Python blocks again, under the name the two Linux boards give the
+# category. Declared once, in python.blockdef.yaml; this file only places them.
+
+module: machine
+import: []
+
+category:
+  name: Python (Linux)
+  toolboxes: [bbblack, linux]
+
+blocks:
+  # Both sockets were empty here -- neither entry carried a shadow, so the
+  # block came out of the flyout with nothing to run.
+  - type: exec_python
+    external: true
+    params:
+      - {name: command, type: String, align: right}
+
+  - type: exec_python_output
+    external: true
+    params:
+      - {name: command, type: String}

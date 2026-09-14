@@ -107,11 +107,6 @@ Blockly.Python['gpio_set'] = function(block) {
 
 };
 
-Blockly.Python['exec_python'] = function(block) {
-  var value_command = Blockly.Python.valueToCode(block, 'command', Blockly.Python.ORDER_ATOMIC);
-  var code = value_command.replace('\'','').replace('\'','') + '\n';
-  return code;
-};
 
 
 Blockly.Python['set_freq'] = function(block) {
@@ -131,28 +126,9 @@ Blockly.Python['get_freq'] = function(block) {
 
 
 
-Blockly.Python['exec_python_output'] = function(block) {
-//  var value_name = Blockly.Python.valueToCode(block, 'command', Blockly.Python.ORDER_ATOMIC);
-  var value_command = Blockly.Python.valueToCode(block, 'command', Blockly.Python.ORDER_ATOMIC);
-  var code = value_command.replace('\'','').replace('\'','');
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
-Blockly.Python['run_cmd'] = function(block) {
-  var value_command = Blockly.Python.valueToCode(block, 'command', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_os'] = 'import os';
-  var code = 'os.system(' + value_command + ')' + '\n';
-  return code;
-};
 
-Blockly.Python['play_mp3'] = function(block) {
-  var value_command = Blockly.Python.valueToCode(block, 'command', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_os'] = 'import os';
-  var code = 'os.system(\'mpg123 ' + value_command + '\')';
-  var code = 'os.system(\'mpg123 ' + value_command.replace('\'','').replace('\'','') + '\') \n';
-  return code;
-};
 
 Blockly.Python['esp32_adc'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
@@ -4199,14 +4175,6 @@ Blockly.Python['esp32_can_recv'] = function(block) {
 
 
 
-Blockly.Python['python_try_catch'] = function(block) {
-
-  var funct_code = Blockly.Python.statementToCode(block, 'try');
-  var c = Blockly.Python.statementToCode(block, 'catch');
-
-  var code = "try:\n"+funct_code+"except:\n"+c+"\n";
-  return code;
-};
 
   
 
@@ -4568,24 +4536,7 @@ Blockly.Python['cell_value'] = function(block) {
 // Parar Anemômetro
 // Gerando código dos blocos de interrupção
 // Iniciar Interrupção
-Blockly.Python['inter_init'] = function(block){
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
 
-	var value_nome = Blockly.Python.valueToCode(block, 'Nome', Blockly.Python.ORDER_ATOMIC);
-	var value_handler = Blockly.Python.valueToCode(block, 'Função', Blockly.Python.ORDER_ATOMIC);
-	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-
-	var code = ''+value_nome.replace('\'','').replace('\'','')+'=machine.Pin('+value_pin+', machine.Pin.IN, machine.Pin.PULL_UP) \n'+value_nome.replace('\'','').replace('\'','')+'.irq(trigger=machine.Pin.IRQ_FALLING, handler='+ value_handler.replace('\'','').replace('\'','')+')\n';
-	return code;
-};
-
-Blockly.Python['try_catch'] = function(block) {
-  var statements_main_code = Blockly.Python.statementToCode(block, 'main_code');
-  var statements_catch_code = Blockly.Python.statementToCode(block, 'catch_code');
-  // TODO: Assemble Python into code variable.
-  var code = 'try:\n' + statements_main_code + '\nexcept:\n' + statements_catch_code;
-  return code;
-};
 
 Blockly.Python['http_get_status'] = function(block) {
   var variable_request = Blockly.Python.nameDB_.getName(block.getFieldValue('request'), Blockly.VARIABLE_CATEGORY_NAME);
@@ -4867,12 +4818,6 @@ Blockly.Python['show_received_data'] = function(block) {
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['try_except_oserror'] = function(block) {
-  var statements_try = Blockly.Python.statementToCode(block, 'TRY');
-  var statements_except = Blockly.Python.statementToCode(block, 'EXCEPT');
-  var code = 'try:\n' + statements_try + 'except OSError as e:\n' + statements_except;
-  return code;
-};
 
 Blockly.Python['verificar_dados_ble'] = function(block) {
   var code = `

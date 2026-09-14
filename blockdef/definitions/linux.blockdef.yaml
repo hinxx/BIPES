@@ -1,0 +1,30 @@
+# Shelling out, on the two boards that run a real Linux.
+#
+# `play_mp3` unwrapped the text block's quotes with the same
+# `.replace("'", "").replace("'", "")` the Python category used, which takes the
+# first two single quotes anywhere in the string; `unquote:` takes the outer
+# ones only. It also built its `code` variable twice, the first one dead.
+
+module: os
+colour: 240
+url: http://www.bipes.net.br
+import: {key: import_os, line: "import os"}
+
+category:
+  name: Linux
+  toolboxes: [bbblack, linux]
+
+blocks:
+  - type: play_mp3
+    label: []
+    tooltip: Play MP3 file
+    code: "os.system('mpg123 {command}')"
+    params:
+      - {name: command, label: Play MP3 file, type: String, unquote: true}
+
+  - type: run_cmd
+    label: []
+    tooltip: Run custo Linux command
+    code: "os.system({command})"
+    params:
+      - {name: command, label: Run Linux command, type: String}

@@ -285,16 +285,46 @@
 
     <sep></sep>
 
+  <!-- blockdef:linux -->
   <category name="Linux">
-    <block type="play_mp3"></block>
-    <block type="run_cmd"></block>
-    </category>
+
+    <block type="play_mp3">
+      <value name="command">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="run_cmd">
+      <value name="command">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:linux -->
  
 
+  <!-- blockdef:python_linux -->
   <category name="Python (Linux)">
-    <block type="exec_python"></block>
-    <block type="exec_python_output">
-      <field name="EXEC_PYTHON_OUTPUT">Execute Python custom with output</field>
+
+    <block type="exec_python">
+      <value name="command">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
     </block>
-    </category>
+
+    <block type="exec_python_output">
+      <value name="command">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:python_linux -->
  </document>

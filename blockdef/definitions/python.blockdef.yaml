@@ -1,0 +1,123 @@
+# Raw Python, and try/except. The category the IDE falls back on when there is
+# no block for what you want.
+#
+# Three things came out of converting it:
+#
+# * **All three try/except blocks emitted invalid Python when a branch was left
+#   empty.** `try:\n` followed straight by `except:\n` is an IndentationError,
+#   and an empty socket is the state the block arrives in. Blockly's own
+#   `controls_if` has used `Blockly.Python.PASS` for this since forever; the
+#   `statements` socket kind added here does the same, so an empty branch is
+#   `pass`.
+# * There are three of them. `try_catch` (ten boards) and `python_try_catch`
+#   (two) are the same block with different labels; `try_except_oserror` is the
+#   same again with `except OSError as e`. Which of the three the category
+#   should keep is a decision about the blocks, not about the format, so all
+#   three are here and every board still offers exactly what it offered.
+# * `exec_python`, `exec_python_output`, `inter_init` and (in the Linux
+#   category) `play_mp3` all unwrapped the text block's quotes with
+#   `.replace("'", "").replace("'", "")`, which removes the first two single
+#   quotes *anywhere* in the string. A command containing an apostrophe -- and
+#   `print('hi')` is the first thing anyone types here -- lost a quote from the
+#   middle of itself. `unquote:` strips the leading and trailing one and
+#   nothing else.
+
+module: machine
+colour: 240
+import: []
+
+category:
+  name: Python
+  labels: [Python]
+  toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: try_catch
+    colour: 230
+    label: []
+    tooltip: ""
+    url: ""
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
+             makernano, makerpi, rpi_pico, rpi_pico_w]
+    code: |-
+      try:
+      {main_code}except:
+      {catch_code}
+    params:
+      - {name: main_code, kind: statements, label: {msg: try1}}
+      - {name: catch_code, kind: statements, label: {msg: exp1}}
+
+  # default and stm32 offer this one instead. Same block, its own labels.
+  - type: python_try_catch
+    colour: 230
+    inline: false
+    label: Try/Catch
+    tooltip: Python Try/Catch
+    url: http://www.bipes.net.br
+    boards: [default, stm32]
+    code: |-
+      try:
+      {try}except:
+      {catch}
+    params:
+      - {name: try, kind: statements, label: try}
+      - {name: catch, kind: statements, label: catch}
+
+  # AmadoBoard's, and the only one that names an exception. Its toolbox entry
+  # used to wrap each <statement> in a <value>, which is a socket the block does
+  # not have, so both were ignored.
+  - type: try_except_oserror
+    colour: 230
+    label: try
+    tooltip: Bloco try-except para capturar OSError.
+    url: ""
+    boards: [AmadoBoard]
+    code: |-
+      try:
+      {TRY}except OSError as e:
+      {EXCEPT}
+    params:
+      - {name: TRY, kind: statements}
+      - {name: EXCEPT, kind: statements, label: except OSError}
+
+  - type: exec_python
+    label:
+      - {image: {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png",
+                 width: 55, height: 55},
+         text: Run Python Code}
+    tooltip: Execute custom Python Code
+    url: http://www.bipes.net.br
+    code: "{command}"
+    params:
+      - {name: command, label: Command, type: String, align: right, unquote: true}
+
+  - type: exec_python_output
+    kind: value
+    colour: 230
+    label: []
+    tooltip: Execute custom Python Code
+    url: ""
+    code: "{command}"
+    params:
+      - {name: command, label: {text: Execute Python custom with output,
+                                field: EXEC_PYTHON_OUTPUT},
+         type: String, unquote: true}
+
+  - type: inter_init
+    label:
+      - {image: {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/600px-Python-logo-notext.svg.png",
+                 width: 55, height: 55},
+         text: Iniciar Interrupção}
+    tooltip: ""
+    url: ""
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    import: {key: import_machine, line: "import machine"}
+    code: |-
+      {Nome}=machine.Pin({pin}, machine.Pin.IN, machine.Pin.PULL_UP)
+      {Nome}.irq(trigger=machine.Pin.IRQ_FALLING, handler={Função})
+    params:
+      - {name: Nome, label: Nome, type: String, align: right, unquote: true}
+      - {name: Função, label: Função, type: String, align: right, unquote: true}
+      - {name: pin, label: {text: pin, field: INTERRUPT_PIN}, type: Number,
+         pin: true, align: right}

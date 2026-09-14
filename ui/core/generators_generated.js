@@ -2,6 +2,16 @@
 // Run `make blocks` after changing one. Hand-written generators live in
 // generator_stubs.js; a generator belongs in exactly one of the two.
 
+// `unquote: true` on a param: the value goes into the Python as code, so the
+// quotes Blockly.Python.quote_ wrapped it in have to come back off -- and it
+// uses double quotes when the text itself contains a single one, and escapes
+// the quote when the text contains both. Anything that is not a quoted literal
+// (a variable, an expression) is left exactly as it is.
+Blockly.Python.blockdefUnquote_ = function(code) {
+  var match = /^'([\s\S]*)'$/.exec(code) || /^"([\s\S]*)"$/.exec(code);
+  return match ? match[1].replace(/\\(['"\\])/g, '$1') : code;
+};
+
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
 
 Blockly.Python['aht_init'] = function(block) {
@@ -31,7 +41,7 @@ Blockly.Python['aht_read_humidity'] = function(block) {
 
 Blockly.Python['anemo_init'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
-  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
   var code = "anemometro=machine.Pin(" + pin_ + ",machine.Pin.IN,machine.Pin.PULL_UP) \nanemometro.irq(trigger=machine.Pin.IRQ_FALLING,handler=" + Função_ + ")";
   return code + "\n";
@@ -39,7 +49,7 @@ Blockly.Python['anemo_init'] = function(block) {
 
 Blockly.Python['anemo_stop'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
-  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var code = "anemometro.irq(trigger=0,handler=" + Função_ + ")";
   return code + "\n";
 };
@@ -880,6 +890,22 @@ Blockly.Python['hcsr_read'] = function(block) {
   Blockly.Python.definitions_["import_hcr"] = "from hcsr04 import HCSR04";
   var code = "ultraSoundSensor.distance_mm()";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Linux (linux.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['play_mp3'] = function(block) {
+  Blockly.Python.definitions_["import_os"] = "import os";
+  var command_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "command", Blockly.Python.ORDER_ATOMIC));
+  var code = "os.system('mpg123 " + command_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['run_cmd'] = function(block) {
+  Blockly.Python.definitions_["import_os"] = "import os";
+  var command_ = Blockly.Python.valueToCode(block, "command", Blockly.Python.ORDER_ATOMIC);
+  var code = "os.system(" + command_ + ")";
+  return code + "\n";
 };
 
 // ---- machine (machine.blockdef.yaml) -----------------------------------------
@@ -1851,7 +1877,7 @@ Blockly.Python['move_pca9685'] = function(block) {
 
 Blockly.Python['pluvio_init'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
-  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
   var code = "pluviometro=machine.Pin(" + pin_ + ",machine.Pin.IN,machine.Pin.PULL_UP) \npluviometro.irq(trigger=machine.Pin.IRQ_FALLING,handler=" + Função_ + ")";
   return code + "\n";
@@ -1859,7 +1885,7 @@ Blockly.Python['pluvio_init'] = function(block) {
 
 Blockly.Python['pluvio_stop'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
-  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var code = "pluviometro.irq(trigger=0,handler=" + Função_ + ")";
   return code + "\n";
 };
@@ -2025,6 +2051,50 @@ Blockly.Python['pyb_unique_id'] = function(block) {
 Blockly.Python['pyb_usb_mode'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var code = "pyb.usb_mode()";
+  return code + "\n";
+};
+
+// ---- Python (python.blockdef.yaml) -------------------------------------------
+
+Blockly.Python['try_catch'] = function(block) {
+  var main_code_ = (Blockly.Python.statementToCode(block, "main_code") || Blockly.Python.PASS);
+  var catch_code_ = (Blockly.Python.statementToCode(block, "catch_code") || Blockly.Python.PASS);
+  var code = "try:\n" + main_code_ + "except:\n" + catch_code_;
+  return code + "\n";
+};
+
+Blockly.Python['python_try_catch'] = function(block) {
+  var try_ = (Blockly.Python.statementToCode(block, "try") || Blockly.Python.PASS);
+  var catch_ = (Blockly.Python.statementToCode(block, "catch") || Blockly.Python.PASS);
+  var code = "try:\n" + try_ + "except:\n" + catch_;
+  return code + "\n";
+};
+
+Blockly.Python['try_except_oserror'] = function(block) {
+  var TRY_ = (Blockly.Python.statementToCode(block, "TRY") || Blockly.Python.PASS);
+  var EXCEPT_ = (Blockly.Python.statementToCode(block, "EXCEPT") || Blockly.Python.PASS);
+  var code = "try:\n" + TRY_ + "except OSError as e:\n" + EXCEPT_;
+  return code + "\n";
+};
+
+Blockly.Python['exec_python'] = function(block) {
+  var command_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "command", Blockly.Python.ORDER_ATOMIC));
+  var code = command_;
+  return code + "\n";
+};
+
+Blockly.Python['exec_python_output'] = function(block) {
+  var command_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "command", Blockly.Python.ORDER_ATOMIC));
+  var code = command_;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['inter_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var Nome_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Nome", Blockly.Python.ORDER_ATOMIC));
+  var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = Nome_ + "=machine.Pin(" + pin_ + ", machine.Pin.IN, machine.Pin.PULL_UP)\n" + Nome_ + ".irq(trigger=machine.Pin.IRQ_FALLING, handler=" + Função_ + ")";
   return code + "\n";
 };
 
@@ -2673,7 +2743,7 @@ Blockly.Python['tm1640_init'] = function(block) {
 Blockly.Python['tm1640_write'] = function(block) {
   Blockly.Python.definitions_["import_tm1640"] = "import tm1640";
   Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
-  var vector_ = Blockly.Python.valueToCode(block, "vector", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var vector_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "vector", Blockly.Python.ORDER_ATOMIC));
   var code = "tm.write([" + vector_ + "])";
   return code + "\n";
 };
@@ -2884,8 +2954,8 @@ Blockly.Python['umail_init'] = function(block) {
 Blockly.Python['umail_send'] = function(block) {
   Blockly.Python.definitions_["import_umail"] = "import umail";
   var to_ = Blockly.Python.valueToCode(block, "to", Blockly.Python.ORDER_ATOMIC);
-  var subject_ = Blockly.Python.valueToCode(block, "subject", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
-  var contents_ = Blockly.Python.valueToCode(block, "contents", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var subject_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "subject", Blockly.Python.ORDER_ATOMIC));
+  var contents_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "contents", Blockly.Python.ORDER_ATOMIC));
   var code = "smtp.to(" + to_ + ")\nsmtp.send('Subject: " + subject_ + "\\n\\n" + contents_ + "')\nsmtp.quit()";
   return code + "\n";
 };

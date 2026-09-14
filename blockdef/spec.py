@@ -54,7 +54,11 @@ ALIGNS = {'left': 'Blockly.ALIGN_LEFT',
 # A param is rendered as one of these. `input` is a socket another block plugs
 # into; the rest are fields on the block itself.
 PARAM_KINDS = frozenset({'input', 'dropdown', 'number', 'text', 'checkbox', 'variable',
-                         'angle'})
+                         'angle', 'statements'})
+
+# The two kinds that are sockets rather than fields: `input` takes one block that
+# returns a value, `statements` takes a stack of blocks that do something.
+SOCKET_KINDS = frozenset({'input', 'statements'})
 
 
 @dataclass(slots=True)
@@ -478,6 +482,12 @@ def _param(entry: Any, where: _Where) -> Param:
         row=entry.get('row'), suffix=_text(entry.get('suffix'), at.at('suffix')),
         plug=_plug(entry.get('plug'), at),
     )
+    # The emitter reads each param into `var <name>_`, so a name that is not an
+    # identifier would produce JavaScript that does not parse. Every shipped
+    # input name is one already (`Função` included -- Unicode letters are fine).
+    if not re.fullmatch(r'[^\W\d][\w$]*', param.name):
+        raise BlockdefError(f'{at}: {param.name!r} cannot be a variable name, and the '
+                            f'generator reads every param into one')
     if param.pin and param.kind != 'input':
         raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` '
                             f'must be "input"')
@@ -486,9 +496,12 @@ def _param(entry: Any, where: _Where) -> Param:
                             f'so `kind` must be "input"')
     if param.plug and param.kind != 'input':
         raise BlockdefError(f'{at}: `plug` fills a socket, so `kind` must be "input"')
-    if not param.suffix.empty and param.kind == 'input':
+    if not param.suffix.empty and param.kind in SOCKET_KINDS:
         raise BlockdefError(f'{at}: `suffix` is the label after a field; a socket\'s label '
                             f'already comes last on its row')
+    if param.kind == 'statements' and (param.type or param.default is not None):
+        raise BlockdefError(f'{at}: a `statements` socket holds blocks, not a value, so it '
+                            f'has no `type` and no `default`')
     if param.row is not None:
         if param.row != 'next':
             raise BlockdefError(f'{at}: the only `row` there is is "next" -- the field '
