@@ -1531,6 +1531,130 @@ Blockly.Python['net_ntp_sync'] = function(block) {
   return code + "\n";
 };
 
+// ---- OLED Display (oled.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['init_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "oled_width = 128\noled_height = 64\noled = ssd1306.SSD1306_I2C(oled_width, oled_height, " + bus_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['write_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var text_ = Blockly.Python.valueToCode(block, "text", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.text(" + text_ + ", " + x_ + ", " + y_ + ")\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['write_oled_int'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.text(str(" + value_ + "), " + x_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['show_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var code = "oled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['line_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.line(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['rect_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.rect(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['fill_rect_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.fill_rect(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", 1)\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['scroll_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "oled.scroll(" + x_ + ", " + y_ + ")\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['clear_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var code = "oled.fill(0)\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['fill_oled'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var code = "oled.fill(1)\noled.show()";
+  return code + "\n";
+};
+
+Blockly.Python['init_tank'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  Blockly.Python.definitions_["import_tank"] = "import tank";
+  var Xpos_ = Blockly.Python.valueToCode(block, "Xpos", Blockly.Python.ORDER_ATOMIC);
+  var Ypos_ = Blockly.Python.valueToCode(block, "Ypos", Blockly.Python.ORDER_ATOMIC);
+  var Angle_ = Blockly.Python.valueToCode(block, "Angle", Blockly.Python.ORDER_ATOMIC);
+  var code = "tank1 = tank.Tank(" + Xpos_ + "," + Ypos_ + "," + Angle_ + ", oled, oled_width, oled_height, None)   # uses 3 variables; X position, Y position, Start Angle";
+  return code + "\n";
+};
+
+Blockly.Python['tank_move'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var option_ = {"TankMove": "1", "TankPrime": "2", "TankJump": "0"}[block.getFieldValue("option")];
+  var Move_ = Blockly.Python.valueToCode(block, "Move", Blockly.Python.ORDER_ATOMIC);
+  var code = "tank1.move(" + Move_ + ", " + option_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['tank_turn'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_sleep"] = "from time import sleep";
+  var Tank_Angle_ = block.getFieldValue("Tank_Angle");
+  var code = "tank1.turn(" + Tank_Angle_ + ")";
+  return code + "\n";
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Python['init_pca9685'] = function(block) {

@@ -848,20 +848,15 @@
     </category>
     <!-- /blockdef:st7789 -->
 
+    <!-- blockdef:oled -->
     <category name="OLED Display">
       <label text="SSD1306 OLED I2C Display"></label>
       <button text="Install ssd1306 library" callbackKey="installPyLib"></button>
 
-	    
       <block type="init_oled">
         <value name="i2c">
           <shadow type="math_number">
             <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="scl">
-          <shadow type="math_number">
-            <field name="NUM">22</field>
           </shadow>
         </value>
         <value name="sda">
@@ -869,34 +864,38 @@
             <field name="NUM">21</field>
           </shadow>
         </value>
-    </block>
-    <block type="write_oled">
+        <value name="scl">
+          <shadow type="math_number">
+            <field name="NUM">22</field>
+          </shadow>
+        </value>
+      </block>
 
- <value name="x">
-        <shadow type="math_number">
-          <field name="NUM">40</field>
-        </shadow>
-      </value>
+      <block type="write_oled">
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">40</field>
+          </shadow>
+        </value>
+        <value name="text">
+          <shadow type="text">
+            <field name="TEXT">Hello</field>
+          </shadow>
+        </value>
+      </block>
 
- <value name="y">
-        <shadow type="math_number">
-          <field name="NUM">40</field>
-        </shadow>
-      </value>
+      <block type="show_oled"></block>
 
- <value name="text">
-        <shadow type="text">
-          <field name="TEXT">Hello</field>
-        </shadow>
-      </value>
+      <block type="clear_oled"></block>
 
-
-    
-    </block>
-    <block type="show_oled"></block>
-    <block type="clear_oled"></block>
-    <block type="fill_oled"></block>
-  </category>
+      <block type="fill_oled"></block>
+    </category>
+    <!-- /blockdef:oled -->
 
   <!-- blockdef:tm1640 -->
   <category name="LED Matrix">

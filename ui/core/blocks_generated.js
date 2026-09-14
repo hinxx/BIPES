@@ -2909,6 +2909,272 @@ Blockly.Blocks['net_ntp_sync'] = {
   }
 };
 
+// ---- OLED Display (oled.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['init_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init I2C SSD1306 OLED Display");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/oled.png", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['write_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write text on display");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Write text to OLED Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['write_oled_int'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Print value on display");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X position");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y position");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Mostre um valor inteiro em uma posi\u00e7\u00e3o especifica no display oled");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['show_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Update OLED Display ");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Update OLED Disiplay");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['line_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a line on display");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial X position");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial Y position");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Final X position");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Final Y position");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Draw a line on OLED Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['rect_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a rectangle outline on display");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial X position");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial Y position");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Width");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Draw a rectangle on OLED Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['fill_rect_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw a filled rectangle on display");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial X position");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Initial Y position");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Width");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Draw a filled rectangle on OLED Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['scroll_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("scroll the display");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Scroll back(-) or forth(+)");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Scroll up (-) or down(+)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Scroll the OLED Display");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['clear_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Clear OLED Display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Clear OLED Disiplay");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['fill_oled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Fill OLED Display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("olive");
+    this.setTooltip("Fill OLED Disiplay");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['init_tank'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Tank Init");
+    this.appendValueInput("Xpos")
+        .setCheck("Number")
+        .appendField("X position");
+    this.appendValueInput("Ypos")
+        .setCheck("Number")
+        .appendField("Y position");
+    this.appendValueInput("Angle")
+        .setCheck("Number")
+        .appendField("Rotation");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(270);
+    this.setInputsInline(true);
+    this.setTooltip("Tank Init creates a positional 'cursor' object to help you track motion at a desired length and angle.");
+  }
+};
+
+Blockly.Blocks['tank_move'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Tank to")
+        .appendField(new Blockly.FieldDropdown([["Move", "TankMove"], ["Prime", "TankPrime"], ["Jump", "TankJump"]]), "option");
+    this.appendValueInput("Move")
+        .setCheck("Number")
+        .appendField("distance of");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(270);
+    this.setInputsInline(true);
+    this.setTooltip("Move, Prime, or Jump the Tank a 'pixel' distance");
+  }
+};
+
+Blockly.Blocks['tank_turn'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Tank to Turn");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldAngle(90), "Tank_Angle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(270);
+    this.setInputsInline(true);
+    this.setTooltip("Rotate the Tank a specific amount in degrees ");
+  }
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Blocks['init_pca9685'] = {

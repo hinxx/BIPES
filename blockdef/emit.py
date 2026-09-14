@@ -147,6 +147,8 @@ def _field_js(param: Param) -> str:
         return f'new Blockly.FieldNumber({", ".join(args)})'
     if param.kind == 'checkbox':
         return f'new Blockly.FieldCheckbox({_js("TRUE" if param.default else "FALSE")})'
+    if param.kind == 'angle':
+        return f'new Blockly.FieldAngle({_number(param.default if param.default is not None else 0)})'
     if param.kind == 'variable':
         return f'new Blockly.FieldVariable({_js(str(param.default or param.name))})'
     return f'new Blockly.FieldTextInput({_js("" if param.default is None else str(param.default))})'

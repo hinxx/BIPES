@@ -1,0 +1,200 @@
+# SSD1306 OLED over I2C. The display object is `oled`, with `oled_width` and
+# `oled_height` beside it because the Tank blocks below want them.
+#
+# Thirteen toolboxes offer this category and no two agree on what is in it, so
+# `boards:` carries the divergence: the drawing blocks (line, rect, fill_rect,
+# scroll) are on the six boards that had them, `show_oled` on four, the integer
+# print on one, and the three Tank blocks on three. Nothing moved; this file
+# just says out loud what the thirteen XMLs were each saying separately.
+#
+# The Tank blocks are a turtle-graphics cursor, not a display driver, and they
+# are in a display category because that is where they have always been. Moving
+# them is a decision about the toolbox rather than about the blocks, and it is
+# one line here now.
+
+module: ssd1306
+colour: olive
+url: http://www.bipes.net.br
+import:
+  - {line: "import ssd1306", key: import_ssd}
+  - {line: "from time import sleep", key: import_sleep}
+
+category:
+  name: OLED Display
+  library: ssd1306
+  labels:
+    - SSD1306 OLED I2C Display
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  # SDA/SCL stay numbers rather than `pinout` dropdowns: two of the thirteen
+  # boards (stm32, default) have no pin list at all, and a pinout socket there
+  # offers nothing but "not defined".
+  defaults:
+    esp32:       {i2c: 1, sda: 21, scl: 22}
+    AmadoBoard:  {i2c: 1, sda: 21, scl: 22}
+    esp32-basic: {i2c: 1}
+    esp32S2:     {i2c: 1}
+    esp8266:     {i2c: 1}
+    esp32c3:     {sda: 6, scl: 7}
+    rpi_pico:    {sda: 0, scl: 1}
+    rpi_pico_w:  {sda: 0, scl: 1}
+    makernano:   {sda: 0, scl: 1}
+    makerpi:     {sda: 0, scl: 1}
+    3pi_2040:    {sda: 0, scl: 1}
+
+blocks:
+  - type: init_oled
+    label:
+      - Init I2C SSD1306 OLED Display
+      - {image: {src: media/oled.png, width: 55, height: 55}}
+    tooltip: ""
+    url: ""
+    # `default` and `stm32` had no shadow on the I2C socket at all, so the bus
+    # came out as `I2C(scl=.., sda=..)`, and hardware I2C wants its number.
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      oled_width = 128
+      oled_height = 64
+      oled = ssd1306.SSD1306_I2C(oled_width, oled_height, {bus})
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, default: 4, align: right}
+      - {name: scl, label: SCL, type: Number, default: 5, align: right}
+
+  - type: write_oled
+    label: Write text on display
+    tooltip: Write text to OLED Display
+    code: |-
+      oled.text({text}, {x}, {y})
+      oled.show()
+    params:
+      - {name: x,    label: X position, type: Number, default: 40, align: right}
+      - {name: y,    label: Y position, type: Number, default: 40, align: right}
+      - {name: text, label: Text, type: String, default: Hello, align: right}
+
+  - type: write_oled_int
+    boards: [AmadoBoard]
+    colour: 230
+    label: Print value on display
+    tooltip: Mostre um valor inteiro em uma posição especifica no display oled
+    # Alone among these, it does not call show() -- the board it is offered on
+    # has the "Update OLED Display" block for that.
+    code: "oled.text(str({value}), {x}, {y})"
+    params:
+      - {name: x,     label: X position, type: Number, default: 40, align: right}
+      - {name: y,     label: Y position, type: Number, default: 40, align: right}
+      - {name: value, label: Value,      type: Number, default: 0,  align: right}
+
+  - type: show_oled
+    boards: [esp32, esp32-basic, esp32S2, AmadoBoard]
+    label: "Update OLED Display "
+    tooltip: Update OLED Disiplay
+    code: "oled.show()"
+
+  - type: line_oled
+    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    label: Draw a line on display
+    tooltip: Draw a line on OLED Display
+    code: |-
+      oled.line({x1}, {y1}, {x2}, {y2}, 1)
+      oled.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0,  align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0,  align: right}
+      - {name: x2, label: Final X position,   type: Number, default: 40, align: right}
+      - {name: y2, label: Final Y position,   type: Number, default: 40, align: right}
+
+  - type: rect_oled
+    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    label: Draw a rectangle outline on display
+    tooltip: Draw a rectangle on OLED Display
+    code: |-
+      oled.rect({x1}, {y1}, {x2}, {y2}, 1)
+      oled.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0,  align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0,  align: right}
+      - {name: x2, label: Width,              type: Number, default: 60, align: right}
+      - {name: y2, label: Height,             type: Number, default: 40, align: right}
+
+  - type: fill_rect_oled
+    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    label: Draw a filled rectangle on display
+    tooltip: Draw a filled rectangle on OLED Display
+    code: |-
+      oled.fill_rect({x1}, {y1}, {x2}, {y2}, 1)
+      oled.show()
+    params:
+      - {name: x1, label: Initial X position, type: Number, default: 0,  align: right}
+      - {name: y1, label: Initial Y position, type: Number, default: 0,  align: right}
+      - {name: x2, label: Width,              type: Number, default: 60, align: right}
+      - {name: y2, label: Height,             type: Number, default: 40, align: right}
+
+  - type: scroll_oled
+    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    label: scroll the display
+    tooltip: Scroll the OLED Display
+    code: |-
+      oled.scroll({x}, {y})
+      oled.show()
+    params:
+      - {name: x, label: Scroll back(-) or forth(+), type: Number, default: 5,  align: right}
+      - {name: y, label: Scroll up (-) or down(+),   type: Number, default: 10, align: right}
+
+  - type: clear_oled
+    label: Clear OLED Display
+    tooltip: Clear OLED Disiplay
+    code: |-
+      oled.fill(0)
+      oled.show()
+
+  - type: fill_oled
+    label: Fill OLED Display
+    tooltip: Fill OLED Disiplay
+    code: |-
+      oled.fill(1)
+      oled.show()
+
+  - type: init_tank
+    boards: [esp32-basic, esp32S2, AmadoBoard]
+    colour: 270
+    label: Tank Init
+    tooltip: Tank Init creates a positional 'cursor' object to help you track motion at a desired length and angle.
+    url: ""
+    inline: true
+    import: [{line: "import tank", key: import_tank}]
+    # The last argument used to be `i2c`, a name nothing defines since the I2C
+    # blocks started sharing one bus per pin pair (Q2) -- a NameError as soon as
+    # the Tank was initialised. tank.py stores it and never reads it.
+    code: "tank1 = tank.Tank({Xpos},{Ypos},{Angle}, oled, oled_width, oled_height, None)   # uses 3 variables; X position, Y position, Start Angle"
+    params:
+      - {name: Xpos,  label: X position, type: Number, default: 64}
+      - {name: Ypos,  label: Y position, type: Number, default: 32}
+      - {name: Angle, label: Rotation,   type: Number, default: 90}
+
+  - type: tank_move
+    boards: [esp32-basic, esp32S2, AmadoBoard]
+    colour: 270
+    label: []
+    tooltip: Move, Prime, or Jump the Tank a 'pixel' distance
+    url: ""
+    inline: true
+    code: "tank1.move({Move}, {option})"
+    params:
+      - name: option
+        label: Tank to
+        kind: dropdown
+        options: [[Move, TankMove], [Prime, TankPrime], [Jump, TankJump]]
+        emit: {TankMove: "1", TankPrime: "2", TankJump: "0"}
+      - {name: Move, label: distance of, type: Number, default: 10}
+
+  - type: tank_turn
+    boards: [esp32-basic, esp32S2, AmadoBoard]
+    colour: 270
+    label: Tank to Turn
+    tooltip: "Rotate the Tank a specific amount in degrees "
+    url: ""
+    inline: true
+    code: "tank1.turn({Tank_Angle})"
+    params:
+      - {name: Tank_Angle, kind: angle, default: 90}

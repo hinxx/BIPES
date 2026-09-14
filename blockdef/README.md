@@ -156,7 +156,7 @@ when a saved program is loaded.
 | --- | --- |
 | `name` | the input/field name, and what `{name}` means in `code`. |
 | `label` | text before it -- a string, or `{msg: key}` / `{field: NAME}`. |
-| `kind` | `input` (default, a socket) · `dropdown` · `number` · `text` · `checkbox` · `variable`. |
+| `kind` | `input` (default, a socket) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle`. |
 | `type` | `setCheck()` for an input; also picks the shadow block. |
 | `default` | the shadow's value, or the field's initial value. |
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |

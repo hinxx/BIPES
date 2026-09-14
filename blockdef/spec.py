@@ -53,7 +53,8 @@ ALIGNS = {'left': 'Blockly.ALIGN_LEFT',
 
 # A param is rendered as one of these. `input` is a socket another block plugs
 # into; the rest are fields on the block itself.
-PARAM_KINDS = frozenset({'input', 'dropdown', 'number', 'text', 'checkbox', 'variable'})
+PARAM_KINDS = frozenset({'input', 'dropdown', 'number', 'text', 'checkbox', 'variable',
+                         'angle'})
 
 
 @dataclass(slots=True)
