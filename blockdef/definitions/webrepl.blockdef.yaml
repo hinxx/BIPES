@@ -1,0 +1,25 @@
+# REPL over WebSocket, built into the MicroPython firmware.
+
+module: webrepl
+colour: 0
+url: www.bipes.net.br
+import: {line: "import webrepl", key: import_webrepl}
+
+category:
+  name: WebREPL
+  labels: [WebREPL]
+  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico_w, AmadoBoard, stm32,
+              default, 3pi_2040]
+
+blocks:
+  - type: webrepl_setup
+    label: WebREPL Setup
+    tooltip: Configure WebREPL
+    # Importing the module *is* the configuration step, so it is emitted as a
+    # statement rather than registered as an import.
+    code: "import webrepl_setup"
+
+  - type: webrepl_start
+    fn: start
+    label: Start WebREPL
+    tooltip: Start WebREPL Server

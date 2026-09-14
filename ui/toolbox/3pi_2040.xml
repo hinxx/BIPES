@@ -2060,11 +2060,15 @@
       </block>
     </category>
 
+  <!-- blockdef:webrepl -->
   <category name="WebREPL">
-      <label text="WebREPL"></label>
-      <block type="webrepl_setup"></block>
-      <block type="webrepl_start"></block>
-    </category>
+    <label text="WebREPL"></label>
+
+    <block type="webrepl_setup"></block>
+
+    <block type="webrepl_start"></block>
+  </category>
+  <!-- /blockdef:webrepl -->
   </category>
 
 

@@ -1465,22 +1465,21 @@
 
 
 <!--Adicionando os blocos do Anenmômetro-->
+    <!-- blockdef:anemometro -->
     <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
-    <block type="anemo_init">
+      <label text="Anenômetro"></label>
+
+      <block type="anemo_init">
         <value name="Função">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
         <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+
       <block type="anemo_stop">
         <value name="Função">
           <shadow type="text">
@@ -1488,32 +1487,33 @@
           </shadow>
         </value>
       </block>
-  </category>
+    </category>
+    <!-- /blockdef:anemometro -->
 <!--Adicionando os blocos do Pluviômetro--> 
+  <!-- blockdef:pluviometro -->
   <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+    <label text="Pluviômetro"></label>
+
     <block type="pluvio_init">
-        <value name="Função">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-<!--Parar Pluviômetro-->
-      <block type="pluvio_stop">
-        <value name="Função">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
+      <value name="Função">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+      <value name="pin">
+        <shadow type="pinout"></shadow>
+      </value>
+    </block>
+
+    <block type="pluvio_stop">
+      <value name="Função">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
   </category>
+  <!-- /blockdef:pluviometro -->
 
   <!-- blockdef:hcsr04 -->
   <category name="%{BKY_CAT_ULTRASOUND}">
@@ -1846,18 +1846,33 @@
   </category>
   <!-- /blockdef:encoder -->
 
+  <!-- blockdef:esp32cam -->
   <category name="Camera (ESP32CAM)">
-      <label text="OV2640 Camera on ESP32-CAM Board"></label>
-        <button text="Load example: esp32cam" callbackKey="loadExample"></button>
-      <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
+    <label text="OV2640 Camera on ESP32-CAM Board"></label>
+    <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
+    <button text="Load example: esp32cam" callbackKey="loadExample"></button>
 
-      <block type="esp32_cam_init"> </block>
-      <block type="esp32_cam_deinit"> </block>
-      <block type="esp32_cam_capture"> </block>
-      <block type="esp32_cam_red_led"> </block>
-      <block type="esp32_cam_white_led"> </block>
-      <block type="create_json_for_google_cloud_vision"> </block>
+    <block type="esp32_cam_init"></block>
+
+    <block type="esp32_cam_capture"></block>
+
+    <block type="esp32_cam_red_led">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="esp32_cam_white_led">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
   </category>
+  <!-- /blockdef:esp32cam -->
   </category>
 
   <category name="%{BKY_CAT_OUTPUTS}">
@@ -2918,11 +2933,15 @@
   </category>
   <!-- /blockdef:bluetooth_repl -->
 
+  <!-- blockdef:webrepl -->
   <category name="WebREPL">
-      <label text="WebREPL"></label>
-      <block type="webrepl_setup"></block>
-      <block type="webrepl_start"></block>
-    </category>
+    <label text="WebREPL"></label>
+
+    <block type="webrepl_setup"></block>
+
+    <block type="webrepl_start"></block>
+  </category>
+  <!-- /blockdef:webrepl -->
 
 
     <category name="CAN Bus">

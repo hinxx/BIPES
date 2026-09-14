@@ -222,12 +222,12 @@ def _code_js(definition: Definition, block: Block, reads: dict[str, str]) -> str
         return _js(f'{instance}.{block.attr}')
 
     if block.constructor:
-        target = (f'{definition.module}.{definition.cls}' if _needs_prefix(definition)
-                  else definition.cls)
+        target = (f'{definition.module}.{definition.cls}'
+                  if _needs_prefix(definition, block) else definition.cls)
         head = f'{instance} = {target}('
     elif instance:
         head = f'{instance}.{block.fn}('
-    elif _needs_prefix(definition):
+    elif _needs_prefix(definition, block):
         head = f'{definition.module}.{block.fn}('
     else:
         head = f'{block.fn}('
@@ -274,10 +274,14 @@ def _template_js(template: str, reads: dict[str, str], instance: str) -> str:
     return ' + '.join(parts) if parts else _js('')
 
 
-def _needs_prefix(definition: Definition) -> bool:
-    """`import x` means the class is `x.C`; `from x import C` means it is `C`."""
+def _needs_prefix(definition: Definition, block: Block) -> bool:
+    """`import x` means the class is `x.C`; `from x import C` means it is `C`.
+
+    A block's own imports count too, so it does not matter whether the module
+    is imported for the whole family or just for this block.
+    """
     return any(spec.line.startswith(f'import {definition.module}')
-               for spec in definition.imports)
+               for spec in definition.imports + block.imports)
 
 
 # --- toolbox XML ------------------------------------------------------------

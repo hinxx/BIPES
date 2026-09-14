@@ -534,31 +534,6 @@ Blockly.Blocks['stop_timer'] = {
 };
 
 
-Blockly.Blocks['webrepl_setup'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("WebREPL Setup");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(0);
- this.setTooltip("Configure WebREPL");
- this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
-
-Blockly.Blocks['webrepl_start'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Start WebREPL");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(0);
- this.setTooltip("Start WebREPL Server");
- this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
 Blockly.Blocks['reset'] = {
   init: function() {
     this.appendDummyInput()
@@ -11103,62 +11078,6 @@ Blockly.Blocks['st7789_line'] = {
   }
 };
 
-Blockly.Blocks['esp32_cam_init'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("ESP32-CAM Init");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(0);
- this.setTooltip("Init ESP32-CAM camera");
- this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['esp32_cam_capture'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("ESP32-CAM capture photo");
-    this.setOutput(true, null);
-    this.setColour(0);
- this.setTooltip("Take photo with ESP32-CAM camera");
- this.setHelpUrl("www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['esp32_cam_red_led'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Control ESP32-CAM red LED");
-    this.appendValueInput("value")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("to");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Control ESP32-CAM Red LED");
- this.setHelpUrl("bipes.net.br");
-  }
-};
-
-
-Blockly.Blocks['esp32_cam_white_led'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Control ESP32-CAM flashlight");
-    this.appendValueInput("value")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("to");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Control ESP32-CAM White LED (flashlight)");
- this.setHelpUrl("bipes.net.br");
-  }
-};
-
 //Sound
 Blockly.Blocks['tone'] = {
   init: function(){
@@ -11690,82 +11609,10 @@ Blockly.Blocks['cell_value'] = {
 };
 // Blocos do Pluviômetro
 // Iniciar Pluviômetro
-Blockly.Blocks['pluvio_init']={
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-                     "media/pluivio.gif",
-                     70,
-                     70,
-                     "*"))
-        .appendField("Iniciar Pluiômetro");
-        this.appendValueInput("Função")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Função");
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabelSerializable("pin"), "PLUVIO_PIN");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(100);
-}
-};
 // Parar Pluviômetro
-Blockly.Blocks['pluvio_stop'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("Parar Plviômetro"), "STOP_PLUVIO");
-    this.appendValueInput("Função")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Função");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(100);
-  }
-};
 //Blocos Anemômetro
 // Iniciar Anemômetro
-Blockly.Blocks['anemo_init'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-                     "media/aneno.gif",
-                     55,
-                     55,
-                     "*"))
-        .appendField("Iniciar Anenômetro");
-
-    this.appendValueInput("Função")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Função");
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabelSerializable("pin"), "ANENO_PIN_MSG");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(255,0,0);
-  }
-};
-
 //Parar Anemômetro
-Blockly.Blocks['anemo_stop'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("Parar Anenômetro"), "STOP_ANENO");
-    this.appendValueInput("Função")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Função");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(255,0,0);
-  }
-};
 //Blocos de Interrupção
 // Iniciar interrupção
 Blockly.Blocks['inter_init'] = {

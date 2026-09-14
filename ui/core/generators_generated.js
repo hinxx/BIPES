@@ -27,6 +27,23 @@ Blockly.Python['aht_read_humidity'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Anemômetro (anemometro.blockdef.yaml) -----------------------------------
+
+Blockly.Python['anemo_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "anemometro=machine.Pin(" + pin_ + ",machine.Pin.IN,machine.Pin.PULL_UP) \nanemometro.irq(trigger=machine.Pin.IRQ_FALLING,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['anemo_stop'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var code = "anemometro.irq(trigger=0,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
 // ---- BH1750 Sensor (bh1750.blockdef.yaml) ------------------------------------
 
 Blockly.Python['bh1750_init'] = function(block) {
@@ -324,6 +341,36 @@ Blockly.Python['encoder_reset'] = function(block) {
 Blockly.Python['encoder_read'] = function(block) {
   var code = "encoder.position";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Camera (ESP32CAM) (esp32cam.blockdef.yaml) ------------------------------
+
+Blockly.Python['esp32_cam_init'] = function(block) {
+  Blockly.Python.definitions_["import_camera"] = "import camera";
+  var code = "camera.init(1)";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_cam_capture'] = function(block) {
+  Blockly.Python.definitions_["import_camera"] = "import camera";
+  var code = "camera.capture()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_cam_red_led'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["gpio_set"] = "def gpio_set(pin,value):\n  if value >= 1:\n    Pin(pin, Pin.OUT).on()\n  else:\n    Pin(pin, Pin.OUT).off()";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "gpio_set(33, " + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_cam_white_led'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["gpio_set"] = "def gpio_set(pin,value):\n  if value >= 1:\n    Pin(pin, Pin.OUT).on()\n  else:\n    Pin(pin, Pin.OUT).off()";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "gpio_set(4, " + value_ + ")";
+  return code + "\n";
 };
 
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
@@ -752,6 +799,23 @@ Blockly.Python['move_pca9685'] = function(block) {
   return code + "\n";
 };
 
+// ---- Pluviômetro (pluviometro.blockdef.yaml) ---------------------------------
+
+Blockly.Python['pluvio_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "pluviometro=machine.Pin(" + pin_ + ",machine.Pin.IN,machine.Pin.PULL_UP) \npluviometro.irq(trigger=machine.Pin.IRQ_FALLING,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pluvio_stop'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var Função_ = Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC).replace(/^'|'$/g, "");
+  var code = "pluviometro.irq(trigger=0,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Python['net_socket_connect'] = function(block) {
@@ -989,4 +1053,18 @@ Blockly.Python['vl53l0x_read_tof'] = function(block) {
   Blockly.Python.definitions_["import_vl53l0x"] = "from vl53l0x import VL53L0X";
   var code = "tof.ping()";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- WebREPL (webrepl.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['webrepl_setup'] = function(block) {
+  Blockly.Python.definitions_["import_webrepl"] = "import webrepl";
+  var code = "import webrepl_setup";
+  return code + "\n";
+};
+
+Blockly.Python['webrepl_start'] = function(block) {
+  Blockly.Python.definitions_["import_webrepl"] = "import webrepl";
+  var code = "webrepl.start()";
+  return code + "\n";
 };

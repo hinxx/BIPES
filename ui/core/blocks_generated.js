@@ -56,6 +56,41 @@ Blockly.Blocks['aht_read_humidity'] = {
   }
 };
 
+// ---- Anemômetro (anemometro.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['anemo_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/aneno.gif", 55, 55, "*"))
+        .appendField("Iniciar Anen\u00f4metro");
+    this.appendValueInput("Fun\u00e7\u00e3o")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fun\u00e7\u00e3o");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable("pin"), "ANENO_PIN_MSG");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(255);
+  }
+};
+
+Blockly.Blocks['anemo_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Parar Anen\u00f4metro"), "STOP_ANENO");
+    this.appendValueInput("Fun\u00e7\u00e3o")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fun\u00e7\u00e3o");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(255);
+  }
+};
+
 // ---- BH1750 Sensor (bh1750.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['bh1750_init'] = {
@@ -665,6 +700,63 @@ Blockly.Blocks['encoder_read'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- Camera (ESP32CAM) (esp32cam.blockdef.yaml) ------------------------------
+
+Blockly.Blocks['esp32_cam_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ESP32-CAM Init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Init ESP32-CAM camera");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['esp32_cam_capture'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ESP32-CAM capture photo");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Take photo with ESP32-CAM camera");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['esp32_cam_red_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Control ESP32-CAM red LED");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Control ESP32-CAM Red LED");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['esp32_cam_white_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Control ESP32-CAM flashlight");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Control ESP32-CAM White LED (flashlight)");
+    this.setHelpUrl("bipes.net.br");
   }
 };
 
@@ -1511,6 +1603,41 @@ Blockly.Blocks['move_pca9685'] = {
   }
 };
 
+// ---- Pluviômetro (pluviometro.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['pluvio_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/pluivio.gif", 70, 70, "*"))
+        .appendField("Iniciar Plui\u00f4metro");
+    this.appendValueInput("Fun\u00e7\u00e3o")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fun\u00e7\u00e3o");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldLabelSerializable("pin"), "PLUVIO_PIN");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(100);
+  }
+};
+
+Blockly.Blocks['pluvio_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("Parar Plvi\u00f4metro"), "STOP_PLUVIO");
+    this.appendValueInput("Fun\u00e7\u00e3o")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fun\u00e7\u00e3o");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(100);
+  }
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['net_socket_connect'] = {
@@ -2021,5 +2148,31 @@ Blockly.Blocks['vl53l0x_read_tof'] = {
     this.setColour(230);
     this.setTooltip("Time of Flight (mm)");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- WebREPL (webrepl.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['webrepl_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("WebREPL Setup");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Configure WebREPL");
+    this.setHelpUrl("www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['webrepl_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Start WebREPL");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start WebREPL Server");
+    this.setHelpUrl("www.bipes.net.br");
   }
 };
