@@ -3549,68 +3549,72 @@
 <block type="ure_match.span">
 </block>
 </category>
+<!-- blockdef:uselect -->
 <category name="uselect">
-<block type="uselect_poll">
-</block>
-<block type="uselect_select">
-</block>
-<block type="uselect_poll.register">
-</block>
-<block type="uselect_poll.unregister">
-</block>
-<block type="uselect_poll.modify">
-</block>
-<block type="uselect_poll.poll">
-</block>
-<block type="uselect_poll.ipoll">
-</block>
+
+  <block type="uselect_poll"></block>
+
+  <block type="uselect_select"></block>
+
+  <block type="uselect_poll.register"></block>
+
+  <block type="uselect_poll.unregister"></block>
+
+  <block type="uselect_poll.modify"></block>
+
+  <block type="uselect_poll.poll"></block>
+
+  <block type="uselect_poll.ipoll"></block>
 </category>
+<!-- /blockdef:uselect -->
+<!-- blockdef:usocket -->
 <category name="usocket">
-<block type="usocket_socket">
-</block>
-<block type="usocket_getaddrinfo">
-</block>
-<block type="usocket_inet_ntop">
-</block>
-<block type="usocket_inet_pton">
-</block>
-<block type="usocket_socket.close">
-</block>
-<block type="usocket_socket.bind">
-</block>
-<block type="usocket_socket.listen">
-</block>
-<block type="usocket_socket.accept">
-</block>
-<block type="usocket_socket.connect">
-</block>
-<block type="usocket_socket.send">
-</block>
-<block type="usocket_socket.sendall">
-</block>
-<block type="usocket_socket.recv">
-</block>
-<block type="usocket_socket.sendto">
-</block>
-<block type="usocket_socket.recvfrom">
-</block>
-<block type="usocket_socket.setsockopt">
-</block>
-<block type="usocket_socket.settimeout">
-</block>
-<block type="usocket_socket.setblocking">
-</block>
-<block type="usocket_socket.makefile">
-</block>
-<block type="usocket_socket.read">
-</block>
-<block type="usocket_socket.readinto">
-</block>
-<block type="usocket_socket.readline">
-</block>
-<block type="usocket_socket.write">
-</block>
+
+  <block type="usocket_socket"></block>
+
+  <block type="usocket_getaddrinfo"></block>
+
+  <block type="usocket_inet_ntop"></block>
+
+  <block type="usocket_inet_pton"></block>
+
+  <block type="usocket_socket.close"></block>
+
+  <block type="usocket_socket.bind"></block>
+
+  <block type="usocket_socket.listen"></block>
+
+  <block type="usocket_socket.accept"></block>
+
+  <block type="usocket_socket.connect"></block>
+
+  <block type="usocket_socket.send"></block>
+
+  <block type="usocket_socket.sendall"></block>
+
+  <block type="usocket_socket.recv"></block>
+
+  <block type="usocket_socket.sendto"></block>
+
+  <block type="usocket_socket.recvfrom"></block>
+
+  <block type="usocket_socket.setsockopt"></block>
+
+  <block type="usocket_socket.settimeout"></block>
+
+  <block type="usocket_socket.setblocking"></block>
+
+  <block type="usocket_socket.makefile"></block>
+
+  <block type="usocket_socket.read"></block>
+
+  <block type="usocket_socket.readinto"></block>
+
+  <block type="usocket_socket.readline"></block>
+
+  <block type="usocket_socket.write"></block>
 </category>
+<!-- /blockdef:usocket -->
 <category name="ussl">
 <block type="ussl_ussl.wrap_socket">
 </block>

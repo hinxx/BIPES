@@ -3500,6 +3500,209 @@ Blockly.Python['uos_umount'] = function(block) {
   return code + "\n";
 };
 
+// ---- uselect (uselect.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['uselect_poll'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var code = "uselect_poller = uselect.poll()";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_select'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect.select(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_poll.register'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect_poller.register(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_poll.unregister'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect_poller.unregister(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_poll.modify'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect_poller.modify(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_poll.poll'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect_poller.poll(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uselect_poll.ipoll'] = function(block) {
+  Blockly.Python.definitions_["import_uselect"] = "import uselect";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "uselect_poller.ipoll(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- usocket (usocket.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['usocket_socket'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock = usocket.socket(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_getaddrinfo'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket.getaddrinfo(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_inet_ntop'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket.inet_ntop(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_inet_pton'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket.inet_pton(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.close'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var code = "usocket_sock.close()";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.bind'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.bind(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.listen'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.listen(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.accept'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var code = "usocket_sock.accept()";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.connect'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.connect(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.send'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.send(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.sendall'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.sendall(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.recv'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.recv(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.sendto'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.sendto(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.recvfrom'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.recvfrom(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.setsockopt'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.setsockopt(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.settimeout'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.settimeout(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.setblocking'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.setblocking(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.makefile'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.makefile(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.read'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.read(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.readinto'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.readinto(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.readline'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var code = "usocket_sock.readline()";
+  return code + "\n";
+};
+
+Blockly.Python['usocket_socket.write'] = function(block) {
+  Blockly.Python.definitions_["import_usocket"] = "import usocket";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "usocket_sock.write(" + pIn_ + ")";
+  return code + "\n";
+};
+
 // ---- ustruct (ustruct.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['ustruct_calcsize'] = function(block) {

@@ -1,0 +1,174 @@
+# The usocket module. Every one of the eighteen `socket.*` blocks emitted
+# `usocket.socket.bind(…)` -- the method called on the *class*, not on a
+# socket -- and `usocket_socket`, the block that makes one, threw the socket
+# away: it emitted `usocket.socket(…)` as a statement and assigned it to
+# nothing. Nineteen of the twenty-two also did it without `import usocket`.
+#
+# The category already contains its own constructor, so this is the same
+# arrangement every hardware family here uses: the constructor assigns to
+# `usocket_sock` and the methods are called on it. The three module-level
+# functions keep their `usocket.` prefix.
+
+module: usocket
+class: socket
+instance: usocket_sock
+colour: 0
+url: https://docs.micropython.org/en/latest/library/usocket.html
+import: {key: import_usocket, line: "import usocket"}
+
+category:
+  name: usocket
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "usocket_socket"
+    constructor: true
+    label: []
+    tooltip: ".. function:: socket(af=AF_INET, type=SOCK_STREAM, proto=IPPROTO_TCP, /) Create a new socket using the given address family, socket type and protocol number. Note that specifying *proto* in most cases is not "
+    params:
+      - {name: pIn, label: " socket"}
+
+  - type: "usocket_getaddrinfo"
+    code: "usocket.getaddrinfo({pIn})"
+    label: []
+    tooltip: ".. function:: getaddrinfo(host, port, af=0, type=0, proto=0, flags=0, /) Translate the host/port argument into a sequence of 5-tuples that contain all the "
+    params:
+      - {name: pIn, label: " getaddrinfo"}
+
+  - type: "usocket_inet_ntop"
+    code: "usocket.inet_ntop({pIn})"
+    label: []
+    tooltip: ".. function:: inet_ntop(af, bin_addr) Convert a binary network address *bin_addr* of the given address family *af* to a textual representation:: "
+    params:
+      - {name: pIn, label: " inet_ntop"}
+
+  - type: "usocket_inet_pton"
+    code: "usocket.inet_pton({pIn})"
+    label: []
+    tooltip: ".. function:: inet_pton(af, txt_addr) Convert a textual network address *txt_addr* of the given address family *af* to a binary representation:: "
+    params:
+      - {name: pIn, label: " inet_pton"}
+
+  - type: "usocket_socket.close"
+    fn: close
+    label: " socket.close"
+    tooltip: ".. method:: socket.close() Mark the socket closed and release all resources. Once that happens, all futu re operations "
+
+  - type: "usocket_socket.bind"
+    fn: bind
+    label: []
+    tooltip: ".. method:: socket.bind(address) Bind the socket to *address*. The socket must not already be bound. "
+    params:
+      - {name: pIn, label: " socket.bind"}
+
+  - type: "usocket_socket.listen"
+    fn: listen
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " socket.listen"}
+
+  - type: "usocket_socket.accept"
+    fn: accept
+    label: " socket.accept"
+    tooltip: ".. method:: socket.accept() Accept a connection. The socket must be bound to an address and listening for connections. "
+
+  - type: "usocket_socket.connect"
+    fn: connect
+    label: []
+    tooltip: ".. method:: socket.connect(address) Connect to a remote socket at *address*. "
+    params:
+      - {name: pIn, label: " socket.connect"}
+
+  - type: "usocket_socket.send"
+    fn: send
+    label: []
+    tooltip: ".. method:: socket.send(bytes) Send data to the socket. The socket must be connected to a remote socket. Returns number of bytes sent, which may be smaller than the length of data "
+    params:
+      - {name: pIn, label: " socket.send"}
+
+  - type: "usocket_socket.sendall"
+    fn: sendall
+    label: []
+    tooltip: ".. method:: socket.sendall(bytes) Send all data to the socket. The socket must be connected to a remote socket. Unlike `send()`, this method will try to send all of data, by sending data "
+    params:
+      - {name: pIn, label: " socket.sendall"}
+
+  - type: "usocket_socket.recv"
+    fn: recv
+    label: []
+    tooltip: ".. method:: socket.recv(bufsize) Receive data from the socket. The return value is a bytes object representing the data "
+    params:
+      - {name: pIn, label: " socket.recv"}
+
+  - type: "usocket_socket.sendto"
+    fn: sendto
+    label: []
+    tooltip: ".. method:: socket.sendto(bytes, address) Send data to the socket. The socket should not be connected to a remote socke t, since the "
+    params:
+      - {name: pIn, label: " socket.sendto"}
+
+  - type: "usocket_socket.recvfrom"
+    fn: recvfrom
+    label: []
+    tooltip: ".. method:: socket.recvfrom(bufsize) Receive data from the socket. The return value is a pair *(bytes, address)* wh ere *bytes* is a "
+    params:
+      - {name: pIn, label: " socket.recvfrom"}
+
+  - type: "usocket_socket.setsockopt"
+    fn: setsockopt
+    label: []
+    tooltip: ".. method:: socket.setsockopt(level, optname, value) Set the value of the given socket option. The needed symbolic constants are d efined in the "
+    params:
+      - {name: pIn, label: " socket.setsockopt"}
+
+  - type: "usocket_socket.settimeout"
+    fn: settimeout
+    label: []
+    tooltip: ".. method:: socket.settimeout(value) **Note**: Not every port supports this method, see below. "
+    params:
+      - {name: pIn, label: " socket.settimeout"}
+
+  - type: "usocket_socket.setblocking"
+    fn: setblocking
+    label: []
+    tooltip: ".. method:: socket.setblocking(flag) Set blocking or non-blocking mode of the socket: if flag is false, the socket is set to non-blocking, "
+    params:
+      - {name: pIn, label: " socket.setblocking"}
+
+  - type: "usocket_socket.makefile"
+    fn: makefile
+    label: []
+    tooltip: ".. method:: socket.makefile(mode='rb', buffering=0, /) Return a file object associated with the socket. The exact returned type depe nds on the arguments "
+    params:
+      - {name: pIn, label: " socket.makefile"}
+
+  - type: "usocket_socket.read"
+    fn: read
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " socket.read"}
+
+  - type: "usocket_socket.readinto"
+    fn: readinto
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " socket.readinto"}
+
+  - type: "usocket_socket.readline"
+    fn: readline
+    label: " socket.readline"
+    tooltip: ".. method:: socket.readline() Read a line, ending in a newline character. "
+
+  - type: "usocket_socket.write"
+    fn: write
+    label: []
+    tooltip: ".. method:: socket.write(buf) Write the buffer of bytes to the socket. This function will try to write all data to a socket (no short writes). This may be not possible "
+    params:
+      - {name: pIn, label: " socket.write"}

@@ -5114,407 +5114,90 @@ Blockly.Blocks["ure_match.span"] = {
 
 
 
-Blockly.Blocks["uselect_poll"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" poll");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: poll() Create an instance of the Poll class. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_select"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" select");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_poll.register"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" poll.register");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_poll.unregister"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" poll.unregister");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: poll.unregister(obj) Unregister *obj* from polling. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_poll.modify"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" poll.modify");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: poll.modify(obj, eventmask) Modify the *eventmask* for *obj*. If *obj* is not registered, `OSError` is raised with error of ENOENT. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_poll.poll"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" poll.poll");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: poll.poll(timeout=-1, /) Wait for at least one of the registered objects to become ready or have an exceptional condition, with optional timeout in milliseconds (if *timeout* ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["uselect_poll.ipoll"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" poll.ipoll");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: poll.ipoll(timeout=-1, flags=0, /) Like :meth:`poll.poll`, but instead returns an iterator which yields a `callee-owned tuple`. This function provides an efficient, allocation-free ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uselect.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: socket(af=AF_INET, type=SOCK_STREAM, proto=IPPROTO_TCP, /) Create a new socket using the given address family, socket type and protocol number. Note that specifying *proto* in most cases is not ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_getaddrinfo"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" getaddrinfo");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: getaddrinfo(host, port, af=0, type=0, proto=0, flags=0, /) Translate the host/port argument into a sequence of 5-tuples that contain all the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_inet_ntop"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" inet_ntop");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: inet_ntop(af, bin_addr) Convert a binary network address *bin_addr* of the given address family *af* to a textual representation:: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_inet_pton"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" inet_pton");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: inet_pton(af, txt_addr) Convert a textual network address *txt_addr* of the given address family *af* to a binary representation:: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.close"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" socket.close");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.close() Mark the socket closed and release all resources. Once that happens, all futu re operations ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.bind"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.bind");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.bind(address) Bind the socket to *address*. The socket must not already be bound. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.listen"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.listen");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.accept"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" socket.accept");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.accept() Accept a connection. The socket must be bound to an address and listening for connections. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.connect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.connect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.connect(address) Connect to a remote socket at *address*. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.send"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.send");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.send(bytes) Send data to the socket. The socket must be connected to a remote socket. Returns number of bytes sent, which may be smaller than the length of data ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.sendall"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.sendall");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.sendall(bytes) Send all data to the socket. The socket must be connected to a remote socket. Unlike `send()`, this method will try to send all of data, by sending data ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.recv"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.recv");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.recv(bufsize) Receive data from the socket. The return value is a bytes object representing the data ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.sendto"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.sendto");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.sendto(bytes, address) Send data to the socket. The socket should not be connected to a remote socke t, since the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.recvfrom"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.recvfrom");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.recvfrom(bufsize) Receive data from the socket. The return value is a pair *(bytes, address)* wh ere *bytes* is a ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.setsockopt"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.setsockopt");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.setsockopt(level, optname, value) Set the value of the given socket option. The needed symbolic constants are d efined in the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.settimeout"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.settimeout");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.settimeout(value) **Note**: Not every port supports this method, see below. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.setblocking"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.setblocking");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.setblocking(flag) Set blocking or non-blocking mode of the socket: if flag is false, the socket is set to non-blocking, ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.makefile"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.makefile");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: socket.makefile(mode='rb', buffering=0, /) Return a file object associated with the socket. The exact returned type depe nds on the arguments ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.read");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.readinto"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.readinto");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.readline"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" socket.readline");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: socket.readline() Read a line, ending in a newline character. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
-
-
-
-Blockly.Blocks["usocket_socket.write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" socket.write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: socket.write(buf) Write the buffer of bytes to the socket. This function will try to write all data to a socket (no short writes). This may be not possible ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/usocket.html");
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

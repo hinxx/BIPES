@@ -1,0 +1,68 @@
+# The uselect module. Same shape as usocket: `uselect_poll` created a poll
+# object and threw it away, and the five `poll.*` blocks called the method on
+# the class -- `uselect.poll.register(…)`. Six of the seven did it without
+# `import uselect`. The constructor assigns to `uselect_poller` now and the
+# methods are called on it; `select` is a module function and keeps its prefix.
+
+module: uselect
+class: poll
+instance: uselect_poller
+colour: 0
+url: https://docs.micropython.org/en/latest/library/uselect.html
+import: {key: import_uselect, line: "import uselect"}
+
+category:
+  name: uselect
+  # esp32 has this category too, but inside a "blocks below need development"
+  # XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano, makerpi,
+              rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "uselect_poll"
+    constructor: true
+    label: " poll"
+    tooltip: ".. function:: poll() Create an instance of the Poll class. "
+
+  - type: "uselect_select"
+    code: "uselect.select({pIn})"
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " select"}
+
+  - type: "uselect_poll.register"
+    fn: register
+    label: []
+    tooltip: " "
+    params:
+      - {name: pIn, label: " poll.register"}
+
+  - type: "uselect_poll.unregister"
+    fn: unregister
+    label: []
+    tooltip: ".. method:: poll.unregister(obj) Unregister *obj* from polling. "
+    params:
+      - {name: pIn, label: " poll.unregister"}
+
+  - type: "uselect_poll.modify"
+    fn: modify
+    label: []
+    tooltip: ".. method:: poll.modify(obj, eventmask) Modify the *eventmask* for *obj*. If *obj* is not registered, `OSError` is raised with error of ENOENT. "
+    params:
+      - {name: pIn, label: " poll.modify"}
+
+  - type: "uselect_poll.poll"
+    fn: poll
+    label: []
+    tooltip: ".. method:: poll.poll(timeout=-1, /) Wait for at least one of the registered objects to become ready or have an exceptional condition, with optional timeout in milliseconds (if *timeout* "
+    params:
+      - {name: pIn, label: " poll.poll"}
+
+  - type: "uselect_poll.ipoll"
+    fn: ipoll
+    label: []
+    tooltip: ".. method:: poll.ipoll(timeout=-1, flags=0, /) Like :meth:`poll.poll`, but instead returns an iterator which yields a `callee-owned tuple`. This function provides an efficient, allocation-free "
+    params:
+      - {name: pIn, label: " poll.ipoll"}
