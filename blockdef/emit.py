@@ -50,8 +50,16 @@ def _block_js(definition: Definition, block: Block) -> str:
 
     for row in block.rows:
         lines.extend(_row_js(row))
+    riding: list[Param] = []
     for param in block.params:
-        lines.extend(_param_js(param))
+        # `row: next` holds a field back so it lands on the following socket's
+        # row, between that row's labels -- relay_switch's on/off dropdown and
+        # move_servo's servo number are both written that way by hand.
+        if param.row == 'next':
+            riding.append(param)
+            continue
+        lines.extend(_param_js(param, riding))
+        riding = []
 
     if block.kind == 'value':
         lines.append(f'    this.setOutput(true, {_js(block.output) if block.output else "null"});')
@@ -86,16 +94,22 @@ def _row_js(row: Row) -> list[str]:
     return _terminate(lines)
 
 
-def _param_js(param: Param) -> list[str]:
+def _param_js(param: Param, riding: list[Param]) -> list[str]:
     if param.kind == 'input':
         lines = [f'    this.appendValueInput({_js(param.name)})']
         lines.append(f'        .setCheck({_js(param.type) if param.type else "null"})')
         if param.align:
             lines.append(f'        .setAlign({ALIGNS[param.align]})')
+        for field in riding:
+            if not field.label.empty:
+                lines.append('        ' + _append_field(field.label))
+            lines.append(f'        .appendField({_field_js(field)}, {_js(field.name)})')
         if not param.label.empty:
             lines.append('        ' + _append_field(param.label))
         return _terminate(lines)
 
+    # Nothing can be riding here: spec.py only accepts `row: next` in front of
+    # a socket, which is the branch above.
     lines = ['    this.appendDummyInput()']
     if param.align:
         lines.append(f'        .setAlign({ALIGNS[param.align]})')

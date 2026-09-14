@@ -2665,6 +2665,25 @@ Blockly.Blocks['mpu9250_temp'] = {
   }
 };
 
+// ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
+
+Blockly.Blocks['net_ntp_sync'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["ntp_sync"]);
+    this.appendDummyInput()
+        .appendField("NTP: Network Time Protocol");
+    this.appendValueInput("tz")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["timezone"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Blocks['init_pca9685'] = {
@@ -3063,6 +3082,65 @@ Blockly.Blocks['pyb_usb_mode'] = {
     this.setColour(0);
     this.setTooltip(" ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/pyb.html");
+  }
+};
+
+// ---- Relay (relay.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['relay_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField(new Blockly.FieldImage("media/relay.png", 55, 55, "*"))
+        .appendField(MSG["relay"]);
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .appendField(new Blockly.FieldDropdown([[MSG["off"], "0"], [MSG["on"], "1"]]), "RELAY_STATUS")
+        .appendField(MSG["relay_on"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn On Relay on GPIO digital pin");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+// ---- RC Servo Motor (servo.blockdef.yaml) ------------------------------------
+
+Blockly.Blocks['init_servo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/servo.png", 45, 45, "*"))
+        .appendField("Init RC Servo Motor");
+    this.appendDummyInput()
+        .appendField("Servo #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "SERVO_ID");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Initialize Servo");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['move_servo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Move Servo Motor");
+    this.appendValueInput("angle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "SERVO_ID")
+        .appendField("ANGLE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Move RC servo motor to +/- 90 degrees");
+    this.setHelpUrl("http://www.bipes.net.br");
   }
 };
 

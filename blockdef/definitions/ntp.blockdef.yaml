@@ -1,0 +1,36 @@
+# Set the board's RTC from an NTP server, with a whole-hour offset from UTC.
+
+module: ntptime
+colour: 135
+import:
+  - {line: "import ntptime", key: import_ntptime}
+  - {line: "import machine", key: import_machine}
+  - {line: "import utime", key: import_utime}
+
+category:
+  name: NTP Time
+  labels:
+    - Network Time Protocol (NTP)
+    - Adjusts RTC using Internet
+  # No "Load example: ntp": ui/examples/ntp.xml does not exist, and the button
+  # cleared the workspace before finding that out.
+  docs: ntp
+  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico_w, AmadoBoard, stm32, default,
+              3pi_2040]
+
+blocks:
+  - type: net_ntp_sync
+    label:
+      - {msg: ntp_sync}
+      - "NTP: Network Time Protocol"
+    tooltip: ""
+    code: |-
+      ntptime.settime()
+      rtc = machine.RTC()
+      utc_shift={tz}
+      tm = utime.localtime(utime.mktime(utime.localtime()) + utc_shift*3600)
+      tm = tm[0:3] + (0,) + tm[3:6] + (0,)
+      rtc.datetime(tm)
+      rtc.datetime()
+    params:
+      - {name: tz, label: {msg: timezone}, type: Number, default: 3, align: right}

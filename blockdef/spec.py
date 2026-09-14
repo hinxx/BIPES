@@ -102,6 +102,7 @@ class Param:
     precision: Any = None
     shadow: bool = True             # False -> no shadow in the toolbox entry
     unquote: bool = False           # strip the quotes a text block puts around it
+    row: str | None = None          # 'next': ride on the next param's row
 
 
 @dataclass(slots=True)
@@ -319,6 +320,13 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
                             f'not {colour!r}')
 
     params = [_param(p, at) for p in entry.get('params', [])]
+    for index, param in enumerate(params):
+        if param.row != 'next':
+            continue
+        rest = [p for p in params[index + 1:] if p.row != 'next']
+        if not rest or rest[0].kind != 'input':
+            raise BlockdefError(f'{at}: param {param.name!r} says `row: next`, but the param '
+                                f'after it is not a socket to sit on')
     names = {p.name for p in params}
     i2c = _i2c_bus(entry.get('i2c_bus'), names, at)
 
@@ -442,6 +450,7 @@ def _param(entry: Any, where: _Where) -> Param:
         pin=bool(entry.get('pin')), keyword=entry.get('keyword'), options=options, emit=emit,
         min=entry.get('min'), max=entry.get('max'), precision=entry.get('precision'),
         shadow=entry.get('shadow', True), unquote=bool(entry.get('unquote')),
+        row=entry.get('row'),
     )
     if param.pin and param.kind != 'input':
         raise BlockdefError(f'{at}: `pin` describes the shadow of an input, so `kind` '
@@ -449,9 +458,16 @@ def _param(entry: Any, where: _Where) -> Param:
     if param.unquote and param.kind != 'input':
         raise BlockdefError(f'{at}: `unquote` is about the text a value block produces, '
                             f'so `kind` must be "input"')
+    if param.row is not None:
+        if param.row != 'next':
+            raise BlockdefError(f'{at}: the only `row` there is is "next" -- the field '
+                                f'rides on the row of the param after it -- not {param.row!r}')
+        if param.kind == 'input':
+            raise BlockdefError(f'{at}: `row: next` puts a field on a socket\'s row, and a '
+                                f'socket already has a row of its own')
     _check_unknown(entry, {'name', 'label', 'kind', 'type', 'default', 'align', 'pin',
                            'keyword', 'options', 'emit', 'min', 'max', 'precision',
-                           'shadow', 'unquote'}, at)
+                           'shadow', 'unquote', 'row'}, at)
     return param
 
 

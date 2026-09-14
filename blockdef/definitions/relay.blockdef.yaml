@@ -1,0 +1,38 @@
+# A relay is one GPIO pin driven high or low. The dropdown that says which way
+# sits on the pin socket's own row, between the two labels -- the case `row:`
+# exists for.
+
+module: machine
+colour: 230
+url: bipes.net.br
+import: {line: "from machine import Pin", key: import_pin}
+
+category:
+  name: Relay
+  labels: [Relay]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    rpi_pico:   {pin: 0}
+    rpi_pico_w: {pin: 0}
+
+blocks:
+  - type: relay_switch
+    label:
+      - {image: {src: media/relay.png, width: 55, height: 55}, msg: relay, align: centre}
+    tooltip: Turn On Relay on GPIO digital pin
+    # "turn on" used to emit .off() and "turn off" .on(). Every other digital
+    # output in the tree reads the other way round -- gpio_set defines
+    # `if value >= 1: Pin(pin, Pin.OUT).on()` -- and so does this block's own
+    # label, so the branches were simply swapped. The stored field values are
+    # untouched: "1" is still on, it just reaches the pin now.
+    code: "Pin({pin}, Pin.OUT).{RELAY_STATUS}()"
+    params:
+      - name: RELAY_STATUS
+        row: next
+        kind: dropdown
+        options:
+          - {label: {msg: off}, value: "0"}
+          - {label: {msg: on},  value: "1"}
+        emit: {"0": "off", "1": "on"}
+      - {name: pin, label: {msg: relay_on}, type: Number, pin: true}

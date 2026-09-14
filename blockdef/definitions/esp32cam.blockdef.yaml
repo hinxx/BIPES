@@ -7,7 +7,7 @@ import: []
 
 category:
   name: Camera (ESP32CAM)
-  examples: esp32cam
+  # No `examples:`: ui/examples/esp32cam.xml does not exist.
   labels:
     - OV2640 Camera on ESP32-CAM Board
     - "More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"

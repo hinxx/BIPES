@@ -475,41 +475,6 @@ Blockly.Python['tank_turn'] = function(block) {
   return code;
 };
 
-Blockly.Python['init_servo'] = function(block) {
-	var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-	var number_id = block.getFieldValue('SERVO_ID');
-
-	Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-	Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-
-	Blockly.Python.definitions_['setServoAngle'] =  ``
-	+ `def setServoAngle(servo, angle):\n`
-	+ ` pulse_min_usec=600\n`
-	+ ` pulse_max_usec=2300\n`
-	+ ` timer_resolution=65535\n`
-	+ ` pulse_range_usec=pulse_max_usec-pulse_min_usec\n`
-	+ ` angle = max(min(angle, 90),-90) + 90\n`
-	+ ` pulse_target = (angle * pulse_range_usec // 180) + pulse_min_usec\n`
-	+ ` tics = pulse_target * timer_resolution // 20000\n`
-	+ ` servo.duty_u16(tics)\n`
-
-	this.setID(pin)
-
-	var code = `pservo${pin} = Pin(${pin})\n`;
-	code += `servo${number_id} = PWM(pservo${pin})\n`;
-	code += `servo${number_id}.freq(50)\n`;
-	return code;
-};
-
-Blockly.Python['move_servo'] = function(block) {
-
-	var number_id = block.getFieldValue('SERVO_ID');
-	var value_angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
- 
-	var code = `setServoAngle(servo${number_id},` + value_angle + `)\n`;
-	return code;
-};
-
 Blockly.Python['net_get_request'] = function(block) {
 	var value_url = Blockly.Python.valueToCode(block, 'URL', Blockly.Python.ORDER_ATOMIC);
 
@@ -857,19 +822,6 @@ Blockly.Python['tm1640_custom'] = function (block) {
 
     var code = 'tm.write([' + line8 + ',' + line7 + ',' + line6 + ',' + line5 + ',' + line4 + ',' + line3 + ',' + line2 + ',' + line1 + '])\n';
     return code;
-};
-
-/// Relay Switch
-Blockly.Python['relay_switch'] = function(block) {
-  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var status = block.getFieldValue('RELAY_STATUS');
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  if (status == '1'){
-  	var code = 'Pin(' + pin + ', Pin.OUT).off()\n';
-  }else{
-  	var code = 'Pin(' + pin + ', Pin.OUT).on()\n';
-  }
-  return code;
 };
 
 /// EasyMQTT
@@ -4107,32 +4059,6 @@ Blockly.Python['rfid_rc522_write_card'] = function(block) {
 
 //New Network related functions
 
-Blockly.Python['net_ntp_sync'] = function(block) {
-//  var server = Blockly.Python.valueToCode(block, 'server', Blockly.Python.ORDER_ATOMIC);
-  var tz = Blockly.Python.valueToCode(block, 'tz', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_ntptime'] = 'import ntptime';
-  Blockly.Python.definitions_['import_machine'] = 'import machine';
-  Blockly.Python.definitions_['import_utime'] = 'import utime';
-
-  var code = 'ntptime.settime()\n';
-	code += 'rtc = machine.RTC()\n';
-	code += 'utc_shift=' + tz + '\n';
-	code += 'tm = utime.localtime(utime.mktime(utime.localtime()) + utc_shift*3600)\n';
-	code += 'tm = tm[0:3] + (0,) + tm[3:6] + (0,)\n';
-	code += 'rtc.datetime(tm)\n';
-	code += "rtc.datetime()\n";
-
-	/*Useful:
-	 * >>>from machine import RTC
->>>(year, month, mday, week_of_year, hour, minute, second, milisecond)=RTC().datetime()
->>>RTC().init((year, month, mday, week_of_year, hour+2, minute, second, milisecond)) # GMT correction. GMT+2
->>>print ("Fecha/Hora (year, month, mday, week of year, hour, minute, second, milisecond):", RTC().datetime())
->>>print ("{:02d}/{:02d}/{} {:02d}:{:02d}:{:02d}".format(RTC().datetime()[2],RTC().datetime()[1],RTC().datetime()[0],RTC().datetime()[4],RTC().datetime()[5],RTC
-*/
-  return code;
-
-};
 
 
 Blockly.Python['net_wiznet5k_init'] = function(block) {

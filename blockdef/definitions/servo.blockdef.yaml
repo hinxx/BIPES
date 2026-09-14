@@ -1,0 +1,61 @@
+# Hobby RC servo on a PWM pin. `setServoAngle` is a helper both blocks need, so
+# it is a file-level `definitions_` entry rather than something only the init
+# block registers -- dragging out a move block on its own used to emit a call
+# to a function nothing defined.
+
+module: machine
+colour: 230
+url: https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation
+import:
+  - {line: "from machine import Pin", key: import_pin}
+  - {line: "from machine import PWM", key: import_pwm}
+  - key: setServoAngle
+    line: |
+      def setServoAngle(servo, angle):
+       pulse_min_usec=600
+       pulse_max_usec=2300
+       timer_resolution=65535
+       pulse_range_usec=pulse_max_usec-pulse_min_usec
+       angle = max(min(angle, 90),-90) + 90
+       pulse_target = (angle * pulse_range_usec // 180) + pulse_min_usec
+       tics = pulse_target * timer_resolution // 20000
+       servo.duty_u16(tics)
+
+category:
+  name: RC Servo Motor
+  labels: [Hobby RC Servo Motor]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
+              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  defaults:
+    rpi_pico:   {pin: 1}
+    rpi_pico_w: {pin: 1}
+
+blocks:
+  - type: init_servo
+    label:
+      - {image: {src: media/servo.png, width: 45, height: 45}, text: Init RC Servo Motor}
+    tooltip: Initialize Servo
+    # Two things the hand-written generator did. It called back into the block
+    # -- setFieldValue on SERVO_ID -- so generating the program rewrote the
+    # servo number in the workspace to the pin number, and the next run emitted
+    # a different servo object from the one the move block names. Generating
+    # code reads the workspace; it does not edit it. And it spelled the pin
+    # into a variable name (`pservo4 = Pin(4)`), which only parses while the
+    # pin is a bare literal; the intermediate name is not used anywhere.
+    code: |-
+      servo{SERVO_ID} = PWM(Pin({pin}))
+      servo{SERVO_ID}.freq(50)
+    params:
+      - {name: SERVO_ID, label: "Servo #", kind: number, default: 0, min: 0, max: 50,
+         precision: 1}
+      - {name: pin, label: Pin, pin: true}
+
+  - type: move_servo
+    label: Move Servo Motor
+    tooltip: Move RC servo motor to +/- 90 degrees
+    url: http://www.bipes.net.br      # was bipes.net.ebr, which resolves nowhere
+    code: "setServoAngle(servo{SERVO_ID}, {angle})"
+    params:
+      - {name: SERVO_ID, row: next, label: "Servo #", kind: number, default: 0, min: 0,
+         max: 50, precision: 1}
+      - {name: angle, label: ANGLE, type: Number, default: 90, align: right}

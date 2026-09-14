@@ -1405,6 +1405,17 @@ Blockly.Python['mpu9250_temp'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- NTP Time (ntp.blockdef.yaml) --------------------------------------------
+
+Blockly.Python['net_ntp_sync'] = function(block) {
+  Blockly.Python.definitions_["import_ntptime"] = "import ntptime";
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_utime"] = "import utime";
+  var tz_ = Blockly.Python.valueToCode(block, "tz", Blockly.Python.ORDER_ATOMIC);
+  var code = "ntptime.settime()\nrtc = machine.RTC()\nutc_shift=" + tz_ + "\ntm = utime.localtime(utime.mktime(utime.localtime()) + utc_shift*3600)\ntm = tm[0:3] + (0,) + tm[3:6] + (0,)\nrtc.datetime(tm)\nrtc.datetime()";
+  return code + "\n";
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Python['init_pca9685'] = function(block) {
@@ -1605,6 +1616,38 @@ Blockly.Python['pyb_unique_id'] = function(block) {
 Blockly.Python['pyb_usb_mode'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var code = "pyb.usb_mode()";
+  return code + "\n";
+};
+
+// ---- Relay (relay.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['relay_switch'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var RELAY_STATUS_ = {"0": "off", "1": "on"}[block.getFieldValue("RELAY_STATUS")];
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "Pin(" + pin_ + ", Pin.OUT)." + RELAY_STATUS_ + "()";
+  return code + "\n";
+};
+
+// ---- RC Servo Motor (servo.blockdef.yaml) ------------------------------------
+
+Blockly.Python['init_servo'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["setServoAngle"] = "def setServoAngle(servo, angle):\n pulse_min_usec=600\n pulse_max_usec=2300\n timer_resolution=65535\n pulse_range_usec=pulse_max_usec-pulse_min_usec\n angle = max(min(angle, 90),-90) + 90\n pulse_target = (angle * pulse_range_usec // 180) + pulse_min_usec\n tics = pulse_target * timer_resolution // 20000\n servo.duty_u16(tics)\n";
+  var SERVO_ID_ = block.getFieldValue("SERVO_ID");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "servo" + SERVO_ID_ + " = PWM(Pin(" + pin_ + "))\nservo" + SERVO_ID_ + ".freq(50)";
+  return code + "\n";
+};
+
+Blockly.Python['move_servo'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["setServoAngle"] = "def setServoAngle(servo, angle):\n pulse_min_usec=600\n pulse_max_usec=2300\n timer_resolution=65535\n pulse_range_usec=pulse_max_usec-pulse_min_usec\n angle = max(min(angle, 90),-90) + 90\n pulse_target = (angle * pulse_range_usec // 180) + pulse_min_usec\n tics = pulse_target * timer_resolution // 20000\n servo.duty_u16(tics)\n";
+  var SERVO_ID_ = block.getFieldValue("SERVO_ID");
+  var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var code = "setServoAngle(servo" + SERVO_ID_ + ", " + angle_ + ")";
   return code + "\n";
 };
 

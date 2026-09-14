@@ -1478,35 +1478,37 @@
       </category>
 
 
+    <!-- blockdef:relay -->
     <category name="Relay">
       <label text="Relay"></label>
+
       <block type="relay_switch">
         <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
     </category>
+    <!-- /blockdef:relay -->
 
-  <category name="RC Servo">
-      <label text="Hobby RC Servo Motor"></label>
+  <!-- blockdef:servo -->
+  <category name="RC Servo Motor">
+    <label text="Hobby RC Servo Motor"></label>
+
     <block type="init_servo">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
+      <value name="pin">
+        <shadow type="pinout"></shadow>
+      </value>
     </block>
 
     <block type="move_servo">
-    <value name="angle">
+      <value name="angle">
         <shadow type="math_number">
           <field name="NUM">90</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:servo -->
 
 
   </category>
@@ -1818,23 +1820,21 @@
     <!-- /blockdef:umail -->
 
 
+    <!-- blockdef:ntp -->
     <category name="NTP Time">
-     <label text="Network Time Protocol (NTP)"></label>
-     <label text="Adjusts RTC using Internet"></label>
-        <button text="Load example: ntp" callbackKey="loadExample"></button>
-        <button text="Documentation: ntp" callbackKey="loadDoc"></button>
+      <label text="Network Time Protocol (NTP)"></label>
+      <label text="Adjusts RTC using Internet"></label>
+      <button text="Documentation and how to connect: ntp" callbackKey="loadDoc"></button>
 
-
-    <block type="net_ntp_sync">
-	 <value name="tz">
+      <block type="net_ntp_sync">
+        <value name="tz">
           <shadow type="math_number">
             <field name="NUM">3</field>
           </shadow>
         </value>
-
-
-    </block>
+      </block>
     </category>
+    <!-- /blockdef:ntp -->
 
     <!-- blockdef:socket -->
     <category name="TCP/IP Socket">

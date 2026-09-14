@@ -1134,55 +1134,6 @@ Blockly.Blocks['tank_turn'] = {
   }
 };
 
-Blockly.Blocks['init_servo'] = {
-  init: function(){
-    this.appendDummyInput()
-    .appendField(new Blockly.FieldImage(
-      "media/servo.png",
-      45,
-      45,
-      "*"))
-    .appendField("Init RC Servo Motor");
-    this.appendDummyInput()
-        .appendField("Servo #")
-        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "SERVO_ID");
-    this.appendValueInput("pin")
-        .setCheck(null)
-	      .appendField("Pin");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("Initialize Servo");
-    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
- },
-  setID: function(id_) {
-    this.setFieldValue(id_, "SERVO_ID")
-  }
-};
-
-
-Blockly.Blocks['move_servo'] = {
-  init: function() {
-
-
-    this.appendDummyInput().appendField("Move Servo Motor");
-    this.appendValueInput('angle')
-        .setCheck('Number')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Servo #")
-        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "SERVO_ID")
-        .appendField("ANGLE");
-
-    this.setColour(230);
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
- this.setTooltip("Move RC servo motor to +/- 90 degrees");
- this.setHelpUrl("http://www.bipes.net.ebr");
-  }
-};
-
 Blockly.Blocks['net_get_request'] = {
   init: function() {
 
@@ -2005,33 +1956,6 @@ Blockly.Blocks['easymqtt_disconnect'] = {
     this.setColour(230);
     this.setTooltip("Disconnect the EasyMQTT Client from Server.");
     this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
-
-/// Relay Switch
-Blockly.Blocks['relay_switch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-                     "media/relay.png",
-                     55,
-                     55,
-                     "*"))
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField(MSG["relay"]);
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .appendField('')
-        .appendField(new Blockly.FieldDropdown([
-                       [MSG['off'], '0'],
-                       [MSG['on'], '1']
-                     ]), 'RELAY_STATUS')
-        .appendField(MSG["relay_on"]);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip("Turn On Relay on GPIO digital pin");
-    this.setHelpUrl("bipes.net.br");
   }
 };
 
@@ -7333,26 +7257,6 @@ Blockly.Blocks['char_lcd_custom'] = {
 //uMail
 //New Network related functions
 //
-Blockly.Blocks['net_ntp_sync'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField(MSG["ntp_sync"]);
-
-    this.appendDummyInput()
-        .appendField("NTP: Network Time Protocol");
-
-    this.appendValueInput("tz")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(MSG["timezone"]);
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
 Blockly.Blocks['net_wiznet5k_init'] = {
   init: function() {
     this.setColour(135);

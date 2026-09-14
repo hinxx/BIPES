@@ -1843,7 +1843,6 @@
   <!-- blockdef:encoder -->
   <category name="Rotatory Encoder">
     <label text="Rotatory Incremental Encoder"></label>
-    <button text="Load example: encoder" callbackKey="loadExample"></button>
     <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
 
     <block type="encoder_init">
@@ -1865,7 +1864,6 @@
   <category name="Camera (ESP32CAM)">
     <label text="OV2640 Camera on ESP32-CAM Board"></label>
     <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
-    <button text="Load example: esp32cam" callbackKey="loadExample"></button>
 
     <block type="esp32_cam_init"></block>
 
@@ -1891,16 +1889,17 @@
   </category>
 
   <category name="%{BKY_CAT_OUTPUTS}">
+    <!-- blockdef:relay -->
     <category name="Relay">
       <label text="Relay"></label>
+
       <block type="relay_switch">
         <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
     </category>
+    <!-- /blockdef:relay -->
 
     <!-- blockdef:mcp23017 -->
     <category name="I/O Expander">
@@ -1949,24 +1948,25 @@
     <!-- /blockdef:mcp23017 -->
 
 
+  <!-- blockdef:servo -->
   <category name="RC Servo Motor">
-      <label text="Hobby RC Servo Motor"></label>
+    <label text="Hobby RC Servo Motor"></label>
+
     <block type="init_servo">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
+      <value name="pin">
+        <shadow type="pinout"></shadow>
+      </value>
     </block>
 
     <block type="move_servo">
-    <value name="angle">
+      <value name="angle">
         <shadow type="math_number">
           <field name="NUM">90</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:servo -->
 
 
   <!-- blockdef:stepper -->
@@ -2040,7 +2040,6 @@
         <label text="Library: "></label>
         <button text="Install rtttl library" callbackKey="installPyLib"></button>
         <button text="Install songs library" callbackKey="installPyLib"></button>
-        <button text="Load example: songs" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: sound" callbackKey="loadDoc"></button>
 
     <block type="tone"> 
@@ -2558,23 +2557,21 @@
     <!-- /blockdef:umail -->
 
 
+    <!-- blockdef:ntp -->
     <category name="NTP Time">
-     <label text="Network Time Protocol (NTP)"></label>
-     <label text="Adjusts RTC using Internet"></label>
-        <button text="Load example: ntp" callbackKey="loadExample"></button>
-        <button text="Documentation: ntp" callbackKey="loadDoc"></button>
+      <label text="Network Time Protocol (NTP)"></label>
+      <label text="Adjusts RTC using Internet"></label>
+      <button text="Documentation and how to connect: ntp" callbackKey="loadDoc"></button>
 
-
-    <block type="net_ntp_sync">
-	 <value name="tz">
+      <block type="net_ntp_sync">
+        <value name="tz">
           <shadow type="math_number">
             <field name="NUM">3</field>
           </shadow>
         </value>
-
-
-    </block>
+      </block>
     </category>
+    <!-- /blockdef:ntp -->
 
     <!-- blockdef:socket -->
     <category name="TCP/IP Socket">
@@ -2809,7 +2806,6 @@
      <label text="Controller Area Network (CAN)"></label>
      <label text="Requires specific firmware"></label>
      <label text="Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"></label>
-        <button text="Load example: esp32_can" callbackKey="loadExample"></button>
         <button text="Documentation: esp32_can" callbackKey="loadDoc"></button>
 
     <block type="esp32_can_init">

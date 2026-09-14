@@ -1479,7 +1479,6 @@
   <!-- blockdef:encoder -->
   <category name="Rotatory Encoder">
     <label text="Rotatory Incremental Encoder"></label>
-    <button text="Load example: encoder" callbackKey="loadExample"></button>
     <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
 
     <block type="encoder_init">
@@ -1501,7 +1500,6 @@
   <category name="Camera (ESP32CAM)">
     <label text="OV2640 Camera on ESP32-CAM Board"></label>
     <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
-    <button text="Load example: esp32cam" callbackKey="loadExample"></button>
 
     <block type="esp32_cam_init"></block>
 
@@ -1527,35 +1525,37 @@
   </category>
 
   <category name="%{BKY_CAT_OUTPUTS}">
+    <!-- blockdef:relay -->
     <category name="Relay">
       <label text="Relay"></label>
+
       <block type="relay_switch">
         <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
+          <shadow type="pinout"></shadow>
         </value>
       </block>
     </category>
+    <!-- /blockdef:relay -->
 
+  <!-- blockdef:servo -->
   <category name="RC Servo Motor">
-      <label text="Hobby RC Servo Motor"></label>
+    <label text="Hobby RC Servo Motor"></label>
+
     <block type="init_servo">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
+      <value name="pin">
+        <shadow type="pinout"></shadow>
+      </value>
     </block>
 
     <block type="move_servo">
-    <value name="angle">
+      <value name="angle">
         <shadow type="math_number">
           <field name="NUM">90</field>
         </shadow>
       </value>
     </block>
   </category>
+  <!-- /blockdef:servo -->
 
   <!-- blockdef:pca9685 -->
   <category name="PCA9685 Servo Driver">
@@ -1676,7 +1676,6 @@
         <label text="Library: "></label>
         <button text="Install rtttl library" callbackKey="installPyLib"></button>
         <button text="Install songs library" callbackKey="installPyLib"></button>
-        <button text="Load example: songs" callbackKey="loadExample"></button>
         <button text="Documentation and how to connect: sound" callbackKey="loadDoc"></button>
 
     <block type="tone"> 

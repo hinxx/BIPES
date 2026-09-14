@@ -430,22 +430,27 @@ function loadExampleFromURL(pName){
 
     var request = new XMLHttpRequest();
     request.open('GET', './examples/' + pName + '.xml', true);
-    //request.open('GET', 'http://bipes.net.br/beta2/ui/examples/' + pName + '.xml', true);
     request.send(null);
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-            var type = request.getResponseHeader('Content-Type');
-            if (type.indexOf("text") !== 1) {
+        if (request.readyState !== 4)
+            return;
 
-		    //alert(request.responseText);
-
-		    var content = request.responseText;
-                    var xml = Blockly.Xml.textToDom(content);
-                    Blockly.Xml.domToWorkspace(xml, Code.workspace);
-
-                return request.responseText;
-            }
+        // status 0 is a file:// read, which some browsers allow and some do not.
+        if (request.responseText && (request.status === 200 || request.status === 0)) {
+            Code.workspace.clear();
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(request.responseText),
+                                       Code.workspace);
+            Code.renderContent();
+            return;
         }
+
+        // Nothing arrived, so nothing is replaced. Three toolbox buttons used to
+        // name examples that do not ship, and every button at all was a wipe
+        // when the page itself was opened from file://.
+        let msg = `No example named '${pName}' could be loaded`;
+        console.error(`${msg} (./examples/${pName}.xml: HTTP ${request.status})`);
+        UI ['notify'].send(msg);
+        alert(`${msg}, so the workspace was left as it is.`);
     }
 }
 
@@ -622,16 +627,10 @@ Code.init = function() {
 	
 
 	if (confirm(msgCon)) {
-		//console.log('Thing was saved to the database.');
-		
-		//Ask for confirmation
-      		//Code.discard(); 
-		//Delete blocks without asking for confirmation
-		Code.workspace.clear();
-
-		Code.renderContent();
+		// The workspace is cleared by loadExampleFromURL, once the example is
+		// actually in hand. Emptying it here threw the user's program away
+		// whether or not anything arrived to replace it.
 		loadExampleFromURL(lib);
-		Code.renderContent();
 	} else {
 		console.log('Example load canceled.');
 	}
