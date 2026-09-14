@@ -48,6 +48,8 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
                                     f'({path} does not exist)')
             written += _splice(path, definition)
 
+    _check_toolbox_block_types_exist(root)
+
     if verbose:
         blocks = sum(len(d.blocks) for d in definitions)
         print(f'{len(definitions)} definition(s), {blocks} blocks')
@@ -93,6 +95,62 @@ def _check_no_clash_with_handwritten(root: Path, definitions: list[Definition]) 
                 f'{handwritten}. Delete them there -- a block belongs to one file.')
 
 
+def _check_toolbox_block_types_exist(root: Path) -> None:
+    """A toolbox entry naming a block nobody defines breaks the whole category.
+
+    Blockly does not skip the unknown block and carry on: building the flyout
+    throws `Unknown block type`, so every block in that category -- and every
+    category nested under it -- becomes unreachable. Cheap to do by hand, easy
+    to miss, and invisible until someone clicks that one category, which is why
+    it is checked here rather than trusted to review.
+    """
+    defined = _types_defined_by_the_page(root)
+    if not defined:
+        return                                    # no page to check against
+    broken: dict[str, list[str]] = {}
+    for path in sorted((root / TOOLBOX).glob('*.xml')):
+        # Commented-out entries are not loaded, so they are not checked --
+        # esp32's `micropython` tree is mostly one long "needs development"
+        # comment, and it is a snapshot rather than a toolbox.
+        xml = re.sub(r'<!--[\s\S]*?-->', '', path.read_text(encoding='utf-8'))
+        missing = {t for t in re.findall(r'<(?:block|shadow)\s[^>]*type="([^"]+)"', xml)
+                   if t not in defined}
+        if missing:
+            broken[path.name] = sorted(missing)
+    if broken:
+        lines = [f'  {board}: {", ".join(types)}' for board, types in broken.items()]
+        raise BlockdefError('toolbox entries name blocks that nothing defines, which makes '
+                            'their category throw instead of opening:\n' + '\n'.join(lines))
+
+
+def _types_defined_by_the_page(root: Path) -> set[str]:
+    """Every block type the UI actually has, read from what index.html loads.
+
+    The list of scripts is taken from the page rather than written down here:
+    block definitions live in five hand-written places besides this tool (the
+    two `core/*_compressed.js` bundles, `block_definitions.js`, a stray handful
+    in `generator_stubs.js`, and the OpenCV bindings under `jsCv/`), and a list
+    kept by hand would go stale the first time one moved.
+    """
+    page = root / 'ui/index.html'
+    if not page.exists():
+        return set()
+    source = re.sub(r'<!--[\s\S]*?-->', '', page.read_text(encoding='utf-8'))
+    defined: set[str] = set()
+    for src in re.findall(r'<script[^>]+src="([^"]+)"', source):
+        path = root / 'ui' / src.split('?')[0]
+        if not path.exists() or path.suffix != '.js':
+            continue
+        js = path.read_text(encoding='utf-8', errors='replace')
+        defined |= set(re.findall(r"""Blockly\.Blocks\[\s*['"]([^'"]+)['"]\s*\]\s*=""", js))
+        defined |= set(re.findall(r'Blockly\.Blocks\.([A-Za-z0-9_$]+)\s*=', js))
+        # JSON block arrays, including the minified `type:"x"` spelling. The
+        # `input_`/`field_` names inside args are not block types.
+        defined |= {t for t in re.findall(r"""["']?type["']?\s*:\s*['"]([^'"]+)['"]""", js)
+                    if not t.startswith(('input_', 'field_'))}
+    return defined
+
+
 def _splice(path: Path, definition: Definition) -> list[Path]:
     source = path.read_text(encoding='utf-8')
     start = f'<!-- blockdef:{definition.name} -->'
@@ -112,6 +170,8 @@ def _splice(path: Path, definition: Definition) -> list[Path]:
         # top level and inside the `micropython` container.
         indent = match.group(1)
         body = emit_category_xml(definition, indent, board=board)
+        if not body:                  # nothing this board can offer: no category
+            return f'{indent}{start}\n{indent}{end}'
         return f'{indent}{start}\n{body}\n{indent}{end}'
 
     return _write(path, pattern.sub(fill, source))

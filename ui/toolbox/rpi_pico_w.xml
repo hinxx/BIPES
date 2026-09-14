@@ -2515,19 +2515,10 @@
 
     <block type="net_get_request">
       <field name="BLOCK_NET_GET">Make HTTP GET Request URL</field>
-        <shadow type="String">
-          <field name="URL"></field>
-        </shadow>
     </block>
     <block type="net_post_request">
       <field name="NET_POST_REQUEST_URL">Make HTTP POST Request URL</field>
-        <shadow type="String">
-          <field name="URL"></field>
-        </shadow>
       <field name="NET_POST_REQUEST_DATA">Data</field>
-        <shadow type="String">
-          <field name="data"></field>
-        </shadow>
     </block>
 
     </category>
@@ -3283,8 +3274,6 @@
 <block type="machine.RTC_RTC.irq">
 </block>
 </category>
-<category name="machine.SDCard">
-</category>
 <category name="machine.SD">
 <block type="machine.SD_SD.init">
 </block>
@@ -3550,8 +3539,6 @@
 </category>
 <!-- /blockdef:sys -->
 <!-- blockdef:thread -->
-<category name="_thread">
-</category>
 <!-- /blockdef:thread -->
 <category name="uarray">
 <block type="uarray_append">
@@ -3715,8 +3702,6 @@
   <block type="uctypes_bytearray_at"></block>
 </category>
 <!-- /blockdef:uctypes -->
-<category name="uerrno">
-</category>
 <category name="uhashlib">
 <block type="uhashlib_hash.update">
 </block>

@@ -2343,16 +2343,6 @@
   <category name="%{BKY_CAT_COMM}">
       <label text="%{BKY_CAT_COMM}"></label>
 
-      <category name="LoRA">
-
-    <button text="Install sx127x library" callbackKey="installPyLib"></button>
-    <button text="Install lora_config file" callbackKey="installPyLib"></button>
-
-<block type="init_lora_module"> </block>
-<block type="lora_sender"> </block>
-<block type="lora_receiver"> </block>
-
-      </category>
 
 
 
@@ -2581,7 +2571,6 @@
     <block type="http_get_status"></block>
     <block type="http_get_content"></block>
 
-    <block type="http_get_text"></block>
 
     <block type="variables_set" inline="false">
 	    <field name="VAR">request</field>
@@ -3037,11 +3026,6 @@
     </category>
   </category>
 
-<category name="Cloud IA / Vision">
-	<label text="Google Cloud Vision / IA"></label>
-	<label text="More details at: ..."></label>
-      <block type="create_json_for_google_cloud_vision"> </block>
-</category>
 
 <category name="%{BKY_CAT_CONTROL}">
   <!-- blockdef:control_pid -->
@@ -3594,8 +3578,6 @@
 <block type="machine.RTC_RTC.irq">
 </block>
 </category>
-<category name="machine.SDCard">
-</category>
 <category name="machine.SD">
 <block type="machine.SD_SD.init">
 </block>
@@ -3861,8 +3843,6 @@
 </category>
 <!-- /blockdef:sys -->
 <!-- blockdef:thread -->
-<category name="_thread">
-</category>
 <!-- /blockdef:thread -->
 <category name="uarray">
 <block type="uarray_append">
@@ -4026,8 +4006,6 @@
   <block type="uctypes_bytearray_at"></block>
 </category>
 <!-- /blockdef:uctypes -->
-<category name="uerrno">
-</category>
 <category name="uhashlib">
 <block type="uhashlib_hash.update">
 </block>

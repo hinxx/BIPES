@@ -2374,6 +2374,12 @@
 
   <category name="SPI">
     <label text="SPI"></label>
+    <block type="machine.SPI_SPI.init"></block>
+    <block type="machine.SPI_SPI.deinit"></block>
+    <block type="machine.SPI_SPI.read"></block>
+    <block type="machine.SPI_SPI.readinto"></block>
+    <block type="machine.SPI_SPI.write"></block>
+    <block type="machine.SPI_SPI.write_readinto"></block>
   </category>
 
   <category name="GSM Modem">
@@ -2918,8 +2924,6 @@
 <block type="machine.RTC_RTC.irq">
 </block>
 </category>
-<category name="machine.SDCard">
-</category>
 <category name="machine.SD">
 <block type="machine.SD_SD.init">
 </block>
@@ -3185,8 +3189,6 @@
 </category>
 <!-- /blockdef:sys -->
 <!-- blockdef:thread -->
-<category name="_thread">
-</category>
 <!-- /blockdef:thread -->
 <category name="uarray">
 <block type="uarray_append">
@@ -3350,8 +3352,6 @@
   <block type="uctypes_bytearray_at"></block>
 </category>
 <!-- /blockdef:uctypes -->
-<category name="uerrno">
-</category>
 <category name="uhashlib">
 <block type="uhashlib_hash.update">
 </block>

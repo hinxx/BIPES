@@ -9,7 +9,10 @@
 #
 # `esp32c3` also listed `easymqtt_publish_data2` and
 # `easymqtt_publish_dataHTTP`, **neither of which is defined anywhere in the
-# tree**: two blanks in the flyout on that one board. They are gone.
+# tree**. That was described here as two blanks in the flyout, and it was
+# worse than that: an entry naming a block nothing defines makes Blockly throw
+# while building the flyout, so the EasyMQTT category on that board did not
+# open at all. `make blocks` now refuses to leave one behind.
 
 module: robust
 colour: 230

@@ -409,6 +409,13 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
             lines.append(f'    <field name="{_xml(name)}">{_xml(value)}</field>')
         lines.append('  </block>')
 
+    if not any(line.lstrip().startswith('<block ') for line in lines):
+        # Nothing to drag: every block in this family is `boards:`-restricted
+        # away from this one. A category that opens on an empty flyout is a
+        # dead end, so the board simply does not get it -- which is why
+        # `toolboxes:` says where a category may appear, not where it must.
+        return ''
+
     if not definition.fragment:
         lines.append('</category>')
     else:

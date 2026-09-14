@@ -1,7 +1,8 @@
-# One block on one board, and an empty category on ten others: `_thread` shows
-# up in the tree on eleven boards and opens an empty flyout on all but
-# AmadoBoard. Whether the other ten should offer it at all is a decision about
-# those boards, so the category is reproduced as it stands.
+# One block, on one board. `_thread` used to show up in the tree on eleven
+# boards and open an empty flyout on all but AmadoBoard; a category with
+# nothing in it is now left out of the board rather than written empty, so the
+# other ten no longer offer it. Giving them a thread block is a decision about
+# those boards -- listing them here again is all it would take.
 
 module: _thread
 colour: 230

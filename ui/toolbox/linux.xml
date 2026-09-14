@@ -515,11 +515,6 @@
       <block type="imgproc_invertAffineTransform"></block>
       <block type="imgproc_getPerspectiveTransform"></block>
       <block type="imgproc_getAffineTransform"></block>
-      <block type="imgproc_undistort"></block>
-      <block type="imgproc_initUndistortRectifyMap"></block>
-      <block type="imgproc_initWideAngleProjMap"></block>
-      <block type="imgproc_getDefaultNewCameraMatrix"></block>
-      <block type="imgproc_undistortPoints"></block>
       <block type="imgproc_convertMaps"></block>
     </category>
     <category name="Histogram">
@@ -548,7 +543,6 @@
       <block type="imgproc_matchShapes"></block>
     </category>
     <category name="Shapes">
-      <block type="findcontours"></block>
       <block type="imgproc_connectedComponents"></block>
       <block type="imgproc_connectedComponentsWithStats"></block>
       <block type="imgproc_approxPolyDP"></block>
@@ -594,7 +588,6 @@
     <category name="HDR Imaging">
       <block type="photo_createTonemap"></block>
       <block type="photo_createTonemapDrago"></block>
-      <block type="photo_createTonemapDurand"></block>
       <block type="photo_createTonemapReinhard"></block>
       <block type="photo_createTonemapMantiuk"></block>
       <block type="photo_createAlignMTB"></block>
@@ -607,10 +600,6 @@
       <block type="photo_CalibrateRobertson_setThreshold"></block>
       <block type="photo_TonemapMantiuk_setScale"></block>
       <block type="photo_TonemapMantiuk_setSaturation"></block>
-      <block type="photo_TonemapDurand_setSaturation"></block>
-      <block type="photo_TonemapDurand_setContrast"></block>
-      <block type="photo_TonemapDurand_setSigmaSpace"></block>
-      <block type="photo_TonemapDurand_setSigmaColor"></block>
       <block type="photo_AlignExposures_process"></block>
       <block type="photo_CalibrateDebevec_setLambda"></block>
       <block type="photo_CalibrateDebevec_setSamples"></block>
@@ -652,9 +641,6 @@
       <block type="photo_detailEnhance"></block>
       <block type="photo_pencilSketch"></block>
       <block type="photo_stylization"></block>
-    </category>
-    <category name="xphoto">
-      <block type="xphoto_dctDenoising_dctDenoising"></block>
     </category>
   </category>
   <category name="imgcodecs">
@@ -727,55 +713,16 @@
       <block type="calib3d_StereoMatcher_setDisp12MaxDiff"></block>
     </category>
   </category>
-  <category name="shape">
-    <block type="shape_createNormHistogramCostExtractor"></block>
-    <block type="shape_createEMDHistogramCostExtractor"></block>
-    <block type="shape_createChiHistogramCostExtractor"></block>
-    <block type="shape_createEMDL1HistogramCostExtractor"></block>
-    <block type="shape_createShapeContextDistanceExtractor"></block>
-    <block type="shape_createHausdorffDistanceExtractor"></block>
-    <block type="shape_createThinPlateSplineShapeTransformer"></block>
-    <block type="shape_createAffineTransformer"></block>
-    <block type="shape_ThinPlateSplineShapeTransformer_setRegularizationParameter"></block>
-    <block type="shape_NormHistogramCostExtractor_setNormFlag"></block>
-    <block type="shape_ShapeTransformer_estimateTransformation"></block>
-    <block type="shape_ShapeTransformer_applyTransformation"></block>
-    <block type="shape_ShapeTransformer_warpImage"></block>
-    <block type="shape_EMDHistogramCostExtractor_setNormFlag"></block>
-    <block type="shape_ShapeDistanceExtractor_computeDistance"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setAngularBins"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setRadialBins"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setInnerRadius"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setOuterRadius"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setRotationInvariant"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setShapeContextWeight"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setImageAppearanceWeight"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setBendingEnergyWeight"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setImages"></block>
-    <block type="shape_ShapeContextDistanceExtractor_getImages"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setIterations"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setCostExtractor"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setStdDev"></block>
-    <block type="shape_ShapeContextDistanceExtractor_setTransformAlgorithm"></block>
-    <block type="shape_HausdorffDistanceExtractor_setDistanceFlag"></block>
-    <block type="shape_HausdorffDistanceExtractor_setRankProportion"></block>
-    <block type="shape_AffineTransformer_setFullAffine"></block>
-    <block type="shape_HistogramCostExtractor_buildCostMatrix"></block>
-    <block type="shape_HistogramCostExtractor_setNDummies"></block>
-    <block type="shape_HistogramCostExtractor_setDefaultCost"></block>
-  </category>
   <category name="video">
     <category name="Flow">
       <block type="video_meanShift"></block>
       <block type="video_buildOpticalFlowPyramid"></block>
       <block type="video_calcOpticalFlowPyrLK"></block>
       <block type="video_calcOpticalFlowFarneback"></block>
-      <block type="video_createOptFlow_DualTVL1"></block>
       <block type="video_DenseOpticalFlow_calc"></block>
       <block type="video_DenseOpticalFlow_collectGarbage"></block>
     </category>
     <category name="Misc">
-      <block type="video_estimateRigidTransform"></block>
       <block type="video_findTransformECC"></block>
       <block type="video_KalmanFilter_KalmanFilter"></block>
       <block type="video_KalmanFilter_predict"></block>
@@ -810,7 +757,6 @@
   <category name="features2d">
     <category name="General">
       <block type="features2d_drawMatches"></block>
-      <block type="features2d_drawKeypoints"></block>
       <block type="features2d_Feature2D_detect"></block>
       <block type="features2d_Feature2D_compute"></block>
       <block type="features2d_Feature2D_detectAndCompute"></block>
@@ -881,7 +827,6 @@
     </category>
 </category>
   <category name="stitching">
-    <block type="stitching_createStitcher"></block>
     <block type="stitching_Stitcher_setRegistrationResol"></block>
     <block type="stitching_Stitcher_setSeamEstimationResol"></block>
     <block type="stitching_Stitcher_setCompositingResol"></block>
@@ -891,141 +836,6 @@
     <block type="stitching_Stitcher_composePanorama"></block>
     <block type="stitching_Stitcher_stitch"></block>
     <block type="stitching_Stitcher_workScale"></block>
-  </category>
-</category>
-<category name="contrib">
-  <category name="xfeatures2d">
-     <category name="nonfree">
-      <block type="xfeatures2d_SURF_create"></block>
-      <block type="xfeatures2d_SURF_setHessianThreshold"></block>
-      <block type="xfeatures2d_SURF_setNOctaves"></block>
-      <block type="xfeatures2d_SURF_setNOctaveLayers"></block>
-      <block type="xfeatures2d_SURF_setExtended"></block>
-      <block type="xfeatures2d_SURF_setUpright"></block>
-      <block type="xfeatures2d_SIFT_create"></block>
-    </category>
-    <block type="xfeatures2d_FREAK_create"></block>
-    <block type="xfeatures2d_LUCID_create"></block>
-    <block type="xfeatures2d_DAISY_create"></block>
-    <block type="xfeatures2d_LATCH_create"></block>
-    <block type="xfeatures2d_BriefDescriptorExtractor_create"></block>
-    <block type="xfeatures2d_StarDetector_create"></block>
-  </category>
-  <category name="bioinspired">
-    <category name="Retina">
-      <block type="bioinspired_RETINA_COLOR_RANDOM_createRetina"></block>
-      <block type="bioinspired_RETINA_COLOR_RANDOM_createRetinaFastToneMapping"></block>
-      <block type="bioinspired_RETINA_COLOR_RANDOM_createTransientAreasSegmentationModule"></block>
-      <block type="bioinspired_RetinaFastToneMapping_applyFastToneMapping"></block>
-      <block type="bioinspired_RetinaFastToneMapping_setup"></block>
-      <block type="bioinspired_Retina_setup"></block>
-      <block type="bioinspired_Retina_getParvo"></block>
-      <block type="bioinspired_Retina_getMagno"></block>
-      <block type="bioinspired_Retina_getParvoRAW"></block>
-      <block type="bioinspired_Retina_getMagnoRAW"></block>
-      <block type="bioinspired_Retina_setup"></block>
-      <block type="bioinspired_Retina_printSetup"></block>
-      <block type="bioinspired_Retina_setupOPLandIPLParvoChannel"></block>
-      <block type="bioinspired_Retina_setupIPLMagnoChannel"></block>
-      <block type="bioinspired_Retina_run"></block>
-      <block type="bioinspired_Retina_applyFastToneMapping"></block>
-      <block type="bioinspired_Retina_setColorSaturation"></block>
-      <block type="bioinspired_Retina_clearBuffers"></block>
-      <block type="bioinspired_Retina_activateMovingContoursProcessing"></block>
-      <block type="bioinspired_Retina_activateContoursProcessing"></block>
-    </category>
-    <category name="TransientAreas">
-      <block type="bioinspired_TransientAreasSegmentationModule_setup"></block>
-      <block type="bioinspired_TransientAreasSegmentationModule_printSetup"></block>
-      <block type="bioinspired_TransientAreasSegmentationModule_write"></block>
-      <block type="bioinspired_TransientAreasSegmentationModule_run"></block>
-      <block type="bioinspired_TransientAreasSegmentationModule_getSegmentationPicture"></block>
-      <block type="bioinspired_TransientAreasSegmentationModule_clearAllBuffers"></block>
-    </category>
-  </category>
-  <category name="bgsegm">
-    <category name="GMG">
-      <block type="bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorGMG"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setMaxFeatures"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setNumFrames"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setQuantizationLevels"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setBackgroundPrior"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setSmoothingRadius"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setDecisionThreshold"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setMinVal"></block>
-      <block type="bgsegm_BackgroundSubtractorGMG_setMaxVal"></block>
-    </category>
-    <category name="MOG">
-      <block type="bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorMOG"></block>
-      <block type="bgsegm_BackgroundSubtractorMOG_setHistory"></block>
-      <block type="bgsegm_BackgroundSubtractorMOG_setNMixtures"></block>
-      <block type="bgsegm_BackgroundSubtractorMOG_setBackgroundRatio"></block>
-      <block type="bgsegm_BackgroundSubtractorMOG_setNoiseSigma"></block>
-    </category>
-  </category>
-  <category name="face">
-   <category name="FaceRecognizer">
-    <block type="face_FaceRecognizer_train"></block>
-    <block type="face_FaceRecognizer_update"></block>
-    <block type="face_FaceRecognizer_predict"></block>
-    <block type="face_FaceRecognizer_save"></block>
-    <block type="face_FaceRecognizer_load"></block>
-    <block type="face_FaceRecognizer_setLabelInfo"></block>
-    <block type="face_FaceRecognizer_getLabelInfo"></block>
-    <block type="face_FaceRecognizer_getLabelsByString"></block>
-   </category>
-   <category name="Basic">
-    <block type="face_BasicFaceRecognizer_setNumComponents"></block>
-    <block type="face_BasicFaceRecognizer_setThreshold"></block>
-    <block type="face_BasicFaceRecognizer_getLabels"></block>
-    <block type="face_BasicFaceRecognizer_getEigenValues"></block>
-    <block type="face_BasicFaceRecognizer_getEigenVectors"></block>
-    <block type="face_BasicFaceRecognizer_getMean"></block>
-   </category>
-   <category name="LBPH">
-    <block type="face_LBPHFaceRecognizer_setGridX"></block>
-    <block type="face_LBPHFaceRecognizer_setGridY"></block>
-    <block type="face_LBPHFaceRecognizer_setRadius"></block>
-    <block type="face_LBPHFaceRecognizer_setNeighbors"></block>
-    <block type="face_LBPHFaceRecognizer_setThreshold"></block>
-    <block type="face_LBPHFaceRecognizer_getHistograms"></block>
-    <block type="face_LBPHFaceRecognizer_getLabels"></block>
-   </category>
-    <block type="face_createEigenFaceRecognizer_createEigenFaceRecognizer"></block>
-    <block type="face_createEigenFaceRecognizer_createFisherFaceRecognizer"></block>
-    <block type="face_createEigenFaceRecognizer_createLBPHFaceRecognizer"></block>
-  </category>
-  <category name="optflow">
-    <block type="optflow_calcOpticalFlowSF_calcOpticalFlowSF"></block>
-    <block type="optflow_calcOpticalFlowSF_readOpticalFlow"></block>
-    <block type="optflow_calcOpticalFlowSF_writeOpticalFlow"></block>
-    <block type="optflow_calcOpticalFlowSF_createOptFlow_DeepFlow"></block>
-    <block type="optflow_calcOpticalFlowSF_createOptFlow_SimpleFlow"></block>
-    <block type="optflow_calcOpticalFlowSF_createOptFlow_Farneback"></block>
-  </category>
-  <category name="ximgproc">
-    <block type="ximgproc_RFFeatureGetter_getFeatures"></block>
-    <block type="ximgproc_StructuredEdgeDetection_detectEdges"></block>
-    <block type="ximgproc_DTFilter_filter"></block>
-    <block type="ximgproc_AdaptiveManifoldFilter_filter"></block>
-    <block type="ximgproc_AdaptiveManifoldFilter_collectGarbage"></block>
-    <block type="ximgproc_AdaptiveManifoldFilter_create"></block>
-    <block type="ximgproc_SuperpixelSEEDS_iterate"></block>
-    <block type="ximgproc_SuperpixelSEEDS_getLabels"></block>
-    <block type="ximgproc_SuperpixelSEEDS_getLabelContourMask"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createSuperpixelSEEDS"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createDTFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_dtFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createGuidedFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_guidedFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createAMFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_amFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_jointBilateralFilter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createRFFeatureGetter"></block>
-    <block type="ximgproc_createSuperpixelSEEDS_createStructuredEdgeDetection"></block>
-    <block type="ximgproc_GuidedFilter_filter"></block>
   </category>
 </category>
 

@@ -17,6 +17,20 @@ A block belongs to exactly one world. `gen_blocks.py` refuses to run if a
 generated block type is also defined by hand, so converting a family means
 deleting the hand-written copies in the same commit.
 
+It also refuses to leave a toolbox naming a block that does not exist. Blockly
+throws `Unknown block type` while building a flyout, so one bad entry stops the
+whole category from opening, and everything nested under it with it. The check
+reads the `<script src>` list out of `ui/index.html` and collects every block
+type those files define -- the two `*_compressed.js` bundles,
+`block_definitions.js`, the thirty strays in `generator_stubs.js`, the OpenCV
+bindings under `jsCv/`, and this tool's own output -- so adding a script to the
+page is all it takes to have its blocks counted.
+
+A generated category with no blocks on a board is not written at all, which
+makes `toolboxes:` say where a category *may* appear: a family whose every
+block is `boards:`-restricted away from a board simply does not appear there,
+rather than opening on an empty flyout.
+
 ## Where it came from
 
 The design is Teknologiskolen/BIPES-Teknologiskolen @ `architecture`,

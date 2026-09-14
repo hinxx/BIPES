@@ -2584,8 +2584,6 @@
 <block type="machine.RTC_RTC.irq">
 </block>
 </category>
-<category name="machine.SDCard">
-</category>
 <category name="machine.SD">
 <block type="machine.SD_SD.init">
 </block>
@@ -2851,8 +2849,6 @@
 </category>
 <!-- /blockdef:sys -->
 <!-- blockdef:thread -->
-<category name="_thread">
-</category>
 <!-- /blockdef:thread -->
 <category name="uarray">
 <block type="uarray_append">
@@ -3016,8 +3012,6 @@
   <block type="uctypes_bytearray_at"></block>
 </category>
 <!-- /blockdef:uctypes -->
-<category name="uerrno">
-</category>
 <category name="uhashlib">
 <block type="uhashlib_hash.update">
 </block>
