@@ -1442,6 +1442,82 @@ Blockly.Blocks['esp32_cam_white_led'] = {
   }
 };
 
+// ---- esp32 (esp32mod.blockdef.yaml) ------------------------------------------
+
+Blockly.Blocks['esp32_wake_on_touch'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" wake_on_touch");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: wake_on_touch(wake) Configure whether or not a touch will wake the device from sleep. *wake* should be a gpio_get value. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_wake_on_ext0'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" wake_on_ext0");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: wake_on_ext0(pin, level) Configure how EXT0 wakes the device from sleep. *pin* can be ``None`` or a valid Pin object. *level* should be ``esp32.WAKEUP_ALL_LOW`` or ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_wake_on_ext1'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" wake_on_ext1");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: wake_on_ext1(pins, level) Configure how EXT1 wakes the device from sleep. *pins* can be ``None`` or a tuple/list of valid Pin objects. *level* should be ``esp32.WAKEUP_ALL_ ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_raw_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" raw_temperature");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: raw_temperature() Read the raw value of the internal temperature sensor, returning an integer. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_hall_sensor'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(" hall_sensor");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: hall_sensor() Read the raw value of the internal Hall sensor, returning an integer. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_idf_heap_info'] = {
+  init: function() {
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .appendField(" idf_heap_info");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: idf_heap_info(capabilities) Returns information about the ESP-IDF heap memory regions. One of them conta ins ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
 // ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
 
 Blockly.Blocks['file_open'] = {

@@ -737,6 +737,48 @@ Blockly.Python['esp32_cam_white_led'] = function(block) {
   return code + "\n";
 };
 
+// ---- esp32 (esp32mod.blockdef.yaml) ------------------------------------------
+
+Blockly.Python['esp32_wake_on_touch'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "esp32.wake_on_touch(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_wake_on_ext0'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "esp32.wake_on_ext0(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_wake_on_ext1'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "esp32.wake_on_ext1(" + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_raw_temperature'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "esp32.raw_temperature()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_hall_sensor'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "esp32.hall_sensor()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_idf_heap_info'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "esp32.idf_heap_info(" + pIn_ + ")";
+  return code + "\n";
+};
+
 // ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
 
 Blockly.Python['file_open'] = function(block) {

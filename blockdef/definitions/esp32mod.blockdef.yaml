@@ -1,0 +1,80 @@
+# The esp32 module's own six functions. Four of them -- `wake_on_touch`,
+# `wake_on_ext0`, `wake_on_ext1` and `idf_heap_info` -- had no `import esp32`,
+# and the two that are value blocks returned "esp32.x()\n", newline and all.
+#
+# The fourteen `Partition.*`, `RMT.*` and `ULP.*` blocks are the method-as-module
+# shape with no constructor block anywhere in the category to call them on, so
+# there is nothing to convert them *to* yet: they stay hand-written and appear
+# here as `external:` entries. `esp32_Partition.readblocks` and
+# `esp32_Partition.writeblocks` were listed twice in a row -- they are each
+# defined twice by hand as well -- and appear once.
+
+module: esp32
+colour: 0
+url: https://docs.micropython.org/en/latest/library/esp32.html
+import: {key: import_esp32, line: "import esp32"}
+
+category:
+  name: "esp32"
+  # esp32 the *board* has this category too, but inside a "blocks below need
+  # development" XML comment, so it is not offered there.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266, makernano,
+              makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+
+  - type: "esp32_wake_on_touch"
+    fn: wake_on_touch
+    label: []
+    tooltip: ".. function:: wake_on_touch(wake) Configure whether or not a touch will wake the device from sleep. *wake* should be a gpio_get value. "
+    params:
+      - {name: pIn, label: " wake_on_touch"}
+
+  - type: "esp32_wake_on_ext0"
+    fn: wake_on_ext0
+    label: []
+    tooltip: ".. function:: wake_on_ext0(pin, level) Configure how EXT0 wakes the device from sleep. *pin* can be ``None`` or a valid Pin object. *level* should be ``esp32.WAKEUP_ALL_LOW`` or "
+    params:
+      - {name: pIn, label: " wake_on_ext0"}
+
+  - type: "esp32_wake_on_ext1"
+    fn: wake_on_ext1
+    label: []
+    tooltip: ".. function:: wake_on_ext1(pins, level) Configure how EXT1 wakes the device from sleep. *pins* can be ``None`` or a tuple/list of valid Pin objects. *level* should be ``esp32.WAKEUP_ALL_ "
+    params:
+      - {name: pIn, label: " wake_on_ext1"}
+
+  - type: "esp32_raw_temperature"
+    fn: raw_temperature
+    kind: value
+    label: " raw_temperature"
+    tooltip: ".. function:: raw_temperature() Read the raw value of the internal temperature sensor, returning an integer. "
+
+  - type: "esp32_hall_sensor"
+    fn: hall_sensor
+    kind: value
+    label: " hall_sensor"
+    tooltip: ".. function:: hall_sensor() Read the raw value of the internal Hall sensor, returning an integer. "
+
+  - type: "esp32_idf_heap_info"
+    fn: idf_heap_info
+    label: []
+    tooltip: ".. function:: idf_heap_info(capabilities) Returns information about the ESP-IDF heap memory regions. One of them conta ins "
+    params:
+      - {name: pIn, label: " idf_heap_info"}
+
+  # Still hand-written: a method with no object to call it on.
+  - {type: "esp32_Partition.info", external: true}
+  - {type: "esp32_Partition.readblocks", external: true}
+  - {type: "esp32_Partition.writeblocks", external: true}
+  - {type: "esp32_Partition.ioctl", external: true}
+  - {type: "esp32_Partition.set_boot", external: true}
+  - {type: "esp32_Partition.get_next_update", external: true}
+  - {type: "esp32_RMT.source_freq", external: true}
+  - {type: "esp32_RMT.clock_div", external: true}
+  - {type: "esp32_RMT.wait_done", external: true}
+  - {type: "esp32_RMT.loop", external: true}
+  - {type: "esp32_RMT.write_pulses", external: true}
+  - {type: "esp32_ULP.set_wakeup_period", external: true}
+  - {type: "esp32_ULP.load_binary", external: true}
+  - {type: "esp32_ULP.run", external: true}
