@@ -1,0 +1,171 @@
+# `ubluetooth` -- the raw BLE API the docs describe, as opposed to BIPES' own
+# two Bluetooth families (the AmadoBoard's UART service and the Pico W's
+# terminal), which wrap it.
+#
+# Seventeen blocks of `ubluetooth.BLE.gap_advertise(...)`: the class rather
+# than an object, one untyped `pIn` socket for the whole argument list, and no
+# way to make a `BLE()` anywhere in the category. It gets a constructor block,
+# as `framebuf` and the `esp32` classes did.
+#
+# `gatts_register_services` becomes a value block. It hands back the handles of
+# every characteristic it just registered, and as a statement those went
+# nowhere -- which made the eight blocks that take a handle unusable, because
+# there was nothing to take a handle *from*.
+#
+# The handles, connection ids and UUID values are all numbers here rather than
+# sockets holding a tuple: what BLE actually wants is nested tuples of
+# `ubluetooth.UUID` objects, and that is a program, not a block. What these
+# blocks are good for is driving a service whose handles you already know.
+
+module: ubluetooth
+class: BLE
+instance: ble
+colour: 0
+url: https://docs.micropython.org/en/latest/library/bluetooth.html
+import: {key: import_ubluetooth, line: "import ubluetooth"}
+
+category:
+  name: ubluetooth
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: ubluetooth_BLE, label: BLE, code: "{instance} = ubluetooth.BLE()",
+     tooltip: "The Bluetooth radio. Everything else in this category runs on it."}
+
+  - type: ubluetooth_BLE.active
+    fn: active
+    label: BLE.active
+    tooltip: Turn the radio on or off. Nothing else works until it is on.
+    params:
+      - {name: active, label: radio, kind: dropdown,
+         options: [{on: "True"}, {off: "False"}]}
+
+  - type: ubluetooth_BLE.config
+    fn: config
+    kind: value
+    label: BLE.config
+    tooltip: Read one setting of the radio by name.
+    params:
+      - {name: param, label: setting, type: String, default: mac, align: right}
+
+  - type: ubluetooth_BLE.irq
+    fn: irq
+    label: BLE.irq
+    tooltip: The function BLE events are delivered to. It runs in interrupt context.
+    params:
+      - {name: handler, label: call, align: right}
+
+  - type: ubluetooth_BLE.gap_advertise
+    fn: gap_advertise
+    label: BLE.gap_advertise
+    tooltip: "Start advertising. An interval of 0 stops it."
+    params:
+      - {name: interval_us, label: "every (us)", type: Number, default: 500000, align: right}
+      - {name: adv_data,    label: payload, align: right}
+
+  - type: ubluetooth_BLE.gap_scan
+    fn: gap_scan
+    label: BLE.gap_scan
+    tooltip: "Scan for devices. Results arrive at the irq handler."
+    params:
+      - {name: duration_ms, label: "for (ms)",   type: Number, default: 2000,    align: right}
+      - {name: interval_us, label: "every (us)", type: Number, default: 1280000, align: right}
+      - {name: window_us,   label: "listening (us)", type: Number, default: 11250, align: right}
+
+  - type: ubluetooth_BLE.gatts_register_services
+    fn: gatts_register_services
+    kind: value
+    label: BLE.gatts_register_services
+    tooltip: Register the services this device offers, and hand back their handles.
+    params:
+      - {name: services_definition, label: services, align: right}
+
+  - type: ubluetooth_BLE.gatts_read
+    fn: gatts_read
+    kind: value
+    label: BLE.gatts_read
+    tooltip: Read what is in one of our own characteristics.
+    params:
+      - {name: value_handle, label: handle, type: Number, default: 0, align: right}
+
+  - type: ubluetooth_BLE.gatts_write
+    fn: gatts_write
+    label: BLE.gatts_write
+    tooltip: Write to one of our own characteristics.
+    params:
+      - {name: value_handle, label: handle, type: Number, default: 0, align: right}
+      - {name: data,         label: data,   type: String, default: hello, align: right}
+
+  - type: ubluetooth_BLE.gatts_notify
+    fn: gatts_notify
+    label: BLE.gatts_notify
+    tooltip: Tell a connected client that a characteristic has changed.
+    params:
+      - {name: conn_handle,  label: connection, type: Number, default: 0, align: right}
+      - {name: value_handle, label: handle,     type: Number, default: 0, align: right}
+
+  - type: ubluetooth_BLE.gatts_set_buffer
+    fn: gatts_set_buffer
+    label: BLE.gatts_set_buffer
+    tooltip: How many bytes one of our characteristics can hold.
+    params:
+      - {name: value_handle, label: handle, type: Number, default: 0,  align: right}
+      - {name: len,          label: bytes,  type: Number, default: 20, align: right}
+
+  - type: ubluetooth_BLE.gap_connect
+    fn: gap_connect
+    label: BLE.gap_connect
+    tooltip: Connect to a device found by scanning.
+    params:
+      - {name: addr_type, label: address type, type: Number, default: 0, align: right}
+      - {name: addr,      label: address,      align: right}
+
+  - type: ubluetooth_BLE.gap_disconnect
+    fn: gap_disconnect
+    label: BLE.gap_disconnect
+    tooltip: Drop one connection.
+    params:
+      - {name: conn_handle, label: connection, type: Number, default: 0, align: right}
+
+  - type: ubluetooth_BLE.gattc_discover_services
+    fn: gattc_discover_services
+    label: BLE.gattc_discover_services
+    tooltip: Ask a connected device what services it has.
+    params:
+      - {name: conn_handle, label: connection, type: Number, default: 0, align: right}
+
+  - type: ubluetooth_BLE.gattc_discover_characteristics
+    fn: gattc_discover_characteristics
+    label: BLE.gattc_discover_characteristics
+    tooltip: Ask about the characteristics in one range of handles.
+    params:
+      - {name: conn_handle,  label: connection, type: Number, default: 0,   align: right}
+      - {name: start_handle, label: from handle, type: Number, default: 1,   align: right}
+      - {name: end_handle,   label: to handle,   type: Number, default: 255, align: right}
+
+  - type: ubluetooth_BLE.gattc_discover_descriptors
+    fn: gattc_discover_descriptors
+    label: BLE.gattc_discover_descriptors
+    tooltip: Ask about the descriptors in one range of handles.
+    params:
+      - {name: conn_handle,  label: connection, type: Number, default: 0,   align: right}
+      - {name: start_handle, label: from handle, type: Number, default: 1,   align: right}
+      - {name: end_handle,   label: to handle,   type: Number, default: 255, align: right}
+
+  - type: ubluetooth_BLE.gattc_read
+    fn: gattc_read
+    label: BLE.gattc_read
+    tooltip: "Read a characteristic on a connected device. The answer arrives at the irq handler."
+    params:
+      - {name: conn_handle,  label: connection, type: Number, default: 0, align: right}
+      - {name: value_handle, label: handle,     type: Number, default: 0, align: right}
+
+  - type: ubluetooth_BLE.gattc_write
+    fn: gattc_write
+    label: BLE.gattc_write
+    tooltip: Write to a characteristic on a connected device.
+    params:
+      - {name: conn_handle,  label: connection, type: Number, default: 0, align: right}
+      - {name: value_handle, label: handle,     type: Number, default: 0, align: right}
+      - {name: data,         label: data,       type: String, default: hello, align: right}

@@ -1,0 +1,259 @@
+# The LCD160CR, a 160x128 touch display that plugs onto a pyboard skin
+# connector. Forty-five blocks, the largest hand-written family left, and every
+# one of them emitted `lcd160cr.LCD160CR.set_pixel(...)`: the class rather than
+# an object, under an `import lcd160cr` that is right, with one untyped `pIn`
+# socket standing for the whole argument list.
+#
+# The arguments were never a mystery -- each block's tooltip is the signature
+# from the docs, `.. method:: LCD160CR.rect(x, y, w, h)` -- so the conversion is
+# transcription plus the one thing the category never had: a block that makes
+# the object. `LCD160CR('X')` takes the skin position, which is what the pyboard
+# calls the connector the display is plugged into.
+#
+# Four blocks answer a question and are value blocks now: `get_pixel` and
+# `fast_spi` already were, and `is_touched` and `get_touch` join them -- as
+# statements, whether the screen was being touched went nowhere.
+#
+# Colours are the display's packed 16-bit values. `lcd.rgb(r, g, b)` makes one,
+# and there is no block for it, so the defaults here are the two that need no
+# arithmetic: 0 (black) and 65535 (white).
+
+module: lcd160cr
+class: LCD160CR
+instance: lcd
+colour: 0
+url: https://docs.micropython.org/en/latest/library/lcd160cr.html
+import: {key: import_lcd160cr, line: "import lcd160cr"}
+
+category:
+  name: lcd160cr
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: lcd160cr_LCD160CR
+    label: LCD160CR
+    tooltip: "The display, on the skin position it is plugged into."
+    code: "{instance} = lcd160cr.LCD160CR('{skin}')"
+    params:
+      - {name: skin, label: skin position, kind: dropdown,
+         options: [{X: X}, {Y: Y}, {XY: XY}, {YX: YX}]}
+
+  # --- the display itself ---------------------------------------------------
+
+  - {type: "lcd160cr_LCD160CR.set_power", fn: set_power, label: LCD160CR.set_power,
+     tooltip: "Turn the display on or off.",
+     params: [{name: on, label: power, kind: dropdown,
+               options: [{on: "True"}, {off: "False"}]}]}
+
+  - {type: "lcd160cr_LCD160CR.set_orient", fn: set_orient, label: LCD160CR.set_orient,
+     tooltip: "Which way up the display is.",
+     params: [{name: orient, label: orientation, kind: dropdown,
+               options: [{portrait: "lcd160cr.PORTRAIT"},
+                         {landscape: "lcd160cr.LANDSCAPE"},
+                         {"portrait, upside down": "lcd160cr.PORTRAIT_UPSIDEDOWN"},
+                         {"landscape, upside down": "lcd160cr.LANDSCAPE_UPSIDEDOWN"}]}]}
+
+  - {type: "lcd160cr_LCD160CR.set_brightness", fn: set_brightness,
+     label: LCD160CR.set_brightness, tooltip: "Backlight brightness, 0 to 31.",
+     params: [{name: value, label: brightness, type: Number, default: 31, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_i2c_addr", fn: set_i2c_addr, label: LCD160CR.set_i2c_addr,
+     tooltip: "Change the I2C address the display answers on.",
+     params: [{name: addr, label: address, type: Number, default: 98, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_uart_baudrate", fn: set_uart_baudrate,
+     label: LCD160CR.set_uart_baudrate, tooltip: "Change the serial speed.",
+     params: [{name: baudrate, label: baud rate, type: Number, default: 115200, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_startup_deco", fn: set_startup_deco,
+     label: LCD160CR.set_startup_deco, tooltip: "What the display shows as it starts.",
+     params: [{name: value, label: decoration, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.save_to_flash", fn: save_to_flash,
+     label: LCD160CR.save_to_flash,
+     tooltip: "Keep the current settings across a power cycle."}
+
+  - {type: "lcd160cr_LCD160CR.feed_wdt", fn: feed_wdt, label: LCD160CR.feed_wdt,
+     tooltip: Pat the display's watchdog so it does not reset.}
+
+  - {type: "lcd160cr_LCD160CR.reset", fn: reset, label: LCD160CR.reset,
+     tooltip: Reset the display.}
+
+  # --- pixels and text ------------------------------------------------------
+
+  - {type: "lcd160cr_LCD160CR.set_pixel", fn: set_pixel, label: LCD160CR.set_pixel,
+     tooltip: "Set one pixel to a colour.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right},
+              {name: c, label: colour, type: Number, default: 65535, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.get_pixel", fn: get_pixel, kind: value,
+     label: LCD160CR.get_pixel, tooltip: "The colour of one pixel.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.get_line", fn: get_line, label: LCD160CR.get_line,
+     tooltip: "Read a horizontal line of pixels into a buffer.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right},
+              {name: buf, label: into, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.screen_dump", fn: screen_dump, label: LCD160CR.screen_dump,
+     tooltip: "Read the whole screen into a buffer.",
+     params: [{name: buf, label: into, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.screen_load", fn: screen_load, label: LCD160CR.screen_load,
+     tooltip: "Write a whole screen from a buffer.",
+     params: [{name: buf, label: from, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_pos", fn: set_pos, label: LCD160CR.set_pos,
+     tooltip: "Where the next text goes.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_text_color", fn: set_text_color,
+     label: LCD160CR.set_text_color, tooltip: "Text and background colours.",
+     params: [{name: fg, label: text, type: Number, default: 65535, align: right},
+              {name: bg, label: background, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_font", fn: set_font, label: LCD160CR.set_font,
+     tooltip: "Which font, and how big.",
+     params: [{name: font, label: font, type: Number, default: 0, align: right},
+                {name: scale, label: scale, type: Number, default: 0, align: right},
+                {name: bold, label: bold, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.write", fn: write, label: LCD160CR.write,
+     tooltip: "Write text at the current position.",
+     params: [{name: s, label: text, type: String, default: Hello, align: right}]}
+
+  # --- drawing --------------------------------------------------------------
+
+  - {type: "lcd160cr_LCD160CR.set_pen", fn: set_pen, label: LCD160CR.set_pen,
+     tooltip: "The outline and fill colours the shape blocks draw with.",
+     params: [{name: line, label: outline, type: Number, default: 65535, align: right},
+              {name: fill, label: fill, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.erase", fn: erase, label: LCD160CR.erase,
+     tooltip: Clear the screen to the fill colour.}
+
+  - {type: "lcd160cr_LCD160CR.dot", fn: dot, label: LCD160CR.dot,
+     tooltip: "A dot in the outline colour.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.rect", fn: rect, label: LCD160CR.rect,
+     tooltip: "A rectangle, outlined and filled.",
+     params: &rect_params
+       [{name: x, label: x, type: Number, default: 0, align: right},
+        {name: y, label: y, type: Number, default: 0, align: right},
+        {name: w, label: width, type: Number, default: 64, align: right},
+        {name: h, label: height, type: Number, default: 32, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.rect_outline", fn: rect_outline, label: LCD160CR.rect_outline,
+     tooltip: "The outline of a rectangle.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.rect_interior", fn: rect_interior, label: LCD160CR.rect_interior,
+     tooltip: "The inside of a rectangle.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.line", fn: line, label: LCD160CR.line,
+     tooltip: "A line between two points.",
+     params: &line_params
+       [{name: x1, label: from x, type: Number, default: 0, align: right},
+        {name: y1, label: y, type: Number, default: 0, align: right},
+        {name: x2, label: to x, type: Number, default: 64, align: right},
+        {name: y2, label: y, type: Number, default: 32, align: right}]}
+
+  # The no-clip versions skip the bounds check, so anything off-screen is the
+  # caller's problem -- faster, and what the docs recommend once the
+  # coordinates are known to be inside.
+  - {type: "lcd160cr_LCD160CR.dot_no_clip", fn: dot_no_clip, label: LCD160CR.dot_no_clip,
+     tooltip: "A dot, with no bounds check.",
+     params: [{name: x, label: x, type: Number, default: 0, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.rect_no_clip", fn: rect_no_clip, label: LCD160CR.rect_no_clip,
+     tooltip: "A rectangle, with no bounds check.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.rect_outline_no_clip", fn: rect_outline_no_clip,
+     label: LCD160CR.rect_outline_no_clip,
+     tooltip: "A rectangle outline, with no bounds check.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.rect_interior_no_clip", fn: rect_interior_no_clip,
+     label: LCD160CR.rect_interior_no_clip,
+     tooltip: "A rectangle interior, with no bounds check.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.line_no_clip", fn: line_no_clip, label: LCD160CR.line_no_clip,
+     tooltip: "A line, with no bounds check.", params: *line_params}
+
+  - {type: "lcd160cr_LCD160CR.poly_dot", fn: poly_dot, label: LCD160CR.poly_dot,
+     tooltip: "A dot at each point of a coordinate array.",
+     params: [{name: data, label: points, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.poly_line", fn: poly_line, label: LCD160CR.poly_line,
+     tooltip: "A line through every point of a coordinate array.",
+     params: [{name: data, label: points, align: right}]}
+
+  # --- touch ----------------------------------------------------------------
+
+  - {type: "lcd160cr_LCD160CR.touch_config", fn: touch_config, label: LCD160CR.touch_config,
+     tooltip: "Calibrate the touch panel, and keep the calibration.",
+     params: [{name: calib, label: calibrate, kind: dropdown,
+               options: [{now: "True"}, {"leave it": "False"}]},
+              {name: save, label: save it, kind: dropdown,
+               options: [{yes: "True"}, {no: "False"}]}]}
+
+  - {type: "lcd160cr_LCD160CR.is_touched", fn: is_touched, kind: value,
+     label: LCD160CR.is_touched, tooltip: True while the screen is being touched.}
+
+  - {type: "lcd160cr_LCD160CR.get_touch", fn: get_touch, kind: value,
+     label: LCD160CR.get_touch,
+     tooltip: "Whether it is touched, and where: (active, x, y)."}
+
+  # --- SPI, scrolling and JPEG ---------------------------------------------
+
+  - {type: "lcd160cr_LCD160CR.set_spi_win", fn: set_spi_win, label: LCD160CR.set_spi_win,
+     tooltip: "The rectangle that fast SPI data is written into.", params: *rect_params}
+
+  - {type: "lcd160cr_LCD160CR.fast_spi", fn: fast_spi, kind: value,
+     label: LCD160CR.fast_spi,
+     tooltip: A raw SPI bus for writing pixels into the window as fast as it goes.}
+
+  - {type: "lcd160cr_LCD160CR.show_framebuf", fn: show_framebuf,
+     label: LCD160CR.show_framebuf, tooltip: "Show a framebuffer on the display.",
+     params: [{name: buf, label: buffer, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_scroll", fn: set_scroll, label: LCD160CR.set_scroll,
+     tooltip: "Turn scrolling on or off.",
+     params: [{name: on, label: scrolling, kind: dropdown,
+               options: [{on: "True"}, {off: "False"}]}]}
+
+  - {type: "lcd160cr_LCD160CR.set_scroll_win", fn: set_scroll_win,
+     label: LCD160CR.set_scroll_win, tooltip: "Configure one of the scrolling windows.",
+     params: [{name: win, label: window, type: Number, default: 0, align: right},
+              {name: x, label: x, type: Number, default: -1, align: right},
+              {name: y, label: y, type: Number, default: 0, align: right},
+              {name: w, label: width, type: Number, default: 0, align: right},
+              {name: h, label: height, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_scroll_win_param", fn: set_scroll_win_param,
+     label: LCD160CR.set_scroll_win_param, tooltip: "Change one setting of a scrolling window.",
+     params: [{name: win, label: window, type: Number, default: 0, align: right},
+              {name: param, label: setting, type: Number, default: 0, align: right},
+              {name: value, label: to, type: Number, default: 0, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.set_scroll_buf", fn: set_scroll_buf,
+     label: LCD160CR.set_scroll_buf, tooltip: "The text that scrolls in window 0.",
+     params: [{name: s, label: text, type: String, default: Hello, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.jpeg", fn: jpeg, label: LCD160CR.jpeg,
+     tooltip: "Draw a complete JPEG held in a buffer.",
+     params: [{name: buf, label: image, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.jpeg_start", fn: jpeg_start, label: LCD160CR.jpeg_start,
+     tooltip: "Begin a JPEG that arrives in pieces, this many bytes in total.",
+     params: [{name: total_len, label: total bytes, type: Number, default: 1024, align: right}]}
+
+  - {type: "lcd160cr_LCD160CR.jpeg_data", fn: jpeg_data, label: LCD160CR.jpeg_data,
+     tooltip: "The next piece of a JPEG begun with jpeg_start.",
+     params: [{name: buf, label: piece, align: right}]}

@@ -3827,6 +3827,890 @@ Blockly.Blocks['net_http_server_close'] = {
   }
 };
 
+// ---- lcd160cr (lcd160cr.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['lcd160cr_LCD160CR'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR");
+    this.appendDummyInput()
+        .appendField("skin position")
+        .appendField(new Blockly.FieldDropdown([["X", "X"], ["Y", "Y"], ["XY", "XY"], ["YX", "YX"]]), "skin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The display, on the skin position it is plugged into.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_power'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_power");
+    this.appendDummyInput()
+        .appendField("power")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "on");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn the display on or off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_orient'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_orient");
+    this.appendDummyInput()
+        .appendField("orientation")
+        .appendField(new Blockly.FieldDropdown([["portrait", "lcd160cr.PORTRAIT"], ["landscape", "lcd160cr.LANDSCAPE"], ["portrait, upside down", "lcd160cr.PORTRAIT_UPSIDEDOWN"], ["landscape, upside down", "lcd160cr.LANDSCAPE_UPSIDEDOWN"]]), "orient");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Which way up the display is.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_brightness'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_brightness");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("brightness");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Backlight brightness, 0 to 31.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_i2c_addr'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_i2c_addr");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Change the I2C address the display answers on.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_uart_baudrate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_uart_baudrate");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("baud rate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Change the serial speed.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_startup_deco'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_startup_deco");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("decoration");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("What the display shows as it starts.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.save_to_flash'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.save_to_flash");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Keep the current settings across a power cycle.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.feed_wdt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.feed_wdt");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Pat the display's watchdog so it does not reset.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.reset'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.reset");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Reset the display.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_pixel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_pixel");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set one pixel to a colour.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.get_pixel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.get_pixel");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The colour of one pixel.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.get_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.get_line");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read a horizontal line of pixels into a buffer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.screen_dump'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.screen_dump");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read the whole screen into a buffer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.screen_load'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.screen_load");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write a whole screen from a buffer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_pos'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_pos");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Where the next text goes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_text_color'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_text_color");
+    this.appendValueInput("fg")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("text");
+    this.appendValueInput("bg")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("background");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Text and background colours.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_font'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_font");
+    this.appendValueInput("font")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("font");
+    this.appendValueInput("scale")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("scale");
+    this.appendValueInput("bold")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bold");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Which font, and how big.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.write");
+    this.appendValueInput("s")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write text at the current position.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_pen'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_pen");
+    this.appendValueInput("line")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("outline");
+    this.appendValueInput("fill")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("fill");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The outline and fill colours the shape blocks draw with.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.erase'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.erase");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Clear the screen to the fill colour.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.dot'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.dot");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A dot in the outline colour.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A rectangle, outlined and filled.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect_outline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect_outline");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The outline of a rectangle.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect_interior'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect_interior");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The inside of a rectangle.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.line");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from x");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to x");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A line between two points.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.dot_no_clip'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.dot_no_clip");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A dot, with no bounds check.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect_no_clip'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect_no_clip");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A rectangle, with no bounds check.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect_outline_no_clip'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect_outline_no_clip");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A rectangle outline, with no bounds check.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.rect_interior_no_clip'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.rect_interior_no_clip");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A rectangle interior, with no bounds check.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.line_no_clip'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.line_no_clip");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from x");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to x");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A line, with no bounds check.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.poly_dot'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.poly_dot");
+    this.appendValueInput("data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("points");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A dot at each point of a coordinate array.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.poly_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.poly_line");
+    this.appendValueInput("data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("points");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A line through every point of a coordinate array.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.touch_config'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.touch_config");
+    this.appendDummyInput()
+        .appendField("calibrate")
+        .appendField(new Blockly.FieldDropdown([["now", "True"], ["leave it", "False"]]), "calib");
+    this.appendDummyInput()
+        .appendField("save it")
+        .appendField(new Blockly.FieldDropdown([["yes", "True"], ["no", "False"]]), "save");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Calibrate the touch panel, and keep the calibration.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.is_touched'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.is_touched");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("True while the screen is being touched.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.get_touch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.get_touch");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Whether it is touched, and where: (active, x, y).");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_spi_win'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_spi_win");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The rectangle that fast SPI data is written into.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.fast_spi'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.fast_spi");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("A raw SPI bus for writing pixels into the window as fast as it goes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.show_framebuf'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.show_framebuf");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Show a framebuffer on the display.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_scroll'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_scroll");
+    this.appendDummyInput()
+        .appendField("scrolling")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "on");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn scrolling on or off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_scroll_win'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_scroll_win");
+    this.appendValueInput("win")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("window");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Configure one of the scrolling windows.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_scroll_win_param'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_scroll_win_param");
+    this.appendValueInput("win")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("window");
+    this.appendValueInput("param")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("setting");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Change one setting of a scrolling window.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.set_scroll_buf'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.set_scroll_buf");
+    this.appendValueInput("s")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The text that scrolls in window 0.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.jpeg'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.jpeg");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("image");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Draw a complete JPEG held in a buffer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.jpeg_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.jpeg_start");
+    this.appendValueInput("total_len")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("total bytes");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Begin a JPEG that arrives in pieces, this many bytes in total.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+Blockly.Blocks['lcd160cr_LCD160CR.jpeg_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LCD160CR.jpeg_data");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("piece");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The next piece of a JPEG begun with jpeg_start.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
 // ---- Linux (linux.blockdef.yaml) ---------------------------------------------
 
 Blockly.Blocks['play_mp3'] = {
@@ -8981,6 +9865,344 @@ Blockly.Blocks['ubinascii_b2a_base64'] = {
     this.setColour(0);
     this.setTooltip(".. function:: b2a_base64(data) Encode binary data in base64 format, as in `RFC 3548 <https://tools.ietf.org/html/rfc3548.html>`_. Returns the encoded data ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubinascii.html");
+  }
+};
+
+// ---- ubluetooth (ubluetooth.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['ubluetooth_BLE'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The Bluetooth radio. Everything else in this category runs on it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.active'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.active");
+    this.appendDummyInput()
+        .appendField("radio")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "active");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn the radio on or off. Nothing else works until it is on.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.config'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.config");
+    this.appendValueInput("param")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("setting");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read one setting of the radio by name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.irq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.irq");
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The function BLE events are delivered to. It runs in interrupt context.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gap_advertise'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gap_advertise");
+    this.appendValueInput("interval_us")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("every (us)");
+    this.appendValueInput("adv_data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("payload");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start advertising. An interval of 0 stops it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gap_scan'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gap_scan");
+    this.appendValueInput("duration_ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("for (ms)");
+    this.appendValueInput("interval_us")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("every (us)");
+    this.appendValueInput("window_us")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("listening (us)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Scan for devices. Results arrive at the irq handler.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gatts_register_services'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gatts_register_services");
+    this.appendValueInput("services_definition")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("services");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Register the services this device offers, and hand back their handles.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gatts_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gatts_read");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read what is in one of our own characteristics.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gatts_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gatts_write");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("data")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("data");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write to one of our own characteristics.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gatts_notify'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gatts_notify");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Tell a connected client that a characteristic has changed.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gatts_set_buffer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gatts_set_buffer");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("len")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bytes");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("How many bytes one of our characteristics can hold.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gap_connect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gap_connect");
+    this.appendValueInput("addr_type")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address type");
+    this.appendValueInput("addr")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Connect to a device found by scanning.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gap_disconnect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gap_disconnect");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Drop one connection.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gattc_discover_services'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gattc_discover_services");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Ask a connected device what services it has.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gattc_discover_characteristics'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gattc_discover_characteristics");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.appendValueInput("start_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from handle");
+    this.appendValueInput("end_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to handle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Ask about the characteristics in one range of handles.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gattc_discover_descriptors'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gattc_discover_descriptors");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.appendValueInput("start_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from handle");
+    this.appendValueInput("end_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to handle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Ask about the descriptors in one range of handles.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gattc_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gattc_read");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read a characteristic on a connected device. The answer arrives at the irq handler.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
+  }
+};
+
+Blockly.Blocks['ubluetooth_BLE.gattc_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("BLE.gattc_write");
+    this.appendValueInput("conn_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("connection");
+    this.appendValueInput("value_handle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("data")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("data");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write to a characteristic on a connected device.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/bluetooth.html");
   }
 };
 

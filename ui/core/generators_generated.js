@@ -1911,6 +1911,369 @@ Blockly.Python['net_http_server_close'] = function(block) {
   return code + "\n";
 };
 
+// ---- lcd160cr (lcd160cr.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['lcd160cr_LCD160CR'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var skin_ = block.getFieldValue("skin");
+  var code = "lcd = lcd160cr.LCD160CR('" + skin_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_power'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var on_ = block.getFieldValue("on");
+  var code = "lcd.set_power(" + on_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_orient'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var orient_ = block.getFieldValue("orient");
+  var code = "lcd.set_orient(" + orient_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_brightness'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_brightness(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_i2c_addr'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_i2c_addr(" + addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_uart_baudrate'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_uart_baudrate(" + baudrate_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_startup_deco'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_startup_deco(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.save_to_flash'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.save_to_flash()";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.feed_wdt'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.feed_wdt()";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.reset'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.reset()";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_pixel'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_pixel(" + x_ + ", " + y_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.get_pixel'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.get_pixel(" + x_ + ", " + y_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['lcd160cr_LCD160CR.get_line'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.get_line(" + x_ + ", " + y_ + ", " + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.screen_dump'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.screen_dump(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.screen_load'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.screen_load(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_pos'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_pos(" + x_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_text_color'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var fg_ = Blockly.Python.valueToCode(block, "fg", Blockly.Python.ORDER_ATOMIC);
+  var bg_ = Blockly.Python.valueToCode(block, "bg", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_text_color(" + fg_ + ", " + bg_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_font'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var font_ = Blockly.Python.valueToCode(block, "font", Blockly.Python.ORDER_ATOMIC);
+  var scale_ = Blockly.Python.valueToCode(block, "scale", Blockly.Python.ORDER_ATOMIC);
+  var bold_ = Blockly.Python.valueToCode(block, "bold", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_font(" + font_ + ", " + scale_ + ", " + bold_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.write'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var s_ = Blockly.Python.valueToCode(block, "s", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.write(" + s_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_pen'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var line_ = Blockly.Python.valueToCode(block, "line", Blockly.Python.ORDER_ATOMIC);
+  var fill_ = Blockly.Python.valueToCode(block, "fill", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_pen(" + line_ + ", " + fill_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.erase'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.erase()";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.dot'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.dot(" + x_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect_outline'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect_outline(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect_interior'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect_interior(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.line'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.line(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.dot_no_clip'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.dot_no_clip(" + x_ + ", " + y_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect_no_clip'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect_no_clip(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect_outline_no_clip'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect_outline_no_clip(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.rect_interior_no_clip'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.rect_interior_no_clip(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.line_no_clip'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.line_no_clip(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.poly_dot'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.poly_dot(" + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.poly_line'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.poly_line(" + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.touch_config'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var calib_ = block.getFieldValue("calib");
+  var save_ = block.getFieldValue("save");
+  var code = "lcd.touch_config(" + calib_ + ", " + save_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.is_touched'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.is_touched()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['lcd160cr_LCD160CR.get_touch'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.get_touch()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_spi_win'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_spi_win(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.fast_spi'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var code = "lcd.fast_spi()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['lcd160cr_LCD160CR.show_framebuf'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.show_framebuf(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_scroll'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var on_ = block.getFieldValue("on");
+  var code = "lcd.set_scroll(" + on_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_scroll_win'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var win_ = Blockly.Python.valueToCode(block, "win", Blockly.Python.ORDER_ATOMIC);
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_scroll_win(" + win_ + ", " + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_scroll_win_param'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var win_ = Blockly.Python.valueToCode(block, "win", Blockly.Python.ORDER_ATOMIC);
+  var param_ = Blockly.Python.valueToCode(block, "param", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_scroll_win_param(" + win_ + ", " + param_ + ", " + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.set_scroll_buf'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var s_ = Blockly.Python.valueToCode(block, "s", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.set_scroll_buf(" + s_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.jpeg'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.jpeg(" + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.jpeg_start'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var total_len_ = Blockly.Python.valueToCode(block, "total_len", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.jpeg_start(" + total_len_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lcd160cr_LCD160CR.jpeg_data'] = function(block) {
+  Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "lcd.jpeg_data(" + buf_ + ")";
+  return code + "\n";
+};
+
 // ---- Linux (linux.blockdef.yaml) ---------------------------------------------
 
 Blockly.Python['play_mp3'] = function(block) {
@@ -4540,6 +4903,147 @@ Blockly.Python['ubinascii_b2a_base64'] = function(block) {
   Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "ubinascii.b2a_base64(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- ubluetooth (ubluetooth.blockdef.yaml) -----------------------------------
+
+Blockly.Python['ubluetooth_BLE'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var code = "ble = ubluetooth.BLE()";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.active'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var active_ = block.getFieldValue("active");
+  var code = "ble.active(" + active_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.config'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var param_ = Blockly.Python.valueToCode(block, "param", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.config(" + param_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ubluetooth_BLE.irq'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.irq(" + handler_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gap_advertise'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var interval_us_ = Blockly.Python.valueToCode(block, "interval_us", Blockly.Python.ORDER_ATOMIC);
+  var adv_data_ = Blockly.Python.valueToCode(block, "adv_data", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gap_advertise(" + interval_us_ + ", " + adv_data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gap_scan'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var duration_ms_ = Blockly.Python.valueToCode(block, "duration_ms", Blockly.Python.ORDER_ATOMIC);
+  var interval_us_ = Blockly.Python.valueToCode(block, "interval_us", Blockly.Python.ORDER_ATOMIC);
+  var window_us_ = Blockly.Python.valueToCode(block, "window_us", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gap_scan(" + duration_ms_ + ", " + interval_us_ + ", " + window_us_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gatts_register_services'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var services_definition_ = Blockly.Python.valueToCode(block, "services_definition", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gatts_register_services(" + services_definition_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ubluetooth_BLE.gatts_read'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gatts_read(" + value_handle_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ubluetooth_BLE.gatts_write'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gatts_write(" + value_handle_ + ", " + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gatts_notify'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gatts_notify(" + conn_handle_ + ", " + value_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gatts_set_buffer'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var len_ = Blockly.Python.valueToCode(block, "len", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gatts_set_buffer(" + value_handle_ + ", " + len_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gap_connect'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var addr_type_ = Blockly.Python.valueToCode(block, "addr_type", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gap_connect(" + addr_type_ + ", " + addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gap_disconnect'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gap_disconnect(" + conn_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gattc_discover_services'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gattc_discover_services(" + conn_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gattc_discover_characteristics'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var start_handle_ = Blockly.Python.valueToCode(block, "start_handle", Blockly.Python.ORDER_ATOMIC);
+  var end_handle_ = Blockly.Python.valueToCode(block, "end_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gattc_discover_characteristics(" + conn_handle_ + ", " + start_handle_ + ", " + end_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gattc_discover_descriptors'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var start_handle_ = Blockly.Python.valueToCode(block, "start_handle", Blockly.Python.ORDER_ATOMIC);
+  var end_handle_ = Blockly.Python.valueToCode(block, "end_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gattc_discover_descriptors(" + conn_handle_ + ", " + start_handle_ + ", " + end_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gattc_read'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gattc_read(" + conn_handle_ + ", " + value_handle_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ubluetooth_BLE.gattc_write'] = function(block) {
+  Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
+  var conn_handle_ = Blockly.Python.valueToCode(block, "conn_handle", Blockly.Python.ORDER_ATOMIC);
+  var value_handle_ = Blockly.Python.valueToCode(block, "value_handle", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "ble.gattc_write(" + conn_handle_ + ", " + value_handle_ + ", " + data_ + ")";
   return code + "\n";
 };
 

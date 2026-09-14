@@ -1241,631 +1241,138 @@ Blockly.Blocks['control_pid.__init__'] = {
 
 
 
-Blockly.Blocks["lcd160cr_LCD160CR.set_power"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_power");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_power(on) Turn the display on or off, depending on the given value of *on*: 0 or ``Fal se`` ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_orient"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_orient");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_orient(orient) Set the orientation of the display. The *orient* parameter can be one of `PORTRAIT`, `LANDSCAPE`, `PORTRAIT_UPSIDEDOWN`, `LANDSCAPE_UPSIDEDOWN`. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_brightness"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_brightness");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_brightness(value) Set the brightness of the display, between 0 and 31. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_i2c_addr"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_i2c_addr");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_i2c_addr(addr) Set the I2C address of the display. The *addr* value must have the lower 2 bits cleared. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_uart_baudrate"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_uart_baudrate");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_uart_baudrate(baudrate) Set the baudrate of the UART interface. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_startup_deco"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_startup_deco");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_startup_deco(value) Set the start-up decoration of the display. The *value* parameter can be a logical or of `STARTUP_DECO_NONE`, `STARTUP_DECO_MLOGO`, `STARTUP_DECO_INFO` ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.save_to_flash"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.save_to_flash");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.save_to_flash() Save the following parameters to flash so they persist on restart and power up: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_pixel"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_pixel");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_pixel(x, y, c) Set the specified pixel to the given color. The color should be a 16-bit integer and can be created by :meth:`LCD160CR.rgb`. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.get_pixel"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.get_pixel");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: LCD160CR.get_pixel(x, y) Get the 16-bit value of the specified pixel. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.get_line"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.get_line");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.get_line(x, y, buf) Low-level method to get a line of pixels into the given buffer. To read block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js onlyfunctions.txt pixels *buf* should be *2*n+1* bytes in length. The first byte ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.screen_dump"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.screen_dump");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.screen_dump(buf, x=0, y=0, w=None, h=None) Dump the contents of the screen to the given buffer. The parameters functions.txt list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml and onlyfunctions.txt ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.screen_load"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.screen_load");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.screen_load(buf) Load the entire screen from the given buffer. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_pos"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_pos");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_pos(x, y) Set the position for text output using :meth:`LCD160CR.write`. The position is the upper-left corner of the text. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_text_color"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_text_color");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_text_color(fg, bg) Set the foreground and background color of the text. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_font"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_font");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_font(font, scale=0, bold=0, trans=0, scroll=0) Set the font for the text. Subsequent calls to `write` will use the newly configured font. The parameters are: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.write(s) Write text to the display, using the current position, color and font. As text is written the position is automatically incremented. The ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_pen"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_pen");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_pen(line, fill) Set the line and fill color for primitive shapes. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.erase"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.erase");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.erase() Erase the entire display to the pen fill color. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.dot"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.dot");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.dot(x, y) Draw a single pixel at the given location using the pen line color. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect(x, y, w, h) .. method:: LCD160CR.rect_outline(x, y, w, h) .. method:: LCD160CR.rect_interior(x, y, w, h) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect_outline"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect_outline");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect_outline(x, y, w, h) .. method:: LCD160CR.rect_interior(x, y, w, h) Draw a rectangle at the given location and size using the pen line ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect_interior"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect_interior");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect_interior(x, y, w, h) Draw a rectangle at the given location and size using the pen line color for the outline, and the pen fill color for the interior. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.line"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.line");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.line(x1, y1, x2, y2) Draw a line between the given coordinates using the pen line color. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.dot_no_clip"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.dot_no_clip");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.dot_no_clip(x, y) .. method:: LCD160CR.rect_no_clip(x, y, w, h) .. method:: LCD160CR.rect_outline_no_clip(x, y, w, h) .. method:: LCD160CR.rect_interior_no_clip(x, y, w, h) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect_no_clip"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect_no_clip");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect_no_clip(x, y, w, h) .. method:: LCD160CR.rect_outline_no_clip(x, y, w, h) .. method:: LCD160CR.rect_interior_no_clip(x, y, w, h) .. method:: LCD160CR.line_no_clip(x1, y1, x2, y2) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect_outline_no_clip"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect_outline_no_clip");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect_outline_no_clip(x, y, w, h) .. method:: LCD160CR.rect_interior_no_clip(x, y, w, h) .. method:: LCD160CR.line_no_clip(x1, y1, x2, y2) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.rect_interior_no_clip"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.rect_interior_no_clip");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.rect_interior_no_clip(x, y, w, h) .. method:: LCD160CR.line_no_clip(x1, y1, x2, y2) These methods are as above but don't do any clipping on the input ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.line_no_clip"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.line_no_clip");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.line_no_clip(x1, y1, x2, y2) These methods are as above but don't do any clipping on the input coordinates. They are faster than the clipping versions and can be ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.poly_dot"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.poly_dot");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.poly_dot(data) Draw a sequence of dots using the pen line color. The *data* should be a buffer of bytes, with each successive pair of ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.poly_line"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.poly_line");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.poly_line(data) Similar to :meth:`LCD160CR.poly_dot` but draws lines between the dots. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.touch_config"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.touch_config");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.touch_config(calib=False, save=False, irq=None) Configure the touch panel: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.is_touched"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.is_touched");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.is_touched() Returns a boolean: ``True`` if there is currently a touch force on the scree n, ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.get_touch"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.get_touch");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.get_touch() Returns a 3-tuple of: *(active, x, y)*. If there is currently a touch force on the screen then *active* is 1, otherwise it is 0. The functions.txt list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml and onlyfunctions.txt values ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_spi_win"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_spi_win");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_spi_win(x, y, w, h) Set the window that SPI data is written to. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.fast_spi"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.fast_spi");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: LCD160CR.fast_spi(flush=True) Ready the display to accept RGB pixel data on the SPI bus, resetting the loc ation ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.show_framebuf"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.show_framebuf");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.show_framebuf(buf) Show the given buffer on the display. *buf* should be an array of bytes con taining ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_scroll"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_scroll");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_scroll(on) Turn scrolling on or off. This controls globally whether any window regions will ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_scroll_win"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_scroll_win");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_scroll_win(win, x=-1, y=0, w=0, h=0, vec=0, pat=0, fill =0x07e0, color=0) Configure a window region for scrolling: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_scroll_win_param"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_scroll_win_param");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_scroll_win_param(win, param, value) Set a single parameter of a scrolling window region: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.set_scroll_buf"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.set_scroll_buf");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.set_scroll_buf(s) Set the string for scrolling in window 8. The parameter block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt toolbox.js toolbox.xml.sample toolbox_custom.xml must be a strin g ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.jpeg"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.jpeg");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.jpeg(buf) Display a JPEG. *buf* should contain the entire JPEG data. JPEG data should not include EXIF information. The following encodings are supported: Baselin ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.jpeg_start"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.jpeg_start");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.jpeg_start(total_len) .. method:: LCD160CR.jpeg_data(buf) Display a JPEG with the data split across multiple buffers. There must be ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.jpeg_data"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" LCD160CR.jpeg_data");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.jpeg_data(buf) Display a JPEG with the data split across multiple buffers. There must be a single call to `jpeg_start` to begin with, specifying the total number of ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.feed_wdt"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.feed_wdt");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.feed_wdt() The first call to this method will start the display's internal watchdog timer. Subsequent calls will feed the watchdog. The timeout is roughly 30 ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
-
-
-
-Blockly.Blocks["lcd160cr_LCD160CR.reset"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" LCD160CR.reset");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: LCD160CR.reset() Reset the display. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2982,239 +2489,54 @@ Blockly.Blocks["uasyncio_Loop.call_exception_handler"] = {
 
 
 
-Blockly.Blocks["ubluetooth_BLE.active"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.active");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.config"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.config");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: BLE.config('param') BLE.config(param=value, ...) Get or set configuration values of the BLE interface. To get a value the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.irq"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.irq");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.irq(handler, trigger=0xffff) Registers a callback for events from the BLE stack. The *handler* takes two arguments, ``event`` (which will be one of the codes below) and ``data`` ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gap_advertise"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gap_advertise");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gap_advertise(interval_us, adv_data=None, resp_data=None, connec table=True) Starts advertising at the specified interval (in **micro**\ seconds). This ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gap_scan"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gap_scan");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gatts_register_services"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gatts_register_services");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gatts_register_services(services_definition) Configures the peripheral with the specified services, replacing any existing services. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gatts_read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gatts_read");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: BLE.gatts_read(value_handle) Reads the local value for this handle (which has either been written by :meth:`gatts_write <BLE.gatts_write>` or by a remote central). ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gatts_write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gatts_write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gatts_write(value_handle, data) Writes the local value for this handle, which can be read by a central. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gatts_notify"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gatts_notify");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gatts_set_buffer"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gatts_set_buffer");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gatts_set_buffer(value_handle, len, append=False, /) Sets the internal buffer size for a value in bytes. This will limit the largest possible write that can be received. The default is 20. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gap_connect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gap_connect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gap_connect(addr_type, addr, scan_duration_ms=2000, /) Connect to a peripheral. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gap_disconnect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gap_disconnect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gap_disconnect(conn_handle) Disconnect the specified connection handle. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gattc_discover_services"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gattc_discover_services");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gattc_discover_services(conn_handle) Query a connected peripheral for its services. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gattc_discover_characteristics"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gattc_discover_characteristics");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gattc_discover_characteristics(conn_handle, start_handle, end_ha ndle) Query a connected peripheral for characteristics in the specified range. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gattc_discover_descriptors"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gattc_discover_descriptors");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gattc_discover_descriptors(conn_handle, start_handle, end_handle ) Query a connected peripheral for descriptors in the specified range. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gattc_read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gattc_read");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gattc_read(conn_handle, value_handle) Issue a remote read to a connected peripheral for the specified characteristic or descriptor handle. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 
-Blockly.Blocks["ubluetooth_BLE.gattc_write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" BLE.gattc_write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: BLE.gattc_write(conn_handle, value_handle, data, mode=0, /) Issue a remote write to a connected peripheral for the specified characteristic or descriptor handle. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/ubluetooth.html");
-  }
-};
 
 
 

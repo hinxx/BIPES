@@ -3657,98 +3657,484 @@
   <block type="gc_threshold"></block>
 </category>
 <!-- /blockdef:gc -->
+<!-- blockdef:lcd160cr -->
 <category name="lcd160cr">
-<block type="lcd160cr_LCD160CR.set_power">
-</block>
-<block type="lcd160cr_LCD160CR.set_orient">
-</block>
-<block type="lcd160cr_LCD160CR.set_brightness">
-</block>
-<block type="lcd160cr_LCD160CR.set_i2c_addr">
-</block>
-<block type="lcd160cr_LCD160CR.set_uart_baudrate">
-</block>
-<block type="lcd160cr_LCD160CR.set_startup_deco">
-</block>
-<block type="lcd160cr_LCD160CR.save_to_flash">
-</block>
-<block type="lcd160cr_LCD160CR.set_pixel">
-</block>
-<block type="lcd160cr_LCD160CR.get_pixel">
-</block>
-<block type="lcd160cr_LCD160CR.get_line">
-</block>
-<block type="lcd160cr_LCD160CR.screen_dump">
-</block>
-<block type="lcd160cr_LCD160CR.screen_load">
-</block>
-<block type="lcd160cr_LCD160CR.set_pos">
-</block>
-<block type="lcd160cr_LCD160CR.set_text_color">
-</block>
-<block type="lcd160cr_LCD160CR.set_font">
-</block>
-<block type="lcd160cr_LCD160CR.write">
-</block>
-<block type="lcd160cr_LCD160CR.set_pen">
-</block>
-<block type="lcd160cr_LCD160CR.erase">
-</block>
-<block type="lcd160cr_LCD160CR.dot">
-</block>
-<block type="lcd160cr_LCD160CR.rect">
-</block>
-<block type="lcd160cr_LCD160CR.rect_outline">
-</block>
-<block type="lcd160cr_LCD160CR.rect_interior">
-</block>
-<block type="lcd160cr_LCD160CR.line">
-</block>
-<block type="lcd160cr_LCD160CR.dot_no_clip">
-</block>
-<block type="lcd160cr_LCD160CR.rect_no_clip">
-</block>
-<block type="lcd160cr_LCD160CR.rect_outline_no_clip">
-</block>
-<block type="lcd160cr_LCD160CR.rect_interior_no_clip">
-</block>
-<block type="lcd160cr_LCD160CR.line_no_clip">
-</block>
-<block type="lcd160cr_LCD160CR.poly_dot">
-</block>
-<block type="lcd160cr_LCD160CR.poly_line">
-</block>
-<block type="lcd160cr_LCD160CR.touch_config">
-</block>
-<block type="lcd160cr_LCD160CR.is_touched">
-</block>
-<block type="lcd160cr_LCD160CR.get_touch">
-</block>
-<block type="lcd160cr_LCD160CR.set_spi_win">
-</block>
-<block type="lcd160cr_LCD160CR.fast_spi">
-</block>
-<block type="lcd160cr_LCD160CR.show_framebuf">
-</block>
-<block type="lcd160cr_LCD160CR.set_scroll">
-</block>
-<block type="lcd160cr_LCD160CR.set_scroll_win">
-</block>
-<block type="lcd160cr_LCD160CR.set_scroll_win_param">
-</block>
-<block type="lcd160cr_LCD160CR.set_scroll_buf">
-</block>
-<block type="lcd160cr_LCD160CR.jpeg">
-</block>
-<block type="lcd160cr_LCD160CR.jpeg_start">
-</block>
-<block type="lcd160cr_LCD160CR.jpeg_data">
-</block>
-<block type="lcd160cr_LCD160CR.feed_wdt">
-</block>
-<block type="lcd160cr_LCD160CR.reset">
-</block>
+
+  <block type="lcd160cr_LCD160CR"></block>
+
+  <block type="lcd160cr_LCD160CR.set_power"></block>
+
+  <block type="lcd160cr_LCD160CR.set_orient"></block>
+
+  <block type="lcd160cr_LCD160CR.set_brightness">
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">31</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_i2c_addr">
+    <value name="addr">
+      <shadow type="math_number">
+        <field name="NUM">98</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_uart_baudrate">
+    <value name="baudrate">
+      <shadow type="math_number">
+        <field name="NUM">115200</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_startup_deco">
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.save_to_flash"></block>
+
+  <block type="lcd160cr_LCD160CR.feed_wdt"></block>
+
+  <block type="lcd160cr_LCD160CR.reset"></block>
+
+  <block type="lcd160cr_LCD160CR.set_pixel">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">65535</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.get_pixel">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.get_line">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.screen_dump"></block>
+
+  <block type="lcd160cr_LCD160CR.screen_load"></block>
+
+  <block type="lcd160cr_LCD160CR.set_pos">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_text_color">
+    <value name="fg">
+      <shadow type="math_number">
+        <field name="NUM">65535</field>
+      </shadow>
+    </value>
+    <value name="bg">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_font">
+    <value name="font">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="scale">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="bold">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.write">
+    <value name="s">
+      <shadow type="text">
+        <field name="TEXT">Hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_pen">
+    <value name="line">
+      <shadow type="math_number">
+        <field name="NUM">65535</field>
+      </shadow>
+    </value>
+    <value name="fill">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.erase"></block>
+
+  <block type="lcd160cr_LCD160CR.dot">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect_outline">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect_interior">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.line">
+    <value name="x1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="x2">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="y2">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.dot_no_clip">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect_no_clip">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect_outline_no_clip">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.rect_interior_no_clip">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.line_no_clip">
+    <value name="x1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="x2">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="y2">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.poly_dot"></block>
+
+  <block type="lcd160cr_LCD160CR.poly_line"></block>
+
+  <block type="lcd160cr_LCD160CR.touch_config"></block>
+
+  <block type="lcd160cr_LCD160CR.is_touched"></block>
+
+  <block type="lcd160cr_LCD160CR.get_touch"></block>
+
+  <block type="lcd160cr_LCD160CR.set_spi_win">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.fast_spi"></block>
+
+  <block type="lcd160cr_LCD160CR.show_framebuf"></block>
+
+  <block type="lcd160cr_LCD160CR.set_scroll"></block>
+
+  <block type="lcd160cr_LCD160CR.set_scroll_win">
+    <value name="win">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">-1</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_scroll_win_param">
+    <value name="win">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="param">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.set_scroll_buf">
+    <value name="s">
+      <shadow type="text">
+        <field name="TEXT">Hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.jpeg"></block>
+
+  <block type="lcd160cr_LCD160CR.jpeg_start">
+    <value name="total_len">
+      <shadow type="math_number">
+        <field name="NUM">1024</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="lcd160cr_LCD160CR.jpeg_data"></block>
 </category>
+<!-- /blockdef:lcd160cr -->
 <!-- blockdef:machine_adc -->
 <category name="machine.ADC">
 
@@ -4415,42 +4801,190 @@
   <block type="ubinascii_b2a_base64"></block>
 </category>
 <!-- /blockdef:ubinascii -->
+<!-- blockdef:ubluetooth -->
 <category name="ubluetooth">
-<block type="ubluetooth_BLE.active">
-</block>
-<block type="ubluetooth_BLE.config">
-</block>
-<block type="ubluetooth_BLE.irq">
-</block>
-<block type="ubluetooth_BLE.gap_advertise">
-</block>
-<block type="ubluetooth_BLE.gap_scan">
-</block>
-<block type="ubluetooth_BLE.gatts_register_services">
-</block>
-<block type="ubluetooth_BLE.gatts_read">
-</block>
-<block type="ubluetooth_BLE.gatts_write">
-</block>
-<block type="ubluetooth_BLE.gatts_notify">
-</block>
-<block type="ubluetooth_BLE.gatts_set_buffer">
-</block>
-<block type="ubluetooth_BLE.gap_connect">
-</block>
-<block type="ubluetooth_BLE.gap_disconnect">
-</block>
-<block type="ubluetooth_BLE.gattc_discover_services">
-</block>
-<block type="ubluetooth_BLE.gattc_discover_characteristics">
-</block>
-<block type="ubluetooth_BLE.gattc_discover_descriptors">
-</block>
-<block type="ubluetooth_BLE.gattc_read">
-</block>
-<block type="ubluetooth_BLE.gattc_write">
-</block>
+
+  <block type="ubluetooth_BLE"></block>
+
+  <block type="ubluetooth_BLE.active"></block>
+
+  <block type="ubluetooth_BLE.config">
+    <value name="param">
+      <shadow type="text">
+        <field name="TEXT">mac</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.irq"></block>
+
+  <block type="ubluetooth_BLE.gap_advertise">
+    <value name="interval_us">
+      <shadow type="math_number">
+        <field name="NUM">500000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_scan">
+    <value name="duration_ms">
+      <shadow type="math_number">
+        <field name="NUM">2000</field>
+      </shadow>
+    </value>
+    <value name="interval_us">
+      <shadow type="math_number">
+        <field name="NUM">1280000</field>
+      </shadow>
+    </value>
+    <value name="window_us">
+      <shadow type="math_number">
+        <field name="NUM">11250</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_register_services"></block>
+
+  <block type="ubluetooth_BLE.gatts_read">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_write">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_notify">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_set_buffer">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="len">
+      <shadow type="math_number">
+        <field name="NUM">20</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_connect">
+    <value name="addr_type">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_disconnect">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_services">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_characteristics">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="start_handle">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+    <value name="end_handle">
+      <shadow type="math_number">
+        <field name="NUM">255</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_descriptors">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="start_handle">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+    <value name="end_handle">
+      <shadow type="math_number">
+        <field name="NUM">255</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_read">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_write">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
 </category>
+<!-- /blockdef:ubluetooth -->
 <!-- blockdef:ucollections -->
 <category name="ucollections">
 
