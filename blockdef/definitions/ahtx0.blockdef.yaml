@@ -1,0 +1,43 @@
+# AHT10/AHT20 temperature and humidity sensor. The dropdown picks the class.
+
+module: ahtx0
+instance: ahtx0
+colour: 230
+url: http://www.bipes.net.br
+import: {line: "import ahtx0", key: import_ahtx0}
+
+category:
+  name: AHT10/20 Sensor
+  library: ahtx0
+  labels:
+    - "Library: https://github.com/targetblank/micropython_ahtx0"
+    - AHT10/20 Temperature and Humidity Sensor
+  toolboxes: [rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+  defaults:
+    rpi_pico:   {sda: 0, scl: 1}
+    rpi_pico_w: {sda: 0, scl: 1}
+    makernano:  {sda: 0, scl: 1}
+    makerpi:    {sda: 0, scl: 1}
+    3pi_2040:   {sda: 0, scl: 1}
+
+blocks:
+  - type: aht_init
+    label:
+      - {image: {src: media/aht20.JPG, width: 55, height: 55}, msg: aht_init}
+      - Init AHTx0 Sensor
+    tooltip: Init AHT10 or AHT20 sensor
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: "{instance}=ahtx0.{AHT_TYPE}({bus})"
+    params:
+      - name: AHT_TYPE
+        label: {msg: type}
+        kind: dropdown
+        options: [AHT10, AHT20]
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+
+  - {type: aht_read_temp, attr: temperature, kind: value,
+     label: Read Temperature (Degrees C), tooltip: Read AHT10/20 Temperature}
+  - {type: aht_read_humidity, attr: relative_humidity, kind: value,
+     label: Read Humidity, tooltip: Read AHT10/20 Humidity}

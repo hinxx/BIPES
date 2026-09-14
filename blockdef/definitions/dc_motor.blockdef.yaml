@@ -1,0 +1,60 @@
+# Brushed DC motor on an H-bridge: one PWM pin for speed, two for direction.
+
+module: machine
+colour: 135
+import: []
+
+category:
+  name: DC Motor
+  labels: [DC Motor]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard, default]
+
+blocks:
+  - type: dc_motor_init
+    label:
+      - Init DC Motor
+      - {image: {src: media/dcmotor.png, width: 55, height: 55}}
+    tooltip: ""
+    import:
+      - {line: "from machine import Pin", key: import_pin}
+      - {line: "from machine import PWM", key: import_pwm}
+    # PWM() takes a Pin, not a pin number -- the hand-written generator passed
+    # the number, which is a TypeError on every port.
+    code: |-
+      dc_motor_pin_a = Pin({dir1}, Pin.OUT)
+      dc_motor_pin_b = Pin({dir2}, Pin.OUT)
+      dc_motor_pwm = PWM(Pin({pwm}))
+    params:
+      - {name: pwm,  label: PWM,  type: Number, pin: true, align: right}
+      - {name: dir1, label: Dir1, type: Number, pin: true, align: right}
+      - {name: dir2, label: Dir2, type: Number, pin: true, align: right}
+
+  - type: dc_motor_power
+    label: Set DC Motor Power
+    tooltip: ""
+    code: "dc_motor_pwm.duty({power})"
+    params:
+      - {name: power, label: Power, type: Number, default: 512, align: right}
+
+  - type: dc_motor_direction
+    label: Set DC Motor Direction
+    tooltip: ""
+    # Two things were wrong here. The generator compared the *generated code
+    # string* for this input against 0..3 in JavaScript, so anything but a
+    # literal number fell through all four branches and emitted nothing at all.
+    # And it wrote `pin.value=0`, which rebinds the method instead of driving
+    # the pin. The truth table it meant is direction bit 0 on pin a, bit 1 on
+    # pin b; that is now decided on the board, for any expression.
+    code: |-
+      dc_motor_dir = int({dir})
+      dc_motor_pin_a.value(dc_motor_dir & 1)
+      dc_motor_pin_b.value((dc_motor_dir >> 1) & 1)
+    params:
+      - {name: dir, label: Direction, type: Number, default: 1, align: right}
+
+  - type: dc_motor_stop
+    label: Stop DC Motor
+    tooltip: ""
+    code: |-
+      dc_motor_pin_a.value(0)
+      dc_motor_pin_b.value(0)

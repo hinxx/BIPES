@@ -1,0 +1,47 @@
+# Raw TCP/IP sockets.
+
+module: socket
+instance: s
+colour: 135
+import: {line: "import socket", key: import_socket}
+
+category:
+  name: TCP/IP Socket
+  examples: starwars
+  docs: sockets
+  labels: [TCP/IP Socket]
+  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico_w, AmadoBoard, stm32,
+              default, 3pi_2040]
+
+blocks:
+  - type: net_socket_connect
+    label: TCP/IP Socket Connect
+    tooltip: ""
+    code: |-
+      addr_info = socket.getaddrinfo({host},{port})
+      addr = addr_info[0][-1]
+      {instance} = socket.socket()
+      {instance}.connect(addr)
+    params:
+      - {name: host, label: "Host:", type: String, default: towel.blinkenlights.nl, align: right}
+      - {name: port, label: "Port:", type: Number, default: 23, align: right}
+
+  - type: net_socket_receive
+    kind: value
+    label: Socket Receive
+    tooltip: ""
+    code: "str({instance}.recv({bytes}), 'utf8')"
+    params:
+      - {name: bytes, label: "Bytes to receive:", type: Number, default: 1024, align: right}
+
+  - type: net_socket_send
+    label: Socket Send
+    tooltip: ""
+    code: "{instance}.send(bytes({bytes}, 'utf8'))"
+    params:
+      - {name: bytes, label: "Data:", type: String, default: hello, align: right}
+
+  - type: net_socket_close
+    fn: close
+    label: Socket Close
+    tooltip: ""

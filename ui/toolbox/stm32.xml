@@ -1445,46 +1445,44 @@
     </block>
     </category>
 
+    <!-- blockdef:socket -->
     <category name="TCP/IP Socket">
       <label text="TCP/IP Socket"></label>
-        <button text="Load example: starwars" callbackKey="loadExample"></button>
-        <button text="Documentation: sockets" callbackKey="loadDoc"></button>
+      <button text="Load example: starwars" callbackKey="loadExample"></button>
+      <button text="Documentation and how to connect: sockets" callbackKey="loadDoc"></button>
 
-
-    <block type="net_socket_connect">
-	 <value name="host">
+      <block type="net_socket_connect">
+        <value name="host">
           <shadow type="text">
             <field name="TEXT">towel.blinkenlights.nl</field>
           </shadow>
         </value>
-	 <value name="port">
+        <value name="port">
           <shadow type="math_number">
             <field name="NUM">23</field>
           </shadow>
         </value>
+      </block>
 
-    </block>
-    <block type="net_socket_receive">
-	<value name="bytes">
+      <block type="net_socket_receive">
+        <value name="bytes">
           <shadow type="math_number">
-            <field name="NUM">500</field>
+            <field name="NUM">1024</field>
           </shadow>
         </value>
+      </block>
 
-
-    </block>
-    <block type="net_socket_send">
-     <value name="bytes">
+      <block type="net_socket_send">
+        <value name="bytes">
           <shadow type="text">
-            <field name="TEXT">Hello</field>
+            <field name="TEXT">hello</field>
           </shadow>
         </value>
+      </block>
 
-    </block>
-    <block type="net_socket_close">
-    </block>
-
+      <block type="net_socket_close"></block>
     </category>
+    <!-- /blockdef:socket -->
 
     <category name="MQTT">
       <label text="MQTT (Message Queue Telemetry Transport)"></label>

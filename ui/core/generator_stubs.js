@@ -853,57 +853,12 @@ Blockly.Python['dht_read_humidity'] = function(block) {
 
 /// AHT10/20
 /// Start AHT Sensor
-Blockly.Python['aht_init'] = function(block) {
-	var type = block.getFieldValue('AHT_TYPE');
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-	var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_ahtx0'] = 'import ahtx0';
-  
-	var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: scl, sda: sda});
-  var code = '';
-  	code += 'ahtx0=ahtx0.' + type + '(' + bus_ + ')\n';
-	return code;
-  };
-  
-  
-  /// Read AHT10/20 Temperature
-  Blockly.Python['aht_read_temp'] = function(block) {
-	var code = 'ahtx0.temperature';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-  
+/// Read AHT10/20 Temperature
   /// Read AHT10/20 Humidity
-  Blockly.Python['aht_read_humidity'] = function(block) {
-	var code = 'ahtx0.relative_humidity';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-  
-/// BH1750
+  /// BH1750
 /// Start BH1750 Sensor
-Blockly.Python['bh1750_init'] = function(block) {
-	var scl = Blockly.Python.valueToCode(block, 'scl', Blockly.Python.ORDER_ATOMIC);
-	var sda = Blockly.Python.valueToCode(block, 'sda', Blockly.Python.ORDER_ATOMIC);
-	var i2c = Blockly.Python.valueToCode(block, 'i2c', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_bh1750'] = 'from bh1750 import BH1750';
-  
-	var bus_ = Blockly.Python.i2cBus_({id: i2c, scl: scl, sda: sda});
-  var code = '';
-  	code += 'bh1750 = BH1750(35, ' + bus_ + ')\n';
-	return code;
-  };
-  
-  
-  /// Read BH1750
-  Blockly.Python['bh1750_read'] = function(block) {
-	var code = 'bh1750.measurement';
-	return [code, Blockly.Python.ORDER_NONE];
-  };
-
-
-/// TM1637 Display
+/// Read BH1750
+  /// TM1637 Display
 Blockly.Python['tm1637_init'] = function(block) {
 	var clk = Blockly.Python.valueToCode(block, 'clk', Blockly.Python.ORDER_ATOMIC);
 	var dio = Blockly.Python.valueToCode(block, 'dio', Blockly.Python.ORDER_ATOMIC);
@@ -5382,47 +5337,6 @@ Blockly.Python['net_wiznet5k_ifconfig'] = function(block) {
 };
 
 
-Blockly.Python['net_socket_connect'] = function(block) {
-  var host = Blockly.Python.valueToCode(block, 'host', Blockly.Python.ORDER_ATOMIC);
-  var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_socket'] = 'import socket';
-
-  //var code = 'addr_info = socket.getaddrinfo("towel.blinkenlights.nl", 23)';
-  var code = 'addr_info = socket.getaddrinfo(' + host + ',' + port + ')\n';
-      code += 'addr = addr_info[0][-1]\n';
-      code += 's = socket.socket()\n';
-      code += 's.connect(addr)\n';
-
-  return code;
-};
-
-Blockly.Python['net_socket_receive'] = function(block) {
-  var bytes = Blockly.Python.valueToCode(block, 'bytes', Blockly.Python.ORDER_ATOMIC);
-
-  var code = "str(s.recv(" + bytes + "), 'utf8')";
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['net_socket_send'] = function(block) {
-  var bytes = Blockly.Python.valueToCode(block, 'bytes', Blockly.Python.ORDER_ATOMIC);
-
-  var code = "s.send(bytes(" + bytes + ", 'utf8'))\n";
-
-  return code;
-};
-
-
-Blockly.Python['net_socket_close'] = function(block) {
-
-  var code = 's.close()\n';
-
-  return code;
-};
-
-
 /*
  *
  *
@@ -5697,70 +5611,6 @@ for i in range(1, abs(` + step + `)):
 
 
 //DC Motor with H-Bridge
-Blockly.Python['dc_motor_init'] = function(block) {
-  var pwm = Blockly.Python.valueToCode(block, 'pwm', Blockly.Python.ORDER_ATOMIC);
-  var dir1 = Blockly.Python.valueToCode(block, 'dir1', Blockly.Python.ORDER_ATOMIC);
-  var dir2 = Blockly.Python.valueToCode(block, 'dir2', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  var code =  "dc_motor_pin_a = Pin(" + dir1 + ", Pin.OUT)\n";
-      code +=  "dc_motor_pin_b = Pin(" + dir2 + ", Pin.OUT)\n";
-      code +=  "dc_motor_pwm = PWM(" + pwm + ")\n";
-
-  return code;
-};
-
-Blockly.Python['dc_motor_power'] = function(block) {
-  var pwr = Blockly.Python.valueToCode(block, 'power', Blockly.Python.ORDER_ATOMIC);
-
-  var code = 'dc_motor_pwm.duty(' + pwr + ')\n';
-
-  return code;
-};
-
-Blockly.Python['dc_motor_direction'] = function(block) {
-  var dir = Blockly.Python.valueToCode(block, 'dir', Blockly.Python.ORDER_ATOMIC);
-
-  var code='\n';
-
-  if (dir == 0) 
-	code = `
-dc_motor_pin_a.value=0
-dc_motor_pin_b.value=0
-`;
-
-  if (dir == 1) 
-	code = `
-dc_motor_pin_a.value=1
-dc_motor_pin_b.value=0
-`;
-
-  if (dir == 2) 
-	code = `
-dc_motor_pin_a.value=0
-dc_motor_pin_b.value=1
-`;
-
-  if (dir == 3) 
-	code = `
-dc_motor_pin_a.value=1
-dc_motor_pin_b.value=1
-`;
-
-  return code;
-};
-
-Blockly.Python['dc_motor_stop'] = function(block) {
-
-  var code = 'dc_motor_pin_a.value=0\n';
-      code += 'dc_motor_pin_b.value=0\n';
-
-  return code;
-};
-
-
 //ESP32 specific functions
 
 //CAN BUS

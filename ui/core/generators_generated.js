@@ -2,6 +2,49 @@
 // Run `make blocks` after changing one. Hand-written generators live in
 // generator_stubs.js; a generator belongs in exactly one of the two.
 
+// ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
+
+Blockly.Python['aht_init'] = function(block) {
+  Blockly.Python.definitions_["import_ahtx0"] = "import ahtx0";
+  var AHT_TYPE_ = block.getFieldValue("AHT_TYPE");
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "ahtx0=ahtx0." + AHT_TYPE_ + "(" + bus_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['aht_read_temp'] = function(block) {
+  Blockly.Python.definitions_["import_ahtx0"] = "import ahtx0";
+  var code = "ahtx0.temperature";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['aht_read_humidity'] = function(block) {
+  Blockly.Python.definitions_["import_ahtx0"] = "import ahtx0";
+  var code = "ahtx0.relative_humidity";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- BH1750 Sensor (bh1750.blockdef.yaml) ------------------------------------
+
+Blockly.Python['bh1750_init'] = function(block) {
+  Blockly.Python.definitions_["import_bh1750"] = "from bh1750 import BH1750";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "bh1750 = BH1750(35, " + bus_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bh1750_read'] = function(block) {
+  Blockly.Python.definitions_["import_bh1750"] = "from bh1750 import BH1750";
+  var code = "bh1750.measurement";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Bluetooth REPL (bluetooth_repl.blockdef.yaml) ---------------------------
 
 Blockly.Python['bluetooth_repl_setup'] = function(block) {
@@ -162,6 +205,35 @@ Blockly.Python['char_lcd_display'] = function(block) {
   Blockly.Python.definitions_["import_pico_i2c_lcd"] = "from pico_i2c_lcd import I2cLcd";
   var on_off_ = {"ON": "display_on", "OFF": "display_off"}[block.getFieldValue("on_off")];
   var code = "lcd." + on_off_ + "()";
+  return code + "\n";
+};
+
+// ---- DC Motor (dc_motor.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['dc_motor_init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  var pwm_ = Blockly.Python.valueToCode(block, "pwm", Blockly.Python.ORDER_ATOMIC);
+  var dir1_ = Blockly.Python.valueToCode(block, "dir1", Blockly.Python.ORDER_ATOMIC);
+  var dir2_ = Blockly.Python.valueToCode(block, "dir2", Blockly.Python.ORDER_ATOMIC);
+  var code = "dc_motor_pin_a = Pin(" + dir1_ + ", Pin.OUT)\ndc_motor_pin_b = Pin(" + dir2_ + ", Pin.OUT)\ndc_motor_pwm = PWM(Pin(" + pwm_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['dc_motor_power'] = function(block) {
+  var power_ = Blockly.Python.valueToCode(block, "power", Blockly.Python.ORDER_ATOMIC);
+  var code = "dc_motor_pwm.duty(" + power_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['dc_motor_direction'] = function(block) {
+  var dir_ = Blockly.Python.valueToCode(block, "dir", Blockly.Python.ORDER_ATOMIC);
+  var code = "dc_motor_dir = int(" + dir_ + ")\ndc_motor_pin_a.value(dc_motor_dir & 1)\ndc_motor_pin_b.value((dc_motor_dir >> 1) & 1)";
+  return code + "\n";
+};
+
+Blockly.Python['dc_motor_stop'] = function(block) {
+  var code = "dc_motor_pin_a.value(0)\ndc_motor_pin_b.value(0)";
   return code + "\n";
 };
 
@@ -511,6 +583,36 @@ Blockly.Python['mcp23017_input'] = function(block) {
   var pullup_ = Blockly.Python.valueToCode(block, "pullup", Blockly.Python.ORDER_ATOMIC);
   var code = "mcpIO.input(" + pin_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
+
+Blockly.Python['net_socket_connect'] = function(block) {
+  Blockly.Python.definitions_["import_socket"] = "import socket";
+  var host_ = Blockly.Python.valueToCode(block, "host", Blockly.Python.ORDER_ATOMIC);
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var code = "addr_info = socket.getaddrinfo(" + host_ + "," + port_ + ")\naddr = addr_info[0][-1]\ns = socket.socket()\ns.connect(addr)";
+  return code + "\n";
+};
+
+Blockly.Python['net_socket_receive'] = function(block) {
+  Blockly.Python.definitions_["import_socket"] = "import socket";
+  var bytes_ = Blockly.Python.valueToCode(block, "bytes", Blockly.Python.ORDER_ATOMIC);
+  var code = "str(s.recv(" + bytes_ + "), 'utf8')";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_socket_send'] = function(block) {
+  Blockly.Python.definitions_["import_socket"] = "import socket";
+  var bytes_ = Blockly.Python.valueToCode(block, "bytes", Blockly.Python.ORDER_ATOMIC);
+  var code = "s.send(bytes(" + bytes_ + ", 'utf8'))";
+  return code + "\n";
+};
+
+Blockly.Python['net_socket_close'] = function(block) {
+  Blockly.Python.definitions_["import_socket"] = "import socket";
+  var code = "s.close()";
+  return code + "\n";
 };
 
 // ---- LED Matrix (tm1640.blockdef.yaml) ---------------------------------------

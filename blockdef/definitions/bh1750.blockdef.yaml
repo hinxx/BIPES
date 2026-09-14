@@ -1,0 +1,38 @@
+# BH1750 ambient light sensor. 35 is the sensor's I2C address (0x23).
+
+module: bh1750
+class: BH1750
+instance: bh1750
+colour: 230
+url: http://www.bipes.net.br
+import: {line: "from bh1750 import BH1750", key: import_bh1750}
+
+category:
+  name: BH1750 Sensor
+  library: bh1750
+  labels:
+    - "Library: https://github.com/flrrth/pico-bh1750"
+    - BH1750 Ambient Light Sensor
+  toolboxes: [rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+  defaults:
+    rpi_pico:   {sda: 0, scl: 1}
+    rpi_pico_w: {sda: 0, scl: 1}
+    makernano:  {sda: 0, scl: 1}
+    makerpi:    {sda: 0, scl: 1}
+    3pi_2040:   {sda: 0, scl: 1}
+
+blocks:
+  - type: bh1750_init
+    label:
+      - {image: {src: media/bh1750.jpg, width: 55, height: 55}, msg: bh1750_init}
+      - Init BH1750 Sensor
+    tooltip: Init BH1750 sensor
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: "{instance} = BH1750(35, {bus})"
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+
+  - {type: bh1750_read, attr: measurement, kind: value,
+     label: Read Ambient Light Level, tooltip: Read BH1750 Ambient Light Level}

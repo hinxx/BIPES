@@ -1579,11 +1579,12 @@
       </block>
     </category>
 
+    <!-- blockdef:ahtx0 -->
     <category name="AHT10/20 Sensor">
       <label text="Library: https://github.com/targetblank/micropython_ahtx0"></label>
+      <label text="AHT10/20 Temperature and Humidity Sensor"></label>
       <button text="Install ahtx0 library" callbackKey="installPyLib"></button>
 
-      <label text="AHT10/20 Temperature and Humidity Sensor"></label>
       <block type="aht_init">
         <value name="i2c">
           <shadow type="math_number">
@@ -1601,17 +1602,19 @@
           </shadow>
         </value>
       </block>
-      <block type="aht_read_temp">
-      </block>
-      <block type="aht_read_humidity">
-      </block>
-    </category>
 
+      <block type="aht_read_temp"></block>
+
+      <block type="aht_read_humidity"></block>
+    </category>
+    <!-- /blockdef:ahtx0 -->
+
+    <!-- blockdef:bh1750 -->
     <category name="BH1750 Sensor">
       <label text="Library: https://github.com/flrrth/pico-bh1750"></label>
+      <label text="BH1750 Ambient Light Sensor"></label>
       <button text="Install bh1750 library" callbackKey="installPyLib"></button>
 
-      <label text="BH1750 Ambient Light Sensor"></label>
       <block type="bh1750_init">
         <value name="i2c">
           <shadow type="math_number">
@@ -1629,9 +1632,10 @@
           </shadow>
         </value>
       </block>
-      <block type="bh1750_read">
-      </block>
+
+      <block type="bh1750_read"></block>
     </category>
+    <!-- /blockdef:bh1750 -->
 
     <category name="DS3231 RTC">
       <label text="DS3231 Real Time Clock"></label>
@@ -2587,46 +2591,44 @@
     </block>
     </category>
 
+    <!-- blockdef:socket -->
     <category name="TCP/IP Socket">
       <label text="TCP/IP Socket"></label>
-        <button text="Load example: starwars" callbackKey="loadExample"></button>
-        <button text="Documentation: sockets" callbackKey="loadDoc"></button>
+      <button text="Load example: starwars" callbackKey="loadExample"></button>
+      <button text="Documentation and how to connect: sockets" callbackKey="loadDoc"></button>
 
-
-    <block type="net_socket_connect">
-	 <value name="host">
+      <block type="net_socket_connect">
+        <value name="host">
           <shadow type="text">
             <field name="TEXT">towel.blinkenlights.nl</field>
           </shadow>
         </value>
-	 <value name="port">
+        <value name="port">
           <shadow type="math_number">
             <field name="NUM">23</field>
           </shadow>
         </value>
+      </block>
 
-    </block>
-    <block type="net_socket_receive">
-	<value name="bytes">
+      <block type="net_socket_receive">
+        <value name="bytes">
           <shadow type="math_number">
-            <field name="NUM">500</field>
+            <field name="NUM">1024</field>
           </shadow>
         </value>
+      </block>
 
-
-    </block>
-    <block type="net_socket_send">
-     <value name="bytes">
+      <block type="net_socket_send">
+        <value name="bytes">
           <shadow type="text">
-            <field name="TEXT">Hello</field>
+            <field name="TEXT">hello</field>
           </shadow>
         </value>
+      </block>
 
-    </block>
-    <block type="net_socket_close">
-    </block>
-
+      <block type="net_socket_close"></block>
     </category>
+    <!-- /blockdef:socket -->
 
     <category name="MQTT">
       <label text="MQTT (Message Queue Telemetry Transport)"></label>
