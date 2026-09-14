@@ -282,6 +282,317 @@ Blockly.Python['btree_btree.keys'] = function(block) {
   return code + "\n";
 };
 
+// ---- builtins (builtins.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['builtins_abs'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var code = "abs(" + x_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_all'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "all(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_any'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "any(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_bin'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var code = "bin(" + x_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_callable'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "callable(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_chr'] = function(block) {
+  var i_ = Blockly.Python.valueToCode(block, "i", Blockly.Python.ORDER_ATOMIC);
+  var code = "chr(" + i_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_classmethod'] = function(block) {
+  var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  var code = "classmethod(" + function_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_compile'] = function(block) {
+  var source_ = Blockly.Python.valueToCode(block, "source", Blockly.Python.ORDER_ATOMIC);
+  var filename_ = Blockly.Python.valueToCode(block, "filename", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = Blockly.Python.valueToCode(block, "mode", Blockly.Python.ORDER_ATOMIC);
+  var code = "compile(" + source_ + ", " + filename_ + ", " + mode_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_delattr'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "delattr(" + obj_ + ", " + name_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['builtins_dir'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "dir(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_divmod'] = function(block) {
+  var a_ = Blockly.Python.valueToCode(block, "a", Blockly.Python.ORDER_ATOMIC);
+  var b_ = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
+  var code = "divmod(" + a_ + ", " + b_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_enumerate'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "enumerate(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_eval'] = function(block) {
+  var expression_ = Blockly.Python.valueToCode(block, "expression", Blockly.Python.ORDER_ATOMIC);
+  var code = "eval(" + expression_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_exec'] = function(block) {
+  var code_ = Blockly.Python.valueToCode(block, "code", Blockly.Python.ORDER_ATOMIC);
+  var code = "exec(" + code_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['builtins_filter'] = function(block) {
+  var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "filter(" + function_ + ", " + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_getattr'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "getattr(" + obj_ + ", " + name_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_globals'] = function(block) {
+  var code = "globals()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_hasattr'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = "hasattr(" + obj_ + ", " + name_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_hash'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "hash(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_hex'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var code = "hex(" + x_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_id'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "id(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_input'] = function(block) {
+  var prompt_ = Blockly.Python.valueToCode(block, "prompt", Blockly.Python.ORDER_ATOMIC);
+  var code = "input(" + prompt_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_to_bytes'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var length_ = Blockly.Python.valueToCode(block, "length", Blockly.Python.ORDER_ATOMIC);
+  var byteorder_ = block.getFieldValue("byteorder");
+  var code = x_ + ".to_bytes(" + length_ + ", " + byteorder_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_isinstance'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var classinfo_ = Blockly.Python.valueToCode(block, "classinfo", Blockly.Python.ORDER_ATOMIC);
+  var code = "isinstance(" + obj_ + ", " + classinfo_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_issubclass'] = function(block) {
+  var cls_ = Blockly.Python.valueToCode(block, "cls", Blockly.Python.ORDER_ATOMIC);
+  var classinfo_ = Blockly.Python.valueToCode(block, "classinfo", Blockly.Python.ORDER_ATOMIC);
+  var code = "issubclass(" + cls_ + ", " + classinfo_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_iter'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "iter(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_len'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "len(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_locals'] = function(block) {
+  var code = "locals()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_map'] = function(block) {
+  var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "map(" + function_ + ", " + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_max'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "max(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_min'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "min(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_next'] = function(block) {
+  var iterator_ = Blockly.Python.valueToCode(block, "iterator", Blockly.Python.ORDER_ATOMIC);
+  var code = "next(" + iterator_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_oct'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var code = "oct(" + x_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_open'] = function(block) {
+  var file_ = Blockly.Python.valueToCode(block, "file", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = block.getFieldValue("mode");
+  var code = "open(" + file_ + ", " + mode_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_ord'] = function(block) {
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "ord(" + c_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_pow'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "pow(" + x_ + ", " + y_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_print'] = function(block) {
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "print(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['builtins_property'] = function(block) {
+  var getter_ = Blockly.Python.valueToCode(block, "getter", Blockly.Python.ORDER_ATOMIC);
+  var code = "property(" + getter_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_range'] = function(block) {
+  var stop_ = Blockly.Python.valueToCode(block, "stop", Blockly.Python.ORDER_ATOMIC);
+  var code = "range(" + stop_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_repr'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "repr(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_reversed'] = function(block) {
+  var seq_ = Blockly.Python.valueToCode(block, "seq", Blockly.Python.ORDER_ATOMIC);
+  var code = "reversed(" + seq_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_round'] = function(block) {
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var ndigits_ = Blockly.Python.valueToCode(block, "ndigits", Blockly.Python.ORDER_ATOMIC);
+  var code = "round(" + x_ + ", " + ndigits_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_setattr'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "setattr(" + obj_ + ", " + name_ + ", " + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['builtins_sorted'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "sorted(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_staticmethod'] = function(block) {
+  var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  var code = "staticmethod(" + function_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_sum'] = function(block) {
+  var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  var code = "sum(" + iterable_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_super'] = function(block) {
+  var code = "super()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_type'] = function(block) {
+  var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  var code = "type(" + obj_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['builtins_zip'] = function(block) {
+  var a_ = Blockly.Python.valueToCode(block, "a", Blockly.Python.ORDER_ATOMIC);
+  var b_ = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
+  var code = "zip(" + a_ + ", " + b_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Python['ccs811_init'] = function(block) {

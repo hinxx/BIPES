@@ -1068,689 +1068,150 @@ Blockly.Blocks['control_pid.__init__'] = {
 
 
 
-Blockly.Blocks["builtins_abs"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" abs");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: abs() .. function:: all() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_all"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" all");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: all() .. function:: any() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_any"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" any");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: any() .. function:: bin() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_bin"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" bin");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: bin() .. class:: bool() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_callable"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" callable");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: callable() .. function:: chr() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_chr"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" chr");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: chr() .. function:: classmethod() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_classmethod"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" classmethod");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: classmethod() .. function:: compile() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_compile"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" compile");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: compile() .. class:: complex() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_delattr"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" delattr");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: delattr(obj, name) The argument *name* should be a string, and this function deletes the named attribute from the object given by *obj*. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_dir"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" dir");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: dir() .. function:: divmod() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_divmod"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" divmod");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: divmod() .. function:: enumerate() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_enumerate"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" enumerate");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: enumerate() .. function:: eval() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_eval"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" eval");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: eval() .. function:: exec() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_exec"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" exec");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: exec() .. function:: filter() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_filter"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" filter");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: filter() .. class:: float() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_getattr"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" getattr");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: getattr() .. function:: globals() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_globals"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" globals");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: globals() .. function:: hasattr() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_hasattr"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" hasattr");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: hasattr() .. function:: hash() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_hash"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" hash");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: hash() .. function:: hex() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_hex"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" hex");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: hex() .. function:: id() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_id"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" id");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: id() .. function:: input() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_input"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" input");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: input() .. class:: int() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_to_bytes"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" to_bytes");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: to_bytes(size, byteorder) In MicroPython, `byteorder` parameter must be positional (this is compatible with CPython). ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_isinstance"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" isinstance");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: isinstance() .. function:: issubclass() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_issubclass"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" issubclass");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: issubclass() .. function:: iter() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_iter"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" iter");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: iter() .. function:: len() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_len"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" len");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: len() .. class:: list() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_locals"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" locals");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: locals() .. function:: map() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_map"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" map");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: map() .. function:: max() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_max"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" max");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: max() .. class:: memoryview() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_min"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" min");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: min() .. function:: next() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_next"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" next");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: next() .. class:: object() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_oct"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" oct");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: oct() .. function:: open() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_open"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" open");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: open() .. function:: ord() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_ord"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" ord");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: ord() .. function:: pow() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_pow"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" pow");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: pow() .. function:: print() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_print"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" print");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: print() .. function:: property() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_property"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" property");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: property() .. function:: range() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_range"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" range");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: range() .. function:: repr() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_repr"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" repr");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: repr() .. function:: reversed() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_reversed"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" reversed");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: reversed() .. function:: round() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_round"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" round");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: round() .. class:: set() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_setattr"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" setattr");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: setattr() .. class:: slice() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_sorted"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" sorted");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sorted() .. function:: staticmethod() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_staticmethod"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" staticmethod");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: staticmethod() .. class:: str() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_sum"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" sum");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sum() .. function:: super() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_super"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" super");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: super() .. class:: tuple() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_type"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" type");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: type() .. function:: zip() ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
-
-
-
-Blockly.Blocks["builtins_zip"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" zip");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: zip() Exceptions ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

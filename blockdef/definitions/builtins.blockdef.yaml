@@ -1,0 +1,253 @@
+# Python's built-in functions, as the MicroPython docs list them.
+#
+# All 49 were statements that took no arguments and emitted a call with none
+# either -- `builtins.abs()`, `builtins.len()`, `builtins.sorted()` -- under an
+# `import builtins` that MicroPython accepts and Python does not need. Every
+# one of them was a TypeError waiting to happen, and the stock-take in
+# BACKLOG.md counted them as 49 blocks nobody could use.
+#
+# Giving them their arguments is the whole conversion, and the arguments are
+# not a judgement call: they are the signatures. Two consequences:
+#
+# * 45 of the 49 become value blocks, because that is what a function that
+#   returns something is. `delattr`, `exec`, `print` and `setattr` stay
+#   statements. A saved program holding one keeps the block and loses its
+#   connection -- and nothing that ran can break, because `builtins.abs()`
+#   never ran.
+# * No import. Builtins are builtins; `abs(x)` is the whole of it.
+#
+# `to_bytes` is `int.to_bytes`, a method the docs list on this page rather than
+# a function, so it is the one block here that calls something on its input.
+
+module: builtins
+colour: 0
+url: https://docs.micropython.org/en/latest/library/builtins.html
+import: []
+
+category:
+  name: builtins
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - {type: builtins_abs, kind: value, label: [], inline: true, code: "abs({x})",
+     tooltip: "The absolute value of a number.",
+     params: [{name: x, label: abs}]}
+
+  - {type: builtins_all, kind: value, label: [], inline: true, code: "all({iterable})",
+     tooltip: "True if every item is true (and if there are none).",
+     params: [{name: iterable, label: all of}]}
+
+  - {type: builtins_any, kind: value, label: [], inline: true, code: "any({iterable})",
+     tooltip: "True if at least one item is true.",
+     params: [{name: iterable, label: any of}]}
+
+  - {type: builtins_bin, kind: value, label: [], inline: true, code: "bin({x})",
+     tooltip: "A number as a binary string: 5 becomes '0b101'.",
+     params: [{name: x, label: binary of}]}
+
+  - {type: builtins_callable, kind: value, label: [], inline: true, code: "callable({obj})",
+     tooltip: "True if the object can be called like a function.",
+     params: [{name: obj, label: callable}]}
+
+  - {type: builtins_chr, kind: value, label: [], inline: true, code: "chr({i})",
+     tooltip: "The character with this code point: 65 becomes 'A'.",
+     params: [{name: i, label: character with code}]}
+
+  - {type: builtins_classmethod, kind: value, label: [], inline: true,
+     code: "classmethod({function})",
+     tooltip: "Turn a function into a class method.",
+     params: [{name: function, label: class method}]}
+
+  - {type: builtins_compile, kind: value, label: [], inline: true,
+     code: "compile({source}, {filename}, {mode})",
+     tooltip: "Compile source text into a code object for eval or exec.",
+     params: [{name: source, label: compile},
+              {name: filename, label: named, type: String, default: "<string>"},
+              {name: mode, label: as, type: String, default: exec}]}
+
+  - {type: builtins_delattr, label: [], inline: true, code: "delattr({obj}, {name})",
+     tooltip: "Remove a named attribute from an object.",
+     params: [{name: obj, label: delete attribute of},
+              {name: name, label: named, type: String, default: attr}]}
+
+  - {type: builtins_dir, kind: value, label: [], inline: true, code: "dir({obj})",
+     tooltip: "The list of names an object carries.",
+     params: [{name: obj, label: names in}]}
+
+  - {type: builtins_divmod, kind: value, label: [], inline: true, code: "divmod({a}, {b})",
+     tooltip: "Quotient and remainder at once, as a pair.",
+     params: [{name: a, label: divmod}, {name: b, label: by}]}
+
+  - {type: builtins_enumerate, kind: value, label: [], inline: true,
+     code: "enumerate({iterable})",
+     tooltip: "Pairs of (position, item) over anything you can loop through.",
+     params: [{name: iterable, label: numbered items of}]}
+
+  - {type: builtins_eval, kind: value, label: [], inline: true, code: "eval({expression})",
+     tooltip: "Evaluate a Python expression held in a string.",
+     params: [{name: expression, label: evaluate, type: String, default: "1 + 1"}]}
+
+  - {type: builtins_exec, label: [], inline: true, code: "exec({code})",
+     tooltip: "Run Python statements held in a string.",
+     params: [{name: code, label: execute, type: String, default: "print('hi')"}]}
+
+  - {type: builtins_filter, kind: value, label: [], inline: true,
+     code: "filter({function}, {iterable})",
+     tooltip: "Keep the items a function says yes to.",
+     params: [{name: function, label: filter with}, {name: iterable, label: over}]}
+
+  - {type: builtins_getattr, kind: value, label: [], inline: true,
+     code: "getattr({obj}, {name})",
+     tooltip: "Read an attribute chosen by name.",
+     params: [{name: obj, label: attribute of},
+              {name: name, label: named, type: String, default: attr}]}
+
+  - {type: builtins_globals, kind: value, inline: true, label: globals,
+     code: "globals()", tooltip: The dictionary of global names.}
+
+  - {type: builtins_hasattr, kind: value, label: [], inline: true,
+     code: "hasattr({obj}, {name})",
+     tooltip: "True if the object has an attribute of that name.",
+     params: [{name: obj, label: has attribute},
+              {name: name, label: named, type: String, default: attr}]}
+
+  - {type: builtins_hash, kind: value, label: [], inline: true, code: "hash({obj})",
+     tooltip: "The hash value of an object.",
+     params: [{name: obj, label: hash of}]}
+
+  - {type: builtins_hex, kind: value, label: [], inline: true, code: "hex({x})",
+     tooltip: "A number as a hexadecimal string: 255 becomes '0xff'.",
+     params: [{name: x, label: hex of}]}
+
+  - {type: builtins_id, kind: value, label: [], inline: true, code: "id({obj})",
+     tooltip: "The identity of an object, as a number.",
+     params: [{name: obj, label: id of}]}
+
+  - {type: builtins_input, kind: value, label: [], inline: true, code: "input({prompt})",
+     tooltip: "Read a line typed at the REPL.",
+     params: [{name: prompt, label: ask, type: String, default: "? "}]}
+
+  - {type: builtins_to_bytes, kind: value, label: [], inline: true,
+     code: "{x}.to_bytes({length}, {byteorder})",
+     tooltip: "A whole number as that many bytes.",
+     params: [{name: x, label: bytes of},
+              {name: length, label: length, type: Number, default: 2},
+              {name: byteorder, label: order, kind: dropdown,
+               options: [{little: "'little'"}, {big: "'big'"}]}]}
+
+  - {type: builtins_isinstance, kind: value, label: [], inline: true,
+     code: "isinstance({obj}, {classinfo})",
+     tooltip: "True if the object is of that type.",
+     params: [{name: obj, label: is}, {name: classinfo, label: "an instance of"}]}
+
+  - {type: builtins_issubclass, kind: value, label: [], inline: true,
+     code: "issubclass({cls}, {classinfo})",
+     tooltip: "True if the first class derives from the second.",
+     params: [{name: cls, label: is}, {name: classinfo, label: "a subclass of"}]}
+
+  - {type: builtins_iter, kind: value, label: [], inline: true, code: "iter({obj})",
+     tooltip: "An iterator over the object.",
+     params: [{name: obj, label: iterator over}]}
+
+  - {type: builtins_len, kind: value, label: [], inline: true, code: "len({obj})",
+     tooltip: "How many items there are.",
+     params: [{name: obj, label: length of}]}
+
+  - {type: builtins_locals, kind: value, inline: true, label: locals,
+     code: "locals()", tooltip: The dictionary of local names.}
+
+  - {type: builtins_map, kind: value, label: [], inline: true,
+     code: "map({function}, {iterable})",
+     tooltip: "Apply a function to every item.",
+     params: [{name: function, label: apply}, {name: iterable, label: to each of}]}
+
+  - {type: builtins_max, kind: value, label: [], inline: true, code: "max({iterable})",
+     tooltip: "The largest item.",
+     params: [{name: iterable, label: largest of}]}
+
+  - {type: builtins_min, kind: value, label: [], inline: true, code: "min({iterable})",
+     tooltip: "The smallest item.",
+     params: [{name: iterable, label: smallest of}]}
+
+  - {type: builtins_next, kind: value, label: [], inline: true, code: "next({iterator})",
+     tooltip: "The next item from an iterator.",
+     params: [{name: iterator, label: next from}]}
+
+  - {type: builtins_oct, kind: value, label: [], inline: true, code: "oct({x})",
+     tooltip: "A number as an octal string: 8 becomes '0o10'.",
+     params: [{name: x, label: octal of}]}
+
+  - {type: builtins_open, kind: value, label: [], inline: true, code: "open({file}, {mode})",
+     tooltip: "Open a file and return the file object.",
+     params: [{name: file, label: open, type: String, default: data.txt},
+              {name: mode, label: mode, kind: dropdown,
+               options: [{read: "'r'"}, {write: "'w'"}, {append: "'a'"},
+                         {"read bytes": "'rb'"}, {"write bytes": "'wb'"}]}]}
+
+  - {type: builtins_ord, kind: value, label: [], inline: true, code: "ord({c})",
+     tooltip: "The code point of a character: 'A' becomes 65.",
+     params: [{name: c, label: code of, type: String, default: A}]}
+
+  - {type: builtins_pow, kind: value, label: [], inline: true, code: "pow({x}, {y})",
+     tooltip: "One number raised to the power of another.",
+     params: [{name: x, label: pow}, {name: y, label: to the power}]}
+
+  - {type: builtins_print, label: [], inline: true, code: "print({value})",
+     tooltip: "Print to the serial console.",
+     params: [{name: value, label: print}]}
+
+  - {type: builtins_property, kind: value, label: [], inline: true,
+     code: "property({getter})",
+     tooltip: "Turn a function into a read-only attribute.",
+     params: [{name: getter, label: property from}]}
+
+  - {type: builtins_range, kind: value, label: [], inline: true, code: "range({stop})",
+     tooltip: "The whole numbers from 0 up to, but not including, this one.",
+     params: [{name: stop, label: range up to, type: Number, default: 10}]}
+
+  - {type: builtins_repr, kind: value, label: [], inline: true, code: "repr({obj})",
+     tooltip: "The printable representation of an object.",
+     params: [{name: obj, label: repr of}]}
+
+  - {type: builtins_reversed, kind: value, label: [], inline: true,
+     code: "reversed({seq})",
+     tooltip: "The same items, back to front.",
+     params: [{name: seq, label: reversed}]}
+
+  - {type: builtins_round, kind: value, label: [], inline: true,
+     code: "round({x}, {ndigits})",
+     tooltip: "Round a number to that many decimal places.",
+     params: [{name: x, label: round},
+              {name: ndigits, label: "to (decimal places)", type: Number, default: 2}]}
+
+  - {type: builtins_setattr, label: [], inline: true,
+     code: "setattr({obj}, {name}, {value})",
+     tooltip: "Write an attribute chosen by name.",
+     params: [{name: obj, label: set attribute of},
+              {name: name, label: named, type: String, default: attr},
+              {name: value, label: to}]}
+
+  - {type: builtins_sorted, kind: value, label: [], inline: true, code: "sorted({iterable})",
+     tooltip: "The items in order, as a new list.",
+     params: [{name: iterable, label: sorted}]}
+
+  - {type: builtins_staticmethod, kind: value, label: [], inline: true,
+     code: "staticmethod({function})",
+     tooltip: "Turn a function into a static method.",
+     params: [{name: function, label: static method}]}
+
+  - {type: builtins_sum, kind: value, label: [], inline: true, code: "sum({iterable})",
+     tooltip: "The items added together.",
+     params: [{name: iterable, label: sum of}]}
+
+  - {type: builtins_super, kind: value, inline: true, label: super,
+     code: "super()", tooltip: The parent class of the one being defined.}
+
+  - {type: builtins_type, kind: value, label: [], inline: true, code: "type({obj})",
+     tooltip: "The type of an object.",
+     params: [{name: obj, label: type of}]}
+
+  - {type: builtins_zip, kind: value, label: [], inline: true, code: "zip({a}, {b})",
+     tooltip: "Pair up the items of two sequences.",
+     params: [{name: a, label: zip}, {name: b, label: with}]}

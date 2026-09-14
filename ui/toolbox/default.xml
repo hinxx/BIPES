@@ -1777,106 +1777,191 @@
   <block type="btree_btree.keys"></block>
 </category>
 <!-- /blockdef:btree -->
+<!-- blockdef:builtins -->
 <category name="builtins">
-<block type="builtins_abs">
-</block>
-<block type="builtins_all">
-</block>
-<block type="builtins_any">
-</block>
-<block type="builtins_bin">
-</block>
-<block type="builtins_callable">
-</block>
-<block type="builtins_chr">
-</block>
-<block type="builtins_classmethod">
-</block>
-<block type="builtins_compile">
-</block>
-<block type="builtins_delattr">
-</block>
-<block type="builtins_dir">
-</block>
-<block type="builtins_divmod">
-</block>
-<block type="builtins_enumerate">
-</block>
-<block type="builtins_eval">
-</block>
-<block type="builtins_exec">
-</block>
-<block type="builtins_filter">
-</block>
-<block type="builtins_getattr">
-</block>
-<block type="builtins_globals">
-</block>
-<block type="builtins_hasattr">
-</block>
-<block type="builtins_hash">
-</block>
-<block type="builtins_hex">
-</block>
-<block type="builtins_id">
-</block>
-<block type="builtins_input">
-</block>
-<block type="builtins_to_bytes">
-</block>
-<block type="builtins_isinstance">
-</block>
-<block type="builtins_issubclass">
-</block>
-<block type="builtins_iter">
-</block>
-<block type="builtins_len">
-</block>
-<block type="builtins_locals">
-</block>
-<block type="builtins_map">
-</block>
-<block type="builtins_max">
-</block>
-<block type="builtins_min">
-</block>
-<block type="builtins_next">
-</block>
-<block type="builtins_oct">
-</block>
-<block type="builtins_open">
-</block>
-<block type="builtins_ord">
-</block>
-<block type="builtins_pow">
-</block>
-<block type="builtins_print">
-</block>
-<block type="builtins_property">
-</block>
-<block type="builtins_range">
-</block>
-<block type="builtins_repr">
-</block>
-<block type="builtins_reversed">
-</block>
-<block type="builtins_round">
-</block>
-<block type="builtins_setattr">
-</block>
-<block type="builtins_sorted">
-</block>
-<block type="builtins_staticmethod">
-</block>
-<block type="builtins_sum">
-</block>
-<block type="builtins_super">
-</block>
-<block type="builtins_type">
-</block>
-<block type="builtins_zip">
-</block>
+
+  <block type="builtins_abs"></block>
+
+  <block type="builtins_all"></block>
+
+  <block type="builtins_any"></block>
+
+  <block type="builtins_bin"></block>
+
+  <block type="builtins_callable"></block>
+
+  <block type="builtins_chr"></block>
+
+  <block type="builtins_classmethod"></block>
+
+  <block type="builtins_compile">
+    <value name="filename">
+      <shadow type="text">
+        <field name="TEXT">&lt;string&gt;</field>
+      </shadow>
+    </value>
+    <value name="mode">
+      <shadow type="text">
+        <field name="TEXT">exec</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_delattr">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">attr</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_dir"></block>
+
+  <block type="builtins_divmod"></block>
+
+  <block type="builtins_enumerate"></block>
+
+  <block type="builtins_eval">
+    <value name="expression">
+      <shadow type="text">
+        <field name="TEXT">1 + 1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_exec">
+    <value name="code">
+      <shadow type="text">
+        <field name="TEXT">print('hi')</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_filter"></block>
+
+  <block type="builtins_getattr">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">attr</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_globals"></block>
+
+  <block type="builtins_hasattr">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">attr</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_hash"></block>
+
+  <block type="builtins_hex"></block>
+
+  <block type="builtins_id"></block>
+
+  <block type="builtins_input">
+    <value name="prompt">
+      <shadow type="text">
+        <field name="TEXT">? </field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_to_bytes">
+    <value name="length">
+      <shadow type="math_number">
+        <field name="NUM">2</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_isinstance"></block>
+
+  <block type="builtins_issubclass"></block>
+
+  <block type="builtins_iter"></block>
+
+  <block type="builtins_len"></block>
+
+  <block type="builtins_locals"></block>
+
+  <block type="builtins_map"></block>
+
+  <block type="builtins_max"></block>
+
+  <block type="builtins_min"></block>
+
+  <block type="builtins_next"></block>
+
+  <block type="builtins_oct"></block>
+
+  <block type="builtins_open">
+    <value name="file">
+      <shadow type="text">
+        <field name="TEXT">data.txt</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_ord">
+    <value name="c">
+      <shadow type="text">
+        <field name="TEXT">A</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_pow"></block>
+
+  <block type="builtins_print"></block>
+
+  <block type="builtins_property"></block>
+
+  <block type="builtins_range">
+    <value name="stop">
+      <shadow type="math_number">
+        <field name="NUM">10</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_repr"></block>
+
+  <block type="builtins_reversed"></block>
+
+  <block type="builtins_round">
+    <value name="ndigits">
+      <shadow type="math_number">
+        <field name="NUM">2</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_setattr">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">attr</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="builtins_sorted"></block>
+
+  <block type="builtins_staticmethod"></block>
+
+  <block type="builtins_sum"></block>
+
+  <block type="builtins_super"></block>
+
+  <block type="builtins_type"></block>
+
+  <block type="builtins_zip"></block>
 </category>
+<!-- /blockdef:builtins -->
 <!-- blockdef:cmath -->
 <category name="cmath">
 

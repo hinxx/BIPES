@@ -496,6 +496,700 @@ Blockly.Blocks['btree_btree.keys'] = {
   }
 };
 
+// ---- builtins (builtins.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['builtins_abs'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("abs");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The absolute value of a number.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_all'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("all of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if every item is true (and if there are none).");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_any'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("any of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if at least one item is true.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_bin'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("binary of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("A number as a binary string: 5 becomes '0b101'.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_callable'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("callable");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if the object can be called like a function.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_chr'] = {
+  init: function() {
+    this.appendValueInput("i")
+        .setCheck(null)
+        .appendField("character with code");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The character with this code point: 65 becomes 'A'.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_classmethod'] = {
+  init: function() {
+    this.appendValueInput("function")
+        .setCheck(null)
+        .appendField("class method");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Turn a function into a class method.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_compile'] = {
+  init: function() {
+    this.appendValueInput("source")
+        .setCheck(null)
+        .appendField("compile");
+    this.appendValueInput("filename")
+        .setCheck("String")
+        .appendField("named");
+    this.appendValueInput("mode")
+        .setCheck("String")
+        .appendField("as");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Compile source text into a code object for eval or exec.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_delattr'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("delete attribute of");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .appendField("named");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Remove a named attribute from an object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_dir'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("names in");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The list of names an object carries.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_divmod'] = {
+  init: function() {
+    this.appendValueInput("a")
+        .setCheck(null)
+        .appendField("divmod");
+    this.appendValueInput("b")
+        .setCheck(null)
+        .appendField("by");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Quotient and remainder at once, as a pair.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_enumerate'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("numbered items of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Pairs of (position, item) over anything you can loop through.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_eval'] = {
+  init: function() {
+    this.appendValueInput("expression")
+        .setCheck("String")
+        .appendField("evaluate");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Evaluate a Python expression held in a string.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_exec'] = {
+  init: function() {
+    this.appendValueInput("code")
+        .setCheck("String")
+        .appendField("execute");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Run Python statements held in a string.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_filter'] = {
+  init: function() {
+    this.appendValueInput("function")
+        .setCheck(null)
+        .appendField("filter with");
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("over");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Keep the items a function says yes to.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_getattr'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("attribute of");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .appendField("named");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read an attribute chosen by name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_globals'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("globals");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The dictionary of global names.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_hasattr'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("has attribute");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .appendField("named");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if the object has an attribute of that name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_hash'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("hash of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The hash value of an object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_hex'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("hex of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("A number as a hexadecimal string: 255 becomes '0xff'.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_id'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("id of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The identity of an object, as a number.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_input'] = {
+  init: function() {
+    this.appendValueInput("prompt")
+        .setCheck("String")
+        .appendField("ask");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Read a line typed at the REPL.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_to_bytes'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("bytes of");
+    this.appendValueInput("length")
+        .setCheck("Number")
+        .appendField("length");
+    this.appendDummyInput()
+        .appendField("order")
+        .appendField(new Blockly.FieldDropdown([["little", "'little'"], ["big", "'big'"]]), "byteorder");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("A whole number as that many bytes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_isinstance'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("is");
+    this.appendValueInput("classinfo")
+        .setCheck(null)
+        .appendField("an instance of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if the object is of that type.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_issubclass'] = {
+  init: function() {
+    this.appendValueInput("cls")
+        .setCheck(null)
+        .appendField("is");
+    this.appendValueInput("classinfo")
+        .setCheck(null)
+        .appendField("a subclass of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("True if the first class derives from the second.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_iter'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("iterator over");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("An iterator over the object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_len'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("length of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("How many items there are.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_locals'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("locals");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The dictionary of local names.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_map'] = {
+  init: function() {
+    this.appendValueInput("function")
+        .setCheck(null)
+        .appendField("apply");
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("to each of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Apply a function to every item.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_max'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("largest of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The largest item.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_min'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("smallest of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The smallest item.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_next'] = {
+  init: function() {
+    this.appendValueInput("iterator")
+        .setCheck(null)
+        .appendField("next from");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The next item from an iterator.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_oct'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("octal of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("A number as an octal string: 8 becomes '0o10'.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_open'] = {
+  init: function() {
+    this.appendValueInput("file")
+        .setCheck("String")
+        .appendField("open");
+    this.appendDummyInput()
+        .appendField("mode")
+        .appendField(new Blockly.FieldDropdown([["read", "'r'"], ["write", "'w'"], ["append", "'a'"], ["read bytes", "'rb'"], ["write bytes", "'wb'"]]), "mode");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Open a file and return the file object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_ord'] = {
+  init: function() {
+    this.appendValueInput("c")
+        .setCheck("String")
+        .appendField("code of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The code point of a character: 'A' becomes 65.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_pow'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("pow");
+    this.appendValueInput("y")
+        .setCheck(null)
+        .appendField("to the power");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("One number raised to the power of another.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_print'] = {
+  init: function() {
+    this.appendValueInput("value")
+        .setCheck(null)
+        .appendField("print");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Print to the serial console.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_property'] = {
+  init: function() {
+    this.appendValueInput("getter")
+        .setCheck(null)
+        .appendField("property from");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Turn a function into a read-only attribute.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_range'] = {
+  init: function() {
+    this.appendValueInput("stop")
+        .setCheck("Number")
+        .appendField("range up to");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The whole numbers from 0 up to, but not including, this one.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_repr'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("repr of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The printable representation of an object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_reversed'] = {
+  init: function() {
+    this.appendValueInput("seq")
+        .setCheck(null)
+        .appendField("reversed");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The same items, back to front.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_round'] = {
+  init: function() {
+    this.appendValueInput("x")
+        .setCheck(null)
+        .appendField("round");
+    this.appendValueInput("ndigits")
+        .setCheck("Number")
+        .appendField("to (decimal places)");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Round a number to that many decimal places.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_setattr'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("set attribute of");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .appendField("named");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .appendField("to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Write an attribute chosen by name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_sorted'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("sorted");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The items in order, as a new list.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_staticmethod'] = {
+  init: function() {
+    this.appendValueInput("function")
+        .setCheck(null)
+        .appendField("static method");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Turn a function into a static method.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_sum'] = {
+  init: function() {
+    this.appendValueInput("iterable")
+        .setCheck(null)
+        .appendField("sum of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The items added together.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_super'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("super");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The parent class of the one being defined.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_type'] = {
+  init: function() {
+    this.appendValueInput("obj")
+        .setCheck(null)
+        .appendField("type of");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("The type of an object.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
+Blockly.Blocks['builtins_zip'] = {
+  init: function() {
+    this.appendValueInput("a")
+        .setCheck(null)
+        .appendField("zip");
+    this.appendValueInput("b")
+        .setCheck(null)
+        .appendField("with");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setInputsInline(true);
+    this.setTooltip("Pair up the items of two sequences.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/builtins.html");
+  }
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['ccs811_init'] = {
