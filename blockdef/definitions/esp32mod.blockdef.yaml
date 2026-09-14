@@ -1,13 +1,22 @@
 # The esp32 module's own six functions. Four of them -- `wake_on_touch`,
 # `wake_on_ext0`, `wake_on_ext1` and `idf_heap_info` -- had no `import esp32`,
 # and the two that are value blocks returned "esp32.x()\n", newline and all.
+# Those same four also took one empty `pIn` socket each, so what they generated
+# was `esp32.wake_on_touch()`: a TypeError apiece. They have their arguments
+# now, and `idf_heap_info` is a value block, because it returns the information
+# its name promises.
 #
-# The fourteen `Partition.*`, `RMT.*` and `ULP.*` blocks are the method-as-module
-# shape with no constructor block anywhere in the category to call them on, so
-# there is nothing to convert them *to* yet: they stay hand-written and appear
-# here as `external:` entries. `esp32_Partition.readblocks` and
-# `esp32_Partition.writeblocks` were listed twice in a row -- they are each
-# defined twice by hand as well -- and appear once.
+# The fourteen `Partition.*`, `RMT.*` and `ULP.*` blocks were the
+# method-as-module shape -- `esp32.Partition.info()`, the class rather than an
+# object, with one untyped `pIn` socket for every argument. There was no
+# constructor block anywhere in the category to call them on, so the category
+# gets three: `Partition`, `RMT` and `ULP` each build the object their methods
+# use. (`esp32_Partition.readblocks` and `esp32_Partition.writeblocks` were
+# listed twice in a row, and were each defined twice by hand; both are fixed.)
+#
+# `RMT.wait_done`, `RMT.source_freq` and `RMT.clock_div` are value blocks now:
+# they answer a question. `Partition.info` and `Partition.get_next_update`
+# already were.
 
 module: esp32
 colour: 0
@@ -23,26 +32,45 @@ category:
 
 blocks:
 
+  # The four `pIn` sockets these had were empty in every toolbox, so what they
+  # generated was `esp32.wake_on_touch()` -- a TypeError, every one of them.
+  # The arguments are the signatures in the tooltips.
   - type: "esp32_wake_on_touch"
     fn: wake_on_touch
     label: []
     tooltip: ".. function:: wake_on_touch(wake) Configure whether or not a touch will wake the device from sleep. *wake* should be a gpio_get value. "
     params:
-      - {name: pIn, label: " wake_on_touch"}
+      - {name: wake, label: " wake_on_touch", kind: dropdown,
+         options: [{"a touch wakes the device": "True"}, {"it does not": "False"}]}
 
   - type: "esp32_wake_on_ext0"
     fn: wake_on_ext0
     label: []
     tooltip: ".. function:: wake_on_ext0(pin, level) Configure how EXT0 wakes the device from sleep. *pin* can be ``None`` or a valid Pin object. *level* should be ``esp32.WAKEUP_ALL_LOW`` or "
+    import:
+      - {key: import_esp32, line: "import esp32"}
+      - {key: import_pin,   line: "from machine import Pin"}
+    code: "esp32.wake_on_ext0(pin=Pin({pin}), level={level})"
     params:
-      - {name: pIn, label: " wake_on_ext0"}
+      - {name: pin,   label: " wake_on_ext0 pin", pin: true}
+      - {name: level, label: wakes on, kind: dropdown,
+         options: [{low: "esp32.WAKEUP_ALL_LOW"}, {high: "esp32.WAKEUP_ANY_HIGH"}]}
 
   - type: "esp32_wake_on_ext1"
     fn: wake_on_ext1
     label: []
     tooltip: ".. function:: wake_on_ext1(pins, level) Configure how EXT1 wakes the device from sleep. *pins* can be ``None`` or a tuple/list of valid Pin objects. *level* should be ``esp32.WAKEUP_ALL_ "
+    import:
+      - {key: import_esp32, line: "import esp32"}
+      - {key: import_pin,   line: "from machine import Pin"}
+    code: "esp32.wake_on_ext1(pins={pins}, level={level})"
     params:
-      - {name: pIn, label: " wake_on_ext1"}
+      # A list of Pin objects, so the default is written out as code rather
+      # than as text -- see `unquote:`.
+      - {name: pins, label: " wake_on_ext1 pins", unquote: true,
+         plug: {type: text, fields: {TEXT: "[Pin(2), Pin(4)]"}}}
+      - {name: level, label: wakes on, kind: dropdown,
+         options: [{low: "esp32.WAKEUP_ALL_LOW"}, {high: "esp32.WAKEUP_ANY_HIGH"}]}
 
   - type: "esp32_raw_temperature"
     fn: raw_temperature
@@ -58,23 +86,143 @@ blocks:
 
   - type: "esp32_idf_heap_info"
     fn: idf_heap_info
+    kind: value
     label: []
     tooltip: ".. function:: idf_heap_info(capabilities) Returns information about the ESP-IDF heap memory regions. One of them conta ins "
     params:
-      - {name: pIn, label: " idf_heap_info"}
+      - {name: capabilities, label: " idf_heap_info", kind: dropdown,
+         options: [{"data heap": "esp32.HEAP_DATA"}, {"executable heap": "esp32.HEAP_EXEC"}]}
 
-  # Still hand-written: a method with no object to call it on.
-  - {type: "esp32_Partition.info", external: true}
-  - {type: "esp32_Partition.readblocks", external: true}
-  - {type: "esp32_Partition.writeblocks", external: true}
-  - {type: "esp32_Partition.ioctl", external: true}
-  - {type: "esp32_Partition.set_boot", external: true}
-  - {type: "esp32_Partition.get_next_update", external: true}
-  - {type: "esp32_RMT.source_freq", external: true}
-  - {type: "esp32_RMT.clock_div", external: true}
-  - {type: "esp32_RMT.wait_done", external: true}
-  - {type: "esp32_RMT.loop", external: true}
-  - {type: "esp32_RMT.write_pulses", external: true}
-  - {type: "esp32_ULP.set_wakeup_period", external: true}
-  - {type: "esp32_ULP.load_binary", external: true}
-  - {type: "esp32_ULP.run", external: true}
+  # --- Partition: the flash layout, and OTA updates -------------------------
+
+  - type: esp32_Partition
+    instance: partition
+    label: Partition
+    tooltip: The partition to work on. BOOT is the one that will be booted next.
+    code: "{instance} = esp32.Partition(esp32.Partition.{which})"
+    params:
+      - {name: which, label: partition, kind: dropdown,
+         options: [{running: RUNNING}, {boot: BOOT}]}
+
+  - {type: "esp32_Partition.info", instance: partition, fn: info, kind: value,
+     label: Partition.info,
+     tooltip: "Type, subtype, address, size, label and whether it is encrypted."}
+
+  - type: "esp32_Partition.readblocks"
+    instance: partition
+    fn: readblocks
+    label: Partition.readblocks
+    tooltip: Read blocks into a buffer, starting at this block number.
+    params:
+      - {name: block_num, label: from block, type: Number, default: 0, align: right}
+      - {name: buf,       label: into,       align: right}
+
+  - type: "esp32_Partition.writeblocks"
+    instance: partition
+    fn: writeblocks
+    label: Partition.writeblocks
+    tooltip: Write a buffer over blocks, starting at this block number.
+    params:
+      - {name: block_num, label: from block, type: Number, default: 0, align: right}
+      - {name: buf,       label: from,       align: right}
+
+  - type: "esp32_Partition.ioctl"
+    instance: partition
+    fn: ioctl
+    label: Partition.ioctl
+    tooltip: The block-device control call, as the docs describe it.
+    params:
+      - {name: cmd, label: command,  type: Number, default: 4, align: right}
+      - {name: arg, label: argument, type: Number, default: 0, align: right}
+
+  - {type: "esp32_Partition.set_boot", instance: partition, fn: set_boot,
+     label: Partition.set_boot,
+     tooltip: Boot from this partition next time.}
+
+  - {type: "esp32_Partition.get_next_update", instance: partition, fn: get_next_update,
+     kind: value, label: Partition.get_next_update,
+     tooltip: The partition an over-the-air update should be written to.}
+
+  # --- RMT: precise pulse trains, for IR remotes and the like ---------------
+
+  - type: esp32_RMT
+    instance: rmt
+    label: RMT
+    tooltip: A pulse generator on one pin. The clock divider sets the tick length.
+    import:
+      - {key: import_esp32, line: "import esp32"}
+      - {key: import_pin,   line: "from machine import Pin"}
+    code: "{instance} = esp32.RMT({channel}, pin=Pin({pin}), clock_div={clock_div})"
+    params:
+      - {name: channel,   label: channel,      type: Number, default: 0, align: right}
+      - {name: pin,       label: pin,          pin: true,    align: right}
+      - {name: clock_div, label: clock divider, type: Number, default: 8, align: right}
+
+  - {type: "esp32_RMT.source_freq", instance: rmt, fn: source_freq, kind: value,
+     label: RMT.source_freq, tooltip: "The source clock, in hertz."}
+
+  - {type: "esp32_RMT.clock_div", instance: rmt, fn: clock_div, kind: value,
+     label: RMT.clock_div, tooltip: "The clock divider this channel was built with."}
+
+  - type: "esp32_RMT.wait_done"
+    instance: rmt
+    fn: wait_done
+    kind: value
+    label: RMT.wait_done
+    tooltip: True once the pulse train has finished, waiting up to this long.
+    params:
+      - {name: timeout, label: "timeout (ms)", type: Number, default: 0, align: right}
+
+  - type: "esp32_RMT.loop"
+    instance: rmt
+    fn: loop
+    label: RMT.loop
+    tooltip: Repeat the pulse train until it is turned off.
+    params:
+      - {name: enable, label: looping, kind: dropdown,
+         options: [{on: "True"}, {off: "False"}]}
+
+  - type: "esp32_RMT.write_pulses"
+    instance: rmt
+    fn: write_pulses
+    label: RMT.write_pulses
+    tooltip: "Send a list of durations, starting at the given level."
+    params:
+      # `unquote:` so the shipped default is a list and not the string "[...]";
+      # a list block plugged in instead is left alone.
+      - {name: duration, label: durations, unquote: true, align: right,
+         plug: {type: text, fields: {TEXT: "[100, 100, 100, 100]"}}}
+      - {name: data, label: starting, kind: dropdown,
+         options: [{high: "True"}, {low: "False"}]}
+
+  # --- ULP: the coprocessor that runs while the CPU sleeps ------------------
+
+  - {type: esp32_ULP, instance: ulp, label: ULP,
+     code: "{instance} = esp32.ULP()",
+     tooltip: "The ultra-low-power coprocessor, which runs while the CPU sleeps."}
+
+  - type: "esp32_ULP.set_wakeup_period"
+    instance: ulp
+    fn: set_wakeup_period
+    label: ULP.set_wakeup_period
+    tooltip: How often the coprocessor wakes up, in microseconds.
+    params:
+      - {name: period_index, label: timer,       type: Number, default: 0,      align: right}
+      - {name: period_us,    label: "every (us)", type: Number, default: 1000000, align: right}
+
+  - type: "esp32_ULP.load_binary"
+    instance: ulp
+    fn: load_binary
+    label: ULP.load_binary
+    tooltip: Load an assembled program into the coprocessor's memory.
+    params:
+      - {name: load_addr,      label: at address, type: Number, default: 0, align: right}
+      - {name: program_binary, label: program,    align: right}
+
+  - type: "esp32_ULP.run"
+    instance: ulp
+    fn: run
+    label: ULP.run
+    tooltip: Start the loaded program at this address.
+    params:
+      - {name: entry_point, label: from address, type: Number, default: 0, align: right}

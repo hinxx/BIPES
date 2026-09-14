@@ -2580,9 +2580,19 @@
 
   <block type="esp32_wake_on_touch"></block>
 
-  <block type="esp32_wake_on_ext0"></block>
+  <block type="esp32_wake_on_ext0">
+    <value name="pin">
+      <shadow type="pinout"></shadow>
+    </value>
+  </block>
 
-  <block type="esp32_wake_on_ext1"></block>
+  <block type="esp32_wake_on_ext1">
+    <value name="pins">
+      <block type="text">
+        <field name="TEXT">[Pin(2), Pin(4)]</field>
+      </block>
+    </value>
+  </block>
 
   <block type="esp32_raw_temperature"></block>
 
@@ -2590,33 +2600,111 @@
 
   <block type="esp32_idf_heap_info"></block>
 
+  <block type="esp32_Partition"></block>
+
   <block type="esp32_Partition.info"></block>
 
-  <block type="esp32_Partition.readblocks"></block>
+  <block type="esp32_Partition.readblocks">
+    <value name="block_num">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
-  <block type="esp32_Partition.writeblocks"></block>
+  <block type="esp32_Partition.writeblocks">
+    <value name="block_num">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
-  <block type="esp32_Partition.ioctl"></block>
+  <block type="esp32_Partition.ioctl">
+    <value name="cmd">
+      <shadow type="math_number">
+        <field name="NUM">4</field>
+      </shadow>
+    </value>
+    <value name="arg">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="esp32_Partition.set_boot"></block>
 
   <block type="esp32_Partition.get_next_update"></block>
 
+  <block type="esp32_RMT">
+    <value name="channel">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="pin">
+      <shadow type="pinout"></shadow>
+    </value>
+    <value name="clock_div">
+      <shadow type="math_number">
+        <field name="NUM">8</field>
+      </shadow>
+    </value>
+  </block>
+
   <block type="esp32_RMT.source_freq"></block>
 
   <block type="esp32_RMT.clock_div"></block>
 
-  <block type="esp32_RMT.wait_done"></block>
+  <block type="esp32_RMT.wait_done">
+    <value name="timeout">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
   <block type="esp32_RMT.loop"></block>
 
-  <block type="esp32_RMT.write_pulses"></block>
+  <block type="esp32_RMT.write_pulses">
+    <value name="duration">
+      <block type="text">
+        <field name="TEXT">[100, 100, 100, 100]</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="esp32_ULP.set_wakeup_period"></block>
+  <block type="esp32_ULP"></block>
 
-  <block type="esp32_ULP.load_binary"></block>
+  <block type="esp32_ULP.set_wakeup_period">
+    <value name="period_index">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="period_us">
+      <shadow type="math_number">
+        <field name="NUM">1000000</field>
+      </shadow>
+    </value>
+  </block>
 
-  <block type="esp32_ULP.run"></block>
+  <block type="esp32_ULP.load_binary">
+    <value name="load_addr">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="esp32_ULP.run">
+    <value name="entry_point">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:esp32mod -->
 <!-- blockdef:esp -->
@@ -2641,28 +2729,228 @@
   <block type="esp_set_native_code_location"></block>
 </category>
 <!-- /blockdef:esp -->
+<!-- blockdef:framebuf -->
 <category name="framebuf">
-<block type="framebuf_FrameBuffer.fill">
-</block>
-<block type="framebuf_FrameBuffer.pixel">
-</block>
-<block type="framebuf_FrameBuffer.hline">
-</block>
-<block type="framebuf_FrameBuffer.vline">
-</block>
-<block type="framebuf_FrameBuffer.line">
-</block>
-<block type="framebuf_FrameBuffer.rect">
-</block>
-<block type="framebuf_FrameBuffer.fill_rect">
-</block>
-<block type="framebuf_FrameBuffer.text">
-</block>
-<block type="framebuf_FrameBuffer.scroll">
-</block>
-<block type="framebuf_FrameBuffer.blit">
-</block>
+
+  <block type="framebuf_FrameBuffer">
+    <value name="width">
+      <shadow type="math_number">
+        <field name="NUM">128</field>
+      </shadow>
+    </value>
+    <value name="height">
+      <shadow type="math_number">
+        <field name="NUM">64</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.fill">
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.pixel">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.hline">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.vline">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.line">
+    <value name="x1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y1">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="x2">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="y2">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.rect">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">16</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.fill_rect">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="w">
+      <shadow type="math_number">
+        <field name="NUM">32</field>
+      </shadow>
+    </value>
+    <value name="h">
+      <shadow type="math_number">
+        <field name="NUM">16</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.text">
+    <value name="s">
+      <shadow type="text">
+        <field name="TEXT">Hello</field>
+      </shadow>
+    </value>
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="c">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.scroll">
+    <value name="xstep">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="ystep">
+      <shadow type="math_number">
+        <field name="NUM">8</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="framebuf_FrameBuffer.blit">
+    <value name="x">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="y">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 </category>
+<!-- /blockdef:framebuf -->
 <!-- blockdef:gc -->
 <category name="gc">
 

@@ -1163,344 +1163,81 @@ Blockly.Blocks['control_pid.__init__'] = {
 
 
 
-Blockly.Blocks["esp32_Partition.info"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Partition.info");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.info() Returns a 6-tuple ``(type, subtype, addr, size, label, encrypted)``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-
-
 
-Blockly.Blocks["esp32_Partition.readblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Partition.readblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.readblocks(block_num, buf, offset) .. method:: Partition.writeblocks(block_num, buf) .. method:: Partition.writeblocks(block_num, buf, offset) .. method:: Partition.ioctl(cmd, arg) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
 
 
-
-Blockly.Blocks["esp32_Partition.writeblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Partition.writeblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.writeblocks(block_num, buf, offset) .. method:: Partition.ioctl(cmd, arg) These methods implement the simple and :ref:`extended ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_Partition.ioctl"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Partition.ioctl");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.ioctl(cmd, arg) These methods implement the simple and :ref:`extended <block-device-interface>` block protocol defined by ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_Partition.set_boot"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Partition.set_boot");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.set_boot() Sets the partition as the boot partition. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_Partition.get_next_update"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Partition.get_next_update");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Partition.get_next_update() Gets the next update partition after this one, and returns a new Partition o bject. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_RMT.source_freq"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" RMT.source_freq");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RMT.source_freq() Returns the source clock frequency. Currently the source clock is not configurable so this will always return 80MHz. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_RMT.clock_div"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" RMT.clock_div");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: RMT.clock_div() Return the clock divider. Note that the channel resolution is ``1 / (source_freq / clock_div)``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_RMT.wait_done"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RMT.wait_done");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RMT.wait_done(timeout=0) Returns True if `RMT.write_pulses` has completed. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_RMT.loop"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RMT.loop");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RMT.loop(enable_loop) Configure looping on the channel, allowing a stream of pulses to be indefinitely repeated. *enable_loop* is bool, set to True to enable looping. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_RMT.write_pulses"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" RMT.write_pulses");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: RMT.write_pulses(pulses, start) Begin sending *pulses*, a list or tuple defining the stream of pulses. The length of each pulse is defined by a number to be multiplied by the channel ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_ULP.set_wakeup_period"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" ULP.set_wakeup_period");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: ULP.set_wakeup_period(period_index, period_us) Set the wake-up period. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_ULP.load_binary"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" ULP.load_binary");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: ULP.load_binary(load_addr, program_binary) Load a *program_binary* into the ULP at the given *load_addr*. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["esp32_ULP.run"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" ULP.run");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: ULP.run(entry_point) Start the ULP running at the given *entry_point*. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.fill"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.fill");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.fill(c) Fill the entire FrameBuffer with the specified color. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.pixel"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.pixel");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.hline"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.hline");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.hline(x, y, w, c) .. method:: FrameBuffer.vline(x, y, h, c) .. method:: FrameBuffer.line(x1, y1, x2, y2, c) ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.vline"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.vline");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.vline(x, y, h, c) .. method:: FrameBuffer.line(x1, y1, x2, y2, c) Draw a line from a set of coordinates using the given color and ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.line"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.line");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.line(x1, y1, x2, y2, c) Draw a line from a set of coordinates using the given color and a thickness of 1 pixel. The `line` method draws the line up to ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.rect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.rect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.rect(x, y, w, h, c) .. method:: FrameBuffer.fill_rect(x, y, w, h, c) Draw a rectangle at the given location, size and color. The `rect` ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.fill_rect"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.fill_rect");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.fill_rect(x, y, w, h, c) Draw a rectangle at the given location, size and color. The `rect` method draws only a 1 pixel outline whereas the `fill_rect` method ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.text"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.text");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.scroll"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.scroll");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: FrameBuffer.scroll(xstep, ystep) Shift the contents of the FrameBuffer by the given vector. This may leave a footprint of the previous colors in the FrameBuffer. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
-
-
-
-Blockly.Blocks["framebuf_FrameBuffer.blit"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" FrameBuffer.blit");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

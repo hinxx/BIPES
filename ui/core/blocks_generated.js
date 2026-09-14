@@ -2308,9 +2308,9 @@ Blockly.Blocks['esp32_cam_white_led'] = {
 
 Blockly.Blocks['esp32_wake_on_touch'] = {
   init: function() {
-    this.appendValueInput("pIn")
-        .setCheck(null)
-        .appendField(" wake_on_touch");
+    this.appendDummyInput()
+        .appendField(" wake_on_touch")
+        .appendField(new Blockly.FieldDropdown([["a touch wakes the device", "True"], ["it does not", "False"]]), "wake");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
@@ -2321,9 +2321,12 @@ Blockly.Blocks['esp32_wake_on_touch'] = {
 
 Blockly.Blocks['esp32_wake_on_ext0'] = {
   init: function() {
-    this.appendValueInput("pIn")
+    this.appendValueInput("pin")
         .setCheck(null)
-        .appendField(" wake_on_ext0");
+        .appendField(" wake_on_ext0 pin");
+    this.appendDummyInput()
+        .appendField("wakes on")
+        .appendField(new Blockly.FieldDropdown([["low", "esp32.WAKEUP_ALL_LOW"], ["high", "esp32.WAKEUP_ANY_HIGH"]]), "level");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
@@ -2334,9 +2337,12 @@ Blockly.Blocks['esp32_wake_on_ext0'] = {
 
 Blockly.Blocks['esp32_wake_on_ext1'] = {
   init: function() {
-    this.appendValueInput("pIn")
+    this.appendValueInput("pins")
         .setCheck(null)
-        .appendField(" wake_on_ext1");
+        .appendField(" wake_on_ext1 pins");
+    this.appendDummyInput()
+        .appendField("wakes on")
+        .appendField(new Blockly.FieldDropdown([["low", "esp32.WAKEUP_ALL_LOW"], ["high", "esp32.WAKEUP_ANY_HIGH"]]), "level");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
@@ -2369,13 +2375,284 @@ Blockly.Blocks['esp32_hall_sensor'] = {
 
 Blockly.Blocks['esp32_idf_heap_info'] = {
   init: function() {
-    this.appendValueInput("pIn")
-        .setCheck(null)
-        .appendField(" idf_heap_info");
+    this.appendDummyInput()
+        .appendField(" idf_heap_info")
+        .appendField(new Blockly.FieldDropdown([["data heap", "esp32.HEAP_DATA"], ["executable heap", "esp32.HEAP_EXEC"]]), "capabilities");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. function:: idf_heap_info(capabilities) Returns information about the ESP-IDF heap memory regions. One of them conta ins ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition");
+    this.appendDummyInput()
+        .appendField("partition")
+        .appendField(new Blockly.FieldDropdown([["running", "RUNNING"], ["boot", "BOOT"]]), "which");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
-    this.setTooltip(".. function:: idf_heap_info(capabilities) Returns information about the ESP-IDF heap memory regions. One of them conta ins ");
+    this.setTooltip("The partition to work on. BOOT is the one that will be booted next.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.info");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Type, subtype, address, size, label and whether it is encrypted.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.readblocks'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.readblocks");
+    this.appendValueInput("block_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from block");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Read blocks into a buffer, starting at this block number.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.writeblocks'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.writeblocks");
+    this.appendValueInput("block_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from block");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write a buffer over blocks, starting at this block number.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.ioctl'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.ioctl");
+    this.appendValueInput("cmd")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("command");
+    this.appendValueInput("arg")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("argument");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The block-device control call, as the docs describe it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.set_boot'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.set_boot");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Boot from this partition next time.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_Partition.get_next_update'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Partition.get_next_update");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The partition an over-the-air update should be written to.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT");
+    this.appendValueInput("channel")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("channel");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("pin");
+    this.appendValueInput("clock_div")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("clock divider");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A pulse generator on one pin. The clock divider sets the tick length.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT.source_freq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT.source_freq");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The source clock, in hertz.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT.clock_div'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT.clock_div");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The clock divider this channel was built with.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT.wait_done'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT.wait_done");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timeout (ms)");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("True once the pulse train has finished, waiting up to this long.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT.loop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT.loop");
+    this.appendDummyInput()
+        .appendField("looping")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "enable");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Repeat the pulse train until it is turned off.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_RMT.write_pulses'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RMT.write_pulses");
+    this.appendValueInput("duration")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("durations");
+    this.appendDummyInput()
+        .appendField("starting")
+        .appendField(new Blockly.FieldDropdown([["high", "True"], ["low", "False"]]), "data");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Send a list of durations, starting at the given level.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_ULP'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ULP");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The ultra-low-power coprocessor, which runs while the CPU sleeps.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_ULP.set_wakeup_period'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ULP.set_wakeup_period");
+    this.appendValueInput("period_index")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timer");
+    this.appendValueInput("period_us")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("every (us)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("How often the coprocessor wakes up, in microseconds.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_ULP.load_binary'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ULP.load_binary");
+    this.appendValueInput("load_addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("at address");
+    this.appendValueInput("program_binary")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("program");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Load an assembled program into the coprocessor's memory.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
+  }
+};
+
+Blockly.Blocks['esp32_ULP.run'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ULP.run");
+    this.appendValueInput("entry_point")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start the loaded program at this address.");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/esp32.html");
   }
 };
@@ -2595,6 +2872,296 @@ Blockly.Blocks['sd_mount_custom'] = {
     this.setColour(0);
     this.setTooltip("Mount SD Card on the specified folder Custom Pins)");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SDCard.html");
+  }
+};
+
+// ---- framebuf (framebuf.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['framebuf_FrameBuffer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer");
+    this.appendValueInput("width")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("height")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("format")
+        .appendField(new Blockly.FieldDropdown([["1 bit, vertical (MONO_VLSB)", "MONO_VLSB"], ["1 bit, horizontal (MONO_HLSB)", "MONO_HLSB"], ["1 bit, horizontal reversed (MONO_HMSB)", "MONO_HMSB"], ["16 bit colour (RGB565)", "RGB565"], ["2 bit greyscale (GS2_HMSB)", "GS2_HMSB"], ["4 bit greyscale (GS4_HMSB)", "GS4_HMSB"], ["8 bit greyscale (GS8)", "GS8"]]), "format");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Make a drawing buffer of this size, to blit onto a display later.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.fill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.fill");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Fill the whole buffer with one colour.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.pixel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.pixel");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set one pixel.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.hline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.hline");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A horizontal line from x, y, w pixels wide.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.vline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.vline");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A vertical line from x, y, h pixels tall.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.line");
+    this.appendValueInput("x1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from x");
+    this.appendValueInput("y1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("x2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("to x");
+    this.appendValueInput("y2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A line between two points.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.rect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.rect");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("The outline of a rectangle.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.fill_rect'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.fill_rect");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("w")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width");
+    this.appendValueInput("h")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("height");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A filled rectangle.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.text");
+    this.appendValueInput("s")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("text");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.appendValueInput("c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Write text in the built-in 8x8 font.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.scroll'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.scroll");
+    this.appendValueInput("xstep")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("by x");
+    this.appendValueInput("ystep")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Shift everything in the buffer by this much.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
+  }
+};
+
+Blockly.Blocks['framebuf_FrameBuffer.blit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("FrameBuffer.blit");
+    this.appendValueInput("source")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("buffer");
+    this.appendValueInput("x")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("x");
+    this.appendValueInput("y")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Draw another buffer into this one at x, y.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/framebuf.html");
   }
 };
 

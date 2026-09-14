@@ -1167,22 +1167,28 @@ Blockly.Python['esp32_cam_white_led'] = function(block) {
 
 Blockly.Python['esp32_wake_on_touch'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
-  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
-  var code = "esp32.wake_on_touch(" + pIn_ + ")";
+  var wake_ = block.getFieldValue("wake");
+  var code = "esp32.wake_on_touch(" + wake_ + ")";
   return code + "\n";
 };
 
 Blockly.Python['esp32_wake_on_ext0'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
-  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
-  var code = "esp32.wake_on_ext0(" + pIn_ + ")";
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var level_ = block.getFieldValue("level");
+  var code = "esp32.wake_on_ext0(pin=Pin(" + pin_ + "), level=" + level_ + ")";
   return code + "\n";
 };
 
 Blockly.Python['esp32_wake_on_ext1'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
-  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
-  var code = "esp32.wake_on_ext1(" + pIn_ + ")";
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var pins_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "pins", Blockly.Python.ORDER_ATOMIC));
+  var level_ = block.getFieldValue("level");
+  var code = "esp32.wake_on_ext1(pins=" + pins_ + ", level=" + level_ + ")";
   return code + "\n";
 };
 
@@ -1200,8 +1206,131 @@ Blockly.Python['esp32_hall_sensor'] = function(block) {
 
 Blockly.Python['esp32_idf_heap_info'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
-  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
-  var code = "esp32.idf_heap_info(" + pIn_ + ")";
+  var capabilities_ = block.getFieldValue("capabilities");
+  var code = "esp32.idf_heap_info(" + capabilities_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_Partition'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var which_ = block.getFieldValue("which");
+  var code = "partition = esp32.Partition(esp32.Partition." + which_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_Partition.info'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "partition.info()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_Partition.readblocks'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "partition.readblocks(" + block_num_ + ", " + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_Partition.writeblocks'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = "partition.writeblocks(" + block_num_ + ", " + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_Partition.ioctl'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var cmd_ = Blockly.Python.valueToCode(block, "cmd", Blockly.Python.ORDER_ATOMIC);
+  var arg_ = Blockly.Python.valueToCode(block, "arg", Blockly.Python.ORDER_ATOMIC);
+  var code = "partition.ioctl(" + cmd_ + ", " + arg_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_Partition.set_boot'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "partition.set_boot()";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_Partition.get_next_update'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "partition.get_next_update()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_RMT'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var channel_ = Blockly.Python.valueToCode(block, "channel", Blockly.Python.ORDER_ATOMIC);
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var clock_div_ = Blockly.Python.valueToCode(block, "clock_div", Blockly.Python.ORDER_ATOMIC);
+  var code = "rmt = esp32.RMT(" + channel_ + ", pin=Pin(" + pin_ + "), clock_div=" + clock_div_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_RMT.source_freq'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "rmt.source_freq()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_RMT.clock_div'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "rmt.clock_div()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_RMT.wait_done'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "rmt.wait_done(" + timeout_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['esp32_RMT.loop'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var enable_ = block.getFieldValue("enable");
+  var code = "rmt.loop(" + enable_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_RMT.write_pulses'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var duration_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC));
+  var data_ = block.getFieldValue("data");
+  var code = "rmt.write_pulses(" + duration_ + ", " + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_ULP'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var code = "ulp = esp32.ULP()";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_ULP.set_wakeup_period'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var period_index_ = Blockly.Python.valueToCode(block, "period_index", Blockly.Python.ORDER_ATOMIC);
+  var period_us_ = Blockly.Python.valueToCode(block, "period_us", Blockly.Python.ORDER_ATOMIC);
+  var code = "ulp.set_wakeup_period(" + period_index_ + ", " + period_us_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_ULP.load_binary'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var load_addr_ = Blockly.Python.valueToCode(block, "load_addr", Blockly.Python.ORDER_ATOMIC);
+  var program_binary_ = Blockly.Python.valueToCode(block, "program_binary", Blockly.Python.ORDER_ATOMIC);
+  var code = "ulp.load_binary(" + load_addr_ + ", " + program_binary_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['esp32_ULP.run'] = function(block) {
+  Blockly.Python.definitions_["import_esp32"] = "import esp32";
+  var entry_point_ = Blockly.Python.valueToCode(block, "entry_point", Blockly.Python.ORDER_ATOMIC);
+  var code = "ulp.run(" + entry_point_ + ")";
   return code + "\n";
 };
 
@@ -1289,6 +1418,113 @@ Blockly.Python['sd_mount_custom'] = function(block) {
   var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "\nsdcard = machine.SDCard(slot=" + slot_ + ", width=1, cd=None, wp=None, sck=Pin(" + sck_ + "), miso=Pin(" + miso_ + "), mosi=Pin(" + mosi_ + "), cs=Pin(" + cs_ + "), freq=" + freq_ + ")\nos.mount(sdcard, " + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- framebuf (framebuf.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['framebuf_FrameBuffer'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var width_ = Blockly.Python.valueToCode(block, "width", Blockly.Python.ORDER_ATOMIC);
+  var height_ = Blockly.Python.valueToCode(block, "height", Blockly.Python.ORDER_ATOMIC);
+  var format_ = block.getFieldValue("format");
+  var code = "fbuf = framebuf.FrameBuffer(bytearray(" + width_ + " * " + height_ + " * 2), " + width_ + ", " + height_ + ", framebuf." + format_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.fill'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.fill(" + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.pixel'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.pixel(" + x_ + ", " + y_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.hline'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.hline(" + x_ + ", " + y_ + ", " + w_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.vline'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.vline(" + x_ + ", " + y_ + ", " + h_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.line'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x1_ = Blockly.Python.valueToCode(block, "x1", Blockly.Python.ORDER_ATOMIC);
+  var y1_ = Blockly.Python.valueToCode(block, "y1", Blockly.Python.ORDER_ATOMIC);
+  var x2_ = Blockly.Python.valueToCode(block, "x2", Blockly.Python.ORDER_ATOMIC);
+  var y2_ = Blockly.Python.valueToCode(block, "y2", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.line(" + x1_ + ", " + y1_ + ", " + x2_ + ", " + y2_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.rect'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.rect(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.fill_rect'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var w_ = Blockly.Python.valueToCode(block, "w", Blockly.Python.ORDER_ATOMIC);
+  var h_ = Blockly.Python.valueToCode(block, "h", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.fill_rect(" + x_ + ", " + y_ + ", " + w_ + ", " + h_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.text'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var s_ = Blockly.Python.valueToCode(block, "s", Blockly.Python.ORDER_ATOMIC);
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var c_ = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.text(" + s_ + ", " + x_ + ", " + y_ + ", " + c_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.scroll'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var xstep_ = Blockly.Python.valueToCode(block, "xstep", Blockly.Python.ORDER_ATOMIC);
+  var ystep_ = Blockly.Python.valueToCode(block, "ystep", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.scroll(" + xstep_ + ", " + ystep_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['framebuf_FrameBuffer.blit'] = function(block) {
+  Blockly.Python.definitions_["import_framebuf"] = "import framebuf";
+  var source_ = Blockly.Python.valueToCode(block, "source", Blockly.Python.ORDER_ATOMIC);
+  var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  var code = "fbuf.blit(" + source_ + ", " + x_ + ", " + y_ + ")";
   return code + "\n";
 };
 

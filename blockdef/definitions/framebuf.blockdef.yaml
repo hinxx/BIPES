@@ -1,0 +1,144 @@
+# `framebuf` -- a block of memory you draw into and then blit onto a display.
+#
+# The ten method blocks emitted `framebuf.FrameBuffer.fill(...)` under
+# `import framebuf`: the class, not an object, and one untyped `pIn` socket
+# standing for every argument. Unlike `machine.I2C` and the rest, there was no
+# `.init` to turn into the constructor and nothing anywhere else in the tree
+# that makes a FrameBuffer, so this category gets **one new block**. It is the
+# first the conversion has added, and the alternative was ten blocks that
+# cannot be used.
+#
+# The buffer is allocated at two bytes per pixel whatever the format. That is
+# exactly right for RGB565 and generous for the others -- MicroPython only
+# requires the buffer to be big enough -- which beats asking a beginner to work
+# out `width * height // 8` and getting a ValueError when they are one byte
+# short.
+#
+# `blit` draws *another* buffer into this one; the display drivers that
+# subclass FrameBuffer (`ssd1306`, among them BIPES' own OLED family) are what
+# you blit onto at the end.
+
+module: framebuf
+class: FrameBuffer
+instance: fbuf
+colour: 0
+url: https://docs.micropython.org/en/latest/library/framebuf.html
+import: {key: import_framebuf, line: "import framebuf"}
+
+category:
+  name: framebuf
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: framebuf_FrameBuffer
+    label: FrameBuffer
+    tooltip: Make a drawing buffer of this size, to blit onto a display later.
+    code: "{instance} = framebuf.FrameBuffer(bytearray({width} * {height} * 2), {width}, {height}, framebuf.{format})"
+    params:
+      - {name: width,  label: width,  type: Number, default: 128, align: right}
+      - {name: height, label: height, type: Number, default: 64,  align: right}
+      - {name: format, label: format, kind: dropdown, align: right,
+         options: [{"1 bit, vertical (MONO_VLSB)": MONO_VLSB},
+                   {"1 bit, horizontal (MONO_HLSB)": MONO_HLSB},
+                   {"1 bit, horizontal reversed (MONO_HMSB)": MONO_HMSB},
+                   {"16 bit colour (RGB565)": RGB565},
+                   {"2 bit greyscale (GS2_HMSB)": GS2_HMSB},
+                   {"4 bit greyscale (GS4_HMSB)": GS4_HMSB},
+                   {"8 bit greyscale (GS8)": GS8}]}
+
+  - type: framebuf_FrameBuffer.fill
+    fn: fill
+    label: FrameBuffer.fill
+    tooltip: Fill the whole buffer with one colour.
+    params:
+      - {name: c, label: colour, type: Number, default: 1, align: right}
+
+  - type: framebuf_FrameBuffer.pixel
+    fn: pixel
+    label: FrameBuffer.pixel
+    tooltip: Set one pixel.
+    params:
+      - {name: x, label: x,      type: Number, default: 0, align: right}
+      - {name: y, label: y,      type: Number, default: 0, align: right}
+      - {name: c, label: colour, type: Number, default: 1, align: right}
+
+  - type: framebuf_FrameBuffer.hline
+    fn: hline
+    label: FrameBuffer.hline
+    tooltip: A horizontal line from x, y, w pixels wide.
+    params:
+      - {name: x, label: x,      type: Number, default: 0,  align: right}
+      - {name: y, label: y,      type: Number, default: 0,  align: right}
+      - {name: w, label: width,  type: Number, default: 32, align: right}
+      - {name: c, label: colour, type: Number, default: 1,  align: right}
+
+  - type: framebuf_FrameBuffer.vline
+    fn: vline
+    label: FrameBuffer.vline
+    tooltip: A vertical line from x, y, h pixels tall.
+    params:
+      - {name: x, label: x,      type: Number, default: 0,  align: right}
+      - {name: y, label: y,      type: Number, default: 0,  align: right}
+      - {name: h, label: height, type: Number, default: 32, align: right}
+      - {name: c, label: colour, type: Number, default: 1,  align: right}
+
+  - type: framebuf_FrameBuffer.line
+    fn: line
+    label: FrameBuffer.line
+    tooltip: A line between two points.
+    params:
+      - {name: x1, label: from x, type: Number, default: 0,  align: right}
+      - {name: y1, label: y,      type: Number, default: 0,  align: right}
+      - {name: x2, label: to x,   type: Number, default: 32, align: right}
+      - {name: y2, label: y,      type: Number, default: 32, align: right}
+      - {name: c,  label: colour, type: Number, default: 1,  align: right}
+
+  - type: framebuf_FrameBuffer.rect
+    fn: rect
+    label: FrameBuffer.rect
+    tooltip: The outline of a rectangle.
+    params:
+      - {name: x, label: x,      type: Number, default: 0,  align: right}
+      - {name: y, label: y,      type: Number, default: 0,  align: right}
+      - {name: w, label: width,  type: Number, default: 32, align: right}
+      - {name: h, label: height, type: Number, default: 16, align: right}
+      - {name: c, label: colour, type: Number, default: 1,  align: right}
+
+  - type: framebuf_FrameBuffer.fill_rect
+    fn: fill_rect
+    label: FrameBuffer.fill_rect
+    tooltip: A filled rectangle.
+    params:
+      - {name: x, label: x,      type: Number, default: 0,  align: right}
+      - {name: y, label: y,      type: Number, default: 0,  align: right}
+      - {name: w, label: width,  type: Number, default: 32, align: right}
+      - {name: h, label: height, type: Number, default: 16, align: right}
+      - {name: c, label: colour, type: Number, default: 1,  align: right}
+
+  - type: framebuf_FrameBuffer.text
+    fn: text
+    label: FrameBuffer.text
+    tooltip: Write text in the built-in 8x8 font.
+    params:
+      - {name: s, label: text,   type: String, default: Hello, align: right}
+      - {name: x, label: x,      type: Number, default: 0, align: right}
+      - {name: y, label: y,      type: Number, default: 0, align: right}
+      - {name: c, label: colour, type: Number, default: 1, align: right}
+
+  - type: framebuf_FrameBuffer.scroll
+    fn: scroll
+    label: FrameBuffer.scroll
+    tooltip: Shift everything in the buffer by this much.
+    params:
+      - {name: xstep, label: by x, type: Number, default: 0, align: right}
+      - {name: ystep, label: y,    type: Number, default: 8, align: right}
+
+  - type: framebuf_FrameBuffer.blit
+    fn: blit
+    label: FrameBuffer.blit
+    tooltip: Draw another buffer into this one at x, y.
+    params:
+      - {name: source, label: buffer, align: right}
+      - {name: x,      label: x, type: Number, default: 0, align: right}
+      - {name: y,      label: y, type: Number, default: 0, align: right}
