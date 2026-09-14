@@ -1,0 +1,191 @@
+# Reading and writing files, and mounting an SD card. One board offers this
+# category, and most of it did not work.
+#
+# **`file_open_write` and `file_open_read` emitted `'f' = open(…)`.** The file
+# handle arrives through a *String* socket -- the toolbox puts a text block
+# saying `f` in it -- and the generator pasted it straight into the left-hand
+# side of an assignment, quotes and all. That is a SyntaxError on the first
+# line of any program using either block.
+#
+# **`file_write`, `file_read` and `file_close` threw inside the generator.**
+# They read the same socket with `getFieldValue('fileHandle')`, which returns
+# null for a value input, and handed the null to `nameDB_.getName()`:
+# `TypeError: Cannot read properties of null (reading 'toLowerCase')`. That
+# aborts code generation for the *whole workspace*, not just the block.
+#
+# `unquote: true` is what all five wanted: the socket holds the name of a
+# variable, so the quotes the text block puts round it come off and the rest
+# reads `f = open(...)`, `f.write(...)`, `f.read()`, `f.close()`.
+#
+# `file_write_byte` called `struct.pack` without importing `struct`.
+#
+# The `uos_*` entries belong to uos.blockdef.yaml and are `external:` here.
+# `uos_readblocks` and `uos_writeblocks` were each listed twice in a row --
+# they are each *defined* twice by hand as well, which is why -- and appear
+# once now.
+
+module: os
+colour: 230
+url: bipes.net.br
+import: []
+
+category:
+  name: "%{BKY_CAT_FILES}"
+  toolboxes: [esp32]
+
+blocks:
+  - {label: Read and write files}
+
+  - type: file_open
+    kind: value
+    label: [{msg: file_open, align: centre}]
+    tooltip: Open File
+    # The mode is two fields: the dropdown and a "binary" checkbox the old
+    # generator glued together in JavaScript. The join happens in the emitted
+    # Python now, which is the only way to say it here.
+    code: "open({file_name}, ('b' if {checkbox_binary} else '') + '{dropdown_mode}')"
+    params:
+      - {name: file_name, label: {msg: file_name}, type: String, default: file.txt,
+         align: right}
+      - name: dropdown_mode
+        label: {msg: file_mode}
+        align: right
+        kind: dropdown
+        options: [{Append: a}, {Read: r}, {Overwrite: w}, {"Read and Write": "w+"}]
+      - {name: checkbox_binary, label: {msg: file_binary}, kind: checkbox, default: true,
+         align: right}
+
+  - type: file_open_write
+    label: Open text file for writing
+    tooltip: Open text file for writing on the filesystem
+    url: http://www.bipes.net.br
+    code: "{fileHandle} = open({filename}, 'a+')"
+    params:
+      - {name: fileHandle, label: handle,   type: String, default: f,        align: right, unquote: true}
+      - {name: filename,   label: filename, type: String, default: file.txt, align: right}
+
+  - type: file_open_read
+    label: Open text file for reading
+    tooltip: Open text file for reading on the filesystem
+    url: http://www.bipes.net.br
+    code: "{fileHandle} = open({filename})"
+    params:
+      - {name: fileHandle, label: handle,   type: String, default: f,        align: right, unquote: true}
+      - {name: filename,   label: filename, type: String, default: file.txt, align: right}
+
+  - type: file_write
+    label: Write to file
+    tooltip: Write to a file
+    code: "{fileHandle}.write({data})"
+    params:
+      - {name: fileHandle, label: handle,  type: String, default: f, align: right, unquote: true}
+      - {name: data,       label: "Data:", default: contents, align: right}
+
+  - type: file_write_line
+    label: []
+    tooltip: Write line to a file
+    code: |-
+
+      {filename}.write({data})
+      {filename}.write('\n')
+    params:
+      - {name: filename, label: {msg: file_write_line}, kind: variable, default: file}
+      - {name: data,     label: {msg: line}, default: Line contents, align: right}
+
+  - type: file_write_byte
+    label: []
+    tooltip: Write byte to a file
+    import: {key: import_struct, line: "import struct"}
+    code: '{filename}.write(struct.pack("B", {data}))'
+    params:
+      - {name: filename, label: Write single byte to file, kind: variable, default: file}
+      - {name: data,     label: "Byte:", type: Number, default: 80, align: right}
+
+  - type: file_read
+    kind: value
+    label: Read data from the file
+    tooltip: Read data from a file
+    code: "{fileHandle}.read()"
+    params:
+      - {name: fileHandle, label: fileHandle, type: String, default: f, align: right,
+         unquote: true}
+
+  - type: file_close
+    label: [{msg: file_close}]
+    tooltip: Close a file
+    code: "{fileHandle}.close()"
+    params:
+      - {name: fileHandle, label: handle, type: String, default: f, align: right,
+         unquote: true}
+
+  - {label: Disk file operations}
+
+  - type: files_list
+    kind: value
+    label: List files
+    tooltip: "List files from current directory "
+    url: http://www.bipes.net.br
+    import: {key: import_os, line: "import os"}
+    code: "os.listdir()"
+
+  - {type: uos_mkdir,  external: true, params: [{name: pIn, default: file.txt}]}
+  - {type: uos_remove, external: true, params: [{name: pIn, default: file.txt}]}
+
+  - {label: SD Card}
+
+  - type: sd_mount
+    colour: 0
+    label: Mount SD Card
+    tooltip: Mount SD Card on the specified folder
+    url: https://docs.micropython.org/en/latest/library/machine.SDCard.html
+    import: &sd
+      - {key: import_os,      line: "import os"}
+      - {key: import_machine, line: "import machine"}
+    code: "os.mount(machine.SDCard(), {pIn})"
+    params:
+      - {name: pIn, label: mount point, default: /sd, align: right}
+
+  - type: sd_mount_custom
+    colour: 0
+    label: Mount SD Card (Custom Pins)
+    tooltip: Mount SD Card on the specified folder Custom Pins)
+    url: https://docs.micropython.org/en/latest/library/machine.SDCard.html
+    import:
+      - {key: import_os,      line: "import os"}
+      - {key: import_machine, line: "import machine"}
+      - {key: import_pin,     line: "from machine import Pin"}
+    code: |-
+
+      sdcard = machine.SDCard(slot={slot}, width=1, cd=None, wp=None, sck=Pin({sck}), miso=Pin({miso}), mosi=Pin({mosi}), cs=Pin({cs}), freq={freq})
+      os.mount(sdcard, {pIn})
+    params:
+      - {name: slot, label: slot, default: 2,        align: right}
+      - {name: sck,  label: sck,  default: 18,       align: right}
+      - {name: miso, label: miso, default: 19,       align: right}
+      - {name: mosi, label: mosi, default: 23,       align: right}
+      - {name: cs,   label: cs,   default: 15,       align: right}
+      - {name: freq, label: freq, default: 20000000, align: right}
+      - {name: pIn,  label: mount point, default: /sd, align: right}
+
+  - {type: uos_listdir, external: true, params: [{name: pIn, default: /sd}]}
+  - {type: uos_umount,  external: true, params: [{name: pIn, default: /sd}]}
+
+  - {label: Other file operations}
+
+  - {type: uos_listdir,  external: true}
+  - {type: uos_uname,    external: true}
+  - {type: uos_urandom,  external: true}
+  - {type: uos_chdir,    external: true}
+  - {type: uos_getcwd,   external: true}
+  - {type: uos_ilistdir, external: true}
+  - {type: uos_rmdir,    external: true}
+  - {type: uos_rename,   external: true}
+  - {type: uos_stat,     external: true}
+  - {type: uos_statvfs,  external: true}
+  - {type: uos_sync,     external: true}
+  - {type: uos_dupterm,  external: true}
+  - {type: uos_mount,    external: true}
+  - {type: uos_umount,   external: true}
+  - {type: uos_readblocks,  external: true}
+  - {type: uos_writeblocks, external: true}
+  - {type: uos_ioctl,       external: true}

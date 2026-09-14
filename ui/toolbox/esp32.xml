@@ -1097,25 +1097,28 @@
     </category>
     <!-- /blockdef:dht -->
 
+    <!-- blockdef:sht20 -->
     <category name="Temperature and Humidity (SHT20)">
       <label text="SHT20 I2C Temperature and Humidity Sensor"></label>
 
       <block type="sht20_init">
-	      <value name="scl">
-		      <shadow type="math_number">
+        <value name="scl">
+          <shadow type="math_number">
             <field name="NUM">22</field>
           </shadow>
-	      </value>
-	      <value name="sda">
+        </value>
+        <value name="sda">
           <shadow type="math_number">
             <field name="NUM">21</field>
           </shadow>
-	      </value>
+        </value>
       </block>
 
-    <block type="sht20_temperature"> </block>
-    <block type="sht20_humidity"> </block>
-  </category>
+      <block type="sht20_temperature"></block>
+
+      <block type="sht20_humidity"></block>
+    </category>
+    <!-- /blockdef:sht20 -->
 
 <!--Adicionando os blocos do Anenmômetro-->
     <!-- blockdef:anemometro -->
@@ -2135,110 +2138,116 @@
   </category>
  
  
+  <!-- blockdef:files -->
   <category name="%{BKY_CAT_FILES}">
-  <label text="Read and write files"></label>
 
-  <block type="file_open"> 
-    <value name="file_name">
+    <label text="Read and write files"></label>
+
+    <block type="file_open">
+      <value name="file_name">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
-    </value>
-  </block>
+      </value>
+    </block>
 
-  <block type="file_open_write"> 
-    <value name="fileHandle">
-      <shadow type="text">
-        <field name="TEXT">f</field>
-      </shadow>
-    </value>
-    <value name="filename">
+    <block type="file_open_write">
+      <value name="fileHandle">
+        <shadow type="text">
+          <field name="TEXT">f</field>
+        </shadow>
+      </value>
+      <value name="filename">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
-    </value>
-  </block>
+      </value>
+    </block>
 
-  <block type="file_open_read"> 
-    <value name="fileHandle">
-      <shadow type="text">
-        <field name="TEXT">f</field>
-      </shadow>
-    </value>
-    <value name="filename">
+    <block type="file_open_read">
+      <value name="fileHandle">
+        <shadow type="text">
+          <field name="TEXT">f</field>
+        </shadow>
+      </value>
+      <value name="filename">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
-    </value>
-  </block>
-  <block type="file_write"> 
-    <value name="fileHandle">
-      <shadow type="text">
-        <field name="TEXT">f</field>
-      </shadow>
-    </value>
-    <value name="data">
+      </value>
+    </block>
+
+    <block type="file_write">
+      <value name="fileHandle">
+        <shadow type="text">
+          <field name="TEXT">f</field>
+        </shadow>
+      </value>
+      <value name="data">
         <shadow type="text">
           <field name="TEXT">contents</field>
         </shadow>
       </value>
-  </block>
-  <block type="file_write_line"> 
-    <value name="data">
-          <shadow type="text">
-            <field name="TEXT">Line contents</field>
-          </shadow>
-        </value>
-  </block>
-  <block type="file_write_byte"> 
-          <value name="data">
-            <shadow type="math_number">
-              <field name="NUM">80</field>
-            </shadow>
-          </value>
-  </block>
+    </block>
 
+    <block type="file_write_line">
+      <value name="data">
+        <shadow type="text">
+          <field name="TEXT">Line contents</field>
+        </shadow>
+      </value>
+    </block>
 
-  <block type="file_read"> 
-    <value name="fileHandle">
-      <shadow type="text">
-        <field name="TEXT">f</field>
-      </shadow>
-    </value>
-  </block>
-  <block type="file_close"> 
-    <value name="fileHandle">
-      <shadow type="text">
-        <field name="TEXT">f</field>
-      </shadow>
-    </value>
-  </block>
+    <block type="file_write_byte">
+      <value name="data">
+        <shadow type="math_number">
+          <field name="NUM">80</field>
+        </shadow>
+      </value>
+    </block>
 
-      <label text="Disk file operations"></label>
-<block type="files_list">
-</block>
-<block type="uos_mkdir">
-  <value name="pIn">
+    <block type="file_read">
+      <value name="fileHandle">
+        <shadow type="text">
+          <field name="TEXT">f</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="file_close">
+      <value name="fileHandle">
+        <shadow type="text">
+          <field name="TEXT">f</field>
+        </shadow>
+      </value>
+    </block>
+
+    <label text="Disk file operations"></label>
+
+    <block type="files_list"></block>
+
+    <block type="uos_mkdir">
+      <value name="pIn">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
       </value>
-</block>
+    </block>
 
-<block type="uos_remove">
-  <value name="pIn">
+    <block type="uos_remove">
+      <value name="pIn">
         <shadow type="text">
           <field name="TEXT">file.txt</field>
         </shadow>
       </value>
-</block>
+    </block>
 
-      <label text="SD Card"></label>
+    <label text="SD Card"></label>
 
     <block type="sd_mount">
       <value name="pIn">
         <shadow type="text">
-		<field name="TEXT">/sd</field>
+          <field name="TEXT">/sd</field>
         </shadow>
       </value>
     </block>
@@ -2276,71 +2285,64 @@
       </value>
       <value name="pIn">
         <shadow type="text">
-		<field name="TEXT">/sd</field>
+          <field name="TEXT">/sd</field>
         </shadow>
       </value>
     </block>
 
-
-<block type="uos_listdir">
-  <value name="pIn">
+    <block type="uos_listdir">
+      <value name="pIn">
         <shadow type="text">
-		<field name="TEXT">/sd</field>
+          <field name="TEXT">/sd</field>
         </shadow>
       </value>
-</block>
+    </block>
 
-<block type="uos_umount">
-  <value name="pIn">
+    <block type="uos_umount">
+      <value name="pIn">
         <shadow type="text">
-		<field name="TEXT">/sd</field>
+          <field name="TEXT">/sd</field>
         </shadow>
       </value>
-</block>
+    </block>
 
-      <label text="Other file operations"></label>
+    <label text="Other file operations"></label>
 
-<block type="uos_listdir">
-</block>
+    <block type="uos_listdir"></block>
 
+    <block type="uos_uname"></block>
 
-<block type="uos_uname"> </block>
-<block type="uos_urandom">
-</block>
-<block type="uos_chdir">
-</block>
-<block type="uos_getcwd">
-</block>
-<block type="uos_ilistdir">
-</block>
-<block type="uos_rmdir">
-</block>
-<block type="uos_rename">
-</block>
-<block type="uos_stat">
-</block>
-<block type="uos_statvfs">
-</block>
-<block type="uos_sync">
-</block>
-<block type="uos_dupterm">
-</block>
-<block type="uos_mount">
-</block>
-<block type="uos_umount">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_readblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_writeblocks">
-</block>
-<block type="uos_ioctl">
-</block>
+    <block type="uos_urandom"></block>
 
+    <block type="uos_chdir"></block>
+
+    <block type="uos_getcwd"></block>
+
+    <block type="uos_ilistdir"></block>
+
+    <block type="uos_rmdir"></block>
+
+    <block type="uos_rename"></block>
+
+    <block type="uos_stat"></block>
+
+    <block type="uos_statvfs"></block>
+
+    <block type="uos_sync"></block>
+
+    <block type="uos_dupterm"></block>
+
+    <block type="uos_mount"></block>
+
+    <block type="uos_umount"></block>
+
+    <block type="uos_readblocks"></block>
+
+    <block type="uos_writeblocks"></block>
+
+    <block type="uos_ioctl"></block>
   </category>
+  <!-- /blockdef:files -->
  
 
  

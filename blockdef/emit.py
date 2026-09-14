@@ -235,6 +235,11 @@ def _generator_js(definition: Definition, block: Block) -> str:
     lines.append(f'  var code = {_code_js(definition, block, reads)};')
     if block.kind == 'value':
         lines.append('  return [code, Blockly.Python.ORDER_NONE];')
+    elif block.code == '':
+        # An init block that only registers definitions -- `sht20_init` builds
+        # the bus and two helpers and emits nothing of its own. Adding the
+        # newline would leave a blank line where the block sits.
+        lines.append('  return code;')
     else:
         lines.append('  return code + "\\n";')
     lines.append('};\n')

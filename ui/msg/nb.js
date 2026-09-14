@@ -126,6 +126,8 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+  sht20_temperature: "SHT20-temperatur",
+  sht20_humidity: "SHT20-fuktighet",
   mqtt_init: "Start MQTT-klient",
   mqtt_start: "Start MQTT-klient",
   server_address: "Serveradresse",

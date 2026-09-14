@@ -1,0 +1,54 @@
+# SHT20 I2C temperature and humidity sensor.
+#
+# The init block emits nothing itself: it registers the bus and two helper
+# functions the reading blocks call, so the reading blocks work wherever they
+# are placed. That is the same arrangement it already had.
+#
+# The two reading blocks used to label themselves `"SHT20 " + MSG["temperature"]`
+# -- a literal and a translated word concatenated into one field, which a
+# `label:` row cannot express and which is poor i18n anyway, since it fixes the
+# word order. They have a key each now, translated in all eleven files.
+
+module: machine
+colour: 230
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: Temperature and Humidity (SHT20)
+  labels: [SHT20 I2C Temperature and Humidity Sensor]
+  toolboxes: [esp32, esp32c3]
+
+blocks:
+  - type: sht20_init
+    colour: 135
+    label: [{msg: init_sht20}]
+    tooltip: ""
+    url: ""
+    i2c_bus: {scl: scl, sda: sda, soft: true}
+    import:
+      - {key: import_time_, line: "import time"}
+      - key: def_sht20_temperature
+        line: |-
+          def sht20_temperature():
+              {bus}.writeto(0x40, b'\xf3')
+              time.sleep_ms(70)
+              t = {bus}.readfrom(0x40, 2)
+              return -46.86 + 175.72 * (t[0] * 256 + t[1]) / 65535
+      - key: def_sht20_humidity
+        line: |-
+          def sht20_humidity():
+              {bus}.writeto(0x40, b'\xf5')
+              time.sleep_ms(70)
+              t = {bus}.readfrom(0x40, 2)
+              return -6 + 125 * (t[0] * 256 + t[1]) / 65535
+    code: ""
+    params:
+      - {name: scl, label: SCL, type: Number, default: 22, align: right}
+      - {name: sda, label: SDA, type: Number, default: 21, align: right}
+
+  - {type: sht20_temperature, kind: value, label: {msg: sht20_temperature},
+     tooltip: Temperature from the SHT20 sensor, code: "sht20_temperature()"}
+
+  - {type: sht20_humidity, kind: value, label: {msg: sht20_humidity},
+     tooltip: Humidity from the SHT20 sensor, code: "sht20_humidity()"}

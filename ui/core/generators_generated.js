@@ -95,7 +95,7 @@ Blockly.Python['bluetooth_repl_setup'] = function(block) {
   Blockly.Python.definitions_["import_bluetoot_repl"] = "import ble_uart_repl";
   var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
   var code = "";
-  return code + "\n";
+  return code;
 };
 
 Blockly.Python['bluetooth_repl_start'] = function(block) {
@@ -616,6 +616,93 @@ Blockly.Python['esp32_cam_white_led'] = function(block) {
   Blockly.Python.definitions_["gpio_set"] = "def gpio_set(pin,value):\n  if value >= 1:\n    Pin(pin, Pin.OUT).on()\n  else:\n    Pin(pin, Pin.OUT).off()";
   var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
   var code = "gpio_set(4, " + value_ + ")";
+  return code + "\n";
+};
+
+// ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
+
+Blockly.Python['file_open'] = function(block) {
+  var file_name_ = Blockly.Python.valueToCode(block, "file_name", Blockly.Python.ORDER_ATOMIC);
+  var dropdown_mode_ = block.getFieldValue("dropdown_mode");
+  var checkbox_binary_ = (block.getFieldValue("checkbox_binary") == 'TRUE' ? 'True' : 'False');
+  var code = "open(" + file_name_ + ", ('b' if " + checkbox_binary_ + " else '') + '" + dropdown_mode_ + "')";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['file_open_write'] = function(block) {
+  var fileHandle_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "fileHandle", Blockly.Python.ORDER_ATOMIC));
+  var filename_ = Blockly.Python.valueToCode(block, "filename", Blockly.Python.ORDER_ATOMIC);
+  var code = fileHandle_ + " = open(" + filename_ + ", 'a+')";
+  return code + "\n";
+};
+
+Blockly.Python['file_open_read'] = function(block) {
+  var fileHandle_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "fileHandle", Blockly.Python.ORDER_ATOMIC));
+  var filename_ = Blockly.Python.valueToCode(block, "filename", Blockly.Python.ORDER_ATOMIC);
+  var code = fileHandle_ + " = open(" + filename_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['file_write'] = function(block) {
+  var fileHandle_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "fileHandle", Blockly.Python.ORDER_ATOMIC));
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = fileHandle_ + ".write(" + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['file_write_line'] = function(block) {
+  var filename_ = Blockly.Python.nameDB_.getName(block.getFieldValue("filename"), Blockly.VARIABLE_CATEGORY_NAME);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "\n" + filename_ + ".write(" + data_ + ")\n" + filename_ + ".write('\\n')";
+  return code + "\n";
+};
+
+Blockly.Python['file_write_byte'] = function(block) {
+  Blockly.Python.definitions_["import_struct"] = "import struct";
+  var filename_ = Blockly.Python.nameDB_.getName(block.getFieldValue("filename"), Blockly.VARIABLE_CATEGORY_NAME);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = filename_ + ".write(struct.pack(\"B\", " + data_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['file_read'] = function(block) {
+  var fileHandle_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "fileHandle", Blockly.Python.ORDER_ATOMIC));
+  var code = fileHandle_ + ".read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['file_close'] = function(block) {
+  var fileHandle_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "fileHandle", Blockly.Python.ORDER_ATOMIC));
+  var code = fileHandle_ + ".close()";
+  return code + "\n";
+};
+
+Blockly.Python['files_list'] = function(block) {
+  Blockly.Python.definitions_["import_os"] = "import os";
+  var code = "os.listdir()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['sd_mount'] = function(block) {
+  Blockly.Python.definitions_["import_os"] = "import os";
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "os.mount(machine.SDCard(), " + pIn_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['sd_mount_custom'] = function(block) {
+  Blockly.Python.definitions_["import_os"] = "import os";
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var slot_ = Blockly.Python.valueToCode(block, "slot", Blockly.Python.ORDER_ATOMIC);
+  var sck_ = Blockly.Python.valueToCode(block, "sck", Blockly.Python.ORDER_ATOMIC);
+  var miso_ = Blockly.Python.valueToCode(block, "miso", Blockly.Python.ORDER_ATOMIC);
+  var mosi_ = Blockly.Python.valueToCode(block, "mosi", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nsdcard = machine.SDCard(slot=" + slot_ + ", width=1, cd=None, wp=None, sck=Pin(" + sck_ + "), miso=Pin(" + miso_ + "), mosi=Pin(" + mosi_ + "), cs=Pin(" + cs_ + "), freq=" + freq_ + ")\nos.mount(sdcard, " + pIn_ + ")";
   return code + "\n";
 };
 
@@ -2190,6 +2277,29 @@ Blockly.Python['move_servo'] = function(block) {
   var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
   var code = "setServoAngle(servo" + SERVO_ID_ + ", " + angle_ + ")";
   return code + "\n";
+};
+
+// ---- Temperature and Humidity (SHT20) (sht20.blockdef.yaml) ------------------
+
+Blockly.Python['sht20_init'] = function(block) {
+  Blockly.Python.definitions_["import_time_"] = "import time";
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({scl: scl_, sda: sda_, soft: true});
+  Blockly.Python.definitions_["def_sht20_temperature"] = "def sht20_temperature():\n    " + bus_ + ".writeto(0x40, b'\\xf3')\n    time.sleep_ms(70)\n    t = " + bus_ + ".readfrom(0x40, 2)\n    return -46.86 + 175.72 * (t[0] * 256 + t[1]) / 65535";
+  Blockly.Python.definitions_["def_sht20_humidity"] = "def sht20_humidity():\n    " + bus_ + ".writeto(0x40, b'\\xf5')\n    time.sleep_ms(70)\n    t = " + bus_ + ".readfrom(0x40, 2)\n    return -6 + 125 * (t[0] * 256 + t[1]) / 65535";
+  var code = "";
+  return code;
+};
+
+Blockly.Python['sht20_temperature'] = function(block) {
+  var code = "sht20_temperature()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['sht20_humidity'] = function(block) {
+  var code = "sht20_humidity()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- Simulate (simulate.blockdef.yaml) ---------------------------------------

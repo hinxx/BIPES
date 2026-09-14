@@ -253,6 +253,8 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+    sht20_temperature: "температура SHT20",
+    sht20_humidity: "вологість SHT20",
     aht_init: "Ініціалізувати AHT10/20",
     bh1750_init: "Ініціалізувати BH1750",
     line: "рядок",

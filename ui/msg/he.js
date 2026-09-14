@@ -168,6 +168,8 @@ var MSG = {
 //Added: these keys were referenced by blocks but defined in no
 //language file, or only in he/uk, so the blocks using them rendered
 //with no label at all.
+  sht20_temperature: "SHT20 טֶמפֶּרָטוּרָה",
+  sht20_humidity: "SHT20 לחות",
   aht_init: "Init AHT10/20",
   bh1750_init: "Init BH1750",
   line: "שורה",

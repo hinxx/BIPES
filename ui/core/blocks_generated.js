@@ -1218,6 +1218,224 @@ Blockly.Blocks['esp32_cam_white_led'] = {
   }
 };
 
+// ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['file_open'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField(MSG["file_open"]);
+    this.appendValueInput("file_name")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["file_name"]);
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["file_mode"])
+        .appendField(new Blockly.FieldDropdown([["Append", "a"], ["Read", "r"], ["Overwrite", "w"], ["Read and Write", "w+"]]), "dropdown_mode");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["file_binary"])
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "checkbox_binary");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Open File");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_open_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Open text file for writing");
+    this.appendValueInput("fileHandle")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("filename")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("filename");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Open text file for writing on the filesystem");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_open_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Open text file for reading");
+    this.appendValueInput("fileHandle")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("filename")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("filename");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Open text file for reading on the filesystem");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write to file");
+    this.appendValueInput("fileHandle")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.appendValueInput("data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Data:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write to a file");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_write_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["file_write_line"])
+        .appendField(new Blockly.FieldVariable("file"), "filename");
+    this.appendValueInput("data")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["line"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write line to a file");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_write_byte'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write single byte to file")
+        .appendField(new Blockly.FieldVariable("file"), "filename");
+    this.appendValueInput("data")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Byte:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write byte to a file");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read data from the file");
+    this.appendValueInput("fileHandle")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("fileHandle");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read data from a file");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['file_close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["file_close"]);
+    this.appendValueInput("fileHandle")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("handle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Close a file");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['files_list'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("List files");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("List files from current directory ");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['sd_mount'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Mount SD Card");
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mount point");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Mount SD Card on the specified folder");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SDCard.html");
+  }
+};
+
+Blockly.Blocks['sd_mount_custom'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Mount SD Card (Custom Pins)");
+    this.appendValueInput("slot")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("slot");
+    this.appendValueInput("sck")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("sck");
+    this.appendValueInput("miso")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("miso");
+    this.appendValueInput("mosi")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mosi");
+    this.appendValueInput("cs")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("cs");
+    this.appendValueInput("freq")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("freq");
+    this.appendValueInput("pIn")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mount point");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Mount SD Card on the specified folder Custom Pins)");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.SDCard.html");
+  }
+};
+
 // ---- gc (gc.blockdef.yaml) ---------------------------------------------------
 
 Blockly.Blocks['gc_enable'] = {
@@ -4210,6 +4428,49 @@ Blockly.Blocks['move_servo'] = {
     this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip("Move RC servo motor to +/- 90 degrees");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- Temperature and Humidity (SHT20) (sht20.blockdef.yaml) ------------------
+
+Blockly.Blocks['sht20_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["init_sht20"]);
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['sht20_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["sht20_temperature"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Temperature from the SHT20 sensor");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['sht20_humidity'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["sht20_humidity"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Humidity from the SHT20 sensor");
     this.setHelpUrl("http://www.bipes.net.br");
   }
 };

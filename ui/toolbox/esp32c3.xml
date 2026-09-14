@@ -1549,6 +1549,7 @@
     </category>
     <!-- /blockdef:dht -->
 
+    <!-- blockdef:sht20 -->
     <category name="Temperature and Humidity (SHT20)">
       <label text="SHT20 I2C Temperature and Humidity Sensor"></label>
 
@@ -1566,8 +1567,10 @@
       </block>
 
       <block type="sht20_temperature"></block>
+
       <block type="sht20_humidity"></block>
     </category>
+    <!-- /blockdef:sht20 -->
 
 
 <!--Adicionando os blocos do Anenmômetro-->
