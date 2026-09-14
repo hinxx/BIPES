@@ -1602,6 +1602,79 @@ Blockly.Python['hcsr_read'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- HTTP Server (http_server.blockdef.yaml) ---------------------------------
+
+Blockly.Python['net_http_server_start'] = function(block) {
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_ipaddress"] = "import ipaddress";
+    Blockly.Python.definitions_["import_ssl"] = "import ssl";
+    Blockly.Python.definitions_["import_wifi"] = "import wifi";
+    Blockly.Python.definitions_["import_socketpool"] = "import socketpool";
+    code = "pool = socketpool.SocketPool(wifi.radio)\nHOST = str(wifi.radio.ipv4_address)\ns = pool.socket(pool.AF_INET, pool.SOCK_STREAM)\ns.settimeout(None)\ns.bind((HOST, " + port_ + "))\ns.listen(5)\nprint('BIPES HTTP Server Listening on', HOST)";
+  } else {
+    Blockly.Python.definitions_["import_socket"] = "import socket";
+    Blockly.Python.definitions_["import_network"] = "import network";
+    Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+    Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+    code = "http_addr = socket.getaddrinfo('0.0.0.0', " + port_ + ")[0][-1]\ns = socket.socket()\ns.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\ns.bind(http_addr)\ns.listen(1)\nprint('BIPES HTTP Server Listening on', sta_if.ifconfig()[0])";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['net_http_server_accept'] = function(block) {
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    code = "buf = bytearray(500)\nwhile True:\n    conn, addr = s.accept()\n    print(\"Accepted from\", addr)\n    size = conn.recv_into(buf, 500)\n    print(\"Received\", buf[:size], size, \"bytes\")\n    lineS = str(buf[:size], 'utf8')\n    print(lineS)\n    if lineS.startswith('GET /'):\n        http_request_page = (lineS.split('/')[1]).split(' ')[0]\n        print('Request page = ' + http_request_page)\n    if size >= 20:\n        break";
+  } else {
+    code = "cl, http_addr = s.accept()\ncl_file = cl.makefile('rwb', 0)\nwhile True:\n    line = cl_file.readline()\n    lineS = str(line, 'utf8')\n    if lineS.startswith('GET /'):\n        http_request_page = (lineS.split('/')[1]).split(' ')[0]\n        print('Request page = ' + http_request_page)\n    if not line or line == b'\\r\\n':\n        break";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['net_http_server_requested_page'] = function(block) {
+  var code = "http_request_page";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_http_server_send_response'] = function(block) {
+  var html_ = Blockly.Python.valueToCode(block, "html", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    code = "response = " + html_ + "\nconn.send('HTTP/1.0 200 OK\\r\\nContent-type: text/html\\r\\n\\r\\n')\nconn.send(response)\nconn.close()";
+  } else {
+    code = "response = " + html_ + "\ncl.send('HTTP/1.0 200 OK\\r\\nContent-type: text/html\\r\\n\\r\\n')\ncl.send(response)\ncl.close()";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['net_http_server_send_response_jpg'] = function(block) {
+  var html_ = Blockly.Python.valueToCode(block, "html", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    code = "response = " + html_ + "\nconn.send('HTTP/1.0 200 OK\\r\\nContent-type: image/jpg\\r\\n\\r\\n')\nconn.send(response)\nconn.close()";
+  } else {
+    code = "response = " + html_ + "\ncl.send('HTTP/1.0 200 OK\\r\\nContent-type: image/jpg\\r\\n\\r\\n')\ncl.send(response)\ncl.close()";
+  }
+  return code + "\n";
+};
+
+Blockly.Python['net_http_server_close'] = function(block) {
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    code = "conn.close()";
+  } else {
+    code = "cl.close()";
+  }
+  return code + "\n";
+};
+
 // ---- Linux (linux.blockdef.yaml) ---------------------------------------------
 
 Blockly.Python['play_mp3'] = function(block) {

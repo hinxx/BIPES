@@ -2614,129 +2614,16 @@ while True:
     cl.close()
 */
 
-Blockly.Python['net_http_server_start'] = function(block) {
-	var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
-
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		Blockly.Python.definitions_['import_ipaddress'] = 'import ipaddress';
-		Blockly.Python.definitions_['import_ssl'] = 'import ssl';
-		Blockly.Python.definitions_['import_wifi'] = 'import wifi';
-		Blockly.Python.definitions_['import_socketpool'] = 'import socketpool';
-
-		var code = "pool = socketpool.SocketPool(wifi.radio)\n";
-		code += "HOST = str(wifi.radio.ipv4_address)\n";
-		code += "s = pool.socket(pool.AF_INET, pool.SOCK_STREAM)\n";
-		//code += "s.settimeout(10)\n";
-		code += "s.settimeout(None)\n";
-		code += "s.bind((HOST, 80))\n";
-		code += "s.listen(5)\n";
-		code += "print('BIPES HTTP Server Listening on', HOST)\n";
-	} else {
-		Blockly.Python.definitions_['import_socket'] = 'import socket';
-
-		var code = "http_addr = socket.getaddrinfo('0.0.0.0'," + port + ")[0][-1]\n";
-		code += 's = socket.socket()\n';
-		code += 's.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n';
-		code += 's.bind(http_addr)\n';
-		code += 's.listen(1)\n';
-		code += "print('BIPES HTTP Server Listening on', sta_if.ifconfig()[0])\n";
-	}
-
-  return code;
-};
-
-
-Blockly.Python['net_http_server_accept'] = function(block) {
-
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		var code = "buf = bytearray(500)\n";
-		code += "while True:\n";
-		code += "\tconn, addr = s.accept()\n";
-		//code += "\tconn.settimeout(50)\n";
-		code += "\tprint(\"Accepted from\", addr)\n";
-		code += "\tsize = conn.recv_into(buf, 500)\n";
-		code += "\tprint(\"Received\", buf[:size], size, \"bytes\")\n";
-		code += "\tlineS = str(buf[:size], 'utf8')\n";
-		code += "\tprint(lineS)\n";
-		code += "\tif lineS.startswith('GET /'):\n";
-		code += "\t\thttp_request_page = (lineS.split('/')[1]).split(' ')[0]\n";
-		code += "\t\tprint('Request page = ' + http_request_page)\n";
-
-		code += "\tif size >= 20:\n";
-		code += "\t\tbreak\n";
-
-		//code += "\tconn.send(buf[:size])\n";
-		//code += "\tprint("Sent", buf[:size], size, "bytes")\n";
-	} else {
-	  var code = "cl, http_addr = s.accept()\n";
-//	      code += "print('client connected from', http_addr)\n";
-	      code += "cl_file = cl.makefile('rwb', 0)\n";
-	      code += "while True:\n";
-	      code += "    line = cl_file.readline()\n";
-	      code += "    lineS = str(line, 'utf8')\n";
-	      code += "    if lineS.startswith('GET /'):\n";
-	      code += "        http_request_page = (lineS.split('/')[1]).split(' ')[0]\n";
-	      code += "        print('Request page = ' + http_request_page)\n";
-	      code += "    if not line or line == b'\\r\\n':\n";
-	      code += "        break\n";
-	}
-
-  return code;
-};
-
-Blockly.Python['net_http_server_requested_page'] = function(block) {
-
-  var code = 'http_request_page';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-
-Blockly.Python['net_http_server_send_response'] = function(block) {
-  var html = Blockly.Python.valueToCode(block, 'html', Blockly.Python.ORDER_ATOMIC);
-
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		var code = 'response = ' + html + '\n';
-		code += "conn.send('HTTP/1.0 200 OK\\r\\nContent-type: text/html\\r\\n\\r\\n')\n";
-		code += 'conn.send(response)\n';
-		code += 'conn.close()\n';
-	} else {
-		var code = 'response = ' + html + '\n';
-		code += "cl.send('HTTP/1.0 200 OK\\r\\nContent-type: text/html\\r\\n\\r\\n')\n";
-		code += 'cl.send(response)\n';
-		code += 'cl.close()\n';
-	}
-
-  return code;
-};
-
-Blockly.Python['net_http_server_send_response_jpg'] = function(block) {
-  var html = Blockly.Python.valueToCode(block, 'html', Blockly.Python.ORDER_ATOMIC);
-
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		var code = 'response = ' + html + '\n';
-		code += "conn.send('HTTP/1.0 200 OK\\r\\nContent-type: image/jpg\\r\\n\\r\\n')\n";
-		code += 'conn.send(response)\n';
-		code += 'conn.close()\n';
-	} else {
-		var code = 'response = ' + html + '\n';
-		code += "cl.send('HTTP/1.0 200 OK\\r\\nContent-type: image/jpg\\r\\n\\r\\n')\n";
-		code += 'cl.send(response)\n';
-		code += 'cl.close()\n';
-	}
-
-  return code;
-};
 
 
 
 
-Blockly.Python['net_http_server_close'] = function(block) {
 
-  var code = 'cl.close()\n';
 
-  return code;
-};
+
+
+
+
 
 //SIM900L GSM MODEM
 

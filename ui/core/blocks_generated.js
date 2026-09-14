@@ -3181,6 +3181,85 @@ Blockly.Blocks['hcsr_read'] = {
   }
 };
 
+// ---- HTTP Server (http_server.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['net_http_server_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["net_http_server_start"]);
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["net_http_server_start_port"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_http_server_accept'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["net_http_server_wait"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_http_server_requested_page'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["net_http_server_requested_page"]);
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_http_server_send_response'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["net_http_server_send_response"]);
+    this.appendValueInput("html")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["net_http_server_send_html"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_http_server_send_response_jpg'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(MSG["net_http_server_send_response"]);
+    this.appendValueInput("html")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("JPG Image");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_http_server_close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Close HTTP Web Server");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
 // ---- Linux (linux.blockdef.yaml) ---------------------------------------------
 
 Blockly.Blocks['play_mp3'] = {

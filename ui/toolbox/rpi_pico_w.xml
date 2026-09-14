@@ -2683,34 +2683,35 @@
 
     </category>
 
+    <!-- blockdef:http_server -->
     <category name="HTTP Server">
       <label text="HTTP Web Server"></label>
       <button text="Load example: webserver" callbackKey="loadExample"></button>
-      <button text="Documentation: webserver" callbackKey="loadDoc"></button>
+      <button text="Documentation and how to connect: webserver" callbackKey="loadDoc"></button>
 
-    <block type="net_http_server_start">
+      <block type="net_http_server_start">
         <value name="port">
           <shadow type="math_number">
             <field name="NUM">80</field>
           </shadow>
         </value>
-    </block>
-    <block type="net_http_server_accept">
-    </block>
-    <block type="net_http_server_requested_page">
-    </block>
-    <block type="net_http_server_send_response">
-	 <value name="html">
+      </block>
+
+      <block type="net_http_server_accept"></block>
+
+      <block type="net_http_server_requested_page"></block>
+
+      <block type="net_http_server_send_response">
+        <value name="html">
           <shadow type="text">
             <field name="TEXT">You reached BIPES WebServer!</field>
           </shadow>
         </value>
+      </block>
 
-    </block>
-    <block type="net_http_server_close">
-    </block>
-
+      <block type="net_http_server_close"></block>
     </category>
+    <!-- /blockdef:http_server -->
 
     <!-- blockdef:umail -->
     <category name="EMAIL">

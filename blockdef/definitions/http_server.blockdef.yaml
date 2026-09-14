@@ -1,0 +1,153 @@
+# The HTTP web server: listen, accept a request, answer it, close.
+#
+# Four of the six emit different Python on the Franzininho, which runs
+# CircuitPython: `socketpool` against `socket`, and a connection called `conn`
+# rather than `cl`. That is `variants:`, added with the Wi-Fi blocks.
+#
+# Three things were wrong, all of them visible only once the blocks were
+# written down side by side:
+#
+# * **`net_http_server_close` could not be used.** It was declared a *value*
+#   block -- `setOutput(true)`, no previous or next connection -- while its
+#   generator returned a statement string. So it could not sit in a program at
+#   all: not in a stack, because it has no connections, and not in a socket,
+#   because `valueToCode` throws on a generator that returns a string rather
+#   than a tuple. The block that closes the server was undraggable into
+#   anything. It is a statement now, like the three blocks it follows.
+# * **The port was decoration on the ESP32S2.** `net_http_server_start` reads
+#   its port input in both branches and the CircuitPython one bound to 80
+#   regardless. It binds to the port now.
+# * **`sta_if` was used without being defined.** The MicroPython branch prints
+#   `sta_if.ifconfig()[0]` but registered no definition for it, so a program
+#   that starts a server without also dragging a Wi-Fi block died with a
+#   NameError on the line that announces the address. It registers the same
+#   `import_network_a`/`_b` keys as the Wi-Fi blocks, so there is still exactly
+#   one station object.
+
+module: socket
+colour: 135
+import: []
+
+category:
+  name: HTTP Server
+  labels: [HTTP Web Server]
+  examples: [webserver]
+  docs: [webserver]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp8266,
+              rpi_pico_w, stm32]
+
+blocks:
+  - type: net_http_server_start
+    label: [{msg: net_http_server_start}]
+    tooltip: ""
+    variants:
+      - device: ESP32S2
+        import:
+          - {key: import_ipaddress,  line: "import ipaddress"}
+          - {key: import_ssl,        line: "import ssl"}
+          - {key: import_wifi,       line: "import wifi"}
+          - {key: import_socketpool, line: "import socketpool"}
+        code: |-
+          pool = socketpool.SocketPool(wifi.radio)
+          HOST = str(wifi.radio.ipv4_address)
+          s = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
+          s.settimeout(None)
+          s.bind((HOST, {port}))
+          s.listen(5)
+          print('BIPES HTTP Server Listening on', HOST)
+      - import:
+          - {key: import_socket,    line: "import socket"}
+          - {key: import_network,   line: "import network"}
+          - {key: import_network_a, line: "sta_if = network.WLAN(network.STA_IF)"}
+          - {key: import_network_b, line: "sta_if.active(True)"}
+        code: |-
+          http_addr = socket.getaddrinfo('0.0.0.0', {port})[0][-1]
+          s = socket.socket()
+          s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+          s.bind(http_addr)
+          s.listen(1)
+          print('BIPES HTTP Server Listening on', sta_if.ifconfig()[0])
+    params:
+      - {name: port, label: {msg: net_http_server_start_port}, type: Number,
+         default: 80, align: right}
+
+  - type: net_http_server_accept
+    label: [{msg: net_http_server_wait}]
+    tooltip: ""
+    variants:
+      - device: ESP32S2
+        code: |-
+          buf = bytearray(500)
+          while True:
+              conn, addr = s.accept()
+              print("Accepted from", addr)
+              size = conn.recv_into(buf, 500)
+              print("Received", buf[:size], size, "bytes")
+              lineS = str(buf[:size], 'utf8')
+              print(lineS)
+              if lineS.startswith('GET /'):
+                  http_request_page = (lineS.split('/')[1]).split(' ')[0]
+                  print('Request page = ' + http_request_page)
+              if size >= 20:
+                  break
+      - code: |-
+          cl, http_addr = s.accept()
+          cl_file = cl.makefile('rwb', 0)
+          while True:
+              line = cl_file.readline()
+              lineS = str(line, 'utf8')
+              if lineS.startswith('GET /'):
+                  http_request_page = (lineS.split('/')[1]).split(' ')[0]
+                  print('Request page = ' + http_request_page)
+              if not line or line == b'\r\n':
+                  break
+
+  - {type: net_http_server_requested_page, kind: value,
+     label: [{msg: net_http_server_requested_page}], tooltip: "",
+     code: "http_request_page"}
+
+  - type: net_http_server_send_response
+    label: [{msg: net_http_server_send_response}]
+    tooltip: ""
+    variants:
+      - device: ESP32S2
+        code: |-
+          response = {html}
+          conn.send('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
+          conn.send(response)
+          conn.close()
+      - code: |-
+          response = {html}
+          cl.send('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
+          cl.send(response)
+          cl.close()
+    params:
+      - {name: html, label: {msg: net_http_server_send_html}, type: String,
+         default: You reached BIPES WebServer!, align: right}
+
+  - type: net_http_server_send_response_jpg
+    label: [{msg: net_http_server_send_response}]
+    tooltip: ""
+    boards: [AmadoBoard, esp32, esp32S2, esp32c3, esp8266]
+    variants:
+      - device: ESP32S2
+        code: |-
+          response = {html}
+          conn.send('HTTP/1.0 200 OK\r\nContent-type: image/jpg\r\n\r\n')
+          conn.send(response)
+          conn.close()
+      - code: |-
+          response = {html}
+          cl.send('HTTP/1.0 200 OK\r\nContent-type: image/jpg\r\n\r\n')
+          cl.send(response)
+          cl.close()
+    params:
+      - {name: html, label: JPG Image, type: String, default: "", align: right}
+
+  # A statement, not the value block it used to be: see the note at the top.
+  - type: net_http_server_close
+    label: Close HTTP Web Server
+    tooltip: ""
+    variants:
+      - {device: ESP32S2, code: "conn.close()"}
+      - {code: "cl.close()"}
