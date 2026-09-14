@@ -784,48 +784,12 @@ Blockly.Python['mqtt_add_to_buffer'] = function(block) {
 
 /// MQTT
 /// Start MQTT Client
-Blockly.Python['mqtt_init'] = function(block) {
-  var server = Blockly.Python.valueToCode(block, 'server', Blockly.Python.ORDER_ATOMIC);
-  var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
-  var user = Blockly.Python.valueToCode(block, 'user', Blockly.Python.ORDER_ATOMIC);
-  var pass = Blockly.Python.valueToCode(block, 'password', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-  var code = 'mqtt_buffer = ""; mqtt_client = robust.MQTTClient("umqtt_client", server = ' + server + ', port = ' + port + ', user = ' + user + ', password = ' + pass + '); mqtt_client.connect()\n'
-  return code;
-};
 
 /// Add Data to MQTT Buffer
-Blockly.Python['mqtt_add_to_buffer'] = function(block) {
-  var name = Blockly.Python.valueToCode(block, 'fieldname', Blockly.Python.ORDER_ATOMIC);
-  var value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-
-  var code = 'mqtt_buffer += (' + name + ' + "=" + str(' + value + ')) if not len(mqtt_buffer) else ("&" + ' + name + ' + "=" + str(' + value + '))\n'
-  return code;
-};
 
 /// Publish Buffer to MQTT Topic
-Blockly.Python['mqtt_publish_buffer'] = function(block) {
-  var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-  var qos = block.getFieldValue('MQTT_QOS');
-
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.publish(' + topic + ', mqtt_buffer,qos=' + qos + '); mqtt_buffer = ""\n';
-  return code;
-};
 
 /// Publish Payload to MQTT Topic
-Blockly.Python['mqtt_publish_payload'] = function(block) {
-  var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-  var payload = Blockly.Python.valueToCode(block, 'payload', Blockly.Python.ORDER_ATOMIC);
-  var qos = block.getFieldValue('MQTT_QOS');
-
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.publish(' + topic + ', ' + payload + ',qos=' + qos + ')\n';
-  return code;
-};
 
 /// Set Callback to MQTT Messages
 Blockly.Python['mqtt_set_callback'] = function(block) {
@@ -872,38 +836,12 @@ Blockly.Python['mqtt_set_callback'] = function(block) {
 };
 
 /// Subscribe to MQTT Topic
-Blockly.Python['mqtt_subscribe'] = function(block) {
-  var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.subscribe(' + topic + ')\n';
-  return code;
-};
 
 /// Check for MQTT Server messages
-Blockly.Python['mqtt_check_msg'] = function(block) {
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.check_msg()\n';
-  return code;
-};
 
 /// Wait for MQTT Server messages
-Blockly.Python['mqtt_wait_msg'] = function(block) {
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.wait_msg()\n';
-  return code;
-};
 
 /// Disconnect MQTT Client
-Blockly.Python['mqtt_disconnect'] = function(block) {
-  Blockly.Python.definitions_['import_robust'] = 'import robust';
-
-  var code = 'mqtt_client.disconnect()\n';
-  return code;
-};
 
 Blockly.Python["btree_open"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);

@@ -2630,10 +2630,14 @@
     </category>
     <!-- /blockdef:socket -->
 
+    <!-- blockdef:mqtt -->
     <category name="MQTT">
       <label text="MQTT (Message Queue Telemetry Transport)"></label>
+
       <button text="Install simple library" callbackKey="installPyLib"></button>
+
       <button text="Install robust library" callbackKey="installPyLib"></button>
+
       <block type="mqtt_init">
         <value name="server">
           <shadow type="text">
@@ -2656,15 +2660,20 @@
           </shadow>
         </value>
       </block>
-      <block type="mqtt_add_to_buffer">
 
+      <block type="mqtt_add_to_buffer">
         <value name="fieldname">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
-        <field name="MQTT_VALUE">Value</field>
+        <value name="value">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
       </block>
+
       <block type="mqtt_publish_buffer">
         <value name="topic">
           <shadow type="text">
@@ -2672,6 +2681,7 @@
           </shadow>
         </value>
       </block>
+
       <block type="mqtt_publish_payload">
         <value name="topic">
           <shadow type="text">
@@ -2684,9 +2694,9 @@
           </shadow>
         </value>
       </block>
-      <block type="mqtt_set_callback">
-        <field name="MQTT_CALLBACK">Callback Function</field>
-      </block>
+
+      <block type="mqtt_set_callback"></block>
+
       <block type="mqtt_subscribe">
         <value name="topic">
           <shadow type="text">
@@ -2694,16 +2704,14 @@
           </shadow>
         </value>
       </block>
-      <block type="mqtt_check_msg">
- 
-      </block>
-      <block type="mqtt_wait_msg">
 
-      </block>
-      <block type="mqtt_disconnect">
+      <block type="mqtt_check_msg"></block>
 
-      </block>
+      <block type="mqtt_wait_msg"></block>
+
+      <block type="mqtt_disconnect"></block>
     </category>
+    <!-- /blockdef:mqtt -->
     <category name="EasyMQTT">
       <label text="IoT: EasyMQTT"></label>
       <button text="Load example: easymqtt" callbackKey="loadExample"></button>

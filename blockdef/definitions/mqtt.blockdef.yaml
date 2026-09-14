@@ -1,0 +1,118 @@
+# MQTT over the vendored umqtt.robust client.
+#
+# This category was left unconverted for a long time for a reason that was not
+# about the format: **almost every label it uses was missing from every
+# language file but Hebrew and Ukrainian**, and `appendField()` silently
+# ignores an undefined value, so in the other nine languages -- English
+# included -- these blocks rendered with no text on them at all. Four toolboxes
+# worked around it by pinning the English into `<field>` presets, which then
+# overrode the one or two translations that did exist. The keys are defined now
+# (see `ui/msg/*.js`), so the presets are gone and the blocks read in whatever
+# language the IDE is set to.
+#
+# `mqtt_publish_buffer` asked for `MSG["QOS"]` where every other block asks for
+# `MSG["qos"]`; only the lowercase one was ever defined, so that block's "QOS:"
+# label was blank even in Hebrew and Ukrainian. Both use `qos` now.
+#
+# `mqtt_set_callback` stays hand-written: it walks the workspace for the
+# variables its callback has to declare `global` and registers the function
+# through `provideFunction_`, which is computation, not a declaration.
+
+module: robust
+colour: 230
+url: http://www.bipes.net.br
+import: {key: import_robust, line: "import robust"}
+
+category:
+  name: MQTT
+  labels: ["MQTT (Message Queue Telemetry Transport)"]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp8266,
+              rpi_pico_w, stm32]
+
+blocks:
+  - {example: thingspeak, boards: [default]}
+  - {doc: mqtt, boards: [default]}
+  - {library: simple, boards: [rpi_pico_w]}
+  - {library: robust, boards: [rpi_pico_w]}
+
+  # One statement per line rather than the three the old generator joined with
+  # semicolons; the program is read by the person who built it.
+  - type: mqtt_init
+    label: [{msg: mqtt_init, field: BLOCK_MQTT_INIT}]
+    tooltip: {msg: mqtt_start}
+    code: |-
+
+      mqtt_buffer = ""
+      mqtt_client = robust.MQTTClient("umqtt_client", server = {server}, port = {port}, user = {user}, password = {password})
+      mqtt_client.connect()
+    params:
+      - {name: server,   label: {msg: server_address, field: MQTT_SERVER},   type: String, align: right}
+      - {name: port,     label: {msg: server_port,    field: MQTT_PORT},     type: Number, default: 1883, align: right}
+      - {name: user,     label: {msg: username,       field: MQTT_USER},     type: String, align: right}
+      - {name: password, label: {msg: password,       field: MQTT_PASSWORD}, type: String, align: right}
+
+  - type: mqtt_add_to_buffer
+    label: [{msg: mqtt_add_to_buffer, field: BLOCK_MQTT_ADD_TO_BUFFER}]
+    tooltip: {msg: mqtt_add_to_buffer}
+    code: 'mqtt_buffer += ({fieldname} + "=" + str({value})) if not len(mqtt_buffer) else ("&" + {fieldname} + "=" + str({value}))'
+    params:
+      - {name: fieldname, label: {msg: field_name, field: MQTT_FIELDNAME}, type: String, align: right}
+      - {name: value,     label: {msg: value,      field: MQTT_VALUE},     default: 0, align: right}
+
+  - type: mqtt_publish_buffer
+    inline: false
+    label: [{msg: mqtt_publish_buffer, field: BLOCK_MQTT_PUBLISH}]
+    tooltip: {msg: mqtt_publish_buffer}
+    code: |-
+
+      mqtt_client.publish({topic}, mqtt_buffer, qos={MQTT_QOS})
+      mqtt_buffer = ""
+    params:
+      - {name: topic, label: {msg: mqtt_topic, field: MQTT_TOPIC}, type: String, align: right}
+      - name: MQTT_QOS
+        label: {msg: qos}
+        align: right
+        kind: dropdown
+        options:
+          - {label: {msg: mqtt_most_once},  value: "0"}
+          - {label: {msg: mqtt_least_once}, value: "1"}
+
+  - type: mqtt_publish_payload
+    inline: false
+    label: [{msg: mqtt_publish_payload, field: BLOCK_MQTT_PUBLISH}]
+    tooltip: {msg: mqtt_publish_payload}
+    code: "mqtt_client.publish({topic}, {payload}, qos={MQTT_QOS})"
+    params:
+      - {name: topic,   label: {msg: mqtt_topic, field: MQTT_TOPIC},   type: String, align: right}
+      - {name: payload, label: {msg: payload,    field: MQTT_PAYLOAD}, default: "", align: right}
+      - name: MQTT_QOS
+        label: {msg: qos}
+        align: right
+        kind: dropdown
+        options:
+          - {label: {msg: mqtt_most_once},  value: "0"}
+          - {label: {msg: mqtt_least_once}, value: "1"}
+
+  - {type: mqtt_set_callback, external: true}
+
+  - type: mqtt_subscribe
+    label: [{msg: mqtt_subscribe, field: BLOCK_MQTT_SUBSCRIBE}]
+    tooltip: {msg: mqtt_subscribe}
+    code: "mqtt_client.subscribe({topic})"
+    params:
+      - {name: topic, label: {msg: mqtt_topic, field: MQTT_TOPIC}, type: String, align: right}
+
+  - type: mqtt_check_msg
+    label: [{msg: mqtt_check_msg, field: BLOCK_MQTT_CHECK_MSG}]
+    tooltip: {msg: mqtt_check_msg_tooltip}
+    code: "mqtt_client.check_msg()"
+
+  - type: mqtt_wait_msg
+    label: [{msg: mqtt_wait_msg, field: BLOCK_MQTT_WAIT_MSG}]
+    tooltip: {msg: mqtt_wait_msg_tooltip}
+    code: "mqtt_client.wait_msg()"
+
+  - type: mqtt_disconnect
+    label: [{msg: mqtt_disconnect, field: BLOCK_MQTT_DISCONNECT}]
+    tooltip: {msg: mqtt_disconnect_tooltip}
+    code: "mqtt_client.disconnect()"

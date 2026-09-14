@@ -164,6 +164,14 @@ var MSG = {
   mqtt_disconnect: "נתק לקוח MQTT",
   mqtt_disconnect_tooltip: "נתק לקוח MQTT מהשרת.",
 
+
+//Added: these keys were referenced by blocks but defined in no
+//language file, or only in he/uk, so the blocks using them rendered
+//with no label at all.
+  aht_init: "Init AHT10/20",
+  bh1750_init: "Init BH1750",
+  line: "שורה",
+  mqtt_start: "התחל לקוח MQTT",
 //Splash screen
   splash_welcome: "ברוכים הבאים ל-BIPES!",
   splash_footer: "אל תציג את המסך הזה שוב",

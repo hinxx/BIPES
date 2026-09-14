@@ -1663,6 +1663,68 @@ Blockly.Python['mpu9250_temp'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- MQTT (mqtt.blockdef.yaml) -----------------------------------------------
+
+Blockly.Python['mqtt_init'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var server_ = Blockly.Python.valueToCode(block, "server", Blockly.Python.ORDER_ATOMIC);
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var user_ = Blockly.Python.valueToCode(block, "user", Blockly.Python.ORDER_ATOMIC);
+  var password_ = Blockly.Python.valueToCode(block, "password", Blockly.Python.ORDER_ATOMIC);
+  var code = "\nmqtt_buffer = \"\"\nmqtt_client = robust.MQTTClient(\"umqtt_client\", server = " + server_ + ", port = " + port_ + ", user = " + user_ + ", password = " + password_ + ")\nmqtt_client.connect()";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_add_to_buffer'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var fieldname_ = Blockly.Python.valueToCode(block, "fieldname", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "mqtt_buffer += (" + fieldname_ + " + \"=\" + str(" + value_ + ")) if not len(mqtt_buffer) else (\"&\" + " + fieldname_ + " + \"=\" + str(" + value_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_publish_buffer'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var topic_ = Blockly.Python.valueToCode(block, "topic", Blockly.Python.ORDER_ATOMIC);
+  var MQTT_QOS_ = block.getFieldValue("MQTT_QOS");
+  var code = "\nmqtt_client.publish(" + topic_ + ", mqtt_buffer, qos=" + MQTT_QOS_ + ")\nmqtt_buffer = \"\"";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_publish_payload'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var topic_ = Blockly.Python.valueToCode(block, "topic", Blockly.Python.ORDER_ATOMIC);
+  var payload_ = Blockly.Python.valueToCode(block, "payload", Blockly.Python.ORDER_ATOMIC);
+  var MQTT_QOS_ = block.getFieldValue("MQTT_QOS");
+  var code = "mqtt_client.publish(" + topic_ + ", " + payload_ + ", qos=" + MQTT_QOS_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_subscribe'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var topic_ = Blockly.Python.valueToCode(block, "topic", Blockly.Python.ORDER_ATOMIC);
+  var code = "mqtt_client.subscribe(" + topic_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_check_msg'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var code = "mqtt_client.check_msg()";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_wait_msg'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var code = "mqtt_client.wait_msg()";
+  return code + "\n";
+};
+
+Blockly.Python['mqtt_disconnect'] = function(block) {
+  Blockly.Python.definitions_["import_robust"] = "import robust";
+  var code = "mqtt_client.disconnect()";
+  return code + "\n";
+};
+
 // ---- NeoPixel LED Strip (neopixel.blockdef.yaml) -----------------------------
 
 Blockly.Python['neopixel_control_CPY'] = function(block) {
