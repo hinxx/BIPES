@@ -1,0 +1,71 @@
+# LM386 amplifier driven from a PWM pin.
+#
+# The instance was `lm386_speaker`, the same name as the module, so
+# `lm386_speaker = lm386_speaker.LMSpeaker(...)` rebound the module -- a
+# second init block would have looked for `LMSpeaker` on the object. It is
+# `lm386_device` here.
+#
+# `lm386_set_volume` emitted `print("LM386 volume set to", 50%)`. A stray `%`
+# in the template: the block could not produce Python that parsed, so neither
+# could any program holding it.
+#
+# Five dead sockets, the melody one again a text field, and the usual
+# try/except-and-guard scaffolding.
+
+module: lm386_speaker
+class: LMSpeaker
+instance: lm386_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import lm386_speaker", key: import_lm386_speaker}
+
+category:
+  name: LM386 Speaker (PWM)
+  library: lm386_speaker
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - LM386 Power Amplifier Speaker Module (PWM Interface)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: lm386_speaker_init
+    constructor: true
+    label:
+      - {image: {src: media/lm386_speaker.png, width: 55, height: 55}}
+      - Init LM386 Speaker (PWM)
+    tooltip: Init LM386 amplifier speaker module via PWM
+    params:
+      - {name: pwm_pin, label: PWM Pin, type: Number, pin: true, default: 26,
+         align: right, keyword: pin}
+      - {name: default_freq, label: Default Frequency (Hz), type: Number,
+         default: 1000, align: right, keyword: freq}
+
+  - type: lm386_play_tone
+    fn: play_tone
+    label: LM386 Play Tone
+    tooltip: Play single tone with specified frequency and duration
+    params:
+      - {name: frequency, label: Frequency (Hz), type: Number, default: 440, align: right}
+      - {name: duration, label: Duration (sec), type: Number, default: 1.0, align: right}
+
+  - type: lm386_play_sequence
+    fn: play_sequence
+    label: LM386 Play Melody
+    tooltip: Play sequence of notes (melody)
+    params:
+      - {name: notes, label: "Notes [(freq, dur), ...]", type: String,
+         unquote: true, align: right,
+         default: "[(440,0.5),(494,0.5),(523,0.5),(587,0.5),(659,0.5),(698,0.5),(784,1.0)]"}
+
+  - type: lm386_set_volume
+    label: LM386 Set Volume
+    tooltip: Set speaker volume (1-100%)
+    code: |-
+      {instance}.set_volume({volume})
+      print("LM386 volume set to", {volume})
+    params:
+      - {name: volume, label: Volume (1-100%), type: Number, default: 50, align: right}
+
+  - {type: lm386_stop, fn: stop, label: LM386 Stop Playback (Mute),
+     tooltip: Stop playback and mute speaker}

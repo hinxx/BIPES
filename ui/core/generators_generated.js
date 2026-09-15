@@ -928,6 +928,44 @@ Blockly.Python['builtins_zip'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Buzzer (PWM) (buzzer.blockdef.yaml) -------------------------------------
+
+Blockly.Python['buzzer_init'] = function(block) {
+  Blockly.Python.definitions_["import_buzzer"] = "import buzzer";
+  var pwm_pin_ = Blockly.Python.valueToCode(block, "pwm_pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "buzzer_device = buzzer.Buzzer(" + "pin=" + pwm_pin_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['buzzer_play_tone'] = function(block) {
+  Blockly.Python.definitions_["import_buzzer"] = "import buzzer";
+  var frequency_ = Blockly.Python.valueToCode(block, "frequency", Blockly.Python.ORDER_ATOMIC);
+  var duration_ = Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC);
+  var code = "buzzer_device.play_tone(" + frequency_ + ", " + duration_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['buzzer_play_note'] = function(block) {
+  Blockly.Python.definitions_["import_buzzer"] = "import buzzer";
+  var NOTE_ = block.getFieldValue("NOTE");
+  var duration_ = Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC);
+  var code = "buzzer_device.play_tone(" + NOTE_ + ", " + duration_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['buzzer_play_melody'] = function(block) {
+  Blockly.Python.definitions_["import_buzzer"] = "import buzzer";
+  var melody_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "melody", Blockly.Python.ORDER_ATOMIC));
+  var code = "buzzer_device.play_melody(" + melody_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['buzzer_stop_tone'] = function(block) {
+  Blockly.Python.definitions_["import_buzzer"] = "import buzzer";
+  var code = "buzzer_device.stop_tone()";
+  return code + "\n";
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Python['ccs811_init'] = function(block) {
@@ -1843,6 +1881,41 @@ Blockly.Python['esp32_ULP.run'] = function(block) {
   return code + "\n";
 };
 
+// ---- PWM Fan (fan_pwm.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['fan_pwm_init'] = function(block) {
+  Blockly.Python.definitions_["import_fan_pwm"] = "from fan_pwm import FanPWM";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var pwm_freq_ = Blockly.Python.valueToCode(block, "pwm_freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "fan = FanPWM(" + "pin=" + pin_ + ", pwm_freq=" + pwm_freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['fan_pwm_on'] = function(block) {
+  Blockly.Python.definitions_["import_fan_pwm"] = "from fan_pwm import FanPWM";
+  var code = "fan.on()";
+  return code + "\n";
+};
+
+Blockly.Python['fan_pwm_off'] = function(block) {
+  Blockly.Python.definitions_["import_fan_pwm"] = "from fan_pwm import FanPWM";
+  var code = "fan.off()";
+  return code + "\n";
+};
+
+Blockly.Python['fan_pwm_set_speed'] = function(block) {
+  Blockly.Python.definitions_["import_fan_pwm"] = "from fan_pwm import FanPWM";
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "fan.set_speed(max(0, min(1023, " + duty_ + ")))";
+  return code + "\n";
+};
+
+Blockly.Python['fan_pwm_get_speed'] = function(block) {
+  Blockly.Python.definitions_["import_fan_pwm"] = "from fan_pwm import FanPWM";
+  var code = "fan.get_speed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
 
 Blockly.Python['file_open'] = function(block) {
@@ -1998,6 +2071,39 @@ Blockly.Python['flame_sensor_toggle_callback'] = function(block) {
   var TOGGLE_ACTION_ = {"ENABLE": "enable", "DISABLE": "disable"}[block.getFieldValue("TOGGLE_ACTION")];
   var code = "flame_sensor_device." + TOGGLE_ACTION_ + "()";
   return code + "\n";
+};
+
+// ---- FM8118 Ultrasonic Atomizer (fm8118_atomization.blockdef.yaml) -----------
+
+Blockly.Python['fm8118_atomization_init'] = function(block) {
+  Blockly.Python.definitions_["import_fm8118"] = "from fm8118_atomization import FM8118_Atomization";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "atomizer = FM8118_Atomization(" + "pin=" + pin_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['fm8118_atomization_on'] = function(block) {
+  Blockly.Python.definitions_["import_fm8118"] = "from fm8118_atomization import FM8118_Atomization";
+  var code = "atomizer.on()";
+  return code + "\n";
+};
+
+Blockly.Python['fm8118_atomization_off'] = function(block) {
+  Blockly.Python.definitions_["import_fm8118"] = "from fm8118_atomization import FM8118_Atomization";
+  var code = "atomizer.off()";
+  return code + "\n";
+};
+
+Blockly.Python['fm8118_atomization_toggle'] = function(block) {
+  Blockly.Python.definitions_["import_fm8118"] = "from fm8118_atomization import FM8118_Atomization";
+  var code = "atomizer.toggle()";
+  return code + "\n";
+};
+
+Blockly.Python['fm8118_atomization_is_on'] = function(block) {
+  Blockly.Python.definitions_["import_fm8118"] = "from fm8118_atomization import FM8118_Atomization";
+  var code = "atomizer.is_on()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- framebuf (framebuf.blockdef.yaml) ---------------------------------------
@@ -3204,6 +3310,44 @@ Blockly.Python['run_cmd'] = function(block) {
   Blockly.Python.definitions_["import_os"] = "import os";
   var command_ = Blockly.Python.valueToCode(block, "command", Blockly.Python.ORDER_ATOMIC);
   var code = "os.system(" + command_ + ")";
+  return code + "\n";
+};
+
+// ---- LM386 Speaker (PWM) (lm386_speaker.blockdef.yaml) -----------------------
+
+Blockly.Python['lm386_speaker_init'] = function(block) {
+  Blockly.Python.definitions_["import_lm386_speaker"] = "import lm386_speaker";
+  var pwm_pin_ = Blockly.Python.valueToCode(block, "pwm_pin", Blockly.Python.ORDER_ATOMIC);
+  var default_freq_ = Blockly.Python.valueToCode(block, "default_freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "lm386_device = lm386_speaker.LMSpeaker(" + "pin=" + pwm_pin_ + ", freq=" + default_freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lm386_play_tone'] = function(block) {
+  Blockly.Python.definitions_["import_lm386_speaker"] = "import lm386_speaker";
+  var frequency_ = Blockly.Python.valueToCode(block, "frequency", Blockly.Python.ORDER_ATOMIC);
+  var duration_ = Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC);
+  var code = "lm386_device.play_tone(" + frequency_ + ", " + duration_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lm386_play_sequence'] = function(block) {
+  Blockly.Python.definitions_["import_lm386_speaker"] = "import lm386_speaker";
+  var notes_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "notes", Blockly.Python.ORDER_ATOMIC));
+  var code = "lm386_device.play_sequence(" + notes_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lm386_set_volume'] = function(block) {
+  Blockly.Python.definitions_["import_lm386_speaker"] = "import lm386_speaker";
+  var volume_ = Blockly.Python.valueToCode(block, "volume", Blockly.Python.ORDER_ATOMIC);
+  var code = "lm386_device.set_volume(" + volume_ + ")\nprint(\"LM386 volume set to\", " + volume_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['lm386_stop'] = function(block) {
+  Blockly.Python.definitions_["import_lm386_speaker"] = "import lm386_speaker";
+  var code = "lm386_device.stop()";
   return code + "\n";
 };
 
@@ -5085,6 +5229,57 @@ Blockly.Python['tank_turn'] = function(block) {
   return code + "\n";
 };
 
+// ---- Opto-MOS PWM Driver (opto_mos.blockdef.yaml) ----------------------------
+
+Blockly.Python['opto_mos_init'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  Blockly.Python.definitions_["import_machine_pin_pwm"] = "from machine import Pin, PWM";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var pwm_max_ = Blockly.Python.valueToCode(block, "pwm_max", Blockly.Python.ORDER_ATOMIC);
+  var INVERTED_ = block.getFieldValue("INVERTED");
+  var code = "pwm_opto_mos = PWM(Pin(" + pin_ + "))\npwm_opto_mos.freq(" + freq_ + ")\nopto_mos_driver = opto_mos_simple.OptoMosSimple(pwm_opto_mos, pwm_max=" + pwm_max_ + ", inverted=" + INVERTED_ + ")\nopto_mos_driver.init()";
+  return code + "\n";
+};
+
+Blockly.Python['opto_mos_set_duty'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "opto_mos_driver.set_duty(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['opto_mos_set_percent'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var percent_ = Blockly.Python.valueToCode(block, "percent", Blockly.Python.ORDER_ATOMIC);
+  var code = "opto_mos_driver.set_percent(" + percent_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['opto_mos_full_on'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var code = "opto_mos_driver.full_on()";
+  return code + "\n";
+};
+
+Blockly.Python['opto_mos_off'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var code = "opto_mos_driver.off()";
+  return code + "\n";
+};
+
+Blockly.Python['opto_mos_get_status'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var code = "opto_mos_driver.get_status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['opto_mos_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
+  var code = "opto_mos_driver.deinit()";
+  return code + "\n";
+};
+
 // ---- PCA9546ADR I2C MUX (pca9546adr.blockdef.yaml) ---------------------------
 
 Blockly.Python['pca9546adr_init'] = function(block) {
@@ -6064,6 +6259,99 @@ Blockly.Python['snek_servo_move'] = function(block) {
   var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
   var code = "talkto(" + pin_ + ")\noff()\nsetpower(1)\nfor turning in range(30):\n    on()\n    time.sleep((" + angle_ + "/180)*0.002 + 0.0005)\n    off()";
   return code + "\n";
+};
+
+// ---- SNR9816 TTS Module (snr9816_tts.blockdef.yaml) --------------------------
+
+Blockly.Python['snr9816_tts_init'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_tts = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", bits=8, parity=None, stop=1, tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "))\ntts_device = snr9816_tts.SNR9816_TTS(uart_tts)\nprint(\"SNR9816 TTS initialized on UART\", " + uart_port_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_synthesize_text'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var text_ = Blockly.Python.valueToCode(block, "text", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.synthesize_text(" + text_ + "):\n  time.sleep(1)\nprint(\"Text synthesis started:\", " + text_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_set_voice'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var VOICE_TYPE_ = block.getFieldValue("VOICE_TYPE");
+  var code = "while not tts_device.set_voice(" + VOICE_TYPE_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_set_volume'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var level_ = Blockly.Python.valueToCode(block, "level", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.set_volume(" + level_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_set_speed'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var level_ = Blockly.Python.valueToCode(block, "level", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.set_speed(" + level_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_set_tone'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var level_ = Blockly.Python.valueToCode(block, "level", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.set_tone(" + level_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_play_ringtone'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.play_ringtone(" + num_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_play_message_tone'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.play_message_tone(" + num_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_play_alert_tone'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
+  var code = "while not tts_device.play_alert_tone(" + num_ + "):\n  time.sleep(1)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_control'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var CONTROL_ACTION_ = block.getFieldValue("CONTROL_ACTION");
+  var code = "result = tts_device." + CONTROL_ACTION_ + "_synthesis()\nprint(\"TTS synthesis " + CONTROL_ACTION_ + ":\", result)";
+  return code + "\n";
+};
+
+Blockly.Python['snr9816_tts_query_status'] = function(block) {
+  Blockly.Python.definitions_["import_snr9816_tts"] = "import snr9816_tts";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var code = "tts_device.query_status()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------

@@ -3712,6 +3712,115 @@
   </category>
   <!-- /blockdef:serial_servo -->
 
+  <!-- blockdef:fan_pwm -->
+  <category name="PWM Fan">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PWM Controlled Cooling Fan"></label>
+    <button text="Install fan_pwm library" callbackKey="installPyLib"></button>
+
+    <block type="fan_pwm_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="pwm_freq">
+        <shadow type="math_number">
+          <field name="NUM">25000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="fan_pwm_on"></block>
+
+    <block type="fan_pwm_off"></block>
+
+    <block type="fan_pwm_set_speed">
+      <value name="duty">
+        <shadow type="math_number">
+          <field name="NUM">512</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="fan_pwm_get_speed"></block>
+  </category>
+  <!-- /blockdef:fan_pwm -->
+
+  <!-- blockdef:fm8118_atomization -->
+  <category name="FM8118 Ultrasonic Atomizer">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="FM8118 Ultrasonic Atomization Module"></label>
+    <button text="Install fm8118_atomization library" callbackKey="installPyLib"></button>
+
+    <block type="fm8118_atomization_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="fm8118_atomization_on"></block>
+
+    <block type="fm8118_atomization_off"></block>
+
+    <block type="fm8118_atomization_toggle"></block>
+
+    <block type="fm8118_atomization_is_on"></block>
+  </category>
+  <!-- /blockdef:fm8118_atomization -->
+
+  <!-- blockdef:opto_mos -->
+  <category name="Opto-MOS PWM Driver">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Opto-isolated MOSFET Driver (PWM)"></label>
+    <button text="Install opto_mos_simple library" callbackKey="installPyLib"></button>
+
+    <block type="opto_mos_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+      <value name="pwm_max">
+        <shadow type="math_number">
+          <field name="NUM">65535</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="opto_mos_set_duty">
+      <value name="duty">
+        <shadow type="math_number">
+          <field name="NUM">32768</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="opto_mos_set_percent">
+      <value name="percent">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="opto_mos_full_on"></block>
+
+    <block type="opto_mos_off"></block>
+
+    <block type="opto_mos_get_status"></block>
+
+    <block type="opto_mos_deinit"></block>
+  </category>
+  <!-- /blockdef:opto_mos -->
+
 </category>
 
 <category name="Input">
@@ -3991,6 +4100,203 @@
     <block type="ch9328_send_crlf"></block>
   </category>
   <!-- /blockdef:ch9328 -->
+
+</category>
+
+<category name="Sounds and Audio">
+  <label text="Sounds and Audio"></label>
+
+  <!-- blockdef:buzzer -->
+  <category name="Buzzer (PWM)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PWM Buzzer Module (Note/Melody Playback)"></label>
+    <button text="Install buzzer library" callbackKey="installPyLib"></button>
+
+    <block type="buzzer_init">
+      <value name="pwm_pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="buzzer_play_tone">
+      <value name="frequency">
+        <shadow type="math_number">
+          <field name="NUM">440</field>
+        </shadow>
+      </value>
+      <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">400</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="buzzer_play_note">
+      <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">400</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="buzzer_play_melody">
+      <value name="melody">
+        <shadow type="text">
+          <field name="TEXT">[('C4',400),('C4',400),('G4',400),('G4',400),('A4',400),('A4',400),('G4',800)]</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="buzzer_stop_tone"></block>
+  </category>
+  <!-- /blockdef:buzzer -->
+
+  <!-- blockdef:lm386_speaker -->
+  <category name="LM386 Speaker (PWM)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="LM386 Power Amplifier Speaker Module (PWM Interface)"></label>
+    <button text="Install lm386_speaker library" callbackKey="installPyLib"></button>
+
+    <block type="lm386_speaker_init">
+      <value name="pwm_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="default_freq">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="lm386_play_tone">
+      <value name="frequency">
+        <shadow type="math_number">
+          <field name="NUM">440</field>
+        </shadow>
+      </value>
+      <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">1.0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="lm386_play_sequence">
+      <value name="notes">
+        <shadow type="text">
+          <field name="TEXT">[(440,0.5),(494,0.5),(523,0.5),(587,0.5),(659,0.5),(698,0.5),(784,1.0)]</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="lm386_set_volume">
+      <value name="volume">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="lm386_stop"></block>
+  </category>
+  <!-- /blockdef:lm386_speaker -->
+
+  <!-- blockdef:snr9816_tts -->
+  <category name="SNR9816 TTS Module">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="SNR9816 Text-to-Speech Module (UART)"></label>
+    <button text="Install snr9816_tts library" callbackKey="installPyLib"></button>
+
+    <block type="snr9816_tts_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">115200</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_synthesize_text">
+      <value name="text">
+        <shadow type="text">
+          <field name="TEXT">Hello</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_set_voice"></block>
+
+    <block type="snr9816_tts_set_volume">
+      <value name="level">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_set_speed">
+      <value name="level">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_set_tone">
+      <value name="level">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_play_ringtone">
+      <value name="num">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_play_message_tone">
+      <value name="num">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_play_alert_tone">
+      <value name="num">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="snr9816_tts_control"></block>
+
+    <block type="snr9816_tts_query_status"></block>
+  </category>
+  <!-- /blockdef:snr9816_tts -->
 
 </category>
 

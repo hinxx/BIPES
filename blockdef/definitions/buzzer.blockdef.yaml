@@ -1,0 +1,63 @@
+# PWM buzzer: a tone, a preset note, or a melody as a list of (note, ms).
+#
+# The same try/except-and-guard scaffolding as the lighting modules, and gone
+# for the same reason. Six dead sockets beside number and text fields; the
+# melody one mattered most, because a melody typed into a text *field* cannot
+# be built by the program.
+
+module: buzzer
+class: Buzzer
+instance: buzzer_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import buzzer", key: import_buzzer}
+
+category:
+  name: Buzzer (PWM)
+  library: buzzer
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PWM Buzzer Module (Note/Melody Playback)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: buzzer_init
+    constructor: true
+    label:
+      - {image: {src: media/buzzer.png, width: 55, height: 55}}
+      - Init Buzzer (PWM)
+    tooltip: Init PWM Buzzer module
+    params:
+      - {name: pwm_pin, label: PWM Pin, type: Number, pin: true, default: 6,
+         align: right, keyword: pin}
+
+  - type: buzzer_play_tone
+    fn: play_tone
+    label: Buzzer Play Tone
+    tooltip: Play single tone with specified frequency and duration
+    params:
+      - {name: frequency, label: Frequency (Hz), type: Number, default: 440, align: right}
+      - {name: duration,  label: Duration (ms),  type: Number, default: 400, align: right}
+
+  - type: buzzer_play_note
+    fn: play_tone
+    label: []
+    tooltip: Play preset musical note (C4-B4/C5)
+    params:
+      - {name: NOTE, label: Buzzer Play Note, kind: dropdown,
+         options: [{C4: "261"}, {D4: "293"}, {E4: "329"}, {F4: "349"},
+                   {G4: "392"}, {A4: "440"}, {B4: "493"}, {C5: "523"}]}
+      - {name: duration, label: Duration (ms), type: Number, default: 400, align: right}
+
+  - type: buzzer_play_melody
+    fn: play_melody
+    label: Buzzer Play Melody
+    tooltip: Play melody sequence (note + duration)
+    params:
+      - {name: melody, label: "Melody [(note, dur), ...]", type: String,
+         unquote: true, align: right,
+         default: "[('C4',400),('C4',400),('G4',400),('G4',400),('A4',400),('A4',400),('G4',800)]"}
+
+  - {type: buzzer_stop_tone, fn: stop_tone, label: Buzzer Stop Playback,
+     tooltip: Stop buzzer playback}

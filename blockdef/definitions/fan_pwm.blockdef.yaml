@@ -1,0 +1,55 @@
+# PWM-controlled cooling fan.
+#
+# Init printed `f"PWM Fan initialized on pin {pin}, freq={pwm_freq}Hz"` -- an
+# f-string naming `pin` and `pwm_freq`, which exist in the generator's
+# JavaScript and nowhere in the program it writes. NameError on the first
+# line the board runs. Two of the fan's five blocks and three of the FM8118's
+# five had the same shape of mistake.
+#
+# Five dead sockets beside number fields, and the try/except-and-guard
+# scaffolding.
+
+module: fan_pwm
+class: FanPWM
+instance: fan
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "from fan_pwm import FanPWM", key: import_fan_pwm}
+
+category:
+  name: PWM Fan
+  library: fan_pwm
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PWM Controlled Cooling Fan
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: fan_pwm_init
+    constructor: true
+    label:
+      - {image: {src: media/fan_pwm.png, width: 55, height: 55}}
+      - Init PWM Cooling Fan
+    tooltip: Init PWM controlled cooling fan (default 25kHz)
+    params:
+      - {name: pin, label: PWM Pin, type: Number, pin: true, default: 6,
+         align: right, keyword: pin}
+      - {name: pwm_freq, label: PWM Freq (Hz), type: Number, default: 25000,
+         align: right, keyword: pwm_freq}
+
+  - {type: fan_pwm_on, fn: on, label: Turn PWM Fan ON (Full Speed),
+     tooltip: Turn cooling fan on at full speed (duty=1023)}
+  - {type: fan_pwm_off, fn: off, label: Turn PWM Fan OFF,
+     tooltip: Turn cooling fan off (duty=0)}
+
+  - type: fan_pwm_set_speed
+    label: Set PWM Fan Speed
+    tooltip: Set fan speed with duty cycle (0=OFF, 1023=FULL)
+    code: "{instance}.set_speed(max(0, min(1023, {duty})))"
+    params:
+      - {name: duty, label: Duty (0-1023), type: Number, default: 512, align: right}
+
+  - {type: fan_pwm_get_speed, fn: get_speed, kind: value,
+     label: Get PWM Fan Current Speed,
+     tooltip: Get current fan duty cycle (0-1023)}

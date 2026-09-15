@@ -1,0 +1,63 @@
+# Opto-isolated MOSFET driver on a PWM pin -- a switch for something that
+# draws more than a GPIO can.
+#
+# Four dead sockets beside number fields.
+
+module: opto_mos_simple
+class: OptoMosSimple
+instance: opto_mos_driver
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import opto_mos_simple", key: import_opto_mos}
+
+category:
+  name: Opto-MOS PWM Driver
+  library: opto_mos_simple
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Opto-isolated MOSFET Driver (PWM)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: opto_mos_init
+    label:
+      - {image: {src: media/opto_mos.png, width: 55, height: 55}}
+      - Init Opto-MOS Driver
+    tooltip: Init opto-isolated MOSFET driver on a PWM pin
+    import: {line: "from machine import Pin, PWM", key: import_machine_pin_pwm}
+    code: |-
+      pwm_opto_mos = PWM(Pin({pin}))
+      pwm_opto_mos.freq({freq})
+      {instance} = opto_mos_simple.OptoMosSimple(pwm_opto_mos, pwm_max={pwm_max}, inverted={INVERTED})
+      {instance}.init()
+    params:
+      - {name: pin, label: GPIO Pin, type: Number, pin: true, default: 6, align: right}
+      - {name: freq, label: PWM Freq (Hz), type: Number, default: 1000, align: right}
+      - {name: pwm_max, label: PWM Max Value, type: Number, default: 65535, align: right}
+      - {name: INVERTED, label: Inverted Output, kind: dropdown,
+         options: [{No: "False"}, {Yes: "True"}]}
+
+  - type: opto_mos_set_duty
+    fn: set_duty
+    label: Set Opto-MOS Duty
+    tooltip: Set the raw PWM duty
+    params:
+      - {name: duty, label: Duty, type: Number, default: 32768, align: right}
+
+  - type: opto_mos_set_percent
+    fn: set_percent
+    label: Set Opto-MOS Percent
+    tooltip: Set the duty as a percentage
+    params:
+      - {name: percent, label: Percent (0-100), type: Number, default: 50, align: right}
+
+  - {type: opto_mos_full_on, fn: full_on, label: Opto-MOS Full On,
+     tooltip: Drive the output fully on}
+  - {type: opto_mos_off, fn: off, label: Opto-MOS Off,
+     tooltip: Turn the output off}
+  - {type: opto_mos_get_status, fn: get_status, kind: value,
+     label: Read Opto-MOS Status,
+     tooltip: Read the driver's current duty and state}
+  - {type: opto_mos_deinit, fn: deinit, label: Deinit Opto-MOS Driver,
+     tooltip: Release the PWM the driver holds}

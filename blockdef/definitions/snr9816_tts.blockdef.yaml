@@ -1,0 +1,128 @@
+# SNR9816 text-to-speech module on a UART. Every setting command is
+# acknowledged or not, so the blocks retry once a second until it takes --
+# which is the module's own handshake, kept as it was.
+#
+# Init printed `"SNR9816 TTS initialized on UART" + uart_port`: a string plus
+# an int, TypeError on the first line the board runs.
+#
+# Nine dead sockets beside number fields, and the usual `if tts_device is not
+# None` guard on every block after a try/except init that left it None.
+
+module: snr9816_tts
+class: SNR9816_TTS
+instance: tts_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import snr9816_tts", key: import_snr9816_tts}
+  - {line: "import time", key: import_time}
+
+category:
+  name: SNR9816 TTS Module
+  library: snr9816_tts
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - SNR9816 Text-to-Speech Module (UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: snr9816_tts_init
+    label:
+      - {image: {src: media/snr9816_tts.png, width: 55, height: 55}}
+      - Init SNR9816 TTS Module
+    tooltip: Init SNR9816 TTS speech synthesis module via UART
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_tts = UART({uart_port}, baudrate={baudrate}, bits=8, parity=None, stop=1, tx=Pin({tx_pin}), rx=Pin({rx_pin}))
+      {instance} = snr9816_tts.SNR9816_TTS(uart_tts)
+      print("SNR9816 TTS initialized on UART", {uart_port})
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 115200, align: right}
+
+  - type: snr9816_tts_synthesize_text
+    label: SNR9816 TTS Synthesize Text
+    tooltip: Synthesize text to speech (UTF-8 encoding)
+    code: |-
+      while not {instance}.synthesize_text({text}):
+        time.sleep(1)
+      print("Text synthesis started:", {text})
+    params:
+      - {name: text, label: Text, type: String, default: Hello, align: right}
+
+  - type: snr9816_tts_set_voice
+    label: []
+    tooltip: Set TTS voice type (0=female, 1=male)
+    code: |-
+      while not {instance}.set_voice({VOICE_TYPE}):
+        time.sleep(1)
+    params:
+      - {name: VOICE_TYPE, label: SNR9816 TTS Set Voice, kind: dropdown,
+         options: [{Female Voice: "0"}, {Male Voice: "1"}]}
+
+  - type: snr9816_tts_set_volume
+    label: SNR9816 TTS Set Volume
+    tooltip: Set TTS volume level (0=min, 9=max)
+    code: &tts_retry |-
+      while not {instance}.set_volume({level}):
+        time.sleep(1)
+    params: &tts_level
+      - {name: level, label: Level (0-9), type: Number, default: 5, align: right}
+
+  - type: snr9816_tts_set_speed
+    label: SNR9816 TTS Set Speed
+    tooltip: Set TTS speech speed (0=fastest, 9=slowest)
+    code: |-
+      while not {instance}.set_speed({level}):
+        time.sleep(1)
+    params: *tts_level
+
+  - type: snr9816_tts_set_tone
+    label: SNR9816 TTS Set Tone
+    tooltip: Set TTS tone level (0=lowest, 9=highest)
+    code: |-
+      while not {instance}.set_tone({level}):
+        time.sleep(1)
+    params: *tts_level
+
+  - type: snr9816_tts_play_ringtone
+    label: SNR9816 TTS Play Ringtone
+    tooltip: Play system ringtone (1-5)
+    code: |-
+      while not {instance}.play_ringtone({num}):
+        time.sleep(1)
+    params: &tts_num
+      - {name: num, label: Number (1-5), type: Number, default: 1, align: right}
+
+  - type: snr9816_tts_play_message_tone
+    label: SNR9816 TTS Play Message Tone
+    tooltip: Play message notification tone (1-5)
+    code: |-
+      while not {instance}.play_message_tone({num}):
+        time.sleep(1)
+    params: *tts_num
+
+  - type: snr9816_tts_play_alert_tone
+    label: SNR9816 TTS Play Alert Tone
+    tooltip: Play alert tone (1-5)
+    code: |-
+      while not {instance}.play_alert_tone({num}):
+        time.sleep(1)
+    params: *tts_num
+
+  - type: snr9816_tts_control
+    label: []
+    tooltip: Control TTS synthesis (pause/resume/stop)
+    code: |-
+      result = {instance}.{CONTROL_ACTION}_synthesis()
+      print("TTS synthesis {CONTROL_ACTION}:", result)
+    params:
+      - {name: CONTROL_ACTION, label: SNR9816 TTS Control, kind: dropdown,
+         options: [{Pause Synthesis: pause}, {Resume Synthesis: resume},
+                   {Stop Synthesis: stop}]}
+
+  - {type: snr9816_tts_query_status, fn: query_status, kind: value,
+     label: SNR9816 TTS Query Status,
+     tooltip: Query the module's current synthesis status}

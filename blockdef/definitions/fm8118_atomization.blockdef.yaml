@@ -1,0 +1,43 @@
+# FM8118 ultrasonic atomiser (mist maker) on one GPIO.
+#
+# Three of its five blocks printed f-strings naming `pin` and `atomizer` --
+# `pin` exists only in the generator's JavaScript, so init raised NameError
+# before anything else could run. The prints are gone with the try/except and
+# the `if atomizer is not None` guards.
+
+module: fm8118_atomization
+class: FM8118_Atomization
+instance: atomizer
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "from fm8118_atomization import FM8118_Atomization", key: import_fm8118}
+
+category:
+  name: FM8118 Ultrasonic Atomizer
+  library: fm8118_atomization
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - FM8118 Ultrasonic Atomization Module
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: fm8118_atomization_init
+    constructor: true
+    label:
+      - {image: {src: media/fm8118_atomization.png, width: 55, height: 55}}
+      - Init FM8118 Ultrasonic Atomizer
+    tooltip: Init FM8118-based ultrasonic atomization module via GPIO
+    params:
+      - {name: pin, label: Control Pin, type: Number, pin: true, default: 6,
+         align: right, keyword: pin}
+
+  - {type: fm8118_atomization_on, fn: on, label: Turn FM8118 Atomizer ON,
+     tooltip: Turn on ultrasonic atomizer (set pin LOW)}
+  - {type: fm8118_atomization_off, fn: off, label: Turn FM8118 Atomizer OFF,
+     tooltip: Turn off ultrasonic atomizer}
+  - {type: fm8118_atomization_toggle, fn: toggle,
+     label: Toggle FM8118 Atomizer State, tooltip: Toggle atomizer state}
+  - {type: fm8118_atomization_is_on, fn: is_on, kind: value,
+     label: Check FM8118 Atomizer Status,
+     tooltip: "Return True if atomizer is ON, False if OFF"}

@@ -1819,6 +1819,91 @@ Blockly.Blocks['builtins_zip'] = {
   }
 };
 
+// ---- Buzzer (PWM) (buzzer.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['buzzer_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/buzzer.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Buzzer (PWM)");
+    this.appendValueInput("pwm_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PWM Buzzer module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['buzzer_play_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Buzzer Play Tone");
+    this.appendValueInput("frequency")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Frequency (Hz)");
+    this.appendValueInput("duration")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Duration (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play single tone with specified frequency and duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['buzzer_play_note'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Buzzer Play Note")
+        .appendField(new Blockly.FieldDropdown([["C4", "261"], ["D4", "293"], ["E4", "329"], ["F4", "349"], ["G4", "392"], ["A4", "440"], ["B4", "493"], ["C5", "523"]]), "NOTE");
+    this.appendValueInput("duration")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Duration (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play preset musical note (C4-B4/C5)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['buzzer_play_melody'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Buzzer Play Melody");
+    this.appendValueInput("melody")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Melody [(note, dur), ...]");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play melody sequence (note + duration)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['buzzer_stop_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Buzzer Stop Playback");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop buzzer playback");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- %{BKY_CAT_AIR} (ccs811.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['ccs811_init'] = {
@@ -3699,6 +3784,81 @@ Blockly.Blocks['esp32_ULP.run'] = {
   }
 };
 
+// ---- PWM Fan (fan_pwm.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['fan_pwm_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/fan_pwm.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PWM Cooling Fan");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Pin");
+    this.appendValueInput("pwm_freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Freq (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PWM controlled cooling fan (default 25kHz)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fan_pwm_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turn PWM Fan ON (Full Speed)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn cooling fan on at full speed (duty=1023)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fan_pwm_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turn PWM Fan OFF");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn cooling fan off (duty=0)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fan_pwm_set_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set PWM Fan Speed");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Duty (0-1023)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set fan speed with duty cycle (0=OFF, 1023=FULL)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fan_pwm_get_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get PWM Fan Current Speed");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get current fan duty cycle (0-1023)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- %{BKY_CAT_FILES} (files.blockdef.yaml) ----------------------------------
 
 Blockly.Blocks['file_open'] = {
@@ -4068,6 +4228,73 @@ Blockly.Blocks['flame_sensor_toggle_callback'] = {
     this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip("Enable/disable flame detection callback");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- FM8118 Ultrasonic Atomizer (fm8118_atomization.blockdef.yaml) -----------
+
+Blockly.Blocks['fm8118_atomization_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/fm8118_atomization.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init FM8118 Ultrasonic Atomizer");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Control Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init FM8118-based ultrasonic atomization module via GPIO");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fm8118_atomization_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turn FM8118 Atomizer ON");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn on ultrasonic atomizer (set pin LOW)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fm8118_atomization_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turn FM8118 Atomizer OFF");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off ultrasonic atomizer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fm8118_atomization_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Toggle FM8118 Atomizer State");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Toggle atomizer state");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['fm8118_atomization_is_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Check FM8118 Atomizer Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Return True if atomizer is ON, False if OFF");
     this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
@@ -6536,6 +6763,94 @@ Blockly.Blocks['run_cmd'] = {
     this.setColour(240);
     this.setTooltip("Run custo Linux command");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- LM386 Speaker (PWM) (lm386_speaker.blockdef.yaml) -----------------------
+
+Blockly.Blocks['lm386_speaker_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/lm386_speaker.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init LM386 Speaker (PWM)");
+    this.appendValueInput("pwm_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Pin");
+    this.appendValueInput("default_freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Default Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init LM386 amplifier speaker module via PWM");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['lm386_play_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LM386 Play Tone");
+    this.appendValueInput("frequency")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Frequency (Hz)");
+    this.appendValueInput("duration")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Duration (sec)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play single tone with specified frequency and duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['lm386_play_sequence'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LM386 Play Melody");
+    this.appendValueInput("notes")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Notes [(freq, dur), ...]");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play sequence of notes (melody)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['lm386_set_volume'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LM386 Set Volume");
+    this.appendValueInput("volume")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Volume (1-100%)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set speaker volume (1-100%)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['lm386_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LM386 Stop Playback (Mute)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop playback and mute speaker");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -10324,6 +10639,116 @@ Blockly.Blocks['tank_turn'] = {
   }
 };
 
+// ---- Opto-MOS PWM Driver (opto_mos.blockdef.yaml) ----------------------------
+
+Blockly.Blocks['opto_mos_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/opto_mos.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Opto-MOS Driver");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("GPIO Pin");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Freq (Hz)");
+    this.appendValueInput("pwm_max")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Max Value");
+    this.appendDummyInput()
+        .appendField("Inverted Output")
+        .appendField(new Blockly.FieldDropdown([["No", "False"], ["Yes", "True"]]), "INVERTED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init opto-isolated MOSFET driver on a PWM pin");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_set_duty'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Opto-MOS Duty");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Duty");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set the raw PWM duty");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_set_percent'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Opto-MOS Percent");
+    this.appendValueInput("percent")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Percent (0-100)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set the duty as a percentage");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_full_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Opto-MOS Full On");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Drive the output fully on");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Opto-MOS Off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn the output off");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_get_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Opto-MOS Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read the driver's current duty and state");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['opto_mos_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinit Opto-MOS Driver");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release the PWM the driver holds");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- PCA9546ADR I2C MUX (pca9546adr.blockdef.yaml) ---------------------------
 
 Blockly.Blocks['pca9546adr_init'] = {
@@ -12357,6 +12782,187 @@ Blockly.Blocks['snek_servo_move'] = {
     this.setColour(230);
     this.setTooltip("Snek RC Servo Motor");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- SNR9816 TTS Module (snr9816_tts.blockdef.yaml) --------------------------
+
+Blockly.Blocks['snr9816_tts_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/snr9816_tts.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init SNR9816 TTS Module");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init SNR9816 TTS speech synthesis module via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_synthesize_text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Synthesize Text");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Synthesize text to speech (UTF-8 encoding)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_set_voice'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Set Voice")
+        .appendField(new Blockly.FieldDropdown([["Female Voice", "0"], ["Male Voice", "1"]]), "VOICE_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set TTS voice type (0=female, 1=male)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_set_volume'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Set Volume");
+    this.appendValueInput("level")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Level (0-9)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set TTS volume level (0=min, 9=max)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_set_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Set Speed");
+    this.appendValueInput("level")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Level (0-9)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set TTS speech speed (0=fastest, 9=slowest)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_set_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Set Tone");
+    this.appendValueInput("level")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Level (0-9)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set TTS tone level (0=lowest, 9=highest)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_play_ringtone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Play Ringtone");
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Number (1-5)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play system ringtone (1-5)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_play_message_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Play Message Tone");
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Number (1-5)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play message notification tone (1-5)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_play_alert_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Play Alert Tone");
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Number (1-5)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play alert tone (1-5)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_control'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Control")
+        .appendField(new Blockly.FieldDropdown([["Pause Synthesis", "pause"], ["Resume Synthesis", "resume"], ["Stop Synthesis", "stop"]]), "CONTROL_ACTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Control TTS synthesis (pause/resume/stop)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['snr9816_tts_query_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SNR9816 TTS Query Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query the module's current synthesis status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
