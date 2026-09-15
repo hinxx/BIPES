@@ -63,6 +63,64 @@ Blockly.Python['adc_pico'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- ADS1115 ADC (ads1115.blockdef.yaml) -------------------------------------
+
+Blockly.Python['ads1115_init'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var i2c_id_ = Blockly.Python.valueToCode(block, "i2c_id", Blockly.Python.ORDER_ATOMIC);
+  var sda_pin_ = Blockly.Python.valueToCode(block, "sda_pin", Blockly.Python.ORDER_ATOMIC);
+  var scl_pin_ = Blockly.Python.valueToCode(block, "scl_pin", Blockly.Python.ORDER_ATOMIC);
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var gain_ = Blockly.Python.valueToCode(block, "gain", Blockly.Python.ORDER_ATOMIC);
+  var alert_pin_ = Blockly.Python.valueToCode(block, "alert_pin", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_id_, scl: scl_pin_, sda: sda_pin_, freq: "400000"});
+  var code = "ads1115_adc = ads1115.ADS1115(" + bus_ + ", address=" + address_ + ", gain=" + gain_ + ", alert_pin=(" + alert_pin_ + " if " + alert_pin_ + " >= 0 else None))";
+  return code + "\n";
+};
+
+Blockly.Python['ads1115_read_raw'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var rate_ = Blockly.Python.valueToCode(block, "rate", Blockly.Python.ORDER_ATOMIC);
+  var channel1_ = Blockly.Python.valueToCode(block, "channel1", Blockly.Python.ORDER_ATOMIC);
+  var channel2_ = Blockly.Python.valueToCode(block, "channel2", Blockly.Python.ORDER_ATOMIC);
+  var code = "ads1115_adc.read(rate=" + rate_ + ", channel1=" + channel1_ + ", channel2=(" + channel2_ + " if " + channel2_ + " >= 0 else None))";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ads1115_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var rate_ = Blockly.Python.valueToCode(block, "rate", Blockly.Python.ORDER_ATOMIC);
+  var channel1_ = Blockly.Python.valueToCode(block, "channel1", Blockly.Python.ORDER_ATOMIC);
+  var channel2_ = Blockly.Python.valueToCode(block, "channel2", Blockly.Python.ORDER_ATOMIC);
+  var code = "ads1115_adc.raw_to_v(ads1115_adc.read(rate=" + rate_ + ", channel1=" + channel1_ + ", channel2=(" + channel2_ + " if " + channel2_ + " >= 0 else None)))";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ads1115_alert_start'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var rate_ = Blockly.Python.valueToCode(block, "rate", Blockly.Python.ORDER_ATOMIC);
+  var channel1_ = Blockly.Python.valueToCode(block, "channel1", Blockly.Python.ORDER_ATOMIC);
+  var channel2_ = Blockly.Python.valueToCode(block, "channel2", Blockly.Python.ORDER_ATOMIC);
+  var threshold_high_ = Blockly.Python.valueToCode(block, "threshold_high", Blockly.Python.ORDER_ATOMIC);
+  var threshold_low_ = Blockly.Python.valueToCode(block, "threshold_low", Blockly.Python.ORDER_ATOMIC);
+  var LATCHED_ = {"YES": "True", "NO": "False"}[block.getFieldValue("LATCHED")];
+  var code = "ads1115_adc.alert_start(rate=" + rate_ + ", channel1=" + channel1_ + ", channel2=(" + channel2_ + " if " + channel2_ + " >= 0 else None), threshold_high=" + threshold_high_ + ", threshold_low=" + threshold_low_ + ", latched=" + LATCHED_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ads1115_alert_read'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var code = "ads1115_adc.alert_read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ads1115_set_alert_callback'] = function(block) {
+  Blockly.Python.definitions_["import_ads1115"] = "import ads1115";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def __ads1115_irq_func(pin):\n" + CALLBACK_CODE_ + "ads1115_adc.callback = __ads1115_irq_func";
+  return code + "\n";
+};
+
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
 
 Blockly.Python['aht_init'] = function(block) {
@@ -102,6 +160,61 @@ Blockly.Python['anemo_stop'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
   var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var code = "anemometro.irq(trigger=0,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
+// ---- AT24CXX EEPROM (at24cxx.blockdef.yaml) ----------------------------------
+
+Blockly.Python['at24cxx_init'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var CHIP_SIZE_ = block.getFieldValue("CHIP_SIZE");
+  var ADDR_ = block.getFieldValue("ADDR");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "100000"});
+  var code = "time.sleep(3)\nat24cxx = at24c256.AT24CXX(" + bus_ + ", chip_size=" + CHIP_SIZE_ + ", addr=" + ADDR_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['at24cxx_write_byte'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "at24cxx.write_byte(" + address_ + ", " + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['at24cxx_read_byte'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  var ADDRESS_ = block.getFieldValue("ADDRESS");
+  var code = "at24cxx.read_byte(" + ADDRESS_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['at24cxx_write_page'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var length_ = Blockly.Python.valueToCode(block, "length", Blockly.Python.ORDER_ATOMIC);
+  var code = "data_to_write = bytes(range(" + length_ + "))\nat24cxx.write_page(" + address_ + ", data_to_write)";
+  return code + "\n";
+};
+
+Blockly.Python['at24cxx_read_sequence'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  var START_ADDR_ = block.getFieldValue("START_ADDR");
+  var LENGTH_ = block.getFieldValue("LENGTH");
+  var code = "at24cxx.read_sequence(" + START_ADDR_ + ", " + LENGTH_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['at24cxx_erase_data'] = function(block) {
+  Blockly.Python.definitions_["import_at24cxx"] = "import at24c256";
+  Blockly.Python.definitions_["define_erase_data"] = "def erase_data(at24cxx, start_address, length):\n  data_to_erase = bytes([0xFF] * length)\n  at24cxx.write_page(start_address, data_to_erase)";
+  var address_ = Blockly.Python.valueToCode(block, "address", Blockly.Python.ORDER_ATOMIC);
+  var length_ = Blockly.Python.valueToCode(block, "length", Blockly.Python.ORDER_ATOMIC);
+  var code = "erase_data(at24cxx, " + address_ + ", " + length_ + ")";
   return code + "\n";
 };
 
@@ -1021,6 +1134,86 @@ Blockly.Python['dht_read_humidity'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- DS1232 Watchdog (ds1232.blockdef.yaml) ----------------------------------
+
+Blockly.Python['ds1232_init'] = function(block) {
+  Blockly.Python.definitions_["import_ds1232"] = "import ds1232";
+  var wdi_pin_ = Blockly.Python.valueToCode(block, "wdi_pin", Blockly.Python.ORDER_ATOMIC);
+  var feed_interval_ = Blockly.Python.valueToCode(block, "feed_interval", Blockly.Python.ORDER_ATOMIC);
+  var code = "ds1232_watchdog = ds1232.DS1232(" + "wdi_pin=" + wdi_pin_ + ", feed_interval=" + feed_interval_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ds1232_kick'] = function(block) {
+  Blockly.Python.definitions_["import_ds1232"] = "import ds1232";
+  var code = "ds1232_watchdog.kick()";
+  return code + "\n";
+};
+
+Blockly.Python['ds1232_stop'] = function(block) {
+  Blockly.Python.definitions_["import_ds1232"] = "import ds1232";
+  var code = "ds1232_watchdog.stop()";
+  return code + "\n";
+};
+
+// ---- DS1307 RTC (I2C) (ds1307.blockdef.yaml) ---------------------------------
+
+Blockly.Python['ds1307_init'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var i2c_bus_ = Blockly.Python.valueToCode(block, "i2c_bus", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var i2c_addr_ = Blockly.Python.valueToCode(block, "i2c_addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_bus_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "ds1307_rtc = ds1307.DS1307(" + bus_ + ", addr=" + i2c_addr_ + ")\nds1307_rtc.disable_oscillator = False";
+  return code + "\n";
+};
+
+Blockly.Python['ds1307_set_datetime'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var year_ = Blockly.Python.valueToCode(block, "year", Blockly.Python.ORDER_ATOMIC);
+  var month_ = Blockly.Python.valueToCode(block, "month", Blockly.Python.ORDER_ATOMIC);
+  var day_ = Blockly.Python.valueToCode(block, "day", Blockly.Python.ORDER_ATOMIC);
+  var hour_ = Blockly.Python.valueToCode(block, "hour", Blockly.Python.ORDER_ATOMIC);
+  var minute_ = Blockly.Python.valueToCode(block, "minute", Blockly.Python.ORDER_ATOMIC);
+  var second_ = Blockly.Python.valueToCode(block, "second", Blockly.Python.ORDER_ATOMIC);
+  var weekday_ = Blockly.Python.valueToCode(block, "weekday", Blockly.Python.ORDER_ATOMIC);
+  var code = "ds1307_rtc.datetime = (" + year_ + ", " + month_ + ", " + day_ + ", " + hour_ + ", " + minute_ + ", " + second_ + ", " + weekday_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ds1307_get_datetime'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var code = "ds1307_rtc.datetime";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ds1307_get_datetime_rtc'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var code = "ds1307_rtc.datetimeRTC";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ds1307_set_oscillator'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var OSC_STATE_ = block.getFieldValue("OSC_STATE");
+  var code = "ds1307_rtc.disable_oscillator = " + OSC_STATE_;
+  return code + "\n";
+};
+
+Blockly.Python['ds1307_get_oscillator'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var code = "ds1307_rtc.disable_oscillator";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ds1307_read_field'] = function(block) {
+  Blockly.Python.definitions_["import_ds1307"] = "import ds1307";
+  var TIME_FIELD_ = {"year": "0", "month": "1", "day": "2", "hour": "3", "minute": "4", "second": "5", "weekday": "6"}[block.getFieldValue("TIME_FIELD")];
+  var code = "ds1307_rtc.datetime[" + TIME_FIELD_ + "]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- OneWire (ds18x20.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['onewire_ds18x20_init'] = function(block) {
@@ -1086,6 +1279,33 @@ Blockly.Python['read_temp_ds3231'] = function(block) {
   Blockly.Python.definitions_["import_ds3231"] = "from ds3231_gen import DS3231";
   var degree_f_ = block.getFieldValue("degree_f");
   var code = "ds3231.temperature(" + degree_f_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- DS3502 Digital Potentiometer (ds3502.blockdef.yaml) ---------------------
+
+Blockly.Python['ds3502_init'] = function(block) {
+  Blockly.Python.definitions_["import_ds3502"] = "import ds3502";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var MODE_ = block.getFieldValue("MODE");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "ds3502_sensor = ds3502.DS3502(" + bus_ + ", " + addr_ + ")\nds3502_sensor.set_mode(" + MODE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ds3502_write_wiper'] = function(block) {
+  Blockly.Python.definitions_["import_ds3502"] = "import ds3502";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "ds3502_sensor.write_wiper(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ds3502_read_wiper'] = function(block) {
+  Blockly.Python.definitions_["import_ds3502"] = "import ds3502";
+  var code = "ds3502_sensor.read_wiper()";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -3793,6 +4013,42 @@ Blockly.Python['mcp23017_input'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- MCP4725 DAC Sensor (mcp4725.blockdef.yaml) ------------------------------
+
+Blockly.Python['mcp4725_init'] = function(block) {
+  Blockly.Python.definitions_["import_mcp4725"] = "import mcp4725";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var ADDR_ = block.getFieldValue("ADDR");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "mcp4725_dac = mcp4725.MCP4725(" + bus_ + ", address=" + ADDR_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mcp4725_write'] = function(block) {
+  Blockly.Python.definitions_["import_mcp4725"] = "import mcp4725";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "mcp4725_dac.write(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mcp4725_read'] = function(block) {
+  Blockly.Python.definitions_["import_mcp4725"] = "import mcp4725";
+  var code = "mcp4725_dac.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mcp4725_config'] = function(block) {
+  Blockly.Python.definitions_["import_mcp4725"] = "import mcp4725";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var POWER_MODE_ = block.getFieldValue("POWER_MODE");
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var EEPROM_ = block.getFieldValue("EEPROM");
+  var code = "mcp4725_dac.config(power_down=\"" + POWER_MODE_ + "\", value=" + value_ + ", eeprom=" + EEPROM_ + ")\ntime.sleep_ms(50)";
+  return code + "\n";
+};
+
 // ---- micropython (micropython.blockdef.yaml) ---------------------------------
 
 Blockly.Python['micropython_const'] = function(block) {
@@ -4424,6 +4680,44 @@ Blockly.Python['tank_turn'] = function(block) {
   return code + "\n";
 };
 
+// ---- PCA9546ADR I2C MUX (pca9546adr.blockdef.yaml) ---------------------------
+
+Blockly.Python['pca9546adr_init'] = function(block) {
+  Blockly.Python.definitions_["import_pca9546adr"] = "import pca9546adr";
+  var i2c_bus_ = Blockly.Python.valueToCode(block, "i2c_bus", Blockly.Python.ORDER_ATOMIC);
+  var sda_pin_ = Blockly.Python.valueToCode(block, "sda_pin", Blockly.Python.ORDER_ATOMIC);
+  var scl_pin_ = Blockly.Python.valueToCode(block, "scl_pin", Blockly.Python.ORDER_ATOMIC);
+  var i2c_addr_ = Blockly.Python.valueToCode(block, "i2c_addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_bus_, scl: scl_pin_, sda: sda_pin_});
+  var code = "pca9546adr_mux = pca9546adr.PCA9546ADR(" + bus_ + ", addr7=" + i2c_addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pca9546adr_select_channel'] = function(block) {
+  Blockly.Python.definitions_["import_pca9546adr"] = "import pca9546adr";
+  var CHANNEL_ = block.getFieldValue("CHANNEL");
+  var code = "pca9546adr_mux.select_channel(" + CHANNEL_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pca9546adr_disable_all'] = function(block) {
+  Blockly.Python.definitions_["import_pca9546adr"] = "import pca9546adr";
+  var code = "pca9546adr_mux.disable_all()";
+  return code + "\n";
+};
+
+Blockly.Python['pca9546adr_read_status'] = function(block) {
+  Blockly.Python.definitions_["import_pca9546adr"] = "import pca9546adr";
+  var code = "pca9546adr_mux.read_status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pca9546adr_scan_i2c'] = function(block) {
+  Blockly.Python.definitions_["import_pca9546adr"] = "import pca9546adr";
+  var code = "pca9546adr_mux.i2c.scan()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Python['init_pca9685'] = function(block) {
@@ -4950,6 +5244,65 @@ Blockly.Python['sht20_temperature'] = function(block) {
 Blockly.Python['sht20_humidity'] = function(block) {
   var code = "sht20_humidity()";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- SI5351 Clock Generator (si5351.blockdef.yaml) ---------------------------
+
+Blockly.Python['si5351_init'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var crystal_ = Blockly.Python.valueToCode(block, "crystal", Blockly.Python.ORDER_ATOMIC);
+  var ADDR_ = block.getFieldValue("ADDR");
+  var LOAD_ = block.getFieldValue("LOAD");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "100000"});
+  var code = "time.sleep(3)\nsi5351 = silicon5351.SI5351_I2C(" + bus_ + ", crystal=" + crystal_ + ", load=" + LOAD_ + ", address=" + ADDR_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['si5351_setup_pll'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  var PLL_ = block.getFieldValue("PLL");
+  var mul_ = Blockly.Python.valueToCode(block, "mul", Blockly.Python.ORDER_ATOMIC);
+  var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
+  var denom_ = Blockly.Python.valueToCode(block, "denom", Blockly.Python.ORDER_ATOMIC);
+  var code = "si5351.setup_pll(" + "pll=" + PLL_ + ", mul=" + mul_ + ", num=" + num_ + ", denom=" + denom_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['si5351_init_clock'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  var OUTPUT_ = block.getFieldValue("OUTPUT");
+  var PLL_ = block.getFieldValue("PLL");
+  var DRIVE_ = block.getFieldValue("DRIVE");
+  var QUADRATURE_ = block.getFieldValue("QUADRATURE");
+  var INVERT_ = block.getFieldValue("INVERT");
+  var code = "si5351.init_clock(" + "output=" + OUTPUT_ + ", pll=" + PLL_ + ", quadrature=" + QUADRATURE_ + ", invert=" + INVERT_ + ", drive_strength=" + DRIVE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['si5351_set_freq'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  var OUTPUT_ = block.getFieldValue("OUTPUT");
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "si5351.set_freq_fixedpll(" + "output=" + OUTPUT_ + ", freq=" + freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['si5351_enable_output'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  var OUTPUT_ = block.getFieldValue("OUTPUT");
+  var code = "si5351.enable_output(" + "output=" + OUTPUT_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['si5351_disable_output'] = function(block) {
+  Blockly.Python.definitions_["import_si5351"] = "import silicon5351";
+  var OUTPUT_ = block.getFieldValue("OUTPUT");
+  var code = "si5351.disable_output(" + "output=" + OUTPUT_ + ")";
+  return code + "\n";
 };
 
 // ---- Simulate (simulate.blockdef.yaml) ---------------------------------------

@@ -1,0 +1,63 @@
+# MCP4725 12-bit DAC.
+#
+# Both value sockets were dead beside number fields the generator read
+# instead, and `mcp4725_config` read all three of its inputs off fields while
+# the toolbox filled a socket. The sockets are what is left, so a program can
+# sweep the DAC from a loop variable rather than one constant.
+
+module: mcp4725
+class: MCP4725
+instance: mcp4725_dac
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import mcp4725", key: import_mcp4725}
+
+category:
+  name: MCP4725 DAC Sensor
+  library: mcp4725
+  labels:
+    - "Library: MCP4725 12-bit DAC (MicroPython)"
+    - MCP4725 12-bit Digital-to-Analog Converter
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 4, scl: 5}
+
+blocks:
+  - type: mcp4725_init
+    label:
+      - {image: {src: media/mcp4725.png, width: 55, height: 55}}
+      - Init MCP4725 DAC
+    tooltip: Init MCP4725 12-bit DAC via I2C
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 400000}
+    code: "{instance} = mcp4725.MCP4725({bus}, address={ADDR})"
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: ADDR, label: I2C Address, kind: dropdown,
+         options: [{0x60: "0x60"}, {0x61: "0x61"}, {0x62: "0x62"}, {0x63: "0x63"}]}
+
+  - type: mcp4725_write
+    fn: write
+    label: MCP4725 Write Value
+    tooltip: Write 12-bit value to MCP4725 (0-4095)
+    params:
+      - {name: value, label: Value (0-4095), type: Number, default: 0, align: right}
+
+  - {type: mcp4725_read, fn: read, kind: value, label: MCP4725 Read Status,
+     tooltip: Read power down mode and DAC value from MCP4725}
+
+  - type: mcp4725_config
+    label: MCP4725 Config
+    tooltip: Configure MCP4725 power down mode and save to EEPROM
+    import: {line: "import time", key: import_time}
+    code: |-
+      {instance}.config(power_down="{POWER_MODE}", value={value}, eeprom={EEPROM})
+      time.sleep_ms(50)
+    params:
+      - {name: POWER_MODE, label: Power Down Mode, kind: dropdown,
+         options: [{Off: "Off"}, {1k: "1k"}, {100k: "100k"}, {500k: "500k"}]}
+      - {name: value, label: Value (0-4095), type: Number, default: 0, align: right}
+      - {name: EEPROM, label: Write to EEPROM, kind: dropdown,
+         options: [{No: "False"}, {Yes: "True"}]}

@@ -1,0 +1,99 @@
+# AT24Cxx I2C EEPROM. The driver file is `at24c256.py` and covers the whole
+# family, with the size picked in the constructor.
+#
+# Three dead sockets beside number fields (`write_byte`, `write_page`,
+# `erase_data`); `read_byte` and `read_sequence` genuinely are fields.
+#
+# Two things carried across as they were, and both are worth a second look:
+# init opens with `time.sleep(3)`, which every program using an EEPROM then
+# waits out; and "Write Page" writes `bytes(range(length))` -- a ramp -- with
+# no way to say what to store.
+
+module: at24c256
+class: AT24CXX
+instance: at24cxx
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import at24c256", key: import_at24cxx}
+
+category:
+  name: AT24CXX EEPROM
+  library: at24c256
+  labels:
+    - "Library: AT24CXX EEPROM (AT24C32/64/128/256/512)"
+    - AT24CXX I2C EEPROM Memory (AT24C256 default)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 4, scl: 5}
+
+blocks:
+  - type: at24cxx_init
+    label:
+      - {image: {src: media/at24c256.png, width: 55, height: 55}}
+      - Init AT24CXX EEPROM
+    tooltip: Init AT24CXX I2C EEPROM
+    import: {line: "import time", key: import_time}
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 100000}
+    code: |-
+      time.sleep(3)
+      {instance} = at24c256.AT24CXX({bus}, chip_size={CHIP_SIZE}, addr={ADDR})
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: CHIP_SIZE, label: EEPROM Type, kind: dropdown,
+         options: [{AT24C32 (4KB): "4096"}, {AT24C64 (8KB): "8192"},
+                   {AT24C128 (16KB): "16384"}, {AT24C256 (32KB): "32768"},
+                   {AT24C512 (64KB): "65536"}]}
+      - {name: ADDR, label: I2C Address, kind: number, default: 80, min: 80, max: 87}
+
+  - type: at24cxx_write_byte
+    fn: write_byte
+    label: AT24CXX Write Byte
+    tooltip: Write one byte to an EEPROM address
+    params:
+      - {name: address, label: Address, type: Number, default: 0, align: right}
+      - {name: data, label: Data (0-255), type: Number, default: 171, align: right}
+
+  - type: at24cxx_read_byte
+    fn: read_byte
+    kind: value
+    label: []
+    tooltip: Read one byte from an EEPROM address
+    params:
+      - {name: ADDRESS, label: AT24CXX Read Byte from Address, kind: number, default: 0}
+
+  - type: at24cxx_write_page
+    label: AT24CXX Write Page
+    tooltip: Write a page of sequential bytes to the EEPROM
+    code: |-
+      data_to_write = bytes(range({length}))
+      {instance}.write_page({address}, data_to_write)
+    params:
+      - {name: address, label: Start Address, type: Number, default: 0, align: right}
+      - {name: length, label: Data Length, type: Number, default: 64, align: right}
+
+  - type: at24cxx_read_sequence
+    fn: read_sequence
+    kind: value
+    label: AT24CXX Read Sequence
+    tooltip: Read a run of bytes from the EEPROM
+    params:
+      - {name: START_ADDR, label: Start Address, kind: number, default: 0, align: right}
+      - {name: LENGTH, label: Length, kind: number, default: 64, min: 1, max: 1024,
+         align: right}
+
+  - type: at24cxx_erase_data
+    label: AT24CXX Erase Data (0xFF)
+    tooltip: Fill a run of EEPROM with 0xFF
+    import:
+      - key: define_erase_data
+        line: |-
+          def erase_data(at24cxx, start_address, length):
+            data_to_erase = bytes([0xFF] * length)
+            at24cxx.write_page(start_address, data_to_erase)
+    code: "erase_data({instance}, {address}, {length})"
+    params:
+      - {name: address, label: Start Address, type: Number, default: 0, align: right}
+      - {name: length, label: Length, type: Number, default: 64, align: right}

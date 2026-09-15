@@ -1,0 +1,40 @@
+# DS1232 external watchdog. The driver starts a timer that toggles WDI on its
+# own, so init is all it takes to keep the board alive.
+#
+# `feed_interval` was a live socket beside a number field the generator read
+# instead.
+
+module: ds1232
+class: DS1232
+instance: ds1232_watchdog
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ds1232", key: import_ds1232}
+
+category:
+  name: DS1232 Watchdog
+  library: ds1232
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - DS1232 External Watchdog Module
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: ds1232_init
+    constructor: true
+    label:
+      - {image: {src: media/ds1232.png, width: 55, height: 55}}
+      - Init DS1232 Watchdog
+    tooltip: Init DS1232 watchdog module and start auto feeding
+    params:
+      - {name: wdi_pin, label: WDI Pin, type: Number, pin: true, default: 7,
+         align: right, keyword: wdi_pin}
+      - {name: feed_interval, label: Feed Interval (ms), type: Number, default: 1000,
+         align: right, keyword: feed_interval}
+
+  - {type: ds1232_kick, fn: kick, label: Manual Feed DS1232 Watchdog,
+     tooltip: Manually feed DS1232 watchdog by toggling WDI pin once}
+
+  - {type: ds1232_stop, fn: stop, label: Stop DS1232 Auto Feeding,
+     tooltip: "Stop auto feeding DS1232 watchdog, WDI pin set to low"}

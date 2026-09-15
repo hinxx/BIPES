@@ -2759,6 +2759,484 @@
   </category>
   <!-- /blockdef:rcwl9623 -->
 
+  <!-- blockdef:ds1307 -->
+  <category name="DS1307 RTC (I2C)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="DS1307 Real-Time Clock (RTC) Module (I2C Interface)"></label>
+    <button text="Install ds1307 library" callbackKey="installPyLib"></button>
+
+    <block type="ds1307_init">
+      <value name="i2c_bus">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="i2c_addr">
+        <shadow type="math_number">
+          <field name="NUM">104</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ds1307_set_datetime">
+      <value name="year">
+        <shadow type="math_number">
+          <field name="NUM">2025</field>
+        </shadow>
+      </value>
+      <value name="month">
+        <shadow type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+      <value name="day">
+        <shadow type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+      <value name="hour">
+        <shadow type="math_number">
+          <field name="NUM">16</field>
+        </shadow>
+      </value>
+      <value name="minute">
+        <shadow type="math_number">
+          <field name="NUM">51</field>
+        </shadow>
+      </value>
+      <value name="second">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="weekday">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ds1307_get_datetime"></block>
+
+    <block type="ds1307_get_datetime_rtc"></block>
+
+    <block type="ds1307_set_oscillator"></block>
+
+    <block type="ds1307_get_oscillator"></block>
+
+    <block type="ds1307_read_field"></block>
+  </category>
+  <!-- /blockdef:ds1307 -->
+
+  <!-- blockdef:ds1232 -->
+  <category name="DS1232 Watchdog">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="DS1232 External Watchdog Module"></label>
+    <button text="Install ds1232 library" callbackKey="installPyLib"></button>
+
+    <block type="ds1232_init">
+      <value name="wdi_pin">
+        <shadow type="pinout">
+          <field name="PIN">7</field>
+        </shadow>
+      </value>
+      <value name="feed_interval">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ds1232_kick"></block>
+
+    <block type="ds1232_stop"></block>
+  </category>
+  <!-- /blockdef:ds1232 -->
+
+  <!-- blockdef:ds3502 -->
+  <category name="DS3502 Digital Potentiometer">
+    <label text="Library: DS3502 I2C Digital Potentiometer (MicroPython)"></label>
+    <button text="Install ds3502 library" callbackKey="installPyLib"></button>
+
+    <block type="ds3502_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ds3502_write_wiper">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">63</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ds3502_read_wiper"></block>
+  </category>
+  <!-- /blockdef:ds3502 -->
+
+  <!-- blockdef:mcp4725 -->
+  <category name="MCP4725 DAC Sensor">
+    <label text="Library: MCP4725 12-bit DAC (MicroPython)"></label>
+    <label text="MCP4725 12-bit Digital-to-Analog Converter"></label>
+    <button text="Install mcp4725 library" callbackKey="installPyLib"></button>
+
+    <block type="mcp4725_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mcp4725_write">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mcp4725_read"></block>
+
+    <block type="mcp4725_config">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:mcp4725 -->
+
+  <!-- blockdef:ads1115 -->
+  <category name="ADS1115 ADC">
+    <label text="Library: ads1115.py (MicroPython 16-bit ADC)"></label>
+    <label text="ADS1115 16-bit Analog-to-Digital Converter"></label>
+    <button text="Install ads1115 library" callbackKey="installPyLib"></button>
+
+    <block type="ads1115_init">
+      <value name="i2c_id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda_pin">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl_pin">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">72</field>
+        </shadow>
+      </value>
+      <value name="gain">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
+      <value name="alert_pin">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ads1115_read_raw">
+      <value name="rate">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+      <value name="channel1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="channel2">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ads1115_read_voltage">
+      <value name="rate">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+      <value name="channel1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="channel2">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ads1115_alert_start">
+      <value name="rate">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+      <value name="channel1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="channel2">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+      <value name="threshold_high">
+        <shadow type="math_number">
+          <field name="NUM">16384</field>
+        </shadow>
+      </value>
+      <value name="threshold_low">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ads1115_alert_read"></block>
+
+    <block type="ads1115_set_alert_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">ADS1115 Alert Triggered</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </category>
+  <!-- /blockdef:ads1115 -->
+
+  <!-- blockdef:at24cxx -->
+  <category name="AT24CXX EEPROM">
+    <label text="Library: AT24CXX EEPROM (AT24C32/64/128/256/512)"></label>
+    <label text="AT24CXX I2C EEPROM Memory (AT24C256 default)"></label>
+    <button text="Install at24c256 library" callbackKey="installPyLib"></button>
+
+    <block type="at24cxx_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="at24cxx_write_byte">
+      <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="data">
+        <shadow type="math_number">
+          <field name="NUM">171</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="at24cxx_read_byte"></block>
+
+    <block type="at24cxx_write_page">
+      <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="length">
+        <shadow type="math_number">
+          <field name="NUM">64</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="at24cxx_read_sequence"></block>
+
+    <block type="at24cxx_erase_data">
+      <value name="address">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="length">
+        <shadow type="math_number">
+          <field name="NUM">64</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:at24cxx -->
+
+  <!-- blockdef:pca9546adr -->
+  <category name="PCA9546ADR I2C MUX">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PCA9546ADR 4-Channel I2C Multiplexer Module"></label>
+    <button text="Install pca9546adr library" callbackKey="installPyLib"></button>
+
+    <block type="pca9546adr_init">
+      <value name="i2c_bus">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="sda_pin">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="scl_pin">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="i2c_addr">
+        <shadow type="math_number">
+          <field name="NUM">112</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pca9546adr_select_channel"></block>
+
+    <block type="pca9546adr_disable_all"></block>
+
+    <block type="pca9546adr_read_status"></block>
+
+    <block type="pca9546adr_scan_i2c"></block>
+  </category>
+  <!-- /blockdef:pca9546adr -->
+
+  <!-- blockdef:si5351 -->
+  <category name="SI5351 Clock Generator">
+    <label text="Library: SI5351 Clock Generator (MicroPython)"></label>
+    <label text="SI5351 I2C Clock Generator (25MHz Crystal)"></label>
+    <button text="Install silicon5351 library" callbackKey="installPyLib"></button>
+
+    <block type="si5351_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="crystal">
+        <shadow type="math_number">
+          <field name="NUM">25000000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="si5351_setup_pll">
+      <value name="mul">
+        <shadow type="math_number">
+          <field name="NUM">15</field>
+        </shadow>
+      </value>
+      <value name="num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="denom">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="si5351_init_clock"></block>
+
+    <block type="si5351_set_freq">
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">2000000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="si5351_enable_output"></block>
+
+    <block type="si5351_disable_output"></block>
+  </category>
+  <!-- /blockdef:si5351 -->
+
   </category>
 
 

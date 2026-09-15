@@ -1,0 +1,67 @@
+# PCA9546ADR 4-channel I2C multiplexer.
+#
+# Init wrapped the constructor in a try/except that left `pca9546adr_mux =
+# None`, and every other block in the family then guarded against it, down to
+# `pca9546adr_mux.read_status() if pca9546adr_mux is not None else 0`. The
+# scan block went further and tested `"i2c_pca" in locals()` at module scope.
+# All of it is gone: the mux object exists or the program stops there, which
+# is what the traceback is for.
+#
+# `select_channel`'s dropdown sat inside a value input whose socket the
+# generator never read, and `i2c_addr` was the same arrangement with a number
+# field.
+
+module: pca9546adr
+class: PCA9546ADR
+instance: pca9546adr_mux
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import pca9546adr", key: import_pca9546adr}
+
+category:
+  name: PCA9546ADR I2C MUX
+  library: pca9546adr
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PCA9546ADR 4-Channel I2C Multiplexer Module
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {i2c_bus: 1, sda_pin: 3, scl_pin: 2}
+
+blocks:
+  - type: pca9546adr_init
+    label:
+      - {image: {src: media/pca9546adr.png, width: 55, height: 55}}
+      - Init PCA9546ADR I2C MUX
+    tooltip: Init PCA9546ADR 4-channel I2C multiplexer
+    i2c_bus: {id: i2c_bus, scl: scl_pin, sda: sda_pin}
+    code: "{instance} = pca9546adr.PCA9546ADR({bus}, addr7={i2c_addr})"
+    params:
+      - {name: i2c_bus,  label: I2C Bus,  type: Number, default: 1, align: right}
+      - {name: sda_pin,  label: SDA Pin,  type: Number, pin: true, align: right}
+      - {name: scl_pin,  label: SCL Pin,  type: Number, pin: true, align: right}
+      - {name: i2c_addr, label: I2C Address, type: Number, default: 112, align: right}
+
+  - type: pca9546adr_select_channel
+    fn: select_channel
+    label: PCA9546ADR Select Channel
+    tooltip: Select single channel (0-3) on PCA9546ADR
+    params:
+      - {name: CHANNEL, label: Channel (0-3), kind: dropdown, align: right,
+         options: [{Channel 0: "0"}, {Channel 1: "1"},
+                   {Channel 2: "2"}, {Channel 3: "3"}]}
+
+  - {type: pca9546adr_disable_all, fn: disable_all,
+     label: PCA9546ADR Disable All Channels,
+     tooltip: Disable all channels on PCA9546ADR}
+
+  - {type: pca9546adr_read_status, fn: read_status, kind: value,
+     label: PCA9546ADR Read Status,
+     tooltip: Read current channel status/mask from PCA9546ADR}
+
+  - type: pca9546adr_scan_i2c
+    kind: value
+    label: PCA9546ADR Scan I2C Addresses
+    tooltip: Scan I2C bus for devices on selected PCA9546ADR channel
+    code: "{instance}.i2c.scan()"

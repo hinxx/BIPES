@@ -1,0 +1,50 @@
+# DS3502 I2C digital potentiometer.
+#
+# `addr` was a live socket beside a number field the generator read instead,
+# and the toolbox filled neither, so the block shipped showing an empty
+# socket. It is one socket with a default now.
+
+module: ds3502
+class: DS3502
+instance: ds3502_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ds3502", key: import_ds3502}
+
+category:
+  name: DS3502 Digital Potentiometer
+  library: ds3502
+  labels:
+    - "Library: DS3502 I2C Digital Potentiometer (MicroPython)"
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {i2c: 1, sda: 2, scl: 3}
+
+blocks:
+  - type: ds3502_init
+    label:
+      - {image: {src: media/ds3502.png, width: 55, height: 55}}
+      - Init DS3502
+    tooltip: Init DS3502 digital potentiometer via I2C
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 400000}
+    code: |-
+      {instance} = ds3502.DS3502({bus}, {addr})
+      {instance}.set_mode({MODE})
+    params:
+      - {name: i2c,  label: I2C, type: Number, default: 1, align: right}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: addr, label: I2C Addr, type: Number, default: 40, align: right}
+      - {name: MODE, label: Mode, kind: dropdown,
+         options: [{Mode 0 (Slow): "0"}, {Mode 1 (Fast): "1"}]}
+
+  - type: ds3502_write_wiper
+    fn: write_wiper
+    label: DS3502 Write Wiper
+    tooltip: Set DS3502 wiper value (0-127)
+    params:
+      - {name: value, label: Value (0-127), type: Number, default: 63, align: right}
+
+  - {type: ds3502_read_wiper, fn: read_wiper, kind: value, label: DS3502 Read Wiper,
+     tooltip: Read current wiper value from DS3502}

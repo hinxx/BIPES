@@ -1,0 +1,98 @@
+# ADS1115 16-bit ADC on I2C. Every read names a rate and one or two channels
+# -- two means a differential pair -- and the chip can also watch a threshold
+# and pull an alert pin, which the driver turns into a callback.
+#
+# The instance was called `ads1115`, the same name as the module, so
+# `ads1115 = ads1115.ADS1115(...)` rebound the module to the instance: a
+# second init block in the same program would have looked for
+# `ADS1115` on the object. It is `ads1115_adc` here.
+#
+# All fourteen sockets in this category were dead -- every generator read a
+# number field beside the socket, and the toolbox filled the socket. That is
+# the whole family, so none of the rates, channels or thresholds could be
+# driven from a variable. `-1` still means "no second channel" and "no alert
+# pin", as a conditional rather than a branch in the generator.
+
+module: ads1115
+class: ADS1115
+instance: ads1115_adc
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ads1115", key: import_ads1115}
+
+category:
+  name: ADS1115 ADC
+  library: ads1115
+  labels:
+    - "Library: ads1115.py (MicroPython 16-bit ADC)"
+    - ADS1115 16-bit Analog-to-Digital Converter
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda_pin: 4, scl_pin: 5}
+
+blocks:
+  - type: ads1115_init
+    label:
+      - {image: {src: media/ads1115.png, width: 55, height: 55}}
+      - Init ADS1115 Sensor
+    tooltip: Init ADS1115 16-bit ADC sensor (I2C)
+    i2c_bus: {id: i2c_id, scl: scl_pin, sda: sda_pin, freq: 400000}
+    code: "{instance} = ads1115.ADS1115({bus}, address={address}, gain={gain}, alert_pin=({alert_pin} if {alert_pin} >= 0 else None))"
+    params:
+      - {name: i2c_id,    label: I2C ID,      type: Number, default: 0,  align: right}
+      - {name: sda_pin,   label: SDA Pin,     type: Number, pin: true,   align: right}
+      - {name: scl_pin,   label: SCL Pin,     type: Number, pin: true,   align: right}
+      - {name: address,   label: I2C Address, type: Number, default: 72, align: right}
+      - {name: gain,      label: Gain,        type: Number, default: 2,  align: right}
+      - {name: alert_pin, label: Alert Pin (-1 for none), type: Number, default: -1,
+         align: right}
+
+  - type: ads1115_read_raw
+    kind: value
+    output: Number
+    label: Read ADS1115 Raw Value
+    tooltip: Read raw ADC value from ADS1115
+    code: "{instance}.read(rate={rate}, channel1={channel1}, channel2=({channel2} if {channel2} >= 0 else None))"
+    params: &ads_channel_params
+      - {name: rate,     label: Rate (0-7),          type: Number, default: 4,  align: right}
+      - {name: channel1, label: Channel 1,           type: Number, default: 0,  align: right}
+      - {name: channel2, label: Channel 2 (-1 for single-ended), type: Number,
+         default: -1, align: right}
+
+  - type: ads1115_read_voltage
+    kind: value
+    output: Number
+    label: Read ADS1115 Voltage (V)
+    tooltip: Read voltage value from ADS1115
+    code: "{instance}.raw_to_v({instance}.read(rate={rate}, channel1={channel1}, channel2=({channel2} if {channel2} >= 0 else None)))"
+    params: *ads_channel_params
+
+  - type: ads1115_alert_start
+    label: ADS1115 Start Alert Mode
+    tooltip: Start ADS1115 alert mode with thresholds
+    code: "{instance}.alert_start(rate={rate}, channel1={channel1}, channel2=({channel2} if {channel2} >= 0 else None), threshold_high={threshold_high}, threshold_low={threshold_low}, latched={LATCHED})"
+    params:
+      - {name: rate,     label: Rate (0-7), type: Number, default: 4, align: right}
+      - {name: channel1, label: Channel 1,  type: Number, default: 0, align: right}
+      - {name: channel2, label: Channel 2 (-1 for single-ended), type: Number,
+         default: -1, align: right}
+      - {name: threshold_high, label: High Threshold, type: Number, default: 16384,
+         align: right}
+      - {name: threshold_low,  label: Low Threshold,  type: Number, default: 0,
+         align: right}
+      - {name: LATCHED, label: Latched, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}], emit: {YES: "True", NO: "False"}}
+
+  - {type: ads1115_alert_read, fn: alert_read, kind: value, output: Number,
+     label: Read ADS1115 Alert Data, tooltip: Read data from ADS1115 alert mode}
+
+  - type: ads1115_set_alert_callback
+    label: Set ADS1115 Alert Callback
+    tooltip: Set callback function for ADS1115 alert pin interrupt
+    code: |-
+      def __ads1115_irq_func(pin):
+      {CALLBACK_CODE}{instance}.callback = __ads1115_irq_func
+    params:
+      - {name: CALLBACK_CODE, kind: statements, label: Callback Code, align: right,
+         plug: {type: text_print, values: {TEXT: ADS1115 Alert Triggered}}}

@@ -1,0 +1,107 @@
+# Si5351 I2C clock generator: a crystal, two PLLs and three clock outputs.
+# The driver is `silicon5351.py`; the numbers in the dropdowns are its own
+# SI5351_CRYSTAL_LOAD_* and SI5351_CLK_DRIVE_STRENGTH_* constants.
+#
+# Every socket in the family was dead beside a number field the generator
+# read instead -- crystal, multiplier, fraction, frequency -- so not one of
+# them could be swept from a variable. They are sockets now.
+#
+# Init keeps the fork's three-second power-on `time.sleep(3)` before it
+# touches the chip.
+
+module: silicon5351
+class: SI5351_I2C
+instance: si5351
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import silicon5351", key: import_si5351}
+
+category:
+  name: SI5351 Clock Generator
+  library: silicon5351
+  labels:
+    - "Library: SI5351 Clock Generator (MicroPython)"
+    - SI5351 I2C Clock Generator (25MHz Crystal)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 4, scl: 5}
+
+blocks:
+  - type: si5351_init
+    label:
+      - {image: {src: media/si5351.png, width: 55, height: 55}}
+      - Init SI5351 Clock Generator
+    tooltip: Init SI5351 clock generator via I2C
+    import: {line: "import time", key: import_time}
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 100000}
+    code: |-
+      time.sleep(3)
+      {instance} = silicon5351.SI5351_I2C({bus}, crystal={crystal}, load={LOAD}, address={ADDR})
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: crystal, label: Crystal Freq (Hz), type: Number, default: 25000000,
+         align: right}
+      - {name: ADDR, label: I2C Address, kind: dropdown,
+         options: [{0x60: "0x60"}, {0x61: "0x61"}]}
+      - {name: LOAD, label: Crystal Load, kind: dropdown,
+         options: [{6PF: "1"}, {8PF: "2"}, {10PF: "3"}]}
+
+  - type: si5351_setup_pll
+    fn: setup_pll
+    label: SI5351 Setup PLL
+    tooltip: Configure SI5351 PLL multiplier (25MHz * mul = VCO freq)
+    params:
+      - {name: PLL, label: PLL, kind: dropdown, keyword: pll,
+         options: [{PLLA (0): "0"}, {PLLB (1): "1"}]}
+      - {name: mul, label: Multiplier (15-90), type: Number, default: 15,
+         align: right, keyword: mul}
+      - {name: num, label: Fraction Num, type: Number, default: 0,
+         align: right, keyword: num}
+      - {name: denom, label: Fraction Denom, type: Number, default: 1,
+         align: right, keyword: denom}
+
+  - type: si5351_init_clock
+    fn: init_clock
+    label: SI5351 Init Clock Output
+    tooltip: Initialize SI5351 clock output channel
+    args: [OUTPUT, PLL, QUADRATURE, INVERT, DRIVE]
+    params:
+      - {name: OUTPUT, label: Output Channel, kind: dropdown, keyword: output,
+         options: [{CLK0: "0"}, {CLK1: "1"}, {CLK2: "2"}]}
+      - {name: PLL, label: Use PLL, kind: dropdown, keyword: pll,
+         options: [{PLLA (0): "0"}, {PLLB (1): "1"}]}
+      - {name: DRIVE, label: Drive Strength, kind: dropdown, keyword: drive_strength,
+         options: [{2mA: "0"}, {4mA: "1"}, {6mA: "2"}, {8mA: "3"}]}
+      - {name: QUADRATURE, label: Quadrature Output, kind: dropdown, keyword: quadrature,
+         options: [{No: "False"}, {Yes: "True"}]}
+      - {name: INVERT, label: Invert Output, kind: dropdown, keyword: invert,
+         options: [{No: "False"}, {Yes: "True"}]}
+
+  - type: si5351_set_freq
+    fn: set_freq_fixedpll
+    label: SI5351 Set Output Frequency
+    tooltip: Set SI5351 clock output frequency (fixed PLL mode)
+    params:
+      - {name: OUTPUT, label: Output Channel, kind: dropdown, keyword: output,
+         options: [{CLK0: "0"}, {CLK1: "1"}, {CLK2: "2"}]}
+      - {name: freq, label: Frequency (Hz), type: Number, default: 2000000,
+         align: right, keyword: freq}
+
+  - type: si5351_enable_output
+    fn: enable_output
+    label: SI5351 Enable Output
+    tooltip: Enable SI5351 clock output channel
+    params:
+      - {name: OUTPUT, label: Output Channel, kind: dropdown, keyword: output,
+         options: [{CLK0: "0"}, {CLK1: "1"}, {CLK2: "2"}]}
+
+  - type: si5351_disable_output
+    fn: disable_output
+    label: SI5351 Disable Output
+    tooltip: Disable SI5351 clock output channel
+    params:
+      - {name: OUTPUT, label: Output Channel, kind: dropdown, keyword: output,
+         options: [{CLK0: "0"}, {CLK1: "1"}, {CLK2: "2"}]}

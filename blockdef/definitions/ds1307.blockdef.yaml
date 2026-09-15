@@ -1,0 +1,92 @@
+# DS1307 real-time clock on I2C. `datetime` and `disable_oscillator` are
+# properties with setters, so half of these blocks are assignments.
+#
+# The fork's init hardcoded `scl=Pin(1), sda=Pin(0)` -- the Pico's defaults --
+# with no way to say otherwise, and built its own bus. It also wrapped the
+# construction in a try/except that set `ds1307_rtc = None`, which every other
+# block in the family then had to guard against: `ds1307_rtc.datetime if
+# ds1307_rtc is not None else (2000,1,1,0,0,0,0,None)`. A sensor that failed
+# to initialise is not a value to carry around, so that is all gone.
+#
+# `ds1307_set_datetime` had seven live sockets beside seven number fields the
+# generator read instead, filled with different numbers in the toolbox than
+# the fields carried. The sockets are what is left.
+
+module: ds1307
+class: DS1307
+instance: ds1307_rtc
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ds1307", key: import_ds1307}
+
+category:
+  name: DS1307 RTC (I2C)
+  library: ds1307
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - DS1307 Real-Time Clock (RTC) Module (I2C Interface)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: ds1307_init
+    label:
+      - {image: {src: media/ds1307.png, width: 55, height: 55}}
+      - Init DS1307 RTC (I2C)
+    tooltip: Init DS1307 Real-Time Clock via I2C bus
+    i2c_bus: {id: i2c_bus, scl: scl, sda: sda, freq: 400000}
+    code: |-
+      {instance} = ds1307.DS1307({bus}, addr={i2c_addr})
+      {instance}.disable_oscillator = False
+    params:
+      - {name: i2c_bus, label: I2C Bus, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: i2c_addr, label: I2C Address, type: Number, default: 104, align: right}
+
+  - type: ds1307_set_datetime
+    label: DS1307 Set Date & Time
+    tooltip: Set DS1307 full date & time [year,month,day,hour,minute,second,weekday]
+    code: "{instance}.datetime = ({year}, {month}, {day}, {hour}, {minute}, {second}, {weekday})"
+    params:
+      - {name: year,    label: Year (e.g. 2024), type: Number, default: 2025, align: right}
+      - {name: month,   label: Month (1-12),     type: Number, default: 9,    align: right}
+      - {name: day,     label: Day (1-31),       type: Number, default: 8,    align: right}
+      - {name: hour,    label: Hour (0-23),      type: Number, default: 16,   align: right}
+      - {name: minute,  label: Minute (0-59),    type: Number, default: 51,   align: right}
+      - {name: second,  label: Second (0-59),    type: Number, default: 0,    align: right}
+      - {name: weekday, label: Weekday (0-6),    type: Number, default: 1,    align: right}
+
+  - {type: ds1307_get_datetime, attr: datetime, kind: value,
+     label: DS1307 Read Date & Time,
+     tooltip: "Read DS1307 full date & time (year,month,day,hour,minute,second,weekday,None)"}
+
+  - {type: ds1307_get_datetime_rtc, attr: datetimeRTC, kind: value,
+     label: DS1307 Read RTC Format Time,
+     tooltip: Read DS1307 time in machine.RTC compatible format}
+
+  - type: ds1307_set_oscillator
+    label: []
+    tooltip: Enable/Disable DS1307 oscillator (clock)
+    code: "{instance}.disable_oscillator = {OSC_STATE}"
+    params:
+      - {name: OSC_STATE, label: DS1307 Oscillator, kind: dropdown,
+         options: [{Enable: "False"}, {Disable: "True"}]}
+
+  - {type: ds1307_get_oscillator, attr: disable_oscillator, kind: value,
+     label: DS1307 Read Oscillator State,
+     tooltip: "Check if DS1307 oscillator is disabled (True=Disabled)"}
+
+  - type: ds1307_read_field
+    kind: value
+    label: []
+    tooltip: Read single time field from DS1307
+    code: "{instance}.datetime[{TIME_FIELD}]"
+    params:
+      - {name: TIME_FIELD, label: DS1307 Read, kind: dropdown,
+         options: [{Year: year}, {Month: month}, {Day: day}, {Hour: hour},
+                   {Minute: minute}, {Second: second}, {Weekday: weekday}],
+         emit: {year: "0", month: "1", day: "2", hour: "3", minute: "4",
+                second: "5", weekday: "6"}}

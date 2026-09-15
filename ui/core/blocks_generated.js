@@ -28,6 +28,154 @@ Blockly.Blocks['adc_pico'] = {
   }
 };
 
+// ---- ADS1115 ADC (ads1115.blockdef.yaml) -------------------------------------
+
+Blockly.Blocks['ads1115_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ads1115.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init ADS1115 Sensor");
+    this.appendValueInput("i2c_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C ID");
+    this.appendValueInput("sda_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA Pin");
+    this.appendValueInput("scl_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL Pin");
+    this.appendValueInput("address")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.appendValueInput("gain")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Gain");
+    this.appendValueInput("alert_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Alert Pin (-1 for none)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init ADS1115 16-bit ADC sensor (I2C)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ads1115_read_raw'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read ADS1115 Raw Value");
+    this.appendValueInput("rate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Rate (0-7)");
+    this.appendValueInput("channel1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 1");
+    this.appendValueInput("channel2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 2 (-1 for single-ended)");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Read raw ADC value from ADS1115");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ads1115_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read ADS1115 Voltage (V)");
+    this.appendValueInput("rate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Rate (0-7)");
+    this.appendValueInput("channel1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 1");
+    this.appendValueInput("channel2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 2 (-1 for single-ended)");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Read voltage value from ADS1115");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ads1115_alert_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ADS1115 Start Alert Mode");
+    this.appendValueInput("rate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Rate (0-7)");
+    this.appendValueInput("channel1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 1");
+    this.appendValueInput("channel2")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel 2 (-1 for single-ended)");
+    this.appendValueInput("threshold_high")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("High Threshold");
+    this.appendValueInput("threshold_low")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Low Threshold");
+    this.appendDummyInput()
+        .appendField("Latched")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "LATCHED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start ADS1115 alert mode with thresholds");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ads1115_alert_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read ADS1115 Alert Data");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Read data from ADS1115 alert mode");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ads1115_set_alert_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set ADS1115 Alert Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Callback Code");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback function for ADS1115 alert pin interrupt");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['aht_init'] = {
@@ -114,6 +262,131 @@ Blockly.Blocks['anemo_stop'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(255);
+  }
+};
+
+// ---- AT24CXX EEPROM (at24cxx.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['at24cxx_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/at24c256.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init AT24CXX EEPROM");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendDummyInput()
+        .appendField("EEPROM Type")
+        .appendField(new Blockly.FieldDropdown([["AT24C32 (4KB)", "4096"], ["AT24C64 (8KB)", "8192"], ["AT24C128 (16KB)", "16384"], ["AT24C256 (32KB)", "32768"], ["AT24C512 (64KB)", "65536"]]), "CHIP_SIZE");
+    this.appendDummyInput()
+        .appendField("I2C Address")
+        .appendField(new Blockly.FieldNumber(80, 80, 87), "ADDR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init AT24CXX I2C EEPROM");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['at24cxx_write_byte'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("AT24CXX Write Byte");
+    this.appendValueInput("address")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Address");
+    this.appendValueInput("data")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Data (0-255)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write one byte to an EEPROM address");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['at24cxx_read_byte'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("AT24CXX Read Byte from Address")
+        .appendField(new Blockly.FieldNumber(0), "ADDRESS");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read one byte from an EEPROM address");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['at24cxx_write_page'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("AT24CXX Write Page");
+    this.appendValueInput("address")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Start Address");
+    this.appendValueInput("length")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Data Length");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write a page of sequential bytes to the EEPROM");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['at24cxx_read_sequence'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("AT24CXX Read Sequence");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Start Address")
+        .appendField(new Blockly.FieldNumber(0), "START_ADDR");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Length")
+        .appendField(new Blockly.FieldNumber(64, 1, 1024), "LENGTH");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read a run of bytes from the EEPROM");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['at24cxx_erase_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("AT24CXX Erase Data (0xFF)");
+    this.appendValueInput("address")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Start Address");
+    this.appendValueInput("length")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Length");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Fill a run of EEPROM with 0xFF");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -1943,6 +2216,184 @@ Blockly.Blocks['dht_read_humidity'] = {
   }
 };
 
+// ---- DS1232 Watchdog (ds1232.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['ds1232_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ds1232.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init DS1232 Watchdog");
+    this.appendValueInput("wdi_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("WDI Pin");
+    this.appendValueInput("feed_interval")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Feed Interval (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init DS1232 watchdog module and start auto feeding");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1232_kick'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Manual Feed DS1232 Watchdog");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Manually feed DS1232 watchdog by toggling WDI pin once");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1232_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stop DS1232 Auto Feeding");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop auto feeding DS1232 watchdog, WDI pin set to low");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- DS1307 RTC (I2C) (ds1307.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['ds1307_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ds1307.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init DS1307 RTC (I2C)");
+    this.appendValueInput("i2c_bus")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Bus");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("i2c_addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init DS1307 Real-Time Clock via I2C bus");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_set_datetime'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Set Date & Time");
+    this.appendValueInput("year")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Year (e.g. 2024)");
+    this.appendValueInput("month")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Month (1-12)");
+    this.appendValueInput("day")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Day (1-31)");
+    this.appendValueInput("hour")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Hour (0-23)");
+    this.appendValueInput("minute")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Minute (0-59)");
+    this.appendValueInput("second")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Second (0-59)");
+    this.appendValueInput("weekday")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Weekday (0-6)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set DS1307 full date & time [year,month,day,hour,minute,second,weekday]");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_get_datetime'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Read Date & Time");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read DS1307 full date & time (year,month,day,hour,minute,second,weekday,None)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_get_datetime_rtc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Read RTC Format Time");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read DS1307 time in machine.RTC compatible format");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_set_oscillator'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Oscillator")
+        .appendField(new Blockly.FieldDropdown([["Enable", "False"], ["Disable", "True"]]), "OSC_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable/Disable DS1307 oscillator (clock)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_get_oscillator'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Read Oscillator State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if DS1307 oscillator is disabled (True=Disabled)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds1307_read_field'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS1307 Read")
+        .appendField(new Blockly.FieldDropdown([["Year", "year"], ["Month", "month"], ["Day", "day"], ["Hour", "hour"], ["Minute", "minute"], ["Second", "second"], ["Weekday", "weekday"]]), "TIME_FIELD");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read single time field from DS1307");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- OneWire (ds18x20.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['onewire_ds18x20_init'] = {
@@ -2079,6 +2530,68 @@ Blockly.Blocks['read_temp_ds3231'] = {
     this.setColour(230);
     this.setTooltip("Get the temperature");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- DS3502 Digital Potentiometer (ds3502.blockdef.yaml) ---------------------
+
+Blockly.Blocks['ds3502_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ds3502.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init DS3502");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Addr");
+    this.appendDummyInput()
+        .appendField("Mode")
+        .appendField(new Blockly.FieldDropdown([["Mode 0 (Slow)", "0"], ["Mode 1 (Fast)", "1"]]), "MODE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init DS3502 digital potentiometer via I2C");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds3502_write_wiper'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS3502 Write Wiper");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0-127)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set DS3502 wiper value (0-127)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ds3502_read_wiper'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DS3502 Read Wiper");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read current wiper value from DS3502");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -7643,6 +8156,86 @@ Blockly.Blocks['mcp23017_input'] = {
   }
 };
 
+// ---- MCP4725 DAC Sensor (mcp4725.blockdef.yaml) ------------------------------
+
+Blockly.Blocks['mcp4725_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mcp4725.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MCP4725 DAC");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendDummyInput()
+        .appendField("I2C Address")
+        .appendField(new Blockly.FieldDropdown([["96", "0x60"], ["97", "0x61"], ["98", "0x62"], ["99", "0x63"]]), "ADDR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MCP4725 12-bit DAC via I2C");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mcp4725_write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MCP4725 Write Value");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0-4095)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write 12-bit value to MCP4725 (0-4095)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mcp4725_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MCP4725 Read Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read power down mode and DAC value from MCP4725");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mcp4725_config'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MCP4725 Config");
+    this.appendDummyInput()
+        .appendField("Power Down Mode")
+        .appendField(new Blockly.FieldDropdown([["Off", "Off"], ["1k", "1k"], ["100k", "100k"], ["500k", "500k"]]), "POWER_MODE");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0-4095)");
+    this.appendDummyInput()
+        .appendField("Write to EEPROM")
+        .appendField(new Blockly.FieldDropdown([["No", "False"], ["Yes", "True"]]), "EEPROM");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Configure MCP4725 power down mode and save to EEPROM");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- micropython (micropython.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['micropython_const'] = {
@@ -8854,6 +9447,88 @@ Blockly.Blocks['tank_turn'] = {
   }
 };
 
+// ---- PCA9546ADR I2C MUX (pca9546adr.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['pca9546adr_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/pca9546adr.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PCA9546ADR I2C MUX");
+    this.appendValueInput("i2c_bus")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Bus");
+    this.appendValueInput("sda_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA Pin");
+    this.appendValueInput("scl_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL Pin");
+    this.appendValueInput("i2c_addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PCA9546ADR 4-channel I2C multiplexer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pca9546adr_select_channel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PCA9546ADR Select Channel");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Channel (0-3)")
+        .appendField(new Blockly.FieldDropdown([["Channel 0", "0"], ["Channel 1", "1"], ["Channel 2", "2"], ["Channel 3", "3"]]), "CHANNEL");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Select single channel (0-3) on PCA9546ADR");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pca9546adr_disable_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PCA9546ADR Disable All Channels");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disable all channels on PCA9546ADR");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pca9546adr_read_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PCA9546ADR Read Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read current channel status/mask from PCA9546ADR");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pca9546adr_scan_i2c'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PCA9546ADR Scan I2C Addresses");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Scan I2C bus for devices on selected PCA9546ADR channel");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- PCA9685 Servo Driver (pca9685.blockdef.yaml) ----------------------------
 
 Blockly.Blocks['init_pca9685'] = {
@@ -9882,6 +10557,147 @@ Blockly.Blocks['sht20_humidity'] = {
     this.setColour(230);
     this.setTooltip("Humidity from the SHT20 sensor");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- SI5351 Clock Generator (si5351.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['si5351_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/si5351.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init SI5351 Clock Generator");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("crystal")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Crystal Freq (Hz)");
+    this.appendDummyInput()
+        .appendField("I2C Address")
+        .appendField(new Blockly.FieldDropdown([["96", "0x60"], ["97", "0x61"]]), "ADDR");
+    this.appendDummyInput()
+        .appendField("Crystal Load")
+        .appendField(new Blockly.FieldDropdown([["6PF", "1"], ["8PF", "2"], ["10PF", "3"]]), "LOAD");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init SI5351 clock generator via I2C");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['si5351_setup_pll'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SI5351 Setup PLL");
+    this.appendDummyInput()
+        .appendField("PLL")
+        .appendField(new Blockly.FieldDropdown([["PLLA (0)", "0"], ["PLLB (1)", "1"]]), "PLL");
+    this.appendValueInput("mul")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Multiplier (15-90)");
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fraction Num");
+    this.appendValueInput("denom")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Fraction Denom");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Configure SI5351 PLL multiplier (25MHz * mul = VCO freq)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['si5351_init_clock'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SI5351 Init Clock Output");
+    this.appendDummyInput()
+        .appendField("Output Channel")
+        .appendField(new Blockly.FieldDropdown([["CLK0", "0"], ["CLK1", "1"], ["CLK2", "2"]]), "OUTPUT");
+    this.appendDummyInput()
+        .appendField("Use PLL")
+        .appendField(new Blockly.FieldDropdown([["PLLA (0)", "0"], ["PLLB (1)", "1"]]), "PLL");
+    this.appendDummyInput()
+        .appendField("Drive Strength")
+        .appendField(new Blockly.FieldDropdown([["2mA", "0"], ["4mA", "1"], ["6mA", "2"], ["8mA", "3"]]), "DRIVE");
+    this.appendDummyInput()
+        .appendField("Quadrature Output")
+        .appendField(new Blockly.FieldDropdown([["No", "False"], ["Yes", "True"]]), "QUADRATURE");
+    this.appendDummyInput()
+        .appendField("Invert Output")
+        .appendField(new Blockly.FieldDropdown([["No", "False"], ["Yes", "True"]]), "INVERT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Initialize SI5351 clock output channel");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['si5351_set_freq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SI5351 Set Output Frequency");
+    this.appendDummyInput()
+        .appendField("Output Channel")
+        .appendField(new Blockly.FieldDropdown([["CLK0", "0"], ["CLK1", "1"], ["CLK2", "2"]]), "OUTPUT");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set SI5351 clock output frequency (fixed PLL mode)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['si5351_enable_output'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SI5351 Enable Output");
+    this.appendDummyInput()
+        .appendField("Output Channel")
+        .appendField(new Blockly.FieldDropdown([["CLK0", "0"], ["CLK1", "1"], ["CLK2", "2"]]), "OUTPUT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable SI5351 clock output channel");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['si5351_disable_output'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("SI5351 Disable Output");
+    this.appendDummyInput()
+        .appendField("Output Channel")
+        .appendField(new Blockly.FieldDropdown([["CLK0", "0"], ["CLK1", "1"], ["CLK2", "2"]]), "OUTPUT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disable SI5351 clock output channel");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
