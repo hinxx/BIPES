@@ -2584,6 +2584,69 @@
 
     <block type="net_ifconfig"></block>
     <!-- /blockdef:wifi -->
+    <!-- blockdef:espnow -->
+    <category name="ESP-NOW" colour="230">
+      <label text="ESP-NOW: board-to-board messages, no access point and no router"></label>
+      <label text="Both boards must be ESP32s and both must be running"></label>
+      <label text="Read one board's address, type it into the other board's program"></label>
+
+      <block type="espnow_my_address"></block>
+
+      <block type="espnow_add_peer">
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_send">
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+        <value name="NAME">
+          <shadow type="text">
+            <field name="TEXT">temperature</field>
+          </shadow>
+        </value>
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_receive">
+        <value name="TIMEOUT">
+          <shadow type="math_number">
+            <field name="NUM">1000</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_sender"></block>
+
+      <block type="espnow_value">
+        <value name="NAME">
+          <shadow type="text">
+            <field name="TEXT">temperature</field>
+          </shadow>
+        </value>
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+        <value name="DEFAULT">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <!-- /blockdef:espnow -->
 
     <!-- blockdef:wiznet5k -->
     <block type="net_wiznet5k_init">

@@ -1976,6 +1976,88 @@ Blockly.Python['esp32_ULP.run'] = function(block) {
   return code + "\n";
 };
 
+// ---- ESP-NOW (espnow.blockdef.yaml) ------------------------------------------
+
+Blockly.Python['espnow_my_address'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var code = "espnow_text(sta_if.config('mac'))";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['espnow_add_peer'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var MAC_ = Blockly.Python.valueToCode(block, "MAC", Blockly.Python.ORDER_ATOMIC);
+  var code = "espnow_peer(" + MAC_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['espnow_send'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var MAC_ = Blockly.Python.valueToCode(block, "MAC", Blockly.Python.ORDER_ATOMIC);
+  var NAME_ = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_ATOMIC);
+  var VALUE_ = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_ATOMIC);
+  var code = "espnow_send(" + MAC_ + ", " + NAME_ + ", " + VALUE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['espnow_receive'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var TIMEOUT_ = Blockly.Python.valueToCode(block, "TIMEOUT", Blockly.Python.ORDER_ATOMIC);
+  var code = "espnow_receive(" + TIMEOUT_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['espnow_sender'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var code = "espnow_from";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['espnow_value'] = function(block) {
+  Blockly.Python.definitions_["import_network"] = "import network";
+  Blockly.Python.definitions_["import_network_a"] = "sta_if = network.WLAN(network.STA_IF)";
+  Blockly.Python.definitions_["import_network_b"] = "sta_if.active(True)";
+  Blockly.Python.definitions_["import_espnow"] = "import espnow";
+  Blockly.Python.definitions_["espnow_station"] = "sta_if.disconnect()";
+  Blockly.Python.definitions_["espnow_radio"] = "espnow_radio = espnow.ESPNow()\nespnow_radio.active(True)\nespnow_values = {}\nespnow_from = ''";
+  Blockly.Python.definitions_["espnow_helpers"] = "def espnow_mac(text):\n    return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))\n\ndef espnow_text(mac):\n    return ':'.join('%02x' % byte for byte in mac)\n\ndef espnow_peer(text):\n    peer = espnow_mac(text)\n    try:\n        espnow_radio.add_peer(peer)\n    except OSError:\n        pass                      # already a peer\n    return peer\n\ndef espnow_send(text, name, value):\n    espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))\n\ndef espnow_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        pass\n    try:\n        return float(text)\n    except ValueError:\n        return text\n\ndef espnow_receive(timeout_ms):\n    global espnow_from\n    host, msg = espnow_radio.recv(timeout_ms)\n    if not msg:\n        return False\n    espnow_from = espnow_text(host)\n    parts = msg.decode().split(':', 1)\n    name = parts[0] if len(parts) == 2 else ''\n    value = parts[-1]\n    if espnow_from not in espnow_values:\n        espnow_values[espnow_from] = {}\n    espnow_values[espnow_from][name] = espnow_number(value)\n    return True\n\ndef espnow_value(text, name, default):\n    return espnow_values.get(text, {}).get(name, default)";
+  var NAME_ = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_ATOMIC);
+  var MAC_ = Blockly.Python.valueToCode(block, "MAC", Blockly.Python.ORDER_ATOMIC);
+  var DEFAULT_ = Blockly.Python.valueToCode(block, "DEFAULT", Blockly.Python.ORDER_ATOMIC);
+  var code = "espnow_value(" + MAC_ + ", " + NAME_ + ", " + DEFAULT_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- PWM Fan (fan_pwm.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['fan_pwm_init'] = function(block) {

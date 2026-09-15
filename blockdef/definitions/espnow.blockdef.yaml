@@ -1,0 +1,181 @@
+# ESP-NOW: two ESP32s talking straight to each other, with no access point and
+# no router in between.
+#
+# From amadomaker/BIPES_Amado, which is the only fork with it. This is a
+# rebuild rather than a port, and the fork's eleven blocks come out as six. Why
+# each of its pieces is not here:
+#
+# * **`init_wlan`, `set_master` and `set_peer`** each emitted `import espnow`,
+#   an `ESPNow()` and a set of globals *at the point the block sat*, so a
+#   program whose send block was above its start block died on a NameError --
+#   the same fault the AmadoBoard's own BLE family had, and the Maker motor kit
+#   before it. All of that is `definitions_` entries here, which is what makes
+#   any one of these blocks work on its own. That leaves the three start blocks
+#   with nothing to emit, so there is no start block.
+# * **`get_mac_address`** returned `mac_formatted`, which `init_wlan` had set
+#   to the *text* `"peer = bytes([0x.., ...])"` -- a line of Python in a string.
+#   Plugging it into `add_peer`, which is what the category's order invites,
+#   gave `convert_mac("peer = bytes([...])")`, and that raises ValueError on
+#   the first character. The address is a plain `aa:bb:cc:dd:ee:ff` string here,
+#   the same shape you read off the other board and type in.
+# * **`send_message`** carried a mutator to send several variables at once, and
+#   named them by position: the first socket went out as `VAR_1`, the second as
+#   `VAR_2`, regardless of what was plugged in, as two separate radio messages
+#   (name, then value). `receive_message` reassembled them by remembering the
+#   last name it saw, so a lost or reordered packet silently assigned one
+#   board's reading to another's name. One block sends one named value in one
+#   message here, and several values means several blocks.
+# * **`send_message_to_peer`** already did exactly that -- one `name:value`
+#   message -- but it and `send_message` are the two directions of the same
+#   link, and they did not agree on the format. There is one format now.
+# * **`receive_message` and `receive_message_master`** were the two halves of
+#   that disagreement. One receive block now, and it is a value block, so
+#   `if <a message arrived> then ...` is a program rather than a convention.
+# * **`check_and_assign_value`** ("if <var> is None, set it to <default>") is
+#   the missing-reading case, and it had a `FieldVariable` and a value socket
+#   sharing the name `VAR`: the dropdown on the block did nothing, because the
+#   generator only ever read the socket. Reading a value that has not arrived
+#   is what the default socket on `espnow_value` is for.
+#
+# The ids carry an `espnow_` prefix. `send_message`, `receive_message` and
+# `add_peer` are names a tree of twelve hundred blocks cannot hand to one
+# protocol, and the shapes differ from the fork's anyway, so a program exported
+# from there does not bring its ESP-NOW blocks over.
+#
+# Not tested on hardware -- that needs two boards, and there are none here. The
+# generated Python was run against a stand-in `espnow` module with two
+# simulated boards, which is what the notes in BACKLOG.md record.
+
+module: espnow
+colour: 230
+url: https://docs.micropython.org/en/latest/library/espnow.html
+import:
+  # `sta_if` is the same object the Wi-Fi blocks bring up, under the same keys,
+  # so a program using both gets one station interface rather than two.
+  - {key: import_network,   line: "import network"}
+  - {key: import_network_a, line: "sta_if = network.WLAN(network.STA_IF)"}
+  - {key: import_network_b, line: "sta_if.active(True)"}
+  - {key: import_espnow,    line: "import espnow"}
+  # ESP-NOW wants the station interface up but not associated with an access
+  # point: an associated board follows that network's channel, and the two
+  # boards have to be on the same one.
+  - {key: espnow_station,   line: "sta_if.disconnect()"}
+  - key: espnow_radio
+    line: |-
+      espnow_radio = espnow.ESPNow()
+      espnow_radio.active(True)
+      espnow_values = {}
+      espnow_from = ''
+  - key: espnow_helpers
+    line: |-
+      def espnow_mac(text):
+          return bytes(int(part, 16) for part in text.replace('-', ':').split(':'))
+
+      def espnow_text(mac):
+          return ':'.join('%02x' % byte for byte in mac)
+
+      def espnow_peer(text):
+          peer = espnow_mac(text)
+          try:
+              espnow_radio.add_peer(peer)
+          except OSError:
+              pass                      # already a peer
+          return peer
+
+      def espnow_send(text, name, value):
+          espnow_radio.send(espnow_peer(text), str(name) + ':' + str(value))
+
+      def espnow_number(text):
+          try:
+              return int(text)
+          except ValueError:
+              pass
+          try:
+              return float(text)
+          except ValueError:
+              return text
+
+      def espnow_receive(timeout_ms):
+          global espnow_from
+          host, msg = espnow_radio.recv(timeout_ms)
+          if not msg:
+              return False
+          espnow_from = espnow_text(host)
+          parts = msg.decode().split(':', 1)
+          name = parts[0] if len(parts) == 2 else ''
+          value = parts[-1]
+          if espnow_from not in espnow_values:
+              espnow_values[espnow_from] = {}
+          espnow_values[espnow_from][name] = espnow_number(value)
+          return True
+
+      def espnow_value(text, name, default):
+          return espnow_values.get(text, {}).get(name, default)
+
+category:
+  name: ESP-NOW
+  colour: 230
+  labels:
+    - "ESP-NOW: board-to-board messages, no access point and no router"
+    - Both boards must be ESP32s and both must be running
+    - Read one board's address, type it into the other board's program
+  toolboxes: [AmadoBoard, esp32, esp32c3, esp32S3]
+
+blocks:
+  - type: espnow_my_address
+    kind: value
+    output: String
+    label: this board's ESP-NOW address
+    tooltip: The address of this board, as aa:bb:cc:dd:ee:ff. Print it, then
+      type what it printed into the other board's program.
+    code: "espnow_text(sta_if.config('mac'))"
+
+  - type: espnow_add_peer
+    label: []
+    tooltip: Tell the radio about another board before sending to it. The send
+      block does this for you; use this one to fail early if the address is
+      wrong.
+    code: "espnow_peer({MAC})"
+    params:
+      - {name: MAC, label: add board, type: String, default: "aa:bb:cc:dd:ee:ff"}
+
+  - type: espnow_send
+    label: []
+    tooltip: Send one named value to another board. The value arrives as a
+      number if it looks like one, and as text otherwise.
+    code: "espnow_send({MAC}, {NAME}, {VALUE})"
+    params:
+      - {name: MAC,   label: send to board, type: String, default: "aa:bb:cc:dd:ee:ff"}
+      - {name: NAME,  label: "name",  type: String, default: temperature, align: right}
+      - {name: VALUE, label: "value", default: 0, align: right}
+
+  - type: espnow_receive
+    kind: value
+    output: Boolean
+    label: []
+    footer: milliseconds
+    tooltip: Waits for one message and stores it, then reports true. Reports
+      false if nothing arrived in time. Zero means do not wait at all, which is
+      what a loop that has other work to do wants.
+    code: "espnow_receive({TIMEOUT})"
+    params:
+      - {name: TIMEOUT, label: message received within, type: Number, default: 1000}
+
+  - type: espnow_sender
+    kind: value
+    output: String
+    label: address of the last message's sender
+    tooltip: The address the last received message came from, as
+      aa:bb:cc:dd:ee:ff, or empty text if nothing has arrived yet.
+    code: "espnow_from"
+
+  - type: espnow_value
+    kind: value
+    label: []
+    tooltip: The last value received under this name from this board. The
+      default is what you get if nothing has arrived yet.
+    code: "espnow_value({MAC}, {NAME}, {DEFAULT})"
+    params:
+      - {name: NAME,    label: value named, type: String, default: temperature}
+      - {name: MAC,     label: "from board", type: String, default: "aa:bb:cc:dd:ee:ff", align: right}
+      - {name: DEFAULT, label: "or", default: 0, align: right}

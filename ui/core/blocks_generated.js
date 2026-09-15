@@ -4002,6 +4002,98 @@ Blockly.Blocks['esp32_ULP.run'] = {
   }
 };
 
+// ---- ESP-NOW (espnow.blockdef.yaml) ------------------------------------------
+
+Blockly.Blocks['espnow_my_address'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("this board's ESP-NOW address");
+    this.setOutput(true, "String");
+    this.setColour(230);
+    this.setTooltip("The address of this board, as aa:bb:cc:dd:ee:ff. Print it, then type what it printed into the other board's program.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
+Blockly.Blocks['espnow_add_peer'] = {
+  init: function() {
+    this.appendValueInput("MAC")
+        .setCheck("String")
+        .appendField("add board");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Tell the radio about another board before sending to it. The send block does this for you; use this one to fail early if the address is wrong.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
+Blockly.Blocks['espnow_send'] = {
+  init: function() {
+    this.appendValueInput("MAC")
+        .setCheck("String")
+        .appendField("send to board");
+    this.appendValueInput("NAME")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("name");
+    this.appendValueInput("VALUE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send one named value to another board. The value arrives as a number if it looks like one, and as text otherwise.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
+Blockly.Blocks['espnow_receive'] = {
+  init: function() {
+    this.appendValueInput("TIMEOUT")
+        .setCheck("Number")
+        .appendField("message received within");
+    this.appendDummyInput()
+        .appendField("milliseconds");
+    this.setOutput(true, "Boolean");
+    this.setColour(230);
+    this.setTooltip("Waits for one message and stores it, then reports true. Reports false if nothing arrived in time. Zero means do not wait at all, which is what a loop that has other work to do wants.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
+Blockly.Blocks['espnow_sender'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("address of the last message's sender");
+    this.setOutput(true, "String");
+    this.setColour(230);
+    this.setTooltip("The address the last received message came from, as aa:bb:cc:dd:ee:ff, or empty text if nothing has arrived yet.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
+Blockly.Blocks['espnow_value'] = {
+  init: function() {
+    this.appendValueInput("NAME")
+        .setCheck("String")
+        .appendField("value named");
+    this.appendValueInput("MAC")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from board");
+    this.appendValueInput("DEFAULT")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("or");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("The last value received under this name from this board. The default is what you get if nothing has arrived yet.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/espnow.html");
+  }
+};
+
 // ---- PWM Fan (fan_pwm.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['fan_pwm_init'] = {
