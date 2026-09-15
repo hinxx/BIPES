@@ -28,7 +28,25 @@ class _Loader(yaml.SafeLoader):
     "False": a different value from the one saved in every existing program,
     with nothing to notice it. Booleans are only ever written lowercase in this
     format, so nothing is lost by narrowing the rule.
+
+    It also refuses the same key twice in one mapping. YAML keeps the last one
+    and says nothing, which is the failure this whole tool exists to stop --
+    `block_definitions.js` had four blocks assigned twice, and the first of
+    each was a block nobody could drag. A `code:` written twice in one entry is
+    the same mistake in this format.
     """
+
+    def construct_mapping(self, node, deep=False):
+        seen = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=False)
+            if key in seen:
+                raise BlockdefError(
+                    f'{node.start_mark.name}, line {key_node.start_mark.line + 1}: '
+                    f'{key!r} is set twice in the same mapping. YAML keeps the last one '
+                    f'and says nothing about the first.')
+            seen.add(key)
+        return super().construct_mapping(node, deep=deep)
 
 
 _Loader.add_implicit_resolver('tag:yaml.org,2002:bool', re.compile(r'^(?:true|false)$'), 'tf')
@@ -212,7 +230,10 @@ class Definition:
 def load(path: str | Path) -> Definition:
     path = Path(path)
     try:
-        raw = yaml.load(path.read_text(encoding='utf-8'), Loader=_Loader)
+        # Opened rather than read as a string so that a parse error, and the
+        # duplicate-key check above, can name the file.
+        with path.open(encoding='utf-8') as stream:
+            raw = yaml.load(stream, Loader=_Loader)
     except yaml.YAMLError as e:
         raise BlockdefError(f'{path}: {e}') from None
     if not isinstance(raw, dict):

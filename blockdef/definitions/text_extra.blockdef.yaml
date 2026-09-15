@@ -19,7 +19,8 @@ blocks:
     tooltip: Convert anything to String.
     code: "str({var})"
     params:
-      - {name: var, label: {text: to str, field: VAR}}
+      - {name: var, label: {text: to str, field: VAR},
+         plug: {type: variables_get, fields: {VAR: value}}}
 
   - type: decode_bytes_to_text
     kind: value
@@ -28,4 +29,5 @@ blocks:
     boards: [default]
     code: "{var}.decode()"
     params:
-      - {name: var, label: {text: decode bytes to text, field: VAR}}
+      - {name: var, label: {text: decode bytes to text, field: VAR},
+         plug: {type: variables_get, fields: {VAR: data}}}

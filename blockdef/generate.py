@@ -22,8 +22,9 @@ import re
 from pathlib import Path
 from xml.etree import ElementTree
 
-from .emit import emit_blocks_js, emit_category_xml, emit_generators_js
-from .spec import BlockdefError, Definition, load
+from .emit import (_UNSET, _code_js, _shadow_xml, emit_blocks_js,
+                   emit_category_xml, emit_generators_js)
+from .spec import BlockdefError, Block, Definition, Param, load
 
 DEFINITIONS = Path('blockdef/definitions')
 TOOLBOX = Path('ui/toolbox')
@@ -40,6 +41,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     _check_no_clash_with_handwritten(root, definitions)
     _check_no_duplicate_handwritten(root)
     _check_variant_devices_exist(root, definitions)
+    _check_generated_python_parses(definitions)
 
     blocks_js = emit_blocks_js(definitions)
     generators_js = emit_generators_js(definitions)
@@ -184,6 +186,156 @@ def _check_no_unresolved_placeholders(js: str, definitions: list[Definition]) ->
                 f'literally -- nothing interpolated it. A `{{name}}` is filled in from '
                 f'the block being emitted, so a file-level `import:` naming one only '
                 f'works for the blocks that have that param.')
+
+
+def _check_generated_python_parses(definitions: list[Definition]) -> None:
+    """The Python a block emits, with the toolbox's own sockets, has to parse.
+
+    A generator that throws takes the whole program's code with it, and that is
+    checked in a browser. This is the quieter half: the generator returns
+    happily and what it returns is not Python. An empty socket generates
+    nothing, so where the hole sits decides how bad it is -- `abs()` parses and
+    raises at runtime, `filter(, )` and `spi.readinto(, 0)` do not parse at all,
+    and a block that does not parse cannot be used, nor can any program holding
+    one.
+
+    So each block is rendered the way its flyout entry ships it: a socket with
+    a shadow gets a name, a socket without one gets nothing, a field gets a
+    value of its kind. An `offered: false` block is in no flyout, so every
+    socket counts as filled -- a saved program had to have put something there.
+
+    Everything is compiled inside an `async def`, which is what makes
+    `uasyncio`'s `await` blocks legal here: they are correct inside one and a
+    SyntaxError outside, which is the decision recorded in BACKLOG.md, not
+    something this check should re-litigate.
+    """
+    for definition in definitions:
+        for block in definition.blocks:
+            if block.external:
+                continue
+            boards = [b for b in (block.boards or definition.toolboxes)] or ['']
+            for board in boards:
+                overrides = definition.defaults.get(board, {})
+                for source in _python_of(definition, block, overrides):
+                    try:
+                        compile(source, '<blockdef>', 'exec')
+                    except SyntaxError as error:
+                        raise BlockdefError(
+                            f'{definition.path}: block {block.type!r} emits Python that '
+                            f'does not parse on {board or "every board"} -- '
+                            f'{type(error).__name__}: {error.msg}. What it emits, with '
+                            f'the sockets the toolbox gives it:\n'
+                            + '\n'.join('    ' + line
+                                         for line in source.split('\n'))) from None
+
+
+def _python_of(definition: Definition, block: Block, overrides: dict) -> list[str]:
+    """Each version of what this block emits, wrapped so it can be compiled."""
+    filled = {p.name: (getattr(block, 'offered', True) is False
+                       or _shadow_xml(p, overrides.get(p.name, _UNSET)) is not None)
+              for p in block.params}
+    sample = {p.name: _sample(p, filled[p.name]) for p in block.params}
+    sample['bus'] = 'bus'
+    instance = block.instance or definition.instance or 'obj'
+
+    if block.variants:
+        bodies = [_render(variant.code, sample, instance) for variant in block.variants]
+    else:
+        reads = {name: name + '_' for name in sample}
+        bodies = [_unjs(_code_js(definition, block, reads), sample)]
+
+    sources = []
+    for body in bodies:
+        if block.kind == 'value':
+            body = '_x = ' + body
+        # An `async def` so that `await` is in the place it belongs, and a
+        # trailing `pass` so that a block emitting nothing but comments (or
+        # nothing at all, like an init block whose whole job is registering
+        # imports) still has a body. It cannot hide a missing one: a `pass` at
+        # the function's own indentation is not a body for an `if` inside it.
+        lines = body.split('\n') + ['pass']
+        sources.append('async def _():\n'
+                       + '\n'.join('    ' + line for line in lines) + '\n')
+    return sources
+
+
+def _sample(param: Param, filled: bool) -> str:
+    """What this param contributes to the emitted Python in the flyout."""
+    if param.kind == 'statements':
+        return '  pass\n'          # Blockly.Python.PASS, one indented `pass`
+    if param.kind == 'input':
+        return '_v' if filled else ''
+    if param.kind == 'dropdown':
+        value = param.options[0][1] if param.options else 'X'
+        return str(param.emit.get(value, value) if param.emit else value)
+    if param.kind == 'checkbox':
+        return 'True'
+    if param.kind == 'text':
+        return '"x"'                # JSON.stringify of whatever is typed
+    if param.kind == 'variable':
+        return 'v'
+    if param.kind == 'colour':
+        return '(0,0,0)'
+    if param.kind in ('number', 'angle'):
+        return str(param.default if param.default is not None else 0)
+    return '_v'
+
+
+def _render(template: str, sample: dict, instance: str) -> str:
+    """`code:`/`variants[].code` with its holes filled, the way _template_js does."""
+    out, i = '', 0
+    while i < len(template):
+        if template[i] == '{' and '}' in template[i:]:
+            end = template.index('}', i)
+            name = template[i + 1:end]
+            if name in sample:
+                out += sample[name]
+            elif name == 'instance':
+                out += instance
+            else:
+                out += template[i:end + 1]
+            i = end + 1
+        else:
+            out += template[i]
+            i += 1
+    return out
+
+
+def _unjs(expression: str, sample: dict) -> str:
+    """Read back the JavaScript string expression the emitter just built.
+
+    `_code_js` returns something like `"spi.readinto(" + buf_ + ", " + write_ +
+    ")"`. Taking it apart rather than rebuilding the call keeps this check from
+    drifting away from what is actually emitted.
+    """
+    out, i = '', 0
+    while i < len(expression):
+        c = expression[i]
+        if c == '"':
+            j = i + 1
+            literal = ''
+            while j < len(expression) and expression[j] != '"':
+                if expression[j] == '\\':
+                    literal += _UNESCAPE.get(expression[j + 1], expression[j + 1])
+                    j += 2
+                    continue
+                literal += expression[j]
+                j += 1
+            out += literal
+            i = j + 1
+        elif c.isalnum() or c == '_':
+            j = i
+            while j < len(expression) and (expression[j].isalnum() or expression[j] == '_'):
+                j += 1
+            name = expression[i:j]
+            out += sample.get(name[:-1], '_v') if name.endswith('_') else name
+            i = j
+        else:
+            i += 1              # ` + ` and whitespace between the pieces
+    return out
+
+
+_UNESCAPE = {'n': '\n', 't': '\t', 'r': '\r', '"': '"', '\\': '\\'}
 
 
 def _check_no_duplicate_handwritten(root: Path) -> None:

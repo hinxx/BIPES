@@ -63,6 +63,21 @@ whichever block generates last decides which version the program gets. The
 AmadoBoard's BLEUART class did exactly that with `name={BLUETOOTH_NAME}`.
 (`%{BKY_...}` is Blockly's own message syntax and is not a hole.)
 
+It compiles what each block emits, with the sockets its flyout entry actually
+ships: a socket with a shadow stands for a value, a socket without one stands
+for nothing, a field for a value of its kind. An empty socket generates
+nothing, and where that hole sits decides how bad it is -- `abs()` parses and
+raises at runtime, `filter(, )` and `spi.readinto(, 0)` do not parse at all, so
+neither the block nor any program holding it can be used. Everything is
+compiled inside an `async def`, which is what makes `uasyncio`'s `await` blocks
+legal here; a block listed by no toolbox counts as having every socket filled,
+because a saved program had to have put something there.
+
+And it refuses the same key twice in one mapping. YAML keeps the last one and
+says nothing, which is exactly the failure that had four blocks assigned twice
+in `block_definitions.js` -- a `code:` written twice in one entry is the same
+mistake in this format.
+
 A generated category with no blocks on a board is not written at all, which
 makes `toolboxes:` say where a category *may* appear: a family whose every
 block is `boards:`-restricted away from a board simply does not appear there,

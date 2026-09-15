@@ -208,9 +208,21 @@
         </value>
       </block>
       <!-- blockdef:text_extra -->
-      <block type="text_to_str"></block>
+      <block type="text_to_str">
+        <value name="var">
+          <block type="variables_get">
+            <field name="VAR">value</field>
+          </block>
+        </value>
+      </block>
 
-      <block type="decode_bytes_to_text"></block>
+      <block type="decode_bytes_to_text">
+        <value name="var">
+          <block type="variables_get">
+            <field name="VAR">data</field>
+          </block>
+        </value>
+      </block>
       <!-- /blockdef:text_extra -->
     </category>
     <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
