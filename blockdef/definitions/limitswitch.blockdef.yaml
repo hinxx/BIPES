@@ -1,0 +1,53 @@
+# Limit switch on a pulled-up input, polled by a timer for debouncing.
+#
+# The driver arrived as `limit_switch.py` while every generator emitted
+# `import limitswitch`, so installing the library from the button put a file
+# on the board under a name nothing imports. It is `limitswitch.py` here.
+#
+# `debounce` was a live socket beside a number field the generator read
+# instead; the socket is what is left.
+
+module: limitswitch
+class: LimitSwitch
+instance: limit_switch
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import limitswitch", key: import_limitswitch}
+
+category:
+  name: Limit Switch
+  library: limitswitch
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Limit Switch with Debounce
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: limitswitch_init
+    constructor: true
+    label:
+      - {image: {src: media/limitswitch.png, width: 55, height: 55}}
+      - Init Limit Switch
+    tooltip: Init Limit Switch with debounce
+    params:
+      - {name: pin, label: Pin, type: Number, pin: true, default: 2, align: right}
+      - {name: debounce, label: Debounce (ms), type: Number, default: 50,
+         align: right, keyword: debounce_ms}
+
+  - {type: limitswitch_read, fn: read, kind: value, label: Read Limit Switch State,
+     tooltip: "Read Limit Switch digital state (True/False)"}
+
+  - type: limitswitch_set_callback
+    fn: set_callback
+    label: Set Limit Switch Callback
+    tooltip: Set callback function for Limit Switch state change
+    params:
+      - {name: callback, label: Callback Function, type: Function, align: right,
+         plug: {type: variables_get, shadow: true, fields: {VAR: callback_func}}}
+
+  - {type: limitswitch_enable, fn: enable, label: Enable Limit Switch Callback,
+     tooltip: Enable Limit Switch debounce callback monitoring}
+
+  - {type: limitswitch_disable, fn: disable, label: Disable Limit Switch Callback,
+     tooltip: Disable Limit Switch debounce callback monitoring}

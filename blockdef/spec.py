@@ -520,6 +520,15 @@ def _param(entry: Any, where: _Where) -> Param:
     options: list[tuple[str, str]] = []
     if kind == 'dropdown':
         options = _options(entry.get('options'), at)
+        if entry.get('default') is not None:
+            # Blockly starts a FieldDropdown on its first option and has no
+            # way to say otherwise, so a `default:` here would be read by
+            # nobody. Put the option first, or pin it on the flyout copy with
+            # the block's `fields:` -- which is what the toolbox <field> does.
+            raise BlockdefError(f'{at}: a dropdown starts on its first option; '
+                                f'`default` cannot change that. List the option '
+                                f'first, or set it on the flyout copy with the '
+                                f"block's `fields:`")
     elif entry.get('options'):
         raise BlockdefError(f'{at}: `options` only means something on a dropdown')
 

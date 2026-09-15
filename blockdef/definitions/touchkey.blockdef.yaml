@@ -1,0 +1,65 @@
+# Capacitive touch key, debounced by a one-shot timer in the driver.
+#
+# The two callbacks are attributes on the instance, so the init block hoists
+# an empty definition for each and the two "Set ... Callback" blocks assign
+# over it. `debounce_time` was a live socket beside a number field the
+# generator read instead; the socket is what is left.
+
+module: touchkey
+class: TouchKey
+instance: touchkey_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import touchkey", key: import_touchkey}
+
+category:
+  name: TouchKey Sensor
+  library: touchkey
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - TouchKey Sensor with Debounce and Callback
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: touchkey_init
+    constructor: true
+    label:
+      - {image: {src: media/touchkey.png, width: 55, height: 55}}
+      - Init TouchKey Sensor
+    tooltip: Init TouchKey sensor with debounce and callback support
+    import:
+      - key: touchkey_press_callback
+        line: |-
+          def touchkey_press_callback():
+            pass
+      - key: touchkey_release_callback
+        line: |-
+          def touchkey_release_callback():
+            pass
+    code: "{instance} = touchkey.TouchKey(pin_num={pin_num}, idle_state={IDLE_STATE}, debounce_time={debounce_time}, press_callback=touchkey_press_callback, release_callback=touchkey_release_callback)"
+    params:
+      - {name: pin_num, label: Pin Number, type: Number, pin: true, default: 2, align: right}
+      - {name: IDLE_STATE, label: Idle State, kind: dropdown,
+         options: [{High (1): "1"}, {Low (0): "0"}]}
+      - {name: debounce_time, label: Debounce Time (ms), type: Number, default: 50, align: right}
+
+  - {type: touchkey_get_state, fn: get_state, kind: value,
+     label: Read TouchKey State (Pressed = True),
+     tooltip: "Check if TouchKey is pressed (returns True/False)"}
+
+  - type: touchkey_set_press_callback
+    label: Set TouchKey Press Callback
+    tooltip: Set callback function for TouchKey press event
+    code: "{instance}.press_callback = {callback_func}"
+    params:
+      - {name: callback_func, label: Callback Function, type: Function, align: right,
+         plug: {type: variables_get, shadow: true, fields: {VAR: touchkey_press_callback}}}
+
+  - type: touchkey_set_release_callback
+    label: Set TouchKey Release Callback
+    tooltip: Set callback function for TouchKey release event
+    code: "{instance}.release_callback = {callback_func}"
+    params:
+      - {name: callback_func, label: Callback Function, type: Function, align: right,
+         plug: {type: variables_get, shadow: true, fields: {VAR: touchkey_release_callback}}}

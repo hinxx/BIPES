@@ -286,7 +286,7 @@ as usual.
 | `label` | text before it -- a string, or `{msg: key}` / `{field: NAME}`. |
 | `kind` | `input` (default, a socket for one value) · `statements` (a socket for a stack of blocks) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle` · `colour` (a picker; `{name}` is the `(r,g,b)` the board wants, not the hex). |
 | `type` | `setCheck()` for an input; also picks the shadow block. |
-| `default` | the shadow's value, or the field's initial value. |
+| `default` | the shadow's value, or the field's initial value. Refused on a dropdown, which always starts on its first option -- put the option first, or pin it on the flyout copy with the block's `fields:`. |
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |
 | `keyword` | passed as `<keyword>=<value>` in the generated call. |
 | `align` | `left` · `centre` · `right`. |

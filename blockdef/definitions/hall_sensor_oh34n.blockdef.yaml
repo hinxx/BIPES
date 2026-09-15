@@ -1,0 +1,87 @@
+# OH34N hall-effect switch on a digital pin, with a debounced interrupt.
+#
+# The debounce state and the default callback are hoisted definitions, so the
+# init block can hand `hall_callback` to the constructor -- in the fork that
+# name existed only if `set_callback` was also in the program, and that block
+# needs `hall_sensor_device` to exist already, so the "Yes" option could not
+# be used at all.
+#
+# The fork's `set_callback` indented the user's stack by prepending a tab to
+# an already-indented block *and* another tab to its first line, which is not
+# valid Python at any width. The guard is inverted here into an early return,
+# which puts the user's stack at exactly the one level `statements` gives it
+# and still debounces it.
+
+module: hall_sensor_oh34n
+class: HallSensorOH34N
+instance: hall_sensor_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import hall_sensor_oh34n", key: import_hall_sensor_oh34n}
+  - {line: "import time", key: import_time}
+  - {line: "hall_last_time = 0", key: hall_last_time}
+  - {line: "HALL_DEBOUNCE_MS = 200", key: hall_debounce_ms}
+
+category:
+  name: Hall Sensor OH34N
+  library: hall_sensor_oh34n
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - OH34N Hall Sensor (Digital with IRQ Callback)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: hall_sensor_oh34n_init
+    label:
+      - {image: {src: media/hall_sensor_oh34n.png, width: 55, height: 55}}
+      - Init Hall Sensor OH34N
+    tooltip: Init OH34N Hall Sensor with digital pin (with/without callback)
+    fields: {ENABLE_CALLBACK: "NO"}
+    import:
+      - key: hall_default_callback
+        line: |-
+          def hall_callback():
+            global hall_last_time
+            now = time.ticks_ms()
+            if time.ticks_diff(now, hall_last_time) <= HALL_DEBOUNCE_MS:
+              return
+            hall_last_time = now
+            print("Magnetic field detected!")
+    code: "{instance} = hall_sensor_oh34n.HallSensorOH34N(pin={pin}{ENABLE_CALLBACK})"
+    params:
+      - {name: pin, label: Digital Pin (DO), type: Number, pin: true, default: 6, align: right}
+      - {name: ENABLE_CALLBACK, label: Enable Callback, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}],
+         emit: {YES: ", callback=hall_callback", NO: ""}}
+
+  - {type: hall_sensor_oh34n_read, fn: read, kind: value,
+     label: Read Hall Sensor State,
+     tooltip: Check if magnetic field is detected (digital DO pin)}
+
+  - type: hall_sensor_oh34n_set_callback
+    label: Set Hall Sensor Callback
+    tooltip: Set callback code to run on magnetic field detection
+    code: |-
+      def hall_callback():
+        global hall_last_time
+        now = time.ticks_ms()
+        if time.ticks_diff(now, hall_last_time) <= HALL_DEBOUNCE_MS:
+          return
+        hall_last_time = now
+      {CALLBACK_CODE}{instance}.set_callback(hall_callback)
+    params:
+      - {name: CALLBACK_CODE, kind: statements, align: right,
+         label: Run when magnetic field detected,
+         plug: {type: text_print, values: {TEXT: Magnetic field detected!}}}
+
+  - type: hall_sensor_oh34n_toggle_interrupt
+    label: []
+    tooltip: Enable/disable Hall sensor interrupt detection
+    code: |-
+      {instance}.{TOGGLE_ACTION}()
+      print("Hall sensor interrupt {TOGGLE_ACTION}d")
+    params:
+      - {name: TOGGLE_ACTION, label: Hall Sensor Interrupt, kind: dropdown,
+         options: [{Enable: "ENABLE"}, {Disable: "DISABLE"}],
+         emit: {ENABLE: enable, DISABLE: disable}}

@@ -1,0 +1,49 @@
+# TCR5000 reflective optical sensor on a digital pin.
+#
+# The fork's init emitted `tcr5000.TCR5000` followed by the pin with no
+# parentheses at all -- `tcr5000.TCR5000 18` -- and dropped the trigger type
+# it had just read from the block. Neither the block nor any program holding
+# it could produce code that parsed.
+
+module: tcr5000
+class: TCR5000
+instance: tcr5000_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import tcr5000", key: import_tcr5000}
+
+category:
+  name: TCR5000 Sensor
+  library: tcr5000
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - TCR5000 Optical Sensor (Digital Input)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: tcr5000_init
+    label:
+      - {image: {src: media/tcr5000.png, width: 55, height: 55}}
+      - Init TCR5000 Sensor
+    tooltip: Init TCR5000 sensor with pin and trigger type
+    fields: {TRIGGER_TYPE: "IRQ_FALLING | IRQ_RISING"}
+    import: {line: "from machine import Pin", key: import_machine_pin}
+    code: "{instance} = tcr5000.TCR5000({pin}, trigger={TRIGGER_TYPE})"
+    params:
+      - {name: pin, label: Pin, type: Number, pin: true, default: 18, align: right}
+      - {name: TRIGGER_TYPE, label: Trigger Type, kind: dropdown,
+         options: [{Rising Edge: "IRQ_RISING"}, {Falling Edge: "IRQ_FALLING"},
+                   {Both Edges: "IRQ_FALLING | IRQ_RISING"}],
+         emit: {IRQ_RISING: "Pin.IRQ_RISING", IRQ_FALLING: "Pin.IRQ_FALLING",
+                "IRQ_FALLING | IRQ_RISING": "Pin.IRQ_FALLING | Pin.IRQ_RISING"}}
+
+  - {type: tcr5000_read, fn: read, kind: value, label: Read TCR5000 State,
+     tooltip: "Read current state of TCR5000 sensor (0/1)"}
+
+  - type: tcr5000_deinit
+    label: Deinit TCR5000 Sensor
+    tooltip: Disable TCR5000 sensor interrupt
+    code: |-
+      {instance}.deinit()
+      print("TCR5000 sensor deinitialized")

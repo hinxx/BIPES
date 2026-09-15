@@ -1502,6 +1502,57 @@ Blockly.Python['file_write_old'] = function(block) {
   return code + "\n";
 };
 
+// ---- Flame Sensor (flame_sensor.blockdef.yaml) -------------------------------
+
+Blockly.Python['flame_sensor_init'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  Blockly.Python.definitions_["flame_default_callback"] = "def flame_detected_callback():\n  print(\"Flame detected!\")";
+  var analog_pin_ = Blockly.Python.valueToCode(block, "analog_pin", Blockly.Python.ORDER_ATOMIC);
+  var digital_pin_ = Blockly.Python.valueToCode(block, "digital_pin", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": ", callback=flame_detected_callback", "NO": ""}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "flame_sensor_device = flame_sensor.FlameSensor(analog_pin=" + analog_pin_ + ", digital_pin=" + digital_pin_ + ENABLE_CALLBACK_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['flame_sensor_is_detected'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var code = "flame_sensor_device.is_flame_detected()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['flame_sensor_get_analog'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var code = "flame_sensor_device.get_analog_value()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['flame_sensor_get_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var code = "flame_sensor_device.get_voltage()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['flame_sensor_wait_for_flame'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "flame_sensor_device.wait_for_flame(timeout=" + timeout_ + " or None)";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['flame_sensor_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def flame_detected_callback():\n" + CALLBACK_CODE_ + "flame_sensor_device.set_callback(flame_detected_callback)";
+  return code + "\n";
+};
+
+Blockly.Python['flame_sensor_toggle_callback'] = function(block) {
+  Blockly.Python.definitions_["import_flame_sensor"] = "import flame_sensor";
+  var TOGGLE_ACTION_ = {"ENABLE": "enable", "DISABLE": "disable"}[block.getFieldValue("TOGGLE_ACTION")];
+  var code = "flame_sensor_device." + TOGGLE_ACTION_ + "()";
+  return code + "\n";
+};
+
 // ---- framebuf (framebuf.blockdef.yaml) ---------------------------------------
 
 Blockly.Python['framebuf_FrameBuffer'] = function(block) {
@@ -2013,6 +2064,49 @@ Blockly.Python['gy33_uart_get_processed'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Hall Sensor OH34N (hall_sensor_oh34n.blockdef.yaml) ---------------------
+
+Blockly.Python['hall_sensor_oh34n_init'] = function(block) {
+  Blockly.Python.definitions_["import_hall_sensor_oh34n"] = "import hall_sensor_oh34n";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["hall_last_time"] = "hall_last_time = 0";
+  Blockly.Python.definitions_["hall_debounce_ms"] = "HALL_DEBOUNCE_MS = 200";
+  Blockly.Python.definitions_["hall_default_callback"] = "def hall_callback():\n  global hall_last_time\n  now = time.ticks_ms()\n  if time.ticks_diff(now, hall_last_time) <= HALL_DEBOUNCE_MS:\n    return\n  hall_last_time = now\n  print(\"Magnetic field detected!\")";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": ", callback=hall_callback", "NO": ""}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "hall_sensor_device = hall_sensor_oh34n.HallSensorOH34N(pin=" + pin_ + ENABLE_CALLBACK_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['hall_sensor_oh34n_read'] = function(block) {
+  Blockly.Python.definitions_["import_hall_sensor_oh34n"] = "import hall_sensor_oh34n";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["hall_last_time"] = "hall_last_time = 0";
+  Blockly.Python.definitions_["hall_debounce_ms"] = "HALL_DEBOUNCE_MS = 200";
+  var code = "hall_sensor_device.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['hall_sensor_oh34n_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_hall_sensor_oh34n"] = "import hall_sensor_oh34n";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["hall_last_time"] = "hall_last_time = 0";
+  Blockly.Python.definitions_["hall_debounce_ms"] = "HALL_DEBOUNCE_MS = 200";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def hall_callback():\n  global hall_last_time\n  now = time.ticks_ms()\n  if time.ticks_diff(now, hall_last_time) <= HALL_DEBOUNCE_MS:\n    return\n  hall_last_time = now\n" + CALLBACK_CODE_ + "hall_sensor_device.set_callback(hall_callback)";
+  return code + "\n";
+};
+
+Blockly.Python['hall_sensor_oh34n_toggle_interrupt'] = function(block) {
+  Blockly.Python.definitions_["import_hall_sensor_oh34n"] = "import hall_sensor_oh34n";
+  Blockly.Python.definitions_["import_time"] = "import time";
+  Blockly.Python.definitions_["hall_last_time"] = "hall_last_time = 0";
+  Blockly.Python.definitions_["hall_debounce_ms"] = "HALL_DEBOUNCE_MS = 200";
+  var TOGGLE_ACTION_ = {"ENABLE": "enable", "DISABLE": "disable"}[block.getFieldValue("TOGGLE_ACTION")];
+  var code = "hall_sensor_device." + TOGGLE_ACTION_ + "()\nprint(\"Hall sensor interrupt " + TOGGLE_ACTION_ + "d\")";
+  return code + "\n";
+};
+
 // ---- %{BKY_CAT_ULTRASOUND} (hcsr04.blockdef.yaml) ----------------------------
 
 Blockly.Python['hcsr_init'] = function(block) {
@@ -2515,6 +2609,41 @@ Blockly.Python['lcd160cr_LCD160CR.jpeg_data'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
   var code = "lcd.jpeg_data(" + buf_ + ")";
+  return code + "\n";
+};
+
+// ---- Limit Switch (limitswitch.blockdef.yaml) --------------------------------
+
+Blockly.Python['limitswitch_init'] = function(block) {
+  Blockly.Python.definitions_["import_limitswitch"] = "import limitswitch";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var debounce_ = Blockly.Python.valueToCode(block, "debounce", Blockly.Python.ORDER_ATOMIC);
+  var code = "limit_switch = limitswitch.LimitSwitch(" + pin_ + ", debounce_ms=" + debounce_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['limitswitch_read'] = function(block) {
+  Blockly.Python.definitions_["import_limitswitch"] = "import limitswitch";
+  var code = "limit_switch.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['limitswitch_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_limitswitch"] = "import limitswitch";
+  var callback_ = Blockly.Python.valueToCode(block, "callback", Blockly.Python.ORDER_ATOMIC);
+  var code = "limit_switch.set_callback(" + callback_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['limitswitch_enable'] = function(block) {
+  Blockly.Python.definitions_["import_limitswitch"] = "import limitswitch";
+  var code = "limit_switch.enable()";
+  return code + "\n";
+};
+
+Blockly.Python['limitswitch_disable'] = function(block) {
+  Blockly.Python.definitions_["import_limitswitch"] = "import limitswitch";
+  var code = "limit_switch.disable()";
   return code + "\n";
 };
 
@@ -3593,7 +3722,7 @@ Blockly.Python['max9814_mic_set_gain'] = function(block) {
   Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
   Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
   var GAIN_TYPE_ = {"LOW": "False", "HIGH": "True"}[block.getFieldValue("GAIN_TYPE")];
-  var code = "try:\n    max9814_mic_device.set_gain(" + GAIN_TYPE_ + ")\n    print(\"MAX9814 gain set\")\nexcept RuntimeError:\n    print(\"MAX9814 gain pin not configured\")";
+  var code = "try:\n  max9814_mic_device.set_gain(" + GAIN_TYPE_ + ")\n  print(\"MAX9814 gain set\")\nexcept RuntimeError:\n  print(\"MAX9814 gain pin not configured\")";
   return code + "\n";
 };
 
@@ -4228,6 +4357,44 @@ Blockly.Python['move_pca9685'] = function(block) {
   var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
   var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
   var code = "pca9685.duty(" + servo_id_ + ", angleToDutyCycle(" + angle_ + "))";
+  return code + "\n";
+};
+
+// ---- PIR Motion Sensor (pir.blockdef.yaml) -----------------------------------
+
+Blockly.Python['pir_init'] = function(block) {
+  Blockly.Python.definitions_["import_pir"] = "import pir";
+  Blockly.Python.definitions_["pir_default_callback"] = "def pir_motion_callback():\n  print(\"Motion detected!\")";
+  var pir_pin_ = Blockly.Python.valueToCode(block, "pir_pin", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": ", callback=pir_motion_callback", "NO": ""}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "pir_sensor = pir.PIRSensor(" + pir_pin_ + ENABLE_CALLBACK_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pir_is_motion_detected'] = function(block) {
+  Blockly.Python.definitions_["import_pir"] = "import pir";
+  var code = "pir_sensor.is_motion_detected()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pir_wait_for_motion'] = function(block) {
+  Blockly.Python.definitions_["import_pir"] = "import pir";
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "pir_sensor.wait_for_motion(timeout=" + timeout_ + " or None)";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pir_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_pir"] = "import pir";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def pir_motion_callback():\n" + CALLBACK_CODE_ + "pir_sensor.set_callback(pir_motion_callback)";
+  return code + "\n";
+};
+
+Blockly.Python['pir_toggle_callback'] = function(block) {
+  Blockly.Python.definitions_["import_pir"] = "import pir";
+  var TOGGLE_ACTION_ = {"ENABLE": "enable", "DISABLE": "disable"}[block.getFieldValue("TOGGLE_ACTION")];
+  var code = "pir_sensor." + TOGGLE_ACTION_ + "()";
   return code + "\n";
 };
 
@@ -5159,6 +5326,29 @@ Blockly.Python['sys_print_exception'] = function(block) {
   return code + "\n";
 };
 
+// ---- TCR5000 Sensor (tcr5000.blockdef.yaml) ----------------------------------
+
+Blockly.Python['tcr5000_init'] = function(block) {
+  Blockly.Python.definitions_["import_tcr5000"] = "import tcr5000";
+  Blockly.Python.definitions_["import_machine_pin"] = "from machine import Pin";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var TRIGGER_TYPE_ = {"IRQ_RISING": "Pin.IRQ_RISING", "IRQ_FALLING": "Pin.IRQ_FALLING", "IRQ_FALLING | IRQ_RISING": "Pin.IRQ_FALLING | Pin.IRQ_RISING"}[block.getFieldValue("TRIGGER_TYPE")];
+  var code = "tcr5000_sensor = tcr5000.TCR5000(" + pin_ + ", trigger=" + TRIGGER_TYPE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['tcr5000_read'] = function(block) {
+  Blockly.Python.definitions_["import_tcr5000"] = "import tcr5000";
+  var code = "tcr5000_sensor.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['tcr5000_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_tcr5000"] = "import tcr5000";
+  var code = "tcr5000_sensor.deinit()\nprint(\"TCR5000 sensor deinitialized\")";
+  return code + "\n";
+};
+
 // ---- Text additions (text_extra.blockdef.yaml) -------------------------------
 
 Blockly.Python['text_to_str'] = function(block) {
@@ -5599,6 +5789,39 @@ Blockly.Python['tm1640_num'] = function(block) {
   Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
   var num_ = Blockly.Python.valueToCode(block, "num", Blockly.Python.ORDER_ATOMIC);
   var code = "digits = [0x3c66666e76663c00, 0x7e1818181c181800, 0x7e060c3060663c00, 0x3c66603860663c00, 0x30307e3234383000, 0x3c6660603e067e00, 0x3c66663e06663c00, 0x1818183030667e00, 0x3c66663c66663c00, 0x3c66607c66663c00]\ntm.write_int(digits[" + num_ + "])";
+  return code + "\n";
+};
+
+// ---- TouchKey Sensor (touchkey.blockdef.yaml) --------------------------------
+
+Blockly.Python['touchkey_init'] = function(block) {
+  Blockly.Python.definitions_["import_touchkey"] = "import touchkey";
+  Blockly.Python.definitions_["touchkey_press_callback"] = "def touchkey_press_callback():\n  pass";
+  Blockly.Python.definitions_["touchkey_release_callback"] = "def touchkey_release_callback():\n  pass";
+  var pin_num_ = Blockly.Python.valueToCode(block, "pin_num", Blockly.Python.ORDER_ATOMIC);
+  var IDLE_STATE_ = block.getFieldValue("IDLE_STATE");
+  var debounce_time_ = Blockly.Python.valueToCode(block, "debounce_time", Blockly.Python.ORDER_ATOMIC);
+  var code = "touchkey_sensor = touchkey.TouchKey(pin_num=" + pin_num_ + ", idle_state=" + IDLE_STATE_ + ", debounce_time=" + debounce_time_ + ", press_callback=touchkey_press_callback, release_callback=touchkey_release_callback)";
+  return code + "\n";
+};
+
+Blockly.Python['touchkey_get_state'] = function(block) {
+  Blockly.Python.definitions_["import_touchkey"] = "import touchkey";
+  var code = "touchkey_sensor.get_state()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['touchkey_set_press_callback'] = function(block) {
+  Blockly.Python.definitions_["import_touchkey"] = "import touchkey";
+  var callback_func_ = Blockly.Python.valueToCode(block, "callback_func", Blockly.Python.ORDER_ATOMIC);
+  var code = "touchkey_sensor.press_callback = " + callback_func_;
+  return code + "\n";
+};
+
+Blockly.Python['touchkey_set_release_callback'] = function(block) {
+  Blockly.Python.definitions_["import_touchkey"] = "import touchkey";
+  var callback_func_ = Blockly.Python.valueToCode(block, "callback_func", Blockly.Python.ORDER_ATOMIC);
+  var code = "touchkey_sensor.release_callback = " + callback_func_;
   return code + "\n";
 };
 

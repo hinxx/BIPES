@@ -2369,6 +2369,225 @@
   </category>
   <!-- /blockdef:max9814_mic -->
 
+  <!-- blockdef:flame_sensor -->
+  <category name="Flame Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Flame Sensor (AO/DO with IRQ Callback)"></label>
+    <button text="Install flame_sensor library" callbackKey="installPyLib"></button>
+
+    <block type="flame_sensor_init">
+      <value name="analog_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="digital_pin">
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="flame_sensor_is_detected"></block>
+
+    <block type="flame_sensor_get_analog"></block>
+
+    <block type="flame_sensor_get_voltage"></block>
+
+    <block type="flame_sensor_wait_for_flame">
+      <value name="timeout">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="flame_sensor_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">Flame detected!</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="flame_sensor_toggle_callback"></block>
+  </category>
+  <!-- /blockdef:flame_sensor -->
+
+  <!-- blockdef:pir -->
+  <category name="PIR Motion Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PIR Human Infrared Motion Sensor"></label>
+    <button text="Install pir library" callbackKey="installPyLib"></button>
+
+    <block type="pir_init">
+      <value name="pir_pin">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="pir_is_motion_detected"></block>
+
+    <block type="pir_wait_for_motion">
+      <value name="timeout">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pir_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">Motion detected!</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="pir_toggle_callback"></block>
+  </category>
+  <!-- /blockdef:pir -->
+
+  <!-- blockdef:hall_sensor_oh34n -->
+  <category name="Hall Sensor OH34N">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="OH34N Hall Sensor (Digital with IRQ Callback)"></label>
+    <button text="Install hall_sensor_oh34n library" callbackKey="installPyLib"></button>
+
+    <block type="hall_sensor_oh34n_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="hall_sensor_oh34n_read"></block>
+
+    <block type="hall_sensor_oh34n_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">Magnetic field detected!</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="hall_sensor_oh34n_toggle_interrupt"></block>
+  </category>
+  <!-- /blockdef:hall_sensor_oh34n -->
+
+  <!-- blockdef:tcr5000 -->
+  <category name="TCR5000 Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="TCR5000 Optical Sensor (Digital Input)"></label>
+    <button text="Install tcr5000 library" callbackKey="installPyLib"></button>
+
+    <block type="tcr5000_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">18</field>
+        </shadow>
+      </value>
+      <field name="TRIGGER_TYPE">IRQ_FALLING | IRQ_RISING</field>
+    </block>
+
+    <block type="tcr5000_read"></block>
+
+    <block type="tcr5000_deinit"></block>
+  </category>
+  <!-- /blockdef:tcr5000 -->
+
+  <!-- blockdef:limitswitch -->
+  <category name="Limit Switch">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Limit Switch with Debounce"></label>
+    <button text="Install limitswitch library" callbackKey="installPyLib"></button>
+
+    <block type="limitswitch_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="debounce">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="limitswitch_read"></block>
+
+    <block type="limitswitch_set_callback">
+      <value name="callback">
+        <shadow type="variables_get">
+          <field name="VAR">callback_func</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="limitswitch_enable"></block>
+
+    <block type="limitswitch_disable"></block>
+  </category>
+  <!-- /blockdef:limitswitch -->
+
+  <!-- blockdef:touchkey -->
+  <category name="TouchKey Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="TouchKey Sensor with Debounce and Callback"></label>
+    <button text="Install touchkey library" callbackKey="installPyLib"></button>
+
+    <block type="touchkey_init">
+      <value name="pin_num">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="debounce_time">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="touchkey_get_state"></block>
+
+    <block type="touchkey_set_press_callback">
+      <value name="callback_func">
+        <shadow type="variables_get">
+          <field name="VAR">touchkey_press_callback</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="touchkey_set_release_callback">
+      <value name="callback_func">
+        <shadow type="variables_get">
+          <field name="VAR">touchkey_release_callback</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:touchkey -->
+
   </category>
 
 

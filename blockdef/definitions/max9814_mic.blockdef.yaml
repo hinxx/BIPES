@@ -67,10 +67,10 @@ blocks:
     tooltip: Set MAX9814 microphone gain (Low/High)
     code: |-
       try:
-          {instance}.set_gain({GAIN_TYPE})
-          print("MAX9814 gain set")
+        {instance}.set_gain({GAIN_TYPE})
+        print("MAX9814 gain set")
       except RuntimeError:
-          print("MAX9814 gain pin not configured")
+        print("MAX9814 gain pin not configured")
     params:
       - {name: GAIN_TYPE, label: Set MAX9814 Gain, kind: dropdown,
          options: [{Low Gain: "LOW"}, {High Gain: "HIGH"}],

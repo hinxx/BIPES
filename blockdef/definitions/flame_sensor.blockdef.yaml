@@ -1,0 +1,86 @@
+# Flame sensor: an analog output to read and a digital output that can raise
+# an interrupt. The default callback is a hoisted definition rather than a
+# line the init block emits, so two init blocks cannot define it twice.
+#
+# The fork's `set_callback` indented the user's stack with
+# `replace(/^/gm, '\n')` -- a newline before every line, not a tab -- which
+# left the `def` with an empty body and the stack at column 0. A `statements`
+# param arrives already indented.
+#
+# `timeout` was a number field with a live socket beside it that the generator
+# never read. The socket is what is left, and `or None` keeps the fork's
+# meaning for 0: wait indefinitely.
+
+module: flame_sensor
+class: FlameSensor
+instance: flame_sensor_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import flame_sensor", key: import_flame_sensor}
+
+category:
+  name: Flame Sensor
+  library: flame_sensor
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Flame Sensor (AO/DO with IRQ Callback)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: flame_sensor_init
+    label:
+      - {image: {src: media/flame_sensor.png, width: 55, height: 55}}
+      - Init Flame Sensor
+    tooltip: Init Flame Sensor (with/without callback)
+    fields: {ENABLE_CALLBACK: "NO"}
+    import:
+      - key: flame_default_callback
+        line: |-
+          def flame_detected_callback():
+            print("Flame detected!")
+    code: "{instance} = flame_sensor.FlameSensor(analog_pin={analog_pin}, digital_pin={digital_pin}{ENABLE_CALLBACK})"
+    params:
+      - {name: analog_pin,  label: Analog Pin (AO),  type: Number, pin: true, default: 26, align: right}
+      - {name: digital_pin, label: Digital Pin (DO), type: Number, pin: true, default: 19, align: right}
+      - {name: ENABLE_CALLBACK, label: Enable Callback, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}],
+         emit: {YES: ", callback=flame_detected_callback", NO: ""}}
+
+  - {type: flame_sensor_is_detected, fn: is_flame_detected, kind: value,
+     label: "Is Flame Detected?", tooltip: Check if flame is detected (digital DO pin)}
+
+  - {type: flame_sensor_get_analog, fn: get_analog_value, kind: value,
+     label: Get Flame Sensor Analog Value (AO),
+     tooltip: Get raw ADC value from AO pin (0-65535)}
+
+  - {type: flame_sensor_get_voltage, fn: get_voltage, kind: value,
+     label: Get Flame Sensor Voltage (V),
+     tooltip: Convert AO value to voltage (0-3.3V)}
+
+  - type: flame_sensor_wait_for_flame
+    kind: value
+    label: Wait for Flame Detection
+    tooltip: Wait until flame is detected (0 waits indefinitely)
+    code: "{instance}.wait_for_flame(timeout={timeout} or None)"
+    params:
+      - {name: timeout, label: Timeout (seconds), type: Number, default: 0, align: right}
+
+  - type: flame_sensor_set_callback
+    label: Set Flame Detection Callback
+    tooltip: Set callback code to run when flame is detected
+    code: |-
+      def flame_detected_callback():
+      {CALLBACK_CODE}{instance}.set_callback(flame_detected_callback)
+    params:
+      - {name: CALLBACK_CODE, kind: statements, label: Run when flame detected,
+         align: right, plug: {type: text_print, values: {TEXT: Flame detected!}}}
+
+  - type: flame_sensor_toggle_callback
+    label: []
+    tooltip: Enable/disable flame detection callback
+    code: "{instance}.{TOGGLE_ACTION}()"
+    params:
+      - {name: TOGGLE_ACTION, label: Flame Callback, kind: dropdown,
+         options: [{Enable: "ENABLE"}, {Disable: "DISABLE"}],
+         emit: {ENABLE: enable, DISABLE: disable}}

@@ -1,0 +1,76 @@
+# PIR motion sensor. Same shape as the flame sensor, and the same three
+# faults fixed: `Blockly.Python['pir_init']` was assigned twice in the fork
+# (the first one unreachable), `set_callback` indented the user's stack with
+# newlines instead of tabs, and `wait_for_motion`'s socket was dead beside a
+# number field the generator read instead.
+#
+# The fork's init passed `callback=pir_motion_callback` with nothing defining
+# it: the only block that did was `pir_set_callback`, which also needs
+# `pir_sensor` to already exist, so no arrangement of the two worked. The
+# default callback is a hoisted definition here, the way the flame sensor
+# already did it.
+
+module: pir
+class: PIRSensor
+instance: pir_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import pir", key: import_pir}
+
+category:
+  name: PIR Motion Sensor
+  library: pir
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PIR Human Infrared Motion Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: pir_init
+    label:
+      - {image: {src: media/pir_sensor.png, width: 55, height: 55}}
+      - Init PIR Motion Sensor
+    tooltip: Init PIR motion sensor (with/without callback)
+    fields: {ENABLE_CALLBACK: "NO"}
+    import:
+      - key: pir_default_callback
+        line: |-
+          def pir_motion_callback():
+            print("Motion detected!")
+    code: "{instance} = pir.PIRSensor({pir_pin}{ENABLE_CALLBACK})"
+    params:
+      - {name: pir_pin, label: PIR Pin, type: Number, pin: true, default: 2, align: right}
+      - {name: ENABLE_CALLBACK, label: Enable Callback, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}],
+         emit: {YES: ", callback=pir_motion_callback", NO: ""}}
+
+  - {type: pir_is_motion_detected, fn: is_motion_detected, kind: value,
+     label: "PIR Detect Motion?", tooltip: Check if PIR sensor detects motion}
+
+  - type: pir_wait_for_motion
+    kind: value
+    label: PIR Wait for Motion
+    tooltip: Wait until PIR detects motion (0 waits indefinitely)
+    code: "{instance}.wait_for_motion(timeout={timeout} or None)"
+    params:
+      - {name: timeout, label: Timeout (ms), type: Number, default: 0, align: right}
+
+  - type: pir_set_callback
+    label: Set PIR Motion Callback
+    tooltip: Set callback code to run when PIR detects motion
+    code: |-
+      def pir_motion_callback():
+      {CALLBACK_CODE}{instance}.set_callback(pir_motion_callback)
+    params:
+      - {name: CALLBACK_CODE, kind: statements, label: Run when motion detected,
+         align: right, plug: {type: text_print, values: {TEXT: Motion detected!}}}
+
+  - type: pir_toggle_callback
+    label: []
+    tooltip: Enable/disable PIR motion callback
+    code: "{instance}.{TOGGLE_ACTION}()"
+    params:
+      - {name: TOGGLE_ACTION, label: PIR Callback, kind: dropdown,
+         options: [{Enable: "ENABLE"}, {Disable: "DISABLE"}],
+         emit: {ENABLE: enable, DISABLE: disable}}

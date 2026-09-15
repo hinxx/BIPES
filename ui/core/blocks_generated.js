@@ -2973,6 +2973,110 @@ Blockly.Blocks['file_write_old'] = {
   }
 };
 
+// ---- Flame Sensor (flame_sensor.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['flame_sensor_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/flame_sensor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Flame Sensor");
+    this.appendValueInput("analog_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Analog Pin (AO)");
+    this.appendValueInput("digital_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Digital Pin (DO)");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Flame Sensor (with/without callback)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_is_detected'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Is Flame Detected?");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if flame is detected (digital DO pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_get_analog'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Flame Sensor Analog Value (AO)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get raw ADC value from AO pin (0-65535)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_get_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Flame Sensor Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Convert AO value to voltage (0-3.3V)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_wait_for_flame'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Wait for Flame Detection");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Timeout (seconds)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Wait until flame is detected (0 waits indefinitely)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Flame Detection Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when flame detected");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run when flame is detected");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['flame_sensor_toggle_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Flame Callback")
+        .appendField(new Blockly.FieldDropdown([["Enable", "ENABLE"], ["Disable", "DISABLE"]]), "TOGGLE_ACTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable/disable flame detection callback");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- framebuf (framebuf.blockdef.yaml) ---------------------------------------
 
 Blockly.Blocks['framebuf_FrameBuffer'] = {
@@ -3978,6 +4082,69 @@ Blockly.Blocks['gy33_uart_get_processed'] = {
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip("Returns a list containing the processed Red, Green, Blue values.");
+  }
+};
+
+// ---- Hall Sensor OH34N (hall_sensor_oh34n.blockdef.yaml) ---------------------
+
+Blockly.Blocks['hall_sensor_oh34n_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/hall_sensor_oh34n.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Hall Sensor OH34N");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Digital Pin (DO)");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init OH34N Hall Sensor with digital pin (with/without callback)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['hall_sensor_oh34n_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Hall Sensor State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if magnetic field is detected (digital DO pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['hall_sensor_oh34n_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Hall Sensor Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when magnetic field detected");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run on magnetic field detection");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['hall_sensor_oh34n_toggle_interrupt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Hall Sensor Interrupt")
+        .appendField(new Blockly.FieldDropdown([["Enable", "ENABLE"], ["Disable", "DISABLE"]]), "TOGGLE_ACTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable/disable Hall sensor interrupt detection");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -5054,6 +5221,81 @@ Blockly.Blocks['lcd160cr_LCD160CR.jpeg_data'] = {
     this.setColour(0);
     this.setTooltip("The next piece of a JPEG begun with jpeg_start.");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/lcd160cr.html");
+  }
+};
+
+// ---- Limit Switch (limitswitch.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['limitswitch_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/limitswitch.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Limit Switch");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin");
+    this.appendValueInput("debounce")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Debounce (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Limit Switch with debounce");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['limitswitch_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Limit Switch State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read Limit Switch digital state (True/False)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['limitswitch_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Limit Switch Callback");
+    this.appendValueInput("callback")
+        .setCheck("Function")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Callback Function");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback function for Limit Switch state change");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['limitswitch_enable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Enable Limit Switch Callback");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable Limit Switch debounce callback monitoring");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['limitswitch_disable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Disable Limit Switch Callback");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disable Limit Switch debounce callback monitoring");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -8484,6 +8726,84 @@ Blockly.Blocks['move_pca9685'] = {
   }
 };
 
+// ---- PIR Motion Sensor (pir.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['pir_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/pir_sensor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PIR Motion Sensor");
+    this.appendValueInput("pir_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PIR Pin");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PIR motion sensor (with/without callback)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pir_is_motion_detected'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PIR Detect Motion?");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if PIR sensor detects motion");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pir_wait_for_motion'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PIR Wait for Motion");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Timeout (ms)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Wait until PIR detects motion (0 waits indefinitely)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pir_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set PIR Motion Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when motion detected");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run when PIR detects motion");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pir_toggle_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PIR Callback")
+        .appendField(new Blockly.FieldDropdown([["Enable", "ENABLE"], ["Disable", "DISABLE"]]), "TOGGLE_ACTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable/disable PIR motion callback");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Pluviômetro (pluviometro.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['pluvio_init'] = {
@@ -10284,6 +10604,52 @@ Blockly.Blocks['sys_print_exception'] = {
   }
 };
 
+// ---- TCR5000 Sensor (tcr5000.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['tcr5000_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/tcr5000.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init TCR5000 Sensor");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin");
+    this.appendDummyInput()
+        .appendField("Trigger Type")
+        .appendField(new Blockly.FieldDropdown([["Rising Edge", "IRQ_RISING"], ["Falling Edge", "IRQ_FALLING"], ["Both Edges", "IRQ_FALLING | IRQ_RISING"]]), "TRIGGER_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init TCR5000 sensor with pin and trigger type");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['tcr5000_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read TCR5000 State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read current state of TCR5000 sensor (0/1)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['tcr5000_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinit TCR5000 Sensor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disable TCR5000 sensor interrupt");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Text additions (text_extra.blockdef.yaml) -------------------------------
 
 Blockly.Blocks['text_to_str'] = {
@@ -11087,6 +11453,76 @@ Blockly.Blocks['tm1640_num'] = {
     this.setColour(230);
     this.setTooltip("Write number on TM1640 LED Matrix");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- TouchKey Sensor (touchkey.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['touchkey_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/touchkey.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init TouchKey Sensor");
+    this.appendValueInput("pin_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin Number");
+    this.appendDummyInput()
+        .appendField("Idle State")
+        .appendField(new Blockly.FieldDropdown([["High (1)", "1"], ["Low (0)", "0"]]), "IDLE_STATE");
+    this.appendValueInput("debounce_time")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Debounce Time (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init TouchKey sensor with debounce and callback support");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['touchkey_get_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read TouchKey State (Pressed = True)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if TouchKey is pressed (returns True/False)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['touchkey_set_press_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set TouchKey Press Callback");
+    this.appendValueInput("callback_func")
+        .setCheck("Function")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Callback Function");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback function for TouchKey press event");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['touchkey_set_release_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set TouchKey Release Callback");
+    this.appendValueInput("callback_func")
+        .setCheck("Function")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Callback Function");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback function for TouchKey release event");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
