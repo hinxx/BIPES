@@ -1,0 +1,272 @@
+# Classroom robot -- the blocks a lesson is written in.
+#
+# From setownley/BIPES, the most recently maintained fork in the survey. Every
+# block here is one call into `robot.py` (ui/pylibs/robot.py, installed with
+# the button at the top of the category), and that module is the only code on
+# the board that touches Timer 0, the sensors or the OLED. That is the whole
+# design: a block never drives a pin, so two blocks can never fight over one.
+#
+# The module's pin map is an ESP32-C3 Super Mini wired to a DRV8833 motor
+# driver, an HC-SR04, a QRE1113 line sensor, an SG90 and an SSD1306 -- which is
+# why `toolboxes:` names that board and nothing else. Wiring the same parts to
+# another board means editing the pin map at the top of robot.py; the blocks
+# above it do not change.
+#
+# Colours are the fork's and they carry meaning: yellow drives, amber is the
+# maze lesson, orange is one-off calibration a class runs once and deletes,
+# and the servo blocks are Blockly's own actuator hue.
+#
+# Not taken from the fork: `robot_look_measure` (it dropped the block itself,
+# keeping the function), and the arcade launcher hidden in the firmware's
+# calibration gate -- the games are a backlog item of their own.
+
+module: robot
+colour: "#FFD400"
+import: {line: "import robot", key: import_robot}
+
+category:
+  name: Robot
+  colour: "#FFD400"
+  labels:
+    - Classroom robot -- ESP32-C3, DRV8833 motors, HC-SR04, QRE1113 line sensor
+    - "Wiring and tuning: the pin map at the top of robot.py"
+  library: [robot, ssd1306, vl53l0x]
+  toolboxes: [esp32c3]
+
+blocks:
+  - type: robot_show
+    code: "robot.show({TEXT})"
+    label: []
+    tooltip: Show text on the robot's screen. Nine characters fit, and the
+      dashboard repaints it within half a second.
+    inline: true
+    params:
+      # No `type:`, so the socket takes anything: showing a distance or a
+      # turn angle is the point of the block, and robot.py str()s it anyway.
+      - {name: TEXT, label: show, default: hello}
+
+  - type: robot_forward
+    code: "robot.forward('{SPEED}')"
+    label: []
+    tooltip: Drive forward at one of the three named speeds.
+    params:
+      - {name: SPEED, label: drive forward, kind: dropdown,
+         options: [{slow: slow}, {medium: medium}, {fast: fast}]}
+
+  - type: robot_stop
+    code: "robot.stop()"
+    label: stop motors
+    tooltip: Brake, then let the motors coast.
+
+  - type: robot_backward
+    code: "robot.backward('{SPEED}')"
+    label: []
+    tooltip: Drive backward at one of the three named speeds.
+    params:
+      - {name: SPEED, label: drive backward, kind: dropdown,
+         options: [{slow: slow}, {medium: medium}, {fast: fast}]}
+
+  - type: robot_turn
+    code: "robot.turn('{DIR}')"
+    label: []
+    tooltip: Spin on the spot at medium speed, until something stops it.
+    params:
+      - {name: DIR, label: turn, kind: dropdown, options: [{left: left}, {right: right}]}
+
+  - type: robot_wait
+    code: "robot.wait({TIME})"
+    label: []
+    footer: seconds
+    tooltip: Wait, up to 60 seconds. The background sensor loop keeps running.
+    inline: true
+    params:
+      - {name: TIME, label: wait, type: Number, default: 1}
+
+  - type: robot_turn90
+    code: "robot.turn90('{DIR}')"
+    label: []
+    tooltip: Spin exactly 90 degrees, using the calibrated turn time.
+    params:
+      - {name: DIR, label: turn 90, kind: dropdown, options: [{left: left}, {right: right}]}
+
+  - type: robot_turn_deg
+    code: "robot.turn_degrees('{DIR}', {DEG})"
+    label: []
+    footer: degrees
+    tooltip: Spin by any angle up to 450 degrees. Anything under about 15 is
+      not accurate -- the robot barely gets moving before it has to stop.
+    inline: true
+    params:
+      - {name: DIR, row: next, label: turn, kind: dropdown,
+         options: [{left: left}, {right: right}]}
+      - {name: DEG, type: Number, default: 90}
+
+  - type: robot_nudge
+    code: "robot.nudge('{DIR}', {DEG})"
+    label: []
+    footer: degrees
+    tooltip: Bend the heading a little without stopping, then carry on at the
+      same speed. A steering correction, not a precise turn.
+    inline: true
+    params:
+      - {name: DIR, row: next, label: nudge, kind: dropdown,
+         options: [{left: left}, {right: right}]}
+      - {name: DEG, type: Number, default: 10}
+
+  - type: robot_forward_at
+    code: "robot.forward_at({DUTY})"
+    label: []
+    tooltip: Drive forward at a duty from 0 to 1023 instead of a named speed.
+      Below about 600 the wheels may not turn at all -- static friction has to
+      be broken before anything moves.
+    params:
+      - {name: DUTY, label: drive forward at, kind: number, default: 800,
+         min: 0, max: 1023, precision: 1}
+
+  - type: robot_button
+    code: "robot.button()"
+    kind: value
+    output: Boolean
+    label: button pressed?
+    tooltip: True while the BOOT button is held.
+
+  - type: robot_led
+    code: "robot.led({STATE})"
+    label: []
+    tooltip: The on-board blue LED.
+    params:
+      - {name: STATE, label: turn LED, kind: dropdown,
+         options: [{on: "True"}, {off: "False"}]}
+
+  - type: robot_distance
+    code: "robot.distance_mm()"
+    kind: value
+    output: Number
+    label: front distance (mm)
+    tooltip: The last distance the background loop measured, so it can be up to
+      a tenth of a second old. 9999 means nothing echoed back.
+
+  - type: robot_ping
+    code: "robot.ping_mm({TIMEOUT})"
+    kind: value
+    output: Number
+    label: []
+    tooltip: Measure the distance ahead right now. 12 ms of patience reaches
+      about 2 m, 6 ms about 1 m, 3 ms about 50 cm -- shorter is quicker but
+      sees less. 9999 means nothing echoed back. This only measures; aim the
+      sensor first with "look" if you care which way it points.
+    params:
+      - {name: TIMEOUT, label: "distance (mm), give up after", suffix: ms,
+         kind: number, default: 12, min: 1, max: 30, precision: 1}
+
+  - type: robot_on_line
+    code: "robot.on_line()"
+    kind: value
+    output: Boolean
+    label: on the line?
+    tooltip: True when the line sensor sees the line. Needs robot.calibrate()
+      to have been run on this floor first.
+
+  - type: robot_side
+    code: "robot.side_mm()"
+    kind: value
+    output: Number
+    label: side distance (mm)
+    tooltip: Distance to the left, from the time-of-flight sensor. 9999 means
+      no sensor fitted, or nothing in range.
+
+  - {label: Sensor on a servo, boards: [esp32c3]}
+
+  - type: robot_servo_angle
+    code: "robot.servo({ANGLE})"
+    label: []
+    colour: 45
+    tooltip: Start the servo moving to an angle from 0 to 180 and carry straight
+      on. It takes about a third of a second to arrive, so use "look" instead
+      if the next thing you do is measure.
+    params:
+      - {name: ANGLE, label: point sensor at, suffix: degrees, kind: angle,
+         default: 90}
+
+  - type: robot_look
+    code: "robot.look('{WHERE}')"
+    label: []
+    colour: 45
+    tooltip: Point the sensor and wait for it to get there -- only as long as
+      the move actually needs. Use this before measuring.
+    params:
+      - {name: WHERE, label: look, suffix: and wait, kind: dropdown,
+         options: [{left: left}, {ahead: ahead}, {right: right}]}
+
+  - type: robot_servo_off
+    code: "robot.servo_off()"
+    label: let servo go limp
+    colour: 45
+    tooltip: Stop driving the servo. It stops holding position, stops buzzing
+      and stops drawing current.
+
+  # Grouped at the bottom on purpose: tools for one lesson each, not blocks a
+  # program reaches for every day.
+  - {label: "Maze: follow the left wall", boards: [esp32c3]}
+
+  - type: robot_follow
+    code: "robot.follow_wall()"
+    label: "MAZE: follow wall until change"
+    colour: "#F0A800"
+    tooltip: Drive along the left wall until it opens out or something blocks
+      the way ahead. Ask the next two blocks which of the two happened.
+
+  - type: robot_left_open
+    code: "robot.left_open()"
+    kind: value
+    output: Boolean
+    label: "MAZE: left is open?"
+    colour: "#F0A800"
+    tooltip: True if the last follow ended because the left wall opened.
+
+  - type: robot_front_blocked
+    code: "robot.front_blocked()"
+    kind: value
+    output: Boolean
+    label: "MAZE: blocked in front?"
+    colour: "#F0A800"
+    tooltip: True if the last follow ended at a wall ahead.
+
+  - {label: "Setup, run once per robot", boards: [esp32c3]}
+
+  - type: robot_trim_adjust
+    code: "robot.trim_adjust('{WHEEL}', {PCT})"
+    label: []
+    footer: "%"
+    colour: "#FF8A00"
+    tooltip: Run one wheel slower so the robot drives straight. The number is
+      the setting, not an extra amount -- running it twice with the same number
+      changes nothing the second time.
+    inline: true
+    params:
+      - {name: WHEEL, row: next, label: "CAL: slow the", kind: dropdown,
+         options: [{left: left}, {right: right}]}
+      - {name: PCT, label: wheel by, type: Number, default: 2}
+
+  - type: robot_trim_save
+    code: "robot.save_trim()"
+    label: "CAL: save trim to robot"
+    colour: "#FF8A00"
+    tooltip: Store the trim on this robot, so every program it runs drives
+      straight. Run it once, then delete the CAL blocks.
+
+  - type: robot_os_timer
+    code: "robot.os_timer({ENABLED})"
+    colour: "#FF8A00"
+    label: []
+    tooltip: Ticked, the robot keeps reading its sensors and repainting the
+      screen in the background. Unticked, it stops and Timer 0, the ultrasonic,
+      the line sensor and the OLED are free for ordinary Machine blocks to
+      drive directly.
+    params:
+      - {name: ENABLED, label: background sensor loop, kind: checkbox, default: true}
+
+  - {library: boot, suffix: "(a boot.py that kills the motors at every reset)",
+     boards: [esp32c3]}
+  - {library: bench, suffix: "(teacher bench tests, run from the console)",
+     boards: [esp32c3]}

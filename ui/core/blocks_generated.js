@@ -13042,6 +13042,311 @@ Blockly.Blocks['rfid_rc522_serial_number'] = {
   }
 };
 
+// ---- Robot (robot.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['robot_show'] = {
+  init: function() {
+    this.appendValueInput("TEXT")
+        .setCheck(null)
+        .appendField("show");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setInputsInline(true);
+    this.setTooltip("Show text on the robot's screen. Nine characters fit, and the dashboard repaints it within half a second.");
+  }
+};
+
+Blockly.Blocks['robot_forward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("drive forward")
+        .appendField(new Blockly.FieldDropdown([["slow", "slow"], ["medium", "medium"], ["fast", "fast"]]), "SPEED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Drive forward at one of the three named speeds.");
+  }
+};
+
+Blockly.Blocks['robot_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("stop motors");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Brake, then let the motors coast.");
+  }
+};
+
+Blockly.Blocks['robot_backward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("drive backward")
+        .appendField(new Blockly.FieldDropdown([["slow", "slow"], ["medium", "medium"], ["fast", "fast"]]), "SPEED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Drive backward at one of the three named speeds.");
+  }
+};
+
+Blockly.Blocks['robot_turn'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("turn")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["right", "right"]]), "DIR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Spin on the spot at medium speed, until something stops it.");
+  }
+};
+
+Blockly.Blocks['robot_wait'] = {
+  init: function() {
+    this.appendValueInput("TIME")
+        .setCheck("Number")
+        .appendField("wait");
+    this.appendDummyInput()
+        .appendField("seconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setInputsInline(true);
+    this.setTooltip("Wait, up to 60 seconds. The background sensor loop keeps running.");
+  }
+};
+
+Blockly.Blocks['robot_turn90'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("turn 90")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["right", "right"]]), "DIR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Spin exactly 90 degrees, using the calibrated turn time.");
+  }
+};
+
+Blockly.Blocks['robot_turn_deg'] = {
+  init: function() {
+    this.appendValueInput("DEG")
+        .setCheck("Number")
+        .appendField("turn")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["right", "right"]]), "DIR");
+    this.appendDummyInput()
+        .appendField("degrees");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setInputsInline(true);
+    this.setTooltip("Spin by any angle up to 450 degrees. Anything under about 15 is not accurate -- the robot barely gets moving before it has to stop.");
+  }
+};
+
+Blockly.Blocks['robot_nudge'] = {
+  init: function() {
+    this.appendValueInput("DEG")
+        .setCheck("Number")
+        .appendField("nudge")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["right", "right"]]), "DIR");
+    this.appendDummyInput()
+        .appendField("degrees");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setInputsInline(true);
+    this.setTooltip("Bend the heading a little without stopping, then carry on at the same speed. A steering correction, not a precise turn.");
+  }
+};
+
+Blockly.Blocks['robot_forward_at'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("drive forward at")
+        .appendField(new Blockly.FieldNumber(800, 0, 1023, 1), "DUTY");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("Drive forward at a duty from 0 to 1023 instead of a named speed. Below about 600 the wheels may not turn at all -- static friction has to be broken before anything moves.");
+  }
+};
+
+Blockly.Blocks['robot_button'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("button pressed?");
+    this.setOutput(true, "Boolean");
+    this.setColour("#FFD400");
+    this.setTooltip("True while the BOOT button is held.");
+  }
+};
+
+Blockly.Blocks['robot_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("turn LED")
+        .appendField(new Blockly.FieldDropdown([["on", "True"], ["off", "False"]]), "STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FFD400");
+    this.setTooltip("The on-board blue LED.");
+  }
+};
+
+Blockly.Blocks['robot_distance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("front distance (mm)");
+    this.setOutput(true, "Number");
+    this.setColour("#FFD400");
+    this.setTooltip("The last distance the background loop measured, so it can be up to a tenth of a second old. 9999 means nothing echoed back.");
+  }
+};
+
+Blockly.Blocks['robot_ping'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("distance (mm), give up after")
+        .appendField(new Blockly.FieldNumber(12, 1, 30, 1), "TIMEOUT")
+        .appendField("ms");
+    this.setOutput(true, "Number");
+    this.setColour("#FFD400");
+    this.setTooltip("Measure the distance ahead right now. 12 ms of patience reaches about 2 m, 6 ms about 1 m, 3 ms about 50 cm -- shorter is quicker but sees less. 9999 means nothing echoed back. This only measures; aim the sensor first with \"look\" if you care which way it points.");
+  }
+};
+
+Blockly.Blocks['robot_on_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("on the line?");
+    this.setOutput(true, "Boolean");
+    this.setColour("#FFD400");
+    this.setTooltip("True when the line sensor sees the line. Needs robot.calibrate() to have been run on this floor first.");
+  }
+};
+
+Blockly.Blocks['robot_side'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("side distance (mm)");
+    this.setOutput(true, "Number");
+    this.setColour("#FFD400");
+    this.setTooltip("Distance to the left, from the time-of-flight sensor. 9999 means no sensor fitted, or nothing in range.");
+  }
+};
+
+Blockly.Blocks['robot_servo_angle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("point sensor at")
+        .appendField(new Blockly.FieldAngle(90), "ANGLE")
+        .appendField("degrees");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Start the servo moving to an angle from 0 to 180 and carry straight on. It takes about a third of a second to arrive, so use \"look\" instead if the next thing you do is measure.");
+  }
+};
+
+Blockly.Blocks['robot_look'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("look")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["ahead", "ahead"], ["right", "right"]]), "WHERE")
+        .appendField("and wait");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Point the sensor and wait for it to get there -- only as long as the move actually needs. Use this before measuring.");
+  }
+};
+
+Blockly.Blocks['robot_servo_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("let servo go limp");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Stop driving the servo. It stops holding position, stops buzzing and stops drawing current.");
+  }
+};
+
+Blockly.Blocks['robot_follow'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MAZE: follow wall until change");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#F0A800");
+    this.setTooltip("Drive along the left wall until it opens out or something blocks the way ahead. Ask the next two blocks which of the two happened.");
+  }
+};
+
+Blockly.Blocks['robot_left_open'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MAZE: left is open?");
+    this.setOutput(true, "Boolean");
+    this.setColour("#F0A800");
+    this.setTooltip("True if the last follow ended because the left wall opened.");
+  }
+};
+
+Blockly.Blocks['robot_front_blocked'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MAZE: blocked in front?");
+    this.setOutput(true, "Boolean");
+    this.setColour("#F0A800");
+    this.setTooltip("True if the last follow ended at a wall ahead.");
+  }
+};
+
+Blockly.Blocks['robot_trim_adjust'] = {
+  init: function() {
+    this.appendValueInput("PCT")
+        .setCheck("Number")
+        .appendField("CAL: slow the")
+        .appendField(new Blockly.FieldDropdown([["left", "left"], ["right", "right"]]), "WHEEL")
+        .appendField("wheel by");
+    this.appendDummyInput()
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FF8A00");
+    this.setInputsInline(true);
+    this.setTooltip("Run one wheel slower so the robot drives straight. The number is the setting, not an extra amount -- running it twice with the same number changes nothing the second time.");
+  }
+};
+
+Blockly.Blocks['robot_trim_save'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CAL: save trim to robot");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FF8A00");
+    this.setTooltip("Store the trim on this robot, so every program it runs drives straight. Run it once, then delete the CAL blocks.");
+  }
+};
+
+Blockly.Blocks['robot_os_timer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("background sensor loop")
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "ENABLED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FF8A00");
+    this.setTooltip("Ticked, the robot keeps reading its sensors and repainting the screen in the background. Unticked, it stops and Timer 0, the ultrasonic, the line sensor and the OLED are free for ordinary Machine blocks to drive directly.");
+  }
+};
+
 // ---- Serial IMU Sensor (serial_imu.blockdef.yaml) ----------------------------
 
 Blockly.Blocks['imu_init'] = {

@@ -6422,6 +6422,176 @@ Blockly.Python['rfid_rc522_serial_number'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Robot (robot.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['robot_show'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var TEXT_ = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_ATOMIC);
+  var code = "robot.show(" + TEXT_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_forward'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var SPEED_ = block.getFieldValue("SPEED");
+  var code = "robot.forward('" + SPEED_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['robot_stop'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.stop()";
+  return code + "\n";
+};
+
+Blockly.Python['robot_backward'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var SPEED_ = block.getFieldValue("SPEED");
+  var code = "robot.backward('" + SPEED_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['robot_turn'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var DIR_ = block.getFieldValue("DIR");
+  var code = "robot.turn('" + DIR_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['robot_wait'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var TIME_ = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_ATOMIC);
+  var code = "robot.wait(" + TIME_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_turn90'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var DIR_ = block.getFieldValue("DIR");
+  var code = "robot.turn90('" + DIR_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['robot_turn_deg'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var DIR_ = block.getFieldValue("DIR");
+  var DEG_ = Blockly.Python.valueToCode(block, "DEG", Blockly.Python.ORDER_ATOMIC);
+  var code = "robot.turn_degrees('" + DIR_ + "', " + DEG_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_nudge'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var DIR_ = block.getFieldValue("DIR");
+  var DEG_ = Blockly.Python.valueToCode(block, "DEG", Blockly.Python.ORDER_ATOMIC);
+  var code = "robot.nudge('" + DIR_ + "', " + DEG_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_forward_at'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var DUTY_ = block.getFieldValue("DUTY");
+  var code = "robot.forward_at(" + DUTY_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_button'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.button()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_led'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var STATE_ = block.getFieldValue("STATE");
+  var code = "robot.led(" + STATE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_distance'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.distance_mm()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_ping'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var TIMEOUT_ = block.getFieldValue("TIMEOUT");
+  var code = "robot.ping_mm(" + TIMEOUT_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_on_line'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.on_line()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_side'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.side_mm()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_servo_angle'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var ANGLE_ = block.getFieldValue("ANGLE");
+  var code = "robot.servo(" + ANGLE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_look'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var WHERE_ = block.getFieldValue("WHERE");
+  var code = "robot.look('" + WHERE_ + "')";
+  return code + "\n";
+};
+
+Blockly.Python['robot_servo_off'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.servo_off()";
+  return code + "\n";
+};
+
+Blockly.Python['robot_follow'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.follow_wall()";
+  return code + "\n";
+};
+
+Blockly.Python['robot_left_open'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.left_open()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_front_blocked'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.front_blocked()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['robot_trim_adjust'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var WHEEL_ = block.getFieldValue("WHEEL");
+  var PCT_ = Blockly.Python.valueToCode(block, "PCT", Blockly.Python.ORDER_ATOMIC);
+  var code = "robot.trim_adjust('" + WHEEL_ + "', " + PCT_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['robot_trim_save'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var code = "robot.save_trim()";
+  return code + "\n";
+};
+
+Blockly.Python['robot_os_timer'] = function(block) {
+  Blockly.Python.definitions_["import_robot"] = "import robot";
+  var ENABLED_ = (block.getFieldValue("ENABLED") == 'TRUE' ? 'True' : 'False');
+  var code = "robot.os_timer(" + ENABLED_ + ")";
+  return code + "\n";
+};
+
 // ---- Serial IMU Sensor (serial_imu.blockdef.yaml) ----------------------------
 
 Blockly.Python['imu_init'] = function(block) {
