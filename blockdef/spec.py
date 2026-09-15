@@ -110,6 +110,7 @@ class Param:
     row: str | None = None          # 'next': ride on the next param's row
     suffix: Text = field(default_factory=Text)   # label after the field
     plug: dict[str, Any] | None = None   # a real block in the socket, not a shadow
+    integer: bool = False           # warn on the block if a float is plugged in
 
 
 @dataclass(slots=True)
@@ -517,7 +518,7 @@ def _param(entry: Any, where: _Where) -> Param:
         min=entry.get('min'), max=entry.get('max'), precision=entry.get('precision'),
         shadow=entry.get('shadow', True), unquote=bool(entry.get('unquote')),
         row=entry.get('row'), suffix=_text(entry.get('suffix'), at.at('suffix')),
-        plug=_plug(entry.get('plug'), at),
+        plug=_plug(entry.get('plug'), at), integer=bool(entry.get('integer')),
     )
     # The emitter reads each param into `var <name>_`, so a name that is not an
     # identifier would produce JavaScript that does not parse. Every shipped
@@ -546,9 +547,12 @@ def _param(entry: Any, where: _Where) -> Param:
         if param.kind == 'input':
             raise BlockdefError(f'{at}: `row: next` moves a field onto the row after it, '
                                 f'and a socket already brings a row of its own')
+    if param.integer and param.kind != 'input':
+        raise BlockdefError(f'{at}: `integer` warns about what is plugged into a socket, '
+                            f'so `kind` must be "input"')
     _check_unknown(entry, {'name', 'label', 'kind', 'type', 'default', 'align', 'pin',
                            'keyword', 'options', 'emit', 'min', 'max', 'precision',
-                           'shadow', 'unquote', 'row', 'suffix', 'plug'}, at)
+                           'shadow', 'unquote', 'row', 'suffix', 'plug', 'integer'}, at)
     return param
 
 

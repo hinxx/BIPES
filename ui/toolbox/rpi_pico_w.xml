@@ -635,6 +635,7 @@
     </block>
 
 
+    <!-- blockdef:pwm -->
     <block type="pwm">
       <value name="pin">
         <shadow type="pinout">
@@ -678,6 +679,7 @@
     </block>
 
     <block type="pwm.deinit"></block>
+    <!-- /blockdef:pwm -->
 
     <block type="gpio_interrupt">
       <value name="pin">

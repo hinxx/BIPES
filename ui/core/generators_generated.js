@@ -12,6 +12,20 @@ Blockly.Python.blockdefUnquote_ = function(code) {
   return match ? match[1].replace(/\\(['"\\])/g, '$1') : code;
 };
 
+// `integer: true` on a param: the board cannot take a float there, so warn on
+// the block rather than letting the program fail on the device. Guarded because
+// `Tool` belongs to the page, and code is also generated without one.
+Blockly.Python.blockdefWarnIfFloat_ = function(block, values) {
+  var bad = values.some(function(v) {
+    var f = parseFloat(v);
+    return !isNaN(f) && f % 1 != 0;
+  });
+  try {
+    Tool.warningIfTrue(block, [[function() { return bad; },
+                               'Cannot convert float to int directly.']]);
+  } catch (e) {}
+};
+
 // `variants:` on a block: which board is selected decides what it emits. The
 // value is the one on the `<option>` in index.html -- "ESP32S2", not the
 // toolbox name and not the label the dropdown shows. Guarded, because code is
@@ -3869,6 +3883,86 @@ Blockly.Python['pluvio_stop'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
   var Função_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "Fun\u00e7\u00e3o", Blockly.Python.ORDER_ATOMIC));
   var code = "pluviometro.irq(trigger=0,handler=" + Função_ + ")";
+  return code + "\n";
+};
+
+// ---- In/Out Pins (pwm.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['pwm'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var frequency_ = Blockly.Python.valueToCode(block, "frequency", Blockly.Python.ORDER_ATOMIC);
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfFloat_(block, [frequency_, duty_]);
+  var code = "pwm_ids[" + ID_ + "] = PWM(Pin(" + pin_ + "))\npwm_ids[" + ID_ + "].freq(" + frequency_ + ")\ntry:\n    pwm_ids[" + ID_ + "].duty(" + duty_ + ")\nexcept:\n    pwm_ids[" + ID_ + "].duty_u16(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pwm_pico'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var frequency_ = Blockly.Python.valueToCode(block, "frequency", Blockly.Python.ORDER_ATOMIC);
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfFloat_(block, [frequency_, duty_]);
+  var code = "pwm_ids[" + ID_ + "] = PWM(Pin(" + pin_ + "))\npwm_ids[" + ID_ + "].freq(" + frequency_ + ")\npwm_ids[" + ID_ + "].duty_u16(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pwm.freq'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var frequency_ = Blockly.Python.valueToCode(block, "frequency", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfFloat_(block, [frequency_]);
+  var code = "pwm_ids[" + ID_ + "].freq(" + frequency_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pwm.duty'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfFloat_(block, [duty_]);
+  var code = "try:\n    pwm_ids[" + ID_ + "].duty(" + duty_ + ")\nexcept:\n    pwm_ids[" + ID_ + "].duty_u16(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pwm.duty_pico'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfFloat_(block, [duty_]);
+  var code = "pwm_ids[" + ID_ + "].duty_u16(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pwm.init'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "pwm_ids[" + ID_ + "] = PWM(Pin(" + pin_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['pwm.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["import_pwm"] = "from machine import PWM";
+  Blockly.Python.definitions_["pwm_ids"] = "pwm_ids = {}";
+  var ID_ = block.getFieldValue("ID");
+  var code = "pwm_ids[" + ID_ + "].deinit()";
   return code + "\n";
 };
 

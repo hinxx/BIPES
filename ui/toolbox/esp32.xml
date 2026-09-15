@@ -528,10 +528,11 @@
         </shadow>
       </value>
     </block>
+    <!-- blockdef:pwm -->
     <block type="pwm">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">1</field>
         </shadow>
       </value>
       <value name="frequency">
@@ -545,6 +546,7 @@
         </shadow>
       </value>
     </block>
+
     <block type="pwm.freq">
       <value name="frequency">
         <shadow type="math_number">
@@ -552,6 +554,7 @@
         </shadow>
       </value>
     </block>
+
     <block type="pwm.duty">
       <value name="duty">
         <shadow type="math_number">
@@ -559,14 +562,17 @@
         </shadow>
       </value>
     </block>
+
     <block type="pwm.init">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">1</field>
         </shadow>
       </value>
     </block>
+
     <block type="pwm.deinit"></block>
+    <!-- /blockdef:pwm -->
     <block type="gpio_interrupt">
       <value name="pin">
         <shadow type="pinout">

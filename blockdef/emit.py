@@ -33,6 +33,20 @@ Blockly.Python.blockdefUnquote_ = function(code) {
   return match ? match[1].replace(/\\\\(['"\\\\])/g, '$1') : code;
 };
 
+// `integer: true` on a param: the board cannot take a float there, so warn on
+// the block rather than letting the program fail on the device. Guarded because
+// `Tool` belongs to the page, and code is also generated without one.
+Blockly.Python.blockdefWarnIfFloat_ = function(block, values) {
+  var bad = values.some(function(v) {
+    var f = parseFloat(v);
+    return !isNaN(f) && f % 1 != 0;
+  });
+  try {
+    Tool.warningIfTrue(block, [[function() { return bad; },
+                               'Cannot convert float to int directly.']]);
+  } catch (e) {}
+};
+
 // `variants:` on a block: which board is selected decides what it emits. The
 // value is the one on the `<option>` in index.html -- "ESP32S2", not the
 // toolbox name and not the label the dropdown shows. Guarded, because code is
@@ -239,6 +253,10 @@ def _generator_js(definition: Definition, block: Block) -> str:
         key = _template_js(spec.key, reads, instance)
         line = _template_js(spec.line, reads, instance)
         lines.append(f'  Blockly.Python.definitions_[{key}] = {line};')
+
+    integers = [reads[p.name] for p in block.params if p.integer]
+    if integers:
+        lines.append(f'  Blockly.Python.blockdefWarnIfFloat_(block, [{", ".join(integers)}]);')
 
     if block.variants:
         lines.extend(_variants_js(block, reads, instance))

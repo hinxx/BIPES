@@ -7840,6 +7840,128 @@ Blockly.Blocks['pluvio_stop'] = {
   }
 };
 
+// ---- In/Out Pins (pwm.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['pwm'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("Pin");
+    this.appendValueInput("frequency")
+        .setCheck("Number")
+        .appendField("Frequency");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .appendField("Duty");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init and set PWM with frequency (1Hz to 40MHz) and duty (0-1023)");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm_pico'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RPi Pico PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("Pin");
+    this.appendValueInput("frequency")
+        .setCheck("Number")
+        .appendField("Frequency");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .appendField("Duty");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init and set PWM with frequency (1Hz to 40MHz) and duty (0-1023)");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm.freq'] = {
+  init: function() {
+    this.appendValueInput("frequency")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID")
+        .appendField("frequency");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PWM frequency from 1Hz to 40MHz");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm.duty'] = {
+  init: function() {
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID")
+        .appendField("duty");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PWM duty range of 0-1023");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm.duty_pico'] = {
+  init: function() {
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID")
+        .appendField("duty");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PWM duty range of 0-1023");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm.init'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID")
+        .appendField("init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PWM");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
+Blockly.Blocks['pwm.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("deinit PWM #")
+        .appendField(new Blockly.FieldNumber(0, 0, 50, 1), "ID");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Deinit PWM");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation");
+  }
+};
+
 // ---- pyb (pyb.blockdef.yaml) -------------------------------------------------
 
 Blockly.Blocks['pyb_delay'] = {

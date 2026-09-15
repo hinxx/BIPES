@@ -1,0 +1,141 @@
+# PWM: a pin driven with a square wave, for dimming a LED or driving a motor.
+# Seven blocks, and the last of `In/Out Pins` that could be converted without
+# the format gaining something.
+#
+# Two things they did that the format cannot express, and both were wrong:
+#
+# * The object's name was built out of the pin -- `pwm5 = PWM(Pin(5))` -- by
+#   interpolating the *generated code* into an identifier. It is the same bug
+#   as `gpio_set`, `tone` and `init_servo`: plug a variable into the pin socket
+#   and the program says `pwmled = PWM(Pin(led))`, which is not a name anyone
+#   wrote. The objects live in a dict keyed by the PWM number now.
+# * `setID()` **wrote to the workspace while generating code**: the three init
+#   blocks stamped the pin number into their own `ID` field, so that the
+#   `freq`/`duty`/`deinit` blocks -- which read that field -- would line up with
+#   them. Generating code is not supposed to change the program. With the dict
+#   keyed by `ID` instead of by pin, nothing has to be stamped: the number on
+#   the init block and the number on the `freq` block are the same number
+#   because the user set both, and they match by default because both start
+#   at 0.
+#
+# That is a change in what the blocks generate -- `pwm_ids[0]` rather than
+# `pwm5` -- and in what the `ID` field means on the init blocks: it is the
+# user's choice now rather than a readout of the pin. Saved programs keep every
+# block and every socket; what they lose is the stamped number, which nothing
+# reads back.
+#
+# `integer: true` is the other new thing: five of these blocks warned when a
+# float was plugged into a frequency or duty socket, because MicroPython will
+# not convert one, and that warning is the only `check()` method left in the
+# tree outside `control_pid`.
+
+module: machine
+colour: 230
+url: https://docs.micropython.org/en/latest/esp32/quickref.html#pwm-pulse-width-modulation
+import: []
+
+category:
+  name: In/Out Pins
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: pwm
+    label: []
+    tooltip: Init and set PWM with frequency (1Hz to 40MHz) and duty (0-1023)
+    boards: [AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
+             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: &pwm_imports
+      - {key: import_pin, line: "from machine import Pin"}
+      - {key: import_pwm, line: "from machine import PWM"}
+      - {key: pwm_ids,    line: "pwm_ids = {}"}
+    code: |-
+      pwm_ids[{ID}] = PWM(Pin({pin}))
+      pwm_ids[{ID}].freq({frequency})
+      try:
+          pwm_ids[{ID}].duty({duty})
+      except:
+          pwm_ids[{ID}].duty_u16({duty})
+    params: &pwm_params
+      - {name: ID, kind: number, label: "PWM #", default: 0, min: 0, max: 50, precision: 1}
+      - {name: pin, label: Pin, pin: true, default: 1}
+      - {name: frequency, label: Frequency, type: Number, default: 1000, integer: true}
+      - {name: duty, label: Duty, type: Number, default: 50, integer: true}
+
+  - type: pwm_pico
+    label: []
+    tooltip: Init and set PWM with frequency (1Hz to 40MHz) and duty (0-1023)
+    boards: [3pi_2040]
+    import: *pwm_imports
+    code: |-
+      pwm_ids[{ID}] = PWM(Pin({pin}))
+      pwm_ids[{ID}].freq({frequency})
+      pwm_ids[{ID}].duty_u16({duty})
+    params:
+      - {name: ID, kind: number, label: "RPi Pico PWM #", default: 0, min: 0, max: 50,
+         precision: 1}
+      - {name: pin, label: Pin, pin: true, default: 1}
+      - {name: frequency, label: Frequency, type: Number, default: 1000, integer: true}
+      - {name: duty, label: Duty, type: Number, default: 50, integer: true}
+
+  - type: "pwm.freq"
+    label: []
+    tooltip: Set PWM frequency from 1Hz to 40MHz
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
+             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: *pwm_imports
+    code: "pwm_ids[{ID}].freq({frequency})"
+    params:
+      - {name: ID, kind: number, label: "PWM #", default: 0, min: 0, max: 50,
+         precision: 1, row: next}
+      - {name: frequency, label: frequency, type: Number, default: 1000, align: right,
+         integer: true}
+
+  - type: "pwm.duty"
+    label: []
+    tooltip: Set PWM duty range of 0-1023
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266, makernano,
+             makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: *pwm_imports
+    code: |-
+      try:
+          pwm_ids[{ID}].duty({duty})
+      except:
+          pwm_ids[{ID}].duty_u16({duty})
+    params:
+      - {name: ID, kind: number, label: "PWM #", default: 0, min: 0, max: 50,
+         precision: 1, row: next}
+      - {name: duty, label: duty, type: Number, default: 50, align: right, integer: true}
+
+  - type: "pwm.duty_pico"
+    label: []
+    tooltip: Set PWM duty range of 0-1023
+    boards: [3pi_2040]
+    import: *pwm_imports
+    code: "pwm_ids[{ID}].duty_u16({duty})"
+    params:
+      - {name: ID, kind: number, label: "PWM #", default: 0, min: 0, max: 50,
+         precision: 1, row: next}
+      - {name: duty, label: duty, type: Number, default: 50, align: right, integer: true}
+
+  - type: "pwm.init"
+    label: []
+    tooltip: Init PWM
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
+             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    import: *pwm_imports
+    code: "pwm_ids[{ID}] = PWM(Pin({pin}))"
+    params:
+      - {name: ID, kind: number, label: "PWM #", default: 0, min: 0, max: 50,
+         precision: 1, row: next}
+      - {name: pin, label: init, pin: true, default: 1}
+
+  - type: "pwm.deinit"
+    label: []
+    tooltip: Deinit PWM
+    import: *pwm_imports
+    code: "pwm_ids[{ID}].deinit()"
+    params:
+      - {name: ID, kind: number, label: "deinit PWM #", default: 0, min: 0, max: 50,
+         precision: 1}

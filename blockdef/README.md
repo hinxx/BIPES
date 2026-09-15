@@ -253,6 +253,7 @@ as usual.
 | `shadow` | `false` leaves the socket empty in the toolbox. |
 | `plug` | a real block in the socket in the toolbox, instead of a shadow. |
 | `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off -- either kind, and the escaping with them. Anything that is not a quoted literal is left alone. |
+| `integer` | warn on the block when a float is plugged in, because the board cannot take one there. The five PWM blocks are the only users, and it replaces the `check()` method they carried. |
 | `row` | `next` puts this field on the following param's row instead of a row of its own. |
 | `suffix` | label after the field, for a row that ends in text. |
 
