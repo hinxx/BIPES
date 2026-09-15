@@ -485,7 +485,11 @@ Blockly.Python['easymqtt_subscribe'] = function(block) {
 
   Blockly.Python.definitions_['import_robust'] = 'import robust';
   var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-  var funct_code = Blockly.Python.statementToCode(block, 'do');
+  // Same as `timer` above: an empty `do` socket made a function with no body,
+  // and `globals` is empty too when the program has no variables, so what came
+  // out was `def easymqtt__(data):` and two blank lines.
+  var funct_code = Blockly.Python.statementToCode(block, 'do') ||
+      Blockly.Python.PASS;
   var name = topic.replace(/\W/g, '_');
 
   var function_name = Blockly.Python.provideFunction_(
@@ -1352,7 +1356,10 @@ Blockly.Python['utime.deadline'] = function(block) {
   var value_id = block.getFieldValue('ID');
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_NONE);
   var dropdown_scale = block.getFieldValue('SCALE');
-  var statements_do = Blockly.Python.statementToCode(block, 'DO');
+  // An empty `do` socket left the `while` with no body: an IndentationError,
+  // which is what this block emitted straight out of six flyouts.
+  var statements_do = Blockly.Python.statementToCode(block, 'DO') ||
+      Blockly.Python.PASS;
 
   var code = `deadline${value_id} = utime.ticks_add(utime.${dropdown_scale}(), ${value_time})\nwhile utime.ticks_diff(deadline${value_id}, utime.${dropdown_scale}()) > 0:\n${statements_do}\n`;
   return code;
@@ -1373,7 +1380,12 @@ Blockly.Python['timer'] = function(block) {
 
   var interval = block.getFieldValue('interval');
   var timerNumber = block.getFieldValue('timerNumber');
-  var statements_name = Blockly.Python.statementToCode(block, 'statements');
+  // An empty socket left the callback with no body at all -- `def
+  // timerFunc0(t):` followed by nothing, which is an IndentationError, and
+  // that is how the block arrives from all twelve flyouts. PASS is one
+  // indented `pass`, the same answer the try/except blocks got.
+  var statements_name = Blockly.Python.statementToCode(block, 'statements') ||
+      Blockly.Python.PASS;
   var dropdown_mode = block.getFieldValue('MODE');
   
   // Fix for global variables inside callback
@@ -1699,10 +1711,6 @@ Blockly.Python['bluetooth_pico_w_receive'] = function(block) {
 	globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
 
 	Blockly.Python.definitions_[`bluetooth_rcv_interrupt`] = `\n#Interrupt handler\ndef on_rx(${t}):\n${globals}\n  ${t} = ${t}.decode()\n${statements_code}\n\n`;
-
-	var code = 'def on_rx(' + t + '):\n'
-
-	code+= '	print("Data received: ", ' + t + '.decode())\n'
 
 	var code = 'sp.on_write(on_rx)\n';
 	return code;
