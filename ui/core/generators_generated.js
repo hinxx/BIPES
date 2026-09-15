@@ -2712,6 +2712,37 @@ Blockly.Python['gy33_uart_get_processed'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Gyro Turn Angle (gyro.blockdef.yaml) ------------------------------------
+
+Blockly.Python['gyro_init'] = function(block) {
+  Blockly.Python.definitions_["import_gyro"] = "from gyro import gyro_setup, gyro_stop, gyro_turn, gyro_reset";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "gyro_setup(" + bus_ + ", addr=" + addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gyro_turn'] = function(block) {
+  Blockly.Python.definitions_["import_gyro"] = "from gyro import gyro_setup, gyro_stop, gyro_turn, gyro_reset";
+  var code = "gyro_turn()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gyro_reset'] = function(block) {
+  Blockly.Python.definitions_["import_gyro"] = "from gyro import gyro_setup, gyro_stop, gyro_turn, gyro_reset";
+  var code = "gyro_reset()";
+  return code + "\n";
+};
+
+Blockly.Python['gyro_stop'] = function(block) {
+  Blockly.Python.definitions_["import_gyro"] = "from gyro import gyro_setup, gyro_stop, gyro_turn, gyro_reset";
+  var code = "gyro_stop()";
+  return code + "\n";
+};
+
 // ---- Hall Sensor OH34N (hall_sensor_oh34n.blockdef.yaml) ---------------------
 
 Blockly.Python['hall_sensor_oh34n_init'] = function(block) {

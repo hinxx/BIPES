@@ -1,0 +1,67 @@
+# MPU-6050 as a turn-angle sensor: how far has the robot turned, left or right.
+#
+# From setownley/BIPES, and a different thing from the MPU6050 category next to
+# it. That one reads the chip -- acceleration and rate on three axes, whatever
+# the instant it is asked. This one answers the question a robot lesson
+# actually asks, "have I turned 90 degrees yet", which is the rate added up
+# over time and therefore needs sampling whether or not anyone is looking.
+#
+# The fork learned that the hard way: an earlier version only advanced the
+# angle when the block was read, so `reset / read / wait 1 second` took one
+# instantaneous sample and multiplied it by the whole second, and a 90 degree
+# turn read as about 8. gyro.py samples at 50 Hz on Timer 1 instead -- Timer 0
+# is robot.py's -- and the read block returns the running total, so polling it
+# once or a thousand times a second gives the same answer.
+#
+# The blocks go where the robot is: the sampler is a background timer and a
+# shared I2C bus, which is a lot of machinery to hand a board that only wants
+# to know which way up it is. The raw MPU6050 blocks are on every board.
+
+module: gyro
+colour: 20
+import: {line: "from gyro import gyro_setup, gyro_stop, gyro_turn, gyro_reset", key: import_gyro}
+
+category:
+  name: Gyro Turn Angle
+  labels:
+    - MPU-6050, turn angle only
+    - Keep the robot still for half a second after Start -- it calibrates
+  library: gyro
+  toolboxes: [esp32c3]
+
+blocks:
+  - type: gyro_init
+    fn: gyro_setup
+    label:
+      - Start MPU-6050 gyro
+      - {image: {src: media/mpu6050.png, width: 55, height: 55}}
+    tooltip: Wake the gyro, measure its resting drift and start sampling in the
+      background. Keep the robot still while it calibrates.
+    colour: 135
+    # 104 is 0x68, the address with AD0 low; a module with AD0 tied high is 105.
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    args: [bus, addr]
+    params:
+      - {name: i2c,  label: I2C, type: Number, default: 0, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: addr, label: I2C Address, type: Number, default: 104,
+         align: right, keyword: addr}
+
+  - type: gyro_turn
+    fn: gyro_turn
+    kind: value
+    output: Number
+    label: "turn angle in degrees (+ right, - left)"
+    tooltip: Degrees turned since the last reset, to a tenth of a degree.
+
+  - type: gyro_reset
+    fn: gyro_reset
+    label: reset turn angle to 0
+    tooltip: Set the angle back to zero. Do it immediately before each turn.
+
+  - type: gyro_stop
+    fn: gyro_stop
+    label: stop gyro
+    tooltip: Stop sampling and give Timer 1 back. Worth doing at the end of a
+      program, or before code that needs the I2C bus to itself.

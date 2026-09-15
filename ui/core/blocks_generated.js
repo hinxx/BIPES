@@ -5525,6 +5525,69 @@ Blockly.Blocks['gy33_uart_get_processed'] = {
   }
 };
 
+// ---- Gyro Turn Angle (gyro.blockdef.yaml) ------------------------------------
+
+Blockly.Blocks['gyro_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Start MPU-6050 gyro");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mpu6050.png", 55, 55, "*"));
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("Wake the gyro, measure its resting drift and start sampling in the background. Keep the robot still while it calibrates.");
+  }
+};
+
+Blockly.Blocks['gyro_turn'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("turn angle in degrees (+ right, - left)");
+    this.setOutput(true, "Number");
+    this.setColour(20);
+    this.setTooltip("Degrees turned since the last reset, to a tenth of a degree.");
+  }
+};
+
+Blockly.Blocks['gyro_reset'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("reset turn angle to 0");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("Set the angle back to zero. Do it immediately before each turn.");
+  }
+};
+
+Blockly.Blocks['gyro_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("stop gyro");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("Stop sampling and give Timer 1 back. Worth doing at the end of a program, or before code that needs the I2C bus to itself.");
+  }
+};
+
 // ---- Hall Sensor OH34N (hall_sensor_oh34n.blockdef.yaml) ---------------------
 
 Blockly.Blocks['hall_sensor_oh34n_init'] = {
