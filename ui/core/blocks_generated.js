@@ -12246,6 +12246,648 @@ Blockly.Blocks['inter_init'] = {
   }
 };
 
+// ---- R60ABD1 Sensor (r60abd1.blockdef.yaml) ----------------------------------
+
+Blockly.Blocks['r60abd1_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/r60abd1.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init R60ABD1 Sensor");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("parse_interval")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Parse Interval (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init R60ABD1 mmWave radar via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_reset_module'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Reset R60ABD1 Module");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Reset the radar module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_device_info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1")
+        .appendField(new Blockly.FieldDropdown([["Product Model", "query_product_model"], ["Product ID", "query_product_id"], ["Hardware Model", "query_hardware_model"], ["Firmware Version", "query_firmware_version"]]), "INFO_TYPE");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read one of the module's identification fields");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_heartbeat'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Heartbeat");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Heartbeat");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_init_complete'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Init Complete");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Init Complete");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_radar_range'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Radar Range");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Radar Range");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_presence_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Presence Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Presence Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_presence_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Presence Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Presence Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_motion_info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Motion Info");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Motion Info");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_motion_param'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Motion Param");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Motion Param");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_human_distance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Human Distance");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Human Distance");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_human_direction'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Human Direction");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Human Direction");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_hr_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 HR Monitor Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 HR Monitor Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_hr_wave_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 HR Waveform Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 HR Waveform Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_heart_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Heart Rate Value");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Heart Rate Value");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_hr_waveform'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 HR Waveform");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 HR Waveform");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_breath_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Breath Monitor Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Breath Monitor Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_low_breath_threshold'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Low Breath Threshold");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Low Breath Threshold");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_breath_info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Breath Info");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Breath Info");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_breath_value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Breath Value");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Breath Value");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_breath_wave_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Breath Waveform Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Breath Waveform Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_breath_waveform'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Breath Waveform");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Breath Waveform");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Monitor Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Monitor Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_struggle_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Struggle Monitor Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Struggle Monitor Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_struggle_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Struggle Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Struggle Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_struggle_sensitivity'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Struggle Sensitivity");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Struggle Sensitivity");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_no_person_switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 No Person Timing Switch");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 No Person Timing Switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_no_person_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 No Person Duration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 No Person Duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_end_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep End Duration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep End Duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_no_person_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 No Person Timing Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 No Person Timing Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_bed_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Bed Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Bed Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_awake_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Awake Duration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Awake Duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_light_sleep_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Light Sleep Duration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Light Sleep Duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_deep_sleep_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Deep Sleep Duration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Deep Sleep Duration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_quality_score'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Quality Score");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Quality Score");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_comprehensive'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Comprehensive Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Comprehensive Status");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_anomaly'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Anomaly");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Anomaly");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_statistics'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Statistics");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Statistics");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_query_sleep_quality_level'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query R60ABD1 Sleep Quality Level");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Query R60ABD1 Sleep Quality Level");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_presence'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Human Presence")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "PRESENCE_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Human Presence");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_heart_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Heart Rate Monitor")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "HR_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Heart Rate Monitor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_hr_waveform'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 HR Waveform Report")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "HR_WAVE_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 HR Waveform Report");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_breath'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Breath Monitor")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "BREATH_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Breath Monitor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_breath_waveform'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Breath Waveform Report")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "BREATH_WAVE_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Breath Waveform Report");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_sleep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Sleep Monitor")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "SLEEP_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Sleep Monitor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_struggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Abnormal Struggle Monitor")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "STRUGGLE_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 Abnormal Struggle Monitor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_control_no_person_timing'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 No Person Timing")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "NO_PERSON_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set R60ABD1 No Person Timing");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_set_low_breath_threshold'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Low Breath Threshold");
+    this.appendValueInput("threshold")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (10-20)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set the low-breathing alarm threshold");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_set_struggle_sensitivity'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Struggle Sensitivity");
+    this.appendDummyInput()
+        .appendField("Level")
+        .appendField(new Blockly.FieldDropdown([["Low (0)", "0"], ["Medium (1)", "1"], ["High (2)", "2"]]), "SENSITIVITY");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set how readily the struggle alarm triggers");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_set_no_person_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 No Person Duration");
+    this.appendValueInput("duration")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Minutes (30-180, step 10)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set how long an empty room is timed for");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_set_sleep_end_duration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set R60ABD1 Sleep End Duration");
+    this.appendValueInput("duration")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Minutes (5-120)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set how long without a person ends a sleep session");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['r60abd1_close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Close R60ABD1 Sensor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop the parse timer and release the sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- RCWL9623 Distance Sensor (rcwl9623.blockdef.yaml) -----------------------
 
 Blockly.Blocks['rcwl9623_init'] = {

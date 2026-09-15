@@ -1,0 +1,243 @@
+# R60ABD1 60GHz mmWave presence radar -- the largest single family in the
+# fork, fifty-three blocks over one UART: presence, heart rate, breathing,
+# sleep staging and a struggle alarm.
+#
+# **The init block could not build the sensor.** It emitted
+# `DataProcessor(uart)` while importing `DataFlowProcessor`, and
+# `R60ABD1(...)` while importing the module as `r60abd1` -- two NameErrors
+# before the other fifty-two blocks had anything to talk to. Nothing in this
+# category worked.
+#
+# Every query returns `(ok, value)` and every block takes `[1]`, which is the
+# fork's convention and is kept: a block that returned the pair would need a
+# second block to open it.
+#
+# Three dead sockets beside number fields (`threshold` and the two
+# durations), and the eight on/off blocks each branched in JavaScript between
+# an `enable_` and a `disable_` method -- one dropdown with `emit:` says the
+# same thing once.
+
+module: r60abd1
+class: R60ABD1
+instance: r60abd1_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import r60abd1", key: import_r60abd1}
+
+category:
+  name: R60ABD1 Sensor
+  library: [r60abd1, data_flow_processor]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - R60ABD1 60GHz mmWave Presence Radar (UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: r60abd1_init
+    label:
+      - {image: {src: media/r60abd1.png, width: 55, height: 55}}
+      - Init R60ABD1 Sensor
+    tooltip: Init R60ABD1 mmWave radar via UART
+    import:
+      - {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+      - {line: "from data_flow_processor import DataFlowProcessor", key: import_dfp}
+    code: |-
+      uart_r60abd1 = UART({uart_port}, baudrate=115200, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      data_processor = DataFlowProcessor(uart_r60abd1)
+      {instance} = r60abd1.R60ABD1(data_processor, parse_interval={parse_interval})
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: parse_interval, label: Parse Interval (ms), type: Number,
+         default: 200, align: right}
+
+  - type: r60abd1_reset_module
+    fn: reset_module
+    label: Reset R60ABD1 Module
+    tooltip: Reset the radar module
+
+  - type: r60abd1_query_device_info
+    kind: value
+    label: []
+    tooltip: Read one of the module's identification fields
+    code: "{instance}.{INFO_TYPE}()[1]"
+    params:
+      - {name: INFO_TYPE, label: Query R60ABD1, kind: dropdown,
+         options: [{Product Model: query_product_model}, {Product ID: query_product_id},
+                   {Hardware Model: query_hardware_model},
+                   {Firmware Version: query_firmware_version}]}
+  - {type: r60abd1_query_heartbeat, kind: value, label: Query R60ABD1 Heartbeat,
+     tooltip: Query R60ABD1 Heartbeat, code: "{instance}.query_heartbeat()[1]"}
+  - {type: r60abd1_query_init_complete, kind: value, label: Query R60ABD1 Init Complete,
+     tooltip: Query R60ABD1 Init Complete, code: "{instance}.query_init_complete()[1]"}
+  - {type: r60abd1_query_radar_range, kind: value, label: Query R60ABD1 Radar Range,
+     tooltip: Query R60ABD1 Radar Range, code: "{instance}.query_radar_range_boundary()[1]"}
+  - {type: r60abd1_query_presence_switch, kind: value, label: Query R60ABD1 Presence Switch,
+     tooltip: Query R60ABD1 Presence Switch, code: "{instance}.query_human_presence_switch()[1]"}
+  - {type: r60abd1_query_presence_status, kind: value, label: Query R60ABD1 Presence Status,
+     tooltip: Query R60ABD1 Presence Status, code: "{instance}.query_presence_status()[1]"}
+  - {type: r60abd1_query_motion_info, kind: value, label: Query R60ABD1 Motion Info,
+     tooltip: Query R60ABD1 Motion Info, code: "{instance}.query_human_motion_info()[1]"}
+  - {type: r60abd1_query_motion_param, kind: value, label: Query R60ABD1 Motion Param,
+     tooltip: Query R60ABD1 Motion Param, code: "{instance}.query_human_body_motion_param()[1]"}
+  - {type: r60abd1_query_human_distance, kind: value, label: Query R60ABD1 Human Distance,
+     tooltip: Query R60ABD1 Human Distance, code: "{instance}.query_human_distance()[1]"}
+  - {type: r60abd1_query_human_direction, kind: value, label: Query R60ABD1 Human Direction,
+     tooltip: Query R60ABD1 Human Direction, code: "{instance}.query_human_direction()[1]"}
+  - {type: r60abd1_query_hr_switch, kind: value, label: Query R60ABD1 HR Monitor Switch,
+     tooltip: Query R60ABD1 HR Monitor Switch, code: "{instance}.query_heart_rate_monitor_switch()[1]"}
+  - {type: r60abd1_query_hr_wave_switch, kind: value, label: Query R60ABD1 HR Waveform Switch,
+     tooltip: Query R60ABD1 HR Waveform Switch, code: "{instance}.query_heart_rate_waveform_report_switch()[1]"}
+  - {type: r60abd1_query_heart_rate, kind: value, label: Query R60ABD1 Heart Rate Value,
+     tooltip: Query R60ABD1 Heart Rate Value, code: "{instance}.query_heart_rate_value()[1]"}
+  - {type: r60abd1_query_hr_waveform, kind: value, label: Query R60ABD1 HR Waveform,
+     tooltip: Query R60ABD1 HR Waveform, code: "{instance}.query_heart_rate_waveform()[1]"}
+  - {type: r60abd1_query_breath_switch, kind: value, label: Query R60ABD1 Breath Monitor Switch,
+     tooltip: Query R60ABD1 Breath Monitor Switch, code: "{instance}.query_breath_monitor_switch()[1]"}
+  - {type: r60abd1_query_low_breath_threshold, kind: value, label: Query R60ABD1 Low Breath Threshold,
+     tooltip: Query R60ABD1 Low Breath Threshold, code: "{instance}.query_low_breath_threshold()[1]"}
+  - {type: r60abd1_query_breath_info, kind: value, label: Query R60ABD1 Breath Info,
+     tooltip: Query R60ABD1 Breath Info, code: "{instance}.query_breath_info()[1]"}
+  - {type: r60abd1_query_breath_value, kind: value, label: Query R60ABD1 Breath Value,
+     tooltip: Query R60ABD1 Breath Value, code: "{instance}.query_breath_value()[1]"}
+  - {type: r60abd1_query_breath_wave_switch, kind: value, label: Query R60ABD1 Breath Waveform Switch,
+     tooltip: Query R60ABD1 Breath Waveform Switch, code: "{instance}.query_breath_waveform_report_switch()[1]"}
+  - {type: r60abd1_query_breath_waveform, kind: value, label: Query R60ABD1 Breath Waveform,
+     tooltip: Query R60ABD1 Breath Waveform, code: "{instance}.query_breath_waveform()[1]"}
+  - {type: r60abd1_query_sleep_switch, kind: value, label: Query R60ABD1 Sleep Monitor Switch,
+     tooltip: Query R60ABD1 Sleep Monitor Switch, code: "{instance}.query_sleep_monitor_switch()[1]"}
+  - {type: r60abd1_query_struggle_switch, kind: value, label: Query R60ABD1 Struggle Monitor Switch,
+     tooltip: Query R60ABD1 Struggle Monitor Switch, code: "{instance}.query_abnormal_struggle_switch()[1]"}
+  - {type: r60abd1_query_struggle_status, kind: value, label: Query R60ABD1 Struggle Status,
+     tooltip: Query R60ABD1 Struggle Status, code: "{instance}.query_abnormal_struggle_status()[1]"}
+  - {type: r60abd1_query_struggle_sensitivity, kind: value, label: Query R60ABD1 Struggle Sensitivity,
+     tooltip: Query R60ABD1 Struggle Sensitivity, code: "{instance}.query_struggle_sensitivity()[1]"}
+  - {type: r60abd1_query_no_person_switch, kind: value, label: Query R60ABD1 No Person Timing Switch,
+     tooltip: Query R60ABD1 No Person Timing Switch, code: "{instance}.query_no_person_timing_switch()[1]"}
+  - {type: r60abd1_query_no_person_duration, kind: value, label: Query R60ABD1 No Person Duration,
+     tooltip: Query R60ABD1 No Person Duration, code: "{instance}.query_no_person_timing_duration()[1]"}
+  - {type: r60abd1_query_sleep_end_duration, kind: value, label: Query R60ABD1 Sleep End Duration,
+     tooltip: Query R60ABD1 Sleep End Duration, code: "{instance}.query_sleep_end_duration()[1]"}
+  - {type: r60abd1_query_no_person_status, kind: value, label: Query R60ABD1 No Person Timing Status,
+     tooltip: Query R60ABD1 No Person Timing Status, code: "{instance}.query_no_person_timing_status()[1]"}
+  - {type: r60abd1_query_bed_status, kind: value, label: Query R60ABD1 Bed Status,
+     tooltip: Query R60ABD1 Bed Status, code: "{instance}.query_bed_status()[1]"}
+  - {type: r60abd1_query_sleep_status, kind: value, label: Query R60ABD1 Sleep Status,
+     tooltip: Query R60ABD1 Sleep Status, code: "{instance}.query_sleep_status()[1]"}
+  - {type: r60abd1_query_awake_duration, kind: value, label: Query R60ABD1 Awake Duration,
+     tooltip: Query R60ABD1 Awake Duration, code: "{instance}.query_awake_duration()[1]"}
+  - {type: r60abd1_query_light_sleep_duration, kind: value, label: Query R60ABD1 Light Sleep Duration,
+     tooltip: Query R60ABD1 Light Sleep Duration, code: "{instance}.query_light_sleep_duration()[1]"}
+  - {type: r60abd1_query_deep_sleep_duration, kind: value, label: Query R60ABD1 Deep Sleep Duration,
+     tooltip: Query R60ABD1 Deep Sleep Duration, code: "{instance}.query_deep_sleep_duration()[1]"}
+  - {type: r60abd1_query_sleep_quality_score, kind: value, label: Query R60ABD1 Sleep Quality Score,
+     tooltip: Query R60ABD1 Sleep Quality Score, code: "{instance}.query_sleep_quality_score()[1]"}
+  - {type: r60abd1_query_sleep_comprehensive, kind: value, label: Query R60ABD1 Sleep Comprehensive Status,
+     tooltip: Query R60ABD1 Sleep Comprehensive Status, code: "{instance}.query_sleep_comprehensive_status()[1]"}
+  - {type: r60abd1_query_sleep_anomaly, kind: value, label: Query R60ABD1 Sleep Anomaly,
+     tooltip: Query R60ABD1 Sleep Anomaly, code: "{instance}.query_sleep_anomaly()[1]"}
+  - {type: r60abd1_query_sleep_statistics, kind: value, label: Query R60ABD1 Sleep Statistics,
+     tooltip: Query R60ABD1 Sleep Statistics, code: "{instance}.query_sleep_statistics()[1]"}
+  - {type: r60abd1_query_sleep_quality_level, kind: value, label: Query R60ABD1 Sleep Quality Level,
+     tooltip: Query R60ABD1 Sleep Quality Level, code: "{instance}.query_sleep_quality_level()[1]"}
+  - type: r60abd1_control_presence
+    label: []
+    tooltip: Set R60ABD1 Human Presence
+    code: "{instance}.{PRESENCE_STATE}()"
+    params:
+      - {name: PRESENCE_STATE, label: Set R60ABD1 Human Presence, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_human_presence, OFF: disable_human_presence}}
+  - type: r60abd1_control_heart_rate
+    label: []
+    tooltip: Set R60ABD1 Heart Rate Monitor
+    code: "{instance}.{HR_STATE}()"
+    params:
+      - {name: HR_STATE, label: Set R60ABD1 Heart Rate Monitor, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_heart_rate_monitor, OFF: disable_heart_rate_monitor}}
+  - type: r60abd1_control_hr_waveform
+    label: []
+    tooltip: Set R60ABD1 HR Waveform Report
+    code: "{instance}.{HR_WAVE_STATE}()"
+    params:
+      - {name: HR_WAVE_STATE, label: Set R60ABD1 HR Waveform Report, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_heart_rate_waveform_report, OFF: disable_heart_rate_waveform_report}}
+  - type: r60abd1_control_breath
+    label: []
+    tooltip: Set R60ABD1 Breath Monitor
+    code: "{instance}.{BREATH_STATE}()"
+    params:
+      - {name: BREATH_STATE, label: Set R60ABD1 Breath Monitor, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_breath_monitor, OFF: disable_breath_monitor}}
+  - type: r60abd1_control_breath_waveform
+    label: []
+    tooltip: Set R60ABD1 Breath Waveform Report
+    code: "{instance}.{BREATH_WAVE_STATE}()"
+    params:
+      - {name: BREATH_WAVE_STATE, label: Set R60ABD1 Breath Waveform Report, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_breath_waveform_report, OFF: disable_breath_waveform_report}}
+  - type: r60abd1_control_sleep
+    label: []
+    tooltip: Set R60ABD1 Sleep Monitor
+    code: "{instance}.{SLEEP_STATE}()"
+    params:
+      - {name: SLEEP_STATE, label: Set R60ABD1 Sleep Monitor, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_sleep_monitor, OFF: disable_sleep_monitor}}
+  - type: r60abd1_control_struggle
+    label: []
+    tooltip: Set R60ABD1 Abnormal Struggle Monitor
+    code: "{instance}.{STRUGGLE_STATE}()"
+    params:
+      - {name: STRUGGLE_STATE, label: Set R60ABD1 Abnormal Struggle Monitor, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_abnormal_struggle_monitor, OFF: disable_abnormal_struggle_monitor}}
+  - type: r60abd1_control_no_person_timing
+    label: []
+    tooltip: Set R60ABD1 No Person Timing
+    code: "{instance}.{NO_PERSON_STATE}()"
+    params:
+      - {name: NO_PERSON_STATE, label: Set R60ABD1 No Person Timing, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: enable_no_person_timing, OFF: disable_no_person_timing}}
+  - type: r60abd1_set_low_breath_threshold
+    fn: set_low_breath_threshold
+    label: Set R60ABD1 Low Breath Threshold
+    tooltip: Set the low-breathing alarm threshold
+    params:
+      - {name: threshold, label: Value (10-20), type: Number, default: 10, align: right}
+
+  - type: r60abd1_set_struggle_sensitivity
+    fn: set_struggle_sensitivity
+    label: Set R60ABD1 Struggle Sensitivity
+    tooltip: Set how readily the struggle alarm triggers
+    params:
+      - {name: SENSITIVITY, label: Level, kind: dropdown,
+         options: [{Low (0): "0"}, {Medium (1): "1"}, {High (2): "2"}]}
+
+  - type: r60abd1_set_no_person_duration
+    fn: set_no_person_timing_duration
+    label: Set R60ABD1 No Person Duration
+    tooltip: Set how long an empty room is timed for
+    params:
+      - {name: duration, label: "Minutes (30-180, step 10)", type: Number,
+         default: 30, align: right}
+
+  - type: r60abd1_set_sleep_end_duration
+    fn: set_sleep_end_duration
+    label: Set R60ABD1 Sleep End Duration
+    tooltip: Set how long without a person ends a sleep session
+    params:
+      - {name: duration, label: Minutes (5-120), type: Number, default: 120,
+         align: right}
+
+  - type: r60abd1_close
+    fn: close
+    label: Close R60ABD1 Sensor
+    tooltip: Stop the parse timer and release the sensor

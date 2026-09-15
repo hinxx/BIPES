@@ -3101,6 +3101,160 @@
   </category>
   <!-- /blockdef:vibration_sensor -->
 
+  <!-- blockdef:r60abd1 -->
+  <category name="R60ABD1 Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="R60ABD1 60GHz mmWave Presence Radar (UART)"></label>
+    <button text="Install r60abd1 library" callbackKey="installPyLib"></button>
+    <button text="Install data_flow_processor library" callbackKey="installPyLib"></button>
+
+    <block type="r60abd1_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="parse_interval">
+        <shadow type="math_number">
+          <field name="NUM">200</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="r60abd1_reset_module"></block>
+
+    <block type="r60abd1_query_device_info"></block>
+
+    <block type="r60abd1_query_heartbeat"></block>
+
+    <block type="r60abd1_query_init_complete"></block>
+
+    <block type="r60abd1_query_radar_range"></block>
+
+    <block type="r60abd1_query_presence_switch"></block>
+
+    <block type="r60abd1_query_presence_status"></block>
+
+    <block type="r60abd1_query_motion_info"></block>
+
+    <block type="r60abd1_query_motion_param"></block>
+
+    <block type="r60abd1_query_human_distance"></block>
+
+    <block type="r60abd1_query_human_direction"></block>
+
+    <block type="r60abd1_query_hr_switch"></block>
+
+    <block type="r60abd1_query_hr_wave_switch"></block>
+
+    <block type="r60abd1_query_heart_rate"></block>
+
+    <block type="r60abd1_query_hr_waveform"></block>
+
+    <block type="r60abd1_query_breath_switch"></block>
+
+    <block type="r60abd1_query_low_breath_threshold"></block>
+
+    <block type="r60abd1_query_breath_info"></block>
+
+    <block type="r60abd1_query_breath_value"></block>
+
+    <block type="r60abd1_query_breath_wave_switch"></block>
+
+    <block type="r60abd1_query_breath_waveform"></block>
+
+    <block type="r60abd1_query_sleep_switch"></block>
+
+    <block type="r60abd1_query_struggle_switch"></block>
+
+    <block type="r60abd1_query_struggle_status"></block>
+
+    <block type="r60abd1_query_struggle_sensitivity"></block>
+
+    <block type="r60abd1_query_no_person_switch"></block>
+
+    <block type="r60abd1_query_no_person_duration"></block>
+
+    <block type="r60abd1_query_sleep_end_duration"></block>
+
+    <block type="r60abd1_query_no_person_status"></block>
+
+    <block type="r60abd1_query_bed_status"></block>
+
+    <block type="r60abd1_query_sleep_status"></block>
+
+    <block type="r60abd1_query_awake_duration"></block>
+
+    <block type="r60abd1_query_light_sleep_duration"></block>
+
+    <block type="r60abd1_query_deep_sleep_duration"></block>
+
+    <block type="r60abd1_query_sleep_quality_score"></block>
+
+    <block type="r60abd1_query_sleep_comprehensive"></block>
+
+    <block type="r60abd1_query_sleep_anomaly"></block>
+
+    <block type="r60abd1_query_sleep_statistics"></block>
+
+    <block type="r60abd1_query_sleep_quality_level"></block>
+
+    <block type="r60abd1_control_presence"></block>
+
+    <block type="r60abd1_control_heart_rate"></block>
+
+    <block type="r60abd1_control_hr_waveform"></block>
+
+    <block type="r60abd1_control_breath"></block>
+
+    <block type="r60abd1_control_breath_waveform"></block>
+
+    <block type="r60abd1_control_sleep"></block>
+
+    <block type="r60abd1_control_struggle"></block>
+
+    <block type="r60abd1_control_no_person_timing"></block>
+
+    <block type="r60abd1_set_low_breath_threshold">
+      <value name="threshold">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="r60abd1_set_struggle_sensitivity"></block>
+
+    <block type="r60abd1_set_no_person_duration">
+      <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">30</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="r60abd1_set_sleep_end_duration">
+      <value name="duration">
+        <shadow type="math_number">
+          <field name="NUM">120</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="r60abd1_close"></block>
+  </category>
+  <!-- /blockdef:r60abd1 -->
+
   <!-- blockdef:ad8232 -->
   <category name="AD8232 ECG Sensor">
     <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>

@@ -6012,6 +6012,345 @@ Blockly.Python['inter_init'] = function(block) {
   return code + "\n";
 };
 
+// ---- R60ABD1 Sensor (r60abd1.blockdef.yaml) ----------------------------------
+
+Blockly.Python['r60abd1_init'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  Blockly.Python.definitions_["import_dfp"] = "from data_flow_processor import DataFlowProcessor";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var parse_interval_ = Blockly.Python.valueToCode(block, "parse_interval", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_r60abd1 = UART(" + uart_port_ + ", baudrate=115200, tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\ndata_processor = DataFlowProcessor(uart_r60abd1)\nr60abd1_sensor = r60abd1.R60ABD1(data_processor, parse_interval=" + parse_interval_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_reset_module'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.reset_module()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_query_device_info'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var INFO_TYPE_ = block.getFieldValue("INFO_TYPE");
+  var code = "r60abd1_sensor." + INFO_TYPE_ + "()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_heartbeat'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_heartbeat()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_init_complete'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_init_complete()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_radar_range'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_radar_range_boundary()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_presence_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_human_presence_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_presence_status'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_presence_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_motion_info'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_human_motion_info()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_motion_param'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_human_body_motion_param()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_human_distance'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_human_distance()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_human_direction'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_human_direction()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_hr_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_heart_rate_monitor_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_hr_wave_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_heart_rate_waveform_report_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_heart_rate'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_heart_rate_value()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_hr_waveform'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_heart_rate_waveform()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_breath_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_breath_monitor_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_low_breath_threshold'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_low_breath_threshold()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_breath_info'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_breath_info()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_breath_value'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_breath_value()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_breath_wave_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_breath_waveform_report_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_breath_waveform'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_breath_waveform()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_monitor_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_struggle_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_abnormal_struggle_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_struggle_status'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_abnormal_struggle_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_struggle_sensitivity'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_struggle_sensitivity()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_no_person_switch'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_no_person_timing_switch()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_no_person_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_no_person_timing_duration()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_end_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_end_duration()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_no_person_status'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_no_person_timing_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_bed_status'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_bed_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_status'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_awake_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_awake_duration()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_light_sleep_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_light_sleep_duration()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_deep_sleep_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_deep_sleep_duration()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_quality_score'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_quality_score()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_comprehensive'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_comprehensive_status()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_anomaly'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_anomaly()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_statistics'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_statistics()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_query_sleep_quality_level'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.query_sleep_quality_level()[1]";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['r60abd1_control_presence'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var PRESENCE_STATE_ = {"ON": "enable_human_presence", "OFF": "disable_human_presence"}[block.getFieldValue("PRESENCE_STATE")];
+  var code = "r60abd1_sensor." + PRESENCE_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_heart_rate'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var HR_STATE_ = {"ON": "enable_heart_rate_monitor", "OFF": "disable_heart_rate_monitor"}[block.getFieldValue("HR_STATE")];
+  var code = "r60abd1_sensor." + HR_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_hr_waveform'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var HR_WAVE_STATE_ = {"ON": "enable_heart_rate_waveform_report", "OFF": "disable_heart_rate_waveform_report"}[block.getFieldValue("HR_WAVE_STATE")];
+  var code = "r60abd1_sensor." + HR_WAVE_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_breath'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var BREATH_STATE_ = {"ON": "enable_breath_monitor", "OFF": "disable_breath_monitor"}[block.getFieldValue("BREATH_STATE")];
+  var code = "r60abd1_sensor." + BREATH_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_breath_waveform'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var BREATH_WAVE_STATE_ = {"ON": "enable_breath_waveform_report", "OFF": "disable_breath_waveform_report"}[block.getFieldValue("BREATH_WAVE_STATE")];
+  var code = "r60abd1_sensor." + BREATH_WAVE_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_sleep'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var SLEEP_STATE_ = {"ON": "enable_sleep_monitor", "OFF": "disable_sleep_monitor"}[block.getFieldValue("SLEEP_STATE")];
+  var code = "r60abd1_sensor." + SLEEP_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_struggle'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var STRUGGLE_STATE_ = {"ON": "enable_abnormal_struggle_monitor", "OFF": "disable_abnormal_struggle_monitor"}[block.getFieldValue("STRUGGLE_STATE")];
+  var code = "r60abd1_sensor." + STRUGGLE_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_control_no_person_timing'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var NO_PERSON_STATE_ = {"ON": "enable_no_person_timing", "OFF": "disable_no_person_timing"}[block.getFieldValue("NO_PERSON_STATE")];
+  var code = "r60abd1_sensor." + NO_PERSON_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_set_low_breath_threshold'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var threshold_ = Blockly.Python.valueToCode(block, "threshold", Blockly.Python.ORDER_ATOMIC);
+  var code = "r60abd1_sensor.set_low_breath_threshold(" + threshold_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_set_struggle_sensitivity'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var SENSITIVITY_ = block.getFieldValue("SENSITIVITY");
+  var code = "r60abd1_sensor.set_struggle_sensitivity(" + SENSITIVITY_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_set_no_person_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var duration_ = Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC);
+  var code = "r60abd1_sensor.set_no_person_timing_duration(" + duration_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_set_sleep_end_duration'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var duration_ = Blockly.Python.valueToCode(block, "duration", Blockly.Python.ORDER_ATOMIC);
+  var code = "r60abd1_sensor.set_sleep_end_duration(" + duration_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['r60abd1_close'] = function(block) {
+  Blockly.Python.definitions_["import_r60abd1"] = "import r60abd1";
+  var code = "r60abd1_sensor.close()";
+  return code + "\n";
+};
+
 // ---- RCWL9623 Distance Sensor (rcwl9623.blockdef.yaml) -----------------------
 
 Blockly.Python['rcwl9623_init'] = function(block) {
