@@ -539,8 +539,12 @@ def _param(entry: Any, where: _Where) -> Param:
     if param.unquote and param.kind != 'input':
         raise BlockdefError(f'{at}: `unquote` is about the text a value block produces, '
                             f'so `kind` must be "input"')
-    if param.plug and param.kind != 'input':
-        raise BlockdefError(f'{at}: `plug` fills a socket, so `kind` must be "input"')
+    if param.plug and param.kind not in SOCKET_KINDS:
+        raise BlockdefError(f'{at}: `plug` fills a socket, so `kind` must be "input" or '
+                            f'"statements"')
+    if param.plug and param.kind == 'statements' and param.plug.get('shadow'):
+        raise BlockdefError(f'{at}: a statement socket takes a real block, not a shadow -- '
+                            f'Blockly has no shadow for a stack')
     if not param.suffix.empty and param.kind in SOCKET_KINDS:
         raise BlockdefError(f'{at}: `suffix` is the label after a field; a socket\'s label '
                             f'already comes last on its row')

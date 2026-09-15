@@ -2111,19 +2111,6 @@ Blockly.Blocks['google_spreadsheet'] = {
   }
 };
 
-Blockly.Blocks['cell_value'] = {
-  init: function() {
-    this.appendValueInput("value")
-        .setCheck(null)
-        .appendField("Cell");
-    this.setInputsInline(false);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
 // Blocos do Pluviômetro
 // Iniciar Pluviômetro
 // Parar Pluviômetro

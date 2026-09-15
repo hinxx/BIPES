@@ -279,7 +279,7 @@ as usual.
 | `emit` | dropdown only: option value → the Python it stands for, when they differ. |
 | `min`, `max`, `precision` | number field only. |
 | `shadow` | `false` leaves the socket empty in the toolbox. |
-| `plug` | a real block in the socket in the toolbox, instead of a shadow. |
+| `plug` | a real block in the socket in the toolbox, instead of a shadow. On a `statements` socket it is the only way to fill one. |
 | `unquote` | the value is pasted into the Python as code, so the quotes a text block adds come off -- either kind, and the escaping with them. Anything that is not a quoted literal is left alone. |
 | `integer` | warn on the block when a float is plugged in, because the board cannot take one there. The five PWM blocks are the only users, and it replaces the `check()` method they carried. |
 | `row` | `next` puts this field on the following param's row instead of a row of its own. |
@@ -304,13 +304,16 @@ params:
 
 An empty socket reads as `Blockly.Python.PASS`, one indented `pass`, because
 Python needs a body where a stack of blocks is missing. A `statements` param
-has no `type` and no `default` -- it holds blocks, not a value -- and gets no
-shadow in the toolbox.
+has no `type` and no `default` -- it holds blocks, not a value -- and no shadow
+either, because Blockly has none for a stack. What it can have is a `plug:`, a
+real block that starts the stack in the toolbox entry.
 
 A statement socket is not enough on its own for a block whose stack becomes a
 *callback*: `timer`, `gpio_interrupt` and `easymqtt_subscribe` also walk the
 workspace for the variables the callback has to declare `global`, which is
-computation and stays hand-written.
+computation and stays hand-written. `google_spreadsheet` walks its stack for a
+different reason -- it turns each block in it into one line of a dict -- and
+stays hand-written too, with its toolbox entry generated as an `external:`.
 
 ### Several things on one row
 
@@ -365,6 +368,17 @@ colour socket arrives:
 
 ```yaml
 - {name: color, label: Color, plug: {type: neopixel_color_colors, shadow: true}}
+```
+
+`plug:` works on a `statements` socket too, and there it is the only thing that
+can fill one: Blockly has no shadow for a stack, so a statement socket is either
+empty or starts with a real block. `google_spreadsheet` arrives with a cell in
+its Cells socket that way (`shadow: true` is refused there, for the same
+reason):
+
+```yaml
+- {name: cells_values, kind: statements,
+   plug: {type: cell_value, values: {value: Content}}}
 ```
 
 ### A note on YAML booleans

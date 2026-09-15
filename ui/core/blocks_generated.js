@@ -3336,6 +3336,20 @@ Blockly.Blocks['gc_threshold'] = {
   }
 };
 
+// ---- Google Sheets (google_sheets.blockdef.yaml) -----------------------------
+
+Blockly.Blocks['cell_value'] = {
+  init: function() {
+    this.appendValueInput("value")
+        .setCheck(null)
+        .appendField("Cell");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+  }
+};
+
 // ---- In/Out Pins (gpio.blockdef.yaml) ----------------------------------------
 
 Blockly.Blocks['gpio_set'] = {

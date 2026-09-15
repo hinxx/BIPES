@@ -1,0 +1,59 @@
+# Posting a row to a Google Sheet through an Apps Script deployment. Five
+# boards, all five identical, and the last category in the tree that was a
+# conversion rather than a decision.
+#
+# `google_spreadsheet` stays hand-written and is an `external:` entry: it walks
+# its own `Cells` stack with `blockToCode`, block by block, to build the dict it
+# posts. That is computation, like `timer`'s globals walk, and not something a
+# declaration can say. Two things about that walk were wrong, and are fixed in
+# `generator_stubs.js` in the same commit:
+#
+# * **An empty `Cells` socket threw.** `if (cells_blocks)` had no braces, so it
+#   guarded the `var num_cell = 0` and nothing else: the `do…while` ran anyway
+#   and ended on `null.getNextBlock()`, a TypeError *inside* the generator,
+#   which stops `workspaceToCode` producing code for the whole program. The
+#   flyout entry ships with a cell in the socket, which is why the sweep never
+#   caught it -- delete that cell and the program stops compiling.
+# * **An empty stack also made an empty `def`.** `def update_row_data1():`
+#   with no body is an IndentationError; it is `pass` now, like everything else
+#   here with a statement socket.
+#
+# What is *not* changed: the `Cells` socket accepts any statement block at all,
+# so a `delay` in there emits `row_data1["var1"] = time.sleep(1)`. Restricting
+# it needs a connection check on two blocks, and would bump such a block out of
+# any saved program that has one. A decision about the blocks.
+#
+# `cell_value` is a declaration and is generated. Its `value` socket keeps
+# `setCheck(null)` -- a cell can hold a number as happily as a string -- which
+# is what `type:` being absent with a string `default:` means.
+
+module: prequests
+colour: 230
+import: []
+
+category:
+  name: Google Sheets
+  library: prequests
+  labels:
+    - Send files to a Google Spreadsheet
+    - "Library: https://gist.github.com/SpotlightKid/8637c685626b334e5c0ec341dd269c44"
+  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp8266]
+
+blocks:
+  # The `<field name="sheet_num">1</field>` every toolbox pinned is the field's
+  # own default, so it was doing nothing and is gone -- the same preset that
+  # `exec_python_output` and the DHT blocks carried.
+  - type: google_spreadsheet
+    external: true
+    params:
+      - {name: deploy_code, type: String, default: Deploy code, align: right}
+      - {name: cells_values, kind: statements,
+         plug: {type: cell_value, values: {value: Content}}}
+
+  - type: cell_value
+    label: []
+    tooltip: ""
+    url: ""
+    code: "{value}"
+    params:
+      - {name: value, label: Cell, default: content}

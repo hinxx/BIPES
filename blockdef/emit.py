@@ -475,9 +475,10 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
             continue
         lines.append(f'  <block type="{entry.type}">')
         for param, shadow in shadows:
-            lines.append(f'    <value name="{param.name}">')
+            tag = 'statement' if param.kind == 'statements' else 'value'
+            lines.append(f'    <{tag} name="{param.name}">')
             lines.extend('      ' + s for s in shadow)
-            lines.append('    </value>')
+            lines.append(f'    </{tag}>')
         for name, value in entry.fields.items():
             lines.append(f'    <field name="{_xml(name)}">{_xml(value)}</field>')
         lines.append('  </block>')
@@ -505,8 +506,13 @@ _UNSET = object()
 
 def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
     """The block sitting in an empty socket, so the toolbox entry is usable."""
+    if param.kind == 'statements':
+        # A stack has no shadow -- Blockly has no such thing -- but a real
+        # block can start it, which is how `google_spreadsheet` arrives with a
+        # cell in it. `emit_category_xml` wraps this in <statement>, not <value>.
+        return _plug_xml(param.plug) if param.plug else None
     if param.kind != 'input':
-        return None         # a field has no socket, and a statement stack has no shadow
+        return None         # a field has no socket
     if param.plug:
         return _plug_xml(param.plug)
     if not param.shadow:

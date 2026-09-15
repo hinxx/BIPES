@@ -1850,34 +1850,41 @@ Blockly.Python['google_spreadsheet'] = function(block) {
 
   var number_sheet_num = block.getFieldValue('sheet_num');
   var value_deploy_code = Blockly.Python.valueToCode(block, 'deploy_code', Blockly.Python.ORDER_ATOMIC);
-  var cells_blocks = block.getInputTargetBlock('cells_values');
 
-  // TODO: Assemble Python into code variable.
   Blockly.Python.definitions_['post_data'] = 'def post_data(row_data, deployment_code):\n  request_data = ujson.dumps({"parameters": row_data})\n  r = prequests.post("https://script.google.com/macros/s/" + deployment_code + "/exec", headers = {"content-type": "application/json"}, data = request_data)\n  r.close()';
-  Blockly.Python.definitions_['deployment_code' + number_sheet_num] = 'deployment_code' + number_sheet_num + '= ' + value_deploy_code;
-  Blockly.Python.definitions_['row_data_' + number_sheet_num] = 'row_data' + number_sheet_num +' = {}';
+  Blockly.Python.definitions_['deployment_code' + number_sheet_num] =
+      'deployment_code' + number_sheet_num + ' = ' + value_deploy_code;
+  Blockly.Python.definitions_['row_data_' + number_sheet_num] =
+      'row_data' + number_sheet_num + ' = {}';
 
-  if(cells_blocks)
-  var num_cell = 0;
+  // Walk the Cells stack. This was a do/while behind a braceless `if`, so the
+  // loop ran even when the socket was empty and ended on null.getNextBlock() --
+  // a TypeError raised *inside* the generator, which stops the whole workspace
+  // producing any code at all. The flyout entry ships with a cell in the
+  // socket, so it took deleting that cell to see it.
   var row_data_def = '';
-    do{
-      var cell_value = Blockly.Python.blockToCode(cells_blocks, 'Cell');
-      row_data_def += ' row_data' + number_sheet_num +'["var' + num_cell+ '"] = ' + cell_value+'\n';
-      num_cell ++;
-    }while (cells_blocks = cells_blocks.getNextBlock());
+  var num_cell = 0;
+  for (var cell = block.getInputTargetBlock('cells_values'); cell;
+       cell = cell.getNextBlock()) {
+    // 'Cell' is opt_thisOnly: each block is generated on its own, because this
+    // loop is what follows the stack.
+    var cell_value = Blockly.Python.blockToCode(cell, 'Cell').trim() || 'None';
+    row_data_def += Blockly.Python.INDENT + 'row_data' + number_sheet_num +
+        '["var' + num_cell + '"] = ' + cell_value + '\n';
+    num_cell++;
+  }
 
-    Blockly.Python.definitions_['row_data_cell'+ number_sheet_num] = 'def update_row_data'+ number_sheet_num+'():\n' + row_data_def;
-  
-  var code = 'update_row_data'+ number_sheet_num+'()\npost_data(row_data' + number_sheet_num+',deployment_code' + number_sheet_num+')\n';
+  // An empty stack used to make `def update_row_data1():` with no body at all.
+  Blockly.Python.definitions_['row_data_cell' + number_sheet_num] =
+      'def update_row_data' + number_sheet_num + '():\n' +
+      (row_data_def || Blockly.Python.PASS);
+
+  var code = 'update_row_data' + number_sheet_num + '()\n' +
+      'post_data(row_data' + number_sheet_num + ',deployment_code' +
+      number_sheet_num + ')\n';
   return code;
 };
 
-Blockly.Python['cell_value'] = function(block) {
-  var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-  // TODO: Assemble Python into code variable.
-  var code = value_value;
-  return code;
-};
 // Gerando os códigos dos Blocos do Pluviômetro
 // Iniciar Pluviômetro
 // Parar Pluviômetro

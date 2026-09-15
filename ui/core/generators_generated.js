@@ -1648,6 +1648,14 @@ Blockly.Python['gc_threshold'] = function(block) {
   return code + "\n";
 };
 
+// ---- Google Sheets (google_sheets.blockdef.yaml) -----------------------------
+
+Blockly.Python['cell_value'] = function(block) {
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = value_;
+  return code + "\n";
+};
+
 // ---- In/Out Pins (gpio.blockdef.yaml) ----------------------------------------
 
 Blockly.Python['gpio_set'] = function(block) {
