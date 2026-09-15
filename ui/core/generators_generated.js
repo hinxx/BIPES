@@ -43,6 +43,65 @@ Blockly.Python.blockdefBoard_ = function() {
   try { return UI['workspace'].selector.value; } catch (e) { return ''; }
 };
 
+// ---- AD8232 ECG Sensor (ad8232.blockdef.yaml) --------------------------------
+
+Blockly.Python['ad8232_init'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  Blockly.Python.definitions_["import_ad8232_dfp"] = "import ad8232_data_flow_processor";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var parse_interval_ = Blockly.Python.valueToCode(block, "parse_interval", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_ad8232 = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\ndata_flow_processor = ad8232_data_flow_processor.DataFlowProcessor(uart_ad8232)\nad8232_sensor = ad8232_uart.AD8232_DataFlowProcessor(data_flow_processor, parse_interval=" + parse_interval_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ad8232_control_start_stop'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var STATE_ = block.getFieldValue("STATE");
+  var code = "ad8232_sensor.control_ad8232_start_stop(" + STATE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ad8232_set_active_output'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var STATE_ = block.getFieldValue("STATE");
+  var code = "ad8232_sensor.set_active_output(" + STATE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ad8232_read_raw_ecg'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var code = "ad8232_sensor.query_raw_ecg_data()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ad8232_read_filtered_ecg'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var code = "ad8232_sensor.query_filtered_ecg_data()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ad8232_read_lead_status'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var code = "ad8232_sensor.query_off_detection_status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ad8232_read_heart_rate'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var code = "ad8232_sensor.query_heart_rate()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ad8232_read_module_status'] = function(block) {
+  Blockly.Python.definitions_["import_ad8232_uart"] = "import ad8232_uart";
+  var code = "ad8232_sensor.query_module_status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- In/Out Pins (adc.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['adc'] = function(block) {
@@ -143,6 +202,66 @@ Blockly.Python['aht_read_temp'] = function(block) {
 Blockly.Python['aht_read_humidity'] = function(block) {
   Blockly.Python.definitions_["import_ahtx0"] = "import ahtx0";
   var code = "ahtx0.relative_humidity";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Air530Z GPS Sensor (air530z.blockdef.yaml) ------------------------------
+
+Blockly.Python['air530z_init'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_air530z = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\nair530z_sensor = air530z.Air530Z(uart_air530z)";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_set_baudrate'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var BAUD_TYPE_ = block.getFieldValue("BAUD_TYPE");
+  var code = "ok, cmd = air530z_sensor.set_baudrate(" + BAUD_TYPE_ + ")\nprint(\"Baudrate set OK: \" + cmd if ok else \"Baudrate set FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_set_update_rate'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var RATE_TYPE_ = block.getFieldValue("RATE_TYPE");
+  var code = "ok, cmd = air530z_sensor.set_update_rate(" + RATE_TYPE_ + ")\nprint(\"Update rate set OK: \" + cmd if ok else \"Update rate set FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_set_protocol'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var PROTOCOL_TYPE_ = block.getFieldValue("PROTOCOL_TYPE");
+  var code = "ok, cmd = air530z_sensor.set_protocol(" + PROTOCOL_TYPE_ + ")\nprint(\"Protocol set OK: \" + cmd if ok else \"Protocol set FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_set_system_mode'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var SYSTEM_TYPE_ = block.getFieldValue("SYSTEM_TYPE");
+  var code = "ok, cmd = air530z_sensor.set_system_mode(" + SYSTEM_TYPE_ + ")\nprint(\"System mode set OK: \" + cmd if ok else \"System mode set FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_set_startup_mode'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var STARTUP_TYPE_ = block.getFieldValue("STARTUP_TYPE");
+  var code = "ok, cmd = air530z_sensor.set_startup_mode(" + STARTUP_TYPE_ + ")\nprint(\"Startup mode set OK: \" + cmd if ok else \"Startup mode set FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_query_product_info'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var code = "ok, resp = air530z_sensor.query_product_info()\nprint(\"Product info query OK: \" + resp if ok else \"Product info query FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['air530z_read'] = function(block) {
+  Blockly.Python.definitions_["import_air530z"] = "import air530z";
+  var code = "air530z_sensor.read()";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -5671,6 +5790,83 @@ Blockly.Python['rfid_rc522_serial_number'] = function(block) {
   Blockly.Python.definitions_["import_mfrc522"] = "from mfrc522 import MFRC522";
   Blockly.Python.definitions_["rfid_getSerialNumber"] = "def getSerialNumber():\n    serialNumber = 0\n    (stat, tag_type) = rdr.request(rdr.REQIDL)\n    if stat == rdr.OK:\n        (stat, uid) = rdr.SelectTagSN()\n        if stat == rdr.OK:\n            serialNumber = int.from_bytes(bytes(uid), \"little\", False)\n    return serialNumber";
   var code = "getSerialNumber()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Serial IMU Sensor (serial_imu.blockdef.yaml) ----------------------------
+
+Blockly.Python['imu_init'] = function(block) {
+  Blockly.Python.definitions_["import_serial_imu"] = "import serial_imu";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var BAUDRATE_ = block.getFieldValue("BAUDRATE");
+  var code = "uart_imu = UART(" + uart_port_ + ", baudrate=" + BAUDRATE_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\nimu_sensor = serial_imu.IMU(uart_imu)";
+  return code + "\n";
+};
+
+Blockly.Python['imu_read_all'] = function(block) {
+  Blockly.Python.definitions_["import_serial_imu"] = "import serial_imu";
+  var code = "imu_sensor.RecvData()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['imu_send_cmd'] = function(block) {
+  Blockly.Python.definitions_["import_serial_imu"] = "import serial_imu";
+  Blockly.Python.definitions_["imu_send_cmd"] = "def imu_send_cmd(cmd, baud=None):\n  imu_sensor.SendCMD(cmd)\n  if baud is not None:\n    uart_imu.init(baudrate=baud)";
+  var CMD_TYPE_ = {"ZAXISCLEAR": "serial_imu.IMU.ZAXISCLEARCMD", "ACCCALB": "serial_imu.IMU.ACCCALBCMD", "CONVSLEEP": "serial_imu.IMU.CONVSLEEPCMD", "BAUD115200": "serial_imu.IMU.BAUD115200CMD, 115200", "BAUD9600": "serial_imu.IMU.BAUD9600CMD, 9600"}[block.getFieldValue("CMD_TYPE")];
+  var code = "imu_send_cmd(" + CMD_TYPE_ + ")";
+  return code + "\n";
+};
+
+// ---- Serial Servo (serial_servo.blockdef.yaml) -------------------------------
+
+Blockly.Python['serial_servo_init'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_servo = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\nserial_servo_sensor = serial_servo.SerialServo(uart_servo)";
+  return code + "\n";
+};
+
+Blockly.Python['serial_servo_move_immediate'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var time_ms_ = Blockly.Python.valueToCode(block, "time_ms", Blockly.Python.ORDER_ATOMIC);
+  var code = "serial_servo_sensor.move_servo_immediate(" + "servo_id=" + servo_id_ + ", angle=" + angle_ + ", time_ms=" + time_ms_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['serial_servo_read_position'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "serial_servo_sensor.read_servo_position(" + "servo_id=" + servo_id_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['serial_servo_stop'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "serial_servo_sensor.stop_servo(" + "servo_id=" + servo_id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['serial_servo_read_temp'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "serial_servo_sensor.read_servo_temp(" + "servo_id=" + servo_id_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['serial_servo_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_serial_servo"] = "import serial_servo";
+  var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "serial_servo_sensor.read_servo_voltage(" + "servo_id=" + servo_id_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 

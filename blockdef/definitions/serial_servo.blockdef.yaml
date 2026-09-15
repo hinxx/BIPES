@@ -1,0 +1,77 @@
+# Bus servos on a half-duplex UART, addressed by id.
+#
+# `baudrate` on the init block was a live socket beside a number field the
+# generator read instead.
+
+module: serial_servo
+class: SerialServo
+instance: serial_servo_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import serial_servo", key: import_serial_servo}
+
+category:
+  name: Serial Servo
+  library: serial_servo
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Serial Bus Servo (UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: serial_servo_init
+    label:
+      - {image: {src: media/serial_servo.png, width: 55, height: 55}}
+      - Init Serial Servo
+    tooltip: Init Serial Servo via UART
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_servo = UART({uart_port}, baudrate={baudrate}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      {instance} = serial_servo.SerialServo(uart_servo)
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 115200, align: right}
+
+  - type: serial_servo_move_immediate
+    fn: move_servo_immediate
+    label: Move Serial Servo Immediately
+    tooltip: Move serial servo to target angle immediately
+    params:
+      - {name: servo_id, label: Servo ID, type: Number, default: 1, align: right,
+         keyword: servo_id}
+      - {name: angle, label: Angle (0-240 deg), type: Number, default: 120,
+         align: right, keyword: angle}
+      - {name: time_ms, label: Time (ms), type: Number, default: 1000,
+         align: right, keyword: time_ms}
+
+  - type: serial_servo_read_position
+    fn: read_servo_position
+    kind: value
+    label: Read Serial Servo Position
+    tooltip: Read the servo's current angle
+    params: &servo_id_param
+      - {name: servo_id, label: Servo ID, type: Number, default: 1, align: right,
+         keyword: servo_id}
+
+  - type: serial_servo_stop
+    fn: stop_servo
+    label: Stop Serial Servo
+    tooltip: Stop the servo where it is
+    params: *servo_id_param
+
+  - type: serial_servo_read_temp
+    fn: read_servo_temp
+    kind: value
+    label: Read Serial Servo Temperature
+    tooltip: Read the servo's internal temperature
+    params: *servo_id_param
+
+  - type: serial_servo_read_voltage
+    fn: read_servo_voltage
+    kind: value
+    label: Read Serial Servo Voltage
+    tooltip: Read the servo's supply voltage
+    params: *servo_id_param

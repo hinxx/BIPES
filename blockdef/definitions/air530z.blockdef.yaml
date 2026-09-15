@@ -1,0 +1,97 @@
+# Air530Z GNSS receiver over UART. Six of its eight blocks send an NMEA
+# configuration sentence and print whether the module acknowledged it.
+#
+# `baudrate` on the init block was a live socket beside a number field the
+# generator read instead.
+
+module: air530z
+class: Air530Z
+instance: air530z_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import air530z", key: import_air530z}
+
+category:
+  name: Air530Z GPS Sensor
+  library: air530z
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Air530Z GNSS Receiver (UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: air530z_init
+    label:
+      - {image: {src: media/air530z.png, width: 55, height: 55}}
+      - Init Air530Z GPS Sensor
+    tooltip: Init Air530Z GPS module via UART
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_air530z = UART({uart_port}, baudrate={baudrate}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      {instance} = air530z.Air530Z(uart_air530z)
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 9600, align: right}
+
+  - type: air530z_set_baudrate
+    label: []
+    tooltip: Set Air530Z baudrate (9600/115200)
+    code: |-
+      ok, cmd = {instance}.set_baudrate({BAUD_TYPE})
+      print("Baudrate set OK: " + cmd if ok else "Baudrate set FAIL")
+    params:
+      - {name: BAUD_TYPE, label: Set Air530Z Baudrate, kind: dropdown,
+         options: [{"9600": "9600"}, {"115200": "115200"}]}
+
+  - type: air530z_set_update_rate
+    label: []
+    tooltip: Set Air530Z update rate (1/5/10Hz)
+    code: |-
+      ok, cmd = {instance}.set_update_rate({RATE_TYPE})
+      print("Update rate set OK: " + cmd if ok else "Update rate set FAIL")
+    params:
+      - {name: RATE_TYPE, label: Set Air530Z Update Rate, kind: dropdown,
+         options: [{1Hz: "1"}, {5Hz: "5"}, {10Hz: "10"}]}
+
+  - type: air530z_set_protocol
+    label: []
+    tooltip: Set Air530Z protocol mode (V4.1/BDS+GPS/GPS Only)
+    code: |-
+      ok, cmd = {instance}.set_protocol({PROTOCOL_TYPE})
+      print("Protocol set OK: " + cmd if ok else "Protocol set FAIL")
+    params:
+      - {name: PROTOCOL_TYPE, label: Set Air530Z Protocol, kind: dropdown,
+         options: [{NMEA V4.1: "2"}, {BDS+GPS: "5"}, {GPS Only: "9"}]}
+
+  - type: air530z_set_system_mode
+    label: []
+    tooltip: Set Air530Z system mode (BDS+GPS/GPS Only/BDS Only)
+    code: |-
+      ok, cmd = {instance}.set_system_mode({SYSTEM_TYPE})
+      print("System mode set OK: " + cmd if ok else "System mode set FAIL")
+    params:
+      - {name: SYSTEM_TYPE, label: Set Air530Z System Mode, kind: dropdown,
+         options: [{BDS+GPS: "1"}, {GPS Only: "2"}, {BDS Only: "3"}]}
+
+  - type: air530z_set_startup_mode
+    label: []
+    tooltip: Set Air530Z startup mode (Cold/Warm/Hot)
+    code: |-
+      ok, cmd = {instance}.set_startup_mode({STARTUP_TYPE})
+      print("Startup mode set OK: " + cmd if ok else "Startup mode set FAIL")
+    params:
+      - {name: STARTUP_TYPE, label: Set Air530Z Startup Mode, kind: dropdown,
+         options: [{Cold Start: "1"}, {Warm Start: "2"}, {Hot Start: "3"}]}
+
+  - type: air530z_query_product_info
+    label: Query Air530Z Product Info
+    tooltip: Query Air530Z product information
+    code: |-
+      ok, resp = {instance}.query_product_info()
+      print("Product info query OK: " + resp if ok else "Product info query FAIL")
+
+  - {type: air530z_read, fn: read, kind: value, label: Read Air530Z GPS Data,
+     tooltip: Read Air530Z GPS latitude/longitude/satellites/altitude}

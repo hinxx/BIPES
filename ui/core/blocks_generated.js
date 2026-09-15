@@ -2,6 +2,123 @@
 // Run `make blocks` after changing one. Hand-written blocks live in
 // block_definitions.js; a block belongs in exactly one of the two.
 
+// ---- AD8232 ECG Sensor (ad8232.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['ad8232_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ad8232.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init AD8232 ECG Sensor");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.appendValueInput("parse_interval")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Parse Interval (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init AD8232 ECG sensor via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_control_start_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Control AD8232")
+        .appendField(new Blockly.FieldDropdown([["Start", "1"], ["Stop", "0"]]), "STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start or stop AD8232 sensor operation");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_set_active_output'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set AD8232 Active Reporting")
+        .appendField(new Blockly.FieldDropdown([["On", "1"], ["Off", "0"]]), "STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable/disable AD8232 active data reporting");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_read_raw_ecg'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read AD8232 Raw ECG Value");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read raw ECG value from AD8232 sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_read_filtered_ecg'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read AD8232 Filtered ECG Value");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read filtered ECG value from AD8232 sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_read_lead_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read AD8232 Lead Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read lead detection status from AD8232 sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_read_heart_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read AD8232 Heart Rate");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read heart rate value from AD8232 sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ad8232_read_module_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read AD8232 Module Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read operating status from AD8232 sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- In/Out Pins (adc.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['adc'] = {
@@ -227,6 +344,126 @@ Blockly.Blocks['aht_read_humidity'] = {
     this.setColour(230);
     this.setTooltip("Read AHT10/20 Humidity");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- Air530Z GPS Sensor (air530z.blockdef.yaml) ------------------------------
+
+Blockly.Blocks['air530z_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/air530z.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Air530Z GPS Sensor");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Air530Z GPS module via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_set_baudrate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Air530Z Baudrate")
+        .appendField(new Blockly.FieldDropdown([["9600", "9600"], ["115200", "115200"]]), "BAUD_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set Air530Z baudrate (9600/115200)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_set_update_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Air530Z Update Rate")
+        .appendField(new Blockly.FieldDropdown([["1Hz", "1"], ["5Hz", "5"], ["10Hz", "10"]]), "RATE_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set Air530Z update rate (1/5/10Hz)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_set_protocol'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Air530Z Protocol")
+        .appendField(new Blockly.FieldDropdown([["NMEA V4.1", "2"], ["BDS+GPS", "5"], ["GPS Only", "9"]]), "PROTOCOL_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set Air530Z protocol mode (V4.1/BDS+GPS/GPS Only)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_set_system_mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Air530Z System Mode")
+        .appendField(new Blockly.FieldDropdown([["BDS+GPS", "1"], ["GPS Only", "2"], ["BDS Only", "3"]]), "SYSTEM_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set Air530Z system mode (BDS+GPS/GPS Only/BDS Only)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_set_startup_mode'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Air530Z Startup Mode")
+        .appendField(new Blockly.FieldDropdown([["Cold Start", "1"], ["Warm Start", "2"], ["Hot Start", "3"]]), "STARTUP_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set Air530Z startup mode (Cold/Warm/Hot)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_query_product_info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Query Air530Z Product Info");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Query Air530Z product information");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['air530z_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Air530Z GPS Data");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read Air530Z GPS latitude/longitude/satellites/altitude");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -11517,6 +11754,178 @@ Blockly.Blocks['rfid_rc522_serial_number'] = {
     this.setColour(135);
     this.setTooltip("Read Serial Number");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- Serial IMU Sensor (serial_imu.blockdef.yaml) ----------------------------
+
+Blockly.Blocks['imu_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/imu.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init IMU Sensor");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendDummyInput()
+        .appendField("Baudrate")
+        .appendField(new Blockly.FieldDropdown([["115200", "115200"], ["9600", "9600"]]), "BAUDRATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init IMU sensor via UART (support 9600/115200 baudrate)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['imu_read_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read IMU All Data (acc/temp/gyro/angle)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read IMU data: acc(x/y/z), temp, gyro(x/y/z), angle(x/y/z)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['imu_send_cmd'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Send IMU Command")
+        .appendField(new Blockly.FieldDropdown([["Clear Z Axis", "ZAXISCLEAR"], ["Calibrate Acc", "ACCCALB"], ["Switch to Sleep", "CONVSLEEP"], ["Set Baud 115200", "BAUD115200"], ["Set Baud 9600", "BAUD9600"]]), "CMD_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send common commands to IMU sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- Serial Servo (serial_servo.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['serial_servo_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/serial_servo.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Serial Servo");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Serial Servo via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['serial_servo_move_immediate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Move Serial Servo Immediately");
+    this.appendValueInput("servo_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo ID");
+    this.appendValueInput("angle")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Angle (0-240 deg)");
+    this.appendValueInput("time_ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Time (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Move serial servo to target angle immediately");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['serial_servo_read_position'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Serial Servo Position");
+    this.appendValueInput("servo_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo ID");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read the servo's current angle");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['serial_servo_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stop Serial Servo");
+    this.appendValueInput("servo_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo ID");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop the servo where it is");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['serial_servo_read_temp'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Serial Servo Temperature");
+    this.appendValueInput("servo_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo ID");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read the servo's internal temperature");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['serial_servo_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Serial Servo Voltage");
+    this.appendValueInput("servo_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Servo ID");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read the servo's supply voltage");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 

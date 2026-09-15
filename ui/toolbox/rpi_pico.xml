@@ -3016,6 +3016,132 @@
   </category>
   <!-- /blockdef:jedmgasmeas -->
 
+  <!-- blockdef:air530z -->
+  <category name="Air530Z GPS Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Air530Z GNSS Receiver (UART)"></label>
+    <button text="Install air530z library" callbackKey="installPyLib"></button>
+
+    <block type="air530z_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="air530z_set_baudrate"></block>
+
+    <block type="air530z_set_update_rate"></block>
+
+    <block type="air530z_set_protocol"></block>
+
+    <block type="air530z_set_system_mode"></block>
+
+    <block type="air530z_set_startup_mode"></block>
+
+    <block type="air530z_query_product_info"></block>
+
+    <block type="air530z_read"></block>
+  </category>
+  <!-- /blockdef:air530z -->
+
+  <!-- blockdef:ad8232 -->
+  <category name="AD8232 ECG Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="AD8232 ECG Sensor (UART)"></label>
+    <button text="Install ad8232_uart library" callbackKey="installPyLib"></button>
+    <button text="Install ad8232_data_flow_processor library" callbackKey="installPyLib"></button>
+
+    <block type="ad8232_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">115200</field>
+        </shadow>
+      </value>
+      <value name="parse_interval">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ad8232_control_start_stop"></block>
+
+    <block type="ad8232_set_active_output"></block>
+
+    <block type="ad8232_read_raw_ecg"></block>
+
+    <block type="ad8232_read_filtered_ecg"></block>
+
+    <block type="ad8232_read_lead_status"></block>
+
+    <block type="ad8232_read_heart_rate"></block>
+
+    <block type="ad8232_read_module_status"></block>
+  </category>
+  <!-- /blockdef:ad8232 -->
+
+  <!-- blockdef:serial_imu -->
+  <category name="Serial IMU Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Serial IMU (acceleration, gyro, angle over UART)"></label>
+    <button text="Install serial_imu library" callbackKey="installPyLib"></button>
+
+    <block type="imu_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="imu_read_all"></block>
+
+    <block type="imu_send_cmd"></block>
+  </category>
+  <!-- /blockdef:serial_imu -->
+
   <!-- blockdef:ds1232 -->
   <category name="DS1232 Watchdog">
     <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
@@ -3504,6 +3630,87 @@
     </block>
   </category>
   <!-- /blockdef:pca9685 -->
+
+  <!-- blockdef:serial_servo -->
+  <category name="Serial Servo">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Serial Bus Servo (UART)"></label>
+    <button text="Install serial_servo library" callbackKey="installPyLib"></button>
+
+    <block type="serial_servo_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">115200</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="serial_servo_move_immediate">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">120</field>
+        </shadow>
+      </value>
+      <value name="time_ms">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="serial_servo_read_position">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="serial_servo_stop">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="serial_servo_read_temp">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="serial_servo_read_voltage">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:serial_servo -->
 
 </category>
 

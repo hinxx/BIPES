@@ -1,0 +1,64 @@
+# A serial IMU that streams acceleration, temperature, gyro and angle over a
+# UART, and takes a handful of one-shot commands.
+#
+# The two baud-setting commands change the module's own baud rate, so the
+# block reopens the UART at the new rate afterwards -- which is why those two
+# dropdown entries carry more than a constant.
+
+module: serial_imu
+instance: imu_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import serial_imu", key: import_serial_imu}
+
+category:
+  name: Serial IMU Sensor
+  library: serial_imu
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Serial IMU (acceleration, gyro, angle over UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: imu_init
+    label:
+      - {image: {src: media/imu.png, width: 55, height: 55}}
+      - Init IMU Sensor
+    tooltip: Init IMU sensor via UART (support 9600/115200 baudrate)
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_imu = UART({uart_port}, baudrate={BAUDRATE}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      {instance} = serial_imu.IMU(uart_imu)
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: BAUDRATE, label: Baudrate, kind: dropdown,
+         options: [{"115200": "115200"}, {"9600": "9600"}]}
+
+  - {type: imu_read_all, fn: RecvData, kind: value,
+     label: Read IMU All Data (acc/temp/gyro/angle),
+     tooltip: "Read IMU data: acc(x/y/z), temp, gyro(x/y/z), angle(x/y/z)"}
+
+  - type: imu_send_cmd
+    label: []
+    tooltip: Send common commands to IMU sensor
+    import:
+      - key: imu_send_cmd
+        line: |-
+          def imu_send_cmd(cmd, baud=None):
+            imu_sensor.SendCMD(cmd)
+            if baud is not None:
+              uart_imu.init(baudrate=baud)
+    code: "imu_send_cmd({CMD_TYPE})"
+    params:
+      - {name: CMD_TYPE, label: Send IMU Command, kind: dropdown,
+         options: [{Clear Z Axis: ZAXISCLEAR}, {Calibrate Acc: ACCCALB},
+                   {Switch to Sleep: CONVSLEEP}, {Set Baud 115200: BAUD115200},
+                   {Set Baud 9600: BAUD9600}],
+         emit: {ZAXISCLEAR: "serial_imu.IMU.ZAXISCLEARCMD",
+                ACCCALB: "serial_imu.IMU.ACCCALBCMD",
+                CONVSLEEP: "serial_imu.IMU.CONVSLEEPCMD",
+                BAUD115200: "serial_imu.IMU.BAUD115200CMD, 115200",
+                BAUD9600: "serial_imu.IMU.BAUD9600CMD, 9600"}}

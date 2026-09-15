@@ -1,0 +1,74 @@
+# AD8232 ECG front-end on a UART, behind two drivers: a frame parser that
+# reads the serial stream, and a wrapper that polls it on a timer and keeps
+# the latest values.
+#
+# Two dead sockets on init (baudrate and parse interval) beside number fields
+# the generator read instead.
+
+module: ad8232_uart
+instance: ad8232_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ad8232_uart", key: import_ad8232_uart}
+
+category:
+  name: AD8232 ECG Sensor
+  library: [ad8232_uart, ad8232_data_flow_processor]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - AD8232 ECG Sensor (UART)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: ad8232_init
+    label:
+      - {image: {src: media/ad8232.png, width: 55, height: 55}}
+      - Init AD8232 ECG Sensor
+    tooltip: Init AD8232 ECG sensor via UART
+    import:
+      - {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+      - {line: "import ad8232_data_flow_processor", key: import_ad8232_dfp}
+    code: |-
+      uart_ad8232 = UART({uart_port}, baudrate={baudrate}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      data_flow_processor = ad8232_data_flow_processor.DataFlowProcessor(uart_ad8232)
+      {instance} = ad8232_uart.AD8232_DataFlowProcessor(data_flow_processor, parse_interval={parse_interval})
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 115200, align: right}
+      - {name: parse_interval, label: Parse Interval (ms), type: Number, default: 5,
+         align: right}
+
+  - type: ad8232_control_start_stop
+    fn: control_ad8232_start_stop
+    label: []
+    tooltip: Start or stop AD8232 sensor operation
+    params:
+      - {name: STATE, label: Control AD8232, kind: dropdown,
+         options: [{Start: "1"}, {Stop: "0"}]}
+
+  - type: ad8232_set_active_output
+    fn: set_active_output
+    label: []
+    tooltip: Enable/disable AD8232 active data reporting
+    params:
+      - {name: STATE, label: Set AD8232 Active Reporting, kind: dropdown,
+         options: [{On: "1"}, {Off: "0"}]}
+
+  - {type: ad8232_read_raw_ecg, fn: query_raw_ecg_data, kind: value,
+     label: Read AD8232 Raw ECG Value,
+     tooltip: Read raw ECG value from AD8232 sensor}
+  - {type: ad8232_read_filtered_ecg, fn: query_filtered_ecg_data, kind: value,
+     label: Read AD8232 Filtered ECG Value,
+     tooltip: Read filtered ECG value from AD8232 sensor}
+  - {type: ad8232_read_lead_status, fn: query_off_detection_status, kind: value,
+     label: Read AD8232 Lead Status,
+     tooltip: Read lead detection status from AD8232 sensor}
+  - {type: ad8232_read_heart_rate, fn: query_heart_rate, kind: value,
+     label: Read AD8232 Heart Rate,
+     tooltip: Read heart rate value from AD8232 sensor}
+  - {type: ad8232_read_module_status, fn: query_module_status, kind: value,
+     label: Read AD8232 Module Status,
+     tooltip: Read operating status from AD8232 sensor}
