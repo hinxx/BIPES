@@ -2232,6 +2232,143 @@
   </category>
   <!-- /blockdef:rfid -->
 
+  <!-- blockdef:gl5516 -->
+  <category name="GL5516 Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="GL5516 Light Dependent Resistor Sensor"></label>
+    <button text="Install gl5516 library" callbackKey="installPyLib"></button>
+
+    <block type="gl5516_init">
+      <value name="analog_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gl5516_read"></block>
+
+    <block type="gl5516_set_min_light"></block>
+
+    <block type="gl5516_set_max_light"></block>
+  </category>
+  <!-- /blockdef:gl5516 -->
+
+  <!-- blockdef:guva_s12sd -->
+  <category name="GUVA_S12SD Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="GUVA_S12SD UV Sensor"></label>
+    <button text="Install guva_s12sd library" callbackKey="installPyLib"></button>
+
+    <block type="guva_s12sd_init">
+      <value name="analog_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="guva_s12sd_read_voltage"></block>
+
+    <block type="guva_s12sd_read_uvi"></block>
+  </category>
+  <!-- /blockdef:guva_s12sd -->
+
+  <!-- blockdef:soil_moisture -->
+  <category name="Soil Moisture Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Soil Moisture Sensor (ADC)"></label>
+    <button text="Install soil_moisture library" callbackKey="installPyLib"></button>
+
+    <block type="soil_moisture_init">
+      <value name="adc_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="soil_moisture_calibrate_dry"></block>
+
+    <block type="soil_moisture_calibrate_wet"></block>
+
+    <block type="soil_moisture_read_percent"></block>
+
+    <block type="soil_moisture_read_level"></block>
+  </category>
+  <!-- /blockdef:soil_moisture -->
+
+  <!-- blockdef:potentiometer -->
+  <category name="Potentiometer Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Potentiometer (ADC-based Variable Resistor)"></label>
+    <button text="Install potentiometer library" callbackKey="installPyLib"></button>
+
+    <block type="potentiometer_init">
+      <value name="adc_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="vref">
+        <shadow type="math_number">
+          <field name="NUM">3.3</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="potentiometer_read_raw"></block>
+
+    <block type="potentiometer_read_voltage"></block>
+
+    <block type="potentiometer_read_ratio"></block>
+
+    <block type="potentiometer_get_state"></block>
+
+    <block type="potentiometer_get_adc"></block>
+
+    <block type="potentiometer_get_vref"></block>
+  </category>
+  <!-- /blockdef:potentiometer -->
+
+  <!-- blockdef:max9814_mic -->
+  <category name="MAX9814 Microphone">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="MAX9814 Microphone Sensor"></label>
+    <button text="Install max9814_mic library" callbackKey="installPyLib"></button>
+
+    <block type="max9814_mic_init">
+      <value name="adc_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="gain_pin">
+        <shadow type="pinout">
+          <field name="PIN">18</field>
+        </shadow>
+      </value>
+      <value name="shdn_pin">
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="max9814_mic_read"></block>
+
+    <block type="max9814_mic_read_normalized"></block>
+
+    <block type="max9814_mic_read_voltage"></block>
+
+    <block type="max9814_mic_enable"></block>
+
+    <block type="max9814_mic_disable"></block>
+
+    <block type="max9814_mic_set_gain"></block>
+  </category>
+  <!-- /blockdef:max9814_mic -->
+
   </category>
 
 

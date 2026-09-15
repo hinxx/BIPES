@@ -3336,6 +3336,61 @@ Blockly.Blocks['gc_threshold'] = {
   }
 };
 
+// ---- GL5516 Sensor (gl5516.blockdef.yaml) ------------------------------------
+
+Blockly.Blocks['gl5516_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/gl5516.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init GL5516 Light Sensor");
+    this.appendValueInput("analog_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Analog Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init GL5516 light sensor on specified analog pin");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['gl5516_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read GL5516 Calibrated Light (%)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read GL5516 calibrated light intensity (0-100%)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['gl5516_set_min_light'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set GL5516 Min Light (Calibrate)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set minimum light value for GL5516 calibration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['gl5516_set_max_light'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set GL5516 Max Light (Calibrate)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set maximum light value for GL5516 calibration");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Google Sheets (google_sheets.blockdef.yaml) -----------------------------
 
 Blockly.Blocks['cell_value'] = {
@@ -3616,6 +3671,48 @@ Blockly.Blocks['gsm_modem_http_get'] = {
     this.setColour(135);
     this.setTooltip("The SIM800 HTTP sequence: init, set the URL, GET, read, close.");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- GUVA_S12SD Sensor (guva_s12sd.blockdef.yaml) ----------------------------
+
+Blockly.Blocks['guva_s12sd_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/guva_s12sd.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init GUVA_S12SD Sensor");
+    this.appendValueInput("analog_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Analog Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init GUVA_S12SD UV sensor (ADC pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['guva_s12sd_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read GUVA_S12SD Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read GUVA_S12SD voltage (0-3.3V)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['guva_s12sd_read_uvi'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read GUVA_S12SD UV Index");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read GUVA_S12SD UV Index (0-11)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -7061,6 +7158,104 @@ Blockly.Blocks['max7219_brig'] = {
   }
 };
 
+// ---- MAX9814 Microphone (max9814_mic.blockdef.yaml) --------------------------
+
+Blockly.Blocks['max9814_mic_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/max9814_mic.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MAX9814 Microphone");
+    this.appendValueInput("adc_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ADC Pin");
+    this.appendValueInput("gain_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Gain Pin");
+    this.appendValueInput("shdn_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Shutdown Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MAX9814 microphone (ADC pin, gain pin, shutdown pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MAX9814 Raw Value (0-65535)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MAX9814 raw ADC value");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_read_normalized'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MAX9814 Normalized Value (0-1)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MAX9814 normalized value (0.0-1.0)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MAX9814 Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MAX9814 voltage (0-3.3V)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_enable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Enable MAX9814 Microphone");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Enable MAX9814 microphone (via shutdown pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_disable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Disable MAX9814 Microphone");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Disable MAX9814 microphone (via shutdown pin)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['max9814_mic_set_gain'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MAX9814 Gain")
+        .appendField(new Blockly.FieldDropdown([["Low Gain", "LOW"], ["High Gain", "HIGH"]]), "GAIN_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set MAX9814 microphone gain (Low/High)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- I/O Expander (mcp23017.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['mcp23017_init'] = {
@@ -8324,6 +8519,96 @@ Blockly.Blocks['pluvio_stop'] = {
   }
 };
 
+// ---- Potentiometer Sensor (potentiometer.blockdef.yaml) ----------------------
+
+Blockly.Blocks['potentiometer_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/potentiometer.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Potentiometer Sensor");
+    this.appendValueInput("adc_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ADC Pin");
+    this.appendValueInput("vref")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("VREF (V)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Potentiometer sensor with ADC pin and reference voltage");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_read_raw'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Potentiometer Raw Value");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read raw ADC value (0-65535) from potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Potentiometer Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read voltage value from potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_read_ratio'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Potentiometer Ratio (0.0-1.0)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read normalized ratio (0.0-1.0) from potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_get_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Potentiometer Full State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get full state (raw, voltage, ratio) of potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_get_adc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Potentiometer ADC Object");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get ADC object of potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['potentiometer_get_vref'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Potentiometer VREF (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get reference voltage of potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- In/Out Pins (pwm.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['pwm'] = {
@@ -9317,6 +9602,72 @@ Blockly.Blocks['net_socket_close'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- Soil Moisture Sensor (soil_moisture.blockdef.yaml) ----------------------
+
+Blockly.Blocks['soil_moisture_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/soil_moisture.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Soil Moisture Sensor");
+    this.appendValueInput("adc_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ADC Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Soil Moisture Sensor via ADC pin");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['soil_moisture_calibrate_dry'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Calibrate Soil Moisture (Dry)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Calibrate dry state for soil moisture sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['soil_moisture_calibrate_wet'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Calibrate Soil Moisture (Wet)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Calibrate wet state for soil moisture sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['soil_moisture_read_percent'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Soil Moisture (%)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read soil moisture percentage (0-100%)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['soil_moisture_read_level'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Soil Moisture Level");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read soil moisture level (dry/moist/wet)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 

@@ -1,0 +1,36 @@
+# GUVA-S12SD UV sensor on an ADC pin. The driver reads the photodiode voltage
+# and maps it to a UV index, so both blocks are attributes, not calls.
+
+module: guva_s12sd
+class: GUVA_S12SD
+instance: guva_s12sd_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import: {line: "import guva_s12sd", key: import_guva_s12sd}
+
+category:
+  name: GUVA_S12SD Sensor
+  library: guva_s12sd
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - GUVA_S12SD UV Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: guva_s12sd_init
+    constructor: true
+    label:
+      - {image: {src: media/guva_s12sd.png, width: 55, height: 55}}
+      - Init GUVA_S12SD Sensor
+    tooltip: Init GUVA_S12SD UV sensor (ADC pin)
+    params:
+      - {name: analog_pin, label: Analog Pin, type: Number, pin: true, default: 26,
+         align: right, keyword: analog_pin}
+
+  - {type: guva_s12sd_read_voltage, attr: voltage, kind: value,
+     label: Read GUVA_S12SD Voltage (V),
+     tooltip: Read GUVA_S12SD voltage (0-3.3V)}
+
+  - {type: guva_s12sd_read_uvi, attr: uvi, kind: value,
+     label: Read GUVA_S12SD UV Index,
+     tooltip: Read GUVA_S12SD UV Index (0-11)}

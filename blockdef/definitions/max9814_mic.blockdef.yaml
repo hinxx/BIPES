@@ -1,0 +1,77 @@
+# MAX9814 electret microphone amplifier. The driver takes an ADC and two Pin
+# objects, so init builds all three.
+#
+# The fork labelled the gain and shutdown pins "(Optional)" and emitted
+# `Pin(n, Pin.OUT) if n is not None else None` for each -- but `n` is the
+# socket's own code, so the test read `18 is not None` and was never false.
+# Emptying the socket did not produce None either, it produced `Pin(, Pin.OUT)`,
+# which does not parse. Both pins are simply required here.
+
+module: max9814_mic
+class: MAX9814Mic
+instance: max9814_mic_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "from machine import Pin, ADC", key: import_machine_pin_adc}
+  - {line: "import max9814_mic", key: import_max9814_mic}
+
+category:
+  name: MAX9814 Microphone
+  library: max9814_mic
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - MAX9814 Microphone Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: max9814_mic_init
+    label:
+      - {image: {src: media/max9814_mic.png, width: 55, height: 55}}
+      - Init MAX9814 Microphone
+    tooltip: Init MAX9814 microphone (ADC pin, gain pin, shutdown pin)
+    code: |-
+      max9814_adc = ADC({adc_pin})
+      {instance} = max9814_mic.MAX9814Mic(adc=max9814_adc, gain_pin=Pin({gain_pin}, Pin.OUT), shdn_pin=Pin({shdn_pin}, Pin.OUT))
+    params:
+      - {name: adc_pin,  label: ADC Pin,      type: Number, pin: true, default: 26, align: right}
+      - {name: gain_pin, label: Gain Pin,     type: Number, pin: true, default: 18, align: right}
+      - {name: shdn_pin, label: Shutdown Pin, type: Number, pin: true, default: 19, align: right}
+
+  - {type: max9814_mic_read, fn: read, kind: value,
+     label: Read MAX9814 Raw Value (0-65535), tooltip: Read MAX9814 raw ADC value}
+
+  - {type: max9814_mic_read_normalized, fn: read_normalized, kind: value,
+     label: Read MAX9814 Normalized Value (0-1),
+     tooltip: Read MAX9814 normalized value (0.0-1.0)}
+
+  - {type: max9814_mic_read_voltage, fn: read_voltage, kind: value,
+     label: Read MAX9814 Voltage (V), tooltip: Read MAX9814 voltage (0-3.3V)}
+
+  - type: max9814_mic_enable
+    label: Enable MAX9814 Microphone
+    tooltip: Enable MAX9814 microphone (via shutdown pin)
+    code: |-
+      {instance}.enable()
+      print("MAX9814 enabled")
+
+  - type: max9814_mic_disable
+    label: Disable MAX9814 Microphone
+    tooltip: Disable MAX9814 microphone (via shutdown pin)
+    code: |-
+      {instance}.disable()
+      print("MAX9814 disabled")
+
+  - type: max9814_mic_set_gain
+    label: []
+    tooltip: Set MAX9814 microphone gain (Low/High)
+    code: |-
+      try:
+          {instance}.set_gain({GAIN_TYPE})
+          print("MAX9814 gain set")
+      except RuntimeError:
+          print("MAX9814 gain pin not configured")
+    params:
+      - {name: GAIN_TYPE, label: Set MAX9814 Gain, kind: dropdown,
+         options: [{Low Gain: "LOW"}, {High Gain: "HIGH"}],
+         emit: {LOW: "False", HIGH: "True"}}

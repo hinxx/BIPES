@@ -1,0 +1,46 @@
+# GL5516 light-dependent resistor on an ADC pin. Reading it is a percentage
+# between two calibration points, so the two calibrate blocks have to run --
+# and print what they stored -- before `read` says anything but 0.
+
+module: gl5516
+class: GL5516
+instance: gl5516_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import: {line: "import gl5516", key: import_gl5516}
+
+category:
+  name: GL5516 Sensor
+  library: gl5516
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - GL5516 Light Dependent Resistor Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: gl5516_init
+    constructor: true
+    label:
+      - {image: {src: media/gl5516.png, width: 55, height: 55}}
+      - Init GL5516 Light Sensor
+    tooltip: Init GL5516 light sensor on specified analog pin
+    params:
+      - {name: analog_pin, label: Analog Pin, type: Number, pin: true, default: 26, align: right}
+
+  - {type: gl5516_read, fn: get_calibrated_light, kind: value,
+     label: Read GL5516 Calibrated Light (%),
+     tooltip: Read GL5516 calibrated light intensity (0-100%)}
+
+  - type: gl5516_set_min_light
+    label: Set GL5516 Min Light (Calibrate)
+    tooltip: Set minimum light value for GL5516 calibration
+    code: |-
+      min_result = {instance}.set_min_light()
+      print("Set GL5516 Min Light OK, value: " + str(min_result))
+
+  - type: gl5516_set_max_light
+    label: Set GL5516 Max Light (Calibrate)
+    tooltip: Set maximum light value for GL5516 calibration
+    code: |-
+      max_result = {instance}.set_max_light()
+      print("Set GL5516 Max Light OK, value: " + str(max_result))

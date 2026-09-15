@@ -1,0 +1,50 @@
+# Resistive soil moisture probe on an ADC pin. `read_moisture()` raises until
+# both calibrate blocks have run, so the two of them come first in the flyout
+# and print the raw value they stored.
+
+module: soil_moisture
+class: SoilMoistureSensor
+instance: soil_moisture_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import: {line: "import soil_moisture", key: import_soil_moisture}
+
+category:
+  name: Soil Moisture Sensor
+  library: soil_moisture
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Soil Moisture Sensor (ADC)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: soil_moisture_init
+    constructor: true
+    label:
+      - {image: {src: media/soil_moisture.png, width: 55, height: 55}}
+      - Init Soil Moisture Sensor
+    tooltip: Init Soil Moisture Sensor via ADC pin
+    params:
+      - {name: adc_pin, label: ADC Pin, type: Number, pin: true, default: 26, align: right}
+
+  - type: soil_moisture_calibrate_dry
+    label: Calibrate Soil Moisture (Dry)
+    tooltip: Calibrate dry state for soil moisture sensor
+    code: |-
+      dry_value = {instance}.calibrate_dry()
+      print("Dry calibration done! Value:", dry_value)
+
+  - type: soil_moisture_calibrate_wet
+    label: Calibrate Soil Moisture (Wet)
+    tooltip: Calibrate wet state for soil moisture sensor
+    code: |-
+      wet_value = {instance}.calibrate_wet()
+      print("Wet calibration done! Value:", wet_value)
+
+  - {type: soil_moisture_read_percent, attr: moisture, kind: value,
+     label: Read Soil Moisture (%),
+     tooltip: Read soil moisture percentage (0-100%)}
+
+  - {type: soil_moisture_read_level, attr: level, kind: value,
+     label: Read Soil Moisture Level,
+     tooltip: Read soil moisture level (dry/moist/wet)}

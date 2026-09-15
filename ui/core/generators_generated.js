@@ -1648,6 +1648,33 @@ Blockly.Python['gc_threshold'] = function(block) {
   return code + "\n";
 };
 
+// ---- GL5516 Sensor (gl5516.blockdef.yaml) ------------------------------------
+
+Blockly.Python['gl5516_init'] = function(block) {
+  Blockly.Python.definitions_["import_gl5516"] = "import gl5516";
+  var analog_pin_ = Blockly.Python.valueToCode(block, "analog_pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "gl5516_sensor = gl5516.GL5516(" + analog_pin_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['gl5516_read'] = function(block) {
+  Blockly.Python.definitions_["import_gl5516"] = "import gl5516";
+  var code = "gl5516_sensor.get_calibrated_light()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['gl5516_set_min_light'] = function(block) {
+  Blockly.Python.definitions_["import_gl5516"] = "import gl5516";
+  var code = "min_result = gl5516_sensor.set_min_light()\nprint(\"Set GL5516 Min Light OK, value: \" + str(min_result))";
+  return code + "\n";
+};
+
+Blockly.Python['gl5516_set_max_light'] = function(block) {
+  Blockly.Python.definitions_["import_gl5516"] = "import gl5516";
+  var code = "max_result = gl5516_sensor.set_max_light()\nprint(\"Set GL5516 Max Light OK, value: \" + str(max_result))";
+  return code + "\n";
+};
+
 // ---- Google Sheets (google_sheets.blockdef.yaml) -----------------------------
 
 Blockly.Python['cell_value'] = function(block) {
@@ -1819,6 +1846,27 @@ Blockly.Python['gsm_modem_http_get'] = function(block) {
   var cmd_ = Blockly.Python.valueToCode(block, "cmd", Blockly.Python.ORDER_ATOMIC);
   var code = "\ngsm.write('AT+HTTPINIT\\r\\n')\ngsm.write('AT+HTTPPARA=\"CID\",1\\r\\n')\ngsm.write('AT+HTTPPARA=\"URL\",\"' + " + cmd_ + " + '\"\\r\\n')\ngsm.write('AT+HTTPACTION=0\\r\\n')\ngsm.write('AT+HTTPREAD\\r\\n')\ngsm.write('AT+HTTPTERM\\r\\n')";
   return code + "\n";
+};
+
+// ---- GUVA_S12SD Sensor (guva_s12sd.blockdef.yaml) ----------------------------
+
+Blockly.Python['guva_s12sd_init'] = function(block) {
+  Blockly.Python.definitions_["import_guva_s12sd"] = "import guva_s12sd";
+  var analog_pin_ = Blockly.Python.valueToCode(block, "analog_pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "guva_s12sd_sensor = guva_s12sd.GUVA_S12SD(" + "analog_pin=" + analog_pin_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['guva_s12sd_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_guva_s12sd"] = "import guva_s12sd";
+  var code = "guva_s12sd_sensor.voltage";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['guva_s12sd_read_uvi'] = function(block) {
+  Blockly.Python.definitions_["import_guva_s12sd"] = "import guva_s12sd";
+  var code = "guva_s12sd_sensor.uvi";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- GY33 I2C (gy33_i2c.blockdef.yaml) ---------------------------------------
@@ -3494,6 +3542,61 @@ Blockly.Python['max7219_brig'] = function(block) {
   return code + "\n";
 };
 
+// ---- MAX9814 Microphone (max9814_mic.blockdef.yaml) --------------------------
+
+Blockly.Python['max9814_mic_init'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var adc_pin_ = Blockly.Python.valueToCode(block, "adc_pin", Blockly.Python.ORDER_ATOMIC);
+  var gain_pin_ = Blockly.Python.valueToCode(block, "gain_pin", Blockly.Python.ORDER_ATOMIC);
+  var shdn_pin_ = Blockly.Python.valueToCode(block, "shdn_pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "max9814_adc = ADC(" + adc_pin_ + ")\nmax9814_mic_device = max9814_mic.MAX9814Mic(adc=max9814_adc, gain_pin=Pin(" + gain_pin_ + ", Pin.OUT), shdn_pin=Pin(" + shdn_pin_ + ", Pin.OUT))";
+  return code + "\n";
+};
+
+Blockly.Python['max9814_mic_read'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var code = "max9814_mic_device.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['max9814_mic_read_normalized'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var code = "max9814_mic_device.read_normalized()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['max9814_mic_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var code = "max9814_mic_device.read_voltage()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['max9814_mic_enable'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var code = "max9814_mic_device.enable()\nprint(\"MAX9814 enabled\")";
+  return code + "\n";
+};
+
+Blockly.Python['max9814_mic_disable'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var code = "max9814_mic_device.disable()\nprint(\"MAX9814 disabled\")";
+  return code + "\n";
+};
+
+Blockly.Python['max9814_mic_set_gain'] = function(block) {
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["import_max9814_mic"] = "import max9814_mic";
+  var GAIN_TYPE_ = {"LOW": "False", "HIGH": "True"}[block.getFieldValue("GAIN_TYPE")];
+  var code = "try:\n    max9814_mic_device.set_gain(" + GAIN_TYPE_ + ")\n    print(\"MAX9814 gain set\")\nexcept RuntimeError:\n    print(\"MAX9814 gain pin not configured\")";
+  return code + "\n";
+};
+
 // ---- I/O Expander (mcp23017.blockdef.yaml) -----------------------------------
 
 Blockly.Python['mcp23017_init'] = function(block) {
@@ -4145,6 +4248,53 @@ Blockly.Python['pluvio_stop'] = function(block) {
   return code + "\n";
 };
 
+// ---- Potentiometer Sensor (potentiometer.blockdef.yaml) ----------------------
+
+Blockly.Python['potentiometer_init'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  Blockly.Python.definitions_["import_machine_adc"] = "from machine import ADC";
+  var adc_pin_ = Blockly.Python.valueToCode(block, "adc_pin", Blockly.Python.ORDER_ATOMIC);
+  var vref_ = Blockly.Python.valueToCode(block, "vref", Blockly.Python.ORDER_ATOMIC);
+  var code = "adc_pot = ADC(" + adc_pin_ + ")\npotentiometer_sensor = potentiometer.Potentiometer(adc=adc_pot, vref=" + vref_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['potentiometer_read_raw'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.read_raw()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['potentiometer_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.read_voltage()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['potentiometer_read_ratio'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.read_ratio()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['potentiometer_get_state'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.get_state()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['potentiometer_get_adc'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.adc";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['potentiometer_get_vref'] = function(block) {
+  Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
+  var code = "potentiometer_sensor.vref";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- In/Out Pins (pwm.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['pwm'] = function(block) {
@@ -4648,6 +4798,39 @@ Blockly.Python['net_socket_close'] = function(block) {
   Blockly.Python.definitions_["import_socket"] = "import socket";
   var code = "s.close()";
   return code + "\n";
+};
+
+// ---- Soil Moisture Sensor (soil_moisture.blockdef.yaml) ----------------------
+
+Blockly.Python['soil_moisture_init'] = function(block) {
+  Blockly.Python.definitions_["import_soil_moisture"] = "import soil_moisture";
+  var adc_pin_ = Blockly.Python.valueToCode(block, "adc_pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "soil_moisture_sensor = soil_moisture.SoilMoistureSensor(" + adc_pin_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['soil_moisture_calibrate_dry'] = function(block) {
+  Blockly.Python.definitions_["import_soil_moisture"] = "import soil_moisture";
+  var code = "dry_value = soil_moisture_sensor.calibrate_dry()\nprint(\"Dry calibration done! Value:\", dry_value)";
+  return code + "\n";
+};
+
+Blockly.Python['soil_moisture_calibrate_wet'] = function(block) {
+  Blockly.Python.definitions_["import_soil_moisture"] = "import soil_moisture";
+  var code = "wet_value = soil_moisture_sensor.calibrate_wet()\nprint(\"Wet calibration done! Value:\", wet_value)";
+  return code + "\n";
+};
+
+Blockly.Python['soil_moisture_read_percent'] = function(block) {
+  Blockly.Python.definitions_["import_soil_moisture"] = "import soil_moisture";
+  var code = "soil_moisture_sensor.moisture";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['soil_moisture_read_level'] = function(block) {
+  Blockly.Python.definitions_["import_soil_moisture"] = "import soil_moisture";
+  var code = "soil_moisture_sensor.level";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- Sounds (sounds.blockdef.yaml) -------------------------------------------

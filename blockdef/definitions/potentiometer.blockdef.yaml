@@ -1,0 +1,59 @@
+# Potentiometer read through an ADC. The driver takes an ADC object rather
+# than a pin number, so init builds one first.
+#
+# The fork's init block carried a VREF number field *and* a VREF socket, and
+# the generator preferred whichever the socket held -- which the toolbox
+# always fills. Only the socket is left here.
+
+module: potentiometer
+class: Potentiometer
+instance: potentiometer_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import: {line: "import potentiometer", key: import_potentiometer}
+
+category:
+  name: Potentiometer Sensor
+  library: potentiometer
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Potentiometer (ADC-based Variable Resistor)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: potentiometer_init
+    label:
+      - {image: {src: media/potentiometer.png, width: 55, height: 55}}
+      - Init Potentiometer Sensor
+    tooltip: Init Potentiometer sensor with ADC pin and reference voltage
+    import: {line: "from machine import ADC", key: import_machine_adc}
+    code: |-
+      adc_pot = ADC({adc_pin})
+      {instance} = potentiometer.Potentiometer(adc=adc_pot, vref={vref})
+    params:
+      - {name: adc_pin, label: ADC Pin, type: Number, pin: true, default: 26, align: right}
+      - {name: vref, label: VREF (V), type: Number, default: 3.3, align: right}
+
+  - {type: potentiometer_read_raw, fn: read_raw, kind: value,
+     label: Read Potentiometer Raw Value,
+     tooltip: Read raw ADC value (0-65535) from potentiometer}
+
+  - {type: potentiometer_read_voltage, fn: read_voltage, kind: value,
+     label: Read Potentiometer Voltage (V),
+     tooltip: Read voltage value from potentiometer}
+
+  - {type: potentiometer_read_ratio, fn: read_ratio, kind: value,
+     label: Read Potentiometer Ratio (0.0-1.0),
+     tooltip: Read normalized ratio (0.0-1.0) from potentiometer}
+
+  - {type: potentiometer_get_state, fn: get_state, kind: value,
+     label: Read Potentiometer Full State,
+     tooltip: "Get full state (raw, voltage, ratio) of potentiometer"}
+
+  - {type: potentiometer_get_adc, attr: adc, kind: value,
+     label: Get Potentiometer ADC Object,
+     tooltip: Get ADC object of potentiometer}
+
+  - {type: potentiometer_get_vref, attr: vref, kind: value,
+     label: Get Potentiometer VREF (V),
+     tooltip: Get reference voltage of potentiometer}
