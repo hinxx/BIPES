@@ -1,0 +1,71 @@
+# The WiPy port's Timer -- see machine_wipy.blockdef.yaml for why the emitted
+# Python says `Timer` where the block ids say `TimerWiPy`, and why these are a
+# conversion rather than a decision.
+#
+# The WiPy timer is two objects: a `Timer` with a mode and a width, and the
+# `TimerChannel` its `channel()` hands back, which is what carries the
+# frequency, the duty cycle and the interrupt. Both were called on the class.
+
+module: machine
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html
+import: []
+
+category:
+  name: machine.TimerWiPy
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: "machine.TimerWiPy_TimerWiPy.init"
+    instance: timer_wipy
+    label: TimerWiPy.init
+    tooltip: "Build the timer. WiPy only -- every other port's Timer takes a callback."
+    import: &timer_import {key: import_Timer, line: "from machine import Timer"}
+    code: "{instance} = Timer({id}, mode=Timer.{mode}, width={width})"
+    params:
+      - {name: id, label: timer, type: Number, default: 0, align: right}
+      - {name: mode, label: mode, kind: dropdown, align: right,
+         options: [{"over and over": PERIODIC}, {once: ONE_SHOT}, {"pulse width": PWM}]}
+      - {name: width, label: "width (bits)", type: Number, default: 16, align: right}
+
+  - {type: "machine.TimerWiPy_TimerWiPy.deinit", instance: timer_wipy, fn: deinit,
+     label: TimerWiPy.deinit, import: *timer_import,
+     tooltip: "Stop the timer and free it. WiPy only."}
+
+  - type: "machine.TimerWiPy_TimerWiPy.channel"
+    instance: timer_wipy
+    label: TimerWiPy.channel
+    tooltip: "Make a channel on the timer. The channel blocks below drive it. WiPy only."
+    import: *timer_import
+    code: "timer_ch = {instance}.channel(Timer.{channel}, freq={freq})"
+    params:
+      - {name: channel, label: channel, kind: dropdown, align: right,
+         options: [{A: A}, {B: B}, {"A and B": "A | Timer.B"}]}
+      - {name: freq, label: "frequency (Hz)", type: Number, default: 1, align: right}
+
+  - type: "machine.TimerWiPy_timerchannel.irq"
+    instance: timer_ch
+    label: timerchannel.irq
+    tooltip: "Call a function when the channel fires. WiPy only."
+    import: *timer_import
+    code: "{instance}.irq(handler={handler}, trigger=Timer.{trigger})"
+    params:
+      - {name: handler, label: call, align: right}
+      - {name: trigger, label: on, kind: dropdown, align: right,
+         options: [{timeout: TIMEOUT}, {match: MATCH}]}
+
+  - {type: "machine.TimerWiPy_timerchannel.freq", instance: timer_ch, kind: value,
+     fn: freq, label: timerchannel.freq, import: [],
+     tooltip: "The channel's frequency in hertz. WiPy only."}
+
+  - {type: "machine.TimerWiPy_timerchannel.period", instance: timer_ch, kind: value,
+     fn: period, label: timerchannel.period, import: [],
+     tooltip: "The channel's period in microseconds. WiPy only."}
+
+  - {type: "machine.TimerWiPy_timerchannel.duty_cycle", instance: timer_ch,
+     label: timerchannel.duty_cycle, import: [],
+     code: "{instance}.duty_cycle({duty})",
+     tooltip: "Set the duty cycle, in hundredths of a percent. WiPy only.",
+     params: [{name: duty, label: "duty (0-10000)", type: Number, default: 5000,
+               align: right}]}

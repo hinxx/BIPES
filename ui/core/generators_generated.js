@@ -2855,6 +2855,55 @@ Blockly.Python['machine.Timer_Timer.deinit'] = function(block) {
   return code + "\n";
 };
 
+// ---- machine.TimerWiPy (machine_timerwipy.blockdef.yaml) ---------------------
+
+Blockly.Python['machine.TimerWiPy_TimerWiPy.init'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = block.getFieldValue("mode");
+  var width_ = Blockly.Python.valueToCode(block, "width", Blockly.Python.ORDER_ATOMIC);
+  var code = "timer_wipy = Timer(" + id_ + ", mode=Timer." + mode_ + ", width=" + width_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.TimerWiPy_TimerWiPy.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var code = "timer_wipy.deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.TimerWiPy_TimerWiPy.channel'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var channel_ = block.getFieldValue("channel");
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "timer_ch = timer_wipy.channel(Timer." + channel_ + ", freq=" + freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.TimerWiPy_timerchannel.irq'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var trigger_ = block.getFieldValue("trigger");
+  var code = "timer_ch.irq(handler=" + handler_ + ", trigger=Timer." + trigger_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.TimerWiPy_timerchannel.freq'] = function(block) {
+  var code = "timer_ch.freq()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.TimerWiPy_timerchannel.period'] = function(block) {
+  var code = "timer_ch.period()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.TimerWiPy_timerchannel.duty_cycle'] = function(block) {
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "timer_ch.duty_cycle(" + duty_ + ")";
+  return code + "\n";
+};
+
 // ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
 
 Blockly.Python['machine.UART_UART.init'] = function(block) {
@@ -2922,6 +2971,51 @@ Blockly.Python['machine.WDT_WDT'] = function(block) {
 Blockly.Python['machine.WDT_wdt.feed'] = function(block) {
   Blockly.Python.definitions_["import_WDT"] = "from machine import WDT";
   var code = "wdt.feed()";
+  return code + "\n";
+};
+
+// ---- machine.ADCWiPy (machine_wipy.blockdef.yaml) ----------------------------
+
+Blockly.Python['machine.ADCWiPy_ADCWiPy.init'] = function(block) {
+  Blockly.Python.definitions_["import_ADC"] = "from machine import ADC";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var bits_ = Blockly.Python.valueToCode(block, "bits", Blockly.Python.ORDER_ATOMIC);
+  var code = "adc_wipy = ADC(" + id_ + ", bits=" + bits_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.ADCWiPy_ADCWiPy.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_ADC"] = "from machine import ADC";
+  var code = "adc_wipy.deinit()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.ADCWiPy_ADCWiPy.channel'] = function(block) {
+  Blockly.Python.definitions_["import_ADC"] = "from machine import ADC";
+  Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "adc_ch = adc_wipy.channel(" + id_ + ", pin=Pin(" + pin_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['machine.ADCWiPy_adcchannel'] = function(block) {
+  var code = "adc_ch()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.ADCWiPy_adcchannel.value'] = function(block) {
+  var code = "adc_ch.value()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['machine.ADCWiPy_adcchannel.init'] = function(block) {
+  var code = "adc_ch.init()";
+  return code + "\n";
+};
+
+Blockly.Python['machine.ADCWiPy_adcchannel.deinit'] = function(block) {
+  var code = "adc_ch.deinit()";
   return code + "\n";
 };
 

@@ -1,0 +1,80 @@
+# The WiPy port's ADC and Timer, which the docs give their own pages because
+# they are not the `machine.ADC` and `machine.Timer` every other port has.
+#
+# All fourteen emitted `machine.ADCWiPy.ADCWiPy.channel(...)` -- a module path
+# that exists nowhere, since the classes are called `ADC` and `Timer` on the
+# port that has them, `ADCWiPy` and `TimerWiPy` being only what the docs name
+# the pages. The block ids keep the `ADCWiPy`/`TimerWiPy` spelling, because a
+# saved program refers to blocks by id; the Python they emit does not.
+#
+# BACKLOG.md called this a decision rather than a conversion, on the grounds
+# that emitting `ADC(...)` puts a second ADC set on boards that already have
+# one. That over-stated it. Two block sets for two ports is what `pwm`/
+# `pwm_pico` and `adc`/`adc_pico` already are, and the WiPy-only methods of
+# `machine.RTC`, `machine.SD` and `Pin.mode`/`pull`/`drive` were converted
+# earlier in exactly this way: emit what the port actually wants, and say
+# "WiPy only" in the tooltip. What is still a decision is whether thirteen
+# boards that are not a WiPy should offer these at all.
+#
+# Neither category had anything that made an object, so each gets a
+# constructor, and the channel objects come from the `channel()` blocks that
+# make them. The instance names are `adc_wipy` and `timer_wipy` so a program
+# mixing these with the ordinary `machine.ADC`/`machine.Timer` blocks keeps
+# them apart.
+#
+# `adcchannel` is a value block now: the docs call it "fast method to read the
+# channel value", and as a statement the reading went nowhere.
+
+module: machine
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html
+import: []
+
+category:
+  name: machine.ADCWiPy
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: "machine.ADCWiPy_ADCWiPy.init"
+    instance: adc_wipy
+    label: ADCWiPy.init
+    tooltip: "Build the ADC. WiPy only -- every other port's ADC takes a pin."
+    import: &adc_import {key: import_ADC, line: "from machine import ADC"}
+    code: "{instance} = ADC({id}, bits={bits})"
+    params:
+      - {name: id,   label: id,   type: Number, default: 0,  align: right}
+      - {name: bits, label: bits, type: Number, default: 12, align: right}
+
+  - {type: "machine.ADCWiPy_ADCWiPy.deinit", instance: adc_wipy, fn: deinit,
+     label: ADCWiPy.deinit, import: *adc_import,
+     tooltip: "Turn the ADC off. WiPy only."}
+
+  - type: "machine.ADCWiPy_ADCWiPy.channel"
+    instance: adc_wipy
+    label: ADCWiPy.channel
+    tooltip: "Make a channel on one pin. The channel blocks below read it. WiPy only."
+    import:
+      - {key: import_ADC, line: "from machine import ADC"}
+      - {key: import_pin, line: "from machine import Pin"}
+    code: "adc_ch = {instance}.channel({id}, pin=Pin({pin}))"
+    params:
+      - {name: id,  label: channel, type: Number, default: 0, align: right}
+      - {name: pin, label: pin,     pin: true,    align: right}
+
+  - {type: "machine.ADCWiPy_adcchannel", kind: value, instance: adc_ch,
+     label: adcchannel, import: [],
+     tooltip: ".. method:: adcchannel() Fast method to read the channel value. ",
+     code: "{instance}()"}
+
+  - {type: "machine.ADCWiPy_adcchannel.value", kind: value, instance: adc_ch,
+     fn: value, label: adcchannel.value, import: [],
+     tooltip: "Read the channel. WiPy only."}
+
+  - {type: "machine.ADCWiPy_adcchannel.init", instance: adc_ch, fn: init,
+     label: adcchannel.init, import: [],
+     tooltip: "Re-enable the channel. WiPy only."}
+
+  - {type: "machine.ADCWiPy_adcchannel.deinit", instance: adc_ch, fn: deinit,
+     label: adcchannel.deinit, import: [],
+     tooltip: "Turn the channel off. WiPy only."}

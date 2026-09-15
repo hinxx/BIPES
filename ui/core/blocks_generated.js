@@ -5800,6 +5800,122 @@ Blockly.Blocks['machine.Timer_Timer.deinit'] = {
   }
 };
 
+// ---- machine.TimerWiPy (machine_timerwipy.blockdef.yaml) ---------------------
+
+Blockly.Blocks['machine.TimerWiPy_TimerWiPy.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("TimerWiPy.init");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timer");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mode")
+        .appendField(new Blockly.FieldDropdown([["over and over", "PERIODIC"], ["once", "ONE_SHOT"], ["pulse width", "PWM"]]), "mode");
+    this.appendValueInput("width")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("width (bits)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build the timer. WiPy only -- every other port's Timer takes a callback.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_TimerWiPy.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("TimerWiPy.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Stop the timer and free it. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_TimerWiPy.channel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("TimerWiPy.channel");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("channel")
+        .appendField(new Blockly.FieldDropdown([["A", "A"], ["B", "B"], ["A and B", "A | Timer.B"]]), "channel");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Make a channel on the timer. The channel blocks below drive it. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_timerchannel.irq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("timerchannel.irq");
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("on")
+        .appendField(new Blockly.FieldDropdown([["timeout", "TIMEOUT"], ["match", "MATCH"]]), "trigger");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Call a function when the channel fires. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_timerchannel.freq'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("timerchannel.freq");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The channel's frequency in hertz. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_timerchannel.period'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("timerchannel.period");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The channel's period in microseconds. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.TimerWiPy_timerchannel.duty_cycle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("timerchannel.duty_cycle");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("duty (0-10000)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set the duty cycle, in hundredths of a percent. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.TimerWiPy.html");
+  }
+};
+
 // ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
 
 Blockly.Blocks['machine.UART_UART.init'] = {
@@ -5958,6 +6074,106 @@ Blockly.Blocks['machine.WDT_wdt.feed'] = {
     this.setColour(0);
     this.setTooltip("Tell the watchdog the program is still alive.");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.WDT.html");
+  }
+};
+
+// ---- machine.ADCWiPy (machine_wipy.blockdef.yaml) ----------------------------
+
+Blockly.Blocks['machine.ADCWiPy_ADCWiPy.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ADCWiPy.init");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("id");
+    this.appendValueInput("bits")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bits");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build the ADC. WiPy only -- every other port's ADC takes a pin.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_ADCWiPy.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ADCWiPy.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn the ADC off. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_ADCWiPy.channel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ADCWiPy.channel");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("channel");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Make a channel on one pin. The channel blocks below read it. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_adcchannel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("adcchannel");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. method:: adcchannel() Fast method to read the channel value. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_adcchannel.value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("adcchannel.value");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read the channel. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_adcchannel.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("adcchannel.init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Re-enable the channel. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
+  }
+};
+
+Blockly.Blocks['machine.ADCWiPy_adcchannel.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("adcchannel.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Turn the channel off. WiPy only.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.ADCWiPy.html");
   }
 };
 
