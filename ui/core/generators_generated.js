@@ -7528,6 +7528,136 @@ Blockly.Python['stepper_step'] = function(block) {
   return code + "\n";
 };
 
+// ---- SwissCHEESE (swisscheese.blockdef.yaml) ---------------------------------
+
+Blockly.Python['swisscheese_led_status'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var STATUS_ = {"ON": "on", "OFF": "off"}[block.getFieldValue("STATUS")];
+  var code = "_sc_get(swisscheese_two.SCLed, " + PIN_ + ")." + STATUS_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_led_level'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var LEVEL_ = Blockly.Python.valueToCode(block, "LEVEL", Blockly.Python.ORDER_ATOMIC);
+  var code = "_sc_get(swisscheese_two.SCLed, " + PIN_ + ").brightness(" + LEVEL_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_button'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var code = "_sc_get(swisscheese_two.SCButton, " + PIN_ + ").read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['swisscheese_rotary'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var code = "_sc_get(swisscheese_two.SCPotentiometer, " + PIN_ + ").read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['swisscheese_tone'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var FREQ_ = Blockly.Python.valueToCode(block, "FREQ", Blockly.Python.ORDER_ATOMIC);
+  var code = "_sc_get(swisscheese_two.SCBuzzer, " + PIN_ + ").tone(" + FREQ_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_tone_ms'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var FREQ_ = Blockly.Python.valueToCode(block, "FREQ", Blockly.Python.ORDER_ATOMIC);
+  var MS_ = Blockly.Python.valueToCode(block, "MS", Blockly.Python.ORDER_ATOMIC);
+  var code = "_sc_get(swisscheese_two.SCBuzzer, " + PIN_ + ").tone(" + FREQ_ + ", " + MS_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_notone'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var code = "_sc_get(swisscheese_two.SCBuzzer, " + PIN_ + ").noTone()";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_ultrasonic'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var TRIG_ = block.getFieldValue("TRIG");
+  var ECHO_ = block.getFieldValue("ECHO");
+  var code = "_sc_get(swisscheese_two.SCUltrasonic, " + TRIG_ + ", " + ECHO_ + ").read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['swisscheese_infrared'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var code = "_sc_get(swisscheese_two.SCInfrared, " + PIN_ + ").read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['swisscheese_ldr'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var code = "_sc_get(swisscheese_two.SCLightSensor, " + PIN_ + ").read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['swisscheese_servo'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var PIN_ = block.getFieldValue("PIN");
+  var ANGLE_ = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_ATOMIC);
+  var code = "_sc_get(swisscheese_two.SCServo, " + PIN_ + ").write(" + ANGLE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_motor_forward'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var MOTOR_ = {"1": "swisscheese_two.M1", "2": "swisscheese_two.M2"}[block.getFieldValue("MOTOR")];
+  var code = "_sc_get(swisscheese_two.SCMotor, " + MOTOR_ + ").forward()";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_motor_backward'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var MOTOR_ = {"1": "swisscheese_two.M1", "2": "swisscheese_two.M2"}[block.getFieldValue("MOTOR")];
+  var code = "_sc_get(swisscheese_two.SCMotor, " + MOTOR_ + ").backward()";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_motor_speed'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var MOTOR_ = {"1": "swisscheese_two.M1", "2": "swisscheese_two.M2"}[block.getFieldValue("MOTOR")];
+  var SPEED_ = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_ATOMIC);
+  var code = "_sc_get(swisscheese_two.SCMotor, " + MOTOR_ + ").speed(" + SPEED_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['swisscheese_motor_stop'] = function(block) {
+  Blockly.Python.definitions_["import_swisscheese_two"] = "import swisscheese_two";
+  Blockly.Python.definitions_["swisscheese_get"] = "_sc_devices = {}\ndef _sc_get(cls, *args):\n    if (cls, args) not in _sc_devices:\n        _sc_devices[(cls, args)] = cls(*args)\n    return _sc_devices[(cls, args)]";
+  var MOTOR_ = {"1": "swisscheese_two.M1", "2": "swisscheese_two.M2"}[block.getFieldValue("MOTOR")];
+  var code = "_sc_get(swisscheese_two.SCMotor, " + MOTOR_ + ").stop()";
+  return code + "\n";
+};
+
 // ---- sys (sys.blockdef.yaml) -------------------------------------------------
 
 Blockly.Python['sys_exit'] = function(block) {

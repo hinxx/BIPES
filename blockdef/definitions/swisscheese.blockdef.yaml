@@ -1,0 +1,252 @@
+# CAROBOT's SwissCHEESE modules -- LEDs, buttons, buzzers, sensors, a servo and
+# two motors -- plugged into the shield's numbered ports on an ESP32.
+#
+# From carobot/BIPES-offline. Every block is one call into `swisscheese_two`,
+# the MicroPython rewrite of CAROBOT's Arduino SwissCHEESE library. We do not
+# ship it: it is published as a listing in CAROBOT's own tutorial rather than
+# as a file, under no licence of its own, and the module name is whatever the
+# student saved it as. `swisscheese_two` is the name the fork's blocks import
+# and the tutorial uses, so it is the name here; the label on the category says
+# where the library comes from.
+#
+# The ports are the shield's, not the chip's: O0-O7 are the eight output ports
+# (GPIO 2, 4, 5, 18, 19, 21, 22, 23), I0-I5 the six input ports (GPIO 36, 39,
+# 34, 35, 32, 33), and M1/M2 the two motor channels. They stay dropdowns rather
+# than becoming `pinout` shadows, because a SwissCHEESE module can only be
+# plugged into a port that exists.
+#
+# Three things differ from the fork:
+#
+# * One `_sc_get` instead of seven `_sc_get_<part>` functions and seven cache
+#   dicts. The fork's generators write a factory and a dict per part -- fourteen
+#   entries in `definitions_` for a program that uses an LED and a buzzer. The
+#   shape is worth keeping (one object per port, built on first use, so a block
+#   inside a loop does not build a new PWM every pass); the repetition is not.
+# * The servo block's image. The fork asks for `Images/SG90.png`, which is not
+#   in the fork -- the block draws a broken image. It uses this tree's
+#   `media/servo.png`.
+# * The fork also adds a `SwissCheese` category to `arduino.xml` listing
+#   `sc_led_on`, `sc_led_off` and `sc_button`, three blocks nothing defines.
+#   Blockly throws `Unknown block type` building that flyout, so the category
+#   does not open at all. Not taken.
+#
+# The value ranges in the tooltips are the library's: brightness and the analog
+# reads are 0-1023 (it rescales the ESP32's 12-bit ADC), motor speed is
+# -255..255, and the ultrasonic read is centimetres, or -1 if nothing answered
+# within 30 ms.
+#
+# Not tested on hardware -- there is no SwissCHEESE shield here.
+
+module: swisscheese_two
+colour: 6
+url: https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python
+import:
+  - {line: "import swisscheese_two", key: import_swisscheese_two}
+  # One object per port, kept for the life of the program: the modules wrap a
+  # PWM or an ADC, and rebuilding one on every pass of a loop is what the
+  # fork's per-part caches were avoiding.
+  - key: swisscheese_get
+    line: |-
+      _sc_devices = {}
+      def _sc_get(cls, *args):
+          if (cls, args) not in _sc_devices:
+              _sc_devices[(cls, args)] = cls(*args)
+          return _sc_devices[(cls, args)]
+
+category:
+  name: SwissCHEESE
+  colour: 6
+  labels:
+    - CAROBOT SwissCHEESE modules, by shield port
+    - Needs swisscheese_two.py on the board
+    - "Library listing: learn.carobot.ca/bipes"
+  toolboxes: [esp32]
+
+blocks:
+  # The eight output ports and the six input ports are the same dropdown on
+  # every block that takes one, so each list is written once here and referred
+  # to by the blocks below it.
+  - type: swisscheese_led_status
+    label:
+      - {image: {src: media/swisscheese_led.png, width: 40, height: 40, alt: LED}, text: LED}
+    tooltip: Turn an LED, or any other output module, fully on or off.
+    code: "_sc_get(swisscheese_two.SCLed, {PIN}).{STATUS}()"
+    params:
+      - name: PIN
+        label: "port"
+        row: next
+        kind: dropdown
+        options: &out_ports
+          - {"O0 (GPIO2)": "2"}
+          - {"O1 (GPIO4)": "4"}
+          - {"O2 (GPIO5)": "5"}
+          - {"O3 (GPIO18)": "18"}
+          - {"O4 (GPIO19)": "19"}
+          - {"O5 (GPIO21)": "21"}
+          - {"O6 (GPIO22)": "22"}
+          - {"O7 (GPIO23)": "23"}
+      - {name: STATUS, label: status, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}], emit: {"ON": "on", "OFF": "off"}}
+
+  - type: swisscheese_led_level
+    label:
+      - {image: {src: media/swisscheese_led.png, width: 40, height: 40, alt: LED}, text: LED}
+    tooltip: Set the brightness of an LED, from 0 (off) to 1023 (full).
+    code: "_sc_get(swisscheese_two.SCLed, {PIN}).brightness({LEVEL})"
+    params:
+      - {name: PIN, label: "port", row: next, kind: dropdown, options: *out_ports}
+      - {name: LEVEL, label: "brightness (0-1023)", type: Number, default: 512}
+
+  - type: swisscheese_button
+    kind: value
+    output: Number
+    label:
+      - {image: {src: media/swisscheese_button.png, width: 40, height: 40, alt: Button}, text: Button}
+    tooltip: Read a button, 1 while it is pressed and 0 while it is not.
+    code: "_sc_get(swisscheese_two.SCButton, {PIN}).read()"
+    params:
+      - name: PIN
+        label: "port"
+        kind: dropdown
+        options: &in_ports
+          - {"I0 (GPIO36)": "36"}
+          - {"I1 (GPIO39)": "39"}
+          - {"I2 (GPIO34)": "34"}
+          - {"I3 (GPIO35)": "35"}
+          - {"I4 (GPIO32)": "32"}
+          - {"I5 (GPIO33)": "33"}
+
+  - type: swisscheese_rotary
+    kind: value
+    output: Number
+    label:
+      - {image: {src: media/swisscheese_pot.png, width: 40, height: 40, alt: Potentiometer},
+         text: Rotary potentiometer}
+    tooltip: Read the knob, 0 to 1023. The library stretches the reading over
+      the range it has seen so far, so turn the knob from end to end once before
+      relying on the extremes.
+    code: "_sc_get(swisscheese_two.SCPotentiometer, {PIN}).read()"
+    params:
+      - {name: PIN, label: "port", kind: dropdown, options: *in_ports}
+
+  - type: swisscheese_tone
+    label:
+      - {image: {src: media/swisscheese_buzzer.png, width: 40, height: 40, alt: Buzzer}, text: Tone}
+    tooltip: Start a tone and leave it playing until the No tone block stops it.
+    code: "_sc_get(swisscheese_two.SCBuzzer, {PIN}).tone({FREQ})"
+    params:
+      - {name: PIN, label: "port", row: next, kind: dropdown, options: *out_ports}
+      - {name: FREQ, label: "frequency (Hz)", type: Number, default: 1000}
+
+  - type: swisscheese_tone_ms
+    label:
+      - {image: {src: media/swisscheese_buzzer.png, width: 40, height: 40, alt: Buzzer}, text: Tone}
+    tooltip: Play a tone for a fixed time. The program waits for it to finish.
+    code: "_sc_get(swisscheese_two.SCBuzzer, {PIN}).tone({FREQ}, {MS})"
+    params:
+      - {name: PIN, label: "port", row: next, kind: dropdown, options: *out_ports}
+      - {name: FREQ, label: "frequency (Hz)", type: Number, default: 1000}
+      - {name: MS, label: "for (ms)", type: Number, default: 500}
+
+  - type: swisscheese_notone
+    label:
+      - {image: {src: media/swisscheese_buzzer.png, width: 40, height: 40, alt: Buzzer}, text: No tone}
+    tooltip: Silence the buzzer.
+    code: "_sc_get(swisscheese_two.SCBuzzer, {PIN}).noTone()"
+    params:
+      - {name: PIN, label: "port", kind: dropdown, options: *out_ports}
+
+  - type: swisscheese_ultrasonic
+    kind: value
+    output: Number
+    label:
+      - {image: {src: media/swisscheese_ultrasonic.png, width: 40, height: 40, alt: Ultrasonic},
+         text: Ultrasonic}
+    tooltip: Distance to whatever is in front of the sensor, in centimetres, or
+      -1 if no echo came back within 30 ms.
+    code: "_sc_get(swisscheese_two.SCUltrasonic, {TRIG}, {ECHO}).read()"
+    params:
+      - {name: TRIG, label: "trigger port", row: next, kind: dropdown, options: *out_ports}
+      - {name: ECHO, label: "echo port", kind: dropdown, options: *in_ports}
+
+  - type: swisscheese_infrared
+    kind: value
+    output: Number
+    label:
+      - {image: {src: media/swisscheese_infrared.png, width: 40, height: 40, alt: Infrared},
+         text: Infrared}
+    tooltip: Read the infrared sensor, 1 or 0.
+    code: "_sc_get(swisscheese_two.SCInfrared, {PIN}).read()"
+    params:
+      - {name: PIN, label: "port", kind: dropdown, options: *in_ports}
+
+  - type: swisscheese_ldr
+    kind: value
+    output: Number
+    label:
+      - {image: {src: media/swisscheese_ldr.png, width: 40, height: 40, alt: LDR}, text: Light sensor}
+    tooltip: Read the light sensor, 0 (dark) to 1023 (bright).
+    code: "_sc_get(swisscheese_two.SCLightSensor, {PIN}).read()"
+    params:
+      - {name: PIN, label: "port", kind: dropdown, options: *in_ports}
+
+  - type: swisscheese_servo
+    colour: 40
+    label:
+      - {image: {src: media/servo.png, width: 40, height: 40, alt: Servo}, text: Servo}
+    tooltip: Turn the servo to an angle between 0 and 180 degrees.
+    code: "_sc_get(swisscheese_two.SCServo, {PIN}).write({ANGLE})"
+    params:
+      - {name: PIN, label: "port", row: next, kind: dropdown, options: *out_ports}
+      - {name: ANGLE, label: "angle", type: Number, default: 90}
+
+  - type: swisscheese_motor_forward
+    colour: 30
+    label:
+      - {image: {src: media/swisscheese_motor_forward.png, width: 40, height: 40, alt: Motor forward},
+         text: Motor forward}
+    tooltip: Run the motor forward at full speed.
+    code: "_sc_get(swisscheese_two.SCMotor, {MOTOR}).forward()"
+    params:
+      - name: MOTOR
+        label: "motor"
+        kind: dropdown
+        options: &motor_ports
+          - {"1 (GPIO25)": "1"}
+          - {"2 (GPIO26)": "2"}
+        emit: &motor_emit {"1": swisscheese_two.M1, "2": swisscheese_two.M2}
+
+  - type: swisscheese_motor_backward
+    colour: 30
+    label:
+      - {image: {src: media/swisscheese_motor_backward.png, width: 40, height: 40, alt: Motor backward},
+         text: Motor backward}
+    tooltip: Run the motor backward at full speed.
+    code: "_sc_get(swisscheese_two.SCMotor, {MOTOR}).backward()"
+    params:
+      - {name: MOTOR, label: "motor", kind: dropdown, options: *motor_ports,
+         emit: *motor_emit}
+
+  - type: swisscheese_motor_speed
+    colour: 30
+    label:
+      - {image: {src: media/swisscheese_motor.png, width: 40, height: 40, alt: Motor speed},
+         text: Motor speed}
+    tooltip: Set the motor's speed, -255 (full reverse) to 255 (full forward).
+      0 coasts; use the stop block to brake.
+    code: "_sc_get(swisscheese_two.SCMotor, {MOTOR}).speed({SPEED})"
+    params:
+      - {name: MOTOR, label: "motor", row: next, kind: dropdown, options: *motor_ports,
+         emit: *motor_emit}
+      - {name: SPEED, label: "speed", type: Number, default: 255}
+
+  - type: swisscheese_motor_stop
+    colour: 30
+    label:
+      - {image: {src: media/swisscheese_motor_stop.png, width: 40, height: 40, alt: Motor stop},
+         text: Motor stop}
+    tooltip: Brake the motor.
+    code: "_sc_get(swisscheese_two.SCMotor, {MOTOR}).stop()"
+    params:
+      - {name: MOTOR, label: "motor", kind: dropdown, options: *motor_ports,
+         emit: *motor_emit}

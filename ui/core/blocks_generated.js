@@ -15255,6 +15255,260 @@ Blockly.Blocks['stepper_step'] = {
   }
 };
 
+// ---- SwissCHEESE (swisscheese.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['swisscheese_led_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_led.png", 40, 40, "LED"))
+        .appendField("LED");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN")
+        .appendField("status")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "STATUS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(6);
+    this.setTooltip("Turn an LED, or any other output module, fully on or off.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_led_level'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_led.png", 40, 40, "LED"))
+        .appendField("LED");
+    this.appendValueInput("LEVEL")
+        .setCheck("Number")
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN")
+        .appendField("brightness (0-1023)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(6);
+    this.setTooltip("Set the brightness of an LED, from 0 (off) to 1023 (full).");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_button'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_button.png", 40, 40, "Button"))
+        .appendField("Button");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["I0 (GPIO36)", "36"], ["I1 (GPIO39)", "39"], ["I2 (GPIO34)", "34"], ["I3 (GPIO35)", "35"], ["I4 (GPIO32)", "32"], ["I5 (GPIO33)", "33"]]), "PIN");
+    this.setOutput(true, "Number");
+    this.setColour(6);
+    this.setTooltip("Read a button, 1 while it is pressed and 0 while it is not.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_rotary'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_pot.png", 40, 40, "Potentiometer"))
+        .appendField("Rotary potentiometer");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["I0 (GPIO36)", "36"], ["I1 (GPIO39)", "39"], ["I2 (GPIO34)", "34"], ["I3 (GPIO35)", "35"], ["I4 (GPIO32)", "32"], ["I5 (GPIO33)", "33"]]), "PIN");
+    this.setOutput(true, "Number");
+    this.setColour(6);
+    this.setTooltip("Read the knob, 0 to 1023. The library stretches the reading over the range it has seen so far, so turn the knob from end to end once before relying on the extremes.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_tone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_buzzer.png", 40, 40, "Buzzer"))
+        .appendField("Tone");
+    this.appendValueInput("FREQ")
+        .setCheck("Number")
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN")
+        .appendField("frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(6);
+    this.setTooltip("Start a tone and leave it playing until the No tone block stops it.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_tone_ms'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_buzzer.png", 40, 40, "Buzzer"))
+        .appendField("Tone");
+    this.appendValueInput("FREQ")
+        .setCheck("Number")
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN")
+        .appendField("frequency (Hz)");
+    this.appendValueInput("MS")
+        .setCheck("Number")
+        .appendField("for (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(6);
+    this.setTooltip("Play a tone for a fixed time. The program waits for it to finish.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_notone'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_buzzer.png", 40, 40, "Buzzer"))
+        .appendField("No tone");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(6);
+    this.setTooltip("Silence the buzzer.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_ultrasonic'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_ultrasonic.png", 40, 40, "Ultrasonic"))
+        .appendField("Ultrasonic");
+    this.appendDummyInput()
+        .appendField("trigger port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "TRIG")
+        .appendField("echo port")
+        .appendField(new Blockly.FieldDropdown([["I0 (GPIO36)", "36"], ["I1 (GPIO39)", "39"], ["I2 (GPIO34)", "34"], ["I3 (GPIO35)", "35"], ["I4 (GPIO32)", "32"], ["I5 (GPIO33)", "33"]]), "ECHO");
+    this.setOutput(true, "Number");
+    this.setColour(6);
+    this.setTooltip("Distance to whatever is in front of the sensor, in centimetres, or -1 if no echo came back within 30 ms.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_infrared'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_infrared.png", 40, 40, "Infrared"))
+        .appendField("Infrared");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["I0 (GPIO36)", "36"], ["I1 (GPIO39)", "39"], ["I2 (GPIO34)", "34"], ["I3 (GPIO35)", "35"], ["I4 (GPIO32)", "32"], ["I5 (GPIO33)", "33"]]), "PIN");
+    this.setOutput(true, "Number");
+    this.setColour(6);
+    this.setTooltip("Read the infrared sensor, 1 or 0.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_ldr'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_ldr.png", 40, 40, "LDR"))
+        .appendField("Light sensor");
+    this.appendDummyInput()
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["I0 (GPIO36)", "36"], ["I1 (GPIO39)", "39"], ["I2 (GPIO34)", "34"], ["I3 (GPIO35)", "35"], ["I4 (GPIO32)", "32"], ["I5 (GPIO33)", "33"]]), "PIN");
+    this.setOutput(true, "Number");
+    this.setColour(6);
+    this.setTooltip("Read the light sensor, 0 (dark) to 1023 (bright).");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_servo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/servo.png", 40, 40, "Servo"))
+        .appendField("Servo");
+    this.appendValueInput("ANGLE")
+        .setCheck("Number")
+        .appendField("port")
+        .appendField(new Blockly.FieldDropdown([["O0 (GPIO2)", "2"], ["O1 (GPIO4)", "4"], ["O2 (GPIO5)", "5"], ["O3 (GPIO18)", "18"], ["O4 (GPIO19)", "19"], ["O5 (GPIO21)", "21"], ["O6 (GPIO22)", "22"], ["O7 (GPIO23)", "23"]]), "PIN")
+        .appendField("angle");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(40);
+    this.setTooltip("Turn the servo to an angle between 0 and 180 degrees.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_motor_forward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_motor_forward.png", 40, 40, "Motor forward"))
+        .appendField("Motor forward");
+    this.appendDummyInput()
+        .appendField("motor")
+        .appendField(new Blockly.FieldDropdown([["1 (GPIO25)", "1"], ["2 (GPIO26)", "2"]]), "MOTOR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(30);
+    this.setTooltip("Run the motor forward at full speed.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_motor_backward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_motor_backward.png", 40, 40, "Motor backward"))
+        .appendField("Motor backward");
+    this.appendDummyInput()
+        .appendField("motor")
+        .appendField(new Blockly.FieldDropdown([["1 (GPIO25)", "1"], ["2 (GPIO26)", "2"]]), "MOTOR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(30);
+    this.setTooltip("Run the motor backward at full speed.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_motor_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_motor.png", 40, 40, "Motor speed"))
+        .appendField("Motor speed");
+    this.appendValueInput("SPEED")
+        .setCheck("Number")
+        .appendField("motor")
+        .appendField(new Blockly.FieldDropdown([["1 (GPIO25)", "1"], ["2 (GPIO26)", "2"]]), "MOTOR")
+        .appendField("speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(30);
+    this.setTooltip("Set the motor's speed, -255 (full reverse) to 255 (full forward). 0 coasts; use the stop block to brake.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
+Blockly.Blocks['swisscheese_motor_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/swisscheese_motor_stop.png", 40, 40, "Motor stop"))
+        .appendField("Motor stop");
+    this.appendDummyInput()
+        .appendField("motor")
+        .appendField(new Blockly.FieldDropdown([["1 (GPIO25)", "1"], ["2 (GPIO26)", "2"]]), "MOTOR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(30);
+    this.setTooltip("Brake the motor.");
+    this.setHelpUrl("https://learn.carobot.ca/bipes/Rewriting%20the%20SwissCHEESE%20Library%20in%20Python");
+  }
+};
+
 // ---- sys (sys.blockdef.yaml) -------------------------------------------------
 
 Blockly.Blocks['sys_exit'] = {
