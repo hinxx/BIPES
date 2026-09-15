@@ -1,0 +1,105 @@
+# MQ-series metal-oxide gas sensors (MQ2, MQ4, MQ7). AO goes to an ADC, DO to a
+# comparator pin whose interrupt hands the callback a voltage.
+#
+# Five dead sockets: load resistor, reference voltage, sample count, delay,
+# and the polynomial coefficients -- the last one a text field with a live
+# socket beside it, so the block showed two places to type coefficients and
+# read neither of the ones you would reach for.
+#
+# `mqx_set_callback` re-indented the user's stack with
+# `replace(/^/gm, '\n')`, which leaves the `def` with an empty body. And
+# "Enable Callback: Yes" passed `mqx_callback` with nothing defining it
+# unless the set-callback block was also in the program -- and that block
+# needs the sensor object first. The default callback is hoisted now.
+
+module: mqx
+instance: mq_sensor_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import mqx", key: import_mqx}
+
+category:
+  name: MQ Gas Sensor
+  library: mqx
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - MQ Gas Sensor (AO/DO with IRQ Callback)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: mqx_init
+    label:
+      - {image: {src: media/mqx.png, width: 55, height: 55}}
+      - Init MQ Gas Sensor
+    tooltip: Init MQ series gas sensor (AO/DO with IRQ & Callback)
+    fields: {ENABLE_CALLBACK: "NO"}
+    import:
+      - {line: "from machine import Pin, ADC", key: import_machine_pin_adc}
+      - key: mqx_default_callback
+        line: |-
+          def mqx_callback(voltage):
+            print("MQ Sensor Voltage:", voltage)
+    code: |-
+      mq_adc = ADC({adc_pin})
+      mq_comp_pin = Pin({comp_pin}, Pin.IN)
+      {instance} = mqx.MQX(adc=mq_adc, comp_pin=mq_comp_pin, user_cb={ENABLE_CALLBACK}, rl_ohm={rl_ohm}, vref={vref})
+    params:
+      - {name: adc_pin, label: ADC Pin (AO), type: Number, pin: true, default: 26,
+         align: right}
+      - {name: comp_pin, label: Comparator Pin (DO), type: Number, pin: true,
+         default: 19, align: right}
+      - {name: rl_ohm, label: "Load Resistor (Ohm)", type: Number, default: 10000,
+         align: right}
+      - {name: vref, label: Reference Voltage (V), type: Number, default: 3.3,
+         align: right}
+      - {name: ENABLE_CALLBACK, label: Enable Callback, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}],
+         emit: {YES: "mqx_callback", NO: "None"}}
+
+  - type: mqx_select_builtin
+    fn: select_builtin
+    label: []
+    tooltip: Select built-in polynomial model for MQ sensor
+    params:
+      - {name: MODEL, label: Select MQ Sensor Model, kind: dropdown,
+         options: [{MQ2: '"MQ2"'}, {MQ4: '"MQ4"'}, {MQ7: '"MQ7"'}]}
+
+  - {type: mqx_read_voltage, fn: read_voltage, kind: value,
+     label: Read MQ Sensor Voltage (V),
+     tooltip: Read analog voltage from MQ sensor AO pin}
+
+  - type: mqx_read_ppm
+    fn: read_ppm
+    kind: value
+    label: Read MQ Sensor PPM
+    tooltip: Calculate gas concentration in PPM using built-in polynomial
+    params:
+      - {name: samples, label: Samples, type: Number, default: 1, align: right,
+         keyword: samples}
+      - {name: delay_ms, label: Delay (ms), type: Number, default: 0, align: right,
+         keyword: delay_ms}
+      - {name: SENSOR_TYPE, label: Sensor Type, kind: dropdown, keyword: sensor,
+         options: [{MQ2: '"MQ2"'}, {MQ4: '"MQ4"'}, {MQ7: '"MQ7"'}]}
+
+  - type: mqx_set_custom_poly
+    fn: set_custom_polynomial
+    label: Set MQ Custom Polynomial
+    tooltip: Set custom polynomial coefficients for PPM calculation
+    params:
+      - {name: coeffs, label: "Coefficients [a0,a1,a2...]", type: String,
+         default: "[0.0,100.0,-20.0]", unquote: true, align: right}
+
+  - type: mqx_set_callback
+    label: Set MQ Sensor Callback
+    tooltip: Set callback code to run on MQ sensor voltage change
+    code: |-
+      def mqx_callback(voltage):
+      {CALLBACK_CODE}{instance}.user_cb = mqx_callback
+    params:
+      - {name: CALLBACK_CODE, kind: statements, align: right,
+         label: "Run when voltage changes (param: voltage)",
+         plug: {type: text_print, values: {TEXT: "MQ sensor voltage changed"}}}
+
+  - {type: mqx_deinit, fn: deinit, label: Deinitialize MQ Sensor,
+     tooltip: Release MQ sensor resources and disable IRQ}

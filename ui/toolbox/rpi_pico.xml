@@ -2838,6 +2838,184 @@
   </category>
   <!-- /blockdef:ds1307 -->
 
+  <!-- blockdef:mqx -->
+  <category name="MQ Gas Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="MQ Gas Sensor (AO/DO with IRQ Callback)"></label>
+    <button text="Install mqx library" callbackKey="installPyLib"></button>
+
+    <block type="mqx_init">
+      <value name="adc_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="comp_pin">
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
+      </value>
+      <value name="rl_ohm">
+        <shadow type="math_number">
+          <field name="NUM">10000</field>
+        </shadow>
+      </value>
+      <value name="vref">
+        <shadow type="math_number">
+          <field name="NUM">3.3</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="mqx_select_builtin"></block>
+
+    <block type="mqx_read_voltage"></block>
+
+    <block type="mqx_read_ppm">
+      <value name="samples">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="delay_ms">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mqx_set_custom_poly">
+      <value name="coeffs">
+        <shadow type="text">
+          <field name="TEXT">[0.0,100.0,-20.0]</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mqx_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">MQ sensor voltage changed</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="mqx_deinit"></block>
+  </category>
+  <!-- /blockdef:mqx -->
+
+  <!-- blockdef:mgx -->
+  <category name="MG Gas Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="MG Gas Sensor (AO/DO with IRQ Callback)"></label>
+    <button text="Install mgx library" callbackKey="installPyLib"></button>
+
+    <block type="mgx_init">
+      <value name="adc_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="comp_pin">
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
+      </value>
+      <value name="rl_ohm">
+        <shadow type="math_number">
+          <field name="NUM">10000</field>
+        </shadow>
+      </value>
+      <value name="vref">
+        <shadow type="math_number">
+          <field name="NUM">3.3</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="mgx_select_builtin"></block>
+
+    <block type="mgx_read_voltage"></block>
+
+    <block type="mgx_read_ppm">
+      <value name="samples">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="delay_ms">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mgx_set_custom_poly">
+      <value name="coeffs">
+        <shadow type="text">
+          <field name="TEXT">[0.0,100.0,-20.0]</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mgx_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">MG sensor voltage changed</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="mgx_deinit"></block>
+  </category>
+  <!-- /blockdef:mgx -->
+
+  <!-- blockdef:jedmgasmeas -->
+  <category name="JEDMGasMeas Gas Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="JEDMGasMeas Gas Concentration Sensor"></label>
+    <button text="Install jedmgasmeas library" callbackKey="installPyLib"></button>
+
+    <block type="jedmgasmeas_init">
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">42</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="jedmgasmeas_read_concentration"></block>
+
+    <block type="jedmgasmeas_calibrate_zero">
+      <value name="calib_value">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:jedmgasmeas -->
+
   <!-- blockdef:ds1232 -->
   <category name="DS1232 Watchdog">
     <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>

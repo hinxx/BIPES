@@ -2577,6 +2577,31 @@ Blockly.Python['net_http_server_close'] = function(block) {
   return code + "\n";
 };
 
+// ---- JEDMGasMeas Gas Sensor (jedmgasmeas.blockdef.yaml) ----------------------
+
+Blockly.Python['jedmgasmeas_init'] = function(block) {
+  Blockly.Python.definitions_["import_jedmgasmeas"] = "import jedmgasmeas";
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({scl: scl_, sda: sda_, freq: "100000", soft: true});
+  var code = "jedmgas_sensor = jedmgasmeas.JEDMGasMeas(" + bus_ + ", addr=" + addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['jedmgasmeas_read_concentration'] = function(block) {
+  Blockly.Python.definitions_["import_jedmgasmeas"] = "import jedmgasmeas";
+  var code = "jedmgas_sensor.read_concentration()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['jedmgasmeas_calibrate_zero'] = function(block) {
+  Blockly.Python.definitions_["import_jedmgasmeas"] = "import jedmgasmeas";
+  var calib_value_ = Blockly.Python.valueToCode(block, "calib_value", Blockly.Python.ORDER_ATOMIC);
+  var code = "cal_result = jedmgas_sensor.calibrate_zero(calib_value=" + calib_value_ + ")\nprint(\"JEDMGasMeas Zero Calibration \" + (\"OK\" if cal_result else \"FAIL\"))";
+  return code + "\n";
+};
+
 // ---- Joystick Sensor (joystick.blockdef.yaml) --------------------------------
 
 Blockly.Python['joystick_init'] = function(block) {
@@ -4196,6 +4221,63 @@ Blockly.Python['mcp4725_config'] = function(block) {
   return code + "\n";
 };
 
+// ---- MG Gas Sensor (mgx.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['mgx_init'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["mgx_default_callback"] = "def mgx_callback(voltage):\n  print(\"MG Sensor Voltage:\", voltage)";
+  var adc_pin_ = Blockly.Python.valueToCode(block, "adc_pin", Blockly.Python.ORDER_ATOMIC);
+  var comp_pin_ = Blockly.Python.valueToCode(block, "comp_pin", Blockly.Python.ORDER_ATOMIC);
+  var rl_ohm_ = Blockly.Python.valueToCode(block, "rl_ohm", Blockly.Python.ORDER_ATOMIC);
+  var vref_ = Blockly.Python.valueToCode(block, "vref", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": "mgx_callback", "NO": "None"}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "mg_adc = ADC(" + adc_pin_ + ")\nmg_comp_pin = Pin(" + comp_pin_ + ", Pin.IN)\nmg_sensor_device = mgx.MGX(adc=mg_adc, comp_pin=mg_comp_pin, user_cb=" + ENABLE_CALLBACK_ + ", rl_ohm=" + rl_ohm_ + ", vref=" + vref_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mgx_select_builtin'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var MODEL_ = block.getFieldValue("MODEL");
+  var code = "mg_sensor_device.select_builtin(" + MODEL_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mgx_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var code = "mg_sensor_device.read_voltage()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mgx_read_ppm'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var samples_ = Blockly.Python.valueToCode(block, "samples", Blockly.Python.ORDER_ATOMIC);
+  var delay_ms_ = Blockly.Python.valueToCode(block, "delay_ms", Blockly.Python.ORDER_ATOMIC);
+  var SENSOR_TYPE_ = block.getFieldValue("SENSOR_TYPE");
+  var code = "mg_sensor_device.read_ppm(" + "samples=" + samples_ + ", delay_ms=" + delay_ms_ + ", sensor=" + SENSOR_TYPE_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mgx_set_custom_poly'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var coeffs_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "coeffs", Blockly.Python.ORDER_ATOMIC));
+  var code = "mg_sensor_device.set_custom_polynomial(" + coeffs_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mgx_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def mgx_callback(voltage):\n" + CALLBACK_CODE_ + "mg_sensor_device.user_cb = mgx_callback";
+  return code + "\n";
+};
+
+Blockly.Python['mgx_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_mgx"] = "import mgx";
+  var code = "mg_sensor_device.deinit()";
+  return code + "\n";
+};
+
 // ---- micropython (micropython.blockdef.yaml) ---------------------------------
 
 Blockly.Python['micropython_const'] = function(block) {
@@ -4561,6 +4643,63 @@ Blockly.Python['mqtt_wait_msg'] = function(block) {
 Blockly.Python['mqtt_disconnect'] = function(block) {
   Blockly.Python.definitions_["import_robust"] = "import robust";
   var code = "mqtt_client.disconnect()";
+  return code + "\n";
+};
+
+// ---- MQ Gas Sensor (mqx.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['mqx_init'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  Blockly.Python.definitions_["import_machine_pin_adc"] = "from machine import Pin, ADC";
+  Blockly.Python.definitions_["mqx_default_callback"] = "def mqx_callback(voltage):\n  print(\"MQ Sensor Voltage:\", voltage)";
+  var adc_pin_ = Blockly.Python.valueToCode(block, "adc_pin", Blockly.Python.ORDER_ATOMIC);
+  var comp_pin_ = Blockly.Python.valueToCode(block, "comp_pin", Blockly.Python.ORDER_ATOMIC);
+  var rl_ohm_ = Blockly.Python.valueToCode(block, "rl_ohm", Blockly.Python.ORDER_ATOMIC);
+  var vref_ = Blockly.Python.valueToCode(block, "vref", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": "mqx_callback", "NO": "None"}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "mq_adc = ADC(" + adc_pin_ + ")\nmq_comp_pin = Pin(" + comp_pin_ + ", Pin.IN)\nmq_sensor_device = mqx.MQX(adc=mq_adc, comp_pin=mq_comp_pin, user_cb=" + ENABLE_CALLBACK_ + ", rl_ohm=" + rl_ohm_ + ", vref=" + vref_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mqx_select_builtin'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var MODEL_ = block.getFieldValue("MODEL");
+  var code = "mq_sensor_device.select_builtin(" + MODEL_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mqx_read_voltage'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var code = "mq_sensor_device.read_voltage()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mqx_read_ppm'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var samples_ = Blockly.Python.valueToCode(block, "samples", Blockly.Python.ORDER_ATOMIC);
+  var delay_ms_ = Blockly.Python.valueToCode(block, "delay_ms", Blockly.Python.ORDER_ATOMIC);
+  var SENSOR_TYPE_ = block.getFieldValue("SENSOR_TYPE");
+  var code = "mq_sensor_device.read_ppm(" + "samples=" + samples_ + ", delay_ms=" + delay_ms_ + ", sensor=" + SENSOR_TYPE_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mqx_set_custom_poly'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var coeffs_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "coeffs", Blockly.Python.ORDER_ATOMIC));
+  var code = "mq_sensor_device.set_custom_polynomial(" + coeffs_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mqx_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def mqx_callback(voltage):\n" + CALLBACK_CODE_ + "mq_sensor_device.user_cb = mqx_callback";
+  return code + "\n";
+};
+
+Blockly.Python['mqx_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_mqx"] = "import mqx";
+  var code = "mq_sensor_device.deinit()";
   return code + "\n";
 };
 

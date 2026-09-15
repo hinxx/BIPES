@@ -5098,6 +5098,61 @@ Blockly.Blocks['net_http_server_close'] = {
   }
 };
 
+// ---- JEDMGasMeas Gas Sensor (jedmgasmeas.blockdef.yaml) ----------------------
+
+Blockly.Blocks['jedmgasmeas_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/jedmgasmeas.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init JEDMGasMeas Gas Sensor");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init JEDMGasMeas gas concentration sensor via I2C");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['jedmgasmeas_read_concentration'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read JEDMGasMeas Concentration");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read gas concentration from JEDMGasMeas sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['jedmgasmeas_calibrate_zero'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Calibrate JEDMGasMeas Zero Point");
+    this.appendValueInput("calib_value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Calib Value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Calibrate JEDMGasMeas zero point (0-65535)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Joystick Sensor (joystick.blockdef.yaml) --------------------------------
 
 Blockly.Blocks['joystick_init'] = {
@@ -8571,6 +8626,131 @@ Blockly.Blocks['mcp4725_config'] = {
   }
 };
 
+// ---- MG Gas Sensor (mgx.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['mgx_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mgx_gas.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MG Gas Sensor");
+    this.appendValueInput("adc_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ADC Pin (AO)");
+    this.appendValueInput("comp_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Comparator Pin (DO)");
+    this.appendValueInput("rl_ohm")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Load Resistor (Ohm)");
+    this.appendValueInput("vref")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Reference Voltage (V)");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MG series gas sensor (AO/DO with IRQ & Callback)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_select_builtin'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Select MG Sensor Model")
+        .appendField(new Blockly.FieldDropdown([["MG811", "\"MG811\""], ["MG812", "\"MG812\""]]), "MODEL");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Select built-in polynomial model for MG sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MG Sensor Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read analog voltage from MG sensor AO pin");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_read_ppm'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MG Sensor PPM");
+    this.appendValueInput("samples")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Samples");
+    this.appendValueInput("delay_ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Delay (ms)");
+    this.appendDummyInput()
+        .appendField("Sensor Type")
+        .appendField(new Blockly.FieldDropdown([["MG811", "\"MG811\""], ["MG812", "\"MG812\""]]), "SENSOR_TYPE");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Calculate gas concentration in PPM using built-in polynomial");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_set_custom_poly'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MG Custom Polynomial");
+    this.appendValueInput("coeffs")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Coefficients [a0,a1,a2...]");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set custom polynomial coefficients for PPM calculation");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MG Sensor Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when voltage changes (param: voltage)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run on MG sensor voltage change");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mgx_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinitialize MG Sensor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release MG sensor resources and disable IRQ");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- micropython (micropython.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['micropython_const'] = {
@@ -9266,6 +9446,131 @@ Blockly.Blocks['mqtt_disconnect'] = {
     this.setColour(230);
     this.setTooltip(MSG["mqtt_disconnect_tooltip"]);
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- MQ Gas Sensor (mqx.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['mqx_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mqx.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MQ Gas Sensor");
+    this.appendValueInput("adc_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("ADC Pin (AO)");
+    this.appendValueInput("comp_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Comparator Pin (DO)");
+    this.appendValueInput("rl_ohm")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Load Resistor (Ohm)");
+    this.appendValueInput("vref")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Reference Voltage (V)");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MQ series gas sensor (AO/DO with IRQ & Callback)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_select_builtin'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Select MQ Sensor Model")
+        .appendField(new Blockly.FieldDropdown([["MQ2", "\"MQ2\""], ["MQ4", "\"MQ4\""], ["MQ7", "\"MQ7\""]]), "MODEL");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Select built-in polynomial model for MQ sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_read_voltage'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MQ Sensor Voltage (V)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read analog voltage from MQ sensor AO pin");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_read_ppm'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MQ Sensor PPM");
+    this.appendValueInput("samples")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Samples");
+    this.appendValueInput("delay_ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Delay (ms)");
+    this.appendDummyInput()
+        .appendField("Sensor Type")
+        .appendField(new Blockly.FieldDropdown([["MQ2", "\"MQ2\""], ["MQ4", "\"MQ4\""], ["MQ7", "\"MQ7\""]]), "SENSOR_TYPE");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Calculate gas concentration in PPM using built-in polynomial");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_set_custom_poly'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MQ Custom Polynomial");
+    this.appendValueInput("coeffs")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Coefficients [a0,a1,a2...]");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set custom polynomial coefficients for PPM calculation");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MQ Sensor Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when voltage changes (param: voltage)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run on MQ sensor voltage change");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mqx_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinitialize MQ Sensor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release MQ sensor resources and disable IRQ");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 

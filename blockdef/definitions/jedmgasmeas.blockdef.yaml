@@ -1,0 +1,50 @@
+# JEDM gas concentration sensor on a soft I2C bus.
+#
+# `i2c` and `addr` were sockets beside number fields; the `i2c` id was read
+# from the socket and then thrown away, because the bus was a SoftI2C, which
+# has no id. It goes through `i2cBus_()` with `soft: true` now, which is the
+# same thing and shares the bus.
+
+module: jedmgasmeas
+class: JEDMGasMeas
+instance: jedmgas_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import jedmgasmeas", key: import_jedmgasmeas}
+
+category:
+  name: JEDMGasMeas Gas Sensor
+  library: jedmgasmeas
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - JEDMGasMeas Gas Concentration Sensor
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: jedmgasmeas_init
+    label:
+      - {image: {src: media/jedmgasmeas.png, width: 55, height: 55}}
+      - Init JEDMGasMeas Gas Sensor
+    tooltip: Init JEDMGasMeas gas concentration sensor via I2C
+    i2c_bus: {scl: scl, sda: sda, freq: 100000, soft: true}
+    code: "{instance} = jedmgasmeas.JEDMGasMeas({bus}, addr={addr})"
+    params:
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: addr, label: I2C Address, type: Number, default: 42, align: right}
+
+  - {type: jedmgasmeas_read_concentration, fn: read_concentration, kind: value,
+     label: Read JEDMGasMeas Concentration,
+     tooltip: Read gas concentration from JEDMGasMeas sensor}
+
+  - type: jedmgasmeas_calibrate_zero
+    label: Calibrate JEDMGasMeas Zero Point
+    tooltip: Calibrate JEDMGasMeas zero point (0-65535)
+    code: |-
+      cal_result = {instance}.calibrate_zero(calib_value={calib_value})
+      print("JEDMGasMeas Zero Calibration " + ("OK" if cal_result else "FAIL"))
+    params:
+      - {name: calib_value, label: Calib Value, type: Number, default: 0, align: right}
