@@ -300,7 +300,7 @@
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
 
     <!-- blockdef:ble_amado -->
-    <category name="Bluetooth" colour="290">
+    <category name="Bluetooth" colour="230">
 
       <block type="configurar_e_iniciar_bluetooth"></block>
 

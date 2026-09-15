@@ -817,7 +817,7 @@ Blockly.Blocks['verificar_dados_ble'] = {
         .appendField("Verificar dados recebidos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(65);
+    this.setColour(230);
     this.setTooltip("Verifica se h\u00e1 dados recebidos via BLE e chama a fun\u00e7\u00e3o handle_ble_data.");
   }
 };
@@ -828,7 +828,7 @@ Blockly.Blocks['chamar_formatar_dados_plotter'] = {
         .appendField("Enviar dados ao plotter");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(160);
+    this.setColour(230);
     this.setTooltip("Chama a fun\u00e7\u00e3o que formata e envia os dados ao plotter");
   }
 };

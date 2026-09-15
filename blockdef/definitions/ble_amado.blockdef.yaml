@@ -26,6 +26,11 @@
 # (`_check_no_unresolved_placeholders`).
 #
 # `configurar_plotter_dados` carries a mutator and stays hand-written.
+#
+# The five blocks are one colour now. amadomaker's own tree noticed the same
+# thing later and painted them all `#1E90FF`; the rest of that commit renames
+# every id to English, which a shipped block cannot take, so only the colour
+# came over -- as 230, the colour four of the five already were.
 
 module: bluetooth
 colour: 230
@@ -113,8 +118,10 @@ import:
 
 category:
   name: Bluetooth
-  # The one leaf category in the tree that colours its own label.
-  colour: 290
+  # 230, the family's colour, rather than the 290 the fork's XML had: it is the
+  # only leaf category on this board that colours its own label, and it was
+  # colouring it something none of its blocks are.
+  colour: 230
   toolboxes: [AmadoBoard]
 
 blocks:
@@ -148,7 +155,6 @@ blocks:
          plug: {type: variables_get, fields: {VAR: dados}}}
 
   - type: verificar_dados_ble
-    colour: 65
     label: Verificar dados recebidos
     tooltip: Verifica se há dados recebidos via BLE e chama a função handle_ble_data.
     url: ""
@@ -166,7 +172,6 @@ blocks:
                plug: {type: variables_get, fields: {VAR: sensor}}}]}
 
   - type: chamar_formatar_dados_plotter
-    colour: 160
     label: Enviar dados ao plotter
     tooltip: Chama a função que formata e envia os dados ao plotter
     url: ""
