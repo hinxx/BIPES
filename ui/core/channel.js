@@ -332,11 +332,19 @@ class websocket {
               // final response for put
               if (Tool.decode_resp(data) == 0) {
                 files.update_file_status('Sent ' + Files.put_file_name + ', ' + Files.put_file_data.length + ' bytes');
-                Files.listFiles();
+                Files.binary_state = 0;
+                // One file at a time is all this protocol carries, so a
+                // multi-file send waits here for its turn; put_file_next()
+                // starts the next one and says whether there was one.
+                if (!Files.put_file_next())
+                  Files.listFiles();
               } else {
                 files.update_file_status('Failed sending ' + Files.put_file_name);
+                // Stop the batch: the rest would be sent into whatever state
+                // the failure left behind.
+                Files.put_file_queue = [];
+                Files.binary_state = 0;
               }
-              Files.binary_state = 0;
             break;
 
             case 21:

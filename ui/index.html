@@ -56,7 +56,7 @@ function checkCookie() {
   
 }
 </script>
-  <link rel="stylesheet" href="style.css?ver=0.2.3.841940">
+  <link rel="stylesheet" href="style.css?ver=0.2.3.9152310">
   <link rel="stylesheet" href="core/libs.css">
   <script src="core/storage.js?ver=0.2.2.1125"></script>
   <script src="core/blockly_compressed.js?ver=0.2.1.841940"></script>
@@ -64,8 +64,8 @@ function checkCookie() {
   <script src="core/javascript_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
   <script src="core/code.js?ver=0.2.3.841940"></script>
-  <script src="core/channel.js?ver=0.2.3.841940"></script>
-  <script src="core/utils.js?ver=0.2.3.9152300"></script>
+  <script src="core/channel.js?ver=0.2.3.9152310"></script>
+  <script src="core/utils.js?ver=0.2.3.9152310"></script>
   <script src="core/ui.js?ver=0.2.3.841940"></script>
   <script src="core/queue.js"></script>
   <script src="core/FileSaver.js"></script>
@@ -286,6 +286,7 @@ function checkCookie() {
     <span>File manager</span>
     <label id="putFileButton" for="put-file-select"  class="noteaxt button icon" title="Upload script to device"></label>
     <input name="PutFileList" id="put-file-select" type="file" accept=".md,.py" required="">
+    <button id="pylibsButton" class="notext button icon" title="Send libraries that ship with BIPES to the device" onclick="Files.togglePylibs();"></button>
     <!--<input type="button" value="Run Blocks" onclick="Tool.runPython(); return false;" />-->
 
   </div>
@@ -361,6 +362,22 @@ function checkCookie() {
 <div class='progress-bar'></div>
 <div class="notify"></div>
 <div class="notify-panel"></div>
+<!-- The "Library files" picker. A dialog rather than a panel in the Files tab:
+     closed, it takes no space and draws nothing there. Its list is built from
+     core/pylibs.js by files.renderPylibs(). -->
+<dialog id="pylibsDialog">
+  <h3>Library files</h3>
+  <p>Drivers and helpers that ship with BIPES, written straight to the device - no trip through the editor.</p>
+  <div id="pylibsSearch">
+    <input type="text" id="pylibsFilter" placeholder="Filter by name" oninput="Files.filterPylibs();">
+    <span id="pylibsCount"></span>
+  </div>
+  <div id="pylibsList"></div>
+  <div id="pylibsDialogButtons">
+    <button id="sendPylibsButton" class="button icon text" title="Write the ticked files to the device" onclick="Files.sendPylibs();">Send to device</button>
+    <button id="cancelPylibsButton" class="button text" onclick="Files.togglePylibs();">Cancel</button>
+  </div>
+</dialog>
 <div class="account-panel">
   <span>
     <span id="account_header">Hello, <span id="account_user" role="textbox" contenteditable>User</span>!</span>

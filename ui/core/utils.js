@@ -285,21 +285,18 @@ class Tool {
   * @param {string} pName - File name for a MicroPython library.
   */
   static getText (pName) {
-    var request = new XMLHttpRequest();
-        request.open('GET', '/beta2/ui/pylibs/' + pName, true);
-        request.send(null);
-        request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-          var type = request.getResponseHeader('Content-Type');
-          if (typeof request.response == 'string') {
-            var Textarea = document.getElementById('content_file_code');
-            Files.editor.getDoc().setValue(request.responseText);
-            Files.file_save_as.className = 'py';
-            var TextareaF = document.getElementById('content_file_name');
-            TextareaF.value = pName;
-        }
-      }
+    // Read from core/pylibs.js, which gen_pylibs.py bakes out of ui/pylibs/.
+    // This used to fetch /beta2/ui/pylibs/, a path that exists only on
+    // bipes.net.br: everywhere else -- a local server, an offline copy on a
+    // stick -- the request 404d and the template silently never opened.
+    let lib_ = PyLibs [pName.replace (/\.py$/i, '').toLowerCase ()];
+    if (lib_ == undefined) {
+      UI ['notify'].send (`No library named ${pName} ships with BIPES.`);
+      return;
     }
+    Files.editor.getDoc ().setValue (lib_.source);
+    Files.file_save_as.className = 'py';
+    UI ['workspace'].file.value = lib_.file;
   }
   /**Makes a name for a Blockly project.
   * @param {string} code - Blockly generated code.
@@ -418,6 +415,15 @@ class files {
     this.watcher_calledCount = 0;
     this.put_file_name = null;
     this.put_file_data = null;
+    /**Files still waiting their turn on the WebREPL put state machine, which
+       can only carry one at a time (see channel.js, binary_state 12).*/
+    this.put_file_queue = [];
+    /**Names the last :js:func:`files#listFiles` refresh saw on the board, kept
+       so the library picker can mark what is already installed.*/
+    this.deviceFiles = [];
+    /**``{file: byte length}`` for a library send still waiting on its size
+       readback.*/
+    this.pylibExpectedSizes = {};
     this.get_file_name = null;
     this.get_file_data = null;
     this.binary_state = 0;
@@ -430,6 +436,10 @@ class files {
     });
     this.fileList = get('#fileList');
     this.file_save_as = get('#file_save_as');
+    this.pylibsDialog = get('#pylibsDialog');
+    this.pylibsList = get('#pylibsList');
+    this.pylibsFilter = get('#pylibsFilter');
+    this.pylibsCount = get('#pylibsCount');
     this.blocks2Code = {Python: get('#blocks2codePython'), XML: get('#blocks2codeXML')}
     this.blocks2Code.Python.onclick = () => {this.internalPython ()};
     this.blocks2Code.XML.onclick = () => {this.internalXML ()};
@@ -481,24 +491,20 @@ class files {
       break;
       case 'webserial':
       case 'webbluetooth':
-        var dest_fname = this.put_file_name;
-        var dest_fsize = this.put_file_data.length;
-
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
-
-        // The file goes over as base64 in 384-byte pieces, one `f.write()` per
-        // piece. It used to be a single `f.write('<the whole file>')`, which
-        // has a ceiling: the REPL holds the whole line while it reads and
-        // echoes it, and a file much past ~27 KB ends up on the board as a
-        // 0-byte file -- open() truncated it before the write ever failed.
-        // Each line here is about 540 characters whatever the file's size.
-        //
-        // Sending bytes rather than a Python string literal also means nothing
-        // needs escaping: `'wb'` and `a2b_base64` carry backslashes, quotes,
-        // tabs, CRLFs and non-ASCII through untouched. The escaping pass this
-        // replaces got the backslashes right only after a bug that corrupted
-        // every library containing one.
-        let cmds_ = ['import binascii\r'];
+        this.put_file_stream ([{name: this.put_file_name, data: this.put_file_data}],
+          undefined,
+          () => {files.update_file_status(`Sent ${Files.put_file_data.length} bytes`)});
+        files.update_file_status(`File ${this.put_file_name} sent.`);
+      break;
+    }
+  }
+  /**
+   * Commands every REPL upload has to lead with, once per stream.
+   * @return {Object[]} Array of commands.
+   */
+  put_file_preamble () {
+    let cmds_ = ['import binascii\r'];
 
 	//Workaround for ESP32S2 using CircuitPython
 	//Needs to remount filesystem in write mode
@@ -507,32 +513,111 @@ class files {
 		cmds_.push ("storage.remount(\"/\", False)\r");
 	} 
 
-        cmds_.push (`f=open('${this.put_file_name}', 'wb')\r`);
-        for (let off_ = 0; off_ < this.put_file_data.length; off_ += 384) {
-          let chunk_ = this.put_file_data.subarray (off_, off_ + 384);
-          let bin_ = '';
-          for (let i = 0; i < chunk_.length; i++)
-            bin_ += String.fromCharCode (chunk_[i]);
-          cmds_.push (`f.write(binascii.a2b_base64('${btoa (bin_)}'))\r`);
-        }
-        cmds_.push ("f.close()\r");
-
-        let total_ = cmds_.reduce ((sum, line) => sum + line.length, 0);
-        UI ['progress'].start(parseInt(total_/Channel ['webserial'].packetSize) + 1);
-
-        //ctrl-C twice: interrupt any running program
-        mux.clearBuffer ();
-        mux.bufferUnshift ('\r\x03\x03');
-
-        for (let i = 0; i < cmds_.length; i++)
-          mux.bufferPush (cmds_[i], i == cmds_.length - 1
-            ? () => {files.update_file_status(`Sent ${Files.put_file_data.length} bytes`)}
-            : undefined);
-
-        mux.bufferPush ('\r\r\r');
-        files.update_file_status(`File ${this.put_file_name} sent.`);
-      break;
+    return cmds_;
+  }
+  /**
+   * The commands that write ONE file, factored out of :js:func:`files#put_file`
+   * so that :js:func:`files#put_files` can write several through the very same
+   * path.
+   *
+   * The file goes over as base64 in 384-byte pieces, one `f.write()` per
+   * piece. It used to be a single `f.write('<the whole file>')`, which
+   * has a ceiling: the REPL holds the whole line while it reads and
+   * echoes it, and a file much past ~27 KB ends up on the board as a
+   * 0-byte file -- open() truncated it before the write ever failed.
+   * Each line here is about 540 characters whatever the file's size.
+   *
+   * Sending bytes rather than a Python string literal also means nothing
+   * needs escaping: `'wb'` and `a2b_base64` carry backslashes, quotes,
+   * tabs, CRLFs and non-ASCII through untouched. The escaping pass this
+   * replaces got the backslashes right only after a bug that corrupted
+   * every library containing one.
+   * @param {string} name - File name to write on the board.
+   * @param {Uint8Array} data - Its bytes.
+   * @return {Object[]} Array of commands.
+   */
+  put_file_cmds (name, data) {
+    let cmds_ = [`f=open('${name}', 'wb')\r`];
+    for (let off_ = 0; off_ < data.length; off_ += 384) {
+      let chunk_ = data.subarray (off_, off_ + 384);
+      let bin_ = '';
+      for (let i = 0; i < chunk_.length; i++)
+        bin_ += String.fromCharCode (chunk_[i]);
+      cmds_.push (`f.write(binascii.a2b_base64('${btoa (bin_)}'))\r`);
     }
+    cmds_.push ("f.close()\r");
+    return cmds_;
+  }
+  /**
+   * Write files to the board as ONE ordered command stream, over the channels
+   * that type at the REPL. Every write starts with ``mux.clearBuffer()``, so
+   * two back-to-back :js:func:`files#put_file` calls would throw away the
+   * first file's still-queued commands: anything writing more than one file
+   * goes through here instead.
+   * @param {Object[]} items - ``{name, data}`` pairs, written in order.
+   * @param {Object[]} tail - Commands appended to the same stream, e.g. a
+   *   readback that only makes sense once the files are all there.
+   * @param {function} done - Called once the last command has run.
+   */
+  put_file_stream (items, tail, done) {
+    let cmds_ = this.put_file_preamble ();
+    items.forEach ((item_) => {
+      cmds_ = cmds_.concat (this.put_file_cmds (item_.name, item_.data));
+    });
+    if (tail != undefined)
+      cmds_ = cmds_.concat (tail);
+
+    let total_ = cmds_.reduce ((sum, line) => sum + line.length, 0);
+    UI ['progress'].start(parseInt(total_/Channel ['webserial'].packetSize) + 1);
+
+    //ctrl-C twice: interrupt any running program
+    mux.clearBuffer ();
+    mux.bufferUnshift ('\r\x03\x03');
+
+    for (let i = 0; i < cmds_.length; i++)
+      mux.bufferPush (cmds_[i], i == cmds_.length - 1 ? done : undefined);
+
+    mux.bufferPush ('\r\r\r');
+  }
+  /**
+   * Upload several files, whatever the channel.
+   * @param {Object[]} items - ``{name, data}`` pairs, written in order.
+   */
+  put_files (items) {
+    if (items.length == 0)
+      return;
+    switch (Channel ['mux'].currentChannel) {
+      case 'webserial':
+      case 'webbluetooth': {
+        let names_ = items.map ((item_) => item_.name).join (', ');
+        files.update_file_status (`Sending ${names_}...`);
+        this.put_file_stream (items, undefined,
+          () => {files.update_file_status (`Sent ${names_}.`)});
+        break;
+      }
+      default:
+        // WebREPL's put is a binary sub-protocol, not text typed at the REPL,
+        // so it cannot be folded into one stream: queue the rest and send the
+        // next one when the state machine reports the previous one finished.
+        this.put_file_queue = items.slice (1);
+        this.put_file_name = items [0].name;
+        this.put_file_data = items [0].data;
+        this.put_file ();
+    }
+  }
+  /**
+   * Send the next queued file, if any. WebREPL only; called by the
+   * put-complete branch of the binary state machine.
+   * @return {boolean} True if another file was started.
+   */
+  put_file_next () {
+    if (this.put_file_queue == undefined || this.put_file_queue.length == 0)
+      return false;
+    let item_ = this.put_file_queue.shift ();
+    this.put_file_name = item_.name;
+    this.put_file_data = item_.data;
+    this.put_file ();
+    return true;
   }
   /**
    * Get version.
@@ -738,6 +823,7 @@ class files {
       let treat_ = match_ [match_.length - 1].replace(/[\[\]]/g, '');
       let split_ = treat_.split('"'[0]);
       let files_ = eval("[" + split_ + "]");
+      this.deviceFiles = files_;   //so the library picker can mark what is already there
 
       UI ['notify'].send("File list updated at " + Tool.unix2date() + ".");
 
@@ -772,7 +858,219 @@ class files {
       })
 
       Files.received_string = Files.received_string.replace(re, '\r\n') //purge received string out
+      this.renderPylibs ();   //refresh the "on board" marks, if the picker is open
     }
+  }
+  /**
+   * The libraries the picker offers, sorted by the name they land on the board
+   * with. core/pylibs.js is keyed by the lowercased name the "Install <name>
+   * library" toolbox buttons ask for, which is not always how the file is
+   * spelled (CCS811.py, mini_micropyGPS.py).
+   * @return {Object[]} Array of ``{file, source}``.
+   */
+  pylibs () {
+    return Object.keys (PyLibs).map ((key_) => PyLibs [key_])
+      .sort ((a, b) => a.file.toLowerCase () < b.file.toLowerCase () ? -1 : 1);
+  }
+  /**
+   * Open or close the "Library files" picker. A real ``<dialog>``: closed, it
+   * takes no space and draws nothing, so the Files tab looks exactly as it did
+   * before this existed. Refreshes the device file list on open, if connected,
+   * so the "on board" marks say what is on the board right now rather than
+   * whatever the last unrelated refresh happened to see.
+   */
+  togglePylibs () {
+    if (this.pylibsDialog == undefined)
+      return;
+    if (this.pylibsDialog.open) {
+      this.pylibsDialog.close ();
+      return;
+    }
+    this.pylibsDialog.showModal ();
+    this.renderPylibs ();
+    if (mux.connected ())
+      this.listFiles ();
+  }
+  /**
+   * (Re)draw the library list as checkboxes, marking the ones already on the
+   * board. Ticks and the filter survive a redraw: the device file list comes
+   * back asynchronously, so this runs again while the user is midway through
+   * choosing.
+   */
+  renderPylibs () {
+    //listFiles() calls this on every refresh, most of which have nothing to do
+    //with the picker: there is nothing to draw while the dialog is closed.
+    if (this.pylibsList == undefined || this.pylibsDialog == undefined
+        || !this.pylibsDialog.open)
+      return;
+    let checked_ = this.pylibsChecked ().map ((lib_) => lib_.file);
+
+    this.pylibsList.innerHTML = '';
+    this.pylibs ().forEach ((lib_) => {
+      let row_ = new DOM ('div', {className: 'pylibRow'});
+      let check_ = new DOM ('input', {
+        type: 'checkbox', id: `pylib_${lib_.file}`, className: 'pylibCheck'
+      });
+      let label_ = new DOM ('label', {innerText: lib_.file, htmlFor: `pylib_${lib_.file}`});
+      row_.append ([check_, label_]);
+      if (this.deviceFiles.includes (lib_.file))
+        row_.append (new DOM ('span', {innerText: 'on board', className: 'pylibFlag'}));
+      if (lib_.file == 'boot.py' || lib_.file == 'main.py')
+        row_.append (new DOM ('span', {innerText: 'runs at boot', className: 'pylibFlag'}));
+      if (checked_.includes (lib_.file))
+        check_._dom.checked = true;
+      this.pylibsList.appendChild (row_._dom);
+    });
+
+    this.filterPylibs ();
+  }
+  /**
+   * Show only the libraries whose name contains what is typed in the filter,
+   * and say how many that is. 100+ files is too many to scroll through to find
+   * the one driver you came for.
+   */
+  filterPylibs () {
+    if (this.pylibsList == undefined)
+      return;
+    let needle_ = this.pylibsFilter == undefined
+      ? '' : this.pylibsFilter.value.trim ().toLowerCase ();
+    let rows_ = this.pylibsList.querySelectorAll ('.pylibRow');
+    let shown_ = 0;
+    rows_.forEach ((row_) => {
+      //The name only: the flags are not something to search by, and hiding a
+      //row on "board" because it says "on board" would be nonsense.
+      let hit_ = getIn (row_, 'label').innerText.toLowerCase ().includes (needle_);
+      row_.hidden = !hit_;
+      if (hit_)
+        shown_ += 1;
+    });
+    if (this.pylibsCount != undefined)
+      this.pylibsCount.innerText = shown_ == rows_.length
+        ? `${rows_.length} libraries`
+        : `${shown_} of ${rows_.length} libraries`;
+  }
+  /**
+   * The libraries currently ticked in the picker.
+   * @return {Object[]} Array of ``{file, source}``.
+   */
+  pylibsChecked () {
+    return this.pylibs ().filter ((lib_) => {
+      //getElementById, not get()/querySelector: every one of these ids ends in
+      //a literal ".py", and querySelector('#pylib_ssd1306.py') reads that dot
+      //as a class selector, so it would never match anything.
+      let check_ = document.getElementById (`pylib_${lib_.file}`);
+      return check_ != null && check_.checked;
+    });
+  }
+  /**
+   * Write every ticked library to the board. The sources are baked into
+   * core/pylibs.js by gen_pylibs.py, so nothing is fetched: this works from
+   * file://, with no network, over every channel put_file() supports.
+   *
+   * Closes the dialog as soon as the selection is known to be valid; the write
+   * itself reports through the Files tab's own status line, like every other
+   * operation there.
+   */
+  sendPylibs () {
+    if (!mux.connected ()) {
+      UI ['notify'].send ('Connect to a device first, then try again.');
+      return;
+    }
+    let checked_ = this.pylibsChecked ();
+    if (checked_.length == 0) {
+      UI ['notify'].send ('Tick at least one library file first.');
+      return;
+    }
+
+    let items_ = checked_.map ((lib_) => ({
+      name: lib_.file,
+      //TextEncoder, not charCodeAt: the sources are UTF-8 and a handful carry
+      //accents and degree signs in their comments. Truncating those to one
+      //byte each would still agree with itself on the size check below while
+      //quietly writing a corrupted file.
+      data: new TextEncoder ().encode (lib_.source)
+    }));
+    let names_ = items_.map ((item_) => item_.name).join (', ');
+
+    //The selection has been acted on: leaving it ticked invites a second,
+    //unintended send the next time the dialog is opened.
+    checked_.forEach ((lib_) => {
+      document.getElementById (`pylib_${lib_.file}`).checked = false;
+    });
+    if (this.pylibsDialog != undefined)
+      this.pylibsDialog.close ();
+
+    switch (Channel ['mux'].currentChannel) {
+      case 'webserial':
+      case 'webbluetooth':
+        this.pylibExpectedSizes = {};
+        items_.forEach ((item_) => {this.pylibExpectedSizes [item_.name] = item_.data.length});
+        files.update_file_status (`Sending ${names_}...`);
+        this.put_file_stream (items_,
+          this.pylib_size_check_cmds (items_.map ((item_) => item_.name)),
+          this.checkPylibSizes.bind (this));
+      break;
+      default:
+        // WebREPL answers with its own success/failure per file and cannot be
+        // asked for the sizes in the same breath, so say plainly that nothing
+        // was verified rather than implying it was.
+        this.put_files (items_);
+        UI ['notify'].send (`Sending ${names_}. This channel cannot check the sizes back: use List Files to confirm they arrived.`);
+    }
+  }
+  /**
+   * Commands that print ``{file: byte length}`` for the given names, -1 for a
+   * file that is not there at all. Deliberately one statement and no ``def``:
+   * a multi-line function typed at the REPL needs the backspace-dedent dance
+   * :js:func:`files#get_file` does, which a size check has no reason to risk.
+   * @param {Object[]} names - File names to stat.
+   * @return {Object[]} Array of commands.
+   */
+  pylib_size_check_cmds (names) {
+    let list_ = '[' + names.map ((name_) => `'${name_}'`).join (', ') + ']';
+    return [
+      'import os\r',
+      `print({n: (os.stat(n)[6] if n in os.listdir() else -1) for n in ${list_}})\r`
+    ];
+  }
+  /**
+   * Compare the sizes read back against what was sent. A short write is
+   * otherwise silent -- the file is there, just truncated -- and only turns up
+   * much later as a SyntaxError on import, which is the one failure this whole
+   * check exists to catch early.
+   */
+  checkPylibSizes () {
+    let re = /\{(.+)?\}/g;
+    let expected_ = this.pylibExpectedSizes;
+    let names_ = Object.keys (expected_);
+
+    if (!re.test (this.received_string)) {
+      files.update_file_status (`Sent ${names_.join (', ')} (no size check came back, use List Files).`);
+      return;
+    }
+    //The last one: the echo of the print() command itself matches too.
+    let match_ = this.received_string.match (/\{(.+)?\}/g);
+    this.received_string = this.received_string.replace (re, '\r\n'); //purge received string out
+
+    let got_;
+    try {
+      //Parenthesised, or a leading '{' parses as a block instead of an object.
+      got_ = eval (`(${match_ [match_.length - 1]})`);
+    } catch (e) {
+      files.update_file_status (`Sent ${names_.join (', ')} (could not read the size check back).`);
+      return;
+    }
+
+    let bad_ = names_.filter ((name_) => got_ [name_] !== expected_ [name_]);
+    if (bad_.length != 0) {
+      UI ['notify'].send (`Incomplete write: ${bad_.join (', ')}. Send them again.`);
+      files.update_file_status (`Incomplete write: ${bad_.join (', ')}.`);
+    } else {
+      UI ['notify'].send (`Sent and verified: ${names_.join (', ')}.`);
+      files.update_file_status (`Sent and verified: ${names_.join (', ')}.`);
+    }
+    if (mux.connected ())
+      this.listFiles ();   //refresh the "on board" marks
   }
   /**
    * Push edited XML to the workspace.
@@ -835,9 +1133,17 @@ class DOM {
 	  case 'h3':
       case 'span':
       case 'div':
+      case 'label':
         this._dom = document.createElement (dom);
         if (typeof tags == 'object') for (const tag in tags) {
-          if (['innerText', 'className', 'id', 'title', 'innerText'].includes(tag))
+          if (['innerText', 'className', 'id', 'title', 'innerText', 'htmlFor'].includes(tag))
+            this._dom [tag] = tags [tag]
+        }
+        break;
+      case 'input':
+        this._dom = document.createElement (dom);
+        if (typeof tags == 'object') for (const tag in tags) {
+          if (['type', 'id', 'className', 'title', 'value', 'checked'].includes(tag))
             this._dom [tag] = tags [tag]
         }
         break;

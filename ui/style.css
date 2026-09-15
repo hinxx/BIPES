@@ -612,6 +612,100 @@ pre.content {
   justify-content: space-between;
   align-items: center;
 }
+/* The "Library files" picker. */
+#pylibsDialog {
+  border: none;
+  border-radius: .5rem;
+  box-shadow: 0 .25rem 1.5rem rgba(0,0,0,.3);
+  padding: 1rem;
+  width: min(24rem, 90vw);
+  font-family: inherit;
+}
+#pylibsDialog::backdrop {
+  background: rgba(0,0,0,.4);
+}
+#pylibsDialog h3 {
+  margin: 0 0 .25rem 0;
+}
+#pylibsDialog p {
+  font-size: .85rem;
+  margin: 0 0 .5rem 0;
+  color: #555;
+}
+#pylibsSearch {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .5rem;
+}
+#pylibsFilter {
+  flex-grow: 2;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: .25em .5em;
+  border: 1px solid #ccc;
+  border-radius: .25rem;
+}
+#pylibsCount {
+  font-size: .8rem;
+  color: #707070;
+  white-space: nowrap;
+}
+/* Tall enough to show a good handful, short enough to leave the buttons on
+   screen on a laptop: the list is 100+ files long. */
+#pylibsList {
+  max-height: 40vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: .25rem;
+  padding: .25rem;
+}
+.pylibRow {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .125rem;
+}
+/* `display: flex` above outranks the browser's own [hidden] rule, so a
+   filtered-out row would stay on screen without this. */
+.pylibRow[hidden] {
+  display: none;
+}
+.pylibRow label {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pylibFlag {
+  font-size: .7rem;
+  color: #707070;
+  background: #eaeaea;
+  border-radius: 1rem;
+  padding: 0 .5em;
+  white-space: nowrap;
+}
+#pylibsDialogButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+#cancelPylibsButton {
+  border-radius: 2rem;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #000;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: .25em .75em;
+  cursor: pointer;
+}
+#cancelPylibsButton:hover {
+  border-color: #aaa;
+}
 #filesPanel summary > h2:before, .account-panel summary > h2:before {
   content: "\1433";
   margin-right: .5rem;
@@ -786,8 +880,13 @@ button.icon.medium:before  {
 #refreshFilesList:before {
   background-position: left calc(-1.5rem*18) top;
 }
-#putFileButton:before, #editor2DeviceButton:before, #generated2DeviceButton:before{
+#putFileButton:before, #editor2DeviceButton:before, #generated2DeviceButton:before, #sendPylibsButton:before{
   background-position: left calc(-1.5rem*19) top;
+}
+/* The list glyph, slot 26 -- unused until now, and the icons.svg columns run
+   to 31 whatever the earlier rules here suggest. */
+#pylibsButton:before {
+  background-position: left calc(-1.5rem*26) top;
 }
 #updateXMLButton:before {
   background-position: left calc(-1.5rem*20) bottom;
