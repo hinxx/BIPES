@@ -1,4 +1,14 @@
 # VL53L0X time-of-flight distance sensor.
+#
+# `ping()` takes one reading and blocks for it. `start()` puts the sensor in
+# continuous mode and `read()` then returns whatever the last completed
+# measurement was, which is what a loop wants -- those two blocks come from
+# hogeiha/BIPES @ offline.
+#
+# That fork also had a second `vl53l0x_init` of its own, building an I2C bus
+# by hand at a fixed address. It is not taken: `init_vl53l0x` below is the
+# same constructor with the shared bus, and two init blocks for one sensor is
+# two ways to get a different object.
 
 module: vl53l0x
 class: VL53L0X
@@ -37,3 +47,10 @@ blocks:
     tooltip: Time of Flight (mm)
     url: http://www.bipes.net.br
     colour: 230
+
+  - {type: vl53l0x_start, fn: start, label: Start VL53L0X Measurement,
+     tooltip: Start VL53L0X continuous measurement, colour: 230}
+
+  - {type: vl53l0x_read_distance, fn: read, kind: value,
+     label: Read VL53L0X Distance (mm),
+     tooltip: Read the last completed continuous measurement (mm), colour: 230}

@@ -18339,6 +18339,27 @@ Blockly.Blocks['vl53l0x_read_tof'] = {
   }
 };
 
+Blockly.Blocks['vl53l0x_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Start VL53L0X Measurement");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start VL53L0X continuous measurement");
+  }
+};
+
+Blockly.Blocks['vl53l0x_read_distance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read VL53L0X Distance (mm)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read the last completed continuous measurement (mm)");
+  }
+};
+
 // ---- WebREPL (webrepl.blockdef.yaml) -----------------------------------------
 
 Blockly.Blocks['webrepl_setup'] = {

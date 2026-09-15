@@ -1857,6 +1857,10 @@
     </block>
 
     <block type="vl53l0x_read_tof"></block>
+
+    <block type="vl53l0x_start"></block>
+
+    <block type="vl53l0x_read_distance"></block>
   </category>
   <!-- /blockdef:vl53l0x -->
 

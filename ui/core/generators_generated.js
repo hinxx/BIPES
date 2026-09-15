@@ -9082,6 +9082,18 @@ Blockly.Python['vl53l0x_read_tof'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['vl53l0x_start'] = function(block) {
+  Blockly.Python.definitions_["import_vl53l0x"] = "from vl53l0x import VL53L0X";
+  var code = "tof.start()";
+  return code + "\n";
+};
+
+Blockly.Python['vl53l0x_read_distance'] = function(block) {
+  Blockly.Python.definitions_["import_vl53l0x"] = "from vl53l0x import VL53L0X";
+  var code = "tof.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- WebREPL (webrepl.blockdef.yaml) -----------------------------------------
 
 Blockly.Python['webrepl_setup'] = function(block) {
