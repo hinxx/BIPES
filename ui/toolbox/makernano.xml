@@ -2530,11 +2530,34 @@
 
     <block type="uos_umount"></block>
 
-    <block type="uos_readblocks"></block>
+    <block type="uos_readblocks">
+      <value name="block_num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
 
-    <block type="uos_writeblocks"></block>
+    <block type="uos_writeblocks">
+      <value name="block_num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
 
-    <block type="uos_ioctl"></block>
+    <block type="uos_ioctl">
+      <value name="op">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+      <value name="arg">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <!-- /blockdef:uos -->
 
@@ -4807,11 +4830,34 @@
 
   <block type="uos_umount"></block>
 
-  <block type="uos_readblocks"></block>
+  <block type="uos_readblocks">
+    <value name="block_num">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
-  <block type="uos_writeblocks"></block>
+  <block type="uos_writeblocks">
+    <value name="block_num">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 
-  <block type="uos_ioctl"></block>
+  <block type="uos_ioctl">
+    <value name="op">
+      <shadow type="math_number">
+        <field name="NUM">4</field>
+      </shadow>
+    </value>
+    <value name="arg">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:uos -->
 <!-- blockdef:ure -->

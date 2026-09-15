@@ -17,6 +17,7 @@ category somewhere nobody chose.
 
 from __future__ import annotations
 
+import hashlib
 import re
 from pathlib import Path
 from xml.etree import ElementTree
@@ -42,6 +43,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
 
     written += _write(root / BLOCKS_JS, emit_blocks_js(definitions))
     written += _write(root / GENERATORS_JS, emit_generators_js(definitions))
+    written += _stamp_page(root)
 
     for definition in definitions:
         for board in definition.toolboxes:
@@ -52,6 +54,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
             written += _splice(path, definition)
 
     _check_toolbox_block_types_exist(root)
+    _check_every_block_has_a_generator(root)
     _check_toolboxes_are_well_formed(root, written)
 
     if verbose:
@@ -97,6 +100,31 @@ def _check_no_clash_with_handwritten(root: Path, definitions: list[Definition]) 
             raise BlockdefError(
                 f'{definition.path}: {clashing} are still defined by hand in '
                 f'{handwritten}. Delete them there -- a block belongs to one file.')
+
+
+def _stamp_page(root: Path) -> list[Path]:
+    """Put a content hash on the two generated `<script src>` in index.html.
+
+    Every other script on that page carries a hand-bumped `?ver=`; these two
+    carried nothing, so a browser that had loaded them once kept them --
+    through a `make blocks`, through a deploy, through anything. A reader who
+    updated BIPES went on running the blocks they had. The hash is of the file
+    the tool just wrote, so the query changes exactly when the content does.
+    """
+    page = root / 'ui/index.html'
+    if not page.exists():
+        return []
+    source = original = page.read_text(encoding='utf-8')
+    for path in (root / BLOCKS_JS, root / GENERATORS_JS):
+        if not path.exists():
+            continue
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+        source = re.sub(r'(<script src="core/' + re.escape(path.name) + r')(\?v=[0-9a-f]+)?(")',
+                        lambda m: f'{m.group(1)}?v={digest}{m.group(3)}', source)
+    if source == original:
+        return []
+    page.write_text(source, encoding='utf-8', newline='\n')
+    return [page]
 
 
 def _check_variant_devices_exist(root: Path, definitions: list[Definition]) -> None:
@@ -157,6 +185,43 @@ def _without_comments(js: str) -> str:
                      for line in js.split('\n'))
 
 
+def _check_every_block_has_a_generator(root: Path) -> None:
+    """A block the page defines and Python cannot generate.
+
+    `_check_toolbox_block_types_exist` covers what a toolbox offers, which is
+    not the same set: a block that no flyout lists can still be sitting in
+    somebody's saved program, and `workspaceToCode` throws on the whole
+    program when it meets one. `pico_stop_timer` was exactly that -- a real
+    statement block, in no toolbox, with no generator anywhere.
+
+    Mutator sub-blocks are the honest exception: they only ever exist inside a
+    mutator's own mini-workspace and never generate code. They are recognised
+    by the two ways a mutator names them, `new Blockly.Mutator([...])` and
+    `newBlock("...")`.
+    """
+    scripts = list(_page_scripts(root))
+    ours = list(_page_scripts(root, skip='_compressed.js'))
+    if not ours:
+        return
+    # Only what this tree declares, and only by a real assignment: the two
+    # Blockly bundles are minified and full of `type:"..."` strings that are
+    # not block types, and both files park superseded blocks behind `//`.
+    defined = _registered([_without_comments(js) for js in ours], 'Blockly.Blocks',
+                          json_arrays=False)
+    generators = _registered(scripts, 'Blockly.Python')
+    sub_blocks: set[str] = set()
+    for js in scripts:
+        for names in re.findall(r'new Blockly\.Mutator\(\s*\[([^\]]*)\]', js):
+            sub_blocks |= set(re.findall(r"""['"]([^'"]+)['"]""", names))
+        sub_blocks |= set(re.findall(r"""newBlock\(\s*['"]([^'"]+)['"]""", js))
+    missing = sorted(defined - generators - sub_blocks)
+    if missing:
+        raise BlockdefError(
+            f'{missing} are defined as blocks but no file gives them a Blockly.Python '
+            f'generator. A saved program holding one makes workspaceToCode throw, which '
+            f'produces no code for the whole program.')
+
+
 def _check_toolboxes_are_well_formed(root: Path, written: list[Path]) -> None:
     """A spliced toolbox that no longer parses, caught before anything reads it.
 
@@ -213,8 +278,10 @@ def _check_toolbox_block_types_exist(root: Path) -> None:
             'it from producing code at all:\n' + '\n'.join(lines))
 
 
-def _page_scripts(root: Path) -> list[str]:
+def _page_scripts(root: Path, skip: str = '') -> list[str]:
     """The JavaScript index.html loads, in load order.
+
+    `skip` drops any script whose filename ends with it.
 
     Taken from the page rather than written down here: block definitions live
     in five hand-written places besides this tool (the two
@@ -229,19 +296,21 @@ def _page_scripts(root: Path) -> list[str]:
     scripts = []
     for src in re.findall(r'<script[^>]+src="([^"]+)"', source):
         path = root / 'ui' / src.split('?')[0]
+        if skip and path.name.endswith(skip):
+            continue
         if path.exists() and path.suffix == '.js':
             scripts.append(path.read_text(encoding='utf-8', errors='replace'))
     return scripts
 
 
-def _registered(scripts: list[str], table: str) -> set[str]:
+def _registered(scripts: list[str], table: str, json_arrays: bool = True) -> set[str]:
     """Every key assigned into `Blockly.Blocks` / `Blockly.Python` by that JS."""
     escaped = re.escape(table)
     names: set[str] = set()
     for js in scripts:
         names |= set(re.findall(escaped + r"""\[\s*['"]([^'"]+)['"]\s*\]\s*=""", js))
         names |= set(re.findall(escaped + r'\.([A-Za-z0-9_$]+)\s*=', js))
-        if table == 'Blockly.Blocks':
+        if json_arrays and table == 'Blockly.Blocks':
             # JSON block arrays, including the minified `type:"x"` spelling.
             # The `input_`/`field_` names inside args are not block types.
             names |= {t for t in re.findall(r"""["']?type["']?\s*:\s*['"]([^'"]+)['"]""", js)

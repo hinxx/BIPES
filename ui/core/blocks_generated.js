@@ -10104,6 +10104,17 @@ Blockly.Blocks['esp8266_get_rtc'] = {
   }
 };
 
+Blockly.Blocks['pico_stop_timer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RPI Pico Stop Timer ");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
 Blockly.Blocks['stop_timer'] = {
   init: function() {
     this.appendValueInput("timerNumber")
@@ -12039,6 +12050,71 @@ Blockly.Blocks['uos_umount'] = {
     this.setNextStatement(true, null);
     this.setColour(0);
     this.setTooltip(".. function:: umount(mount_point) Unmount a filesystem. *mount_point* can be a string naming the mount locatio n, ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_readblocks'] = {
+  init: function() {
+    this.appendValueInput("device")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(" readblocks");
+    this.appendValueInput("block_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from block");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("into");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. method:: readblocks(block_num, buf, offset) The first form reads aligned, multiples of blocks. ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_writeblocks'] = {
+  init: function() {
+    this.appendValueInput("device")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(" writeblocks");
+    this.appendValueInput("block_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from block");
+    this.appendValueInput("buf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("from");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip(".. method:: writeblocks(block_num, buf, offset) The first form writes aligned, multiples of blocks, and requires that the blocks that are written to be first erased ");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
+  }
+};
+
+Blockly.Blocks['uos_ioctl'] = {
+  init: function() {
+    this.appendValueInput("device")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(" ioctl");
+    this.appendValueInput("op")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("command");
+    this.appendValueInput("arg")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("argument");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip(".. method:: ioctl(op, arg) Control the block device and query its parameters. ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
   }
 };

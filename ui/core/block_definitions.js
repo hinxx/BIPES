@@ -92,16 +92,6 @@ Blockly.Blocks['pico_timer'] = {
   }
 };
 
-Blockly.Blocks['pico_stop_timer'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("RPI Pico Stop Timer ")
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
 Blockly.Blocks['thread'] = {
@@ -1749,48 +1739,15 @@ Blockly.Blocks["machine.TimerWiPy_timerchannel.duty_cycle"] = {
 
 
 
-Blockly.Blocks["uos_readblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" readblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: readblocks(block_num, buf, offset) The first form reads aligned, multiples of blocks. Starting at the block given by the index *block_num*, read blocks from ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
-  }
-};
 
 
 
 
 
 
-Blockly.Blocks["uos_writeblocks"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" writeblocks");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: writeblocks(block_num, buf, offset) The first form writes aligned, multiples of blocks, and requires that th e ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
-  }
-};
 
 
 
-Blockly.Blocks["uos_ioctl"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" ioctl");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: ioctl(op, arg) Control the block device and query its parameters. The operation to perform is given by *op* which is one of the following integers: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uos.html");
-  }
-};
 
 
 

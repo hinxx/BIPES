@@ -220,7 +220,10 @@ def _generator_js(definition: Definition, block: Block) -> str:
     # registers `st7789_bl = machine.Pin(<backlight>, machine.Pin.OUT)` that
     # way. The rest keep their place at the top, where they have always been.
     names = {p.name for p in block.params} | ({'bus'} if block.i2c_bus else set())
-    imports = definition.imports + block.imports
+    # `import: []` on a block means none at all, not even the family's -- the
+    # three `uos` block-device blocks call a method on whatever is plugged in
+    # and never mention `uos`.
+    imports = block.imports if block.no_imports else definition.imports + block.imports
     fixed = [i for i in imports if not _mentions(i, names)]
     built = [i for i in imports if _mentions(i, names)]
 

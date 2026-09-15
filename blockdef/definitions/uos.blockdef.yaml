@@ -144,11 +144,47 @@ blocks:
     params:
       - {name: pIn, label: " umount"}
 
-  # readblocks, writeblocks and ioctl are methods on a block device, not
-  # functions on uos -- `uos.readblocks(...)` is not a thing. They stay
-  # hand-written until someone decides what they should do; only their toolbox
-  # entries are ours. block_definitions.js registers readblocks and writeblocks
-  # twice each, so the category listed five entries for three blocks.
-  - {type: uos_readblocks, external: true, params: [{name: pIn}]}
-  - {type: uos_writeblocks, external: true, params: [{name: pIn}]}
-  - {type: uos_ioctl, external: true, params: [{name: pIn}]}
+  # readblocks, writeblocks and ioctl are not functions on uos: the docs list
+  # them on this page as the *protocol* a block device implements, the same way
+  # `network` lists AbstractNIC. `uos.readblocks(...)` is not a thing, which is
+  # what all three emitted. (block_definitions.js registered readblocks and
+  # writeblocks twice each, so the category listed five entries for three
+  # blocks; that was fixed earlier.)
+  #
+  # The answer is the one `uasyncio`'s Stream and Server blocks take: the
+  # object is a socket, because something else makes it. In this tree that
+  # something is `esp32.Partition`, which implements exactly these three; an
+  # SD card or a user's own class does too.
+  - type: uos_readblocks
+    label: []
+    tooltip: ".. method:: readblocks(block_num, buf, offset) The first form reads aligned, multiples of blocks. "
+    url: "https://docs.micropython.org/en/latest/library/uos.html"
+    import: []
+    code: "{device}.readblocks({block_num}, {buf})"
+    params:
+      - {name: device,    label: " readblocks", align: right}
+      - {name: block_num, label: from block, type: Number, default: 0, align: right}
+      - {name: buf,       label: into, align: right}
+
+  - type: uos_writeblocks
+    label: []
+    tooltip: ".. method:: writeblocks(block_num, buf, offset) The first form writes aligned, multiples of blocks, and requires that the blocks that are written to be first erased "
+    url: "https://docs.micropython.org/en/latest/library/uos.html"
+    import: []
+    code: "{device}.writeblocks({block_num}, {buf})"
+    params:
+      - {name: device,    label: " writeblocks", align: right}
+      - {name: block_num, label: from block, type: Number, default: 0, align: right}
+      - {name: buf,       label: from, align: right}
+
+  - type: uos_ioctl
+    kind: value
+    label: []
+    tooltip: ".. method:: ioctl(op, arg) Control the block device and query its parameters. "
+    url: "https://docs.micropython.org/en/latest/library/uos.html"
+    import: []
+    code: "{device}.ioctl({op}, {arg})"
+    params:
+      - {name: device, label: " ioctl", align: right}
+      - {name: op,     label: command,  type: Number, default: 4, align: right}
+      - {name: arg,    label: argument, type: Number, default: 0, align: right}

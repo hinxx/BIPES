@@ -13,6 +13,11 @@ drifted into a 133-block divergence. A file in `definitions/` replaces all
 three: `make blocks` writes `ui/core/blocks_generated.js`,
 `ui/core/generators_generated.js` and the `<category>` in each listed toolbox.
 
+`make blocks` also stamps a content hash onto the two generated `<script src>`
+in `index.html`. Every other script there carries a hand-bumped `?ver=`; these
+two carried nothing, so a browser that had loaded them once kept them across a
+rebuild and a deploy.
+
 A block belongs to exactly one world. `gen_blocks.py` refuses to run if a
 generated block type is also defined by hand, so converting a family means
 deleting the hand-written copies in the same commit.
@@ -28,6 +33,13 @@ files register in `Blockly.Blocks` and `Blockly.Python` -- the two
 `generator_stubs.js`, the OpenCV bindings under `jsCv/`, and this tool's own
 output -- so adding a script to the page is all it takes to have its blocks
 counted.
+
+It checks that every block the page defines has a Python generator, whether a
+toolbox lists it or not: a block nothing offers can still be sitting in
+somebody's saved program, and `workspaceToCode` throws on the whole program
+when it meets one it cannot generate. (Mutator sub-blocks are the exception,
+recognised by the `new Blockly.Mutator([...])` and `newBlock("...")` calls that
+name them.)
 
 It checks that every toolbox it spliced still parses as XML. `esp32.xml`
 keeps most of its `micropython` tree inside one long "blocks below need

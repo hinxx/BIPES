@@ -243,6 +243,23 @@ blocks:
     params:
       - {name: TIME, default: 100}
 
+  # `pico_stop_timer` had **no generator at all** -- a real statement block,
+  # offered by no toolbox, that a saved program from before could still hold.
+  # `workspaceToCode` throws on a block Python does not know, and takes the
+  # whole program's code with it: "Language "Python" does not know how to
+  # generate code for block type "pico_stop_timer"". It stops the timer
+  # `pico_timer` starts, which is `tim = Timer()`, so it deinits that.
+  # `offered: false`, because no toolbox has ever listed it and whether the
+  # Pico boards should offer a timer pair is a decision about those boards.
+  - type: pico_stop_timer
+    offered: false
+    colour: 135
+    label: "RPI Pico Stop Timer "
+    tooltip: ""
+    url: ""
+    import: {key: import_timer, line: "from machine import Timer"}
+    code: "tim.deinit()"
+
   - type: stop_timer
     colour: 0
     label: []

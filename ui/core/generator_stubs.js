@@ -650,21 +650,6 @@ Blockly.Python["machine.TimerWiPy_timerchannel.duty_cycle"] = function(block) {
 };
 
 
-Blockly.Python["uos_readblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uos.readblocks(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uos_writeblocks"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uos.writeblocks(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["uos_ioctl"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "uos.ioctl(" + value_pIn + ")\n"; 
-	return code;
-};
 
 //Rafael - From OpenCV
 //https://github.com/rafaelaroca/blockly-cv2

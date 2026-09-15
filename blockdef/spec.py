@@ -133,6 +133,7 @@ class Block:
     i2c_bus: dict[str, Any] | None = None   # -> Blockly.Python.i2cBus_()
     external: bool = False          # defined by hand; only the toolbox entry is ours
     imports: list['Import'] = field(default_factory=list)   # on top of the file's
+    no_imports: bool = False        # `import: []` -- not even the file's
     fields: dict[str, str] = field(default_factory=dict)    # toolbox <field> presets
     help_url: str | None = None
     boards: list[str] = field(default_factory=list)   # toolboxes that list it; all if empty
@@ -418,6 +419,7 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
+        no_imports=entry.get('import') == [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
         boards=boards, offered=entry.get('offered', True), variants=variants,

@@ -5103,6 +5103,12 @@ Blockly.Python['esp8266_get_rtc'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['pico_stop_timer'] = function(block) {
+  Blockly.Python.definitions_["import_timer"] = "from machine import Timer";
+  var code = "tim.deinit()";
+  return code + "\n";
+};
+
 Blockly.Python['stop_timer'] = function(block) {
   Blockly.Python.definitions_["import_timer"] = "from machine import Timer";
   var timerNumber_ = Blockly.Python.valueToCode(block, "timerNumber", Blockly.Python.ORDER_ATOMIC);
@@ -6034,6 +6040,30 @@ Blockly.Python['uos_umount'] = function(block) {
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "os.umount(" + pIn_ + ")";
   return code + "\n";
+};
+
+Blockly.Python['uos_readblocks'] = function(block) {
+  var device_ = Blockly.Python.valueToCode(block, "device", Blockly.Python.ORDER_ATOMIC);
+  var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = device_ + ".readblocks(" + block_num_ + ", " + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uos_writeblocks'] = function(block) {
+  var device_ = Blockly.Python.valueToCode(block, "device", Blockly.Python.ORDER_ATOMIC);
+  var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
+  var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  var code = device_ + ".writeblocks(" + block_num_ + ", " + buf_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uos_ioctl'] = function(block) {
+  var device_ = Blockly.Python.valueToCode(block, "device", Blockly.Python.ORDER_ATOMIC);
+  var op_ = Blockly.Python.valueToCode(block, "op", Blockly.Python.ORDER_ATOMIC);
+  var arg_ = Blockly.Python.valueToCode(block, "arg", Blockly.Python.ORDER_ATOMIC);
+  var code = device_ + ".ioctl(" + op_ + ", " + arg_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- ure (ure.blockdef.yaml) -------------------------------------------------
