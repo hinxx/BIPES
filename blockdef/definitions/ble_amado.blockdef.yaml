@@ -13,6 +13,18 @@
 # `verificar_dados_ble` calls, as code rather than as a definition, so the two
 # blocks only worked in one order.
 #
+# The class's own `name=` default is a plain string, and has to be. A
+# file-level import is registered by *every* block in the family, and only
+# `configurar_e_iniciar_bluetooth` has a `BLUETOOTH_NAME` field to interpolate
+# -- so when it said `name={BLUETOOTH_NAME}` the other three registered the
+# same key with the braces still in it. `definitions_` is a dict: whichever
+# block generated last won, and a program with a use-block below the init
+# block emitted the class with `name={BLUETOOTH_NAME}` still in its signature,
+# which raises NameError as the class is defined. The default is decoration
+# either way -- the init block passes `name=` explicitly in the call below --
+# so it is the name the block ships with. `make blocks` fails on the next one
+# (`_check_no_unresolved_placeholders`).
+#
 # `configurar_plotter_dados` carries a mutator and stays hand-written.
 
 module: bluetooth
@@ -49,7 +61,7 @@ import:
           _ADV_APPEARANCE_GENERIC_COMPUTER = const(128)
 
           class BLEUART:
-              def __init__(self, ble, name={BLUETOOTH_NAME}, rxbuf=100):
+              def __init__(self, ble, name="MeuBluetooth", rxbuf=100):
                   self._ble = ble
                   self._ble.active(True)
                   self._ble.irq(self._irq)

@@ -55,6 +55,14 @@ and `esp32.Partition` block-device methods, scraped twice from overlapping
 paragraphs of one docs page. Comments are stripped before the check, because
 both files park a superseded block behind `//~`.
 
+And it refuses a `{param}` that nothing interpolated. `{name}` is a hole in
+the block being emitted, so a *file-level* `import:` naming one is filled in
+for the blocks that have that param and written out verbatim for the blocks
+that do not -- and since `definitions_` is a dict keyed by the entry's name,
+whichever block generates last decides which version the program gets. The
+AmadoBoard's BLEUART class did exactly that with `name={BLUETOOTH_NAME}`.
+(`%{BKY_...}` is Blockly's own message syntax and is not a hole.)
+
 A generated category with no blocks on a board is not written at all, which
 makes `toolboxes:` say where a category *may* appear: a family whose every
 block is `boards:`-restricted away from a board simply does not appear there,

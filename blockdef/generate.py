@@ -41,8 +41,13 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     _check_no_duplicate_handwritten(root)
     _check_variant_devices_exist(root, definitions)
 
-    written += _write(root / BLOCKS_JS, emit_blocks_js(definitions))
-    written += _write(root / GENERATORS_JS, emit_generators_js(definitions))
+    blocks_js = emit_blocks_js(definitions)
+    generators_js = emit_generators_js(definitions)
+    _check_no_unresolved_placeholders(blocks_js, definitions)
+    _check_no_unresolved_placeholders(generators_js, definitions)
+
+    written += _write(root / BLOCKS_JS, blocks_js)
+    written += _write(root / GENERATORS_JS, generators_js)
     written += _stamp_page(root)
 
     for definition in definitions:
@@ -150,6 +155,35 @@ def _check_variant_devices_exist(root: Path, definitions: list[Definition]) -> N
                         f'{variant.device!r}, which is not one of the board selector\'s '
                         f'values in ui/index.html. The value is what `<option value=>` '
                         f'says, not the label the dropdown shows.')
+
+
+def _check_no_unresolved_placeholders(js: str, definitions: list[Definition]) -> None:
+    """A `{param}` that nothing interpolated, left in the emitted Python.
+
+    `{name}` is a hole only for the block being emitted, so a *file-level*
+    import naming one is filled in for the blocks that have that param and
+    written out verbatim for the blocks that do not. The AmadoBoard's BLEUART
+    class did that: `name={BLUETOOTH_NAME}` in a class every block in the
+    family registers, where only the init block has the field. `definitions_`
+    is a dict keyed by the entry's name, so whichever block generated last
+    decided which of the two versions the program got.
+
+    The `%{BKY_...}` in a category banner is Blockly's own message syntax and
+    is not a hole.
+    """
+    owner = {block.type: definition.path
+             for definition in definitions for block in definition.blocks}
+    block_type = ''
+    for line in js.split('\n'):
+        named = re.search(r"""Blockly\.(?:Blocks|Python)\[\s*['"]([^'"]+)['"]\s*\]""", line)
+        if named:
+            block_type = named.group(1)
+        for hole in re.findall(r'(?<!%)\{([A-Za-z_][A-Za-z0-9_]*)\}', line):
+            raise BlockdefError(
+                f'{owner.get(block_type, "?")}: block {block_type!r} emits {{{hole}}} '
+                f'literally -- nothing interpolated it. A `{{name}}` is filled in from '
+                f'the block being emitted, so a file-level `import:` naming one only '
+                f'works for the blocks that have that param.')
 
 
 def _check_no_duplicate_handwritten(root: Path) -> None:
