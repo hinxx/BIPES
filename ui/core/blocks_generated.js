@@ -5657,6 +5657,48 @@ Blockly.Blocks['machine.SPI_SPI.write_readinto'] = {
   }
 };
 
+// ---- machine.Timer (machine_timer.blockdef.yaml) -----------------------------
+
+Blockly.Blocks['machine.Timer_Timer.init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Timer.init");
+    this.appendValueInput("id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timer");
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("mode")
+        .appendField(new Blockly.FieldDropdown([["over and over", "PERIODIC"], ["once", "ONE_SHOT"]]), "mode");
+    this.appendValueInput("period")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("every (ms)");
+    this.appendValueInput("callback")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Build a timer and start it calling a function.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Timer.html");
+  }
+};
+
+Blockly.Blocks['machine.Timer_Timer.deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Timer.deinit");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Stop the timer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Timer.html");
+  }
+};
+
 // ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
 
 Blockly.Blocks['machine.UART_UART.init'] = {
@@ -12189,5 +12231,81 @@ Blockly.Blocks['wipy_heartbeat'] = {
     this.setColour(0);
     this.setTooltip(" ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/wipy.html");
+  }
+};
+
+// ---- Network (wiznet5k.blockdef.yaml) ----------------------------------------
+
+Blockly.Blocks['net_wiznet5k_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Init WizNet5000");
+    this.appendDummyInput()
+        .appendField("Ethernet Controller");
+    this.appendValueInput("spi")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SPI Bus:");
+    this.appendValueInput("cs")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("CS:");
+    this.appendValueInput("rst")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RST:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_wiznet5k_isconnected'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Check if Ethernet is Connected");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_wiznet5k_regs'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Dump Ethernet Registers");
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip("");
+  }
+};
+
+Blockly.Blocks['net_wiznet5k_ifconfig'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Configure WizNet5000");
+    this.appendDummyInput()
+        .appendField("Ethernet Controller");
+    this.appendValueInput("ip")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("IP:");
+    this.appendValueInput("subnet")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Subnet:");
+    this.appendValueInput("gw")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Gateway:");
+    this.appendValueInput("dns")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("DNS:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(135);
+    this.setTooltip("");
   }
 };

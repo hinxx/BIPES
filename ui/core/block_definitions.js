@@ -1453,31 +1453,9 @@ Blockly.Blocks["machine.ADCWiPy_adcchannel.deinit"] = {
 
 
 
-Blockly.Blocks["machine.Timer_Timer.init"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Timer.init");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Timer.html");
-  }
-};
 
 
 
-Blockly.Blocks["machine.Timer_Timer.deinit"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Timer.deinit");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Timer.deinit() Deinitialises the timer. Stops the timer, and disables the timer peripheral. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/machine.Timer.html");
-  }
-};
 
 
 
@@ -2510,96 +2488,13 @@ Blockly.Blocks['char_lcd_custom'] = {
 //uMail
 //New Network related functions
 //
-Blockly.Blocks['net_wiznet5k_init'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Init WizNet5000");
-
-    this.appendDummyInput()
-        .appendField("Ethernet Controller");
-
-    this.appendValueInput("spi")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("SPI Bus:");
-
-    this.appendValueInput("cs")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("CS:");
-
-    this.appendValueInput("rst")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("RST:");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-
-Blockly.Blocks['net_wiznet5k_isconnected'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Check if Ethernet is Connected");
-
-    this.setOutput(true);
-    this.setTooltip('');
-  }
-};
 
 
 
-Blockly.Blocks['net_wiznet5k_regs'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Dump Ethernet Registers");
-
-    this.setOutput(true);
-    this.setTooltip('');
-  }
-};
 
 
-Blockly.Blocks['net_wiznet5k_ifconfig'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Configure WizNet5000");
 
-    this.appendDummyInput()
-        .appendField("Ethernet Controller");
 
-    this.appendValueInput("ip")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("IP:");
-
-    this.appendValueInput("subnet")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Subnet:");
-
-    this.appendValueInput("gw")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Gateway:");
-
-    this.appendValueInput("dns")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("DNS:");
-
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 //TCP/IP Sockets
 

@@ -1,0 +1,43 @@
+# `machine.Timer`, the hardware timer that calls a function on a schedule.
+# Two blocks of `machine.Timer.Timer.init(...)` against an `import machine.Timer`
+# that is not a module, with one untyped `pIn` socket for every argument.
+#
+# `Timer.init` becomes the constructor and does both jobs in one block, which
+# is how the docs' own example reads: make the timer, then `init` it with a
+# mode, a period and a callback. The callback socket takes whatever holds the
+# function -- there is no literal to default it to, so a timer block dragged
+# out on its own generates `callback=` and waits for one.
+#
+# BIPES' own `timer` block, in the Timing category, is the friendlier version
+# of this: it takes a *stack of blocks* rather than a function, and walks the
+# workspace for the variables that stack needs to declare `global`. That walk
+# is why it stays hand-written.
+
+module: machine
+class: Timer
+instance: timer
+colour: 0
+url: https://docs.micropython.org/en/latest/library/machine.Timer.html
+import: {key: import_Timer, line: "from machine import Timer"}
+
+category:
+  name: machine.Timer
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: "machine.Timer_Timer.init"
+    label: Timer.init
+    tooltip: Build a timer and start it calling a function.
+    code: |-
+      {instance} = Timer({id})
+      {instance}.init(mode=Timer.{mode}, period={period}, callback={callback})
+    params:
+      - {name: id, label: timer, type: Number, default: 0, align: right}
+      - {name: mode, label: mode, kind: dropdown, align: right,
+         options: [{"over and over": PERIODIC}, {once: ONE_SHOT}]}
+      - {name: period, label: "every (ms)", type: Number, default: 1000, align: right}
+      - {name: callback, label: call, align: right}
+
+  - {type: "machine.Timer_Timer.deinit", fn: deinit, label: Timer.deinit,
+     tooltip: "Stop the timer."}

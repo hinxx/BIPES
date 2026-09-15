@@ -2758,6 +2758,24 @@ Blockly.Python['machine.SPI_SPI.write_readinto'] = function(block) {
   return code + "\n";
 };
 
+// ---- machine.Timer (machine_timer.blockdef.yaml) -----------------------------
+
+Blockly.Python['machine.Timer_Timer.init'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var id_ = Blockly.Python.valueToCode(block, "id", Blockly.Python.ORDER_ATOMIC);
+  var mode_ = block.getFieldValue("mode");
+  var period_ = Blockly.Python.valueToCode(block, "period", Blockly.Python.ORDER_ATOMIC);
+  var callback_ = Blockly.Python.valueToCode(block, "callback", Blockly.Python.ORDER_ATOMIC);
+  var code = "timer = Timer(" + id_ + ")\ntimer.init(mode=Timer." + mode_ + ", period=" + period_ + ", callback=" + callback_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['machine.Timer_Timer.deinit'] = function(block) {
+  Blockly.Python.definitions_["import_Timer"] = "from machine import Timer";
+  var code = "timer.deinit()";
+  return code + "\n";
+};
+
 // ---- machine.UART (machine_uart.blockdef.yaml) -------------------------------
 
 Blockly.Python['machine.UART_UART.init'] = function(block) {
@@ -6181,5 +6199,36 @@ Blockly.Python['wipy_heartbeat'] = function(block) {
   Blockly.Python.definitions_["import_wipy"] = "import wipy";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "wipy.heartbeat(" + pIn_ + ")";
+  return code + "\n";
+};
+
+// ---- Network (wiznet5k.blockdef.yaml) ----------------------------------------
+
+Blockly.Python['net_wiznet5k_init'] = function(block) {
+  Blockly.Python.definitions_["import_Pin_SPI"] = "from machine import Pin,SPI";
+  Blockly.Python.definitions_["import_network"] = "import network";
+  var spi_ = Blockly.Python.valueToCode(block, "spi", Blockly.Python.ORDER_ATOMIC);
+  var cs_ = Blockly.Python.valueToCode(block, "cs", Blockly.Python.ORDER_ATOMIC);
+  var rst_ = Blockly.Python.valueToCode(block, "rst", Blockly.Python.ORDER_ATOMIC);
+  var code = "nic_spi = SPI(" + spi_ + ", 2_000_000, mosi=Pin(19), miso=Pin(16), sck=Pin(18))\nnic = network.WIZNET5K(nic_spi, Pin(" + cs_ + "), Pin(" + rst_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['net_wiznet5k_isconnected'] = function(block) {
+  var code = "nic.isconnected()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_wiznet5k_regs'] = function(block) {
+  var code = "nic.regs()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_wiznet5k_ifconfig'] = function(block) {
+  var ip_ = Blockly.Python.valueToCode(block, "ip", Blockly.Python.ORDER_ATOMIC);
+  var subnet_ = Blockly.Python.valueToCode(block, "subnet", Blockly.Python.ORDER_ATOMIC);
+  var gw_ = Blockly.Python.valueToCode(block, "gw", Blockly.Python.ORDER_ATOMIC);
+  var dns_ = Blockly.Python.valueToCode(block, "dns", Blockly.Python.ORDER_ATOMIC);
+  var code = "nic.ifconfig((" + ip_ + ", " + subnet_ + ", " + gw_ + ", " + dns_ + "))";
   return code + "\n";
 };

@@ -668,16 +668,6 @@ Blockly.Python["machine.ADCWiPy_adcchannel.deinit"] = function(block) {
 	var code = "machine.ADCWiPy.adcchannel.deinit()\n"; 
 	return code;
 };
-Blockly.Python["machine.Timer_Timer.init"] = function(block) {
-		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "machine.Timer.Timer.init(" + value_pIn + ")\n"; 
-	return code;
-};
-Blockly.Python["machine.Timer_Timer.deinit"] = function(block) {
-		Blockly.Python.definitions_['import_machine.Timer'] = 'import machine.Timer';
-	var code = "machine.Timer.Timer.deinit()\n"; 
-	return code;
-};
 Blockly.Python["machine.TimerWiPy_TimerWiPy.init"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
 	var code = "machine.TimerWiPy.TimerWiPy.init(" + value_pIn + ")\n"; 
@@ -1903,52 +1893,12 @@ Blockly.Python['rfid_rc522_write_card'] = function(block) {
 
 
 
-Blockly.Python['net_wiznet5k_init'] = function(block) {
-
-  //Reference: https://docs.micropython.org/en/latest/library/network.WIZNET5K.html
-	
-  var spi = Blockly.Python.valueToCode(block, 'spi', Blockly.Python.ORDER_ATOMIC);
-  var cs = Blockly.Python.valueToCode(block, 'cs', Blockly.Python.ORDER_ATOMIC);
-  var rst = Blockly.Python.valueToCode(block, 'rst', Blockly.Python.ORDER_ATOMIC);
-
-  //Working nicely with RPI Pico. Before modifying, remmeber that this is workign with RIP Pico
-  Blockly.Python.definitions_['import_Pin_SPI'] = 'from machine import Pin,SPI';
-  Blockly.Python.definitions_['import_network'] = 'import network';
-
-  var code = 'spi' + spi + '=SPI(' + spi + ',2_000_000, mosi=Pin(19),miso=Pin(16),sck=Pin(18))\n';
-  code += 'nic = network.WIZNET5K(spi' + spi + ',Pin(' + cs + '),Pin(' + rst + '))\n';
-
-  return code;
-
-};
 
 
-Blockly.Python['net_wiznet5k_isconnected'] = function(block) {
-
-  var code = 'nic.isconnected()';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
-Blockly.Python['net_wiznet5k_regs'] = function(block) {
-
-  var code = 'nic.regs()';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
-Blockly.Python['net_wiznet5k_ifconfig'] = function(block) {
-  var ip = Blockly.Python.valueToCode(block, 'ip', Blockly.Python.ORDER_ATOMIC);
-  var subnet = Blockly.Python.valueToCode(block, 'subnet', Blockly.Python.ORDER_ATOMIC);
-  var gw = Blockly.Python.valueToCode(block, 'gw', Blockly.Python.ORDER_ATOMIC);
-  var dns = Blockly.Python.valueToCode(block, 'dns', Blockly.Python.ORDER_ATOMIC);
-
-  var code = 'nic.ifconfig((' + ip + ',' + subnet + ',' + gw + ',' + dns + '))\n';
-
-  return code;
-};
 
 
 /*

@@ -1512,14 +1512,48 @@
     <block type="net_ifconfig"></block>
     <!-- /blockdef:wifi -->
 
+    <!-- blockdef:wiznet5k -->
     <block type="net_wiznet5k_init">
+      <value name="spi">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="cs">
+        <shadow type="pinout"></shadow>
+      </value>
+      <value name="rst">
+        <shadow type="pinout"></shadow>
+      </value>
     </block>
-    <block type="net_wiznet5k_isconnected">
-    </block>
-    <block type="net_wiznet5k_regs">
-    </block>
+
+    <block type="net_wiznet5k_isconnected"></block>
+
+    <block type="net_wiznet5k_regs"></block>
+
     <block type="net_wiznet5k_ifconfig">
+      <value name="ip">
+        <shadow type="text">
+          <field name="TEXT">192.168.0.50</field>
+        </shadow>
+      </value>
+      <value name="subnet">
+        <shadow type="text">
+          <field name="TEXT">255.255.255.0</field>
+        </shadow>
+      </value>
+      <value name="gw">
+        <shadow type="text">
+          <field name="TEXT">192.168.0.1</field>
+        </shadow>
+      </value>
+      <value name="dns">
+        <shadow type="text">
+          <field name="TEXT">8.8.8.8</field>
+        </shadow>
+      </value>
     </block>
+    <!-- /blockdef:wiznet5k -->
 
     <category name="HTTP Client">
       <label text="HTTP Client"></label>
@@ -3280,12 +3314,25 @@
   <block type="machine.SPI_SPI.write_readinto"></block>
 </category>
 <!-- /blockdef:machine_spi -->
+<!-- blockdef:machine_timer -->
 <category name="machine.Timer">
-<block type="machine.Timer_Timer.init">
-</block>
-<block type="machine.Timer_Timer.deinit">
-</block>
+
+  <block type="machine.Timer_Timer.init">
+    <value name="id">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="period">
+      <shadow type="math_number">
+        <field name="NUM">1000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="machine.Timer_Timer.deinit"></block>
 </category>
+<!-- /blockdef:machine_timer -->
 <category name="machine.TimerWiPy">
 <block type="machine.TimerWiPy_TimerWiPy.init">
 </block>

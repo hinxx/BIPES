@@ -1,0 +1,59 @@
+# The WIZnet W5100S/W5500 ethernet controller, over SPI.
+#
+# Four blocks, the usual `nic` object built by the first, and two things worth
+# writing down:
+#
+# * `net_wiznet5k_init` **hardcodes the Raspberry Pi Pico's SPI pins** --
+#   `mosi=Pin(19), miso=Pin(16), sck=Pin(18)` -- while asking the user for the
+#   bus number, CS and RST. Its own comment says "Working nicely with RPI
+#   Pico". Neither Pico toolbox lists it: it is offered on nine boards, none of
+#   which is the one it was written for. Whether to give it the three pin
+#   sockets it needs is a decision about those boards, so the pins stay as they
+#   are and the fact is recorded here and in BACKLOG.md.
+# * It named the SPI object after the bus number by splicing the generated code
+#   into an identifier, `spi0 = SPI(0, ...)`, which is the pattern that broke
+#   `gpio_set` and the PWM blocks whenever the socket held anything but a
+#   literal. There is only ever one NIC here, so there is only ever one bus:
+#   `nic_spi`.
+
+module: network
+instance: nic
+colour: 135
+import: []
+
+category:
+  name: Network
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, stm32]
+
+blocks:
+  - type: net_wiznet5k_init
+    label: [Init WizNet5000, Ethernet Controller]
+    tooltip: ""
+    import:
+      - {key: import_Pin_SPI, line: "from machine import Pin,SPI"}
+      - {key: import_network, line: "import network"}
+    code: |-
+      nic_spi = SPI({spi}, 2_000_000, mosi=Pin(19), miso=Pin(16), sck=Pin(18))
+      {instance} = network.WIZNET5K(nic_spi, Pin({cs}), Pin({rst}))
+    params:
+      - {name: spi, label: "SPI Bus:", type: Number, default: 0, align: right}
+      - {name: cs,  label: "CS:",      type: Number, pin: true, align: right}
+      - {name: rst, label: "RST:",     type: Number, pin: true, align: right}
+
+  - {type: net_wiznet5k_isconnected, fn: isconnected, kind: value,
+     label: Check if Ethernet is Connected, tooltip: ""}
+
+  - {type: net_wiznet5k_regs, fn: regs, kind: value,
+     label: Dump Ethernet Registers, tooltip: ""}
+
+  - type: net_wiznet5k_ifconfig
+    label: [Configure WizNet5000, Ethernet Controller]
+    tooltip: ""
+    code: "{instance}.ifconfig(({ip}, {subnet}, {gw}, {dns}))"
+    params:
+      - {name: ip,     label: "IP:",      type: String, default: 192.168.0.50,  align: right}
+      - {name: subnet, label: "Subnet:",  type: String, default: 255.255.255.0, align: right}
+      - {name: gw,     label: "Gateway:", type: String, default: 192.168.0.1,   align: right}
+      - {name: dns,    label: "DNS:",     type: String, default: 8.8.8.8,       align: right}
