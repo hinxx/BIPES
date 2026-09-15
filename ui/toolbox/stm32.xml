@@ -508,13 +508,13 @@
     <block type="pwm.deinit"></block>
     <!-- /blockdef:pwm -->
 
+    <!-- blockdef:gpio_interrupt -->
     <block type="gpio_interrupt">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
     </block>
+    <!-- /blockdef:gpio_interrupt -->
   </category>
 
 

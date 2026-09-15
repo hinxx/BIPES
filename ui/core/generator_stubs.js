@@ -140,36 +140,35 @@ Blockly.Python['gpio_interrupt'] = function(block) {
 
   var dropdown_trigger = block.getFieldValue('trigger');
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var statements_code = Blockly.Python.statementToCode(block, 'code');
-  var value_pin = value_pin.replace('(','').replace(')','');
+  // An empty `do` socket used to leave the handler with no body at all, which
+  // is an IndentationError -- and that is how the block arrives from every
+  // flyout. Same answer as the try/except blocks: one indented `pass`.
+  var statements_code = Blockly.Python.statementToCode(block, 'code') ||
+      Blockly.Python.PASS;
+
+  // The handler's name comes from the name database, not from the pin. It used
+  // to be `callback` + the pin's *generated code*, with the parentheses
+  // stripped off in JavaScript, so anything but a bare literal in the socket
+  // produced `def callback4 + 1(pPin)` -- a SyntaxError. The Pin objects live
+  // in a dict keyed by the pin, the way gpio_set, tone and the PWM blocks do
+  // it, so `gpio_interrupt_off` has something to look up.
+  var handler = Blockly.Python.nameDB_.getDistinctName(
+      'gpio_irq_callback', Blockly.PROCEDURE_CATEGORY_NAME);
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['gpio_irq'] = 'gpio_irq = {}';
+  Blockly.Python.definitions_[handler] =
+      `\n#Interrupt handler\ndef ${handler}(pPin):\n${globals}${statements_code}`;
 
   if (dropdown_trigger == 'BOTH')
 	dropdown_trigger = 'IRQ_RISING | Pin.IRQ_FALLING';
 
-  var code='';
-  if (value_pin) {
-    Blockly.Python.definitions_[`gpio_interrupt${value_pin}`] = `\n#Interrupt handler\ndef callback${value_pin}(pPin):\n${globals}${statements_code}\n\n`;
-
-	  code = `p${value_pin} = Pin(${value_pin}, Pin.IN)\n`;
-	  code += `p${value_pin}.irq(trigger=Pin.${dropdown_trigger}, handler=callback${value_pin})\n`;
-  }
+  var code = `gpio_irq[${value_pin}] = Pin(${value_pin}, Pin.IN)\n`;
+  code += `gpio_irq[${value_pin}].irq(trigger=Pin.${dropdown_trigger}, handler=${handler})\n`;
 
   return code;
 };
 
-Blockly.Python['gpio_interrupt_off'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-
-  var value_pin = value_pin.replace('(','').replace(')','');
-  var code='';
-
-  if (value_pin)
-	  code = 'p' + value_pin + '.irq(trigger=0, handler=callback' + value_pin + ')\n';
-
-  return code;
-};
 
 
 /// Pinout

@@ -171,21 +171,6 @@ Blockly.Blocks['gpio_interrupt'] = {
   }
 };
 
-Blockly.Blocks['gpio_interrupt_off'] = {
-  init: function() {
-
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Disable interrupt on pin");
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Disable interrupt on a given pin");
- this.setHelpUrl("bipes.net.br");
-  }
-};
 
 
 /// Pinout

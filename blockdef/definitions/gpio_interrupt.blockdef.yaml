@@ -1,0 +1,68 @@
+# The interrupt pair at the bottom of `In/Out Pins`, and the second fragment
+# in that category after `gpio_set`/`gpio_get`.
+#
+# `gpio_interrupt` stays hand-written: its `do` stack becomes a callback, so it
+# walks the workspace for the variables that callback has to declare `global`,
+# and that is computation rather than a declaration. It is an `external:` entry
+# here so that its toolbox entry is generated beside the block that turns it
+# off. What it emits changed in the same commit, for two faults the conversion
+# of the other block made impossible to leave alone:
+#
+# * **The handler had no body.** `def callback16(pPin):` followed by nothing,
+#   which is an IndentationError -- and that is the state the block arrives in
+#   from all twelve flyouts, since the `do` socket starts empty. One indented
+#   `pass` now, the same answer the three try/except blocks got.
+# * **The names were built out of the pin's generated code**, with the
+#   parentheses stripped off in JavaScript: `p4 = Pin(4, Pin.IN)` and
+#   `def callback4`. Plug in `4 + 1` and you get `def callback4 + 1(pPin)` and
+#   `p4 + 1 = Pin(4 + 1, Pin.IN)`, neither of which is Python. That is the
+#   `init_servo`/`pservo4`, `tone`/`pwm4` and `gpio_set`/`gpio4` bug for the
+#   fourth time, and it has the same answer: the Pin objects live in a dict
+#   keyed by the pin. The handler is named by Blockly's own name database
+#   instead, so two of these blocks cannot collide whatever is in their
+#   sockets.
+#
+# That dict is what makes `gpio_interrupt_off` expressible at all. It used to
+# emit `p<pin>.irq(trigger=0, handler=callback<pin>)` -- two names built the
+# same way, and both undefined unless a `gpio_interrupt` block on the *same*
+# pin had generated first, in which case it was `NameError` on both.
+#
+# It is offered on **one** of the twelve boards that offer `gpio_interrupt`
+# (esp8266), so on the other eleven an interrupt can be turned on and never
+# off. That is a decision about those boards -- listing them in `boards:` is
+# all it would take -- so the board list is what it was.
+
+module: machine
+colour: 230
+url: bipes.net.br
+import: []
+
+category:
+  name: In/Out Pins
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3,
+              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  defaults:
+    esp32c3:    {pin: 4}
+    makernano:  {pin: 3}
+    makerpi:    {pin: 2}
+    rpi_pico:   {pin: 2}
+    rpi_pico_w: {pin: 2}
+
+blocks:
+  - type: gpio_interrupt
+    external: true
+    params:
+      - {name: pin, pin: true}
+
+  - type: gpio_interrupt_off
+    label: []
+    tooltip: Disable interrupt on a given pin
+    boards: [esp8266]
+    import: {key: gpio_irq, line: "gpio_irq = {}"}
+    # `handler=` is not passed: MicroPython's Pin.irq() defaults it to None, so
+    # this both detaches the handler and clears the trigger.
+    code: "gpio_irq[{pin}].irq(trigger=0)"
+    params:
+      - {name: pin, label: Disable interrupt on pin, type: Number, pin: true,
+         align: right}

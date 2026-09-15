@@ -1689,6 +1689,15 @@ Blockly.Python['gpio_get'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- In/Out Pins (gpio_interrupt.blockdef.yaml) ------------------------------
+
+Blockly.Python['gpio_interrupt_off'] = function(block) {
+  Blockly.Python.definitions_["gpio_irq"] = "gpio_irq = {}";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "gpio_irq[" + pin_ + "].irq(trigger=0)";
+  return code + "\n";
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Python['gps_init'] = function(block) {
