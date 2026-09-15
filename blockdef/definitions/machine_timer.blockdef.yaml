@@ -37,7 +37,7 @@ blocks:
       - {name: mode, label: mode, kind: dropdown, align: right,
          options: [{"over and over": PERIODIC}, {once: ONE_SHOT}]}
       - {name: period, label: "every (ms)", type: Number, default: 1000, align: right}
-      - {name: callback, label: call, align: right}
+      - {name: callback, label: call, align: right, plug: {type: variables_get, fields: {VAR: callback}}}
 
   - {type: "machine.Timer_Timer.deinit", fn: deinit, label: Timer.deinit,
      tooltip: "Stop the timer."}

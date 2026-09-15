@@ -2310,6 +2310,11 @@
         </block>
 
         <block type="machine.SPI_SPI.readinto">
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
           <value name="write">
             <shadow type="math_number">
               <field name="NUM">0</field>
@@ -2317,9 +2322,26 @@
           </value>
         </block>
 
-        <block type="machine.SPI_SPI.write"></block>
+        <block type="machine.SPI_SPI.write">
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
+        </block>
 
-        <block type="machine.SPI_SPI.write_readinto"></block>
+        <block type="machine.SPI_SPI.write_readinto">
+          <value name="write_buf">
+            <block type="variables_get">
+              <field name="VAR">write_buf</field>
+            </block>
+          </value>
+          <value name="read_buf">
+            <block type="variables_get">
+              <field name="VAR">read_buf</field>
+            </block>
+          </value>
+        </block>
       </category>
       <!-- /blockdef:comm_spi -->
 
@@ -2533,22 +2555,47 @@
     <block type="uos_umount"></block>
 
     <block type="uos_readblocks">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
       <value name="block_num">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
+      </value>
+      <value name="buf">
+        <block type="variables_get">
+          <field name="VAR">buf</field>
+        </block>
       </value>
     </block>
 
     <block type="uos_writeblocks">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
       <value name="block_num">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
       </value>
+      <value name="buf">
+        <block type="variables_get">
+          <field name="VAR">buf</field>
+        </block>
+      </value>
     </block>
 
     <block type="uos_ioctl">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
       <value name="op">
         <shadow type="math_number">
           <field name="NUM">4</field>
@@ -2617,6 +2664,11 @@
   <block type="builtins_classmethod"></block>
 
   <block type="builtins_compile">
+    <value name="source">
+      <block type="variables_get">
+        <field name="VAR">source</field>
+      </block>
+    </value>
     <value name="filename">
       <shadow type="text">
         <field name="TEXT">&lt;string&gt;</field>
@@ -2630,6 +2682,11 @@
   </block>
 
   <block type="builtins_delattr">
+    <value name="obj">
+      <block type="variables_get">
+        <field name="VAR">obj</field>
+      </block>
+    </value>
     <value name="name">
       <shadow type="text">
         <field name="TEXT">attr</field>
@@ -2670,9 +2727,25 @@
     </value>
   </block>
 
-  <block type="builtins_filter"></block>
+  <block type="builtins_filter">
+    <value name="function">
+      <block type="variables_get">
+        <field name="VAR">func</field>
+      </block>
+    </value>
+    <value name="iterable">
+      <block type="variables_get">
+        <field name="VAR">items</field>
+      </block>
+    </value>
+  </block>
 
   <block type="builtins_getattr">
+    <value name="obj">
+      <block type="variables_get">
+        <field name="VAR">obj</field>
+      </block>
+    </value>
     <value name="name">
       <shadow type="text">
         <field name="TEXT">attr</field>
@@ -2683,6 +2756,11 @@
   <block type="builtins_globals"></block>
 
   <block type="builtins_hasattr">
+    <value name="obj">
+      <block type="variables_get">
+        <field name="VAR">obj</field>
+      </block>
+    </value>
     <value name="name">
       <shadow type="text">
         <field name="TEXT">attr</field>
@@ -2711,6 +2789,11 @@
   </block>
 
   <block type="builtins_to_bytes">
+    <value name="x">
+      <block type="variables_get">
+        <field name="VAR">n</field>
+      </block>
+    </value>
     <value name="length">
       <shadow type="math_number">
         <field name="NUM">2</field>
@@ -2718,9 +2801,31 @@
     </value>
   </block>
 
-  <block type="builtins_isinstance"></block>
+  <block type="builtins_isinstance">
+    <value name="obj">
+      <block type="variables_get">
+        <field name="VAR">obj</field>
+      </block>
+    </value>
+    <value name="classinfo">
+      <block type="variables_get">
+        <field name="VAR">cls</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="builtins_issubclass"></block>
+  <block type="builtins_issubclass">
+    <value name="cls">
+      <block type="variables_get">
+        <field name="VAR">cls</field>
+      </block>
+    </value>
+    <value name="classinfo">
+      <block type="variables_get">
+        <field name="VAR">parent</field>
+      </block>
+    </value>
+  </block>
 
   <block type="builtins_iter"></block>
 
@@ -2728,7 +2833,18 @@
 
   <block type="builtins_locals"></block>
 
-  <block type="builtins_map"></block>
+  <block type="builtins_map">
+    <value name="function">
+      <block type="variables_get">
+        <field name="VAR">func</field>
+      </block>
+    </value>
+    <value name="iterable">
+      <block type="variables_get">
+        <field name="VAR">items</field>
+      </block>
+    </value>
+  </block>
 
   <block type="builtins_max"></block>
 
@@ -2803,10 +2919,20 @@
   </block>
 
   <block type="builtins_setattr">
+    <value name="obj">
+      <block type="variables_get">
+        <field name="VAR">obj</field>
+      </block>
+    </value>
     <value name="name">
       <shadow type="text">
         <field name="TEXT">attr</field>
       </shadow>
+    </value>
+    <value name="value">
+      <block type="variables_get">
+        <field name="VAR">value</field>
+      </block>
     </value>
   </block>
 
@@ -2820,7 +2946,18 @@
 
   <block type="builtins_type"></block>
 
-  <block type="builtins_zip"></block>
+  <block type="builtins_zip">
+    <value name="a">
+      <block type="variables_get">
+        <field name="VAR">a</field>
+      </block>
+    </value>
+    <value name="b">
+      <block type="variables_get">
+        <field name="VAR">b</field>
+      </block>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:builtins -->
 <!-- blockdef:cmath -->
@@ -3208,6 +3345,11 @@
   </block>
 
   <block type="framebuf_FrameBuffer.blit">
+    <value name="source">
+      <block type="variables_get">
+        <field name="VAR">source</field>
+      </block>
+    </value>
     <value name="x">
       <shadow type="math_number">
         <field name="NUM">0</field>
@@ -3908,7 +4050,13 @@
 
   <block type="machine.Pin_Pin.drive"></block>
 
-  <block type="machine.Pin_Pin.irq"></block>
+  <block type="machine.Pin_Pin.irq">
+    <value name="handler">
+      <block type="variables_get">
+        <field name="VAR">handler</field>
+      </block>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:machine_pin -->
 <!-- blockdef:machine -->
@@ -4053,6 +4201,11 @@
   </block>
 
   <block type="machine.SPI_SPI.readinto">
+    <value name="buf">
+      <block type="variables_get">
+        <field name="VAR">buf</field>
+      </block>
+    </value>
     <value name="write">
       <shadow type="math_number">
         <field name="NUM">0</field>
@@ -4060,9 +4213,26 @@
     </value>
   </block>
 
-  <block type="machine.SPI_SPI.write"></block>
+  <block type="machine.SPI_SPI.write">
+    <value name="buf">
+      <block type="variables_get">
+        <field name="VAR">buf</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="machine.SPI_SPI.write_readinto"></block>
+  <block type="machine.SPI_SPI.write_readinto">
+    <value name="write_buf">
+      <block type="variables_get">
+        <field name="VAR">write_buf</field>
+      </block>
+    </value>
+    <value name="read_buf">
+      <block type="variables_get">
+        <field name="VAR">read_buf</field>
+      </block>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:machine_spi -->
 <!-- blockdef:machine_timer -->
@@ -4078,6 +4248,11 @@
       <shadow type="math_number">
         <field name="NUM">1000</field>
       </shadow>
+    </value>
+    <value name="callback">
+      <block type="variables_get">
+        <field name="VAR">callback</field>
+      </block>
     </value>
   </block>
 
@@ -4110,7 +4285,13 @@
     </value>
   </block>
 
-  <block type="machine.TimerWiPy_timerchannel.irq"></block>
+  <block type="machine.TimerWiPy_timerchannel.irq">
+    <value name="handler">
+      <block type="variables_get">
+        <field name="VAR">handler</field>
+      </block>
+    </value>
+  </block>
 
   <block type="machine.TimerWiPy_timerchannel.freq"></block>
 
@@ -4158,7 +4339,13 @@
     </value>
   </block>
 
-  <block type="machine.UART_UART.readinto"></block>
+  <block type="machine.UART_UART.readinto">
+    <value name="buf">
+      <block type="variables_get">
+        <field name="VAR">buf</field>
+      </block>
+    </value>
+  </block>
 
   <block type="machine.UART_UART.readline"></block>
 
@@ -4172,7 +4359,13 @@
 
   <block type="machine.UART_UART.sendbreak"></block>
 
-  <block type="machine.UART_UART.irq"></block>
+  <block type="machine.UART_UART.irq">
+    <value name="handler">
+      <block type="variables_get">
+        <field name="VAR">handler</field>
+      </block>
+    </value>
+  </block>
 </category>
 <!-- /blockdef:machine_uart -->
 <!-- blockdef:machine_wdt -->
@@ -4425,9 +4618,21 @@
 <!-- blockdef:uasyncio -->
 <category name="uasyncio">
 
-  <block type="uasyncio_create_task"></block>
+  <block type="uasyncio_create_task">
+    <value name="coro">
+      <block type="variables_get">
+        <field name="VAR">coro</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="uasyncio_run"></block>
+  <block type="uasyncio_run">
+    <value name="coro">
+      <block type="variables_get">
+        <field name="VAR">coro</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_sleep">
     <value name="seconds">
@@ -4446,6 +4651,11 @@
   </block>
 
   <block type="uasyncio_wait_for">
+    <value name="coro">
+      <block type="variables_get">
+        <field name="VAR">coro</field>
+      </block>
+    </value>
     <value name="timeout">
       <shadow type="math_number">
         <field name="NUM">5</field>
@@ -4453,7 +4663,13 @@
     </value>
   </block>
 
-  <block type="uasyncio_gather"></block>
+  <block type="uasyncio_gather">
+    <value name="coros">
+      <block type="variables_get">
+        <field name="VAR">coros</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_open_connection">
     <value name="host">
@@ -4469,6 +4685,11 @@
   </block>
 
   <block type="uasyncio_start_server">
+    <value name="callback">
+      <block type="variables_get">
+        <field name="VAR">handler</field>
+      </block>
+    </value>
     <value name="host">
       <shadow type="text">
         <field name="TEXT">0.0.0.0</field>
@@ -4485,7 +4706,13 @@
 
   <block type="uasyncio_new_event_loop"></block>
 
-  <block type="uasyncio_Task.cancel"></block>
+  <block type="uasyncio_Task.cancel">
+    <value name="task">
+      <block type="variables_get">
+        <field name="VAR">task</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_Event"></block>
 
@@ -4506,6 +4733,11 @@
   <block type="uasyncio_Lock.release"></block>
 
   <block type="uasyncio_Stream.get_extra_info">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
     <value name="name">
       <shadow type="text">
         <field name="TEXT">peername</field>
@@ -4513,11 +4745,28 @@
     </value>
   </block>
 
-  <block type="uasyncio_Stream.close"></block>
+  <block type="uasyncio_Stream.close">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="uasyncio_Stream.wait_closed"></block>
+  <block type="uasyncio_Stream.wait_closed">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_Stream.read">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
     <value name="nbytes">
       <shadow type="math_number">
         <field name="NUM">100</field>
@@ -4525,9 +4774,20 @@
     </value>
   </block>
 
-  <block type="uasyncio_Stream.readline"></block>
+  <block type="uasyncio_Stream.readline">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_Stream.write">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
     <value name="data">
       <shadow type="text">
         <field name="TEXT">hello</field>
@@ -4535,17 +4795,47 @@
     </value>
   </block>
 
-  <block type="uasyncio_Stream.drain"></block>
+  <block type="uasyncio_Stream.drain">
+    <value name="stream">
+      <block type="variables_get">
+        <field name="VAR">reader</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="uasyncio_Server.close"></block>
+  <block type="uasyncio_Server.close">
+    <value name="server">
+      <block type="variables_get">
+        <field name="VAR">server</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="uasyncio_Server.wait_closed"></block>
+  <block type="uasyncio_Server.wait_closed">
+    <value name="server">
+      <block type="variables_get">
+        <field name="VAR">server</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="uasyncio_Loop.create_task"></block>
+  <block type="uasyncio_Loop.create_task">
+    <value name="coro">
+      <block type="variables_get">
+        <field name="VAR">coro</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_Loop.run_forever"></block>
 
-  <block type="uasyncio_Loop.run_until_complete"></block>
+  <block type="uasyncio_Loop.run_until_complete">
+    <value name="coro">
+      <block type="variables_get">
+        <field name="VAR">coro</field>
+      </block>
+    </value>
+  </block>
 
   <block type="uasyncio_Loop.stop"></block>
 
@@ -4880,22 +5170,47 @@
   <block type="uos_umount"></block>
 
   <block type="uos_readblocks">
+    <value name="device">
+      <block type="variables_get">
+        <field name="VAR">partition</field>
+      </block>
+    </value>
     <value name="block_num">
       <shadow type="math_number">
         <field name="NUM">0</field>
       </shadow>
+    </value>
+    <value name="buf">
+      <block type="variables_get">
+        <field name="VAR">buf</field>
+      </block>
     </value>
   </block>
 
   <block type="uos_writeblocks">
+    <value name="device">
+      <block type="variables_get">
+        <field name="VAR">partition</field>
+      </block>
+    </value>
     <value name="block_num">
       <shadow type="math_number">
         <field name="NUM">0</field>
       </shadow>
     </value>
+    <value name="buf">
+      <block type="variables_get">
+        <field name="VAR">buf</field>
+      </block>
+    </value>
   </block>
 
   <block type="uos_ioctl">
+    <value name="device">
+      <block type="variables_get">
+        <field name="VAR">partition</field>
+      </block>
+    </value>
     <value name="op">
       <shadow type="math_number">
         <field name="NUM">4</field>

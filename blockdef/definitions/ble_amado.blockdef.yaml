@@ -157,8 +157,13 @@ blocks:
       if received_data:
           handle_ble_data()
 
+  # Its mutator sockets hold the *variables* the plotter sends, and the
+  # generator declares each one `global`. The entry shipped a number shadow, so
+  # a freshly dragged block emitted `global 0` -- a SyntaxError on the one
+  # board that offers it. A variable is what belongs in that socket.
   - {type: configurar_plotter_dados, external: true,
-     params: [{name: SENSOR_0, type: Number, default: 0}]}
+     params: [{name: SENSOR_0,
+               plug: {type: variables_get, fields: {VAR: sensor}}}]}
 
   - type: chamar_formatar_dados_plotter
     colour: 160

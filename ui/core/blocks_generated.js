@@ -1565,7 +1565,7 @@ Blockly.Blocks['control_pid.compute_not_realtime'] = {
         .appendField(new Blockly.FieldNumber(0, 0, 9, 1), "ID")
         .appendField("with");
     this.appendValueInput("DT")
-        .setCheck(null)
+        .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("timestep (s)");
     this.setOutput(true, null);

@@ -841,9 +841,36 @@
 
 <category name="scikit-learn">
   <!-- blockdef:sklearn -->
-  <block type="fit"></block>
+  <block type="fit">
+    <value name="classifier">
+      <block type="variables_get">
+        <field name="VAR">classifier</field>
+      </block>
+    </value>
+    <value name="X">
+      <block type="variables_get">
+        <field name="VAR">X</field>
+      </block>
+    </value>
+    <value name="y">
+      <block type="variables_get">
+        <field name="VAR">y</field>
+      </block>
+    </value>
+  </block>
 
-  <block type="predict"></block>
+  <block type="predict">
+    <value name="classifier">
+      <block type="variables_get">
+        <field name="VAR">classifier</field>
+      </block>
+    </value>
+    <value name="X">
+      <block type="variables_get">
+        <field name="VAR">X</field>
+      </block>
+    </value>
+  </block>
   <!-- /blockdef:sklearn -->
   <!-- blockdef:classifier -->
   <category name="classifier">

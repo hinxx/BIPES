@@ -66,13 +66,13 @@ blocks:
   - {type: builtins_compile, kind: value, label: [], inline: true,
      code: "compile({source}, {filename}, {mode})",
      tooltip: "Compile source text into a code object for eval or exec.",
-     params: [{name: source, label: compile},
+     params: [{name: source, label: compile, plug: {type: variables_get, fields: {VAR: source}}},
               {name: filename, label: named, type: String, default: "<string>"},
               {name: mode, label: as, type: String, default: exec}]}
 
   - {type: builtins_delattr, label: [], inline: true, code: "delattr({obj}, {name})",
      tooltip: "Remove a named attribute from an object.",
-     params: [{name: obj, label: delete attribute of},
+     params: [{name: obj, label: delete attribute of, plug: {type: variables_get, fields: {VAR: obj}}},
               {name: name, label: named, type: String, default: attr}]}
 
   - {type: builtins_dir, kind: value, label: [], inline: true, code: "dir({obj})",
@@ -100,12 +100,13 @@ blocks:
   - {type: builtins_filter, kind: value, label: [], inline: true,
      code: "filter({function}, {iterable})",
      tooltip: "Keep the items a function says yes to.",
-     params: [{name: function, label: filter with}, {name: iterable, label: over}]}
+     params: [{name: function, label: filter with, plug: {type: variables_get, fields: {VAR: func}}},
+              {name: iterable, label: over, plug: {type: variables_get, fields: {VAR: items}}}]}
 
   - {type: builtins_getattr, kind: value, label: [], inline: true,
      code: "getattr({obj}, {name})",
      tooltip: "Read an attribute chosen by name.",
-     params: [{name: obj, label: attribute of},
+     params: [{name: obj, label: attribute of, plug: {type: variables_get, fields: {VAR: obj}}},
               {name: name, label: named, type: String, default: attr}]}
 
   - {type: builtins_globals, kind: value, inline: true, label: globals,
@@ -114,7 +115,7 @@ blocks:
   - {type: builtins_hasattr, kind: value, label: [], inline: true,
      code: "hasattr({obj}, {name})",
      tooltip: "True if the object has an attribute of that name.",
-     params: [{name: obj, label: has attribute},
+     params: [{name: obj, label: has attribute, plug: {type: variables_get, fields: {VAR: obj}}},
               {name: name, label: named, type: String, default: attr}]}
 
   - {type: builtins_hash, kind: value, label: [], inline: true, code: "hash({obj})",
@@ -136,7 +137,7 @@ blocks:
   - {type: builtins_to_bytes, kind: value, label: [], inline: true,
      code: "{x}.to_bytes({length}, {byteorder})",
      tooltip: "A whole number as that many bytes.",
-     params: [{name: x, label: bytes of},
+     params: [{name: x, label: bytes of, plug: {type: variables_get, fields: {VAR: n}}},
               {name: length, label: length, type: Number, default: 2},
               {name: byteorder, label: order, kind: dropdown,
                options: [{little: "'little'"}, {big: "'big'"}]}]}
@@ -144,12 +145,14 @@ blocks:
   - {type: builtins_isinstance, kind: value, label: [], inline: true,
      code: "isinstance({obj}, {classinfo})",
      tooltip: "True if the object is of that type.",
-     params: [{name: obj, label: is}, {name: classinfo, label: "an instance of"}]}
+     params: [{name: obj, label: is, plug: {type: variables_get, fields: {VAR: obj}}},
+              {name: classinfo, label: "an instance of", plug: {type: variables_get, fields: {VAR: cls}}}]}
 
   - {type: builtins_issubclass, kind: value, label: [], inline: true,
      code: "issubclass({cls}, {classinfo})",
      tooltip: "True if the first class derives from the second.",
-     params: [{name: cls, label: is}, {name: classinfo, label: "a subclass of"}]}
+     params: [{name: cls, label: is, plug: {type: variables_get, fields: {VAR: cls}}},
+              {name: classinfo, label: "a subclass of", plug: {type: variables_get, fields: {VAR: parent}}}]}
 
   - {type: builtins_iter, kind: value, label: [], inline: true, code: "iter({obj})",
      tooltip: "An iterator over the object.",
@@ -165,7 +168,8 @@ blocks:
   - {type: builtins_map, kind: value, label: [], inline: true,
      code: "map({function}, {iterable})",
      tooltip: "Apply a function to every item.",
-     params: [{name: function, label: apply}, {name: iterable, label: to each of}]}
+     params: [{name: function, label: apply, plug: {type: variables_get, fields: {VAR: func}}},
+              {name: iterable, label: to each of, plug: {type: variables_get, fields: {VAR: items}}}]}
 
   - {type: builtins_max, kind: value, label: [], inline: true, code: "max({iterable})",
      tooltip: "The largest item.",
@@ -230,9 +234,9 @@ blocks:
   - {type: builtins_setattr, label: [], inline: true,
      code: "setattr({obj}, {name}, {value})",
      tooltip: "Write an attribute chosen by name.",
-     params: [{name: obj, label: set attribute of},
+     params: [{name: obj, label: set attribute of, plug: {type: variables_get, fields: {VAR: obj}}},
               {name: name, label: named, type: String, default: attr},
-              {name: value, label: to}]}
+              {name: value, label: to, plug: {type: variables_get, fields: {VAR: value}}}]}
 
   - {type: builtins_sorted, kind: value, label: [], inline: true, code: "sorted({iterable})",
      tooltip: "The items in order, as a new list.",
@@ -256,4 +260,4 @@ blocks:
 
   - {type: builtins_zip, kind: value, label: [], inline: true, code: "zip({a}, {b})",
      tooltip: "Pair up the items of two sequences.",
-     params: [{name: a, label: zip}, {name: b, label: with}]}
+     params: [{name: a, label: zip, plug: {type: variables_get, fields: {VAR: a}}}, {name: b, label: with, plug: {type: variables_get, fields: {VAR: b}}}]}

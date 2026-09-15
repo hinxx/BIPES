@@ -55,7 +55,7 @@ blocks:
     label: SPI.readinto
     tooltip: Read into the buffer, writing the given byte over and over while it reads.
     params:
-      - {name: buf,   label: buffer, align: right}
+      - {name: buf,   label: buffer, align: right, plug: {type: variables_get, fields: {VAR: buf}}}
       - {name: write, label: "while writing", type: Number, default: 0, align: right}
 
   - type: machine.SPI_SPI.write
@@ -63,12 +63,12 @@ blocks:
     label: SPI.write
     tooltip: Write the buffer to the bus.
     params:
-      - {name: buf, label: buffer, align: right}
+      - {name: buf, label: buffer, align: right, plug: {type: variables_get, fields: {VAR: buf}}}
 
   - type: machine.SPI_SPI.write_readinto
     fn: write_readinto
     label: SPI.write_readinto
     tooltip: Write one buffer while reading into another, both the same length.
     params:
-      - {name: write_buf, label: write, align: right}
-      - {name: read_buf,  label: "into", align: right}
+      - {name: write_buf, label: write, align: right, plug: {type: variables_get, fields: {VAR: write_buf}}}
+      - {name: read_buf,  label: "into", align: right, plug: {type: variables_get, fields: {VAR: read_buf}}}

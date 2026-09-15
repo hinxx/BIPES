@@ -44,12 +44,14 @@ blocks:
   - {type: uasyncio_create_task, label: create_task,
      tooltip: "Run a coroutine in the background and hand back its Task.",
      code: "uasyncio.create_task({coro})",
-     params: [{name: coro, label: coroutine, align: right}]}
+     params: [{name: coro, label: coroutine, align: right,
+              plug: {type: variables_get, fields: {VAR: coro}}}]}
 
   - {type: uasyncio_run, label: run,
      tooltip: "Run a coroutine to completion. This is how an async program starts.",
      code: "uasyncio.run({coro})",
-     params: [{name: coro, label: coroutine, align: right}]}
+     params: [{name: coro, label: coroutine, align: right,
+              plug: {type: variables_get, fields: {VAR: coro}}}]}
 
   - {type: uasyncio_sleep, label: sleep,
      tooltip: "Let other tasks run for this many seconds.",
@@ -64,13 +66,15 @@ blocks:
   - {type: uasyncio_wait_for, kind: value, label: wait_for,
      tooltip: "Wait for a coroutine, giving up after this long.",
      code: "await uasyncio.wait_for({coro}, {timeout})",
-     params: [{name: coro, label: coroutine, align: right},
+     params: [{name: coro, label: coroutine, align: right,
+              plug: {type: variables_get, fields: {VAR: coro}}},
               {name: timeout, label: "timeout (s)", type: Number, default: 5, align: right}]}
 
   - {type: uasyncio_gather, kind: value, label: gather,
      tooltip: "Wait for a list of coroutines and collect what they return.",
      code: "await uasyncio.gather(*{coros})",
-     params: [{name: coros, label: coroutines, align: right}]}
+     params: [{name: coros, label: coroutines, align: right,
+              plug: {type: variables_get, fields: {VAR: coros}}}]}
 
   - {type: uasyncio_open_connection, kind: value, label: open_connection,
      tooltip: "Connect to a TCP server, giving back a reader and a writer.",
@@ -81,7 +85,8 @@ blocks:
   - {type: uasyncio_start_server, kind: value, label: start_server,
      tooltip: "Listen for TCP connections, calling a coroutine for each one.",
      code: "await uasyncio.start_server({callback}, {host}, {port})",
-     params: [{name: callback, label: call, align: right},
+     params: [{name: callback, label: call, align: right,
+              plug: {type: variables_get, fields: {VAR: handler}}},
               {name: host, label: on, type: String, default: 0.0.0.0, align: right},
               {name: port, label: port, type: Number, default: 8080, align: right}]}
 
@@ -98,7 +103,8 @@ blocks:
   - {type: "uasyncio_Task.cancel", label: Task.cancel,
      tooltip: "Stop a task that create_task started.",
      code: "{task}.cancel()",
-     params: [{name: task, label: task, align: right}]}
+     params: [{name: task, label: task, align: right,
+              plug: {type: variables_get, fields: {VAR: task}}}]}
 
   # --- Event -----------------------------------------------------------------
 
@@ -138,48 +144,57 @@ blocks:
   - {type: "uasyncio_Stream.get_extra_info", kind: value, label: Stream.get_extra_info,
      tooltip: "One detail of the connection, by name.",
      code: "{stream}.get_extra_info({name})",
-     params: [{name: stream, label: stream, align: right},
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}},
               {name: name, label: detail, type: String, default: peername, align: right}]}
 
   - {type: "uasyncio_Stream.close", label: Stream.close,
      tooltip: "Start closing the stream.", code: "{stream}.close()",
-     params: [{name: stream, label: stream, align: right}]}
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}}]}
 
   - {type: "uasyncio_Stream.wait_closed", label: Stream.wait_closed,
      tooltip: "Wait until the stream has finished closing.",
      code: "await {stream}.wait_closed()",
-     params: [{name: stream, label: stream, align: right}]}
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}}]}
 
   - {type: "uasyncio_Stream.read", kind: value, label: Stream.read,
      tooltip: "Read up to this many bytes.",
      code: "await {stream}.read({nbytes})",
-     params: [{name: stream, label: stream, align: right},
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}},
               {name: nbytes, label: bytes, type: Number, default: 100, align: right}]}
 
   - {type: "uasyncio_Stream.readline", kind: value, label: Stream.readline,
      tooltip: "Read one line.", code: "await {stream}.readline()",
-     params: [{name: stream, label: stream, align: right}]}
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}}]}
 
   - {type: "uasyncio_Stream.write", label: Stream.write,
      tooltip: "Buffer data to send. Nothing leaves until drain.",
      code: "{stream}.write({data})",
-     params: [{name: stream, label: stream, align: right},
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}},
               {name: data, label: data, type: String, default: hello, align: right}]}
 
   - {type: "uasyncio_Stream.drain", label: Stream.drain,
      tooltip: "Send what write buffered.", code: "await {stream}.drain()",
-     params: [{name: stream, label: stream, align: right}]}
+     params: [{name: stream, label: stream, align: right,
+              plug: {type: variables_get, fields: {VAR: reader}}}]}
 
   # --- Server ----------------------------------------------------------------
 
   - {type: "uasyncio_Server.close", label: Server.close,
      tooltip: "Stop accepting connections.", code: "{server}.close()",
-     params: [{name: server, label: server, align: right}]}
+     params: [{name: server, label: server, align: right,
+              plug: {type: variables_get, fields: {VAR: server}}}]}
 
   - {type: "uasyncio_Server.wait_closed", label: Server.wait_closed,
      tooltip: "Wait until the server has finished closing.",
      code: "await {server}.wait_closed()",
-     params: [{name: server, label: server, align: right}]}
+     params: [{name: server, label: server, align: right,
+              plug: {type: variables_get, fields: {VAR: server}}}]}
 
   # --- Loop ------------------------------------------------------------------
   # `get_event_loop()` returns the one loop however often it is called, so
@@ -188,7 +203,8 @@ blocks:
   - {type: "uasyncio_Loop.create_task", label: Loop.create_task,
      tooltip: "Run a coroutine in the background, through the loop.",
      code: "uasyncio.get_event_loop().create_task({coro})",
-     params: [{name: coro, label: coroutine, align: right}]}
+     params: [{name: coro, label: coroutine, align: right,
+              plug: {type: variables_get, fields: {VAR: coro}}}]}
 
   - {type: "uasyncio_Loop.run_forever", label: Loop.run_forever,
      tooltip: "Run the loop until something stops it.",
@@ -197,7 +213,8 @@ blocks:
   - {type: "uasyncio_Loop.run_until_complete", label: Loop.run_until_complete,
      tooltip: "Run the loop until this coroutine finishes.",
      code: "uasyncio.get_event_loop().run_until_complete({coro})",
-     params: [{name: coro, label: coroutine, align: right}]}
+     params: [{name: coro, label: coroutine, align: right,
+              plug: {type: variables_get, fields: {VAR: coro}}}]}
 
   - {type: "uasyncio_Loop.stop", label: Loop.stop, tooltip: "Stop the loop.",
      code: "uasyncio.get_event_loop().stop()"}

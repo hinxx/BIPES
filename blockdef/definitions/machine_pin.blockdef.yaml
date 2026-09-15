@@ -92,7 +92,7 @@ blocks:
     tooltip: Call a function when the pin changes. The handler runs in interrupt context.
     code: "{instance}.irq(handler={handler}, trigger={trigger})"
     params:
-      - {name: handler, label: call,  align: right}
+      - {name: handler, label: call,  align: right, plug: {type: variables_get, fields: {VAR: handler}}}
       - {name: trigger, label: on,    kind: dropdown, align: right,
          options: [{"falling edge": "Pin.IRQ_FALLING"},
                    {"rising edge": "Pin.IRQ_RISING"},

@@ -23,7 +23,8 @@ blocks:
     url: ""
     code: "_thread.start_new_thread({FUNCTION}, ())"
     params:
-      - {name: FUNCTION, label: Iniciar tarefa paralela com a função, type: Function}
+      - {name: FUNCTION, label: Iniciar tarefa paralela com a função, type: Function,
+         plug: {type: variables_get, fields: {VAR: tarefa}}}
 
   # The other `_thread` block, offered by no toolbox and defined by hand until
   # now. It promised "Thread # N  Interval (ms): 1000" and then **never used

@@ -162,9 +162,10 @@ blocks:
     import: []
     code: "{device}.readblocks({block_num}, {buf})"
     params:
-      - {name: device,    label: " readblocks", align: right}
+      - {name: device,    label: " readblocks", align: right,
+         plug: {type: variables_get, fields: {VAR: partition}}}
       - {name: block_num, label: from block, type: Number, default: 0, align: right}
-      - {name: buf,       label: into, align: right}
+      - {name: buf,       label: into, align: right, plug: {type: variables_get, fields: {VAR: buf}}}
 
   - type: uos_writeblocks
     label: []
@@ -173,9 +174,10 @@ blocks:
     import: []
     code: "{device}.writeblocks({block_num}, {buf})"
     params:
-      - {name: device,    label: " writeblocks", align: right}
+      - {name: device,    label: " writeblocks", align: right,
+         plug: {type: variables_get, fields: {VAR: partition}}}
       - {name: block_num, label: from block, type: Number, default: 0, align: right}
-      - {name: buf,       label: from, align: right}
+      - {name: buf,       label: from, align: right, plug: {type: variables_get, fields: {VAR: buf}}}
 
   - type: uos_ioctl
     kind: value
@@ -185,6 +187,6 @@ blocks:
     import: []
     code: "{device}.ioctl({op}, {arg})"
     params:
-      - {name: device, label: " ioctl", align: right}
+      - {name: device, label: " ioctl", align: right, plug: {type: variables_get, fields: {VAR: partition}}}
       - {name: op,     label: command,  type: Number, default: 4, align: right}
       - {name: arg,    label: argument, type: Number, default: 0, align: right}

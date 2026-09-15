@@ -55,7 +55,7 @@ blocks:
     code: "{instance}.readinto({buf})"
     tooltip: Read into a buffer, as many bytes as it is long.
     params:
-      - {name: buf, label: "UART.readinto"}
+      - {name: buf, label: "UART.readinto", plug: {type: variables_get, fields: {VAR: buf}}}
 
   - {type: machine.UART_UART.readline, fn: readline, kind: value, label: UART.readline,
      tooltip: "Read one line, ending at the newline."}
@@ -77,4 +77,4 @@ blocks:
     code: "{instance}.irq({handler})"
     tooltip: Call a function when the port has something to say. Not every port has this.
     params:
-      - {name: handler, label: "UART.irq call"}
+      - {name: handler, label: "UART.irq call", plug: {type: variables_get, fields: {VAR: handler}}}

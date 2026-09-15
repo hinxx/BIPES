@@ -340,12 +340,12 @@
     <block type="inter_init">
       <value name="Nome">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">botao</field>
         </shadow>
       </value>
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">ao_pressionar</field>
         </shadow>
       </value>
       <value name="pin">
@@ -1147,7 +1147,7 @@
       <block type="anemo_init">
         <value name="Função">
           <shadow type="text">
-            <field name="TEXT"></field>
+            <field name="TEXT">contar_vento</field>
           </shadow>
         </value>
         <value name="pin">
@@ -1158,7 +1158,7 @@
       <block type="anemo_stop">
         <value name="Função">
           <shadow type="text">
-            <field name="TEXT"></field>
+            <field name="TEXT">contar_vento</field>
           </shadow>
         </value>
       </block>
@@ -1172,7 +1172,7 @@
     <block type="pluvio_init">
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">contar_chuva</field>
         </shadow>
       </value>
       <value name="pin">
@@ -1183,7 +1183,7 @@
     <block type="pluvio_stop">
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">contar_chuva</field>
         </shadow>
       </value>
     </block>
@@ -2423,11 +2423,59 @@
 
     <block type="uos_umount"></block>
 
-    <block type="uos_readblocks"></block>
+    <block type="uos_readblocks">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
+      <value name="block_num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="buf">
+        <block type="variables_get">
+          <field name="VAR">buf</field>
+        </block>
+      </value>
+    </block>
 
-    <block type="uos_writeblocks"></block>
+    <block type="uos_writeblocks">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
+      <value name="block_num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="buf">
+        <block type="variables_get">
+          <field name="VAR">buf</field>
+        </block>
+      </value>
+    </block>
 
-    <block type="uos_ioctl"></block>
+    <block type="uos_ioctl">
+      <value name="device">
+        <block type="variables_get">
+          <field name="VAR">partition</field>
+        </block>
+      </value>
+      <value name="op">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+      <value name="arg">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <!-- /blockdef:files -->
  
@@ -3056,9 +3104,26 @@
       </value>
     </block>
 
-    <block type="control_pid.compute"></block>
+    <block type="control_pid.compute">
+      <value name="INPUT">
+        <block type="variables_get">
+          <field name="VAR">sensor</field>
+        </block>
+      </value>
+    </block>
 
-    <block type="control_pid.compute_not_realtime"></block>
+    <block type="control_pid.compute_not_realtime">
+      <value name="INPUT">
+        <block type="variables_get">
+          <field name="VAR">sensor</field>
+        </block>
+      </value>
+      <value name="DT">
+        <shadow type="math_number">
+          <field name="NUM">0.1</field>
+        </shadow>
+      </value>
+    </block>
 
     <block type="control_pid.tunings">
       <value name="KP">

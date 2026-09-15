@@ -186,9 +186,21 @@ blocks:
   - {type: uos_dupterm,  external: true}
   - {type: uos_mount,    external: true}
   - {type: uos_umount,   external: true}
-  - {type: uos_readblocks,  external: true}
-  - {type: uos_writeblocks, external: true}
-  - {type: uos_ioctl,       external: true}
+  # The block device is a socket on all three, so the entry has to carry the
+  # same plugged variable the top-level `uos` listing does -- an `external:`
+  # entry writes its own shadows.
+  - {type: uos_readblocks,  external: true, params: [
+      {name: device, align: right, plug: {type: variables_get, fields: {VAR: partition}}},
+      {name: block_num, type: Number, default: 0, align: right},
+      {name: buf, align: right, plug: {type: variables_get, fields: {VAR: buf}}}]}
+  - {type: uos_writeblocks, external: true, params: [
+      {name: device, align: right, plug: {type: variables_get, fields: {VAR: partition}}},
+      {name: block_num, type: Number, default: 0, align: right},
+      {name: buf, align: right, plug: {type: variables_get, fields: {VAR: buf}}}]}
+  - {type: uos_ioctl,       external: true, params: [
+      {name: device, align: right, plug: {type: variables_get, fields: {VAR: partition}}},
+      {name: op, type: Number, default: 4, align: right},
+      {name: arg, type: Number, default: 0, align: right}]}
 
   # Three superseded copies, offered by no toolbox and convertible only
   # because nothing offers them. Each carries a `filename` socket that has

@@ -340,12 +340,12 @@
     <block type="inter_init">
       <value name="Nome">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">botao</field>
         </shadow>
       </value>
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">ao_pressionar</field>
         </shadow>
       </value>
       <value name="pin">
@@ -1161,7 +1161,7 @@
       <block type="anemo_init">
         <value name="Função">
           <shadow type="text">
-            <field name="TEXT"></field>
+            <field name="TEXT">contar_vento</field>
           </shadow>
         </value>
         <value name="pin">
@@ -1172,7 +1172,7 @@
       <block type="anemo_stop">
         <value name="Função">
           <shadow type="text">
-            <field name="TEXT"></field>
+            <field name="TEXT">contar_vento</field>
           </shadow>
         </value>
       </block>
@@ -1186,7 +1186,7 @@
     <block type="pluvio_init">
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">contar_chuva</field>
         </shadow>
       </value>
       <value name="pin">
@@ -1197,7 +1197,7 @@
     <block type="pluvio_stop">
       <value name="Função">
         <shadow type="text">
-          <field name="TEXT"></field>
+          <field name="TEXT">contar_chuva</field>
         </shadow>
       </value>
     </block>

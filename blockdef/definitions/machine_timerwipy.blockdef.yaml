@@ -51,7 +51,7 @@ blocks:
     import: *timer_import
     code: "{instance}.irq(handler={handler}, trigger=Timer.{trigger})"
     params:
-      - {name: handler, label: call, align: right}
+      - {name: handler, label: call, align: right, plug: {type: variables_get, fields: {VAR: handler}}}
       - {name: trigger, label: on, kind: dropdown, align: right,
          options: [{timeout: TIMEOUT}, {match: MATCH}]}
 

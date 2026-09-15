@@ -23,9 +23,9 @@ blocks:
     tooltip: fit
     code: "{classifier}.fit({X}, {y})"
     params:
-      - {name: classifier, label: classifier}
-      - {name: X, label: X, align: right}
-      - {name: y, label: y, align: right}
+      - {name: classifier, label: classifier, plug: {type: variables_get, fields: {VAR: classifier}}}
+      - {name: X, label: X, align: right, plug: {type: variables_get, fields: {VAR: X}}}
+      - {name: y, label: y, align: right, plug: {type: variables_get, fields: {VAR: y}}}
 
   - type: predict
     kind: value
@@ -33,5 +33,5 @@ blocks:
     tooltip: predict
     code: "{classifier}.predict({X})"
     params:
-      - {name: classifier, label: classifier}
-      - {name: X, label: X, align: right}
+      - {name: classifier, label: classifier, plug: {type: variables_get, fields: {VAR: classifier}}}
+      - {name: X, label: X, align: right, plug: {type: variables_get, fields: {VAR: X}}}

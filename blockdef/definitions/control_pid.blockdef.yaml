@@ -36,7 +36,7 @@ blocks:
     params:
       - {name: ID, row: next, label: "compute PID #", kind: number, default: 0, min: 0,
          max: 9, precision: 1}
-      - {name: INPUT, label: with, align: right, shadow: false}
+      - {name: INPUT, label: with, align: right, plug: {type: variables_get, fields: {VAR: sensor}}}
 
   - type: control_pid.compute_not_realtime
     kind: value
@@ -47,8 +47,8 @@ blocks:
     params:
       - {name: ID, row: next, label: "compute PID #", kind: number, default: 0, min: 0,
          max: 9, precision: 1}
-      - {name: INPUT, label: with, align: right, shadow: false}
-      - {name: DT, label: timestep (s), align: right, shadow: false}
+      - {name: INPUT, label: with, align: right, plug: {type: variables_get, fields: {VAR: sensor}}}
+      - {name: DT, label: timestep (s), align: right, type: Number, default: 0.1}
 
   - type: control_pid.tunings
     label: []

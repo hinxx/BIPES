@@ -22,6 +22,10 @@ blocks:
       {name: nbytes, type: Number, default: 1, align: right},
       {name: write, type: Number, default: 0, align: right}]}
   - {type: machine.SPI_SPI.readinto, external: true, params: [
+      {name: buf, align: right, plug: {type: variables_get, fields: {VAR: buf}}},
       {name: write, type: Number, default: 0, align: right}]}
-  - {type: machine.SPI_SPI.write, external: true}
-  - {type: machine.SPI_SPI.write_readinto, external: true}
+  - {type: machine.SPI_SPI.write, external: true, params: [
+      {name: buf, align: right, plug: {type: variables_get, fields: {VAR: buf}}}]}
+  - {type: machine.SPI_SPI.write_readinto, external: true, params: [
+      {name: write_buf, align: right, plug: {type: variables_get, fields: {VAR: write_buf}}},
+      {name: read_buf, align: right, plug: {type: variables_get, fields: {VAR: read_buf}}}]}

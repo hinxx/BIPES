@@ -117,7 +117,9 @@ blocks:
       {Nome}=machine.Pin({pin}, machine.Pin.IN, machine.Pin.PULL_UP)
       {Nome}.irq(trigger=machine.Pin.IRQ_FALLING, handler={Função})
     params:
-      - {name: Nome, label: Nome, type: String, align: right, unquote: true}
-      - {name: Função, label: Função, type: String, align: right, unquote: true}
+      - {name: Nome, label: Nome, type: String, align: right, unquote: true,
+         default: botao}
+      - {name: Função, label: Função, type: String, align: right, unquote: true,
+         default: ao_pressionar}
       - {name: pin, label: {text: pin, field: INTERRUPT_PIN}, type: Number,
          pin: true, align: right}

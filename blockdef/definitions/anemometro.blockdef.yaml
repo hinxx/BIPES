@@ -18,11 +18,13 @@ blocks:
       anemometro=machine.Pin({pin},machine.Pin.IN,machine.Pin.PULL_UP) 
       anemometro.irq(trigger=machine.Pin.IRQ_FALLING,handler={Função})
     params:
-      - {name: "Função", label: "Função", type: String, unquote: true, align: right}
+      - {name: "Função", label: "Função", type: String, unquote: true, align: right,
+         default: contar_vento}
       - {name: pin, label: {text: pin, field: ANENO_PIN_MSG}, type: Number, pin: true, align: right}
 
   - type: anemo_stop
     label: {text: Parar Anenômetro, field: STOP_ANENO}
     code: "anemometro.irq(trigger=0,handler={Função})"
     params:
-      - {name: "Função", label: "Função", type: String, unquote: true, align: right}
+      - {name: "Função", label: "Função", type: String, unquote: true, align: right,
+         default: contar_vento}

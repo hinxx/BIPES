@@ -139,6 +139,6 @@ blocks:
     label: FrameBuffer.blit
     tooltip: Draw another buffer into this one at x, y.
     params:
-      - {name: source, label: buffer, align: right}
+      - {name: source, label: buffer, align: right, plug: {type: variables_get, fields: {VAR: source}}}
       - {name: x,      label: x, type: Number, default: 0, align: right}
       - {name: y,      label: y, type: Number, default: 0, align: right}
