@@ -40,8 +40,8 @@ category:
     - "Library: "
   library: [rtttl, songs]
   docs: sound
-  toolboxes: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-              makernano, makerpi, rpi_pico, rpi_pico_w]
+  toolboxes: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
 
 blocks:
   - type: tone

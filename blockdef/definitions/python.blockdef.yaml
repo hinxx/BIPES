@@ -30,7 +30,8 @@ category:
   name: Python
   labels: [Python]
   toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
-              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+              esp32c3, esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico,
+              rpi_pico_w, stm32]
 
 blocks:
   - type: try_catch
@@ -38,8 +39,8 @@ blocks:
     label: []
     tooltip: ""
     url: ""
-    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-             makernano, makerpi, rpi_pico, rpi_pico_w]
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
     code: |-
       try:
       {main_code}except:
@@ -111,7 +112,8 @@ blocks:
          text: Iniciar Interrupção}
     tooltip: ""
     url: ""
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     import: {key: import_machine, line: "import machine"}
     code: |-
       {Nome}=machine.Pin({pin}, machine.Pin.IN, machine.Pin.PULL_UP)

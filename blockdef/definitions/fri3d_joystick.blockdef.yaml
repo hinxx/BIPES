@@ -1,0 +1,55 @@
+# The thumb joystick on the Fri3d Camp 2024 badge, through the badge's own
+# firmware module: `from badge.joystick import joystick` is already on the
+# board, so there is no library to install and nothing to send.
+#
+# From kemak92/BIPES-fri3dcamp-badge. Two differences from the fork:
+#
+# * The block ids carry a `fri3d_` prefix. `joystick_init` is already taken in
+#   this tree by the GraftSense analog joystick on `rpi_pico`, and two blocks
+#   cannot share an id -- whichever registered last would win and the other
+#   would be undraggable. A program exported from the fork therefore does not
+#   load its joystick blocks here; nothing else about it changes.
+# * The fork's init block carried a `deadzone_field` number *and* a `deadzone`
+#   socket on the same row, and the generator only ever read the socket. The
+#   field is gone; the socket keeps the 0.1 shadow the toolbox gave it.
+#
+# Not tested on hardware -- there is no badge here.
+
+module: joystick
+instance: joystick
+colour: 135
+url: https://github.com/Fri3dCamp/badge_2024_micropython
+import:
+  - {line: "from badge.joystick import joystick", key: import_fri3d_joystick}
+
+category:
+  name: Joystick
+  colour: 135
+  labels:
+    - Fri3d Camp badge joystick -- always use the init block first
+    - "Part of the badge firmware: badge.joystick"
+  toolboxes: [esp32S3]
+
+blocks:
+  - type: fri3d_joystick_init
+    fn: init_and_calibrate
+    label: Joystick init and calibration
+    tooltip: Read the joystick's resting position and use it as the centre.
+      Run this before reading the joystick, with the stick untouched.
+    params:
+      - {name: deadzone, label: "Deadzone as a fraction of full travel, e.g. 0.1",
+         type: Number, default: 0.1}
+
+  - {type: fri3d_joystick_read, fn: read, kind: value,
+     label: "Joystick [x, y]",
+     tooltip: "Returns a list [x, y], both between -1 and 1. Zero is the centre."}
+
+  - {type: fri3d_joystick_read_action, fn: read_action, kind: value, output: String,
+     label: Joystick read action,
+     tooltip: "Returns left, right, up, down, leftup, leftdown, rightup or
+       rightdown."}
+
+  - {type: fri3d_joystick_read_vector, fn: read_vector, kind: value,
+     label: "Joystick [angle, displacement]",
+     tooltip: "Angle goes from 0 (right) through 90 (up), 180 (left) and 270
+       (down) up to 359. Displacement is between 0 (centre) and 1 (edge)."}

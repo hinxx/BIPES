@@ -37,7 +37,7 @@ category:
   labels:
     - Send files to a Google Spreadsheet
     - "Library: https://gist.github.com/SpotlightKid/8637c685626b334e5c0ec341dd269c44"
-  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp8266]
+  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp32S3, otto-robot, esp8266]
 
 blocks:
   # The `<field name="sheet_num">1</field>` every toolbox pinned is the field's

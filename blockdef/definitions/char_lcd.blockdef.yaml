@@ -20,8 +20,9 @@ category:
     - PCF8574 Display controller
     - "Library: https://github.com/dhylands/python_lcd"
     - "Library: https://github.com/T-622/RPI-PICO-I2C-LCD"
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
+              3pi_2040]
   # I2C lands on different pins per board; the boards that had no suggestion
   # keep none, and the dropdown picks a pin that board actually has.
   defaults:

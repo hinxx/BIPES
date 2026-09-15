@@ -16,8 +16,9 @@ category:
   labels:
     - HCSR04 ultrasound distance sensor
     - "Library: https://github.com/rsc1975/micropython-hcsr04"
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
+              3pi_2040]
   # The only thing 13 boards genuinely disagreed about.
   defaults:
     rpi_pico: {echo: 0, trigger: 1}

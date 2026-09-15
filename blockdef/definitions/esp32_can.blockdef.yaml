@@ -33,7 +33,7 @@ category:
     - Requires specific firmware
     - "Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"
   docs: esp32_can
-  toolboxes: [AmadoBoard, esp32, esp32c3, esp32S2, esp8266]
+  toolboxes: [AmadoBoard, esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266]
 
 blocks:
   - type: esp32_can_init

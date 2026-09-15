@@ -396,6 +396,141 @@
       ],
       "serial_packet_size": "500"
     },
+    "ESP32S3": {
+      "title": "<b>Fri3d Camp 2024 badge (ESP32-S3)</b><br>",
+      "speed": "115200",
+      "boardID": "ESP32-S3",
+      "img": "devinfo/media/fri3dcamp_back_of_badge.png",
+      "description": "Fri3d Camp 2024 badge, an ESP32-S3 with a joystick, six buttons, an ST7789 LCD, a WS2812 strip and an accelerometer. Details: https://fri3d.be/en/ &mdash; firmware and pin map: https://github.com/Fri3dCamp/badge_2024_micropython",
+      "toolbox": "esp32S3.xml",
+      "pinout": [
+        [
+          "IO0 / START button",
+          "0"
+        ],
+        [
+          "IO1 / joystick X",
+          "1"
+        ],
+        [
+          "IO2 / spare IO 5",
+          "2"
+        ],
+        [
+          "IO3 / joystick Y",
+          "3"
+        ],
+        [
+          "IO4 / LCD RS and backlight",
+          "4"
+        ],
+        [
+          "IO5 / SPI CS, LCD CS",
+          "5"
+        ],
+        [
+          "IO6 / SPI MOSI",
+          "6"
+        ],
+        [
+          "IO7 / SPI SCK",
+          "7"
+        ],
+        [
+          "IO8 / SPI MISO",
+          "8"
+        ],
+        [
+          "IO9 / I2C SDA",
+          "9"
+        ],
+        [
+          "IO10 / badge link",
+          "10"
+        ],
+        [
+          "IO11 / IR receiver",
+          "11"
+        ],
+        [
+          "IO12 / WS2812 LED strip",
+          "12"
+        ],
+        [
+          "IO13 / SAO, battery monitor",
+          "13"
+        ],
+        [
+          "IO14 / SD card CS",
+          "14"
+        ],
+        [
+          "IO15 / spare IO 2",
+          "15"
+        ],
+        [
+          "IO16 / spare IO 3",
+          "16"
+        ],
+        [
+          "IO17 / spare IO 4",
+          "17"
+        ],
+        [
+          "IO18 / I2C SCL",
+          "18"
+        ],
+        [
+          "IO21 / accelerometer INT, debug LED",
+          "21"
+        ],
+        [
+          "IO38 / X button (AUX power on the schematic)",
+          "38"
+        ],
+        [
+          "IO39 / A button",
+          "39"
+        ],
+        [
+          "IO40 / B button",
+          "40"
+        ],
+        [
+          "IO41 / Y button",
+          "41"
+        ],
+        [
+          "IO42 / MENU button (silkscreen)",
+          "42"
+        ],
+        [
+          "IO43 / spare IO 0, U0TXD",
+          "43"
+        ],
+        [
+          "IO44 / spare IO 1, U0RXD",
+          "44"
+        ],
+        [
+          "IO45 / MENU button (schematic)",
+          "45"
+        ],
+        [
+          "IO46 / buzzer",
+          "46"
+        ],
+        [
+          "IO47 / spare IO 6",
+          "47"
+        ],
+        [
+          "IO48 / LCD reset",
+          "48"
+        ]
+      ],
+      "serial_packet_size": "200"
+    },
     "ESP32basic": {
       "title": "<b>ESP32 (Basic)</b><br>",
       "speed": "115200",
@@ -2109,6 +2244,129 @@
       "img": "devinfo/media/m5stickc.png",
       "description": "M5STICK-C is based on ESP32 processor. More info at:",
       "toolbox": "esp32.xml",
+      "serial_packet_size": "100"
+    },
+    "OTTO-Humanoid": {
+      "title": "<b>OTTO Humanoid Robot (ESP32-S2)</b><br>",
+      "speed": "115200",
+      "boardID": "ESP32-S2",
+      "img": "devinfo/media/otto-humanoid.webp",
+      "description": "OTTO Humanoid robot built on a WEMOS LOLIN S2 Mini. Six servos and an HC-SR04, driven through ottolib/otto9.py on the board. Details: https://www.ottodiy.com &mdash; library: https://github.com/OttoDIY/OttoDIYLib",
+      "toolbox": "otto-robot.xml",
+      "pinout": [
+        [
+          "IO0 / boot button",
+          "0"
+        ],
+        [
+          "IO1",
+          "1"
+        ],
+        [
+          "IO2",
+          "2"
+        ],
+        [
+          "IO3",
+          "3"
+        ],
+        [
+          "IO4",
+          "4"
+        ],
+        [
+          "IO5 / ultrasonic echo",
+          "5"
+        ],
+        [
+          "IO6",
+          "6"
+        ],
+        [
+          "IO7 / right foot servo",
+          "7"
+        ],
+        [
+          "IO8",
+          "8"
+        ],
+        [
+          "IO9 / left foot servo",
+          "9"
+        ],
+        [
+          "IO10",
+          "10"
+        ],
+        [
+          "IO11 / right leg servo",
+          "11"
+        ],
+        [
+          "IO12 / left leg servo",
+          "12"
+        ],
+        [
+          "IO13",
+          "13"
+        ],
+        [
+          "IO14",
+          "14"
+        ],
+        [
+          "IO15 / on-board LED",
+          "15"
+        ],
+        [
+          "IO16",
+          "16"
+        ],
+        [
+          "IO17",
+          "17"
+        ],
+        [
+          "IO18 / ultrasonic trigger",
+          "18"
+        ],
+        [
+          "IO21",
+          "21"
+        ],
+        [
+          "IO33 / left arm servo",
+          "33"
+        ],
+        [
+          "IO34",
+          "34"
+        ],
+        [
+          "IO35 / right arm servo",
+          "35"
+        ],
+        [
+          "IO36",
+          "36"
+        ],
+        [
+          "IO37",
+          "37"
+        ],
+        [
+          "IO38",
+          "38"
+        ],
+        [
+          "IO39",
+          "39"
+        ],
+        [
+          "IO40",
+          "40"
+        ]
+      ],
       "serial_packet_size": "100"
     },
     "Nucleo": {

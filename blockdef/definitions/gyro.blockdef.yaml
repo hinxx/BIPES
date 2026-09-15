@@ -27,7 +27,7 @@ category:
     - MPU-6050, turn angle only
     - Keep the robot still for half a second after Start -- it calibrates
   library: gyro
-  toolboxes: [esp32c3]
+  toolboxes: [esp32c3, esp32S3, otto-robot]
 
 blocks:
   - type: gyro_init

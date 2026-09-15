@@ -12,7 +12,7 @@ import: {line: "from mpu9250 import MPU9250", key: import_mpu9250}
 category:
   name: MPU9250 IMU
   library: [mpu9250, mpu6500, ak8963]
-  toolboxes: [esp32, esp32c3]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot]
 
 blocks:
   - type: mpu9250_init

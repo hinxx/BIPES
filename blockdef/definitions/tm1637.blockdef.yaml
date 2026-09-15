@@ -17,7 +17,7 @@ category:
   labels:
     - TM1637 Display
     - "Library: https://github.com/mcauser/micropython-tm1637"
-  toolboxes: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi]
+  toolboxes: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi]
   defaults:
     esp32c3:    {clk: 18, dio: 17}
     rpi_pico:   {clk: 18, dio: 17}

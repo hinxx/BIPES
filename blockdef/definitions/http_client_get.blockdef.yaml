@@ -29,8 +29,8 @@ import: []
 category:
   name: HTTP Client
   fragment: true
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
-              esp32c3, esp8266, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp32S3, otto-robot, esp8266, rpi_pico_w, stm32]
 
 blocks:
   - type: net_get_request
@@ -57,7 +57,8 @@ blocks:
     label: []
     tooltip: Status code of the HTTP GET request
     url: bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     code: "{request}.status_code"
     params:
       - {name: request, label: {msg: net_http_get_status}, kind: variable,
@@ -68,7 +69,8 @@ blocks:
     label: []
     tooltip: Content of HTTP GET request
     url: bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     code: "str({request}.content)"
     params:
       - {name: request, label: {msg: net_http_get_content}, kind: variable,

@@ -19,7 +19,7 @@ category:
     - Proportional–integral–derivative Controller
     - "Library: https://github.com/JorgeGMarques/micropython-simple-pid"
   examples: pid_water_boiler
-  toolboxes: [esp32, esp32c3, esp32S2, esp8266, AmadoBoard]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266, AmadoBoard]
 
 blocks:
   - type: control_pid.__init__

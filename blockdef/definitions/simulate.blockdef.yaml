@@ -17,7 +17,7 @@ import: {key: import_utime, line: "import utime"}
 
 category:
   name: Simulate
-  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp8266]
+  toolboxes: [AmadoBoard, esp32, esp32S2, esp32c3, esp32S3, otto-robot, esp8266]
 
 blocks:
   - {library: control}

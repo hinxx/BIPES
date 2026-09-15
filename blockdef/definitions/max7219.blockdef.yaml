@@ -17,7 +17,7 @@ category:
   labels:
     - MAX7219 LED Matrix
     - "Library: https://github.com/mcauser/micropython-max7219"
-  toolboxes: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi]
+  toolboxes: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi]
   defaults:
     esp32c3:    {clk: 2, tx: 3, cs: 5}
     rpi_pico:   {clk: 2, tx: 3, cs: 5}

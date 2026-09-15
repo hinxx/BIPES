@@ -23,7 +23,7 @@ category:
   name: EasyMQTT
   labels: ["IoT: EasyMQTT"]
   toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-              esp8266, rpi_pico_w, stm32]
+              esp32S3, otto-robot, esp8266, rpi_pico_w, stm32]
 
 blocks:
   - {example: easymqtt, boards: [default, rpi_pico_w]}

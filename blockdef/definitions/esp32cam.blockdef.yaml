@@ -11,7 +11,7 @@ category:
   labels:
     - OV2640 Camera on ESP32-CAM Board
     - "More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, AmadoBoard]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, AmadoBoard]
 
 blocks:
   - type: esp32_cam_init

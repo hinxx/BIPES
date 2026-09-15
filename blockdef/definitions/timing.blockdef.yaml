@@ -39,12 +39,14 @@ import: []
 category:
   name: "%{BKY_CAT_TIMING}"
   toolboxes: [3pi_2040, AmadoBoard, arduino, default, esp32, esp32-basic, esp32S2,
-              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+              esp32c3, esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico,
+              rpi_pico_w, stm32]
 
 blocks:
   - {label: "%{BKY_CAT_TIMING}", boards: [3pi_2040, AmadoBoard, default, esp32,
-     esp32-basic, esp32S2, esp32c3, esp8266, makernano, makerpi, rpi_pico,
-     rpi_pico_w, stm32]}
+                                          esp32-basic, esp32S2, esp32c3, esp32S3,
+                                          otto-robot, esp8266, makernano, makerpi,
+                                          rpi_pico, rpi_pico_w, stm32]}
   - {label: Snek Timing, boards: [arduino]}
 
   # Snek has its own runtime and its own `time`, so these two register no
@@ -73,7 +75,8 @@ blocks:
     tooltip: Delay for given number, should be positive or 0.
     url: https://docs.micropython.org/en/latest/library/utime.html#utime.sleep
     boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-             esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+             esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+             stm32]
     import: {key: import_time, line: "import time"}
     code: "time.{SCALE}({TIME})"
     params:
@@ -141,7 +144,8 @@ blocks:
     label: []
     tooltip: Returns a counter in the defined scale, only integer values.
     url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_ms
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     variants:
       - device: ESP32S2
         import: {key: import_time, line: "import time"}
@@ -166,7 +170,8 @@ blocks:
     label: []
     tooltip: Offset ticks value by a given number, which can be either positive or negative. Must be same scale in milliseconds, microseconds or cpu ticks.
     url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_add
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     import: {key: import_utime, line: "import utime"}
     code: "utime.ticks_add({TIME1}, {TIME2})"
     params:
@@ -181,7 +186,8 @@ blocks:
     label: []
     tooltip: Measure ticks difference between values Must be same scale in milliseconds, microseconds or cpu ticks.
     url: https://docs.micropython.org/en/latest/library/utime.html#utime.ticks_diff
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     import: {key: import_utime, line: "import utime"}
     code: "utime.ticks_diff({TIME1}, {TIME2})"
     params:
@@ -193,7 +199,7 @@ blocks:
     label: [{msg: set_rtc, field: SET_RTC}]
     tooltip: Set RTC value
     url: bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot]
     import: &rtc
       - {key: import_rtc,     line: "from machine import RTC"}
       - {key: import_rtc_def, line: "rtc = RTC()"}
@@ -211,7 +217,7 @@ blocks:
     label: [{msg: get_rtc, field: MSG_GET_RTC}]
     tooltip: Get RTC value
     url: http://www.bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot]
     import: *rtc
     code: &get_rtc "rtc.datetime()"
 
@@ -234,12 +240,14 @@ blocks:
     code: *get_rtc
 
   - {type: timer, external: true, boards: [3pi_2040, AmadoBoard, default, esp32,
-     esp32-basic, esp32S2, esp32c3, esp8266, makernano, makerpi, rpi_pico,
-     rpi_pico_w, stm32]}
+                                           esp32-basic, esp32S2, esp32c3, esp32S3,
+                                           otto-robot, esp8266, makernano, makerpi,
+                                           rpi_pico, rpi_pico_w, stm32]}
 
   - type: utime.deadline
     external: true
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266]
     params:
       - {name: TIME, default: 100}
 
@@ -326,7 +334,8 @@ blocks:
     tooltip: Stop Timer
     url: www.bipes.net.br
     boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-             esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+             esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+             stm32]
     import: {key: import_timer, line: "from machine import Timer"}
     code: "tim{timerNumber}.deinit()"
     params:
@@ -341,7 +350,7 @@ blocks:
     tooltip: Deep sleep process in milliseconds
     url: http://www.bipes.net.br
     boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-             esp8266, stm32]
+             esp32S3, otto-robot, esp8266, stm32]
     import: {key: import_machine, line: "import machine"}
     code: |-
 

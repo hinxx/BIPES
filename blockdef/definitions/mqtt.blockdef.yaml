@@ -26,8 +26,8 @@ import: {key: import_robust, line: "import robust"}
 category:
   name: MQTT
   labels: ["MQTT (Message Queue Telemetry Transport)"]
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp8266,
-              rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, rpi_pico_w, stm32]
 
 blocks:
   - {example: thingspeak, boards: [default]}

@@ -2308,6 +2308,33 @@ Blockly.Python['framebuf_FrameBuffer.blit'] = function(block) {
   return code + "\n";
 };
 
+// ---- Joystick (fri3d_joystick.blockdef.yaml) ---------------------------------
+
+Blockly.Python['fri3d_joystick_init'] = function(block) {
+  Blockly.Python.definitions_["import_fri3d_joystick"] = "from badge.joystick import joystick";
+  var deadzone_ = Blockly.Python.valueToCode(block, "deadzone", Blockly.Python.ORDER_ATOMIC);
+  var code = "joystick.init_and_calibrate(" + deadzone_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['fri3d_joystick_read'] = function(block) {
+  Blockly.Python.definitions_["import_fri3d_joystick"] = "from badge.joystick import joystick";
+  var code = "joystick.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['fri3d_joystick_read_action'] = function(block) {
+  Blockly.Python.definitions_["import_fri3d_joystick"] = "from badge.joystick import joystick";
+  var code = "joystick.read_action()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['fri3d_joystick_read_vector'] = function(block) {
+  Blockly.Python.definitions_["import_fri3d_joystick"] = "from badge.joystick import joystick";
+  var code = "joystick.read_vector()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- gc (gc.blockdef.yaml) ---------------------------------------------------
 
 Blockly.Python['gc_enable'] = function(block) {
@@ -5403,6 +5430,152 @@ Blockly.Python['opto_mos_get_status'] = function(block) {
 Blockly.Python['opto_mos_deinit'] = function(block) {
   Blockly.Python.definitions_["import_opto_mos"] = "import opto_mos_simple";
   var code = "opto_mos_driver.deinit()";
+  return code + "\n";
+};
+
+// ---- OTTO Humanoid (otto_humanoid.blockdef.yaml) -----------------------------
+
+Blockly.Python['otto_humanoid_init'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var YL_ = block.getFieldValue("YL");
+  var YR_ = block.getFieldValue("YR");
+  var RL_ = block.getFieldValue("RL");
+  var RR_ = block.getFieldValue("RR");
+  var LA_ = block.getFieldValue("LA");
+  var RA_ = block.getFieldValue("RA");
+  var USTrigger_ = block.getFieldValue("USTrigger");
+  var USEcho_ = block.getFieldValue("USEcho");
+  var code = "ottoHumanoid.initHUMANOID(" + YL_ + ", " + YR_ + ", " + RL_ + ", " + RR_ + ", " + LA_ + ", " + RA_ + ", True, -1, -1, " + USTrigger_ + ", " + USEcho_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_set_trims'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var YL_ = block.getFieldValue("YL");
+  var YR_ = block.getFieldValue("YR");
+  var RL_ = block.getFieldValue("RL");
+  var RR_ = block.getFieldValue("RR");
+  var LA_ = block.getFieldValue("LA");
+  var RA_ = block.getFieldValue("RA");
+  var code = "ottoHumanoid.setTrims(" + YL_ + ", " + YR_ + ", " + RL_ + ", " + RR_ + ", " + LA_ + ", " + RA_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_save_trims'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var code = "ottoHumanoid.saveTrimsOnEEPROM()";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_get_distance'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var code = "ottoHumanoid.getDistance()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['otto_humanoid_home'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var code = "ottoHumanoid.home()";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_hands_up'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var code = "ottoHumanoid.handsup()";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_hand_wave'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.handwave(" + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_jump'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.jump(" + STEPS_ + ", " + DURATION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_move_arm'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var ANGLE_ = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.moveArm(" + DURATION_ + ", " + ANGLE_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_dash'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.dash(" + STEPS_ + ", " + DURATION_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_dodge'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var HEIGHT_ = Blockly.Python.valueToCode(block, "HEIGHT", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.dodge(" + STEPS_ + ", " + DURATION_ + ", " + HEIGHT_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_walk'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.walk(" + STEPS_ + ", " + DURATION_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_turn'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.turn(" + STEPS_ + ", " + DURATION_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_bend'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.bend(" + STEPS_ + ", " + DURATION_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['otto_humanoid_shake_leg'] = function(block) {
+  Blockly.Python.definitions_["import_otto_humanoid"] = "import ottolib.otto9 as otto9";
+  Blockly.Python.definitions_["make_otto_humanoid"] = "ottoHumanoid = otto9.Otto9()";
+  var STEPS_ = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_ATOMIC);
+  var DURATION_ = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = Blockly.Python.valueToCode(block, "DIRECTION", Blockly.Python.ORDER_ATOMIC);
+  var code = "ottoHumanoid.shakeLeg(" + STEPS_ + ", " + DURATION_ + ", " + DIRECTION_ + ")";
   return code + "\n";
 };
 

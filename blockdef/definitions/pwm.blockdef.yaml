@@ -37,15 +37,16 @@ import: []
 category:
   name: In/Out Pins
   fragment: true
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
-              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+              esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
   - type: pwm
     label: []
     tooltip: Init and set PWM with frequency (1Hz to 40MHz) and duty (0-1023)
-    boards: [AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    boards: [AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
     import: &pwm_imports
       - {key: import_pin, line: "from machine import Pin"}
       - {key: import_pwm, line: "from machine import PWM"}
@@ -82,8 +83,8 @@ blocks:
   - type: "pwm.freq"
     label: []
     tooltip: Set PWM frequency from 1Hz to 40MHz
-    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
     import: *pwm_imports
     code: "pwm_ids[{ID}].freq({frequency})"
     params:
@@ -95,8 +96,8 @@ blocks:
   - type: "pwm.duty"
     label: []
     tooltip: Set PWM duty range of 0-1023
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266, makernano,
-             makerpi, rpi_pico, rpi_pico_w, stm32]
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot,
+             esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
     import: *pwm_imports
     code: |-
       try:
@@ -122,8 +123,8 @@ blocks:
   - type: "pwm.init"
     label: []
     tooltip: Init PWM
-    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-             makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
     import: *pwm_imports
     code: "pwm_ids[{ID}] = PWM(Pin({pin}))"
     params:

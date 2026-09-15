@@ -8,7 +8,8 @@ import: {line: "import machine", key: import_machine}
 category:
   name: Anemômetro
   labels: [Anenômetro]
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              AmadoBoard]
 
 blocks:
   - type: anemo_init

@@ -8,8 +8,8 @@ import: {line: "import webrepl", key: import_webrepl}
 category:
   name: WebREPL
   labels: [WebREPL]
-  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico_w, AmadoBoard, stm32,
-              default, 3pi_2040]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266, rpi_pico_w,
+              AmadoBoard, stm32, default, 3pi_2040]
 
 blocks:
   - type: webrepl_setup

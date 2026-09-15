@@ -15,8 +15,8 @@ category:
   # No "Load example: ntp": ui/examples/ntp.xml does not exist, and the button
   # cleared the workspace before finding that out.
   docs: ntp
-  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico_w, AmadoBoard, stm32, default,
-              3pi_2040]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266, rpi_pico_w,
+              AmadoBoard, stm32, default, 3pi_2040]
 
 blocks:
   - type: net_ntp_sync

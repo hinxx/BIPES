@@ -24,8 +24,9 @@ category:
   library: ssd1306
   labels:
     - SSD1306 OLED I2C Display
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
+              3pi_2040]
   # SDA/SCL stay numbers rather than `pinout` dropdowns: two of the thirteen
   # boards (stm32, default) have no pin list at all, and a pinout socket there
   # offers nothing but "not defined".
@@ -92,7 +93,8 @@ blocks:
     code: "oled.show()"
 
   - type: line_oled
-    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    boards: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi,
+             3pi_2040]
     label: Draw a line on display
     tooltip: Draw a line on OLED Display
     code: |-
@@ -105,7 +107,8 @@ blocks:
       - {name: y2, label: Final Y position,   type: Number, default: 40, align: right}
 
   - type: rect_oled
-    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    boards: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi,
+             3pi_2040]
     label: Draw a rectangle outline on display
     tooltip: Draw a rectangle on OLED Display
     code: |-
@@ -118,7 +121,8 @@ blocks:
       - {name: y2, label: Height,             type: Number, default: 40, align: right}
 
   - type: fill_rect_oled
-    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    boards: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi,
+             3pi_2040]
     label: Draw a filled rectangle on display
     tooltip: Draw a filled rectangle on OLED Display
     code: |-
@@ -131,7 +135,8 @@ blocks:
       - {name: y2, label: Height,             type: Number, default: 40, align: right}
 
   - type: scroll_oled
-    boards: [esp32c3, rpi_pico, rpi_pico_w, makernano, makerpi, 3pi_2040]
+    boards: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi,
+             3pi_2040]
     label: scroll the display
     tooltip: Scroll the OLED Display
     code: |-

@@ -14,7 +14,7 @@ category:
     - This block allows terminal/console access using bluetooth.
     - "Library: https://github.com/micropython/micropython/tree/master/examples/bluetooth"
     - "You need to install 3 files to use:"
-  toolboxes: [esp32, esp32c3, esp32S2, AmadoBoard]
+  toolboxes: [esp32, esp32c3, esp32S3, esp32S2, AmadoBoard]
 
 blocks:
   - label: Web Bluetooth REPL

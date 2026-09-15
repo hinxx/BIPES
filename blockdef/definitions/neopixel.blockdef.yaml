@@ -24,8 +24,8 @@ import: []
 
 category:
   name: NeoPixel LED Strip
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, 3pi_2040]
   defaults:
     rpi_pico:   {pin: 0}
     rpi_pico_w: {pin: 0}
@@ -72,8 +72,8 @@ blocks:
                              values: {red: 0, green: 0, blue: 0}}}
 
   - {label: NeoPixel RGB LED Strip}
-  - {doc: neopixel, boards: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard,
-                             3pi_2040]}
+  - {doc: neopixel, boards: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2,
+                             esp8266, AmadoBoard, 3pi_2040]}
   - {example: Blink, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}
   - {example: LarsonScanner, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}
   - {example: TheaterChase, boards: [rpi_pico, rpi_pico_w, makernano, makerpi]}

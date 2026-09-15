@@ -9,7 +9,7 @@ import: []
 
 category:
   name: "%{BKY_CAT_PRESS}"
-  toolboxes: [esp32, esp32c3, esp8266]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp8266]
 
 blocks:
   - label: BMP180

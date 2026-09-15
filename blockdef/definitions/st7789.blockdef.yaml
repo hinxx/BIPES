@@ -22,7 +22,7 @@ category:
   labels:
     - ST7789 Display
     - "Library: https://github.com/devbis/st7789py_mpy"
-  toolboxes: [esp32, esp32-basic, esp32S2, esp8266, AmadoBoard]
+  toolboxes: [esp32, esp32-basic, esp32S2, esp32S3, otto-robot, esp8266, AmadoBoard]
 
 blocks:
   - type: st7789_init

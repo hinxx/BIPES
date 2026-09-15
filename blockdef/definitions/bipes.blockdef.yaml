@@ -24,7 +24,7 @@ import: []
 category:
   name: BIPES
   toolboxes: [3pi_2040, AmadoBoard, arduino, esp32, esp32-basic, esp32S2, esp32c3,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
+              esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
 
 blocks:
   - type: project_metadata
@@ -55,7 +55,7 @@ blocks:
 
   - type: localstorage_store
     external: true
-    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266,
-             makernano, makerpi, rpi_pico, rpi_pico_w]
+    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
+             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
     params:
       - {name: ADD0, plug: {type: "utime.vars", shadow: true, fields: {VARS: ticks_ms}}}

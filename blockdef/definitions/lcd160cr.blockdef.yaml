@@ -27,8 +27,8 @@ import: {key: import_lcd160cr, line: "import lcd160cr"}
 
 category:
   name: lcd160cr
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
-              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
+              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
 
 blocks:
   - type: lcd160cr_LCD160CR

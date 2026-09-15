@@ -1,0 +1,208 @@
+# OTTO Humanoid -- the six-servo printable robot, on a LOLIN S2 Mini.
+#
+# From robinkam/BIPES. Every block is one call into `otto9.Otto9()`, the
+# MicroPython port of the Arduino Otto9 library, which the board has to carry
+# as `ottolib/otto9.py`. We do not ship it (see the label below for where it
+# comes from), so there is no "Install library" button on this category.
+#
+# The robot is a fixed build: six servos (two hips, two feet, two arms) and an
+# HC-SR04 on the head. `otto_humanoid_init` is what tells the library which pin
+# each of them is on, and the toolbox entry arrives with robinkam's wiring
+# already filled in -- hips on 12/11, feet on 9/7, arms on 33/35, ultrasonic
+# trigger 18 and echo 5.
+#
+# Three things differ from the fork:
+#
+# * Its trim block defaulted its six fields to 0,1,2,3,4,5 -- the *pin* numbers,
+#   copy-pasted from the init block above it -- and set a minimum of 0. A trim
+#   is an offset in degrees and is routinely negative, which is the whole point
+#   of calibrating, so the fields start at 0 here and take either sign.
+# * Its init block labelled the right *foot* "right leg:", so two rows read the
+#   same and the third servo had no label of its own.
+# * `toolboxes:` is `otto-robot` alone. The fork put the category at the bottom
+#   of a copy of the Franzininho toolbox; here the board has its own file and
+#   the category sits at the top of it, because a robot is what someone who
+#   selected this board came for.
+#
+# Directions stay the fork's `1` / `-1` value sockets rather than becoming
+# dropdowns: a program exported from robinkam's tree plugs a `math_number`
+# into `DIRECTION`, and that still loads here.
+#
+# Not tested on hardware -- there is no OTTO here, and every pin default and
+# duration range below is robinkam's, measured on theirs.
+
+module: otto9
+colour: 120
+url: https://github.com/OttoDIY/OttoDIYLib
+import:
+  - {line: "import ottolib.otto9 as otto9", key: import_otto_humanoid}
+  - {line: "ottoHumanoid = otto9.Otto9()", key: make_otto_humanoid}
+instance: ottoHumanoid
+
+category:
+  name: OTTO Humanoid
+  colour: 120
+  labels:
+    - OTTO Humanoid -- six servos and an ultrasonic sensor
+    - "Needs ottolib/otto9.py on the board: https://github.com/OttoDIY/OttoDIYLib"
+  toolboxes: [otto-robot]
+
+blocks:
+  - type: otto_humanoid_init
+    label: set up pins
+    tooltip: Initially set up the pins of all the servos and ultrasonic sensor.
+      Must be put ahead of other OTTO blocks and used only once. -1 means the
+      servo or sensor is not connected.
+    inline: true
+    # `True` loads the trims saved by "save servo trims"; the two -1s are the
+    # buzzer and noise pins the library also takes and this build does not use.
+    code: "{instance}.initHUMANOID({YL}, {YR}, {RL}, {RR}, {LA}, {RA}, True, -1, -1, {USTrigger}, {USEcho})"
+    params:
+      - {name: YL, label: "left leg:",  kind: number, default: 12, min: -1}
+      - {name: YR, label: "right leg:", kind: number, default: 11, min: -1}
+      - {name: RL, label: "left foot:", kind: number, default: 9,  min: -1}
+      - {name: RR, label: "right foot:", kind: number, default: 7, min: -1}
+      - {name: LA, label: "left arm:",  kind: number, default: 33, min: -1}
+      - {name: RA, label: "right arm:", kind: number, default: 35, min: -1}
+      - {name: USTrigger, label: "ultrasonic trigger:", kind: number, default: 18, min: -1}
+      - {name: USEcho,    label: "ultrasonic echo:",    kind: number, default: 5,  min: -1}
+
+  - type: otto_humanoid_set_trims
+    fn: setTrims
+    label: set servo trims
+    tooltip: Set OTTO servo trims to calibrate OTTO to the standard home pose.
+      A trim is an offset in degrees and may be negative.
+    inline: true
+    params:
+      - {name: YL, label: "left leg:",   kind: number, default: 0}
+      - {name: YR, label: "right leg:",  kind: number, default: 0}
+      - {name: RL, label: "left foot:",  kind: number, default: 0}
+      - {name: RR, label: "right foot:", kind: number, default: 0}
+      - {name: LA, label: "left arm:",   kind: number, default: 0}
+      - {name: RA, label: "right arm:",  kind: number, default: 0}
+
+  - type: otto_humanoid_save_trims
+    fn: saveTrimsOnEEPROM
+    label: save servo trims
+    tooltip: Save OTTO servo trims persistently, so that those trims value will
+      be used on next boot.
+    inline: true
+
+  - type: otto_humanoid_get_distance
+    fn: getDistance
+    kind: value
+    label: get distance
+    tooltip: "Get detected distance value from ultrasonic sensor. Distance unit: cm."
+
+  - type: otto_humanoid_home
+    fn: home
+    label: home
+    tooltip: Set OTTO to home position.
+    inline: true
+
+  - type: otto_humanoid_hands_up
+    fn: handsup
+    label: raise hand
+    tooltip: Make OTTO raise hands.
+    inline: true
+
+  - type: otto_humanoid_hand_wave
+    fn: handwave
+    label: wave hand
+    tooltip: "Make OTTO wave hand. Direction: 1 for left, -1 for right."
+    inline: true
+    params:
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_jump
+    fn: jump
+    label: jump
+    tooltip: "Make OTTO jump. Duration: value between 600-1400, in milliseconds
+      for each step."
+    inline: true
+    params:
+      - {name: STEPS,    label: "steps:",    type: Number, default: 2}
+      - {name: DURATION, label: "duration:", type: Number, default: 1000}
+
+  - type: otto_humanoid_move_arm
+    fn: moveArm
+    label: move arm
+    tooltip: "Make OTTO move arm to specified angle. Duration: value between
+      600-1400, in milliseconds for each step; direction: 1 for left, -1 for
+      right; angle: value between -45 and 90, the offset from the home
+      position, where a positive value raises the arm."
+    inline: true
+    params:
+      - {name: DURATION,  label: "duration:",  type: Number, default: 100}
+      - {name: ANGLE,     label: "angle:",     type: Number, default: 90}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_dash
+    fn: dash
+    label: dash
+    tooltip: "Make OTTO dash (walk without moving arms). Duration: value between
+      600-1400, in milliseconds for each step; direction: 1 for forward, -1 for
+      backward."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 2}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 600}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_dodge
+    fn: dodge
+    label: dodge
+    tooltip: "Make OTTO dodge (moonwalk without moving arms). Duration: value
+      between 600-1400, in milliseconds for each step; direction: 1 for left,
+      -1 for right; height: value between 15-40, where a bigger number means a
+      longer distance in one step."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 2}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 600}
+      - {name: HEIGHT,    label: "height:",    type: Number, default: 40}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_walk
+    fn: walk
+    label: walk
+    tooltip: "Make OTTO walk. Duration: value between 600-1400, in milliseconds
+      for each step; direction: 1 for forward, -1 for backward."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 2}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 1000}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_turn
+    fn: turn
+    label: turn
+    tooltip: "Make OTTO turn. Duration: value between 600-1400, in milliseconds
+      for each step; direction: 1 for left, -1 for right."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 2}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 1000}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_bend
+    fn: bend
+    label: bend
+    tooltip: "Make OTTO bend body to one side. Duration: value between 600-1400,
+      in milliseconds for each step; direction: 1 for left, -1 for right."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 1}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 1000}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}
+
+  - type: otto_humanoid_shake_leg
+    fn: shakeLeg
+    label: shake leg
+    tooltip: "Make OTTO bend and shake leg. Duration: value between 600-1400, in
+      milliseconds for each step; direction: 1 for left, -1 for right."
+    inline: true
+    params:
+      - {name: STEPS,     label: "steps:",     type: Number, default: 1}
+      - {name: DURATION,  label: "duration:",  type: Number, default: 1000}
+      - {name: DIRECTION, label: "direction:", type: Number, default: 1}

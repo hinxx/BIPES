@@ -15,7 +15,8 @@ category:
   # No `examples:`: ui/examples/encoder.xml does not exist.
   docs: encoder
   labels: [Rotatory Incremental Encoder]
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard, default]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              AmadoBoard, default]
 
 blocks:
   - type: encoder_init

@@ -17,8 +17,9 @@ category:
   name: "%{BKY_CAT_TEMP_HUMI}"
   labels:
     - DHT11/22 Temperature and Humidity Sensor
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
+              3pi_2040]
 
 blocks:
   - type: dht_init

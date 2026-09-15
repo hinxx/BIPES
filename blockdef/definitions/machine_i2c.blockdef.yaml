@@ -44,8 +44,8 @@ import: {key: import_I2C_Pin, line: "from machine import I2C, Pin"}
 
 category:
   name: machine.I2C
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
-              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
+              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
 
 blocks:
   - type: machine.I2C_I2C.init

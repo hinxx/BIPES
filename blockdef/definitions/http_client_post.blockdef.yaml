@@ -18,8 +18,8 @@ category:
   name: HTTP Client
   fragment: true
   # esp32-basic has a GET half and no POST half, which is that board's choice.
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2,
-              esp32c3, esp8266, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, rpi_pico_w, stm32]
 
 blocks:
   - type: net_post_request
@@ -37,7 +37,7 @@ blocks:
     kind: value
     label: []
     tooltip: Make HTTP POST Request with JSON data
-    boards: [esp32, esp32c3]
+    boards: [esp32, esp32c3, esp32S3, otto-robot]
     code: "urequests.post({URL}, json={data})"
     params:
       - {name: URL, label: {text: Make HTTP POST Request URL, field: NET_POST_REQUEST_URL},

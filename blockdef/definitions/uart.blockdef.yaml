@@ -12,8 +12,8 @@ category:
   name: UART
   labels: [UART Serial Port]
   # esp32-basic deliberately has no UART category.
-  toolboxes: [esp32, esp32c3, esp32S2, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266, rpi_pico,
+              rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
   defaults:
     rpi_pico:   {tx: 0, rx: 1}
     rpi_pico_w: {tx: 0, rx: 1}

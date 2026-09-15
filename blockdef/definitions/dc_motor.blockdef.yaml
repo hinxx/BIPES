@@ -7,7 +7,8 @@ import: []
 category:
   name: DC Motor
   labels: [DC Motor]
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, AmadoBoard, default]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              AmadoBoard, default]
 
 blocks:
   - type: dc_motor_init

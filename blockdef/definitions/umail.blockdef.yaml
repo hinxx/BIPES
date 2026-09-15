@@ -13,8 +13,8 @@ category:
   labels:
     - Email sender using uMail
     - "Library: https://github.com/shawwwn/uMail"
-  toolboxes: [esp32, esp32-basic, esp32c3, esp32S2, esp8266, rpi_pico_w,
-              AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
+              rpi_pico_w, AmadoBoard, stm32, default, 3pi_2040]
 
 blocks:
   - type: umail_init

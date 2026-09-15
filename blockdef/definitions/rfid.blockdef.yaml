@@ -51,7 +51,8 @@ import:
 category:
   name: RFID Reader
   toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+              esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
   defaults:
     rpi_pico:   {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
     rpi_pico_w: {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
@@ -60,7 +61,7 @@ blocks:
   - {label: RC522 13.56MHz RFID Reader}
   - {label: "Library: https://github.com/wendlers/micropython-mfrc522",
      boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-              esp8266, stm32]}
+              esp32S3, otto-robot, esp8266, stm32]}
   - {label: "Library: https://github.com/kevinmcaleer/pico-rfid",
      boards: [makernano, makerpi, rpi_pico, rpi_pico_w]}
   - {library: mfrc522}
