@@ -306,25 +306,6 @@ Blockly.Blocks['timer'] = {
 
 
 
-Blockly.Blocks['gpio_set'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        //.appendField("set pin");
-        .appendField(MSG["setpin"]);//i18n
-    this.appendValueInput("value")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        //.appendField("to");
-        .appendField(MSG["to"]); //i18n
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Write to GPIO digital pin");
- this.setHelpUrl("bipes.net.br");
-  }
-};
 
 
 Blockly.Blocks['adc'] = {
@@ -409,23 +390,6 @@ Blockly.Blocks['adc_pico'] = {
 
 
 
-Blockly.Blocks['gpio_get'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        //.appendField("Read digital pin");//original
-        .appendField(MSG["read_digital_pin"]);
-    this.appendValueInput("pullup")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pull-up");
-
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Read digital pin");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['gpio_interrupt'] = {
   init: function() {

@@ -1,0 +1,107 @@
+# `gpio_set` and `gpio_get`, the two blocks every BIPES program touches, and
+# the first two of `In/Out Pins` to be generated.
+#
+# `fragment: true`, because the rest of that category is not convertible yet:
+# `esp32_adc` changes its own *shape* per board (the ESP32 version has
+# attenuation and width dropdowns, the CircuitPython one does not), the four
+# `pwm.*` blocks carry `check()` and `setID()` methods -- and `setID` writes to
+# the workspace while generating -- and `gpio_interrupt` walks the workspace
+# for the variables its callback has to declare `global`.
+#
+# These two are board-conditional, which `variants:` now expresses. What it
+# does not express is how the CircuitPython branch named its objects: it built
+# a Python identifier out of the pin, `gpio4 = DigitalInOut(board.IO4)`, by
+# stripping the parentheses off the *generated code* with a JavaScript
+# `.replace()`. That only parses while the pin is a bare literal; plug a
+# variable or `x + 1` into the socket and the program does not compile. It is
+# the `init_servo`/`pservo4` and `tone`/`pwm4` bug for the third time.
+#
+# So the objects live in a dict keyed by the pin, exactly as the tone blocks'
+# do. One DigitalInOut per pin either way, and it works for any expression.
+# `board.IO4` becomes `getattr(board, "IO%d" % pin)` for the same reason.
+#
+# The MicroPython side keeps the `gpio_set` helper function it already had.
+# `gpio_get` gets the same dict treatment, for the same reason: it used to
+# write `pIn4 = Pin(4, ...)`.
+#
+# Both pull-up sockets used to be read in JavaScript -- `if (value_pullup ==
+# 'True')` -- which is a comparison against the *text* the socket generated, so
+# it only ever matched a literal. `Pin.PULL_UP if <pullup> else Pin.PULL_DOWN`
+# is the same decision made in Python, where a variable works too.
+
+module: machine
+colour: 230
+url: bipes.net.br
+import: []
+
+category:
+  name: In/Out Pins
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  - type: gpio_set
+    label: []
+    tooltip: Write to GPIO digital pin
+    variants:
+      - device: ESP32S2
+        import:
+          - {key: import_board,        line: "import board"}
+          - {key: import_digitalio_dir, line: "from digitalio import DigitalInOut, Direction, Pull"}
+          - {key: gpio_out,            line: "gpio_out = {}"}
+          - key: "gpio_out_{pin}"
+            line: |-
+              try:
+                  gpio_out[{pin}].deinit()
+              except:
+                  pass
+              gpio_out[{pin}] = DigitalInOut(getattr(board, "IO%d" % {pin}))
+              gpio_out[{pin}].direction = Direction.OUTPUT
+        code: "gpio_out[{pin}].value = {value}"
+      - import:
+          - {key: import_pin, line: "from machine import Pin"}
+          - key: gpio_set
+            line: |-
+              def gpio_set(pin, value):
+                  if value >= 1:
+                      Pin(pin, Pin.OUT).on()
+                  else:
+                      Pin(pin, Pin.OUT).off()
+        code: "gpio_set({pin}, {value})"
+    params:
+      - {name: pin, label: {msg: setpin}, type: Number, pin: true, default: 0, align: right}
+      - {name: value, label: {msg: to}, align: right,
+         plug: {type: logic_boolean, shadow: true, fields: {BOOL: TRUE}}}
+
+  - type: gpio_get
+    kind: value
+    label: []
+    tooltip: Read digital pin
+    url: http://www.bipes.net.br
+    variants:
+      - device: ESP32S2
+        import:
+          - {key: import_board,         line: "import board"}
+          - {key: import_digitalio_dir, line: "from digitalio import DigitalInOut, Direction, Pull"}
+          - {key: gpio_in,              line: "gpio_in = {}"}
+          - key: "gpio_in_{pin}"
+            line: |-
+              try:
+                  gpio_in[{pin}].deinit()
+              except:
+                  pass
+              gpio_in[{pin}] = DigitalInOut(getattr(board, "IO%d" % {pin}))
+              gpio_in[{pin}].direction = Direction.INPUT
+              gpio_in[{pin}].pull = Pull.UP if {pullup} else None
+        code: "gpio_in[{pin}].value"
+      - import:
+          - {key: import_pin, line: "from machine import Pin"}
+          - {key: gpio_in,    line: "gpio_in = {}"}
+          - key: "gpio_in_{pin}"
+            line: "gpio_in[{pin}] = Pin({pin}, Pin.IN, Pin.PULL_UP if {pullup} else Pin.PULL_DOWN)"
+        code: "gpio_in[{pin}].value()"
+    params:
+      - {name: pin, label: {msg: read_digital_pin}, type: Number, pin: true, default: 0}
+      - {name: pullup, label: Pull-up, align: right,
+         plug: {type: logic_boolean, shadow: true, fields: {BOOL: TRUE}}}

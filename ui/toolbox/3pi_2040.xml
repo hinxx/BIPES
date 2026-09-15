@@ -606,15 +606,16 @@
       <category name="In/Out Pins">
       <label text="In/Out Pins"></label>
     <block type="pinout"></block>
+    <!-- blockdef:gpio -->
     <block type="gpio_set">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="value">
         <shadow type="logic_boolean">
-          <field name="BOOL"></field>
+          <field name="BOOL">TRUE</field>
         </shadow>
       </value>
     </block>
@@ -622,15 +623,16 @@
     <block type="gpio_get">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN"></field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="pullup">
         <shadow type="logic_boolean">
-          <field name="BOOL"></field>
+          <field name="BOOL">TRUE</field>
         </shadow>
       </value>
     </block>
+    <!-- /blockdef:gpio -->
 
     <block type="adc_pico">
  <value name="pin">

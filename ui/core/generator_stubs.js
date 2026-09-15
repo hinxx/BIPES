@@ -60,27 +60,6 @@ Blockly.Python['delay_old'] = function(block) {
 
 
 
-Blockly.Python['gpio_set'] = function(block) {
-	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-	var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-
-	 var value_pin2 = value_pin.replace('(','').replace(')','');
-	//For ESP32s2 with Circuit Python
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-
-		Blockly.Python.definitions_['import_board'] = 'import board';
-		Blockly.Python.definitions_['import_digitalio_dir'] = 'from digitalio import DigitalInOut, Direction, Pull';
-		Blockly.Python.definitions_['gpio_set' + value_pin] = 'try:\n\tgpio' + value_pin2 + '.deinit()\nexcept:\n\tpass\ngpio' + value_pin2 + '=DigitalInOut(board.IO' + value_pin2 + ')\n' + 'gpio' + value_pin2 + '.direction = Direction.OUTPUT';
-		var code = 'gpio' + value_pin2 + '.value=' + value_value + '\n';
-        } else {
-		Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-		Blockly.Python.definitions_['gpio_set'] = 'def gpio_set(pin,value):\n  if value >= 1:\n    Pin(pin, Pin.OUT).on()\n  else:\n    Pin(pin, Pin.OUT).off()';
-
-		var code = 'gpio_set(' + value_pin + ', ' + value_value + ')\n';
-	}
-	return code;
-
-};
 
 
 
@@ -164,37 +143,6 @@ Blockly.Python['adc'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['gpio_get'] = function(block) {
-	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-	var value_pullup = Blockly.Python.valueToCode(block, 'pullup', Blockly.Python.ORDER_ATOMIC);
-	var x = value_pin.replace('(','').replace(')','');
-
-	if (value_pullup == 'True') {
-		pTmp="gpio" + x + ".pull = Pull.UP\n";
-		pUpDown = ", Pin.PULL_UP";
-	}
-	else {
-		//value_pullup2="Pull.DOWN";
-		pTmp='';
-		pUpDown = ", Pin.PULL_DOWN";
-	}
-
-	//For ESP32s2 with Circuit Python
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-
-		Blockly.Python.definitions_['import_board'] = 'import board';
-		Blockly.Python.definitions_['import_digitalio_dir'] = 'from digitalio import DigitalInOut, Direction, Pull';
-		Blockly.Python.definitions_['gpio_set' + value_pin] = 'try:\n\tgpio' + x + '.deinit()\nexcept:\n\tpass\ngpio' + x + '=DigitalInOut(board.IO' + x + ')\n' + 'gpio' + x + '.direction = Direction.INPUT\n' + pTmp;
-		var code = 'gpio' + x + '.value';
-        } else {
-		//Standard MicroPython pin digital pin reading
-		Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-		Blockly.Python.definitions_[`gpio_get_${x}`] = 'pIn' + x + '=Pin(' + x + ', Pin.IN' + pUpDown + ')\n\n';
-		var code = 'pIn' + x + '.value()';
-	}
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 Blockly.Python['gpio_interrupt'] = function(block) {
   // Fix for global variables inside callback

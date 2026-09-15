@@ -598,6 +598,7 @@
       <category name="In/Out Pins">
       <label text="In/Out Pins"></label>
     <block type="pinout"></block>
+    <!-- blockdef:gpio -->
     <block type="gpio_set">
       <value name="pin">
         <shadow type="pinout">
@@ -623,6 +624,7 @@
         </shadow>
       </value>
     </block>
+    <!-- /blockdef:gpio -->
 
     <block type="adc_pico">
  <value name="pin">

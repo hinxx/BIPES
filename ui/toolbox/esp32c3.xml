@@ -493,10 +493,11 @@
     
       <category name="In/Out Pins">
       <label text="In/Out Pins"></label>
+    <!-- blockdef:gpio -->
     <block type="gpio_set">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN">2</field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="value">
@@ -509,7 +510,7 @@
     <block type="gpio_get">
       <value name="pin">
         <shadow type="pinout">
-          <field name="PIN">2</field>
+          <field name="PIN">0</field>
         </shadow>
       </value>
       <value name="pullup">
@@ -518,6 +519,7 @@
         </shadow>
       </value>
     </block>
+    <!-- /blockdef:gpio -->
     <block type="pinout"></block>
 
     <block type="esp32_adc">

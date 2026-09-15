@@ -3238,6 +3238,42 @@ Blockly.Blocks['gc_threshold'] = {
   }
 };
 
+// ---- In/Out Pins (gpio.blockdef.yaml) ----------------------------------------
+
+Blockly.Blocks['gpio_set'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["setpin"]);
+    this.appendValueInput("value")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(MSG["to"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write to GPIO digital pin");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+Blockly.Blocks['gpio_get'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .appendField(MSG["read_digital_pin"]);
+    this.appendValueInput("pullup")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pull-up");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read digital pin");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- GPS (gps.blockdef.yaml) -------------------------------------------------
 
 Blockly.Blocks['gps_init'] = {
