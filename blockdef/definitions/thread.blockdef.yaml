@@ -24,3 +24,44 @@ blocks:
     code: "_thread.start_new_thread({FUNCTION}, ())"
     params:
       - {name: FUNCTION, label: Iniciar tarefa paralela com a função, type: Function}
+
+  # The other `_thread` block, offered by no toolbox and defined by hand until
+  # now. It promised "Thread # N  Interval (ms): 1000" and then **never used
+  # the interval**: what it emitted was a `def thread<N>()` holding the stack
+  # once and a `_thread.start_new_thread(thread<N>, ())` that ran it once. The
+  # block beside it in `Timing`, `timer`, is the one that repeats.
+  #
+  # A param that is read is a param that lands in the code, so the interval
+  # does what the label says: the body is its own function, and the thread
+  # runs a loop that calls it and sleeps. Two functions rather than one
+  # because `statementToCode` indents a stack by exactly one level, which is
+  # the body of a `def` and not the body of a `while` inside it.
+  #
+  # Its callback also went into `definitions_['import_timer_callback<N>']` --
+  # `timer`'s key, with `timer`'s numbering -- so a thread #2 and a timer #2
+  # in one workspace silently kept whichever generated last, and the other
+  # one called a function nothing defined. The key says `thread` now.
+  - type: thread
+    offered: false
+    colour: 135
+    label: []
+    tooltip: ""
+    url: ""
+    import:
+      - {key: import_time, line: "import time"}
+      - key: "thread_callback{timerNumber}"
+        line: |-
+
+          #Thread function
+          def thread{timerNumber}():
+          {statements}
+          def thread{timerNumber}_loop():
+              while True:
+                  thread{timerNumber}()
+                  time.sleep_ms({interval})
+    code: "_thread.start_new_thread(thread{timerNumber}_loop, ())"
+    params:
+      - {name: timerNumber, row: next, label: "Thread #", kind: number, default: 2,
+         min: 0, max: 9, precision: 1}
+      - {name: interval, label: " Interval (ms): ", kind: number, default: 1000}
+      - {name: statements, kind: statements}

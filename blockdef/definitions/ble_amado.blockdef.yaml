@@ -166,3 +166,17 @@ blocks:
     tooltip: Chama a função que formata e envia os dados ao plotter
     url: ""
     code: "formatar_dados_para_plotter()"
+
+  # Reads the variable the class above writes when a central sends something.
+  # Offered by no toolbox, so it is the one block here a saved program can
+  # hold without any flyout ever having shown it; as a family member it now
+  # registers `received_data = None` like the rest, so it reads a name that
+  # exists even with no other BLE block in the program.
+  - type: show_received_data
+    offered: false
+    kind: value
+    output: String
+    label: dados recebidos BLE (received_data)
+    tooltip: Retorna os dados recebidos via BLE
+    url: ""
+    code: "received_data"

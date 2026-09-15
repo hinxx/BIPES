@@ -260,6 +260,66 @@ blocks:
     import: {key: import_timer, line: "from machine import Timer"}
     code: "tim.deinit()"
 
+  # The timer it stops. Also offered by no toolbox, and the same shape as
+  # `timer` above without the workspace walk -- so unlike `timer` it is a
+  # declaration, and here it is.
+  #
+  # It is the Pico's *one* timer: the object is `tim` and the callback is
+  # `timerFunc`, both fixed names, so a second one of these blocks in a
+  # workspace re-inits the same timer with the same function. `timer` and
+  # `stop_timer` above are the numbered pair. Left as it is -- which of the
+  # two a Pico should offer is a decision about the board, and today neither
+  # is offered.
+  #
+  # One change: the interval was a *text* field, so typing a word in it
+  # emitted `period=every 5s`. It is a number field, like `stop_timer`'s. The
+  # generator also read a `timerNumber` field the block does not have, and
+  # never used what it got (`undefined`).
+  - type: pico_timer
+    offered: false
+    colour: 135
+    label: []
+    tooltip: ""
+    url: ""
+    import:
+      - {key: import_timer, line: "from machine import Timer"}
+      - {key: pico_timer_object, line: "tim = Timer()"}
+      - key: pico_timer_callback
+        line: |-
+
+          #Timer Function Callback
+          def timerFunc(t):
+          {statements}
+    code: "tim.init(period={interval}, mode=Timer.PERIODIC, callback=timerFunc)"
+    params:
+      - {name: interval, label: "RPI Pico Timer  Interval (ms): ", kind: number,
+         default: 1000}
+      - {name: statements, kind: statements}
+
+  # Two more that no toolbox lists. `delay_old` and `delay` do the same thing,
+  # and `deep_sleep` is `machine.deepsleep()` where `deep_sleep8266` below is
+  # the RTC-alarm version; which of each pair a board should offer is the
+  # decision, and no board offers these.
+  - type: delay_old
+    offered: false
+    label: []
+    tooltip: Delay processing in seconds
+    url: http://www.bipes.net.br/
+    import: {key: import_time, line: "import time"}
+    code: "time.sleep({time})"
+    params:
+      - {name: time, label: delay seconds, type: Number}
+
+  - type: deep_sleep
+    offered: false
+    label: []
+    tooltip: Deep sleep process in milliseconds
+    url: http://www.bipes.net.br
+    import: {key: import_machine, line: "import machine"}
+    code: "machine.deepsleep({interval})"
+    params:
+      - {name: interval, label: deep sleep, type: Number}
+
   - type: stop_timer
     colour: 0
     label: []

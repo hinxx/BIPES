@@ -70,3 +70,24 @@ blocks:
   - {type: bmp280_pressure, instance: bmp280, attr: pressure, kind: value,
      label: {msg: pressure}, tooltip: Pressure from the BMP280 sensor,
      url: http://www.bipes.net.br, import: *bmp280_import}
+
+  # Offered by no toolbox, and it read `bmp280.altitude` -- a property the
+  # BMP280 driver does not have (`ui/pylibs/bmp280.py` has `temperature` and
+  # `pressure` and nothing else), so it raised AttributeError on every board.
+  # The BMP180 driver next door computes altitude from pressure against a
+  # sea-level baseline, `-7990.0*math.log(self.pressure/self.baseline)`, and
+  # `bmp180_init` above sets that baseline to 101325; this is the same sum
+  # with the same constant, done in the emitted program because the driver
+  # will not do it. Whether the category should offer it is a decision about
+  # the blocks -- it did not work, so nobody can be relying on it.
+  - type: bmp280_altitude
+    offered: false
+    instance: bmp280
+    kind: value
+    label: {msg: altitude}
+    tooltip: Altitude from the BMP280 sensor
+    url: http://www.bipes.net.br
+    import:
+      - *bmp280_import
+      - {line: "import math", key: import_math}
+    code: "(-7990.0*math.log({instance}.pressure/101325))"

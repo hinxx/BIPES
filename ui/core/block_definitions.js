@@ -15,37 +15,6 @@
 
 
 
-Blockly.Blocks['deep_sleep'] = {
-	init: function() {
-    this.appendValueInput("interval")
-        .setCheck("Number")
-	.appendField("deep sleep");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Deep sleep process in milliseconds");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
-/*LEGACY_BLOCKS_START:Old timings blocks*/
-Blockly.Blocks['delay_old'] = {
-  init: function() {
-    this.appendValueInput("time")
-        .setCheck("Number")
-        .appendField("delay seconds");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Delay processing in seconds");
- this.setHelpUrl("http://www.bipes.net.br/");
-  }
-};
-
-
-
-
-
-/*LEGACY_BLOCKS_END: Old timings blocks*/
 //Blockly.Blocks['utime.delay'] = {
 
 
@@ -77,38 +46,9 @@ Blockly.Blocks['utime.deadline'] = {
 
 
 
-Blockly.Blocks['pico_timer'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("RPI Pico Timer ")
-        .appendField(" Interval (ms): ")
-        .appendField(new Blockly.FieldTextInput("1000"), "interval");
-    this.appendStatementInput("statements")
-        .setCheck("image");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
 
-Blockly.Blocks['thread'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("Thread #")
-        .appendField(new Blockly.FieldNumber(2, 0, 9, 1), "timerNumber")
-        .appendField(" Interval (ms): ")
-        .appendField(new Blockly.FieldTextInput("1000"), "interval");
-    this.appendStatementInput("statements")
-        .setCheck("image");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
 
 
 
@@ -494,24 +434,6 @@ Blockly.Blocks['tm1640_custom'] = {
 
 
 
-Blockly.Blocks['file_close_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Close file");
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
- this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
-    this.setColour(230);
- this.setTooltip("Safely close file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
@@ -519,50 +441,9 @@ Blockly.Blocks['file_close_old'] = {
 
 
 
-Blockly.Blocks['file_write_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Write text to file");
-
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
- this.appendValueInput("data")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("data");
-
- this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
-    this.setColour(230);
- this.setTooltip("Write string to file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
-Blockly.Blocks['file_read_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Read text from the file");
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
-    this.setOutput(true, null);
-
-    this.setColour(230);
- this.setTooltip("Read string from a file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
@@ -2273,16 +2154,6 @@ Blockly.Blocks['cell_value'] = {
 
 //BMP180
 //BMP280
-Blockly.Blocks['bmp280_altitude'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(MSG["altitude"]);
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Altitude from the BMP280 sensor");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 //MCP23017
 //CCS811 Air Quality Sensor
@@ -2371,17 +2242,6 @@ Blockly.Blocks['configurar_plotter_dados'] = {
   }
 };
 
-Blockly.Blocks['gps_get_datetime'] = {
-  init: function() {
-    this.setColour(135);
-    this.appendDummyInput()
-        .appendField("GPS Date and Time");
-
-    this.setOutput(true);
-
-    this.setTooltip('');
-  }
-};
 
 
 
@@ -2408,16 +2268,6 @@ Blockly.Blocks['sensor_create'] = {
   }
 };
 
-Blockly.Blocks['show_received_data'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("dados recebidos BLE (received_data)");
-    this.setOutput(true, "String");
-    this.setColour(230);
-    this.setTooltip("Retorna os dados recebidos via BLE");
-    this.setHelpUrl("");
-  }
-};
 
 
 

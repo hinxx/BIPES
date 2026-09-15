@@ -47,12 +47,6 @@ Blockly.Python.i2cBus_ = function(opts) {
 
 
 
-Blockly.Python['delay_old'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
 
 
 
@@ -1353,12 +1347,6 @@ Blockly.Python['text_eval'] = function(block) {
 };
 
 //-------------------------------------
-/*LEGACY_BLOCKS_START: Old timings blocks*/
-
-
-
-/*LEGACY_BLOCKS_END: Old timings blocks*/
-
 Blockly.Python['utime.deadline'] = function(block) {
   Blockly.Python.definitions_['import_utime'] = 'import utime';
 
@@ -1381,20 +1369,6 @@ Blockly.Python['utime.deadline'] = function(block) {
 
 
 
-Blockly.Python['thread'] = function(block) {
-
-  var interval = block.getFieldValue('interval');
-  var timerNumber = block.getFieldValue('timerNumber');
-  var statements_name = Blockly.Python.statementToCode(block, 'statements');
-  
-  Blockly.Python.definitions_['import_thread'] = 'import _thread';
-
-  Blockly.Python.definitions_['import_timer_callback' + timerNumber] = '\n#Thread function \ndef thread' + timerNumber + '():\n' + statements_name + '\n\n'; 
-
-  var code = '_thread.start_new_thread(thread' + timerNumber + ', ())\n';
-             
-  return code;
-};
 
 Blockly.Python['timer'] = function(block) {
 
@@ -1432,12 +1406,6 @@ Blockly.Python['timer'] = function(block) {
 
 
 
-Blockly.Python['deep_sleep'] = function(block) {
-	var value_interval = Blockly.Python.valueToCode(block, 'interval', Blockly.Python.ORDER_ATOMIC);
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = 'machine.deepsleep(' + value_interval + ')\n';
-	return code;
-  };
 
 
 
@@ -1458,29 +1426,14 @@ Blockly.Python['deep_sleep'] = function(block) {
 
 
 
-Blockly.Python['file_close_old'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  var code = 'f.close()\n';
-  return code;
-};
-
-
-
-Blockly.Python['file_read_old'] = function(block) {
-  var code = 'f.read()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
 
 
-Blockly.Python['file_write_old'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-  var code = 'f.write(' + pIn + ')\n';
-  code += "f.write('\\n')\n";
-  return code;
-};
+
+
+
 
 
 
@@ -1932,10 +1885,6 @@ Blockly.Python['cell_value'] = function(block) {
 
 //BMP180
 //BMP280
-Blockly.Python['bmp280_altitude'] = function(block) {
-	var code = 'bmp280.altitude';
-	return [code, Blockly.Python.ORDER_NONE];
-};
 
 //MCP23017
 //CCS811
@@ -1997,39 +1946,14 @@ formatar_dados_para_plotter()  # Chama a função que formata e envia os dados a
   return code;
 };
 
-Blockly.Python['gps_get_datetime'] = function(block) {
-
-  var code = 'gps_datetime';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
 
 
-Blockly.Python['pico_timer'] = function(block) {
-
-  var interval = block.getFieldValue('interval');
-  var timerNumber = block.getFieldValue('timerNumber');
-  var statements_name = Blockly.Python.statementToCode(block, 'statements');
-  
-  Blockly.Python.definitions_['import_timer'] = 'from machine import Timer';
-  Blockly.Python.definitions_['import_timer_start'] = 'tim=Timer()'; //-1)';
-
-  Blockly.Python.definitions_['import_timer_callback'] = '\n#Timer Function Callback\ndef timerFunc(t):\n' + statements_name + '\n\n'; 
-
-  var code = 'tim.init(period=' + interval + ', mode=Timer.PERIODIC, callback=timerFunc)\n';
-             
-  return code;
-};
 
 
 
-Blockly.Python['show_received_data'] = function(block) {
-  var code = 'received_data';
-  return [code, Blockly.Python.ORDER_ATOMIC];
-};
 
 
 

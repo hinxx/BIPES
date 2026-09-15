@@ -189,3 +189,47 @@ blocks:
   - {type: uos_readblocks,  external: true}
   - {type: uos_writeblocks, external: true}
   - {type: uos_ioctl,       external: true}
+
+  # Three superseded copies, offered by no toolbox and convertible only
+  # because nothing offers them. Each carries a `filename` socket that has
+  # never reached the code: the Python is `f.close()`, `f.read()` and
+  # `f.write(...)`, against a handle literally named `f`, which is what this
+  # category's open block used to assign to before it grew the handle socket
+  # `file_open_write` has now. `file_read_old` did not even read the socket.
+  #
+  # They stay that way. Wiring the socket up is the obvious tidy and it makes
+  # every saved program holding one worse -- a text block saying `file.txt`
+  # would go from `f.close()`, which works next to the old open block, to
+  # `file.txt.close()`, which is not Python. The three above are the ones with
+  # a handle socket; whether a board should offer these at all is the decision
+  # nobody has taken, and today none does.
+  - type: file_close_old
+    offered: false
+    label: Close file
+    tooltip: Safely close file
+    url: http://www.bipes.net.br
+    code: "f.close()"
+    params:
+      - {name: filename, label: filename, type: String, align: right}
+
+  - type: file_read_old
+    offered: false
+    kind: value
+    label: Read text from the file
+    tooltip: Read string from a file
+    url: http://www.bipes.net.br
+    code: "f.read()"
+    params:
+      - {name: filename, label: filename, type: String, align: right}
+
+  - type: file_write_old
+    offered: false
+    label: Write text to file
+    tooltip: Write string to file
+    url: http://www.bipes.net.br
+    code: |-
+      f.write({data})
+      f.write('\n')
+    params:
+      - {name: filename, label: filename, type: String, align: right}
+      - {name: data,     label: data,     type: String, align: right}

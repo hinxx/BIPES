@@ -70,3 +70,16 @@ blocks:
   - {type: gps_get_speed,  attr: speed,     kind: value, label: GPS Speed,     tooltip: ""}
   - {type: gps_get_date,   attr: date,      kind: value, label: GPS Date,      tooltip: ""}
   - {type: gps_get_time,   attr: timestamp, kind: value, label: GPS Timestamp, tooltip: ""}
+
+  # Offered by no toolbox, and it emitted the bare name `gps_datetime`, which
+  # nothing in the tree defines -- a NameError wherever it was plugged in.
+  # (Five toolboxes did list it; that was the drift the GPS conversion
+  # removed.) `date` and `timestamp` are what the library holds, and are what
+  # `gps_get_date` and `gps_get_time` above read one at a time.
+  - type: gps_get_datetime
+    offered: false
+    kind: value
+    label: GPS Date and Time
+    tooltip: ""
+    url: ""
+    code: "({instance}.date, {instance}.timestamp)"
