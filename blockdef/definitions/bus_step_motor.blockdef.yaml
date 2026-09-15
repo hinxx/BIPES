@@ -1,0 +1,91 @@
+# Stepper motors driven through a PCA9685 PWM board on I2C. Same board and
+# the same faults as the DC motor family next door -- see its file.
+#
+# `bus_step_motor_step_motion` also printed `f"... Steps={steps}"`, where
+# `steps` exists in the generator's JavaScript and not in the program: the
+# block raised NameError after moving the motor.
+
+module: bus_step_motor
+class: BusStepMotor
+instance: step_motor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "from bus_step_motor import BusStepMotor", key: import_bus_step_motor}
+
+category:
+  name: Bus Step Motor (PCA9685)
+  library: [bus_step_motor, pca9685]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Stepper Motors on a PCA9685 PWM Board
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: bus_step_motor_init
+    label:
+      - {image: {src: media/bus_step_motor.png, width: 55, height: 55}}
+      - Init Bus Step Motor (PCA9685)
+    tooltip: Init stepper motors on a PCA9685 PWM board
+    import:
+      - {line: "from pca9685 import PCA9685", key: import_pca9685}
+      - key: pca9685_find
+        line: |-
+          def pca9685_find(i2c, default=0x40):
+            for dev in i2c.scan():
+              if 0x40 <= dev <= 0x4F:
+                return dev
+            return default
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 400000}
+    code: |-
+      pca9685_i2c = {bus}
+      pca9685_bus = PCA9685(pca9685_i2c, pca9685_find(pca9685_i2c))
+      {instance} = BusStepMotor(pca9685_bus, {motor_count})
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: motor_count, label: Motor Count (1-4), type: Number, default: 2,
+         align: right}
+
+  - type: bus_step_motor_continuous
+    fn: start_continuous_motion
+    label: Bus Step Motor Continuous Motion
+    tooltip: Turn one stepper continuously until it is stopped
+    params:
+      - &step_motor_id
+        {name: motor_id, label: Motor ID (1-4), type: Number, default: 1, align: right}
+      - &step_direction
+        {name: DIRECTION, label: Direction, kind: dropdown,
+         options: [{Forward: "0"}, {Backward: "1"}]}
+      - &step_mode
+        {name: DRIVER_MODE, label: Driver Mode, kind: dropdown,
+         options: [{Single Phase: "0"}, {Double Phase: "1"}, {Half Step: "2"}]}
+      - &step_speed
+        {name: speed, label: Speed (0-1000), type: Number, default: 100, align: right}
+
+  - type: bus_step_motor_stop_continuous
+    fn: stop_continuous_motion
+    label: Bus Step Motor Stop Continuous
+    tooltip: Stop a stepper that is turning continuously
+    params: [*step_motor_id]
+
+  - type: bus_step_motor_step_motion
+    fn: start_step_motion
+    label: Bus Step Motor Step Motion
+    tooltip: Turn one stepper a fixed number of steps
+    params:
+      - *step_motor_id
+      - *step_direction
+      - *step_mode
+      - *step_speed
+      - {name: steps, label: Steps (positive int), type: Number, default: 100,
+         align: right}
+
+  - type: bus_step_motor_stop_step
+    fn: stop_step_motion
+    label: Bus Step Motor Stop Step Motion
+    tooltip: Stop a stepper part-way through a step motion
+    params: [*step_motor_id]

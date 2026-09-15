@@ -1,0 +1,74 @@
+# Ball-type vibration sensor on a digital pin, debounced in the driver.
+#
+# The callback default is hoisted rather than emitted by init, so the sensor
+# and the callback do not have to be created in one particular order. Setting
+# a new callback writes `_callback` and cycles init/deinit, which is what the
+# driver needs to re-arm the interrupt; that is kept.
+#
+# `debounce_ms` was a live socket beside a number field.
+
+module: vibration_sensor
+class: VibrationSensor
+instance: vib_sensor_device
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import vibration_sensor", key: import_vibration_sensor}
+
+category:
+  name: Vibration Sensor
+  library: vibration_sensor
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Ball-type Vibration Sensor (Digital with IRQ)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: vibration_sensor_init
+    label:
+      - {image: {src: media/vibration_sensor.png, width: 55, height: 55}}
+      - Init Vibration Sensor
+    tooltip: Init ball-type vibration sensor with debounce and callback
+    fields: {ENABLE_CALLBACK: "NO"}
+    import:
+      - {line: "from machine import Pin", key: import_machine_pin}
+      - key: vibration_default_callback
+        line: |-
+          def vibration_callback():
+            print("Vibration detected!")
+    code: |-
+      vib_pin = Pin({pin}, Pin.IN)
+      {instance} = vibration_sensor.VibrationSensor(pin=vib_pin, callback={ENABLE_CALLBACK}, debounce_ms={debounce_ms})
+      {instance}.init()
+    params:
+      - {name: pin, label: GPIO Pin, type: Number, pin: true, default: 2, align: right}
+      - {name: debounce_ms, label: Debounce Time (ms), type: Number, default: 50,
+         align: right}
+      - {name: ENABLE_CALLBACK, label: Enable Callback, kind: dropdown,
+         options: [{Yes: "YES"}, {No: "NO"}],
+         emit: {YES: vibration_callback, NO: "None"}}
+
+  - {type: vibration_sensor_read, fn: read, kind: value, output: Boolean,
+     label: Read Vibration Sensor State,
+     tooltip: "Read current vibration sensor state (True=vibration detected)"}
+
+  - type: vibration_sensor_set_callback
+    label: Set Vibration Sensor Callback
+    tooltip: Set callback code to run on vibration detection (no parameters)
+    code: |-
+      def vibration_callback():
+      {CALLBACK_CODE}{instance}._callback = vibration_callback
+      {instance}.deinit()
+      {instance}.init()
+    params:
+      - {name: CALLBACK_CODE, kind: statements, align: right,
+         label: Run when vibration detected (no params),
+         plug: {type: text_print, values: {TEXT: Vibration detected!}}}
+
+  - {type: vibration_sensor_get_status, fn: get_status, kind: value,
+     label: Get Vibration Sensor Status,
+     tooltip: "Get sensor status (last_state, debounce_ms, callback_set)"}
+
+  - {type: vibration_sensor_deinit, fn: deinit,
+     label: Deinitialize Vibration Sensor,
+     tooltip: Release vibration sensor resources and disable IRQ}

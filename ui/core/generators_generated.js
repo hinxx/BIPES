@@ -928,6 +928,101 @@ Blockly.Python['builtins_zip'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Bus DC Motor (PCA9685) (bus_dc_motor.blockdef.yaml) ---------------------
+
+Blockly.Python['bus_dc_motor_init'] = function(block) {
+  Blockly.Python.definitions_["import_bus_dc_motor"] = "from bus_dc_motor import BusDCMotor";
+  Blockly.Python.definitions_["import_pca9685"] = "from pca9685 import PCA9685";
+  Blockly.Python.definitions_["pca9685_find"] = "def pca9685_find(i2c, default=0x40):\n  for dev in i2c.scan():\n    if 0x40 <= dev <= 0x4F:\n      return dev\n  return default";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var motor_count_ = Blockly.Python.valueToCode(block, "motor_count", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "pca9685_i2c = " + bus_ + "\npca9685_bus = PCA9685(pca9685_i2c, pca9685_find(pca9685_i2c))\ndc_motor = BusDCMotor(pca9685_bus, " + motor_count_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_dc_motor_set_speed'] = function(block) {
+  Blockly.Python.definitions_["import_bus_dc_motor"] = "from bus_dc_motor import BusDCMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var speed_ = Blockly.Python.valueToCode(block, "speed", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = block.getFieldValue("DIRECTION");
+  var code = "dc_motor.set_motor_speed(" + motor_id_ + ", " + speed_ + ", " + DIRECTION_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_dc_motor_stop'] = function(block) {
+  Blockly.Python.definitions_["import_bus_dc_motor"] = "from bus_dc_motor import BusDCMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "dc_motor.stop_motor(" + motor_id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_dc_motor_break'] = function(block) {
+  Blockly.Python.definitions_["import_bus_dc_motor"] = "from bus_dc_motor import BusDCMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "dc_motor.break_motor(" + motor_id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_dc_motor_scan_i2c'] = function(block) {
+  Blockly.Python.definitions_["import_bus_dc_motor"] = "from bus_dc_motor import BusDCMotor";
+  Blockly.Python.definitions_["pca9685_find"] = "def pca9685_find(i2c, default=0x40):\n  for dev in i2c.scan():\n    if 0x40 <= dev <= 0x4F:\n      return dev\n  return default";
+  var code = "pca9685_find(pca9685_i2c)";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Bus Step Motor (PCA9685) (bus_step_motor.blockdef.yaml) -----------------
+
+Blockly.Python['bus_step_motor_init'] = function(block) {
+  Blockly.Python.definitions_["import_bus_step_motor"] = "from bus_step_motor import BusStepMotor";
+  Blockly.Python.definitions_["import_pca9685"] = "from pca9685 import PCA9685";
+  Blockly.Python.definitions_["pca9685_find"] = "def pca9685_find(i2c, default=0x40):\n  for dev in i2c.scan():\n    if 0x40 <= dev <= 0x4F:\n      return dev\n  return default";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var motor_count_ = Blockly.Python.valueToCode(block, "motor_count", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "400000"});
+  var code = "pca9685_i2c = " + bus_ + "\npca9685_bus = PCA9685(pca9685_i2c, pca9685_find(pca9685_i2c))\nstep_motor = BusStepMotor(pca9685_bus, " + motor_count_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_step_motor_continuous'] = function(block) {
+  Blockly.Python.definitions_["import_bus_step_motor"] = "from bus_step_motor import BusStepMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = block.getFieldValue("DIRECTION");
+  var DRIVER_MODE_ = block.getFieldValue("DRIVER_MODE");
+  var speed_ = Blockly.Python.valueToCode(block, "speed", Blockly.Python.ORDER_ATOMIC);
+  var code = "step_motor.start_continuous_motion(" + motor_id_ + ", " + DIRECTION_ + ", " + DRIVER_MODE_ + ", " + speed_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_step_motor_stop_continuous'] = function(block) {
+  Blockly.Python.definitions_["import_bus_step_motor"] = "from bus_step_motor import BusStepMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "step_motor.stop_continuous_motion(" + motor_id_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_step_motor_step_motion'] = function(block) {
+  Blockly.Python.definitions_["import_bus_step_motor"] = "from bus_step_motor import BusStepMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var DIRECTION_ = block.getFieldValue("DIRECTION");
+  var DRIVER_MODE_ = block.getFieldValue("DRIVER_MODE");
+  var speed_ = Blockly.Python.valueToCode(block, "speed", Blockly.Python.ORDER_ATOMIC);
+  var steps_ = Blockly.Python.valueToCode(block, "steps", Blockly.Python.ORDER_ATOMIC);
+  var code = "step_motor.start_step_motion(" + motor_id_ + ", " + DIRECTION_ + ", " + DRIVER_MODE_ + ", " + speed_ + ", " + steps_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['bus_step_motor_stop_step'] = function(block) {
+  Blockly.Python.definitions_["import_bus_step_motor"] = "from bus_step_motor import BusStepMotor";
+  var motor_id_ = Blockly.Python.valueToCode(block, "motor_id", Blockly.Python.ORDER_ATOMIC);
+  var code = "step_motor.stop_step_motion(" + motor_id_ + ")";
+  return code + "\n";
+};
+
 // ---- Buzzer (PWM) (buzzer.blockdef.yaml) -------------------------------------
 
 Blockly.Python['buzzer_init'] = function(block) {
@@ -8549,6 +8644,85 @@ Blockly.Python['uzlib_decompress'] = function(block) {
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
   var code = "uzlib.decompress(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Vibration Motor (vibration_motor.blockdef.yaml) -------------------------
+
+Blockly.Python['vibration_motor_init'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var pwm_freq_ = Blockly.Python.valueToCode(block, "pwm_freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "vibration_motor_sensor = vibration_motor.VibrationMotor(" + "pin=" + pin_ + ", pwm_freq=" + pwm_freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_motor_on'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var code = "vibration_motor_sensor.on()";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_motor_off'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var code = "vibration_motor_sensor.off()";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_motor_toggle'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var code = "vibration_motor_sensor.toggle()";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_motor_set_brightness'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "vibration_motor_sensor.set_brightness(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_motor_get_state'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_motor"] = "import vibration_motor";
+  var code = "vibration_motor_sensor.get_state()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- Vibration Sensor (vibration_sensor.blockdef.yaml) -----------------------
+
+Blockly.Python['vibration_sensor_init'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_sensor"] = "import vibration_sensor";
+  Blockly.Python.definitions_["import_machine_pin"] = "from machine import Pin";
+  Blockly.Python.definitions_["vibration_default_callback"] = "def vibration_callback():\n  print(\"Vibration detected!\")";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var debounce_ms_ = Blockly.Python.valueToCode(block, "debounce_ms", Blockly.Python.ORDER_ATOMIC);
+  var ENABLE_CALLBACK_ = {"YES": "vibration_callback", "NO": "None"}[block.getFieldValue("ENABLE_CALLBACK")];
+  var code = "vib_pin = Pin(" + pin_ + ", Pin.IN)\nvib_sensor_device = vibration_sensor.VibrationSensor(pin=vib_pin, callback=" + ENABLE_CALLBACK_ + ", debounce_ms=" + debounce_ms_ + ")\nvib_sensor_device.init()";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_sensor_read'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_sensor"] = "import vibration_sensor";
+  var code = "vib_sensor_device.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['vibration_sensor_set_callback'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_sensor"] = "import vibration_sensor";
+  var CALLBACK_CODE_ = (Blockly.Python.statementToCode(block, "CALLBACK_CODE") || Blockly.Python.PASS);
+  var code = "def vibration_callback():\n" + CALLBACK_CODE_ + "vib_sensor_device._callback = vibration_callback\nvib_sensor_device.deinit()\nvib_sensor_device.init()";
+  return code + "\n";
+};
+
+Blockly.Python['vibration_sensor_get_status'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_sensor"] = "import vibration_sensor";
+  var code = "vib_sensor_device.get_status()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['vibration_sensor_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_vibration_sensor"] = "import vibration_sensor";
+  var code = "vib_sensor_device.deinit()";
+  return code + "\n";
 };
 
 // ---- Time of Flight (vl53l0x.blockdef.yaml) ----------------------------------

@@ -1,0 +1,90 @@
+# DC motors driven through a PCA9685 PWM board on I2C.
+#
+# `pca9685 = pca9685.PCA9685(...)` rebound the module to the instance, so a
+# second init -- or the step motor block next door, which did the same thing
+# -- went looking for `PCA9685` on the object. Both families import the class
+# directly now and name the board `pca9685_bus`, which also keeps them clear
+# of the servo driver's own `pca9685`.
+#
+# The address scan that both inits open with is a hoisted helper rather than
+# six lines of loop in the program, and the "Scan I2C Devices" block calls the
+# same helper instead of being the only block that could not say which bus it
+# meant.
+#
+# Seven dead sockets beside number fields, and print-and-swallow try/except
+# around every call.
+
+module: bus_dc_motor
+class: BusDCMotor
+instance: dc_motor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "from bus_dc_motor import BusDCMotor", key: import_bus_dc_motor}
+
+category:
+  name: Bus DC Motor (PCA9685)
+  library: [bus_dc_motor, pca9685]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - DC Motors on a PCA9685 PWM Board
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: bus_dc_motor_init
+    label:
+      - {image: {src: media/bus_dc_motor.png, width: 55, height: 55}}
+      - Init Bus DC Motor (PCA9685)
+    tooltip: Init DC motors on a PCA9685 PWM board
+    import:
+      - {line: "from pca9685 import PCA9685", key: import_pca9685}
+      - &pca9685_find
+        key: pca9685_find
+        line: |-
+          def pca9685_find(i2c, default=0x40):
+            for dev in i2c.scan():
+              if 0x40 <= dev <= 0x4F:
+                return dev
+            return default
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 400000}
+    code: |-
+      pca9685_i2c = {bus}
+      pca9685_bus = PCA9685(pca9685_i2c, pca9685_find(pca9685_i2c))
+      {instance} = BusDCMotor(pca9685_bus, {motor_count})
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: motor_count, label: Motor Count, type: Number, default: 4, align: right}
+
+  - type: bus_dc_motor_set_speed
+    fn: set_motor_speed
+    label: Bus DC Motor Set Speed & Direction
+    tooltip: Set one motor's speed and direction
+    params:
+      - {name: motor_id, label: Motor ID (1-4), type: Number, default: 1, align: right}
+      - {name: speed, label: Speed (1900-4095), type: Number, default: 4000, align: right}
+      - {name: DIRECTION, label: Direction, kind: dropdown,
+         options: [{Forward: "0"}, {Backward: "1"}]}
+
+  - type: bus_dc_motor_stop
+    fn: stop_motor
+    label: Bus DC Motor Stop
+    tooltip: Stop one motor smoothly
+    params: &bus_dc_motor_id
+      - {name: motor_id, label: Motor ID (1-4), type: Number, default: 1, align: right}
+
+  - type: bus_dc_motor_break
+    fn: break_motor
+    label: Bus DC Motor Brake
+    tooltip: Brake one motor
+    params: *bus_dc_motor_id
+
+  - type: bus_dc_motor_scan_i2c
+    kind: value
+    label: Scan I2C Devices (PCA9685)
+    tooltip: Scan I2C bus and return PCA9685 address (0x40-0x4F)
+    import: *pca9685_find
+    code: "pca9685_find(pca9685_i2c)"

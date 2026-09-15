@@ -3061,6 +3061,46 @@
   </category>
   <!-- /blockdef:air530z -->
 
+  <!-- blockdef:vibration_sensor -->
+  <category name="Vibration Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Ball-type Vibration Sensor (Digital with IRQ)"></label>
+    <button text="Install vibration_sensor library" callbackKey="installPyLib"></button>
+
+    <block type="vibration_sensor_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="debounce_ms">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <field name="ENABLE_CALLBACK">NO</field>
+    </block>
+
+    <block type="vibration_sensor_read"></block>
+
+    <block type="vibration_sensor_set_callback">
+      <statement name="CALLBACK_CODE">
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">Vibration detected!</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="vibration_sensor_get_status"></block>
+
+    <block type="vibration_sensor_deinit"></block>
+  </category>
+  <!-- /blockdef:vibration_sensor -->
+
   <!-- blockdef:ad8232 -->
   <category name="AD8232 ECG Sensor">
     <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
@@ -3820,6 +3860,185 @@
     <block type="opto_mos_deinit"></block>
   </category>
   <!-- /blockdef:opto_mos -->
+
+  <!-- blockdef:vibration_motor -->
+  <category name="Vibration Motor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PWM Vibration Motor"></label>
+    <button text="Install vibration_motor library" callbackKey="installPyLib"></button>
+
+    <block type="vibration_motor_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="pwm_freq">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="vibration_motor_on"></block>
+
+    <block type="vibration_motor_off"></block>
+
+    <block type="vibration_motor_toggle"></block>
+
+    <block type="vibration_motor_set_brightness">
+      <value name="duty">
+        <shadow type="math_number">
+          <field name="NUM">512</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="vibration_motor_get_state"></block>
+  </category>
+  <!-- /blockdef:vibration_motor -->
+
+  <!-- blockdef:bus_dc_motor -->
+  <category name="Bus DC Motor (PCA9685)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="DC Motors on a PCA9685 PWM Board"></label>
+    <button text="Install bus_dc_motor library" callbackKey="installPyLib"></button>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+
+    <block type="bus_dc_motor_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="motor_count">
+        <shadow type="math_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_dc_motor_set_speed">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">4000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_dc_motor_stop">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_dc_motor_break">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_dc_motor_scan_i2c"></block>
+  </category>
+  <!-- /blockdef:bus_dc_motor -->
+
+  <!-- blockdef:bus_step_motor -->
+  <category name="Bus Step Motor (PCA9685)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Stepper Motors on a PCA9685 PWM Board"></label>
+    <button text="Install bus_step_motor library" callbackKey="installPyLib"></button>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+
+    <block type="bus_step_motor_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="motor_count">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_step_motor_continuous">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_step_motor_stop_continuous">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_step_motor_step_motion">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+      <value name="steps">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="bus_step_motor_stop_step">
+      <value name="motor_id">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:bus_step_motor -->
 
 </category>
 

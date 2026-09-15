@@ -1,0 +1,53 @@
+# Vibration motor on a PWM pin. The driver calls its duty setter
+# `set_brightness`, which is what the LED modules it was copied from called
+# it; the block label says intensity.
+#
+# Two dead sockets beside number fields.
+
+module: vibration_motor
+class: VibrationMotor
+instance: vibration_motor_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import vibration_motor", key: import_vibration_motor}
+
+category:
+  name: Vibration Motor
+  library: vibration_motor
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PWM Vibration Motor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: vibration_motor_init
+    constructor: true
+    label:
+      - {image: {src: media/vibration_motor.png, width: 55, height: 55}}
+      - Init Vibration Motor
+    tooltip: Init Vibration Motor with specified pin and PWM frequency
+    params:
+      - {name: pin, label: Pin, type: Number, pin: true, default: 6, align: right,
+         keyword: pin}
+      - {name: pwm_freq, label: PWM Frequency, type: Number, default: 1000,
+         align: right, keyword: pwm_freq}
+
+  - {type: vibration_motor_on, fn: on, label: Vibration Motor On (Full Speed),
+     tooltip: Turn on vibration motor at full speed}
+  - {type: vibration_motor_off, fn: off, label: Vibration Motor Off,
+     tooltip: Turn off vibration motor}
+  - {type: vibration_motor_toggle, fn: toggle,
+     label: Vibration Motor Toggle State,
+     tooltip: Toggle vibration motor state (on/off)}
+
+  - type: vibration_motor_set_brightness
+    fn: set_brightness
+    label: Set Vibration Motor Intensity
+    tooltip: Set vibration motor intensity by PWM duty
+    params:
+      - {name: duty, label: Intensity, type: Number, default: 512, align: right}
+
+  - {type: vibration_motor_get_state, fn: get_state, kind: value,
+     label: Get Vibration Motor State,
+     tooltip: Read whether the vibration motor is running}

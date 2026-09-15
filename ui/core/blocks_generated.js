@@ -1819,6 +1819,224 @@ Blockly.Blocks['builtins_zip'] = {
   }
 };
 
+// ---- Bus DC Motor (PCA9685) (bus_dc_motor.blockdef.yaml) ---------------------
+
+Blockly.Blocks['bus_dc_motor_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/bus_dc_motor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Bus DC Motor (PCA9685)");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("motor_count")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor Count");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init DC motors on a PCA9685 PWM board");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_dc_motor_set_speed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus DC Motor Set Speed & Direction");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.appendValueInput("speed")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Speed (1900-4095)");
+    this.appendDummyInput()
+        .appendField("Direction")
+        .appendField(new Blockly.FieldDropdown([["Forward", "0"], ["Backward", "1"]]), "DIRECTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set one motor's speed and direction");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_dc_motor_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus DC Motor Stop");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop one motor smoothly");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_dc_motor_break'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus DC Motor Brake");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Brake one motor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_dc_motor_scan_i2c'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Scan I2C Devices (PCA9685)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Scan I2C bus and return PCA9685 address (0x40-0x4F)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- Bus Step Motor (PCA9685) (bus_step_motor.blockdef.yaml) -----------------
+
+Blockly.Blocks['bus_step_motor_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/bus_step_motor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Bus Step Motor (PCA9685)");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("motor_count")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor Count (1-4)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init stepper motors on a PCA9685 PWM board");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_step_motor_continuous'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus Step Motor Continuous Motion");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.appendDummyInput()
+        .appendField("Direction")
+        .appendField(new Blockly.FieldDropdown([["Forward", "0"], ["Backward", "1"]]), "DIRECTION");
+    this.appendDummyInput()
+        .appendField("Driver Mode")
+        .appendField(new Blockly.FieldDropdown([["Single Phase", "0"], ["Double Phase", "1"], ["Half Step", "2"]]), "DRIVER_MODE");
+    this.appendValueInput("speed")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Speed (0-1000)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn one stepper continuously until it is stopped");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_step_motor_stop_continuous'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus Step Motor Stop Continuous");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop a stepper that is turning continuously");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_step_motor_step_motion'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus Step Motor Step Motion");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.appendDummyInput()
+        .appendField("Direction")
+        .appendField(new Blockly.FieldDropdown([["Forward", "0"], ["Backward", "1"]]), "DIRECTION");
+    this.appendDummyInput()
+        .appendField("Driver Mode")
+        .appendField(new Blockly.FieldDropdown([["Single Phase", "0"], ["Double Phase", "1"], ["Half Step", "2"]]), "DRIVER_MODE");
+    this.appendValueInput("speed")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Speed (0-1000)");
+    this.appendValueInput("steps")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Steps (positive int)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn one stepper a fixed number of steps");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['bus_step_motor_stop_step'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Bus Step Motor Stop Step Motion");
+    this.appendValueInput("motor_id")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Motor ID (1-4)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop a stepper part-way through a step motion");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Buzzer (PWM) (buzzer.blockdef.yaml) -------------------------------------
 
 Blockly.Blocks['buzzer_init'] = {
@@ -17274,6 +17492,170 @@ Blockly.Blocks['uzlib_decompress'] = {
     this.setColour(0);
     this.setTooltip(".. function:: decompress(data, wbits=0, bufsize=0, /) Return decompressed *data* as bytes. *wbits* is DEFLATE dictionary window size used during compression (8-15, the dictionary size is power of 2 of ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/uzlib.html");
+  }
+};
+
+// ---- Vibration Motor (vibration_motor.blockdef.yaml) -------------------------
+
+Blockly.Blocks['vibration_motor_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/vibration_motor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Vibration Motor");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin");
+    this.appendValueInput("pwm_freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Frequency");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Vibration Motor with specified pin and PWM frequency");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_motor_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Vibration Motor On (Full Speed)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn on vibration motor at full speed");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_motor_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Vibration Motor Off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off vibration motor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_motor_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Vibration Motor Toggle State");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Toggle vibration motor state (on/off)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_motor_set_brightness'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Vibration Motor Intensity");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Intensity");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set vibration motor intensity by PWM duty");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_motor_get_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Vibration Motor State");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read whether the vibration motor is running");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- Vibration Sensor (vibration_sensor.blockdef.yaml) -----------------------
+
+Blockly.Blocks['vibration_sensor_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/vibration_sensor.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Vibration Sensor");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("GPIO Pin");
+    this.appendValueInput("debounce_ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Debounce Time (ms)");
+    this.appendDummyInput()
+        .appendField("Enable Callback")
+        .appendField(new Blockly.FieldDropdown([["Yes", "YES"], ["No", "NO"]]), "ENABLE_CALLBACK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init ball-type vibration sensor with debounce and callback");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_sensor_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Vibration Sensor State");
+    this.setOutput(true, "Boolean");
+    this.setColour(230);
+    this.setTooltip("Read current vibration sensor state (True=vibration detected)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_sensor_set_callback'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set Vibration Sensor Callback");
+    this.appendStatementInput("CALLBACK_CODE")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Run when vibration detected (no params)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set callback code to run on vibration detection (no parameters)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_sensor_get_status'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Get Vibration Sensor Status");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get sensor status (last_state, debounce_ms, callback_set)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['vibration_sensor_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinitialize Vibration Sensor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release vibration sensor resources and disable IRQ");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
