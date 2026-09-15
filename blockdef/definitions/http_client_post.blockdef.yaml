@@ -1,0 +1,48 @@
+# The POST half of the HTTP Client category -- a second `fragment:`, because
+# the six richer boards put the saved-workspace example between the two halves.
+#
+# `net_post_request_json` did string surgery on its data socket: it stripped
+# the first two single quotes *anywhere* in the generated text and turned the
+# first `(` and `)` into `[` and `]`, then pasted the result after `json=`. It
+# also logged `TESTE = ...` and the finished code to the browser console on
+# every code generation. `unquote:` is what that was reaching for: it takes the
+# quotes a text block puts around its contents off, and leaves anything that is
+# not a quoted literal alone.
+
+module: urequests
+colour: 230
+url: http://www.bipes.net.br
+import: {key: import_urequests, line: "import urequests"}
+
+category:
+  name: HTTP Client
+  fragment: true
+  # esp32-basic has a GET half and no POST half, which is that board's choice.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2,
+              esp32c3, esp8266, rpi_pico_w, stm32]
+
+blocks:
+  - type: net_post_request
+    kind: value
+    label: []
+    tooltip: Make HTTP POST Request
+    code: "urequests.post({URL}, data={data})"
+    params:
+      - {name: URL, label: {text: Make HTTP POST Request URL, field: NET_POST_REQUEST_URL},
+         type: String, default: "http://bipes.net.br/test.txt"}
+      - {name: data, label: {text: Data, field: NET_POST_REQUEST_DATA},
+         type: String, default: hello, align: right}
+
+  - type: net_post_request_json
+    kind: value
+    label: []
+    tooltip: Make HTTP POST Request with JSON data
+    boards: [esp32, esp32c3]
+    code: "urequests.post({URL}, json={data})"
+    params:
+      - {name: URL, label: {text: Make HTTP POST Request URL, field: NET_POST_REQUEST_URL},
+         type: String, default: "http://bipes.net.br/test.txt"}
+      # `unquote:` so a text block holding `{"a": 1}` is pasted as the dict it
+      # looks like rather than as a string of one.
+      - {name: data, label: {text: JSON Data, field: NET_POST_REQUEST_DATA},
+         type: String, default: '{"key": "value"}', unquote: true, align: right}

@@ -340,53 +340,8 @@ Blockly.Blocks['pinout'] = {
 //VL53L0X
 //MPR121
 
-Blockly.Blocks['net_get_request'] = {
-  init: function() {
 
-    this.appendDummyInput()
-        .appendField(MSG["net_http_get"]); 
-    this.appendValueInput("URL")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .setCheck("String")
-        .appendField(new Blockly.FieldLabelSerializable("URL"), "BLOCK_NET_GET");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Make HTTP GET Request");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
-Blockly.Blocks['net_post_request'] = {
-  init: function() {
-    this.appendValueInput("URL")
-        .setCheck("String")
-        .appendField(new Blockly.FieldLabelSerializable("Make HTTP POST Request URL"), "NET_POST_REQUEST_URL");
-    this.appendValueInput("data")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabelSerializable("Data"), "NET_POST_REQUEST_DATA");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Make HTTP POST Request");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['net_post_request_json'] = {
-  init: function() {
-    this.appendValueInput("URL")
-        .setCheck("String")
-        .appendField(new Blockly.FieldLabelSerializable("Make HTTP POST Request URL"), "NET_POST_REQUEST_URL");
-    this.appendValueInput("data")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(new Blockly.FieldLabelSerializable("JSON Data"), "NET_POST_REQUEST_DATA");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Make HTTP POST Request with JSON data");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
@@ -2948,29 +2903,7 @@ Blockly.Blocks['cell_value'] = {
 
 
 
-Blockly.Blocks['http_get_status'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(MSG["net_http_get_status"])
-        .appendField(new Blockly.FieldVariable("request"), "request");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Status code of the HTTP GET request");
- this.setHelpUrl("bipes.net.br");
-  }
-};
 
-Blockly.Blocks['http_get_content'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(MSG["net_http_get_content"])
-        .appendField(new Blockly.FieldVariable("request"), "request");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Content of HTTP GET request");
- this.setHelpUrl("bipes.net.br");
-  }
-};
 
 //BMP180
 //BMP280

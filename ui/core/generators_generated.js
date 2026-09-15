@@ -1893,6 +1893,56 @@ Blockly.Python['hcsr_read'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- HTTP Client (http_client_get.blockdef.yaml) -----------------------------
+
+Blockly.Python['net_get_request'] = function(block) {
+  var URL_ = Blockly.Python.valueToCode(block, "URL", Blockly.Python.ORDER_ATOMIC);
+  var code;
+  var board_ = Blockly.Python.blockdefBoard_();
+  if (board_ == "ESP32S2") {
+    Blockly.Python.definitions_["import_ipaddress"] = "import ipaddress";
+    Blockly.Python.definitions_["import_ssl"] = "import ssl";
+    Blockly.Python.definitions_["import_wifi"] = "import wifi";
+    Blockly.Python.definitions_["import_socketpool"] = "import socketpool";
+    Blockly.Python.definitions_["import_http_get"] = "def http_get(pHOST):\n\ttmp=pHOST.replace(\"http://\", \"\")\n\tHOST=tmp.split(\"/\", 1)[0]\n\tparams=tmp.split(\"/\",1)[1]\n\tprint(\"Host: \" + HOST)\n\tprint(\"Params = \" + params)\n\tpool = socketpool.SocketPool(wifi.radio)\n\tserver_ipv4 = ipaddress.ip_address(pool.getaddrinfo(HOST, 80)[0][4][0])\n\tprint(\"Server ping\", server_ipv4, wifi.radio.ping(server_ipv4), \"ms\")\n\tbuf = bytearray(500)\n\ts = pool.socket(pool.AF_INET, pool.SOCK_STREAM)\n\ts.settimeout(50)\n\tprint(\"Connecting\")\n\ts.connect((HOST, 80))\n\tsize = s.send(bytes('GET /%s HTTP/1.0\\r\\nHost: %s\\r\\n\\r\\n' % (params, HOST), 'utf8'))\n\tprint(\"Sent\", size, \"bytes\")\n\tsize = s.recv_into(buf)\n\tprint('Received', size, \"bytes\", buf[:size])\n\ts.close()\n\treturn buf[:size]\n";
+    code = "http_get(" + URL_ + ")";
+  } else {
+    Blockly.Python.definitions_["import_urequests"] = "import urequests";
+    code = "urequests.get(" + URL_ + ")";
+  }
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['http_get_status'] = function(block) {
+  var request_ = Blockly.Python.nameDB_.getName(block.getFieldValue("request"), Blockly.VARIABLE_CATEGORY_NAME);
+  var code = request_ + ".status_code";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['http_get_content'] = function(block) {
+  var request_ = Blockly.Python.nameDB_.getName(block.getFieldValue("request"), Blockly.VARIABLE_CATEGORY_NAME);
+  var code = "str(" + request_ + ".content)";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- HTTP Client (http_client_post.blockdef.yaml) ----------------------------
+
+Blockly.Python['net_post_request'] = function(block) {
+  Blockly.Python.definitions_["import_urequests"] = "import urequests";
+  var URL_ = Blockly.Python.valueToCode(block, "URL", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = "urequests.post(" + URL_ + ", data=" + data_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['net_post_request_json'] = function(block) {
+  Blockly.Python.definitions_["import_urequests"] = "import urequests";
+  var URL_ = Blockly.Python.valueToCode(block, "URL", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.blockdefUnquote_(Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC));
+  var code = "urequests.post(" + URL_ + ", json=" + data_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- HTTP Server (http_server.blockdef.yaml) ---------------------------------
 
 Blockly.Python['net_http_server_start'] = function(block) {

@@ -1994,16 +1994,19 @@
       <label text="HTTP (web) Client"></label>
       <label text="GET Method"></label>
 
-      <block type="net_get_request"></block>
-    <block type="net_get_request">
-	 <value name="URL">
-	 <block type="text">
-	 <field name="TEXT">http://</field>
-         </block>
-         </value>
-    </block>
-    <block type="http_get_status"></block>
-    <block type="http_get_content"></block>
+      <!-- blockdef:http_client_get -->
+      <block type="net_get_request">
+        <value name="URL">
+          <shadow type="text">
+            <field name="TEXT">http://bipes.net.br/test.txt</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="http_get_status"></block>
+
+      <block type="http_get_content"></block>
+      <!-- /blockdef:http_client_get -->
 
     <block type="variables_set" inline="false">
 	    <field name="VAR">request</field>

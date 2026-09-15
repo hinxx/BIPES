@@ -221,45 +221,8 @@ Blockly.Python['pinout'] = function(block) {
   
   
   
-Blockly.Python['net_get_request'] = function(block) {
-	var value_url = Blockly.Python.valueToCode(block, 'URL', Blockly.Python.ORDER_ATOMIC);
 
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		Blockly.Python.definitions_['import_ipaddress'] = 'import ipaddress';
-		Blockly.Python.definitions_['import_ssl'] = 'import ssl';
-		Blockly.Python.definitions_['import_wifi'] = 'import wifi';
-		Blockly.Python.definitions_['import_socketpool'] = 'import socketpool';
-		Blockly.Python.definitions_['import_http_get'] = 'def http_get(pHOST):\n\ttmp=pHOST.replace("http://", "")\n\tHOST=tmp.split("/", 1)[0]\n\tparams=tmp.split("/",1)[1]\n\tprint("Host: " + HOST)\n\tprint("Params = " + params)\n\tpool = socketpool.SocketPool(wifi.radio)\n\tserver_ipv4 = ipaddress.ip_address(pool.getaddrinfo(HOST, 80)[0][4][0])\n\tprint("Server ping", server_ipv4, wifi.radio.ping(server_ipv4), "ms")\n\tbuf = bytearray(500)\n\ts = pool.socket(pool.AF_INET, pool.SOCK_STREAM)\n\ts.settimeout(50)\n\tprint("Connecting")\n\ts.connect((HOST, 80))\n\tsize = s.send(bytes(\'GET /%s HTTP/1.0\\r\\nHost: %s\\r\\n\\r\\n\' % (params, HOST), \'utf8\'))\n\tprint("Sent", size, "bytes")\n\tsize = s.recv_into(buf)\n\tprint(\'Received\', size, "bytes", buf[:size])\n\ts.close()\n\treturn buf[:size]\n';
 
-		var code = 'http_get(' + value_url + ')\n';
-	} else {
-		Blockly.Python.definitions_['import_urequests'] = 'import urequests';
-		var code = 'urequests.get(' + value_url + ')\n';
-	}
-	return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['net_post_request'] = function(block) {
-  var value_url = Blockly.Python.valueToCode(block, 'URL', Blockly.Python.ORDER_ATOMIC);
-  var value_data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_urequests'] = 'import urequests';
-  var code = 'urequests.post(' + value_url + ', data = ' + value_data + ')\n';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['net_post_request_json'] = function(block) {
-  var value_url = Blockly.Python.valueToCode(block, 'URL', Blockly.Python.ORDER_ATOMIC);
-  var value_data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_urequests'] = 'import urequests';
-
-  var value_data2 = value_data.replace('\'','').replace('\'','');
-  var value_data3 = value_data2.replace('(','[').replace(')',']');
-	console.log('TESTE = ' + value_data3);
-  var code = 'urequests.post(' + value_url + ', json=' + value_data3 + ')\n';
-	console.log('Code = ' + code);
-//  var code = 'urequests.post(' + value_url + ', json={' + value_data2 + '})\n';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
@@ -2260,21 +2223,7 @@ Blockly.Python['cell_value'] = function(block) {
 // Iniciar Interrupção
 
 
-Blockly.Python['http_get_status'] = function(block) {
-  var variable_request = Blockly.Python.nameDB_.getName(block.getFieldValue('request'), Blockly.VARIABLE_CATEGORY_NAME);
- 
-  var code = variable_request + '.status_code';
 
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['http_get_content'] = function(block) {
-  var variable_request = Blockly.Python.nameDB_.getName(block.getFieldValue('request'), Blockly.VARIABLE_CATEGORY_NAME);
- 
-  var code = 'str(' + variable_request + '.content)';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 //BMP180
 //BMP280

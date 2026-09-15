@@ -1558,13 +1558,29 @@
     <category name="HTTP Client">
       <label text="HTTP Client"></label>
 
+    <!-- blockdef:http_client_get -->
     <block type="net_get_request">
-      <field name="BLOCK_NET_GET">Make HTTP GET Request URL</field>
+      <value name="URL">
+        <shadow type="text">
+          <field name="TEXT">http://bipes.net.br/test.txt</field>
+        </shadow>
+      </value>
     </block>
+    <!-- /blockdef:http_client_get -->
+    <!-- blockdef:http_client_post -->
     <block type="net_post_request">
-      <field name="NET_POST_REQUEST_URL">Make HTTP POST Request URL</field>
-      <field name="NET_POST_REQUEST_DATA">Data</field>
+      <value name="URL">
+        <shadow type="text">
+          <field name="TEXT">http://bipes.net.br/test.txt</field>
+        </shadow>
+      </value>
+      <value name="data">
+        <shadow type="text">
+          <field name="TEXT">hello</field>
+        </shadow>
+      </value>
     </block>
+    <!-- /blockdef:http_client_post -->
 
     </category>
 

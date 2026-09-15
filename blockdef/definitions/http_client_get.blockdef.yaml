@@ -1,0 +1,75 @@
+# The GET half of the HTTP Client category.
+#
+# A `fragment:`, because the rest of that category is not block entries at all:
+# the six richer boards put a worked example in the flyout as a *saved
+# workspace*, `<variables>` element and all, which is not something this format
+# can or should describe. The marker pair sits where the plain block entries
+# were, and the example is left where it is.
+#
+# Two things the conversion settles:
+#
+# * `net_get_request` was listed **twice in a row** on those six boards, once
+#   with a URL plugged in and once bare. The bare one generated
+#   `urequests.get()` -- a TypeError -- and so did the single entry the four
+#   other boards carry, because it had no shadow either. There is one entry per
+#   board now, with a URL in it.
+# * The entries pinned English over the labels with `<field>` presets, the way
+#   the Wi-Fi blocks did. `net_http_get` is translated in eleven language
+#   files; it shows now.
+#
+# `net_get_request` is board-conditional: the Franzininho has no `urequests`,
+# so on CircuitPython it goes through a socket by hand. That function is long
+# and it is the port's, not ours -- it is reproduced as it was.
+
+module: urequests
+colour: 230
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: HTTP Client
+  fragment: true
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+              esp32c3, esp8266, rpi_pico_w, stm32]
+
+blocks:
+  - type: net_get_request
+    kind: value
+    label: [{msg: net_http_get}]
+    tooltip: Make HTTP GET Request
+    variants:
+      - device: ESP32S2
+        import:
+          - {key: import_ipaddress,  line: "import ipaddress"}
+          - {key: import_ssl,        line: "import ssl"}
+          - {key: import_wifi,       line: "import wifi"}
+          - {key: import_socketpool, line: "import socketpool"}
+          - {key: import_http_get, line: "def http_get(pHOST):\n\ttmp=pHOST.replace(\"http://\", \"\")\n\tHOST=tmp.split(\"/\", 1)[0]\n\tparams=tmp.split(\"/\",1)[1]\n\tprint(\"Host: \" + HOST)\n\tprint(\"Params = \" + params)\n\tpool = socketpool.SocketPool(wifi.radio)\n\tserver_ipv4 = ipaddress.ip_address(pool.getaddrinfo(HOST, 80)[0][4][0])\n\tprint(\"Server ping\", server_ipv4, wifi.radio.ping(server_ipv4), \"ms\")\n\tbuf = bytearray(500)\n\ts = pool.socket(pool.AF_INET, pool.SOCK_STREAM)\n\ts.settimeout(50)\n\tprint(\"Connecting\")\n\ts.connect((HOST, 80))\n\tsize = s.send(bytes('GET /%s HTTP/1.0\\r\\nHost: %s\\r\\n\\r\\n' % (params, HOST), 'utf8'))\n\tprint(\"Sent\", size, \"bytes\")\n\tsize = s.recv_into(buf)\n\tprint('Received', size, \"bytes\", buf[:size])\n\ts.close()\n\treturn buf[:size]\n"}
+        code: "http_get({URL})"
+      - import: {key: import_urequests, line: "import urequests"}
+        code: "urequests.get({URL})"
+    params:
+      - {name: URL, label: {text: URL, field: BLOCK_NET_GET}, type: String,
+         default: "http://bipes.net.br/test.txt", align: right}
+
+  - type: http_get_status
+    kind: value
+    label: []
+    tooltip: Status code of the HTTP GET request
+    url: bipes.net.br
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    code: "{request}.status_code"
+    params:
+      - {name: request, label: {msg: net_http_get_status}, kind: variable,
+         default: request}
+
+  - type: http_get_content
+    kind: value
+    label: []
+    tooltip: Content of HTTP GET request
+    url: bipes.net.br
+    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp8266]
+    code: "str({request}.content)"
+    params:
+      - {name: request, label: {msg: net_http_get_content}, kind: variable,
+         default: request}
