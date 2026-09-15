@@ -2261,74 +2261,10 @@ def line(self, x0, y0, x1, y1, color):
 
 
 
-Blockly.Python['snek_adc'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var x = value_pin.replace('(','').replace(')','');
 
-  var code = 'read(' + x + ')';
 
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
-Blockly.Python['snek_setpower'] = function(block) {
-	var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-	var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_ATOMIC);
-  	
-	var x = value_pin.replace('(','').replace(')','');
 
-	if (value_duty>1)
-		value_duty=1;
-	if (value_duty<0)
-		value_duty=0;
-
-	var code = 'talkto(' + x + ')\n';
-	    code += 'setpower(' + value_duty + ')\n';
-
-	return code;
-};
-
-Blockly.Python['snek_gpio_set'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-
-  var x = value_pin.replace('(','').replace(')','');
-
-  var code = 'talkto(' + x + ')\n';
-  if (value == 'True')
-      code += 'on()\n';
-  if (value == 'False')
-      code += 'off()\n';
-
-  return code;
-
-};
-
-Blockly.Python['snek_gpio_get'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var x = value_pin.replace('(','').replace(')','');
-
-  var code = 'read(' + x + ')';
-
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['snek_servo_move'] = function(block) {
-	var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-	var value_pin = pin.replace('(', '').replace(')','');
-	var value_angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
-
-	var t_wait = "(" + value_angle + "/180)*0.002 + 0.0005";
-  
-	var code = 'talkto(' + value_pin + ')\n';
-	code += 'off()\n';
-	code += 'setpower(1)\n';
-	code += 'for turning in range(30) :\n';  // Give time to the servo reach it's angle
-	code += '  on()\n';
-	code += '  time.sleep(' + t_wait + ')\n';
-	code += '  off()\n';
-	code += '\n';
-	return code;
-};
 
 Blockly.Python['google_spreadsheet'] = function(block) {
   Blockly.Python.definitions_['import_prequests'] = 'import prequests';

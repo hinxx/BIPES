@@ -353,51 +353,40 @@
     <label text="Snek GPIO Pins"></label>
     <block type="pinout"></block>
 
+    <!-- blockdef:snek -->
     <block type="snek_gpio_set">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="value">
         <shadow type="logic_boolean">
-          <field name="BOOL"></field>
+          <field name="BOOL">TRUE</field>
         </shadow>
       </value>
     </block>
 
     <block type="snek_gpio_get">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
     </block>
 
     <block type="snek_adc">
-     <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+      <value name="pin">
+        <shadow type="pinout"></shadow>
       </value>
-     </block>
+    </block>
 
     <block type="snek_setpower">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
-      </value>
-      <value name="frequency">
-        <shadow type="math_number">
-          <field name="NUM">1000</field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="duty">
         <shadow type="math_number">
-          <field name="NUM">50</field>
+          <field name="NUM">1</field>
         </shadow>
       </value>
     </block>
+    <!-- /blockdef:snek -->
 </category>
 </document>

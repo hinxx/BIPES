@@ -136,6 +136,7 @@ class Block:
     fields: dict[str, str] = field(default_factory=dict)    # toolbox <field> presets
     help_url: str | None = None
     boards: list[str] = field(default_factory=list)   # toolboxes that list it; all if empty
+    offered: bool = True            # False: defined, but no toolbox lists it
     variants: list['Variant'] = field(default_factory=list)  # per-board code, if it differs
 
 
@@ -406,6 +407,10 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
     # `tone` and `note` end on, "(0 for infinite duration)".
     footer = _rows(entry['footer'], '', at.at('footer')) if entry.get('footer') else []
 
+    if entry.get('offered', True) is False and boards:
+        raise BlockdefError(f'{at}: `offered: false` means no toolbox lists the block, so '
+                            f'`boards:` has nothing to say')
+
     block = Block(
         type=str(type_), rows=rows, footer=footer,
         tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
@@ -415,13 +420,13 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
         fields=_fields(entry.get('fields'), at),
         help_url=entry.get('url', definition.help_url),
-        boards=boards, variants=variants,
+        boards=boards, offered=entry.get('offered', True), variants=variants,
     )
     _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'footer',
                            'tooltip',
                            'kind', 'args', 'code', 'output', 'params', 'inline',
                            'constructor', 'i2c_bus', 'url', 'external', 'import',
-                           'fields', 'boards', 'variants'}, at)
+                           'fields', 'boards', 'offered', 'variants'}, at)
     return block
 
 

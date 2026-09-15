@@ -2998,102 +2998,14 @@ snek_gpio_get
 
 
 
-Blockly.Blocks['snek_gpio_set'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        //.appendField("set pin"); //original
-        .appendField(MSG["setpin"]);//i18n
-    this.appendValueInput("value")
-        .setCheck(null)
-        .setAlign(Blockly.ALIGN_RIGHT)
-        //.appendField("to"); original
-        .appendField(MSG["to"]); //i18n
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Write to GPIO digital pin");
- this.setHelpUrl("bipes.net.br");
-  }
-};
-
-Blockly.Blocks['snek_gpio_get'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .appendField("Snek: Read digital pin");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Read digital pin");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
-Blockly.Blocks['snek_adc'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .appendField("Snek: Read analog Input");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Read ADC input of specified pin");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
-Blockly.Blocks['snek_setpower'] = {
-  init: function(){
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("Snek: Set power"), "MSG_GET_MS");
-    this.appendValueInput("pin")
-        .setCheck(null)
-	.appendField("Pin");
-    this.appendValueInput("duty")
-        .setCheck(null)
-	  .appendField("Power (0-1)");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Snek Set Power");
- this.setHelpUrl("http://www.bipes.net.br");
- }
-};
+
 
 //Thu Mar 10 13:57:50 -03 2022
 
-Blockly.Blocks['snek_servo_move'] = {
-  init: function() {
-
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(
-          "media/servo.png",
-          55,
-          55,
-          "*"))
-        .appendField("Snek: RC Servo Motor");
-
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Pin");
-
-    this.appendValueInput("angle")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Angle");
-
-    this.setColour(230);
-
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
-    this.setTooltip("Move RC servo motor to degrees");
-    this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['google_spreadsheet'] = {
   init: function() {

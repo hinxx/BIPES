@@ -1,0 +1,84 @@
+# Snek on an Arduino. Snek is a tiny Python for boards with no room for
+# MicroPython, and it has its own vocabulary: you `talkto()` a pin and then
+# `on()`, `off()` or `setpower()` it.
+#
+# Five blocks, and two of them did their thinking in JavaScript:
+#
+# * `snek_gpio_set` decided between `on()` and `off()` by comparing the *text*
+#   its value socket generated against `'True'` and `'False'`. Plug a variable
+#   in and neither matched, so the block emitted `talkto(pin)` and then nothing
+#   at all -- it set the pin to neither state and said so to nobody. It is
+#   `on() if <value> else off()` now, decided on the board.
+# * `snek_setpower` clamped the duty with `if (value_duty > 1) value_duty = 1`,
+#   a JavaScript comparison between a *string of generated code* and a number.
+#   `"0.5" > 1` is false and `"50" > 1` is true, so a literal 50 silently
+#   became 1 and a variable was never clamped at all. `min(1, max(0, ...))`
+#   does it in Python. Its toolbox entry also shipped a duty of **50** on a
+#   scale the block's own label calls 0-1, and a `<value name="frequency">`
+#   shadow for an input the block does not have.
+#
+# All five also stripped the parentheses off the generated pin with a
+# JavaScript `.replace()`, as `gpio_set` and the PWM blocks did -- though here
+# it was only ever cosmetic, because `talkto((4))` is as good as `talkto(4)`.
+#
+# `snek_servo_move` is `offered: false`: it is defined, because a saved program
+# may contain it, and no toolbox has ever listed it. Whether the Snek category
+# should offer a servo block is a decision about that board.
+
+module: snek
+colour: 230
+url: http://www.bipes.net.br
+import: []
+
+category:
+  name: In/Out Pins
+  fragment: true
+  toolboxes: [arduino]
+
+blocks:
+  - type: snek_gpio_set
+    label: []
+    tooltip: Write to GPIO digital pin
+    url: bipes.net.br
+    code: |-
+      talkto({pin})
+      on() if {value} else off()
+    params:
+      - {name: pin, label: {msg: setpin}, type: Number, pin: true, align: right}
+      - {name: value, label: {msg: to}, align: right,
+         plug: {type: logic_boolean, shadow: true, fields: {BOOL: TRUE}}}
+
+  - {type: snek_gpio_get, kind: value, label: [], tooltip: Read digital pin,
+     code: "read({pin})",
+     params: [{name: pin, label: "Snek: Read digital pin", type: Number, pin: true}]}
+
+  - {type: snek_adc, kind: value, label: [], tooltip: Read ADC input of specified pin,
+     code: "read({pin})",
+     params: [{name: pin, label: "Snek: Read analog Input", type: Number, pin: true}]}
+
+  - type: snek_setpower
+    label: [{text: "Snek: Set power", field: MSG_GET_MS}]
+    tooltip: Snek Set Power
+    code: |-
+      talkto({pin})
+      setpower(min(1, max(0, {duty})))
+    params:
+      - {name: pin,  label: Pin, pin: true}
+      - {name: duty, label: Power (0-1), type: Number, default: 1}
+
+  - type: snek_servo_move
+    offered: false
+    label:
+      - {image: {src: media/servo.png, width: 55, height: 55}, text: "Snek: RC Servo Motor"}
+    tooltip: Snek RC Servo Motor
+    code: |-
+      talkto({pin})
+      off()
+      setpower(1)
+      for turning in range(30):
+          on()
+          time.sleep(({angle}/180)*0.002 + 0.0005)
+          off()
+    params:
+      - {name: pin,   label: Pin,   type: Number, pin: true, align: right}
+      - {name: angle, label: Angle, type: Number, default: 90, align: right}

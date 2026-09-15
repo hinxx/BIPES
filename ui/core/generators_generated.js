@@ -4326,6 +4326,41 @@ Blockly.Python['predict'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- In/Out Pins (snek.blockdef.yaml) ----------------------------------------
+
+Blockly.Python['snek_gpio_set'] = function(block) {
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "talkto(" + pin_ + ")\non() if " + value_ + " else off()";
+  return code + "\n";
+};
+
+Blockly.Python['snek_gpio_get'] = function(block) {
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "read(" + pin_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['snek_adc'] = function(block) {
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "read(" + pin_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['snek_setpower'] = function(block) {
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "talkto(" + pin_ + ")\nsetpower(min(1, max(0, " + duty_ + ")))";
+  return code + "\n";
+};
+
+Blockly.Python['snek_servo_move'] = function(block) {
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var code = "talkto(" + pin_ + ")\noff()\nsetpower(1)\nfor turning in range(30):\n    on()\n    time.sleep((" + angle_ + "/180)*0.002 + 0.0005)\n    off()";
+  return code + "\n";
+};
+
 // ---- TCP/IP Socket (socket.blockdef.yaml) ------------------------------------
 
 Blockly.Python['net_socket_connect'] = function(block) {

@@ -436,6 +436,10 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
     for entry in definition.entries:
         # `boards:` is how a category that is not the same everywhere says so:
         # the entry is listed on those toolboxes and left out of the others.
+        if getattr(entry, 'offered', True) is False:
+            # Defined, listed nowhere: a superseded block that saved programs
+            # may still contain, so it has to exist and must not be offered.
+            continue
         if entry.boards and board not in entry.boards:
             continue
         lines.append('')

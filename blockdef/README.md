@@ -160,6 +160,7 @@ category that is already there:
 | `import` | entries only this block needs, on top of the file's. |
 | `external` | `true` means the block's JavaScript comes from somewhere else -- written by hand, an earlier entry in this file that the toolbox lists twice, or another file (`Info` places `BIPES`'s project header under the name four boards give that category). Only its toolbox entry is generated, so only `params`, `fields` and `boards` apply. A file whose entries are all external is fine: it places blocks, it just does not own any. |
 | `boards` | the toolboxes that list this entry; all of `category.toolboxes` if absent. |
+| `offered` | `false` defines the block and lists it nowhere -- a superseded block a saved program may still contain. `boards:` and `offered: false` contradict each other. |
 | `fields` | values its toolbox entry starts with, as `<field>` elements. |
 | `params` | see below. |
 
