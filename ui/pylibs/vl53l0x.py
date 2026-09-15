@@ -116,6 +116,7 @@ class VL53L0X():
         utime.sleep_ms(100) # give the I2C time to init
         self.init()
         self._started = False
+        self.range_started = False
         self.measurement_timing_budget_us = 0
         self.set_measurement_timing_budget(self.measurement_timing_budget_us)
         self.enables = {'tcc': 0,
@@ -415,6 +416,59 @@ class VL53L0X():
             (0xFF, 0x00),
         )
         self._started = False
+
+    # --- one measurement, without waiting for it --------------------------
+    #
+    # ping() and read() both sit and poll for the sensor, sleeping in 1 ms
+    # steps for up to a second. A timer callback cannot afford that: it is
+    # where ui/pylibs/robot.py samples the side sensor from, ten times a
+    # second, alongside the ultrasonic and the display. So the same
+    # single-shot sequence read() runs is split into three -- ask, check,
+    # collect -- and the caller does something else in between.
+    #
+    # This is the API antirez's fork of this driver exposes, which is what
+    # robot.py was written against. It is not continuous mode: start() and
+    # read() keep the sensor measuring on its own schedule, and the two ways
+    # of driving it do not mix, because both clear the same interrupt flag.
+
+    def start_range_request(self):
+        """Begin one measurement and return straight away.
+
+        Does nothing if a measurement is already in flight, so calling it
+        every time round a loop is safe.
+        """
+        if self.range_started:
+            return
+        self._config(
+            (0x80, 0x01),
+            (0xFF, 0x01),
+            (0x00, 0x00),
+            (0x91, self._stop_variable),
+            (0x00, 0x01),
+            (0xFF, 0x00),
+            (0x80, 0x00),
+            (_SYSRANGE_START, 0x01),
+        )
+        self.range_started = True
+
+    def reading_available(self):
+        """True once the measurement that was asked for has finished."""
+        if not self.range_started:
+            return False
+        return bool(self._register(_RESULT_INTERRUPT_STATUS) & 0x07)
+
+    def get_range_value(self):
+        """The finished measurement in mm, or None if nothing was started.
+
+        Clears the interrupt flag and the in-flight mark, so one request
+        answers exactly once: ask again for the next reading.
+        """
+        if not self.range_started:
+            return None
+        value = self._register(_RESULT_RANGE_STATUS + 10, struct='>H')
+        self._register(_INTERRUPT_CLEAR, 0x01)
+        self.range_started = False
+        return value
 
     def read(self):
         if not self._started:
