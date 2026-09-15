@@ -23,6 +23,15 @@
 #
 # 7 of the 11 toolboxes also named the `pinout` shadow's field `pin` rather
 # than `PIN`, which Blockly ignores, so the pin defaulted silently anyway.
+#
+# `rtttl_play` takes a melody as well as a name now. It passed whatever was in
+# the socket to `songs.find`, which answers None for anything outside the 27
+# songs in `songs.py`; `rtttl.play` hands None to its parser, gets the string
+# "Please enter a valid RTTTL string." back, assigns it to `play` and returns.
+# So typing a melody into a block whose own label says RTTTL did nothing at
+# all, and said nothing about it. casjengu/BIPES is where that gap showed up:
+# its buzzer block takes an RTTTL string, and it is the one thing in those 49
+# blocks that is not welded to their own MQTT platform (see BACKLOG.md, B6).
 
 module: machine
 colour: 230
@@ -188,12 +197,20 @@ blocks:
 
   - type: rtttl_play
     label: Play song (RTTTL)
-    tooltip: Play a song
+    tooltip: Play one of the songs listed below, or any RTTTL melody of your own
     url: bipes.net.br
     import:
       - {key: import_pin,   line: "from machine import Pin"}
       - {key: import_rtttl, line: "import rtttl, songs"}
-    code: "play = rtttl.play(Pin({pin}), songs.find({song}))"
+      # A name out of songs.py, or the melody itself. `songs.find` returns
+      # None for anything it does not know, and the library answers None with
+      # its "Please enter a valid RTTTL string." message rather than a tune --
+      # which is what `play =` in the line below silently catches.
+      - key: rtttl_song
+        line: |-
+          def rtttl_song(text):
+              return songs.find(text) or text
+    code: "play = rtttl.play(Pin({pin}), rtttl_song({song}))"
     params:
       - {name: pin,  label: Pin, pin: true}
       - {name: song, label: Song, default: Super Mario - Main Theme, align: right}

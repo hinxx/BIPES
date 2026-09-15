@@ -7342,9 +7342,10 @@ Blockly.Python['tone_type'] = function(block) {
 Blockly.Python['rtttl_play'] = function(block) {
   Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
   Blockly.Python.definitions_["import_rtttl"] = "import rtttl, songs";
+  Blockly.Python.definitions_["rtttl_song"] = "def rtttl_song(text):\n    return songs.find(text) or text";
   var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
   var song_ = Blockly.Python.valueToCode(block, "song", Blockly.Python.ORDER_ATOMIC);
-  var code = "play = rtttl.play(Pin(" + pin_ + "), songs.find(" + song_ + "))";
+  var code = "play = rtttl.play(Pin(" + pin_ + "), rtttl_song(" + song_ + "))";
   return code + "\n";
 };
 

@@ -14849,7 +14849,7 @@ Blockly.Blocks['rtttl_play'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
-    this.setTooltip("Play a song");
+    this.setTooltip("Play one of the songs listed below, or any RTTTL melody of your own");
     this.setHelpUrl("bipes.net.br");
   }
 };
