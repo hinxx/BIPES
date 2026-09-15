@@ -2588,6 +2588,177 @@
   </category>
   <!-- /blockdef:touchkey -->
 
+  <!-- blockdef:tcs34725 -->
+  <category name="TCS34725 Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="TCS34725 Color/CCT/Lux Sensor (I2C)"></label>
+    <button text="Install tcs34725 library" callbackKey="installPyLib"></button>
+
+    <block type="tcs34725_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="led_pin">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="tcs34725_read_cct_lux"></block>
+
+    <block type="tcs34725_read_raw"></block>
+  </category>
+  <!-- /blockdef:tcs34725 -->
+
+  <!-- blockdef:mlx9061x -->
+  <category name="MLX90614 IR Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="MLX90614/MLX90615 Infrared Temperature Sensor"></label>
+    <button text="Install mlx90614 library" callbackKey="installPyLib"></button>
+
+    <block type="mlx9061x_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mlx9061x_read_ambient"></block>
+
+    <block type="mlx9061x_read_object"></block>
+  </category>
+  <!-- /blockdef:mlx9061x -->
+
+  <!-- blockdef:mlx90640 -->
+  <category name="MLX90640 IR Camera Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="MLX90640 Infrared Thermal Camera Sensor"></label>
+    <button text="Install mlx90640 library" callbackKey="installPyLib"></button>
+
+    <block type="mlx90640_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="mlx90640_set_refresh_rate"></block>
+
+    <block type="mlx90640_get_frame"></block>
+  </category>
+  <!-- /blockdef:mlx90640 -->
+
+  <!-- blockdef:ba111_tds -->
+  <category name="BA111TDS Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="BA111TDS TDS and Temperature Sensor"></label>
+    <button text="Install ba111_tds library" callbackKey="installPyLib"></button>
+
+    <block type="ba111tds_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ba111tds_read"></block>
+
+    <block type="ba111tds_calibrate"></block>
+
+    <block type="ba111tds_set_ntc">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">10000</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:ba111_tds -->
+
+  <!-- blockdef:rcwl9623 -->
+  <category name="RCWL9623 Distance Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="RCWL9623 Ultrasonic Distance Sensor"></label>
+    <button text="Install rcwl9623 library" callbackKey="installPyLib"></button>
+
+    <block type="rcwl9623_init">
+      <value name="trig_pin">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="echo_pin">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="bus_num">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="i2c_addr">
+        <shadow type="math_number">
+          <field name="NUM">87</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="rcwl9623_read_distance"></block>
+  </category>
+  <!-- /blockdef:rcwl9623 -->
+
   </category>
 
 

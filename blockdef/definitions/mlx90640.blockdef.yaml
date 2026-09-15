@@ -1,0 +1,66 @@
+# MLX90640 32x24 thermal camera.
+#
+# These three blocks arrived with no Python generator at all: draggable, and
+# fatal to `workspaceToCode` for the whole program the moment one was in it.
+# The generators here are written against the driver that came with them.
+#
+# `get_frame` fills a list of 768 in place and returns None, so the "read
+# frame" value block calls a hoisted helper that allocates the buffer, fills
+# it and returns it.
+
+module: mlx90640
+class: MLX90640
+instance: mlx90640_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import mlx90640", key: import_mlx90640}
+
+category:
+  name: MLX90640 IR Camera Sensor
+  library: mlx90640
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - MLX90640 Infrared Thermal Camera Sensor
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: mlx90640_init
+    label:
+      - {image: {src: media/mlx90640.png, width: 55, height: 55}}
+      - Init MLX90640 IR Camera
+    tooltip: Init MLX90640 infrared thermal camera sensor
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: "{instance} = mlx90640.MLX90640({bus}, address={I2C_ADDR})"
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: I2C_ADDR, label: I2C Address (0x31-0x35), kind: dropdown,
+         options: [{0x31: "0x31"}, {0x32: "0x32"}, {0x33: "0x33"},
+                   {0x34: "0x34"}, {0x35: "0x35"}]}
+
+  - type: mlx90640_set_refresh_rate
+    label: []
+    tooltip: Set MLX90640 refresh rate (0.5~64Hz)
+    code: "{instance}.refresh_rate = {REFRESH_RATE}"
+    params:
+      - {name: REFRESH_RATE, label: Set MLX90640 Refresh Rate, kind: dropdown,
+         options: [{0.5 Hz: "0b000"}, {1 Hz: "0b001"}, {2 Hz: "0b010"},
+                   {4 Hz: "0b011"}, {8 Hz: "0b100"}, {16 Hz: "0b101"},
+                   {32 Hz: "0b110"}, {64 Hz: "0b111"}]}
+
+  - type: mlx90640_get_frame
+    kind: value
+    label: Read MLX90640 Frame Data (768 pixels)
+    tooltip: Read MLX90640 thermal frame data (768 temperature values)
+    import:
+      - key: mlx90640_read_frame
+        line: |-
+          def mlx90640_read_frame():
+            frame = [0] * 768
+            mlx90640_sensor.get_frame(frame)
+            return frame
+    code: "mlx90640_read_frame()"

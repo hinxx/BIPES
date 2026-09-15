@@ -1,0 +1,57 @@
+# TCS34725 RGB colour / colour-temperature sensor on I2C, with an optional
+# LED pin the driver drives while it samples.
+#
+# The `led_pin` socket sat beside a number field the generator only fell back
+# to, and the toolbox always filled the socket, so the field was unreachable.
+# -1 still means "no LED pin", but as a conditional expression rather than
+# the two-line `if` the fork emitted.
+#
+# The bus goes through i2cBus_() like every other I2C family here, so a second
+# device on the same pins reuses it instead of constructing a second I2C.
+
+module: tcs34725
+class: TCS34725
+instance: tcs34725_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import tcs34725", key: import_tcs34725}
+
+category:
+  name: TCS34725 Sensor
+  library: tcs34725
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - TCS34725 Color/CCT/Lux Sensor (I2C)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: tcs34725_init
+    label:
+      - {image: {src: media/tcs34725.png, width: 55, height: 55}}
+      - Init TCS34725 Sensor
+    tooltip: Init TCS34725 color/cct sensor via I2C
+    import: {line: "from machine import Pin", key: import_machine_pin}
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      led_pin_tcs = None if {led_pin} == -1 else Pin({led_pin}, Pin.OUT)
+      {instance} = tcs34725.TCS34725({bus}, address={ADDR}, led_pin=led_pin_tcs)
+      {instance}.active(True)
+    params:
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: ADDR, label: Address, kind: dropdown,
+         options: [{0x29 (Default): "0x29"}, {0x2A: "0x2A"}, {0x2B: "0x2B"}, {0x2C: "0x2C"}]}
+      - {name: led_pin, label: LED Pin (-1 for none), type: Number, default: -1, align: right}
+
+  - {type: tcs34725_read_cct_lux, fn: read, kind: value,
+     label: Read TCS34725 CCT & Lux, tooltip: "Read CCT (K) and Lux from TCS34725"}
+
+  - type: tcs34725_read_raw
+    kind: value
+    label: Read TCS34725 Raw RGB+C
+    tooltip: Read raw R/G/B/C data from TCS34725
+    code: "{instance}.read(raw=True)"

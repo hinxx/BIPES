@@ -105,6 +105,39 @@ Blockly.Python['anemo_stop'] = function(block) {
   return code + "\n";
 };
 
+// ---- BA111TDS Sensor (ba111_tds.blockdef.yaml) -------------------------------
+
+Blockly.Python['ba111tds_init'] = function(block) {
+  Blockly.Python.definitions_["import_ba111_tds"] = "import ba111_tds";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var code = "uart_tds = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\nba111tds_sensor = ba111_tds.BA111TDS(uart_tds)";
+  return code + "\n";
+};
+
+Blockly.Python['ba111tds_read'] = function(block) {
+  Blockly.Python.definitions_["import_ba111_tds"] = "import ba111_tds";
+  var code = "ba111tds_sensor.detect()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ba111tds_calibrate'] = function(block) {
+  Blockly.Python.definitions_["import_ba111_tds"] = "import ba111_tds";
+  var code = "cal_result = ba111tds_sensor.calibrate()\nprint(\"Calibration OK\" if cal_result else \"Calibration FAIL\")";
+  return code + "\n";
+};
+
+Blockly.Python['ba111tds_set_ntc'] = function(block) {
+  Blockly.Python.definitions_["import_ba111_tds"] = "import ba111_tds";
+  var NTC_TYPE_ = {"R": "set_ntc_resistance", "B": "set_ntc_b_value"}[block.getFieldValue("NTC_TYPE")];
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "set_result = ba111tds_sensor." + NTC_TYPE_ + "(" + value_ + ")\nprint(\"Set NTC OK\" if set_result else \"Set NTC FAIL\")";
+  return code + "\n";
+};
+
 // ---- BH1750 Sensor (bh1750.blockdef.yaml) ------------------------------------
 
 Blockly.Python['bh1750_init'] = function(block) {
@@ -3835,6 +3868,59 @@ Blockly.Python['micropython_schedule'] = function(block) {
   return code + "\n";
 };
 
+// ---- MLX90614 IR Sensor (mlx9061x.blockdef.yaml) -----------------------------
+
+Blockly.Python['mlx9061x_init'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90614"] = "import mlx90614";
+  var SENSOR_TYPE_ = block.getFieldValue("SENSOR_TYPE");
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var ADDRESS_ = block.getFieldValue("ADDRESS");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_, freq: "100000"});
+  var code = "mlx_sensor = mlx90614." + SENSOR_TYPE_ + "(i2c=" + bus_ + ", address=" + ADDRESS_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mlx9061x_read_ambient'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90614"] = "import mlx90614";
+  var code = "mlx_sensor.ambient";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['mlx9061x_read_object'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90614"] = "import mlx90614";
+  var code = "mlx_sensor.object";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- MLX90640 IR Camera Sensor (mlx90640.blockdef.yaml) ----------------------
+
+Blockly.Python['mlx90640_init'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90640"] = "import mlx90640";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var I2C_ADDR_ = block.getFieldValue("I2C_ADDR");
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "mlx90640_sensor = mlx90640.MLX90640(" + bus_ + ", address=" + I2C_ADDR_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['mlx90640_set_refresh_rate'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90640"] = "import mlx90640";
+  var REFRESH_RATE_ = block.getFieldValue("REFRESH_RATE");
+  var code = "mlx90640_sensor.refresh_rate = " + REFRESH_RATE_;
+  return code + "\n";
+};
+
+Blockly.Python['mlx90640_get_frame'] = function(block) {
+  Blockly.Python.definitions_["import_mlx90640"] = "import mlx90640";
+  Blockly.Python.definitions_["mlx90640_read_frame"] = "def mlx90640_read_frame():\n  frame = [0] * 768\n  mlx90640_sensor.get_frame(frame)\n  return frame";
+  var code = "mlx90640_read_frame()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Motors (motors.blockdef.yaml) -------------------------------------------
 
 Blockly.Python['motor_init'] = function(block) {
@@ -4750,6 +4836,27 @@ Blockly.Python['inter_init'] = function(block) {
   return code + "\n";
 };
 
+// ---- RCWL9623 Distance Sensor (rcwl9623.blockdef.yaml) -----------------------
+
+Blockly.Python['rcwl9623_init'] = function(block) {
+  Blockly.Python.definitions_["import_rcwl9623"] = "import rcwl9623";
+  Blockly.Python.definitions_["import_machine_pin_uart_i2c"] = "from machine import Pin, UART, I2C";
+  Blockly.Python.definitions_["rcwl9623_open"] = "def rcwl9623_open(mode, trig, echo, bus, addr):\n  if mode == \"GPIO\":\n    return rcwl9623.RCWL9623(rcwl9623.RCWL9623.GPIO_MODE, gpio_pins=(trig, echo))\n  if mode == \"ONEWIRE\":\n    return rcwl9623.RCWL9623(rcwl9623.RCWL9623.ONEWIRE_MODE, onewire_pin=trig)\n  if mode == \"UART\":\n    return rcwl9623.RCWL9623(rcwl9623.RCWL9623.UART_MODE,\n                             uart=UART(bus, baudrate=9600, tx=Pin(echo), rx=Pin(trig)))\n  return rcwl9623.RCWL9623(rcwl9623.RCWL9623.I2C_MODE,\n                           i2c=I2C(bus, scl=Pin(trig), sda=Pin(echo), freq=100000),\n                           addr=addr)";
+  var RCWL_MODE_ = block.getFieldValue("RCWL_MODE");
+  var trig_pin_ = Blockly.Python.valueToCode(block, "trig_pin", Blockly.Python.ORDER_ATOMIC);
+  var echo_pin_ = Blockly.Python.valueToCode(block, "echo_pin", Blockly.Python.ORDER_ATOMIC);
+  var bus_num_ = Blockly.Python.valueToCode(block, "bus_num", Blockly.Python.ORDER_ATOMIC);
+  var i2c_addr_ = Blockly.Python.valueToCode(block, "i2c_addr", Blockly.Python.ORDER_ATOMIC);
+  var code = "rcwl9623_sensor = rcwl9623_open(\"" + RCWL_MODE_ + "\", " + trig_pin_ + ", " + echo_pin_ + ", " + bus_num_ + ", " + i2c_addr_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['rcwl9623_read_distance'] = function(block) {
+  Blockly.Python.definitions_["import_rcwl9623"] = "import rcwl9623";
+  var code = "rcwl9623_sensor.read_distance()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Relay (relay.blockdef.yaml) ---------------------------------------------
 
 Blockly.Python['relay_switch'] = function(block) {
@@ -5347,6 +5454,33 @@ Blockly.Python['tcr5000_deinit'] = function(block) {
   Blockly.Python.definitions_["import_tcr5000"] = "import tcr5000";
   var code = "tcr5000_sensor.deinit()\nprint(\"TCR5000 sensor deinitialized\")";
   return code + "\n";
+};
+
+// ---- TCS34725 Sensor (tcs34725.blockdef.yaml) --------------------------------
+
+Blockly.Python['tcs34725_init'] = function(block) {
+  Blockly.Python.definitions_["import_tcs34725"] = "import tcs34725";
+  Blockly.Python.definitions_["import_machine_pin"] = "from machine import Pin";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var ADDR_ = block.getFieldValue("ADDR");
+  var led_pin_ = Blockly.Python.valueToCode(block, "led_pin", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "led_pin_tcs = None if " + led_pin_ + " == -1 else Pin(" + led_pin_ + ", Pin.OUT)\ntcs34725_sensor = tcs34725.TCS34725(" + bus_ + ", address=" + ADDR_ + ", led_pin=led_pin_tcs)\ntcs34725_sensor.active(True)";
+  return code + "\n";
+};
+
+Blockly.Python['tcs34725_read_cct_lux'] = function(block) {
+  Blockly.Python.definitions_["import_tcs34725"] = "import tcs34725";
+  var code = "tcs34725_sensor.read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['tcs34725_read_raw'] = function(block) {
+  Blockly.Python.definitions_["import_tcs34725"] = "import tcs34725";
+  var code = "tcs34725_sensor.read(raw=True)";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- Text additions (text_extra.blockdef.yaml) -------------------------------

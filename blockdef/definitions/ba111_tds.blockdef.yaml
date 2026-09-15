@@ -1,0 +1,65 @@
+# BA111TDS water conductivity (TDS) and temperature probe, on a UART.
+#
+# The fork's labels are `MSG['ba111tds...']` keys it added to `en.js` and
+# `zh-hans.js`. This tree has no zh-hans, and a key present in one locale
+# file and missing from the other nine renders as `undefined`, so the labels
+# are literals here -- the same choice every other family out of this fork
+# already made.
+#
+# `baudrate` was a live socket beside a number field the generator read
+# instead.
+
+module: ba111_tds
+class: BA111TDS
+instance: ba111tds_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ba111_tds", key: import_ba111_tds}
+
+category:
+  name: BA111TDS Sensor
+  library: ba111_tds
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - BA111TDS TDS and Temperature Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: ba111tds_init
+    label:
+      - {image: {src: media/ba111tds.png, width: 55, height: 55}}
+      - Init BA111TDS Sensor
+    tooltip: Init BA111TDS sensor via UART
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_tds = UART({uart_port}, baudrate={baudrate}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      {instance} = ba111_tds.BA111TDS(uart_tds)
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 9600, align: right}
+
+  - {type: ba111tds_read, fn: detect, kind: value,
+     label: Read BA111TDS TDS & Temp,
+     tooltip: Read TDS and Temperature from BA111TDS}
+
+  - type: ba111tds_calibrate
+    label: Calibrate BA111TDS (pure water)
+    tooltip: Calibrate BA111TDS sensor
+    code: |-
+      cal_result = {instance}.calibrate()
+      print("Calibration OK" if cal_result else "Calibration FAIL")
+
+  - type: ba111tds_set_ntc
+    label: []
+    tooltip: Set NTC resistance/B value for BA111TDS
+    code: |-
+      set_result = {instance}.{NTC_TYPE}({value})
+      print("Set NTC OK" if set_result else "Set NTC FAIL")
+    params:
+      - {name: NTC_TYPE, label: Set BA111TDS NTC, kind: dropdown,
+         options: [{Resistance: "R"}, {B Value: "B"}],
+         emit: {R: set_ntc_resistance, B: set_ntc_b_value}}
+      - {name: value, label: Value, type: Number, default: 10000, align: right}

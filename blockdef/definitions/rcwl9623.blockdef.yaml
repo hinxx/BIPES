@@ -1,0 +1,65 @@
+# RCWL-9623 ultrasonic rangefinder. The module speaks four different
+# protocols and the driver takes a mode plus whichever object that mode
+# needs, so the init block is a mode dropdown and five sockets of which
+# only some matter.
+#
+# Two of the four modes could not produce valid Python: UART and I2C emitted
+# `tx=Pin3` and `scl=Pin2` -- `Pin` next to a number with no call. The two
+# "BUS" and "Addr" sockets were dead beside number fields the generator read
+# instead, and the toolbox filled a sixth socket, `onewire_pin`, that the
+# block does not have.
+#
+# The four-way choice is a hoisted helper rather than four branches in the
+# generator, because a `code:` template is one shape.
+
+module: rcwl9623
+instance: rcwl9623_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import rcwl9623", key: import_rcwl9623}
+
+category:
+  name: RCWL9623 Distance Sensor
+  library: rcwl9623
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - RCWL9623 Ultrasonic Distance Sensor
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: rcwl9623_init
+    label:
+      - {image: {src: media/rcwl9623.png, width: 55, height: 55}}
+      - Init RCWL9623 Distance Sensor
+    tooltip: Init RCWL9623 distance sensor (GPIO/OneWire/UART/I2C)
+    import:
+      - {line: "from machine import Pin, UART, I2C", key: import_machine_pin_uart_i2c}
+      - key: rcwl9623_open
+        line: |-
+          def rcwl9623_open(mode, trig, echo, bus, addr):
+            if mode == "GPIO":
+              return rcwl9623.RCWL9623(rcwl9623.RCWL9623.GPIO_MODE, gpio_pins=(trig, echo))
+            if mode == "ONEWIRE":
+              return rcwl9623.RCWL9623(rcwl9623.RCWL9623.ONEWIRE_MODE, onewire_pin=trig)
+            if mode == "UART":
+              return rcwl9623.RCWL9623(rcwl9623.RCWL9623.UART_MODE,
+                                       uart=UART(bus, baudrate=9600, tx=Pin(echo), rx=Pin(trig)))
+            return rcwl9623.RCWL9623(rcwl9623.RCWL9623.I2C_MODE,
+                                     i2c=I2C(bus, scl=Pin(trig), sda=Pin(echo), freq=100000),
+                                     addr=addr)
+    code: '{instance} = rcwl9623_open("{RCWL_MODE}", {trig_pin}, {echo_pin}, {bus_num}, {i2c_addr})'
+    params:
+      - {name: RCWL_MODE, label: Mode, kind: dropdown,
+         options: [{GPIO (Trig/Echo): "GPIO"}, {OneWire: "ONEWIRE"},
+                   {UART: "UART"}, {I2C: "I2C"}]}
+      - {name: trig_pin, label: Trig Pin/SCL/RX/ONEWIRE, type: Number, pin: true,
+         default: 2, align: right}
+      - {name: echo_pin, label: Echo Pin/SDA/TX, type: Number, pin: true,
+         default: 3, align: right}
+      - {name: bus_num, label: I2C/UART BUS, type: Number, default: 0, align: right}
+      - {name: i2c_addr, label: I2C Addr, type: Number, default: 87, align: right}
+
+  - {type: rcwl9623_read_distance, fn: read_distance, kind: value,
+     label: Read RCWL9623 Distance (cm),
+     tooltip: Read distance from RCWL9623 sensor (cm)}

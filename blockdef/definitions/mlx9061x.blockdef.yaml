@@ -1,0 +1,48 @@
+# MLX90614 and MLX90615 infrared thermometers -- one driver, two classes, and
+# a dropdown that picks between them.
+#
+# The fork built its own bus with `I2C(0, scl=1, sda=0)`, passing pin numbers
+# where machine.I2C wants Pin objects. i2cBus_() wraps them, and shares the
+# bus with anything else on the same two pins.
+
+module: mlx90614
+instance: mlx_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import mlx90614", key: import_mlx90614}
+
+category:
+  name: MLX90614 IR Sensor
+  library: mlx90614
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - MLX90614/MLX90615 Infrared Temperature Sensor
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: mlx9061x_init
+    label:
+      - {image: {src: media/mlx9061x.png, width: 55, height: 55}}
+      - Init MLX90614/MLX90615 Sensor
+    tooltip: Init MLX90614/MLX90615 infrared temperature sensor
+    i2c_bus: {id: i2c, scl: scl, sda: sda, freq: 100000}
+    code: "{instance} = mlx90614.{SENSOR_TYPE}(i2c={bus}, address={ADDRESS})"
+    params:
+      - {name: SENSOR_TYPE, label: Sensor Type, kind: dropdown,
+         options: [{MLX90614: "MLX90614"}, {MLX90615: "MLX90615"}]}
+      - {name: i2c, label: I2C, type: Number, default: 0, align: right}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right}
+      - {name: ADDRESS, label: I2C Address (0x5A-0x5D), kind: dropdown,
+         options: [{0x5A: "0x5A"}, {0x5B: "0x5B"}, {0x5C: "0x5C"}, {0x5D: "0x5D"}]}
+
+  - {type: mlx9061x_read_ambient, attr: ambient, kind: value,
+     label: "Read MLX Ambient Temp (°C)",
+     tooltip: Read MLX90614/MLX90615 ambient temperature}
+
+  - {type: mlx9061x_read_object, attr: object, kind: value,
+     label: "Read MLX Object Temp (°C)",
+     tooltip: Read MLX90614/MLX90615 object temperature}

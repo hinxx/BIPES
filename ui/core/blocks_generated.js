@@ -117,6 +117,78 @@ Blockly.Blocks['anemo_stop'] = {
   }
 };
 
+// ---- BA111TDS Sensor (ba111_tds.blockdef.yaml) -------------------------------
+
+Blockly.Blocks['ba111tds_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ba111tds.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init BA111TDS Sensor");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init BA111TDS sensor via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ba111tds_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read BA111TDS TDS & Temp");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read TDS and Temperature from BA111TDS");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ba111tds_calibrate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Calibrate BA111TDS (pure water)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Calibrate BA111TDS sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ba111tds_set_ntc'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set BA111TDS NTC")
+        .appendField(new Blockly.FieldDropdown([["Resistance", "R"], ["B Value", "B"]]), "NTC_TYPE");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set NTC resistance/B value for BA111TDS");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- BH1750 Sensor (bh1750.blockdef.yaml) ------------------------------------
 
 Blockly.Blocks['bh1750_init'] = {
@@ -7711,6 +7783,117 @@ Blockly.Blocks['micropython_schedule'] = {
   }
 };
 
+// ---- MLX90614 IR Sensor (mlx9061x.blockdef.yaml) -----------------------------
+
+Blockly.Blocks['mlx9061x_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mlx9061x.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MLX90614/MLX90615 Sensor");
+    this.appendDummyInput()
+        .appendField("Sensor Type")
+        .appendField(new Blockly.FieldDropdown([["MLX90614", "MLX90614"], ["MLX90615", "MLX90615"]]), "SENSOR_TYPE");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendDummyInput()
+        .appendField("I2C Address (0x5A-0x5D)")
+        .appendField(new Blockly.FieldDropdown([["90", "0x5A"], ["91", "0x5B"], ["92", "0x5C"], ["93", "0x5D"]]), "ADDRESS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MLX90614/MLX90615 infrared temperature sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mlx9061x_read_ambient'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MLX Ambient Temp (\u00b0C)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MLX90614/MLX90615 ambient temperature");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mlx9061x_read_object'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MLX Object Temp (\u00b0C)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MLX90614/MLX90615 object temperature");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- MLX90640 IR Camera Sensor (mlx90640.blockdef.yaml) ----------------------
+
+Blockly.Blocks['mlx90640_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/mlx90640.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init MLX90640 IR Camera");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendDummyInput()
+        .appendField("I2C Address (0x31-0x35)")
+        .appendField(new Blockly.FieldDropdown([["49", "0x31"], ["50", "0x32"], ["51", "0x33"], ["52", "0x34"], ["53", "0x35"]]), "I2C_ADDR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init MLX90640 infrared thermal camera sensor");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mlx90640_set_refresh_rate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set MLX90640 Refresh Rate")
+        .appendField(new Blockly.FieldDropdown([["0.5 Hz", "0b000"], ["1 Hz", "0b001"], ["2 Hz", "0b010"], ["4 Hz", "0b011"], ["8 Hz", "0b100"], ["16 Hz", "0b101"], ["32 Hz", "0b110"], ["64 Hz", "0b111"]]), "REFRESH_RATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set MLX90640 refresh rate (0.5~64Hz)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['mlx90640_get_frame'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read MLX90640 Frame Data (768 pixels)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read MLX90640 thermal frame data (768 temperature values)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Motors (motors.blockdef.yaml) -------------------------------------------
 
 Blockly.Blocks['motor_init'] = {
@@ -9466,6 +9649,52 @@ Blockly.Blocks['inter_init'] = {
   }
 };
 
+// ---- RCWL9623 Distance Sensor (rcwl9623.blockdef.yaml) -----------------------
+
+Blockly.Blocks['rcwl9623_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/rcwl9623.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init RCWL9623 Distance Sensor");
+    this.appendDummyInput()
+        .appendField("Mode")
+        .appendField(new Blockly.FieldDropdown([["GPIO (Trig/Echo)", "GPIO"], ["OneWire", "ONEWIRE"], ["UART", "UART"], ["I2C", "I2C"]]), "RCWL_MODE");
+    this.appendValueInput("trig_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Trig Pin/SCL/RX/ONEWIRE");
+    this.appendValueInput("echo_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Echo Pin/SDA/TX");
+    this.appendValueInput("bus_num")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C/UART BUS");
+    this.appendValueInput("i2c_addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Addr");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init RCWL9623 distance sensor (GPIO/OneWire/UART/I2C)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['rcwl9623_read_distance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read RCWL9623 Distance (cm)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read distance from RCWL9623 sensor (cm)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Relay (relay.blockdef.yaml) ---------------------------------------------
 
 Blockly.Blocks['relay_switch'] = {
@@ -10646,6 +10875,63 @@ Blockly.Blocks['tcr5000_deinit'] = {
     this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip("Disable TCR5000 sensor interrupt");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- TCS34725 Sensor (tcs34725.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['tcs34725_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/tcs34725.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init TCS34725 Sensor");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendDummyInput()
+        .appendField("Address")
+        .appendField(new Blockly.FieldDropdown([["0x29 (Default)", "0x29"], ["42", "0x2A"], ["43", "0x2B"], ["44", "0x2C"]]), "ADDR");
+    this.appendValueInput("led_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED Pin (-1 for none)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init TCS34725 color/cct sensor via I2C");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['tcs34725_read_cct_lux'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read TCS34725 CCT & Lux");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read CCT (K) and Lux from TCS34725");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['tcs34725_read_raw'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read TCS34725 Raw RGB+C");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read raw R/G/B/C data from TCS34725");
     this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
