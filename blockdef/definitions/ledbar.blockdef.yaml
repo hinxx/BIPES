@@ -1,0 +1,72 @@
+# Eight-LED bar driven through a PCF8574 I2C expander, so two libraries have
+# to reach the board: the bar and the expander under it.
+#
+# The driver shipped as `led_bar.py` against `import ledbar`; it is
+# `ledbar.py` here. Init also hardcoded `scl=Pin(1), sda=Pin(0)` with no way
+# to say otherwise, and rendered the address by converting the decimal field
+# to a hex string in JavaScript and pasting `0x` in front of it.
+#
+# Its try/except left `ledbar_module = None` for the other four blocks to
+# guard against.
+
+module: ledbar
+class: LEDBar
+instance: ledbar_module
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ledbar", key: import_ledbar}
+
+category:
+  name: LEDBar (PCF8574)
+  library: [ledbar, pcf8574]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - 8-bit LEDBar based on PCF8574 I2C IO Expander
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: ledbar_init
+    label:
+      - {image: {src: media/ledbar.png, width: 55, height: 55}}
+      - Init LEDBar (PCF8574)
+    tooltip: Init 8-bit LEDBar based on PCF8574 I2C IO expander
+    import: {line: "from pcf8574 import PCF8574", key: import_pcf8574}
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      pcf8574_device = PCF8574({bus}, {addr})
+      {instance} = ledbar.LEDBar(pcf8574_device)
+    params:
+      - {name: i2c,  label: I2C Bus, type: Number, default: 0, align: right}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: addr, label: PCF8574 Address, type: Number, default: 32, align: right}
+
+  - type: ledbar_set_led
+    fn: set_led
+    label: LEDBar Set Single LED
+    tooltip: Set single LED state (0=off, 1=on) in LEDBar
+    params:
+      - {name: index, label: LED Index (0-7), type: Number, default: 0, align: right}
+      - {name: LED_STATE, label: State, kind: dropdown,
+         options: [{On (1): "1"}, {Off (0): "0"}],
+         emit: {"1": "True", "0": "False"}}
+
+  - type: ledbar_set_all
+    fn: set_all
+    label: LEDBar Set All LEDs
+    tooltip: Set all LEDs with 8-bit value (0x00-0xFF)
+    params:
+      - {name: value, label: Value (0-255), type: Number, default: 0, align: right}
+
+  - type: ledbar_display_level
+    fn: display_level
+    label: LEDBar Display Level
+    tooltip: Display level (0=off, 8=all on) on LEDBar
+    params:
+      - {name: level, label: Level (0-8), type: Number, default: 0, align: right}
+
+  - {type: ledbar_clear, fn: clear, label: LEDBar Clear (All Off),
+     tooltip: Turn off all LEDs in LEDBar}

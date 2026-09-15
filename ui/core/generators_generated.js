@@ -2865,6 +2865,48 @@ Blockly.Python['lcd160cr_LCD160CR.jpeg_data'] = function(block) {
   return code + "\n";
 };
 
+// ---- LEDBar (PCF8574) (ledbar.blockdef.yaml) ---------------------------------
+
+Blockly.Python['ledbar_init'] = function(block) {
+  Blockly.Python.definitions_["import_ledbar"] = "import ledbar";
+  Blockly.Python.definitions_["import_pcf8574"] = "from pcf8574 import PCF8574";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "pcf8574_device = PCF8574(" + bus_ + ", " + addr_ + ")\nledbar_module = ledbar.LEDBar(pcf8574_device)";
+  return code + "\n";
+};
+
+Blockly.Python['ledbar_set_led'] = function(block) {
+  Blockly.Python.definitions_["import_ledbar"] = "import ledbar";
+  var index_ = Blockly.Python.valueToCode(block, "index", Blockly.Python.ORDER_ATOMIC);
+  var LED_STATE_ = {"1": "True", "0": "False"}[block.getFieldValue("LED_STATE")];
+  var code = "ledbar_module.set_led(" + index_ + ", " + LED_STATE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ledbar_set_all'] = function(block) {
+  Blockly.Python.definitions_["import_ledbar"] = "import ledbar";
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "ledbar_module.set_all(" + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ledbar_display_level'] = function(block) {
+  Blockly.Python.definitions_["import_ledbar"] = "import ledbar";
+  var level_ = Blockly.Python.valueToCode(block, "level", Blockly.Python.ORDER_ATOMIC);
+  var code = "ledbar_module.display_level(" + level_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ledbar_clear'] = function(block) {
+  Blockly.Python.definitions_["import_ledbar"] = "import ledbar";
+  var code = "ledbar_module.clear()";
+  return code + "\n";
+};
+
 // ---- Limit Switch (limitswitch.blockdef.yaml) --------------------------------
 
 Blockly.Python['limitswitch_init'] = function(block) {
@@ -4778,6 +4820,40 @@ Blockly.Python['pir_toggle_callback'] = function(block) {
   return code + "\n";
 };
 
+// ---- PiranhaLED (piranhaled.blockdef.yaml) -----------------------------------
+
+Blockly.Python['piranhaled_init'] = function(block) {
+  Blockly.Python.definitions_["import_piranhaled"] = "import piranhaled";
+  var pin_number_ = Blockly.Python.valueToCode(block, "pin_number", Blockly.Python.ORDER_ATOMIC);
+  var LED_POLARITY_ = block.getFieldValue("LED_POLARITY");
+  var code = "piranhaled_led = piranhaled.PiranhaLED(" + "pin_number=" + pin_number_ + ", polarity=" + LED_POLARITY_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['piranhaled_on'] = function(block) {
+  Blockly.Python.definitions_["import_piranhaled"] = "import piranhaled";
+  var code = "piranhaled_led.on()";
+  return code + "\n";
+};
+
+Blockly.Python['piranhaled_off'] = function(block) {
+  Blockly.Python.definitions_["import_piranhaled"] = "import piranhaled";
+  var code = "piranhaled_led.off()";
+  return code + "\n";
+};
+
+Blockly.Python['piranhaled_toggle'] = function(block) {
+  Blockly.Python.definitions_["import_piranhaled"] = "import piranhaled";
+  var code = "piranhaled_led.toggle()";
+  return code + "\n";
+};
+
+Blockly.Python['piranhaled_is_on'] = function(block) {
+  Blockly.Python.definitions_["import_piranhaled"] = "import piranhaled";
+  var code = "piranhaled_led.is_on()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 // ---- Pluviômetro (pluviometro.blockdef.yaml) ---------------------------------
 
 Blockly.Python['pluvio_init'] = function(block) {
@@ -4839,6 +4915,47 @@ Blockly.Python['potentiometer_get_adc'] = function(block) {
 Blockly.Python['potentiometer_get_vref'] = function(block) {
   Blockly.Python.definitions_["import_potentiometer"] = "import potentiometer";
   var code = "potentiometer_sensor.vref";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// ---- PowerLED (powerled.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['powerled_init'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var pwm_freq_ = Blockly.Python.valueToCode(block, "pwm_freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "powerled_led = powerled.PowerLED(" + "pin=" + pin_ + ", pwm_freq=" + pwm_freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['powerled_on'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var code = "powerled_led.on()";
+  return code + "\n";
+};
+
+Blockly.Python['powerled_off'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var code = "powerled_led.off()";
+  return code + "\n";
+};
+
+Blockly.Python['powerled_toggle'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var code = "powerled_led.toggle()";
+  return code + "\n";
+};
+
+Blockly.Python['powerled_set_brightness'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "powerled_led.set_brightness(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['powerled_get_state'] = function(block) {
+  Blockly.Python.definitions_["import_powerled"] = "import powerled";
+  var code = "powerled_led.get_state()";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -7542,6 +7659,47 @@ Blockly.Python['utime_time'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var code = "utime.time()";
   return code + "\n";
+};
+
+// ---- UVMatrix (uvmatrix.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['uvmatrix_init'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var pwm_freq_ = Blockly.Python.valueToCode(block, "pwm_freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "uvmatrix_module = uvmatrix.UVMatrix(" + "pin=" + pin_ + ", pwm_freq=" + pwm_freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uvmatrix_on'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var code = "uvmatrix_module.on()";
+  return code + "\n";
+};
+
+Blockly.Python['uvmatrix_off'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var code = "uvmatrix_module.off()";
+  return code + "\n";
+};
+
+Blockly.Python['uvmatrix_toggle'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var code = "uvmatrix_module.toggle()";
+  return code + "\n";
+};
+
+Blockly.Python['uvmatrix_set_brightness'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var duty_ = Blockly.Python.valueToCode(block, "duty", Blockly.Python.ORDER_ATOMIC);
+  var code = "uvmatrix_module.set_brightness(" + duty_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uvmatrix_get_state'] = function(block) {
+  Blockly.Python.definitions_["import_uvmatrix"] = "import uvmatrix";
+  var code = "uvmatrix_module.get_state()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- uzlib (uzlib.blockdef.yaml) ---------------------------------------------

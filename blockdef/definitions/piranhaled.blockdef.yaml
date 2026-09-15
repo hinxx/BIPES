@@ -1,0 +1,49 @@
+# Piranha LED module, wired either way round -- the polarity dropdown says
+# which, and the driver inverts for it.
+#
+# The driver shipped as `piranha_led.py` against `import piranhaled`; it is
+# `piranhaled.py` here. Init also emitted two `const()` definitions,
+# POLARITY_CATHODE and POLARITY_ANODE, that nothing then read -- the dropdown
+# passes the number straight through.
+#
+# The same try/except-and-guard scaffolding as the PowerLED, and gone for the
+# same reason.
+
+module: piranhaled
+class: PiranhaLED
+instance: piranhaled_led
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import piranhaled", key: import_piranhaled}
+
+category:
+  name: PiranhaLED
+  library: piranhaled
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PiranhaLED with Configurable Polarity (Cathode/Anode)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: piranhaled_init
+    constructor: true
+    label:
+      - {image: {src: media/piranhaled.png, width: 55, height: 55}}
+      - Init PiranhaLED
+    tooltip: Init PiranhaLED with configurable polarity (Cathode/Anode)
+    params:
+      - {name: pin_number, label: LED Pin Number, type: Number, pin: true,
+         default: 25, align: right, keyword: pin_number}
+      - {name: LED_POLARITY, label: Polarity, kind: dropdown, keyword: polarity,
+         options: [{Cathode (0): "0"}, {Anode (1): "1"}]}
+
+  - {type: piranhaled_on, fn: on, label: PiranhaLED Turn On,
+     tooltip: Turn on PiranhaLED (respects polarity setting)}
+  - {type: piranhaled_off, fn: off, label: PiranhaLED Turn Off,
+     tooltip: Turn off PiranhaLED (respects polarity setting)}
+  - {type: piranhaled_toggle, fn: toggle, label: PiranhaLED Toggle State,
+     tooltip: Toggle PiranhaLED on/off state}
+  - {type: piranhaled_is_on, fn: is_on, kind: value,
+     label: "PiranhaLED Is On? (True/False)",
+     tooltip: "Check if PiranhaLED is currently on (returns True/False)"}

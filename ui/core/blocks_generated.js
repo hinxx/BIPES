@@ -5809,6 +5809,101 @@ Blockly.Blocks['lcd160cr_LCD160CR.jpeg_data'] = {
   }
 };
 
+// ---- LEDBar (PCF8574) (ledbar.blockdef.yaml) ---------------------------------
+
+Blockly.Blocks['ledbar_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ledbar.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init LEDBar (PCF8574)");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Bus");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PCF8574 Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init 8-bit LEDBar based on PCF8574 I2C IO expander");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ledbar_set_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LEDBar Set Single LED");
+    this.appendValueInput("index")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED Index (0-7)");
+    this.appendDummyInput()
+        .appendField("State")
+        .appendField(new Blockly.FieldDropdown([["On (1)", "1"], ["Off (0)", "0"]]), "LED_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set single LED state (0=off, 1=on) in LEDBar");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ledbar_set_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LEDBar Set All LEDs");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0-255)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set all LEDs with 8-bit value (0x00-0xFF)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ledbar_display_level'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LEDBar Display Level");
+    this.appendValueInput("level")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Level (0-8)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Display level (0=off, 8=all on) on LEDBar");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ledbar_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("LEDBar Clear (All Off)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off all LEDs in LEDBar");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Limit Switch (limitswitch.blockdef.yaml) --------------------------------
 
 Blockly.Blocks['limitswitch_init'] = {
@@ -9662,6 +9757,76 @@ Blockly.Blocks['pir_toggle_callback'] = {
   }
 };
 
+// ---- PiranhaLED (piranhaled.blockdef.yaml) -----------------------------------
+
+Blockly.Blocks['piranhaled_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/piranhaled.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PiranhaLED");
+    this.appendValueInput("pin_number")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED Pin Number");
+    this.appendDummyInput()
+        .appendField("Polarity")
+        .appendField(new Blockly.FieldDropdown([["Cathode (0)", "0"], ["Anode (1)", "1"]]), "LED_POLARITY");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PiranhaLED with configurable polarity (Cathode/Anode)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['piranhaled_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PiranhaLED Turn On");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn on PiranhaLED (respects polarity setting)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['piranhaled_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PiranhaLED Turn Off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off PiranhaLED (respects polarity setting)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['piranhaled_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PiranhaLED Toggle State");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Toggle PiranhaLED on/off state");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['piranhaled_is_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PiranhaLED Is On? (True/False)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if PiranhaLED is currently on (returns True/False)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Pluviômetro (pluviometro.blockdef.yaml) ---------------------------------
 
 Blockly.Blocks['pluvio_init'] = {
@@ -9783,6 +9948,93 @@ Blockly.Blocks['potentiometer_get_vref'] = {
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip("Get reference voltage of potentiometer");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- PowerLED (powerled.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['powerled_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/powerled.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PowerLED (PWM)");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED Pin");
+    this.appendValueInput("pwm_freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PowerLED with PWM control (1-1000 Hz frequency)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['powerled_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PowerLED Turn On (Full Brightness)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn on PowerLED at maximum brightness");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['powerled_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PowerLED Turn Off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off PowerLED");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['powerled_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PowerLED Toggle State");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Toggle PowerLED on/off state");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['powerled_set_brightness'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PowerLED Set Brightness");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Brightness (0-1023)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PowerLED brightness (0=off, 1023=full)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['powerled_get_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PowerLED Get State (On=True)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if PowerLED is on (returns True/False)");
     this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
@@ -15116,6 +15368,93 @@ Blockly.Blocks['utime_time'] = {
     this.setColour(0);
     this.setTooltip(".. function:: time() Returns the number of seconds, as an integer, since the Epoch, assuming that underlying RTC is set and maintained as described above. If an RTC is not set ");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html");
+  }
+};
+
+// ---- UVMatrix (uvmatrix.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['uvmatrix_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/uvmatrix.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init UVMatrix (PWM)");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UVMatrix Pin");
+    this.appendValueInput("pwm_freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("PWM Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init UVMatrix with PWM control (1000Hz default frequency)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['uvmatrix_on'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UVMatrix Turn On (50% Brightness)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn on UVMatrix at 50% brightness (32766 duty_u16)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['uvmatrix_off'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UVMatrix Turn Off");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Turn off UVMatrix (0 duty_u16)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['uvmatrix_toggle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UVMatrix Toggle State");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Toggle UVMatrix on/off state");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['uvmatrix_set_brightness'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UVMatrix Set Brightness");
+    this.appendValueInput("duty")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Brightness (0-512)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set UVMatrix brightness (0=off, 512=max)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['uvmatrix_get_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("UVMatrix Get State (On=True)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if UVMatrix is on (returns True/False)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 

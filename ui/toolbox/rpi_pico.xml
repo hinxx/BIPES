@@ -3329,6 +3329,167 @@
 
 </category>
 
+<category name="Lighting">
+  <label text="Lighting"></label>
+
+  <!-- blockdef:powerled -->
+  <category name="PowerLED">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PowerLED PWM Dimmable LED Module"></label>
+    <button text="Install powerled library" callbackKey="installPyLib"></button>
+
+    <block type="powerled_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">25</field>
+        </shadow>
+      </value>
+      <value name="pwm_freq">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="powerled_on"></block>
+
+    <block type="powerled_off"></block>
+
+    <block type="powerled_toggle"></block>
+
+    <block type="powerled_set_brightness">
+      <value name="duty">
+        <shadow type="math_number">
+          <field name="NUM">512</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="powerled_get_state"></block>
+  </category>
+  <!-- /blockdef:powerled -->
+
+  <!-- blockdef:piranhaled -->
+  <category name="PiranhaLED">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PiranhaLED with Configurable Polarity (Cathode/Anode)"></label>
+    <button text="Install piranhaled library" callbackKey="installPyLib"></button>
+
+    <block type="piranhaled_init">
+      <value name="pin_number">
+        <shadow type="pinout">
+          <field name="PIN">25</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="piranhaled_on"></block>
+
+    <block type="piranhaled_off"></block>
+
+    <block type="piranhaled_toggle"></block>
+
+    <block type="piranhaled_is_on"></block>
+  </category>
+  <!-- /blockdef:piranhaled -->
+
+  <!-- blockdef:ledbar -->
+  <category name="LEDBar (PCF8574)">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="8-bit LEDBar based on PCF8574 I2C IO Expander"></label>
+    <button text="Install ledbar library" callbackKey="installPyLib"></button>
+    <button text="Install pcf8574 library" callbackKey="installPyLib"></button>
+
+    <block type="ledbar_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">32</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ledbar_set_led">
+      <value name="index">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ledbar_set_all">
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ledbar_display_level">
+      <value name="level">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ledbar_clear"></block>
+  </category>
+  <!-- /blockdef:ledbar -->
+
+  <!-- blockdef:uvmatrix -->
+  <category name="UVMatrix">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="UVMatrix PWM Dimmable UV Light Module"></label>
+    <button text="Install uvmatrix library" callbackKey="installPyLib"></button>
+
+    <block type="uvmatrix_init">
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">25</field>
+        </shadow>
+      </value>
+      <value name="pwm_freq">
+        <shadow type="math_number">
+          <field name="NUM">1000</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="uvmatrix_on"></block>
+
+    <block type="uvmatrix_off"></block>
+
+    <block type="uvmatrix_toggle"></block>
+
+    <block type="uvmatrix_set_brightness">
+      <value name="duty">
+        <shadow type="math_number">
+          <field name="NUM">256</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="uvmatrix_get_state"></block>
+  </category>
+  <!-- /blockdef:uvmatrix -->
+
+</category>
+
 <category name="%{BKY_CAT_COMM}">
   <label text="%{BKY_CAT_COMM}"></label>
 

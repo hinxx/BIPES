@@ -1,0 +1,51 @@
+# PWM-dimmable UV LED matrix. Same shape as the PowerLED, same three faults:
+# the driver shipped as `uv_matrix.py` against `import uvmatrix` (it is
+# `uvmatrix.py` here), and init's try/except left the object as None for the
+# other five blocks to guard against.
+
+module: uvmatrix
+class: UVMatrix
+instance: uvmatrix_module
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import uvmatrix", key: import_uvmatrix}
+
+category:
+  name: UVMatrix
+  library: uvmatrix
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - UVMatrix PWM Dimmable UV Light Module
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: uvmatrix_init
+    constructor: true
+    label:
+      - {image: {src: media/uvmatrix.png, width: 55, height: 55}}
+      - Init UVMatrix (PWM)
+    tooltip: Init UVMatrix with PWM control (1000Hz default frequency)
+    params:
+      - {name: pin, label: UVMatrix Pin, type: Number, pin: true, default: 25,
+         align: right, keyword: pin}
+      - {name: pwm_freq, label: PWM Frequency (Hz), type: Number, default: 1000,
+         align: right, keyword: pwm_freq}
+
+  - {type: uvmatrix_on, fn: on, label: UVMatrix Turn On (50% Brightness),
+     tooltip: Turn on UVMatrix at 50% brightness (32766 duty_u16)}
+  - {type: uvmatrix_off, fn: off, label: UVMatrix Turn Off,
+     tooltip: Turn off UVMatrix (0 duty_u16)}
+  - {type: uvmatrix_toggle, fn: toggle, label: UVMatrix Toggle State,
+     tooltip: Toggle UVMatrix on/off state}
+
+  - type: uvmatrix_set_brightness
+    fn: set_brightness
+    label: UVMatrix Set Brightness
+    tooltip: Set UVMatrix brightness (0=off, 512=max)
+    params:
+      - {name: duty, label: Brightness (0-512), type: Number, default: 256, align: right}
+
+  - {type: uvmatrix_get_state, fn: get_state, kind: value,
+     label: UVMatrix Get State (On=True),
+     tooltip: "Check if UVMatrix is on (returns True/False)"}
