@@ -3329,6 +3329,286 @@
 
 </category>
 
+<category name="Input">
+  <label text="Input"></label>
+
+  <!-- blockdef:ec11encoder -->
+  <category name="EC11 Encoder">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="EC11 Rotary Encoder (with optional button)"></label>
+    <button text="Install ec11encoder library" callbackKey="installPyLib"></button>
+
+    <block type="ec11encoder_init">
+      <value name="pin_a">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="pin_b">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="pin_btn">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ec11encoder_get_rotation_count"></block>
+
+    <block type="ec11encoder_is_button_pressed"></block>
+
+    <block type="ec11encoder_reset_rotation_count"></block>
+  </category>
+  <!-- /blockdef:ec11encoder -->
+
+  <!-- blockdef:joystick -->
+  <category name="Joystick Sensor">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="Joystick (X/Y Axis with Optional Switch)"></label>
+    <button text="Install joystick library" callbackKey="installPyLib"></button>
+
+    <block type="joystick_init">
+      <value name="vrx_pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
+        </shadow>
+      </value>
+      <value name="vry_pin">
+        <shadow type="pinout">
+          <field name="PIN">27</field>
+        </shadow>
+      </value>
+      <value name="vsw_pin">
+        <shadow type="math_number">
+          <field name="NUM">-1</field>
+        </shadow>
+      </value>
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="joystick_start"></block>
+
+    <block type="joystick_stop"></block>
+
+    <block type="joystick_get_values"></block>
+  </category>
+  <!-- /blockdef:joystick -->
+
+  <!-- blockdef:pcf8574keys -->
+  <category name="PCF8574 Keys">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PCF8574 5-Way Key Module (I2C)"></label>
+    <button text="Install pcf8574keys library" callbackKey="installPyLib"></button>
+    <button text="Install pcf8574 library" callbackKey="installPyLib"></button>
+
+    <block type="pcf8574keys_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">32</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574keys_read_key"></block>
+
+    <block type="pcf8574keys_read_all"></block>
+
+    <block type="pcf8574keys_led"></block>
+
+    <block type="pcf8574keys_deinit"></block>
+  </category>
+  <!-- /blockdef:pcf8574keys -->
+
+  <!-- blockdef:pcf8574io8 -->
+  <category name="PCF8574 IO8 Module">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="PCF8574 8-Channel IO Expansion Module (I2C)"></label>
+    <button text="Install pcf8574io8 library" callbackKey="installPyLib"></button>
+    <button text="Install pcf8574 library" callbackKey="installPyLib"></button>
+
+    <block type="pcf8574io8_init">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">32</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_configure_port">
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="bit1">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="bit0">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_set_port">
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_get_port">
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_set_pin">
+      <value name="pin">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="value">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_get_pin">
+      <value name="pin">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_read_all"></block>
+
+    <block type="pcf8574io8_write_all">
+      <value name="byte_val">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="pcf8574io8_deinit"></block>
+  </category>
+  <!-- /blockdef:pcf8574io8 -->
+
+  <!-- blockdef:ch9328 -->
+  <category name="CH9328 Keyboard Module">
+    <label text="Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"></label>
+    <label text="CH9328 UART to USB HID Keyboard Module"></label>
+    <button text="Install ch9328 library" callbackKey="installPyLib"></button>
+
+    <block type="ch9328_init">
+      <value name="uart_port">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx_pin">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="rx_pin">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="baudrate">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ch9328_send_string">
+      <value name="text">
+        <shadow type="text">
+          <field name="TEXT">Hello</field>
+        </shadow>
+      </value>
+      <value name="delay">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ch9328_tap_key">
+      <value name="delay">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ch9328_hotkey">
+      <value name="delay">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="ch9328_send_crlf"></block>
+  </category>
+  <!-- /blockdef:ch9328 -->
+
+</category>
+
 <category name="Lighting">
   <label text="Lighting"></label>
 

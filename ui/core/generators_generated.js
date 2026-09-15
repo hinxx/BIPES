@@ -838,6 +838,52 @@ Blockly.Python['ccs811_tVOC'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- CH9328 Keyboard Module (ch9328.blockdef.yaml) ---------------------------
+
+Blockly.Python['ch9328_init'] = function(block) {
+  Blockly.Python.definitions_["import_ch9328"] = "import ch9328";
+  Blockly.Python.definitions_["import_machine_pin_uart"] = "from machine import Pin, UART";
+  var uart_port_ = Blockly.Python.valueToCode(block, "uart_port", Blockly.Python.ORDER_ATOMIC);
+  var tx_pin_ = Blockly.Python.valueToCode(block, "tx_pin", Blockly.Python.ORDER_ATOMIC);
+  var rx_pin_ = Blockly.Python.valueToCode(block, "rx_pin", Blockly.Python.ORDER_ATOMIC);
+  var baudrate_ = Blockly.Python.valueToCode(block, "baudrate", Blockly.Python.ORDER_ATOMIC);
+  var KEYBOARD_MODE_ = block.getFieldValue("KEYBOARD_MODE");
+  var code = "uart_ch9328 = UART(" + uart_port_ + ", baudrate=" + baudrate_ + ", tx=Pin(" + tx_pin_ + "), rx=Pin(" + rx_pin_ + "), timeout=2000)\nch9328_keyboard = ch9328.CH9328(uart_ch9328)\nch9328_keyboard.set_keyboard_mode(" + KEYBOARD_MODE_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ch9328_send_string'] = function(block) {
+  Blockly.Python.definitions_["import_ch9328"] = "import ch9328";
+  var text_ = Blockly.Python.valueToCode(block, "text", Blockly.Python.ORDER_ATOMIC);
+  var delay_ = Blockly.Python.valueToCode(block, "delay", Blockly.Python.ORDER_ATOMIC);
+  var code = "ch9328_keyboard.type_text(" + text_ + ", delay=" + delay_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ch9328_tap_key'] = function(block) {
+  Blockly.Python.definitions_["import_ch9328"] = "import ch9328";
+  var KEY_CODE_ = block.getFieldValue("KEY_CODE");
+  var MODIFIER_ = block.getFieldValue("MODIFIER");
+  var delay_ = Blockly.Python.valueToCode(block, "delay", Blockly.Python.ORDER_ATOMIC);
+  var code = "ch9328_keyboard.tap_key(" + KEY_CODE_ + ", " + MODIFIER_ + ", delay=" + delay_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ch9328_hotkey'] = function(block) {
+  Blockly.Python.definitions_["import_ch9328"] = "import ch9328";
+  var MODIFIER_ = block.getFieldValue("MODIFIER");
+  var KEY_CODE_ = block.getFieldValue("KEY_CODE");
+  var delay_ = Blockly.Python.valueToCode(block, "delay", Blockly.Python.ORDER_ATOMIC);
+  var code = "ch9328_keyboard.hotkey(" + MODIFIER_ + ", " + KEY_CODE_ + ", delay=" + delay_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['ch9328_send_crlf'] = function(block) {
+  Blockly.Python.definitions_["import_ch9328"] = "import ch9328";
+  var code = "ch9328_keyboard.crlf()";
+  return code + "\n";
+};
+
 // ---- Character display (char_lcd.blockdef.yaml) ------------------------------
 
 Blockly.Python['char_lcd_init'] = function(block) {
@@ -1329,6 +1375,35 @@ Blockly.Python['easymqtt_receive_data'] = function(block) {
 Blockly.Python['easymqtt_disconnect'] = function(block) {
   Blockly.Python.definitions_["import_robust"] = "import robust";
   var code = "\neasymqtt_client.disconnect()\nprint(\"EasyMQTT disconnected\")";
+  return code + "\n";
+};
+
+// ---- EC11 Encoder (ec11encoder.blockdef.yaml) --------------------------------
+
+Blockly.Python['ec11encoder_init'] = function(block) {
+  Blockly.Python.definitions_["import_ec11encoder"] = "import ec11encoder";
+  var pin_a_ = Blockly.Python.valueToCode(block, "pin_a", Blockly.Python.ORDER_ATOMIC);
+  var pin_b_ = Blockly.Python.valueToCode(block, "pin_b", Blockly.Python.ORDER_ATOMIC);
+  var pin_btn_ = Blockly.Python.valueToCode(block, "pin_btn", Blockly.Python.ORDER_ATOMIC);
+  var code = "ec11_encoder = ec11encoder.EC11Encoder(pin_a=" + pin_a_ + ", pin_b=" + pin_b_ + ", pin_btn=(" + pin_btn_ + " if " + pin_btn_ + " >= 0 else None))";
+  return code + "\n";
+};
+
+Blockly.Python['ec11encoder_get_rotation_count'] = function(block) {
+  Blockly.Python.definitions_["import_ec11encoder"] = "import ec11encoder";
+  var code = "ec11_encoder.get_rotation_count()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ec11encoder_is_button_pressed'] = function(block) {
+  Blockly.Python.definitions_["import_ec11encoder"] = "import ec11encoder";
+  var code = "ec11_encoder.is_button_pressed()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['ec11encoder_reset_rotation_count'] = function(block) {
+  Blockly.Python.definitions_["import_ec11encoder"] = "import ec11encoder";
+  var code = "ec11_encoder.reset_rotation_count()";
   return code + "\n";
 };
 
@@ -2500,6 +2575,36 @@ Blockly.Python['net_http_server_close'] = function(block) {
     code = "cl.close()";
   }
   return code + "\n";
+};
+
+// ---- Joystick Sensor (joystick.blockdef.yaml) --------------------------------
+
+Blockly.Python['joystick_init'] = function(block) {
+  Blockly.Python.definitions_["import_joystick"] = "import joystick";
+  var vrx_pin_ = Blockly.Python.valueToCode(block, "vrx_pin", Blockly.Python.ORDER_ATOMIC);
+  var vry_pin_ = Blockly.Python.valueToCode(block, "vry_pin", Blockly.Python.ORDER_ATOMIC);
+  var vsw_pin_ = Blockly.Python.valueToCode(block, "vsw_pin", Blockly.Python.ORDER_ATOMIC);
+  var freq_ = Blockly.Python.valueToCode(block, "freq", Blockly.Python.ORDER_ATOMIC);
+  var code = "joystick_sensor = joystick.Joystick(vrx_pin=" + vrx_pin_ + ", vry_pin=" + vry_pin_ + ", vsw_pin=(" + vsw_pin_ + " if " + vsw_pin_ + " >= 0 else None), freq=" + freq_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['joystick_start'] = function(block) {
+  Blockly.Python.definitions_["import_joystick"] = "import joystick";
+  var code = "joystick_sensor.start()";
+  return code + "\n";
+};
+
+Blockly.Python['joystick_stop'] = function(block) {
+  Blockly.Python.definitions_["import_joystick"] = "import joystick";
+  var code = "joystick_sensor.stop()";
+  return code + "\n";
+};
+
+Blockly.Python['joystick_get_values'] = function(block) {
+  Blockly.Python.definitions_["import_joystick"] = "import joystick";
+  var code = "joystick_sensor.get_values()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- lcd160cr (lcd160cr.blockdef.yaml) ---------------------------------------
@@ -4779,6 +4884,118 @@ Blockly.Python['move_pca9685'] = function(block) {
   var servo_id_ = Blockly.Python.valueToCode(block, "servo_id", Blockly.Python.ORDER_ATOMIC);
   var angle_ = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
   var code = "pca9685.duty(" + servo_id_ + ", angleToDutyCycle(" + angle_ + "))";
+  return code + "\n";
+};
+
+// ---- PCF8574 IO8 Module (pcf8574io8.blockdef.yaml) ---------------------------
+
+Blockly.Python['pcf8574io8_init'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  Blockly.Python.definitions_["import_pcf8574"] = "import pcf8574";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "pcf_dev = pcf8574.PCF8574(" + bus_ + ", " + addr_ + ")\npcf_io8 = pcf8574io8.PCF8574IO8(pcf_dev)";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574io8_configure_port'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var bit1_ = Blockly.Python.valueToCode(block, "bit1", Blockly.Python.ORDER_ATOMIC);
+  var bit0_ = Blockly.Python.valueToCode(block, "bit0", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.configure_port(" + port_ + ", (" + bit1_ + ", " + bit0_ + "))";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574io8_set_port'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.set_port(" + port_ + ", " + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574io8_get_port'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.get_port(" + port_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pcf8574io8_set_pin'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.set_pin(" + pin_ + ", " + value_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574io8_get_pin'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.get_pin(" + pin_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pcf8574io8_read_all'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var code = "pcf_io8.read_all()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pcf8574io8_write_all'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var byte_val_ = Blockly.Python.valueToCode(block, "byte_val", Blockly.Python.ORDER_ATOMIC);
+  var code = "pcf_io8.write_all(" + byte_val_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574io8_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574io8"] = "import pcf8574io8";
+  var code = "pcf_io8.deinit()\ndel pcf_io8\ndel pcf_dev";
+  return code + "\n";
+};
+
+// ---- PCF8574 Keys (pcf8574keys.blockdef.yaml) --------------------------------
+
+Blockly.Python['pcf8574keys_init'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574keys"] = "import pcf8574keys";
+  Blockly.Python.definitions_["import_pcf8574"] = "import pcf8574";
+  var i2c_ = Blockly.Python.valueToCode(block, "i2c", Blockly.Python.ORDER_ATOMIC);
+  var sda_ = Blockly.Python.valueToCode(block, "sda", Blockly.Python.ORDER_ATOMIC);
+  var scl_ = Blockly.Python.valueToCode(block, "scl", Blockly.Python.ORDER_ATOMIC);
+  var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: i2c_, scl: scl_, sda: sda_});
+  var code = "pcf_dev = pcf8574.PCF8574(" + bus_ + ", " + addr_ + ")\npcf_keys = pcf8574keys.PCF8574Keys(pcf_dev, pcf8574keys.KEYS_MAP)";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574keys_read_key'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574keys"] = "import pcf8574keys";
+  var KEY_NAME_ = block.getFieldValue("KEY_NAME");
+  var code = "pcf_keys.read_key(\"" + KEY_NAME_ + "\")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pcf8574keys_read_all'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574keys"] = "import pcf8574keys";
+  var code = "pcf_keys.read_all()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['pcf8574keys_led'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574keys"] = "import pcf8574keys";
+  var LED_STATE_ = {"ON": "led_on", "OFF": "led_off"}[block.getFieldValue("LED_STATE")];
+  var code = "pcf_keys." + LED_STATE_ + "()";
+  return code + "\n";
+};
+
+Blockly.Python['pcf8574keys_deinit'] = function(block) {
+  Blockly.Python.definitions_["import_pcf8574keys"] = "import pcf8574keys";
+  var code = "pcf_keys.deinit()\ndel pcf_keys\ndel pcf_dev";
   return code + "\n";
 };
 

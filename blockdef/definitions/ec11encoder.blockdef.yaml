@@ -1,0 +1,46 @@
+# EC11 rotary encoder with an optional push button, debounced by the driver.
+#
+# `pin_btn` was a socket the generator only fell back to a number field for,
+# and the toolbox always filled the socket, so the field was unreachable.
+# -1 still means "no button", as a conditional rather than a branch.
+
+module: ec11encoder
+class: EC11Encoder
+instance: ec11_encoder
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ec11encoder", key: import_ec11encoder}
+
+category:
+  name: EC11 Encoder
+  library: ec11encoder
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - EC11 Rotary Encoder (with optional button)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: ec11encoder_init
+    label:
+      - {image: {src: media/ec11encoder.png, width: 55, height: 55}}
+      - Init EC11 Encoder
+    tooltip: Init EC11 rotary encoder with optional button
+    code: "{instance} = ec11encoder.EC11Encoder(pin_a={pin_a}, pin_b={pin_b}, pin_btn=({pin_btn} if {pin_btn} >= 0 else None))"
+    params:
+      - {name: pin_a, label: Pin A, type: Number, pin: true, default: 2, align: right}
+      - {name: pin_b, label: Pin B, type: Number, pin: true, default: 3, align: right}
+      - {name: pin_btn, label: Button Pin (-1 for none), type: Number, default: -1,
+         align: right}
+
+  - {type: ec11encoder_get_rotation_count, fn: get_rotation_count, kind: value,
+     label: Read EC11 Rotation Count,
+     tooltip: "Get EC11 encoder rotation count (positive=CW, negative=CCW)"}
+
+  - {type: ec11encoder_is_button_pressed, fn: is_button_pressed, kind: value,
+     label: Check EC11 Button Pressed,
+     tooltip: Check if EC11 encoder button is pressed}
+
+  - {type: ec11encoder_reset_rotation_count, fn: reset_rotation_count,
+     label: Reset EC11 Rotation Count,
+     tooltip: Reset EC11 encoder rotation count to 0}

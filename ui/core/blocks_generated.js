@@ -1636,6 +1636,117 @@ Blockly.Blocks['ccs811_tVOC'] = {
   }
 };
 
+// ---- CH9328 Keyboard Module (ch9328.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['ch9328_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ch9328.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init CH9328 Keyboard Module");
+    this.appendValueInput("uart_port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("UART Port");
+    this.appendValueInput("tx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("TX Pin");
+    this.appendValueInput("rx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("RX Pin");
+    this.appendValueInput("baudrate")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Baudrate");
+    this.appendDummyInput()
+        .appendField("Keyboard Mode")
+        .appendField(new Blockly.FieldDropdown([["Mode 0", "0"], ["Mode 1", "1"], ["Mode 2", "2"], ["Mode 3", "3"]]), "KEYBOARD_MODE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init CH9328 USB keyboard emulation module via UART");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ch9328_send_string'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CH9328 Send String");
+    this.appendValueInput("text")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Text");
+    this.appendValueInput("delay")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Delay (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send text string via CH9328 keyboard module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ch9328_tap_key'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CH9328 Tap Key");
+    this.appendDummyInput()
+        .appendField("Key")
+        .appendField(new Blockly.FieldDropdown([["A", "ch9328.CH9328.KEY_A"], ["B", "ch9328.CH9328.KEY_B"], ["C", "ch9328.CH9328.KEY_C"], ["D", "ch9328.CH9328.KEY_D"], ["E", "ch9328.CH9328.KEY_E"], ["F", "ch9328.CH9328.KEY_F"], ["G", "ch9328.CH9328.KEY_G"], ["H", "ch9328.CH9328.KEY_H"], ["I", "ch9328.CH9328.KEY_I"], ["J", "ch9328.CH9328.KEY_J"], ["K", "ch9328.CH9328.KEY_K"], ["L", "ch9328.CH9328.KEY_L"], ["M", "ch9328.CH9328.KEY_M"], ["N", "ch9328.CH9328.KEY_N"], ["O", "ch9328.CH9328.KEY_O"], ["P", "ch9328.CH9328.KEY_P"], ["Q", "ch9328.CH9328.KEY_Q"], ["R", "ch9328.CH9328.KEY_R"], ["S", "ch9328.CH9328.KEY_S"], ["T", "ch9328.CH9328.KEY_T"], ["U", "ch9328.CH9328.KEY_U"], ["V", "ch9328.CH9328.KEY_V"], ["W", "ch9328.CH9328.KEY_W"], ["X", "ch9328.CH9328.KEY_X"], ["Y", "ch9328.CH9328.KEY_Y"], ["Z", "ch9328.CH9328.KEY_Z"], ["1", "ch9328.CH9328.KEY_1"], ["2", "ch9328.CH9328.KEY_2"], ["3", "ch9328.CH9328.KEY_3"], ["4", "ch9328.CH9328.KEY_4"], ["5", "ch9328.CH9328.KEY_5"], ["6", "ch9328.CH9328.KEY_6"], ["7", "ch9328.CH9328.KEY_7"], ["8", "ch9328.CH9328.KEY_8"], ["9", "ch9328.CH9328.KEY_9"], ["0", "ch9328.CH9328.KEY_0"], ["Enter", "ch9328.CH9328.KEY_ENTER"], ["Space", "ch9328.CH9328.KEY_SPACE"], ["Backspace", "ch9328.CH9328.KEY_BACKSPACE"], ["Tab", "ch9328.CH9328.KEY_TAB"], ["ESC", "ch9328.CH9328.KEY_ESCAPE"], ["Left Ctrl", "ch9328.CH9328.KEY_LEFT_CTRL"], ["Left Shift", "ch9328.CH9328.KEY_LEFT_SHIFT"], ["Left Alt", "ch9328.CH9328.KEY_LEFT_ALT"], ["Left GUI", "ch9328.CH9328.KEY_LEFT_GUI"]]), "KEY_CODE");
+    this.appendDummyInput()
+        .appendField("Modifier")
+        .appendField(new Blockly.FieldDropdown([["None", "ch9328.CH9328.MODIFIER_NONE"], ["Left Ctrl", "ch9328.CH9328.MODIFIER_LEFT_CTRL"], ["Left Shift", "ch9328.CH9328.MODIFIER_LEFT_SHIFT"], ["Left Alt", "ch9328.CH9328.MODIFIER_LEFT_ALT"], ["Left GUI", "ch9328.CH9328.MODIFIER_LEFT_GUI"]]), "MODIFIER");
+    this.appendValueInput("delay")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Delay (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send single key press via CH9328 keyboard module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ch9328_hotkey'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CH9328 Hotkey");
+    this.appendDummyInput()
+        .appendField("Modifier")
+        .appendField(new Blockly.FieldDropdown([["Left Ctrl", "ch9328.CH9328.MODIFIER_LEFT_CTRL"], ["Left Shift", "ch9328.CH9328.MODIFIER_LEFT_SHIFT"], ["Left Alt", "ch9328.CH9328.MODIFIER_LEFT_ALT"], ["Left GUI", "ch9328.CH9328.MODIFIER_LEFT_GUI"], ["Right Ctrl", "ch9328.CH9328.MODIFIER_RIGHT_CTRL"], ["Right Shift", "ch9328.CH9328.MODIFIER_RIGHT_SHIFT"], ["Right Alt", "ch9328.CH9328.MODIFIER_RIGHT_ALT"], ["Right GUI", "ch9328.CH9328.MODIFIER_RIGHT_GUI"]]), "MODIFIER");
+    this.appendDummyInput()
+        .appendField("Key")
+        .appendField(new Blockly.FieldDropdown([["A", "ch9328.CH9328.KEY_A"], ["B", "ch9328.CH9328.KEY_B"], ["C", "ch9328.CH9328.KEY_C"], ["D", "ch9328.CH9328.KEY_D"], ["E", "ch9328.CH9328.KEY_E"], ["F", "ch9328.CH9328.KEY_F"], ["G", "ch9328.CH9328.KEY_G"], ["H", "ch9328.CH9328.KEY_H"], ["I", "ch9328.CH9328.KEY_I"], ["J", "ch9328.CH9328.KEY_J"], ["K", "ch9328.CH9328.KEY_K"], ["L", "ch9328.CH9328.KEY_L"], ["M", "ch9328.CH9328.KEY_M"], ["N", "ch9328.CH9328.KEY_N"], ["O", "ch9328.CH9328.KEY_O"], ["P", "ch9328.CH9328.KEY_P"], ["Q", "ch9328.CH9328.KEY_Q"], ["R", "ch9328.CH9328.KEY_R"], ["S", "ch9328.CH9328.KEY_S"], ["T", "ch9328.CH9328.KEY_T"], ["U", "ch9328.CH9328.KEY_U"], ["V", "ch9328.CH9328.KEY_V"], ["W", "ch9328.CH9328.KEY_W"], ["X", "ch9328.CH9328.KEY_X"], ["Y", "ch9328.CH9328.KEY_Y"], ["Z", "ch9328.CH9328.KEY_Z"], ["1", "ch9328.CH9328.KEY_1"], ["2", "ch9328.CH9328.KEY_2"], ["3", "ch9328.CH9328.KEY_3"], ["4", "ch9328.CH9328.KEY_4"], ["5", "ch9328.CH9328.KEY_5"], ["6", "ch9328.CH9328.KEY_6"], ["7", "ch9328.CH9328.KEY_7"], ["8", "ch9328.CH9328.KEY_8"], ["9", "ch9328.CH9328.KEY_9"], ["0", "ch9328.CH9328.KEY_0"], ["Enter", "ch9328.CH9328.KEY_ENTER"], ["Space", "ch9328.CH9328.KEY_SPACE"], ["Backspace", "ch9328.CH9328.KEY_BACKSPACE"], ["Tab", "ch9328.CH9328.KEY_TAB"], ["ESC", "ch9328.CH9328.KEY_ESCAPE"], ["F1", "ch9328.CH9328.KEY_F1"], ["F2", "ch9328.CH9328.KEY_F2"], ["F3", "ch9328.CH9328.KEY_F3"], ["F4", "ch9328.CH9328.KEY_F4"], ["F5", "ch9328.CH9328.KEY_F5"], ["F6", "ch9328.CH9328.KEY_F6"], ["F7", "ch9328.CH9328.KEY_F7"], ["F8", "ch9328.CH9328.KEY_F8"], ["F9", "ch9328.CH9328.KEY_F9"], ["F10", "ch9328.CH9328.KEY_F10"], ["F11", "ch9328.CH9328.KEY_F11"], ["F12", "ch9328.CH9328.KEY_F12"]]), "KEY_CODE");
+    this.appendValueInput("delay")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Delay (ms)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send hotkey combination via CH9328 keyboard module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ch9328_send_crlf'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("CH9328 Send Enter (CRLF)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Send Enter/CRLF via CH9328 keyboard module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
 // ---- Character display (char_lcd.blockdef.yaml) ------------------------------
 
 Blockly.Blocks['char_lcd_init'] = {
@@ -2641,6 +2752,68 @@ Blockly.Blocks['easymqtt_disconnect'] = {
     this.setColour(230);
     this.setTooltip("Disconnect the EasyMQTT Client from Server.");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- EC11 Encoder (ec11encoder.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['ec11encoder_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/ec11encoder.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init EC11 Encoder");
+    this.appendValueInput("pin_a")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin A");
+    this.appendValueInput("pin_b")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin B");
+    this.appendValueInput("pin_btn")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Button Pin (-1 for none)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init EC11 rotary encoder with optional button");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ec11encoder_get_rotation_count'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read EC11 Rotation Count");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get EC11 encoder rotation count (positive=CW, negative=CCW)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ec11encoder_is_button_pressed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Check EC11 Button Pressed");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Check if EC11 encoder button is pressed");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['ec11encoder_reset_rotation_count'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Reset EC11 Rotation Count");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Reset EC11 encoder rotation count to 0");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -4922,6 +5095,73 @@ Blockly.Blocks['net_http_server_close'] = {
     this.setNextStatement(true, null);
     this.setColour(135);
     this.setTooltip("");
+  }
+};
+
+// ---- Joystick Sensor (joystick.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['joystick_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/joystick.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init Joystick Sensor");
+    this.appendValueInput("vrx_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("VRX Pin");
+    this.appendValueInput("vry_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("VRY Pin");
+    this.appendValueInput("vsw_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Switch Pin (-1 for none)");
+    this.appendValueInput("freq")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Sample Frequency (Hz)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init Joystick sensor with X/Y axis and optional switch");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['joystick_start'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Start Joystick Sampling");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Start periodic sampling of joystick values");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['joystick_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stop Joystick Sampling");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Stop periodic sampling of joystick values");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['joystick_get_values'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read Joystick Values (X/Y/SW)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Get current joystick X, Y and switch values");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 
@@ -9676,6 +9916,251 @@ Blockly.Blocks['move_pca9685'] = {
     this.setColour(230);
     this.setTooltip("Position one of the servos");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+// ---- PCF8574 IO8 Module (pcf8574io8.blockdef.yaml) ---------------------------
+
+Blockly.Blocks['pcf8574io8_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/pcf8574io8.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PCF8574 IO8 Module");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PCF8574 8-channel IO expansion module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_configure_port'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Configure PCF8574 IO8 Port");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port (0-3)");
+    this.appendValueInput("bit1")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Bit1 (0/1)");
+    this.appendValueInput("bit0")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Bit0 (0/1)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Configure PCF8574 IO8 port state (two bits per port)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_set_port'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set PCF8574 IO8 Port Value");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port (0-3)");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0-3)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PCF8574 IO8 port value (0-3)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_get_port'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read PCF8574 IO8 Port Value");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Port (0-3)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read PCF8574 IO8 port value (0-3)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_set_pin'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set PCF8574 IO8 Pin");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin (0-7)");
+    this.appendValueInput("value")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Value (0/1)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Set PCF8574 IO8 single pin value (0/1)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_get_pin'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read PCF8574 IO8 Pin Value");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin (0-7)");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read PCF8574 IO8 single pin value (0/1)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_read_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read All PCF8574 IO8 Pins");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read all eight pins as one byte");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_write_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Write All PCF8574 IO8 Pins");
+    this.appendValueInput("byte_val")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Byte (0-255)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Write all eight pins from one byte");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574io8_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinit PCF8574 IO8 Module");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release PCF8574 IO8 module resources");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+// ---- PCF8574 Keys (pcf8574keys.blockdef.yaml) --------------------------------
+
+Blockly.Blocks['pcf8574keys_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/pcf8574keys.png", 55, 55, "*"));
+    this.appendDummyInput()
+        .appendField("Init PCF8574 Keys");
+    this.appendValueInput("i2c")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C");
+    this.appendValueInput("sda")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("scl")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("addr")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("I2C Address");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Init PCF8574 based 5-way key module");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574keys_read_key'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read PCF8574 Key")
+        .appendField(new Blockly.FieldDropdown([["UP", "UP"], ["DOWN", "DOWN"], ["LEFT", "LEFT"], ["RIGHT", "RIGHT"], ["CENTER", "CENTER"], ["SW1", "SW1"], ["SW2", "SW2"]]), "KEY_NAME");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read single PCF8574 key state (True=Pressed, False=Released)");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574keys_read_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Read All PCF8574 Keys");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read all PCF8574 keys state as dictionary");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574keys_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("PCF8574 Keys LED")
+        .appendField(new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "LED_STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Control PCF8574 keys module LED");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
+  }
+};
+
+Blockly.Blocks['pcf8574keys_deinit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Deinit PCF8574 Keys");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Release PCF8574 keys module resources");
+    this.setHelpUrl("https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2");
   }
 };
 

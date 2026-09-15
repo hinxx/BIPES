@@ -1,0 +1,101 @@
+# PCF8574 8-channel IO expansion module, addressed either as eight pins or as
+# four two-bit ports. Two libraries have to reach the board.
+#
+# Every one of the eleven sockets in this category was dead beside a number
+# field the generator read instead, so no port, pin or value could come from
+# a variable -- the point of an IO expander in a loop.
+
+module: pcf8574io8
+class: PCF8574IO8
+instance: pcf_io8
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import pcf8574io8", key: import_pcf8574io8}
+
+category:
+  name: PCF8574 IO8 Module
+  library: [pcf8574io8, pcf8574]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PCF8574 8-Channel IO Expansion Module (I2C)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: pcf8574io8_init
+    label:
+      - {image: {src: media/pcf8574io8.png, width: 55, height: 55}}
+      - Init PCF8574 IO8 Module
+    tooltip: Init PCF8574 8-channel IO expansion module
+    import: {line: "import pcf8574", key: import_pcf8574}
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      pcf_dev = pcf8574.PCF8574({bus}, {addr})
+      {instance} = pcf8574io8.PCF8574IO8(pcf_dev)
+    params:
+      - {name: i2c,  label: I2C, type: Number, default: 0, align: right}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: addr, label: I2C Address, type: Number, default: 32, align: right}
+
+  - type: pcf8574io8_configure_port
+    label: Configure PCF8574 IO8 Port
+    tooltip: Configure PCF8574 IO8 port state (two bits per port)
+    code: "{instance}.configure_port({port}, ({bit1}, {bit0}))"
+    params:
+      - {name: port, label: Port (0-3), type: Number, default: 0, align: right}
+      - {name: bit1, label: Bit1 (0/1), type: Number, default: 1, align: right}
+      - {name: bit0, label: Bit0 (0/1), type: Number, default: 1, align: right}
+
+  - type: pcf8574io8_set_port
+    fn: set_port
+    label: Set PCF8574 IO8 Port Value
+    tooltip: Set PCF8574 IO8 port value (0-3)
+    params:
+      - {name: port,  label: Port (0-3),  type: Number, default: 0, align: right}
+      - {name: value, label: Value (0-3), type: Number, default: 0, align: right}
+
+  - type: pcf8574io8_get_port
+    fn: get_port
+    kind: value
+    label: Read PCF8574 IO8 Port Value
+    tooltip: Read PCF8574 IO8 port value (0-3)
+    params:
+      - {name: port, label: Port (0-3), type: Number, default: 0, align: right}
+
+  - type: pcf8574io8_set_pin
+    fn: set_pin
+    label: Set PCF8574 IO8 Pin
+    tooltip: Set PCF8574 IO8 single pin value (0/1)
+    params:
+      - {name: pin,   label: Pin (0-7),   type: Number, default: 0, align: right}
+      - {name: value, label: Value (0/1), type: Number, default: 1, align: right}
+
+  - type: pcf8574io8_get_pin
+    fn: get_pin
+    kind: value
+    label: Read PCF8574 IO8 Pin Value
+    tooltip: Read PCF8574 IO8 single pin value (0/1)
+    params:
+      - {name: pin, label: Pin (0-7), type: Number, default: 0, align: right}
+
+  - {type: pcf8574io8_read_all, fn: read_all, kind: value,
+     label: Read All PCF8574 IO8 Pins,
+     tooltip: Read all eight pins as one byte}
+
+  - type: pcf8574io8_write_all
+    fn: write_all
+    label: Write All PCF8574 IO8 Pins
+    tooltip: Write all eight pins from one byte
+    params:
+      - {name: byte_val, label: Byte (0-255), type: Number, default: 0, align: right}
+
+  - type: pcf8574io8_deinit
+    label: Deinit PCF8574 IO8 Module
+    tooltip: Release PCF8574 IO8 module resources
+    code: |-
+      {instance}.deinit()
+      del {instance}
+      del pcf_dev

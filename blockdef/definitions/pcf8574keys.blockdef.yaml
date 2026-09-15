@@ -1,0 +1,67 @@
+# Five-way key module on a PCF8574 I2C expander, with an LED. Two libraries
+# have to reach the board: the key module and the expander under it.
+
+module: pcf8574keys
+class: PCF8574Keys
+instance: pcf_keys
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import pcf8574keys", key: import_pcf8574keys}
+
+category:
+  name: PCF8574 Keys
+  library: [pcf8574keys, pcf8574]
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - PCF8574 5-Way Key Module (I2C)
+  toolboxes: [rpi_pico]
+  defaults:
+    rpi_pico: {sda: 0, scl: 1}
+
+blocks:
+  - type: pcf8574keys_init
+    label:
+      - {image: {src: media/pcf8574keys.png, width: 55, height: 55}}
+      - Init PCF8574 Keys
+    tooltip: Init PCF8574 based 5-way key module
+    import: {line: "import pcf8574", key: import_pcf8574}
+    i2c_bus: {id: i2c, scl: scl, sda: sda}
+    code: |-
+      pcf_dev = pcf8574.PCF8574({bus}, {addr})
+      {instance} = pcf8574keys.PCF8574Keys(pcf_dev, pcf8574keys.KEYS_MAP)
+    params:
+      - {name: i2c,  label: I2C, type: Number, default: 0, align: right}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
+      - {name: addr, label: I2C Address, type: Number, default: 32, align: right}
+
+  - type: pcf8574keys_read_key
+    kind: value
+    label: []
+    tooltip: Read single PCF8574 key state (True=Pressed, False=Released)
+    code: '{instance}.read_key("{KEY_NAME}")'
+    params:
+      - {name: KEY_NAME, label: Read PCF8574 Key, kind: dropdown,
+         options: [UP, DOWN, LEFT, RIGHT, CENTER, SW1, SW2]}
+
+  - {type: pcf8574keys_read_all, fn: read_all, kind: value,
+     label: Read All PCF8574 Keys,
+     tooltip: Read all PCF8574 keys state as dictionary}
+
+  - type: pcf8574keys_led
+    label: []
+    tooltip: Control PCF8574 keys module LED
+    code: "{instance}.{LED_STATE}()"
+    params:
+      - {name: LED_STATE, label: PCF8574 Keys LED, kind: dropdown,
+         options: [{ON: "ON"}, {OFF: "OFF"}],
+         emit: {ON: led_on, OFF: led_off}}
+
+  - type: pcf8574keys_deinit
+    label: Deinit PCF8574 Keys
+    tooltip: Release PCF8574 keys module resources
+    code: |-
+      {instance}.deinit()
+      del {instance}
+      del pcf_dev

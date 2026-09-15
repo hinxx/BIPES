@@ -1,0 +1,150 @@
+# CH9328 UART-to-USB-HID keyboard bridge: the board types on the host.
+#
+# `ch9328_send_string` called `send_string(text, delay=...)`, and the driver's
+# `send_string` takes no `delay` -- the method that does is `type_text`, which
+# is what the block calls now. As written it raised TypeError on every use.
+#
+# Nine of the driver's `print()` and `raise` messages were in Chinese. Those
+# reach the user in the terminal, so they are English here; the comments and
+# docstrings in the file are left as they were.
+#
+# The delay socket on all three blocks was dead beside a number field. The key
+# and modifier dropdowns store the driver constant they stand for, rather than
+# a bare name the generator then had to prefix.
+
+module: ch9328
+class: CH9328
+instance: ch9328_keyboard
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import ch9328", key: import_ch9328}
+
+category:
+  name: CH9328 Keyboard Module
+  library: ch9328
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - CH9328 UART to USB HID Keyboard Module
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: ch9328_init
+    label:
+      - {image: {src: media/ch9328.png, width: 55, height: 55}}
+      - Init CH9328 Keyboard Module
+    tooltip: Init CH9328 USB keyboard emulation module via UART
+    import: {line: "from machine import Pin, UART", key: import_machine_pin_uart}
+    code: |-
+      uart_ch9328 = UART({uart_port}, baudrate={baudrate}, tx=Pin({tx_pin}), rx=Pin({rx_pin}), timeout=2000)
+      {instance} = ch9328.CH9328(uart_ch9328)
+      {instance}.set_keyboard_mode({KEYBOARD_MODE})
+    params:
+      - {name: uart_port, label: UART Port, type: Number, default: 0, align: right}
+      - {name: tx_pin, label: TX Pin, type: Number, pin: true, default: 16, align: right}
+      - {name: rx_pin, label: RX Pin, type: Number, pin: true, default: 17, align: right}
+      - {name: baudrate, label: Baudrate, type: Number, default: 9600, align: right}
+      - {name: KEYBOARD_MODE, label: Keyboard Mode, kind: dropdown,
+         options: [{Mode 0: "0"}, {Mode 1: "1"}, {Mode 2: "2"}, {Mode 3: "3"}]}
+
+  - type: ch9328_send_string
+    fn: type_text
+    label: CH9328 Send String
+    tooltip: Send text string via CH9328 keyboard module
+    params:
+      - {name: text, label: Text, type: String, default: Hello, align: right}
+      - {name: delay, label: Delay (ms), type: Number, default: 10, align: right,
+         keyword: delay}
+
+  - type: ch9328_tap_key
+    fn: tap_key
+    label: CH9328 Tap Key
+    tooltip: Send single key press via CH9328 keyboard module
+    params:
+      - {name: KEY_CODE, label: Key, kind: dropdown,
+         options: [{A: "ch9328.CH9328.KEY_A"}, {B: "ch9328.CH9328.KEY_B"},
+                   {C: "ch9328.CH9328.KEY_C"}, {D: "ch9328.CH9328.KEY_D"},
+                   {E: "ch9328.CH9328.KEY_E"}, {F: "ch9328.CH9328.KEY_F"},
+                   {G: "ch9328.CH9328.KEY_G"}, {H: "ch9328.CH9328.KEY_H"},
+                   {I: "ch9328.CH9328.KEY_I"}, {J: "ch9328.CH9328.KEY_J"},
+                   {K: "ch9328.CH9328.KEY_K"}, {L: "ch9328.CH9328.KEY_L"},
+                   {M: "ch9328.CH9328.KEY_M"}, {N: "ch9328.CH9328.KEY_N"},
+                   {O: "ch9328.CH9328.KEY_O"}, {P: "ch9328.CH9328.KEY_P"},
+                   {Q: "ch9328.CH9328.KEY_Q"}, {R: "ch9328.CH9328.KEY_R"},
+                   {S: "ch9328.CH9328.KEY_S"}, {T: "ch9328.CH9328.KEY_T"},
+                   {U: "ch9328.CH9328.KEY_U"}, {V: "ch9328.CH9328.KEY_V"},
+                   {W: "ch9328.CH9328.KEY_W"}, {X: "ch9328.CH9328.KEY_X"},
+                   {Y: "ch9328.CH9328.KEY_Y"}, {Z: "ch9328.CH9328.KEY_Z"},
+                   {"1": "ch9328.CH9328.KEY_1"}, {"2": "ch9328.CH9328.KEY_2"},
+                   {"3": "ch9328.CH9328.KEY_3"}, {"4": "ch9328.CH9328.KEY_4"},
+                   {"5": "ch9328.CH9328.KEY_5"}, {"6": "ch9328.CH9328.KEY_6"},
+                   {"7": "ch9328.CH9328.KEY_7"}, {"8": "ch9328.CH9328.KEY_8"},
+                   {"9": "ch9328.CH9328.KEY_9"}, {"0": "ch9328.CH9328.KEY_0"},
+                   {Enter: "ch9328.CH9328.KEY_ENTER"},
+                   {Space: "ch9328.CH9328.KEY_SPACE"},
+                   {Backspace: "ch9328.CH9328.KEY_BACKSPACE"},
+                   {Tab: "ch9328.CH9328.KEY_TAB"},
+                   {ESC: "ch9328.CH9328.KEY_ESCAPE"},
+                   {Left Ctrl: "ch9328.CH9328.KEY_LEFT_CTRL"},
+                   {Left Shift: "ch9328.CH9328.KEY_LEFT_SHIFT"},
+                   {Left Alt: "ch9328.CH9328.KEY_LEFT_ALT"},
+                   {Left GUI: "ch9328.CH9328.KEY_LEFT_GUI"}]}
+      - {name: MODIFIER, label: Modifier, kind: dropdown,
+         options: [{None: "ch9328.CH9328.MODIFIER_NONE"},
+                   {Left Ctrl: "ch9328.CH9328.MODIFIER_LEFT_CTRL"},
+                   {Left Shift: "ch9328.CH9328.MODIFIER_LEFT_SHIFT"},
+                   {Left Alt: "ch9328.CH9328.MODIFIER_LEFT_ALT"},
+                   {Left GUI: "ch9328.CH9328.MODIFIER_LEFT_GUI"}]}
+      - {name: delay, label: Delay (ms), type: Number, default: 50, align: right,
+         keyword: delay}
+
+  - type: ch9328_hotkey
+    fn: hotkey
+    label: CH9328 Hotkey
+    tooltip: Send hotkey combination via CH9328 keyboard module
+    params:
+      - {name: MODIFIER, label: Modifier, kind: dropdown,
+         options: [{Left Ctrl: "ch9328.CH9328.MODIFIER_LEFT_CTRL"},
+                   {Left Shift: "ch9328.CH9328.MODIFIER_LEFT_SHIFT"},
+                   {Left Alt: "ch9328.CH9328.MODIFIER_LEFT_ALT"},
+                   {Left GUI: "ch9328.CH9328.MODIFIER_LEFT_GUI"},
+                   {Right Ctrl: "ch9328.CH9328.MODIFIER_RIGHT_CTRL"},
+                   {Right Shift: "ch9328.CH9328.MODIFIER_RIGHT_SHIFT"},
+                   {Right Alt: "ch9328.CH9328.MODIFIER_RIGHT_ALT"},
+                   {Right GUI: "ch9328.CH9328.MODIFIER_RIGHT_GUI"}]}
+      - {name: KEY_CODE, label: Key, kind: dropdown,
+         options: [{A: "ch9328.CH9328.KEY_A"}, {B: "ch9328.CH9328.KEY_B"},
+                   {C: "ch9328.CH9328.KEY_C"}, {D: "ch9328.CH9328.KEY_D"},
+                   {E: "ch9328.CH9328.KEY_E"}, {F: "ch9328.CH9328.KEY_F"},
+                   {G: "ch9328.CH9328.KEY_G"}, {H: "ch9328.CH9328.KEY_H"},
+                   {I: "ch9328.CH9328.KEY_I"}, {J: "ch9328.CH9328.KEY_J"},
+                   {K: "ch9328.CH9328.KEY_K"}, {L: "ch9328.CH9328.KEY_L"},
+                   {M: "ch9328.CH9328.KEY_M"}, {N: "ch9328.CH9328.KEY_N"},
+                   {O: "ch9328.CH9328.KEY_O"}, {P: "ch9328.CH9328.KEY_P"},
+                   {Q: "ch9328.CH9328.KEY_Q"}, {R: "ch9328.CH9328.KEY_R"},
+                   {S: "ch9328.CH9328.KEY_S"}, {T: "ch9328.CH9328.KEY_T"},
+                   {U: "ch9328.CH9328.KEY_U"}, {V: "ch9328.CH9328.KEY_V"},
+                   {W: "ch9328.CH9328.KEY_W"}, {X: "ch9328.CH9328.KEY_X"},
+                   {Y: "ch9328.CH9328.KEY_Y"}, {Z: "ch9328.CH9328.KEY_Z"},
+                   {"1": "ch9328.CH9328.KEY_1"}, {"2": "ch9328.CH9328.KEY_2"},
+                   {"3": "ch9328.CH9328.KEY_3"}, {"4": "ch9328.CH9328.KEY_4"},
+                   {"5": "ch9328.CH9328.KEY_5"}, {"6": "ch9328.CH9328.KEY_6"},
+                   {"7": "ch9328.CH9328.KEY_7"}, {"8": "ch9328.CH9328.KEY_8"},
+                   {"9": "ch9328.CH9328.KEY_9"}, {"0": "ch9328.CH9328.KEY_0"},
+                   {Enter: "ch9328.CH9328.KEY_ENTER"},
+                   {Space: "ch9328.CH9328.KEY_SPACE"},
+                   {Backspace: "ch9328.CH9328.KEY_BACKSPACE"},
+                   {Tab: "ch9328.CH9328.KEY_TAB"},
+                   {ESC: "ch9328.CH9328.KEY_ESCAPE"},
+                   {F1: "ch9328.CH9328.KEY_F1"}, {F2: "ch9328.CH9328.KEY_F2"},
+                   {F3: "ch9328.CH9328.KEY_F3"}, {F4: "ch9328.CH9328.KEY_F4"},
+                   {F5: "ch9328.CH9328.KEY_F5"}, {F6: "ch9328.CH9328.KEY_F6"},
+                   {F7: "ch9328.CH9328.KEY_F7"}, {F8: "ch9328.CH9328.KEY_F8"},
+                   {F9: "ch9328.CH9328.KEY_F9"}, {F10: "ch9328.CH9328.KEY_F10"},
+                   {F11: "ch9328.CH9328.KEY_F11"},
+                   {F12: "ch9328.CH9328.KEY_F12"}]}
+      - {name: delay, label: Delay (ms), type: Number, default: 50, align: right,
+         keyword: delay}
+
+  - {type: ch9328_send_crlf, fn: crlf, label: CH9328 Send Enter (CRLF),
+     tooltip: Send Enter/CRLF via CH9328 keyboard module}

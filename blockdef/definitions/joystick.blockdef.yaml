@@ -1,0 +1,44 @@
+# Two-axis analog joystick with an optional switch. The driver samples it on
+# a timer, so "start" and "stop" bracket the reads.
+#
+# `vsw_pin` was a socket the generator only fell back to a number field for,
+# and the toolbox always filled the socket. -1 still means "no switch".
+
+module: joystick
+class: Joystick
+instance: joystick_sensor
+colour: 230
+url: https://freakstudio.cn/node/019b88b8-4451-7065-92ee-d20e8165a0c2
+import:
+  - {line: "import joystick", key: import_joystick}
+
+category:
+  name: Joystick Sensor
+  library: joystick
+  labels:
+    - "Library: https://github.com/FreakStudioCN/GraftSense-Drivers-MicroPython"
+    - Joystick (X/Y Axis with Optional Switch)
+  toolboxes: [rpi_pico]
+
+blocks:
+  - type: joystick_init
+    label:
+      - {image: {src: media/joystick.png, width: 55, height: 55}}
+      - Init Joystick Sensor
+    tooltip: Init Joystick sensor with X/Y axis and optional switch
+    code: "{instance} = joystick.Joystick(vrx_pin={vrx_pin}, vry_pin={vry_pin}, vsw_pin=({vsw_pin} if {vsw_pin} >= 0 else None), freq={freq})"
+    params:
+      - {name: vrx_pin, label: VRX Pin, type: Number, pin: true, default: 26, align: right}
+      - {name: vry_pin, label: VRY Pin, type: Number, pin: true, default: 27, align: right}
+      - {name: vsw_pin, label: Switch Pin (-1 for none), type: Number, default: -1,
+         align: right}
+      - {name: freq, label: Sample Frequency (Hz), type: Number, default: 100,
+         align: right}
+
+  - {type: joystick_start, fn: start, label: Start Joystick Sampling,
+     tooltip: Start periodic sampling of joystick values}
+  - {type: joystick_stop, fn: stop, label: Stop Joystick Sampling,
+     tooltip: Stop periodic sampling of joystick values}
+  - {type: joystick_get_values, fn: get_values, kind: value,
+     label: Read Joystick Values (X/Y/SW),
+     tooltip: "Get current joystick X, Y and switch values"}
