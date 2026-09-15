@@ -29,6 +29,13 @@ files register in `Blockly.Blocks` and `Blockly.Python` -- the two
 output -- so adding a script to the page is all it takes to have its blocks
 counted.
 
+It checks that every toolbox it spliced still parses as XML. `esp32.xml`
+keeps most of its `micropython` tree inside one long "blocks below need
+development" comment, and a category that only exists in there gets its
+generated copy written *inside* the comment, where the first `-->` ends it
+early and the rest of the file becomes markup. The fix is to leave that board
+out of `toolboxes:`; the check is what tells you to.
+
 It refuses one more thing: the same type assigned twice inside one
 hand-written file. The last assignment wins silently, so the other is a block
 somebody wrote and nobody can drag -- which is what had happened to the `uos`

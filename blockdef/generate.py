@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from xml.etree import ElementTree
 
 from .emit import emit_blocks_js, emit_category_xml, emit_generators_js
 from .spec import BlockdefError, Definition, load
@@ -51,6 +52,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
             written += _splice(path, definition)
 
     _check_toolbox_block_types_exist(root)
+    _check_toolboxes_are_well_formed(root, written)
 
     if verbose:
         blocks = sum(len(d.blocks) for d in definitions)
@@ -153,6 +155,26 @@ def _without_comments(js: str) -> str:
     js = re.sub(r'/\*[\s\S]*?\*/', '', js)
     return '\n'.join('' if line.lstrip().startswith('//') else line
                      for line in js.split('\n'))
+
+
+def _check_toolboxes_are_well_formed(root: Path, written: list[Path]) -> None:
+    """A spliced toolbox that no longer parses, caught before anything reads it.
+
+    The marker pair is found by text search, and `esp32.xml` keeps most of its
+    `micropython` tree inside one long "blocks below need development" XML
+    comment -- so a category listed in `toolboxes:` that only exists in there
+    gets its generated copy written *inside* the comment, where the first
+    `-->` ends it early and the rest of the file becomes markup. That is one
+    `make blocks` away at any time; this is the check that says so.
+    """
+    for path in dict.fromkeys(p for p in written if p.suffix == '.xml'):
+        try:
+            ElementTree.parse(path)
+        except ElementTree.ParseError as error:
+            raise BlockdefError(
+                f'{path}: splicing left XML that does not parse ({error}). If the marker '
+                f'pair sits inside an XML comment, the category is commented out on that '
+                f'board and does not belong in `toolboxes:`.') from None
 
 
 def _check_toolbox_block_types_exist(root: Path) -> None:

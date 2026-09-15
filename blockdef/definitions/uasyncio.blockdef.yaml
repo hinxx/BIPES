@@ -1,0 +1,226 @@
+# `uasyncio`, MicroPython's cooperative multitasking. Thirty-six blocks, and
+# the largest family left after the rest of the `micropython` tree went
+# through. Two things had to be decided before it could be written down.
+#
+# **`await`.** Most of these are coroutines: `uasyncio.sleep(1)` on its own
+# builds a coroutine object and throws it away, which is why every one of these
+# blocks used to do nothing at all. The ones the API says are coroutines emit
+# `await` now -- correct inside an `async def`, and a loud SyntaxError outside
+# one, which beats a silent no-op. Which of them take it is not a judgement:
+# `sleep`, `wait_for`, `gather`, `open_connection`, `start_server`,
+# `Event.wait`, `Lock.acquire`, `Stream.read`/`readline`/`drain`/`wait_closed`
+# and `Server.wait_closed` are coroutines; `run`, `create_task`, `Event.set`,
+# `Lock.release`, `Stream.write`/`close` and everything on `Loop` are not.
+#
+# **What `async def` is there to be inside of.** Nothing in BIPES writes one:
+# there is no block that opens an async function, and `exec_python` cannot hold
+# other blocks. So this category is honest Python that a BIPES program has no
+# way to reach yet -- which is the decision recorded in BACKLOG.md, and is
+# about the blocks, not about the format.
+#
+# The rest is the usual shape: `uasyncio.Event.set()` called methods on the
+# class. `Event` and `Lock` get constructor blocks; `Task`, `Stream` and
+# `Server` take the object as a socket, because the thing that makes one is
+# already a block here (`create_task`, `open_connection`, `start_server`); and
+# `Loop` goes through `uasyncio.get_event_loop()`, which returns the one loop
+# however often it is called.
+
+module: uasyncio
+colour: 0
+url: https://docs.micropython.org/en/latest/library/uasyncio.html
+import: {key: import_uasyncio, line: "import uasyncio"}
+
+category:
+  name: uasyncio
+  # esp32 has this category too, inside the "blocks below need development"
+  # XML comment that swallows most of its `micropython` tree, so it is not
+  # offered there -- the same as `esp32mod` and `_thread`.
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp8266,
+              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+
+blocks:
+  # --- the module ------------------------------------------------------------
+
+  - {type: uasyncio_create_task, label: create_task,
+     tooltip: "Run a coroutine in the background and hand back its Task.",
+     code: "uasyncio.create_task({coro})",
+     params: [{name: coro, label: coroutine, align: right}]}
+
+  - {type: uasyncio_run, label: run,
+     tooltip: "Run a coroutine to completion. This is how an async program starts.",
+     code: "uasyncio.run({coro})",
+     params: [{name: coro, label: coroutine, align: right}]}
+
+  - {type: uasyncio_sleep, label: sleep,
+     tooltip: "Let other tasks run for this many seconds.",
+     code: "await uasyncio.sleep({seconds})",
+     params: [{name: seconds, label: "seconds", type: Number, default: 1, align: right}]}
+
+  - {type: uasyncio_sleep_ms, label: sleep_ms,
+     tooltip: "Let other tasks run for this many milliseconds.",
+     code: "await uasyncio.sleep_ms({ms})",
+     params: [{name: ms, label: "milliseconds", type: Number, default: 100, align: right}]}
+
+  - {type: uasyncio_wait_for, kind: value, label: wait_for,
+     tooltip: "Wait for a coroutine, giving up after this long.",
+     code: "await uasyncio.wait_for({coro}, {timeout})",
+     params: [{name: coro, label: coroutine, align: right},
+              {name: timeout, label: "timeout (s)", type: Number, default: 5, align: right}]}
+
+  - {type: uasyncio_gather, kind: value, label: gather,
+     tooltip: "Wait for a list of coroutines and collect what they return.",
+     code: "await uasyncio.gather(*{coros})",
+     params: [{name: coros, label: coroutines, align: right}]}
+
+  - {type: uasyncio_open_connection, kind: value, label: open_connection,
+     tooltip: "Connect to a TCP server, giving back a reader and a writer.",
+     code: "await uasyncio.open_connection({host}, {port})",
+     params: [{name: host, label: host, type: String, default: bipes.net.br, align: right},
+              {name: port, label: port, type: Number, default: 80, align: right}]}
+
+  - {type: uasyncio_start_server, kind: value, label: start_server,
+     tooltip: "Listen for TCP connections, calling a coroutine for each one.",
+     code: "await uasyncio.start_server({callback}, {host}, {port})",
+     params: [{name: callback, label: call, align: right},
+              {name: host, label: on, type: String, default: 0.0.0.0, align: right},
+              {name: port, label: port, type: Number, default: 8080, align: right}]}
+
+  - {type: uasyncio_get_event_loop, kind: value, label: get_event_loop,
+     tooltip: "The event loop. The same one every time.",
+     code: "uasyncio.get_event_loop()"}
+
+  - {type: uasyncio_new_event_loop, kind: value, label: new_event_loop,
+     tooltip: "Throw the current event loop away and make a fresh one.",
+     code: "uasyncio.new_event_loop()"}
+
+  # --- Task ------------------------------------------------------------------
+
+  - {type: "uasyncio_Task.cancel", label: Task.cancel,
+     tooltip: "Stop a task that create_task started.",
+     code: "{task}.cancel()",
+     params: [{name: task, label: task, align: right}]}
+
+  # --- Event -----------------------------------------------------------------
+
+  - {type: uasyncio_Event, label: Event, instance: event,
+     tooltip: "A flag tasks can wait on.",
+     code: "{instance} = uasyncio.Event()"}
+
+  - {type: "uasyncio_Event.is_set", instance: event, fn: is_set, kind: value,
+     label: Event.is_set, tooltip: "True while the flag is set."}
+
+  - {type: "uasyncio_Event.set", instance: event, fn: set, label: Event.set,
+     tooltip: "Set the flag, waking everything waiting on it."}
+
+  - {type: "uasyncio_Event.clear", instance: event, fn: clear, label: Event.clear,
+     tooltip: "Clear the flag."}
+
+  - {type: "uasyncio_Event.wait", instance: event, label: Event.wait,
+     tooltip: "Wait until the flag is set.", code: "await {instance}.wait()"}
+
+  # --- Lock ------------------------------------------------------------------
+
+  - {type: uasyncio_Lock, label: Lock, instance: lock,
+     tooltip: "A lock only one task can hold at a time.",
+     code: "{instance} = uasyncio.Lock()"}
+
+  - {type: "uasyncio_Lock.locked", instance: lock, fn: locked, kind: value,
+     label: Lock.locked, tooltip: "True while somebody holds the lock."}
+
+  - {type: "uasyncio_Lock.acquire", instance: lock, label: Lock.acquire,
+     tooltip: "Wait for the lock and take it.", code: "await {instance}.acquire()"}
+
+  - {type: "uasyncio_Lock.release", instance: lock, fn: release, label: Lock.release,
+     tooltip: "Give the lock back."}
+
+  # --- Stream ----------------------------------------------------------------
+
+  - {type: "uasyncio_Stream.get_extra_info", kind: value, label: Stream.get_extra_info,
+     tooltip: "One detail of the connection, by name.",
+     code: "{stream}.get_extra_info({name})",
+     params: [{name: stream, label: stream, align: right},
+              {name: name, label: detail, type: String, default: peername, align: right}]}
+
+  - {type: "uasyncio_Stream.close", label: Stream.close,
+     tooltip: "Start closing the stream.", code: "{stream}.close()",
+     params: [{name: stream, label: stream, align: right}]}
+
+  - {type: "uasyncio_Stream.wait_closed", label: Stream.wait_closed,
+     tooltip: "Wait until the stream has finished closing.",
+     code: "await {stream}.wait_closed()",
+     params: [{name: stream, label: stream, align: right}]}
+
+  - {type: "uasyncio_Stream.read", kind: value, label: Stream.read,
+     tooltip: "Read up to this many bytes.",
+     code: "await {stream}.read({nbytes})",
+     params: [{name: stream, label: stream, align: right},
+              {name: nbytes, label: bytes, type: Number, default: 100, align: right}]}
+
+  - {type: "uasyncio_Stream.readline", kind: value, label: Stream.readline,
+     tooltip: "Read one line.", code: "await {stream}.readline()",
+     params: [{name: stream, label: stream, align: right}]}
+
+  - {type: "uasyncio_Stream.write", label: Stream.write,
+     tooltip: "Buffer data to send. Nothing leaves until drain.",
+     code: "{stream}.write({data})",
+     params: [{name: stream, label: stream, align: right},
+              {name: data, label: data, type: String, default: hello, align: right}]}
+
+  - {type: "uasyncio_Stream.drain", label: Stream.drain,
+     tooltip: "Send what write buffered.", code: "await {stream}.drain()",
+     params: [{name: stream, label: stream, align: right}]}
+
+  # --- Server ----------------------------------------------------------------
+
+  - {type: "uasyncio_Server.close", label: Server.close,
+     tooltip: "Stop accepting connections.", code: "{server}.close()",
+     params: [{name: server, label: server, align: right}]}
+
+  - {type: "uasyncio_Server.wait_closed", label: Server.wait_closed,
+     tooltip: "Wait until the server has finished closing.",
+     code: "await {server}.wait_closed()",
+     params: [{name: server, label: server, align: right}]}
+
+  # --- Loop ------------------------------------------------------------------
+  # `get_event_loop()` returns the one loop however often it is called, so
+  # these go through it rather than needing an object of their own.
+
+  - {type: "uasyncio_Loop.create_task", label: Loop.create_task,
+     tooltip: "Run a coroutine in the background, through the loop.",
+     code: "uasyncio.get_event_loop().create_task({coro})",
+     params: [{name: coro, label: coroutine, align: right}]}
+
+  - {type: "uasyncio_Loop.run_forever", label: Loop.run_forever,
+     tooltip: "Run the loop until something stops it.",
+     code: "uasyncio.get_event_loop().run_forever()"}
+
+  - {type: "uasyncio_Loop.run_until_complete", label: Loop.run_until_complete,
+     tooltip: "Run the loop until this coroutine finishes.",
+     code: "uasyncio.get_event_loop().run_until_complete({coro})",
+     params: [{name: coro, label: coroutine, align: right}]}
+
+  - {type: "uasyncio_Loop.stop", label: Loop.stop, tooltip: "Stop the loop.",
+     code: "uasyncio.get_event_loop().stop()"}
+
+  - {type: "uasyncio_Loop.close", label: Loop.close, tooltip: "Close the loop.",
+     code: "uasyncio.get_event_loop().close()"}
+
+  - {type: "uasyncio_Loop.set_exception_handler", label: Loop.set_exception_handler,
+     tooltip: "Call this function when a task raises.",
+     code: "uasyncio.get_event_loop().set_exception_handler({handler})",
+     params: [{name: handler, label: call, align: right}]}
+
+  - {type: "uasyncio_Loop.get_exception_handler", kind: value,
+     label: Loop.get_exception_handler,
+     tooltip: "The function set_exception_handler installed.",
+     code: "uasyncio.get_event_loop().get_exception_handler()"}
+
+  - {type: "uasyncio_Loop.default_exception_handler", label: Loop.default_exception_handler,
+     tooltip: "Handle a task's exception the way the loop would have.",
+     code: "uasyncio.get_event_loop().default_exception_handler({context})",
+     params: [{name: context, label: context, align: right}]}
+
+  - {type: "uasyncio_Loop.call_exception_handler", label: Loop.call_exception_handler,
+     tooltip: "Hand a context to whichever handler is installed.",
+     code: "uasyncio.get_event_loop().call_exception_handler({context})",
+     params: [{name: context, label: context, align: right}]}

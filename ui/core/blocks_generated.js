@@ -10500,6 +10500,572 @@ Blockly.Blocks['uart_any'] = {
   }
 };
 
+// ---- uasyncio (uasyncio.blockdef.yaml) ---------------------------------------
+
+Blockly.Blocks['uasyncio_create_task'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("create_task");
+    this.appendValueInput("coro")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutine");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Run a coroutine in the background and hand back its Task.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_run'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("run");
+    this.appendValueInput("coro")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutine");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Run a coroutine to completion. This is how an async program starts.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_sleep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("sleep");
+    this.appendValueInput("seconds")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("seconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Let other tasks run for this many seconds.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_sleep_ms'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("sleep_ms");
+    this.appendValueInput("ms")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("milliseconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Let other tasks run for this many milliseconds.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_wait_for'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("wait_for");
+    this.appendValueInput("coro")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutine");
+    this.appendValueInput("timeout")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("timeout (s)");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait for a coroutine, giving up after this long.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_gather'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("gather");
+    this.appendValueInput("coros")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutines");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait for a list of coroutines and collect what they return.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_open_connection'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("open_connection");
+    this.appendValueInput("host")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("host");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("port");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Connect to a TCP server, giving back a reader and a writer.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_start_server'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("start_server");
+    this.appendValueInput("callback")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.appendValueInput("host")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("on");
+    this.appendValueInput("port")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("port");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Listen for TCP connections, calling a coroutine for each one.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_get_event_loop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("get_event_loop");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The event loop. The same one every time.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_new_event_loop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("new_event_loop");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Throw the current event loop away and make a fresh one.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Task.cancel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Task.cancel");
+    this.appendValueInput("task")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("task");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Stop a task that create_task started.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Event'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Event");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A flag tasks can wait on.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Event.is_set'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Event.is_set");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("True while the flag is set.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Event.set'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Event.set");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Set the flag, waking everything waiting on it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Event.clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Event.clear");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Clear the flag.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Event.wait'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Event.wait");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait until the flag is set.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Lock'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Lock");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("A lock only one task can hold at a time.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Lock.locked'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Lock.locked");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("True while somebody holds the lock.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Lock.acquire'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Lock.acquire");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait for the lock and take it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Lock.release'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Lock.release");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Give the lock back.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.get_extra_info'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.get_extra_info");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.appendValueInput("name")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("detail");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("One detail of the connection, by name.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.close");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Start closing the stream.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.wait_closed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.wait_closed");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait until the stream has finished closing.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.read");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.appendValueInput("nbytes")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("bytes");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read up to this many bytes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.readline'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.readline");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("Read one line.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.write'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.write");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.appendValueInput("data")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("data");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Buffer data to send. Nothing leaves until drain.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Stream.drain'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Stream.drain");
+    this.appendValueInput("stream")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("stream");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Send what write buffered.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Server.close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Server.close");
+    this.appendValueInput("server")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("server");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Stop accepting connections.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Server.wait_closed'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Server.wait_closed");
+    this.appendValueInput("server")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("server");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Wait until the server has finished closing.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.create_task'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.create_task");
+    this.appendValueInput("coro")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutine");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Run a coroutine in the background, through the loop.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.run_forever'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.run_forever");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Run the loop until something stops it.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.run_until_complete'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.run_until_complete");
+    this.appendValueInput("coro")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("coroutine");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Run the loop until this coroutine finishes.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.stop");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Stop the loop.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.close'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.close");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Close the loop.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.set_exception_handler'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.set_exception_handler");
+    this.appendValueInput("handler")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("call");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Call this function when a task raises.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.get_exception_handler'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.get_exception_handler");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip("The function set_exception_handler installed.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.default_exception_handler'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.default_exception_handler");
+    this.appendValueInput("context")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("context");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Handle a task's exception the way the loop would have.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
+Blockly.Blocks['uasyncio_Loop.call_exception_handler'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Loop.call_exception_handler");
+    this.appendValueInput("context")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("context");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("Hand a context to whichever handler is installed.");
+    this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
+  }
+};
+
 // ---- ubinascii (ubinascii.blockdef.yaml) -------------------------------------
 
 Blockly.Blocks['ubinascii_hexlify'] = {

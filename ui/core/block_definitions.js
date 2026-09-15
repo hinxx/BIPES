@@ -1552,502 +1552,111 @@ Blockly.Blocks["machine.TimerWiPy_timerchannel.duty_cycle"] = {
 
 
 
-Blockly.Blocks["uasyncio_create_task"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" create_task");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: create_task(coro) Create a new task from the given coroutine and schedule it to run. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_run"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" run");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: run(coro) Create a new task from the given coroutine and run it until it completes. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_sleep"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" sleep");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sleep(t) Sleep for block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml seconds (can be a float). ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_sleep_ms"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" sleep_ms");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: sleep_ms(t) Sleep for block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js list.txt listT.txt onlyfunctions.txt tmp.txt toolbox.js toolbox.xml toolbox.xml.sample toolbox_custom.xml milliseconds. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_wait_for"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" wait_for");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: wait_for(awaitable, timeout) Wait for the *awaitable* to complete, but cancel it if it takes longer that *timeout* seconds. If *awaitable* is not a task then a task will be ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_gather"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" gather");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(" ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Task.cancel"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Task.cancel");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Task.cancel() Cancel the task by injecting a ``CancelledError`` into it. The task may or may not ignore this exception. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Event.is_set"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Event.is_set");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Event.is_set() Returns ``True`` if the event is set, ``False`` otherwise. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Event.set"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Event.set");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Event.set() Set the event. Any tasks waiting on the event will be scheduled to run. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Event.clear"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Event.clear");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Event.clear() Clear the event. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Event.wait"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Event.wait");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Event.wait() Wait for the event to be set. If the event is already set then it returns immediately. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Lock.locked"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Lock.locked");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Lock.locked() Returns ``True`` if the lock is locked, otherwise ``False``. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Lock.acquire"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Lock.acquire");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Lock.acquire() Wait for the lock to be in the unlocked state and then lock it in an atomic way. Only one task can acquire the lock at any one time. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Lock.release"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Lock.release");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Lock.release() Release the lock. If any tasks are waiting on the lock then the next one in the ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_open_connection"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" open_connection");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: open_connection(host, port) Open a TCP connection to the given *host* and *port*. The *host* address wi ll be ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_start_server"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" start_server");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: start_server(callback, host, port, backlog=5) Start a TCP server on the given *host* and *port*. The *callback* will be called with incoming, accepted connections, and be passed 2 arguments: reade ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.get_extra_info"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Stream.get_extra_info");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: Stream.get_extra_info(v) Get extra information about the stream, given by *v*. The valid values for *v* are: ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.close"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Stream.close");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Stream.close() Close the stream. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.wait_closed"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Stream.wait_closed");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Stream.wait_closed() Wait for the stream to close. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.read"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Stream.read");
-        this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: Stream.read(n) Read up to block_definitions.js block_definitions_custom.js functions.txt generate-blocks.sh generator_stubs.js generator_stubs_custom.js onlyfunctions.txt bytes and return them. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.readline"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Stream.readline");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: Stream.readline() Read a line and return it. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.write"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Stream.write");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Stream.write(buf) Accumulated *buf* to the output buffer. The data is only flushed when `Stream.drain` is called. It is recommended to call `Stream.drain` immediat ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Stream.drain"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Stream.drain");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Stream.drain() Drain (write) all buffered output data out to the stream. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Server.close"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Server.close");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Server.close() Close the server. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Server.wait_closed"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Server.wait_closed");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Server.wait_closed() Wait for the server to close. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_get_event_loop"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" get_event_loop");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. function:: get_event_loop() Return the event loop used to schedule and run tasks. See `Loop`. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_new_event_loop"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" new_event_loop");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. function:: new_event_loop() Reset the event loop and return it. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.create_task"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Loop.create_task");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.create_task(coro) Create a task from the given *coro* and return the new `Task` object. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.run_forever"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Loop.run_forever");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.run_forever() Run the event loop until `stop()` is called. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.run_until_complete"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Loop.run_until_complete");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.run_until_complete(awaitable) Run the given *awaitable* until it completes. If *awaitable* is not a task then it will be promoted to one. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.stop"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Loop.stop");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.stop() Stop the event loop. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.close"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Loop.close");
-    this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.close() Close the event loop. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.set_exception_handler"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Loop.set_exception_handler");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.set_exception_handler(handler) Set the exception handler to call when a Task raises an exception that is no t ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.get_exception_handler"] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(" Loop.get_exception_handler");
-    this.setColour(0);
-    this.setOutput(true, null);
- this.setTooltip(".. method:: Loop.get_exception_handler() Get the current exception handler. Returns the handler, or ``None`` if no custom handler is set. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.default_exception_handler"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Loop.default_exception_handler");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.default_exception_handler(context) The default exception handler that is called. ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
-
-
-
-Blockly.Blocks["uasyncio_Loop.call_exception_handler"] = {
-  init: function() {
-  this.appendValueInput("pIn")
-        .appendField(" Loop.call_exception_handler");
-        this.setColour(0);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
- this.setTooltip(".. method:: Loop.call_exception_handler(context) Call the current exception handler. The argument *context* is passed throug h and ");
- this.setHelpUrl("https://docs.micropython.org/en/latest/library/uasyncio.html");
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

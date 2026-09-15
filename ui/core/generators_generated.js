@@ -5292,6 +5292,266 @@ Blockly.Python['uart_any'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- uasyncio (uasyncio.blockdef.yaml) ---------------------------------------
+
+Blockly.Python['uasyncio_create_task'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coro_ = Blockly.Python.valueToCode(block, "coro", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.create_task(" + coro_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_run'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coro_ = Blockly.Python.valueToCode(block, "coro", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.run(" + coro_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_sleep'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var seconds_ = Blockly.Python.valueToCode(block, "seconds", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.sleep(" + seconds_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_sleep_ms'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var ms_ = Blockly.Python.valueToCode(block, "ms", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.sleep_ms(" + ms_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_wait_for'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coro_ = Blockly.Python.valueToCode(block, "coro", Blockly.Python.ORDER_ATOMIC);
+  var timeout_ = Blockly.Python.valueToCode(block, "timeout", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.wait_for(" + coro_ + ", " + timeout_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_gather'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coros_ = Blockly.Python.valueToCode(block, "coros", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.gather(*" + coros_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_open_connection'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var host_ = Blockly.Python.valueToCode(block, "host", Blockly.Python.ORDER_ATOMIC);
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.open_connection(" + host_ + ", " + port_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_start_server'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var callback_ = Blockly.Python.valueToCode(block, "callback", Blockly.Python.ORDER_ATOMIC);
+  var host_ = Blockly.Python.valueToCode(block, "host", Blockly.Python.ORDER_ATOMIC);
+  var port_ = Blockly.Python.valueToCode(block, "port", Blockly.Python.ORDER_ATOMIC);
+  var code = "await uasyncio.start_server(" + callback_ + ", " + host_ + ", " + port_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_get_event_loop'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.get_event_loop()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_new_event_loop'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.new_event_loop()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Task.cancel'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var task_ = Blockly.Python.valueToCode(block, "task", Blockly.Python.ORDER_ATOMIC);
+  var code = task_ + ".cancel()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Event'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "event = uasyncio.Event()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Event.is_set'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "event.is_set()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Event.set'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "event.set()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Event.clear'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "event.clear()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Event.wait'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "await event.wait()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Lock'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "lock = uasyncio.Lock()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Lock.locked'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "lock.locked()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Lock.acquire'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "await lock.acquire()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Lock.release'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "lock.release()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Stream.get_extra_info'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var name_ = Blockly.Python.valueToCode(block, "name", Blockly.Python.ORDER_ATOMIC);
+  var code = stream_ + ".get_extra_info(" + name_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Stream.close'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var code = stream_ + ".close()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Stream.wait_closed'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var code = "await " + stream_ + ".wait_closed()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Stream.read'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var nbytes_ = Blockly.Python.valueToCode(block, "nbytes", Blockly.Python.ORDER_ATOMIC);
+  var code = "await " + stream_ + ".read(" + nbytes_ + ")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Stream.readline'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var code = "await " + stream_ + ".readline()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Stream.write'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  var code = stream_ + ".write(" + data_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Stream.drain'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var stream_ = Blockly.Python.valueToCode(block, "stream", Blockly.Python.ORDER_ATOMIC);
+  var code = "await " + stream_ + ".drain()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Server.close'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var server_ = Blockly.Python.valueToCode(block, "server", Blockly.Python.ORDER_ATOMIC);
+  var code = server_ + ".close()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Server.wait_closed'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var server_ = Blockly.Python.valueToCode(block, "server", Blockly.Python.ORDER_ATOMIC);
+  var code = "await " + server_ + ".wait_closed()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.create_task'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coro_ = Blockly.Python.valueToCode(block, "coro", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.get_event_loop().create_task(" + coro_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.run_forever'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.get_event_loop().run_forever()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.run_until_complete'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var coro_ = Blockly.Python.valueToCode(block, "coro", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.get_event_loop().run_until_complete(" + coro_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.stop'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.get_event_loop().stop()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.close'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.get_event_loop().close()";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.set_exception_handler'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.get_event_loop().set_exception_handler(" + handler_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.get_exception_handler'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var code = "uasyncio.get_event_loop().get_exception_handler()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['uasyncio_Loop.default_exception_handler'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var context_ = Blockly.Python.valueToCode(block, "context", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.get_event_loop().default_exception_handler(" + context_ + ")";
+  return code + "\n";
+};
+
+Blockly.Python['uasyncio_Loop.call_exception_handler'] = function(block) {
+  Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
+  var context_ = Blockly.Python.valueToCode(block, "context", Blockly.Python.ORDER_ATOMIC);
+  var code = "uasyncio.get_event_loop().call_exception_handler(" + context_ + ")";
+  return code + "\n";
+};
+
 // ---- ubinascii (ubinascii.blockdef.yaml) -------------------------------------
 
 Blockly.Python['ubinascii_hexlify'] = function(block) {

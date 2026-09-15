@@ -4574,80 +4574,144 @@
   <block type="uarray_extend"></block>
 </category>
 <!-- /blockdef:uarray -->
+<!-- blockdef:uasyncio -->
 <category name="uasyncio">
-<block type="uasyncio_create_task">
-</block>
-<block type="uasyncio_run">
-</block>
-<block type="uasyncio_sleep">
-</block>
-<block type="uasyncio_sleep_ms">
-</block>
-<block type="uasyncio_wait_for">
-</block>
-<block type="uasyncio_gather">
-</block>
-<block type="uasyncio_Task.cancel">
-</block>
-<block type="uasyncio_Event.is_set">
-</block>
-<block type="uasyncio_Event.set">
-</block>
-<block type="uasyncio_Event.clear">
-</block>
-<block type="uasyncio_Event.wait">
-</block>
-<block type="uasyncio_Lock.locked">
-</block>
-<block type="uasyncio_Lock.acquire">
-</block>
-<block type="uasyncio_Lock.release">
-</block>
-<block type="uasyncio_open_connection">
-</block>
-<block type="uasyncio_start_server">
-</block>
-<block type="uasyncio_Stream.get_extra_info">
-</block>
-<block type="uasyncio_Stream.close">
-</block>
-<block type="uasyncio_Stream.wait_closed">
-</block>
-<block type="uasyncio_Stream.read">
-</block>
-<block type="uasyncio_Stream.readline">
-</block>
-<block type="uasyncio_Stream.write">
-</block>
-<block type="uasyncio_Stream.drain">
-</block>
-<block type="uasyncio_Server.close">
-</block>
-<block type="uasyncio_Server.wait_closed">
-</block>
-<block type="uasyncio_get_event_loop">
-</block>
-<block type="uasyncio_new_event_loop">
-</block>
-<block type="uasyncio_Loop.create_task">
-</block>
-<block type="uasyncio_Loop.run_forever">
-</block>
-<block type="uasyncio_Loop.run_until_complete">
-</block>
-<block type="uasyncio_Loop.stop">
-</block>
-<block type="uasyncio_Loop.close">
-</block>
-<block type="uasyncio_Loop.set_exception_handler">
-</block>
-<block type="uasyncio_Loop.get_exception_handler">
-</block>
-<block type="uasyncio_Loop.default_exception_handler">
-</block>
-<block type="uasyncio_Loop.call_exception_handler">
-</block>
+
+  <block type="uasyncio_create_task"></block>
+
+  <block type="uasyncio_run"></block>
+
+  <block type="uasyncio_sleep">
+    <value name="seconds">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_sleep_ms">
+    <value name="ms">
+      <shadow type="math_number">
+        <field name="NUM">100</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_wait_for">
+    <value name="timeout">
+      <shadow type="math_number">
+        <field name="NUM">5</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_gather"></block>
+
+  <block type="uasyncio_open_connection">
+    <value name="host">
+      <shadow type="text">
+        <field name="TEXT">bipes.net.br</field>
+      </shadow>
+    </value>
+    <value name="port">
+      <shadow type="math_number">
+        <field name="NUM">80</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_start_server">
+    <value name="host">
+      <shadow type="text">
+        <field name="TEXT">0.0.0.0</field>
+      </shadow>
+    </value>
+    <value name="port">
+      <shadow type="math_number">
+        <field name="NUM">8080</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_get_event_loop"></block>
+
+  <block type="uasyncio_new_event_loop"></block>
+
+  <block type="uasyncio_Task.cancel"></block>
+
+  <block type="uasyncio_Event"></block>
+
+  <block type="uasyncio_Event.is_set"></block>
+
+  <block type="uasyncio_Event.set"></block>
+
+  <block type="uasyncio_Event.clear"></block>
+
+  <block type="uasyncio_Event.wait"></block>
+
+  <block type="uasyncio_Lock"></block>
+
+  <block type="uasyncio_Lock.locked"></block>
+
+  <block type="uasyncio_Lock.acquire"></block>
+
+  <block type="uasyncio_Lock.release"></block>
+
+  <block type="uasyncio_Stream.get_extra_info">
+    <value name="name">
+      <shadow type="text">
+        <field name="TEXT">peername</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_Stream.close"></block>
+
+  <block type="uasyncio_Stream.wait_closed"></block>
+
+  <block type="uasyncio_Stream.read">
+    <value name="nbytes">
+      <shadow type="math_number">
+        <field name="NUM">100</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_Stream.readline"></block>
+
+  <block type="uasyncio_Stream.write">
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="uasyncio_Stream.drain"></block>
+
+  <block type="uasyncio_Server.close"></block>
+
+  <block type="uasyncio_Server.wait_closed"></block>
+
+  <block type="uasyncio_Loop.create_task"></block>
+
+  <block type="uasyncio_Loop.run_forever"></block>
+
+  <block type="uasyncio_Loop.run_until_complete"></block>
+
+  <block type="uasyncio_Loop.stop"></block>
+
+  <block type="uasyncio_Loop.close"></block>
+
+  <block type="uasyncio_Loop.set_exception_handler"></block>
+
+  <block type="uasyncio_Loop.get_exception_handler"></block>
+
+  <block type="uasyncio_Loop.default_exception_handler"></block>
+
+  <block type="uasyncio_Loop.call_exception_handler"></block>
 </category>
+<!-- /blockdef:uasyncio -->
 <!-- blockdef:ubinascii -->
 <category name="ubinascii">
 
