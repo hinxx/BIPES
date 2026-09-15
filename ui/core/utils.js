@@ -486,33 +486,49 @@ class files {
 
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
 
-        // Escape for a single-quoted Python literal pasted as one REPL line.
-        // Backslashes go first: every other rule below *adds* backslashes, and
-        // escaping after them would double up. Without this pass a source with
-        // any backslash in it -- b'\x00', '\r\n', a line continuation -- arrived
-        // with the escape already interpreted, so the file on the board was
-        // corrupt (and usually a SyntaxError).
-        let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/\\/g, '\\\\').replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    ');
-        UI ['progress'].start(parseInt(decoderUint8.length/Channel ['webserial'].packetSize) + 1);
+        // The file goes over as base64 in 384-byte pieces, one `f.write()` per
+        // piece. It used to be a single `f.write('<the whole file>')`, which
+        // has a ceiling: the REPL holds the whole line while it reads and
+        // echoes it, and a file much past ~27 KB ends up on the board as a
+        // 0-byte file -- open() truncated it before the write ever failed.
+        // Each line here is about 540 characters whatever the file's size.
+        //
+        // Sending bytes rather than a Python string literal also means nothing
+        // needs escaping: `'wb'` and `a2b_base64` carry backslashes, quotes,
+        // tabs, CRLFs and non-ASCII through untouched. The escaping pass this
+        // replaces got the backslashes right only after a bug that corrupted
+        // every library containing one.
+        let cmds_ = ['import binascii\r'];
+
+	//Workaround for ESP32S2 using CircuitPython
+	//Needs to remount filesystem in write mode
+	if (UI ['workspace'].selector.value == "ESP32S2") {
+		cmds_.push ("import storage\r");
+		cmds_.push ("storage.remount(\"/\", False)\r");
+	} 
+
+        cmds_.push (`f=open('${this.put_file_name}', 'wb')\r`);
+        for (let off_ = 0; off_ < this.put_file_data.length; off_ += 384) {
+          let chunk_ = this.put_file_data.subarray (off_, off_ + 384);
+          let bin_ = '';
+          for (let i = 0; i < chunk_.length; i++)
+            bin_ += String.fromCharCode (chunk_[i]);
+          cmds_.push (`f.write(binascii.a2b_base64('${btoa (bin_)}'))\r`);
+        }
+        cmds_.push ("f.close()\r");
+
+        let total_ = cmds_.reduce ((sum, line) => sum + line.length, 0);
+        UI ['progress'].start(parseInt(total_/Channel ['webserial'].packetSize) + 1);
 
         //ctrl-C twice: interrupt any running program
         mux.clearBuffer ();
         mux.bufferUnshift ('\r\x03\x03');
 
-        mux.bufferPush ("import struct\r");
+        for (let i = 0; i < cmds_.length; i++)
+          mux.bufferPush (cmds_[i], i == cmds_.length - 1
+            ? () => {files.update_file_status(`Sent ${Files.put_file_data.length} bytes`)}
+            : undefined);
 
-	//Workaround for ESP32S2 using CircuitPython
-	//Needs to remount filesystem in write mode
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		mux.bufferPush ("import storage\r");
-		mux.bufferPush ("storage.remount(\"/\", False)\r");
-	} 
-
-        mux.bufferPush (`f=open('${this.put_file_name}', 'w')\r`);
-
-        mux.bufferPush (`f.write('${decoderUint8}')\r`, () => {files.update_file_status(`Sent ${Files.put_file_data.length} bytes`)});
-
-        mux.bufferPush ("f.close()\r");
         mux.bufferPush ('\r\r\r');
         files.update_file_status(`File ${this.put_file_name} sent.`);
       break;
