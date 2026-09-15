@@ -12,6 +12,15 @@ Blockly.Python.blockdefUnquote_ = function(code) {
   return match ? match[1].replace(/\\(['"\\])/g, '$1') : code;
 };
 
+// `kind: colour` on a param: the field holds "#ff0000" and the board wants
+// (255,0,0), which is what every colour block in the tree emits.
+Blockly.Python.blockdefColourRGB_ = function(hex) {
+  var match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(String(hex));
+  if (!match) return '(0,0,0)';
+  return '(' + parseInt(match[1], 16) + ',' + parseInt(match[2], 16) + ',' +
+         parseInt(match[3], 16) + ')';
+};
+
 // `integer: true` on a param: the board cannot take a float there, so warn on
 // the block rather than letting the program fail on the device. Guarded because
 // `Tool` belongs to the page, and code is also generated without one.
@@ -32,6 +41,26 @@ Blockly.Python.blockdefWarnIfFloat_ = function(block, values) {
 // also generated in places where the page around it is not there.
 Blockly.Python.blockdefBoard_ = function() {
   try { return UI['workspace'].selector.value; } catch (e) { return ''; }
+};
+
+// ---- In/Out Pins (adc.blockdef.yaml) -----------------------------------------
+
+Blockly.Python['adc'] = function(block) {
+  Blockly.Python.definitions_["import_adc"] = "from machine import ADC";
+  Blockly.Python.definitions_["adc_pins"] = "adc_pins = {}";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_["init_adc_" + pin_] = "adc_pins[" + pin_ + "] = ADC(" + pin_ + ")";
+  var code = "adc_pins[" + pin_ + "].read()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['adc_pico'] = function(block) {
+  Blockly.Python.definitions_["import_adc"] = "from machine import ADC";
+  Blockly.Python.definitions_["adc_pins"] = "adc_pins = {}";
+  var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_["init_adc_" + pin_] = "adc_pins[" + pin_ + "] = ADC(" + pin_ + ")";
+  var code = "adc_pins[" + pin_ + "].read_u16()";
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
@@ -3680,6 +3709,12 @@ Blockly.Python['neopixel_init'] = function(block) {
   return code + "\n";
 };
 
+Blockly.Python['neopixel_color_colors'] = function(block) {
+  var color_ = Blockly.Python.blockdefColourRGB_(block.getFieldValue("color"));
+  var code = color_;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Python['neopixel_control'] = function(block) {
   Blockly.Python.definitions_["import_pin"] = "from machine import Pin";
   Blockly.Python.definitions_["import_neopixel"] = "import neopixel";
@@ -4523,6 +4558,14 @@ Blockly.Python['st7789_bl_power'] = function(block) {
   var val_ = Blockly.Python.valueToCode(block, "val", Blockly.Python.ORDER_ATOMIC);
   var code = "st7789_blp.duty(" + val_ + ")";
   return code + "\n";
+};
+
+Blockly.Python['st7789_color_colors'] = function(block) {
+  Blockly.Python.definitions_["import_machine"] = "import machine";
+  Blockly.Python.definitions_["import_st7789py"] = "import st7789py";
+  var color_ = Blockly.Python.blockdefColourRGB_(block.getFieldValue("color"));
+  var code = color_;
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['st7789_fill'] = function(block) {

@@ -54,7 +54,7 @@ ALIGNS = {'left': 'Blockly.ALIGN_LEFT',
 # A param is rendered as one of these. `input` is a socket another block plugs
 # into; the rest are fields on the block itself.
 PARAM_KINDS = frozenset({'input', 'dropdown', 'number', 'text', 'checkbox', 'variable',
-                         'angle', 'statements'})
+                         'angle', 'colour', 'statements'})
 
 # The two kinds that are sockets rather than fields: `input` takes one block that
 # returns a value, `statements` takes a stack of blocks that do something.

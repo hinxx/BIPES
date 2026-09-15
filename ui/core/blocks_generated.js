@@ -2,6 +2,32 @@
 // Run `make blocks` after changing one. Hand-written blocks live in
 // block_definitions.js; a block belongs in exactly one of the two.
 
+// ---- In/Out Pins (adc.blockdef.yaml) -----------------------------------------
+
+Blockly.Blocks['adc'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .appendField(MSG["read_analog_pin"]);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read ADC input of specified pin");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['adc_pico'] = {
+  init: function() {
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .appendField("Read RPI Pico ADC Input");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("Read ADC input of specified pin from Raspberry Pi Pico");
+    this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
 // ---- AHT10/20 Sensor (ahtx0.blockdef.yaml) -----------------------------------
 
 Blockly.Blocks['aht_init'] = {
@@ -7406,6 +7432,19 @@ Blockly.Blocks['neopixel_init'] = {
   }
 };
 
+Blockly.Blocks['neopixel_color_colors'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Color")
+        .appendField(new Blockly.FieldColour("#ff0000"), "color");
+    this.setOutput(true, null);
+    this.setColour("olive");
+    this.setInputsInline(true);
+    this.setTooltip("NeoPixel LED Color");
+    this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
+  }
+};
+
 Blockly.Blocks['neopixel_control'] = {
   init: function() {
     this.appendDummyInput()
@@ -9088,6 +9127,19 @@ Blockly.Blocks['st7789_bl_power'] = {
     this.setColour("olive");
     this.setTooltip("Set ST7789 backlight intensity");
     this.setHelpUrl("http://www.bipes.net.br");
+  }
+};
+
+Blockly.Blocks['st7789_color_colors'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("ST7789 Color")
+        .appendField(new Blockly.FieldColour("#ff0000"), "color");
+    this.setOutput(true, null);
+    this.setColour("olive");
+    this.setInputsInline(true);
+    this.setTooltip("ST7789 Color");
+    this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
   }
 };
 

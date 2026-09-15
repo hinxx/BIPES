@@ -33,6 +33,15 @@ Blockly.Python.blockdefUnquote_ = function(code) {
   return match ? match[1].replace(/\\\\(['"\\\\])/g, '$1') : code;
 };
 
+// `kind: colour` on a param: the field holds "#ff0000" and the board wants
+// (255,0,0), which is what every colour block in the tree emits.
+Blockly.Python.blockdefColourRGB_ = function(hex) {
+  var match = /^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(String(hex));
+  if (!match) return '(0,0,0)';
+  return '(' + parseInt(match[1], 16) + ',' + parseInt(match[2], 16) + ',' +
+         parseInt(match[3], 16) + ')';
+};
+
 // `integer: true` on a param: the board cannot take a float there, so warn on
 // the block rather than letting the program fail on the device. Guarded because
 // `Tool` belongs to the page, and code is also generated without one.
@@ -188,6 +197,8 @@ def _field_js(param: Param) -> str:
         return f'new Blockly.FieldCheckbox({_js("TRUE" if param.default else "FALSE")})'
     if param.kind == 'angle':
         return f'new Blockly.FieldAngle({_number(param.default if param.default is not None else 0)})'
+    if param.kind == 'colour':
+        return f'new Blockly.FieldColour({_js(str(param.default or "#ff0000"))})'
     if param.kind == 'variable':
         return f'new Blockly.FieldVariable({_js(str(param.default or param.name))})'
     return f'new Blockly.FieldTextInput({_js("" if param.default is None else str(param.default))})'
@@ -318,6 +329,9 @@ def _read_js(param: Param) -> str:
             # quotes a text block wraps it in have to come back off.
             read = f'Blockly.Python.blockdefUnquote_({read})'
         return read
+    if param.kind == 'colour':
+        return (f'Blockly.Python.blockdefColourRGB_('
+                f'block.getFieldValue({_js(param.name)}))')
     if param.kind == 'variable':
         return (f'Blockly.Python.nameDB_.getName(block.getFieldValue({_js(param.name)}), '
                 f'Blockly.VARIABLE_CATEGORY_NAME)')

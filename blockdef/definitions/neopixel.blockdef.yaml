@@ -2,9 +2,11 @@
 # it (r,g,b) tuples -- `neopixel_color_colors` from a colour picker,
 # `neopixel_color_numbers` from three sockets, `HSL_to_RGB` from hue.
 #
-# Three blocks stay hand-written: the two colour blocks and HSL_to_RGB all
-# restyle themselves in the colour they are emitting (a `styleBlock` method),
-# and the picker reads a FieldColour. Only their toolbox entries are ours.
+# Two blocks stay hand-written: `neopixel_color_numbers` and `HSL_to_RGB`
+# restyle themselves in the colour they are emitting, through a `styleBlock`
+# method that has no equivalent here. The picker, `neopixel_color_colors`, does
+# not -- it only reads a colour field and writes the tuple -- so it is
+# generated, on `kind: colour`.
 #
 # What the eleven boards disagree about, recorded here rather than in eleven
 # files: esp32S2 is the only board with a CircuitPython single LED on board, so
@@ -97,7 +99,15 @@ blocks:
       - {name: green, default: 152}
       - {name: blue,  default: 220}
 
-  - {type: neopixel_color_colors, external: true}
+  - type: neopixel_color_colors
+    kind: value
+    inline: true
+    label: []
+    tooltip: NeoPixel LED Color
+    url: https://bipes.net.br/wp/?page_id=177
+    code: "{color}"
+    params:
+      - {name: color, label: Color, kind: colour, default: "#ff0000"}
 
   - type: HSL_to_RGB
     external: true

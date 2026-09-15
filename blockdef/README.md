@@ -242,7 +242,7 @@ as usual.
 | --- | --- |
 | `name` | the input/field name, and what `{name}` means in `code`. |
 | `label` | text before it -- a string, or `{msg: key}` / `{field: NAME}`. |
-| `kind` | `input` (default, a socket for one value) · `statements` (a socket for a stack of blocks) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle`. |
+| `kind` | `input` (default, a socket for one value) · `statements` (a socket for a stack of blocks) · `dropdown` · `number` · `text` · `checkbox` · `variable` · `angle` · `colour` (a picker; `{name}` is the `(r,g,b)` the board wants, not the hex). |
 | `type` | `setCheck()` for an input; also picks the shadow block. |
 | `default` | the shadow's value, or the field's initial value. |
 | `pin` | `true` → the shadow is a `pinout` block rather than a number. |

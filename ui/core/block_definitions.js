@@ -159,18 +159,6 @@ Blockly.Blocks['timer'] = {
 
 
 
-Blockly.Blocks['adc'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        //.appendField("Read ADC Input");
-        .appendField(MSG["read_analog_pin"]);
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Read ADC input of specified pin");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 /*
 Blockly.Blocks['esp32_adc'] = {
@@ -223,17 +211,6 @@ Blockly.Blocks['esp32_adc'] = {
 
 
 
-Blockly.Blocks['adc_pico'] = {
-  init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        .appendField("Read RPI Pico ADC Input");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Read ADC input of specified pin from Raspberry Pi Pico");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 
@@ -2548,18 +2525,6 @@ Blockly.Blocks['neopixel_color_numbers'] = {
   }
 };
 
-Blockly.Blocks['neopixel_color_colors'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Color")
-        .appendField(new Blockly.FieldColour("#ff0000"), "color");
-    this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour("olive");
- this.setTooltip("NeoPixel LED Color");
- this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
-  }
-};
 
 Blockly.Blocks['HSL_to_RGB'] = {
   init: function  () {
@@ -2752,18 +2717,6 @@ Blockly.Blocks['st7789_color_numbers'] = {
   }
 };
 
-Blockly.Blocks['st7789_color_colors'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("ST7789 Color")
-        .appendField(new Blockly.FieldColour("#ff0000"), "color");
-    this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour("olive");
- this.setTooltip("ST7789 Color");
- this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
-  }
-};
 
 
 

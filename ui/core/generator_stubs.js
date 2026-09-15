@@ -121,27 +121,9 @@ Blockly.Python['esp32_adc'] = function(block) {
 
 
 
-Blockly.Python['adc_pico'] = function(block) {
-  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var x = value_pin.replace('(','').replace(')','');
-
-  Blockly.Python.definitions_['init_adc' + x] = 'adc' + x + '=ADC(' + x + ')';
-
-  var code = 'adc' + x + '.read_u16()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 
-Blockly.Python['adc'] = function(block) {
-  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_[`init_adc_${value_pin}`] = 'adc' + value_pin + '=ADC(' + value_pin + ')';
-  var code = 'adc' + value_pin + '.read()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 Blockly.Python['gpio_interrupt'] = function(block) {
@@ -1975,12 +1957,6 @@ Blockly.Python['neopixel_color_numbers'] = function(block) {
 };
 
 
-Blockly.Python['neopixel_color_colors'] = function(block) {
-  var color = block.getFieldValue('color');
-  var h = Tool.HEX2RGB(color);
-  var code = `(${h.r},${h.g},${h.b})`;
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 
 Blockly.Python['HSL_to_RGB'] = function(block) {
@@ -2066,12 +2042,6 @@ Blockly.Python['st7789_color_numbers'] = function(block) {
 };
 
 
-Blockly.Python['st7789_color_colors'] = function(block) {
-  var color = block.getFieldValue('color');
-  var h = Tool.HEX2RGB(color);
-  var code = `(${h.r},${h.g},${h.b})`;
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 Blockly.Python['control_pid.__init__'] = function(block) {
   var number_id = block.getFieldValue('ID');

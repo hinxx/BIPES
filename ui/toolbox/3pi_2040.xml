@@ -634,13 +634,15 @@
     </block>
     <!-- /blockdef:gpio -->
 
+    <!-- blockdef:adc -->
     <block type="adc_pico">
- <value name="pin">
-     <shadow type="pinout">
-          <field name="PIN"></field>
+      <value name="pin">
+        <shadow type="pinout">
+          <field name="PIN">26</field>
         </shadow>
       </value>
     </block>
+    <!-- /blockdef:adc -->
 
 
     <!-- blockdef:pwm -->

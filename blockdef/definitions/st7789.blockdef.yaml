@@ -4,10 +4,10 @@
 # The sibling category is `st7789_tft`: the same panel through russhughes'
 # compiled st7789 module, which is a different object with a different API.
 #
-# Two blocks stay hand-written. `st7789_color_colors` reads a `FieldColour` and
-# converts it with `Tool.HEX2RGB`, and `st7789_color_numbers` restyles itself in
-# the colour it is emitting -- a `styleBlock` method. Only their toolbox entries
-# are generated.
+# `st7789_color_numbers` stays hand-written: it restyles itself in the colour
+# it is emitting, through a `styleBlock` method that has no equivalent here.
+# `st7789_color_colors` only reads a colour field and writes the tuple, which
+# is `kind: colour`.
 
 module: st7789py
 colour: olive
@@ -67,7 +67,15 @@ blocks:
       - {name: green, default: 152}
       - {name: blue,  default: 220}
 
-  - {type: st7789_color_colors, external: true}
+  - type: st7789_color_colors
+    kind: value
+    inline: true
+    label: []
+    tooltip: ST7789 Color
+    url: https://bipes.net.br/wp/?page_id=177
+    code: "{color}"
+    params:
+      - {name: color, label: ST7789 Color, kind: colour, default: "#ff0000"}
 
   - type: st7789_fill
     label: Fill ST7789 display

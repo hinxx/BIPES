@@ -1,0 +1,51 @@
+# The two analog-read blocks of `In/Out Pins`, a `fragment:` of their own
+# because a `pinout` entry sits between them and the GPIO blocks on one board.
+#
+# Both named their ADC object after the pin by splicing the generated code into
+# an identifier -- `adc0 = ADC(0)`, and `adc_pico` stripped the parentheses off
+# first -- which is the pattern that broke `gpio_set`, the PWM blocks and the
+# Snek blocks whenever the socket held anything but a literal. One dict keyed
+# by the pin, as everywhere else.
+#
+# `adc_pico` also registered `from machine import Pin` and never used it.
+#
+# `esp32_adc` is the third analog block and stays hand-written: it is a
+# *different shape* on the ESP32S2, with attenuation and width dropdowns that
+# the CircuitPython version does not have, and the format describes one block
+# at a time.
+
+module: machine
+colour: 230
+url: http://www.bipes.net.br
+import:
+  - {key: import_adc, line: "from machine import ADC"}
+  - {key: adc_pins,   line: "adc_pins = {}"}
+
+category:
+  name: In/Out Pins
+  fragment: true
+  toolboxes: [3pi_2040, default, esp8266, makernano, makerpi, rpi_pico,
+              rpi_pico_w, stm32]
+
+blocks:
+  - type: adc
+    kind: value
+    label: []
+    tooltip: Read ADC input of specified pin
+    boards: [default, esp8266, stm32]
+    import:
+      - {key: "init_adc_{pin}", line: "adc_pins[{pin}] = ADC({pin})"}
+    code: "adc_pins[{pin}].read()"
+    params:
+      - {name: pin, label: {msg: read_analog_pin}, type: Number, default: 0}
+
+  - type: adc_pico
+    kind: value
+    label: []
+    tooltip: Read ADC input of specified pin from Raspberry Pi Pico
+    boards: [3pi_2040, makernano, makerpi, rpi_pico, rpi_pico_w]
+    import:
+      - {key: "init_adc_{pin}", line: "adc_pins[{pin}] = ADC({pin})"}
+    code: "adc_pins[{pin}].read_u16()"
+    params:
+      - {name: pin, label: Read RPI Pico ADC Input, type: Number, pin: true, default: 26}
