@@ -704,6 +704,8 @@ Blockly.Blocks['convertTo'] = {
   }
 };
 Blockly.Python['convertTo'] = function(block) {
+  Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+
   var input = Blockly.Python.valueToCode(block, 'input', Blockly.Python.ORDER_ATOMIC);
   var flag = block.getFieldValue('flag');
   var code = "np.asarray(" + input + ", dtype="+flag+")";
@@ -793,6 +795,8 @@ Blockly.Blocks['imgsize'] = {
   }
 };
 Blockly.Python['imgsize'] = function(block) {
+  Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var code = "np.shape(" + image + ")[:2]";
   return [code, Blockly.Python.ORDER_NONE];
@@ -815,6 +819,8 @@ Blockly.Blocks['load'] = {
   renameVar: function(oldName,newName) {if (Blockly.Names.equals(oldName,this.getFieldValue('image'))){this.setFieldValue(newName,'image');}},
 };
 Blockly.Python['load'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.variableName_(block, 'image');
   var filename = block.getFieldValue('filename');
   var grey = block.getFieldValue('grey') == 'TRUE';
@@ -838,6 +844,8 @@ Blockly.Blocks['imshow'] = {
   }
 };
 Blockly.Python['imshow'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var windowname = block.getFieldValue('windowname');
   var code = "cv2.imshow('" + windowname + "',"+ image +")\r\n";
@@ -863,6 +871,8 @@ Blockly.Blocks['waitkey'] = {
   }
 };
 Blockly.Python['waitkey'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var m = block.getFieldValue('millis');
   var k = block.getFieldValue('key');
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
@@ -904,6 +914,8 @@ Blockly.Blocks['onmouse'] = {
   },
 };
 Blockly.Python['onmouse'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var w = Blockly.Python.variableName_(block, 'windowname');
   var k = block.getFieldValue('key');
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
@@ -932,6 +944,8 @@ Blockly.Blocks['cascade'] = {
   },
 };
 Blockly.Python['cascade'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var text_input = block.getFieldValue('xmlfile');
   var cascade = Blockly.Python.variableName_(block, 'cascade');
   var code = cascade + " = cv2.CascadeClassifier('"+text_input+"')\n" +
@@ -1056,7 +1070,7 @@ Blockly.Python['videocapture'] = function(block) {
 	     */
 
 
-  Blockly.Python.definitions_['import_cv2'] = 'import cv2 \nimport numpy as np';
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
 
   var text_input = block.getFieldValue('input');
   var statements_name = Blockly.Python.statementToCode(block, 'statements');
@@ -1130,6 +1144,8 @@ Blockly.Blocks['VideoWriter_write'] = {
 
 
 Blockly.Python['VideoWriter_VideoWriter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var writer = Blockly.Python.variableName_(block, 'writer');
   var filename = block.getFieldValue('filename')
   var fourcc = block.getFieldValue('fourcc')
@@ -1163,6 +1179,8 @@ Blockly.Blocks['cvtcolor'] = {
   }
 };
 Blockly.Python['cvtcolor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var flag = block.getFieldValue('flag');
   var code = "cv2.cvtColor("+img+","+flag+")";
@@ -1188,6 +1206,8 @@ Blockly.Blocks['threshold'] = {
   }
 };
 Blockly.Python['threshold'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var flag = block.getFieldValue('flag');
   var thresh_val = block.getFieldValue('thresh_val');
@@ -1212,6 +1232,8 @@ Blockly.Blocks['newimage'] = {
   }
 };
 Blockly.Python['newimage'] = function(block) {
+  Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+
   var w = block.getFieldValue('w');
   var h = block.getFieldValue('h');
   var t = block.getFieldValue('type');

@@ -1,4 +1,6 @@
 Blockly.Python['core_borderInterpolate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var p = block.getFieldValue('p');
   var len = block.getFieldValue('len');
   var borderType = block.getFieldValue('borderType');
@@ -6,6 +8,8 @@ Blockly.Python['core_borderInterpolate'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_copyMakeBorder'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var top = block.getFieldValue('top');
   var bottom = block.getFieldValue('bottom');
@@ -16,30 +20,40 @@ Blockly.Python['core_copyMakeBorder'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_add'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.add("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_subtract'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.subtract("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_multiply'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.multiply("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_divide'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.divide("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_scaleAdd'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var alpha = block.getFieldValue('alpha');
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
@@ -47,6 +61,8 @@ Blockly.Python['core_scaleAdd'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_addWeighted'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var alpha = block.getFieldValue('alpha');
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
@@ -56,58 +72,80 @@ Blockly.Python['core_addWeighted'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_convertScaleAbs'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convertScaleAbs("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_convertFp16'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convertFp16("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_LUT'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var lut = Blockly.Python.valueToCode(block, 'lut', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.LUT("+src+","+lut+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_sum'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.sum("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_countNonZero'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.countNonZero("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_findNonZero'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.findNonZero("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_mean'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.mean("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_meanStdDev'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.meanStdDev("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_norm'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.norm("+src1+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PSNR'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.PSNR("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_batchDistance'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var dtype = block.getFieldValue('dtype');
@@ -115,12 +153,16 @@ Blockly.Python['core_batchDistance'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_normalize'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.normalize("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_reduce'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dim = block.getFieldValue('dim');
   var rtype = block.getFieldValue('rtype');
@@ -128,16 +170,22 @@ Blockly.Python['core_reduce'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_merge'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var mv = Blockly.Python.valueToCode(block, 'mv', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.merge("+mv+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_split'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var m = Blockly.Python.valueToCode(block, 'm', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.split("+m+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_mixChannels'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var fromTo = Blockly.Python.valueToCode(block, 'fromTo', Blockly.Python.ORDER_ATOMIC);
@@ -145,12 +193,16 @@ Blockly.Python['core_mixChannels'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_extractChannel'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var coi = block.getFieldValue('coi');
   var code = "cv2.extractChannel("+src+","+coi+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_insertChannel'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var coi = block.getFieldValue('coi');
@@ -158,18 +210,24 @@ Blockly.Python['core_insertChannel'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_flip'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var flipCode = block.getFieldValue('flipCode');
   var code = "cv2.flip("+src+","+flipCode+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_rotate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var rotateCode = block.getFieldValue('rotateCode');
   var code = "cv2.rotate("+src+","+rotateCode+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_repeat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ny = block.getFieldValue('ny');
   var nx = block.getFieldValue('nx');
@@ -177,51 +235,69 @@ Blockly.Python['core_repeat'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_hconcat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.hconcat("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_vconcat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.vconcat("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_bitwise_and'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.bitwise_and("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_bitwise_or'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.bitwise_or("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_bitwise_xor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.bitwise_xor("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_bitwise_not'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.bitwise_not("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_absdiff'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.absdiff("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_copyTo'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.copyTo("+src+","+mask+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_inRange'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var lowerb = Blockly.Python.valueToCode(block, 'lowerb', Blockly.Python.ORDER_ATOMIC);
   var upperb = Blockly.Python.valueToCode(block, 'upperb', Blockly.Python.ORDER_ATOMIC);
@@ -229,6 +305,8 @@ Blockly.Python['core_inRange'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_compare'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var cmpop = block.getFieldValue('cmpop');
@@ -236,68 +314,92 @@ Blockly.Python['core_compare'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_min'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.min("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_max'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.max("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_sqrt'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.sqrt("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_pow'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var power = block.getFieldValue('power');
   var code = "cv2.pow("+src+","+power+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_exp'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.exp("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_log'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.log("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_polarToCart'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var magnitude = Blockly.Python.valueToCode(block, 'magnitude', Blockly.Python.ORDER_ATOMIC);
   var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.polarToCart("+magnitude+","+angle+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_cartToPolar'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
   var y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.cartToPolar("+x+","+y+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_phase'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
   var y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.phase("+x+","+y+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_magnitude'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
   var y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.magnitude("+x+","+y+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_patchNaNs'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var a = Blockly.Python.valueToCode(block, 'a', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.patchNaNs("+a+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_gemm'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var alpha = block.getFieldValue('alpha');
@@ -307,92 +409,126 @@ Blockly.Python['core_gemm'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_mulTransposed'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var aTa = Blockly.Python.valueToCode(block, 'aTa', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.mulTransposed("+src+","+aTa+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_transpose'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.transpose("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_transform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var m = Blockly.Python.valueToCode(block, 'm', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.transform("+src+","+m+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_perspectiveTransform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var m = Blockly.Python.valueToCode(block, 'm', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.perspectiveTransform("+src+","+m+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_completeSymm'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var m = Blockly.Python.valueToCode(block, 'm', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.completeSymm("+m+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_setIdentity'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var mtx = Blockly.Python.valueToCode(block, 'mtx', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.setIdentity("+mtx+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_determinant'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var mtx = Blockly.Python.valueToCode(block, 'mtx', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.determinant("+mtx+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_trace'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var mtx = Blockly.Python.valueToCode(block, 'mtx', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.trace("+mtx+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_invert'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.invert("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_solve'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.solve("+src1+","+src2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_sort'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
   var code = "cv2.sort("+src+","+flags+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_sortIdx'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
   var code = "cv2.sortIdx("+src+","+flags+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_solveCubic'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var coeffs = Blockly.Python.valueToCode(block, 'coeffs', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.solveCubic("+coeffs+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_solvePoly'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var coeffs = Blockly.Python.valueToCode(block, 'coeffs', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.solvePoly("+coeffs+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_eigen'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.eigen("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_eigenNonSymmetric'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.eigenNonSymmetric("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_calcCovarMatrix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var samples = Blockly.Python.valueToCode(block, 'samples', Blockly.Python.ORDER_ATOMIC);
   var mean = Blockly.Python.valueToCode(block, 'mean', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
@@ -400,12 +536,16 @@ Blockly.Python['core_calcCovarMatrix'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PCACompute'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
   var mean = Blockly.Python.valueToCode(block, 'mean', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.PCACompute("+data+","+mean+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PCAProject'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
   var mean = Blockly.Python.valueToCode(block, 'mean', Blockly.Python.ORDER_ATOMIC);
   var eigenvectors = Blockly.Python.valueToCode(block, 'eigenvectors', Blockly.Python.ORDER_ATOMIC);
@@ -413,6 +553,8 @@ Blockly.Python['core_PCAProject'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PCABackProject'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
   var mean = Blockly.Python.valueToCode(block, 'mean', Blockly.Python.ORDER_ATOMIC);
   var eigenvectors = Blockly.Python.valueToCode(block, 'eigenvectors', Blockly.Python.ORDER_ATOMIC);
@@ -420,11 +562,15 @@ Blockly.Python['core_PCABackProject'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_SVDecomp'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.SVDecomp("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_SVBackSubst'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var w = Blockly.Python.valueToCode(block, 'w', Blockly.Python.ORDER_ATOMIC);
   var u = Blockly.Python.valueToCode(block, 'u', Blockly.Python.ORDER_ATOMIC);
   var vt = Blockly.Python.valueToCode(block, 'vt', Blockly.Python.ORDER_ATOMIC);
@@ -433,6 +579,8 @@ Blockly.Python['core_SVBackSubst'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_Mahalanobis'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var v1 = Blockly.Python.valueToCode(block, 'v1', Blockly.Python.ORDER_ATOMIC);
   var v2 = Blockly.Python.valueToCode(block, 'v2', Blockly.Python.ORDER_ATOMIC);
   var icovar = Blockly.Python.valueToCode(block, 'icovar', Blockly.Python.ORDER_ATOMIC);
@@ -440,26 +588,36 @@ Blockly.Python['core_Mahalanobis'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_dft'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.dft("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_idft'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.idft("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_dct'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.dct("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_idct'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.idct("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_mulSpectrums'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var a = Blockly.Python.valueToCode(block, 'a', Blockly.Python.ORDER_ATOMIC);
   var b = Blockly.Python.valueToCode(block, 'b', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
@@ -467,16 +625,22 @@ Blockly.Python['core_mulSpectrums'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getOptimalDFTSize'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var vecsize = block.getFieldValue('vecsize');
   var code = "cv2.getOptimalDFTSize("+vecsize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_setRNGSeed'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var seed = block.getFieldValue('seed');
   var code = "cv2.setRNGSeed("+seed+")\n"
   return code;
 };
 Blockly.Python['core_randu'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var low = Blockly.Python.valueToCode(block, 'low', Blockly.Python.ORDER_ATOMIC);
   var high = Blockly.Python.valueToCode(block, 'high', Blockly.Python.ORDER_ATOMIC);
@@ -484,6 +648,8 @@ Blockly.Python['core_randu'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_randn'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var mean = Blockly.Python.valueToCode(block, 'mean', Blockly.Python.ORDER_ATOMIC);
   var stddev = Blockly.Python.valueToCode(block, 'stddev', Blockly.Python.ORDER_ATOMIC);
@@ -491,6 +657,8 @@ Blockly.Python['core_randn'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_kmeans'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
   var K = block.getFieldValue('K');
   var bestLabels = Blockly.Python.valueToCode(block, 'bestLabels', Blockly.Python.ORDER_ATOMIC);
@@ -501,89 +669,129 @@ Blockly.Python['core_kmeans'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_cubeRoot'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var val = block.getFieldValue('val');
   var code = "cv2.cubeRoot("+val+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_fastAtan2'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var y = block.getFieldValue('y');
   var x = block.getFieldValue('x');
   var code = "cv2.fastAtan2("+y+","+x+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_setNumThreads'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var nthreads = block.getFieldValue('nthreads');
   var code = "cv2.setNumThreads("+nthreads+")\n"
   return code;
 };
 Blockly.Python['core_getNumThreads'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getNumThreads()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getThreadNum'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getThreadNum()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getBuildInformation'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getBuildInformation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getVersionString'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getVersionString()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getVersionMajor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getVersionMajor()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getVersionMinor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getVersionMinor()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getVersionRevision'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getVersionRevision()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getTickCount'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getTickCount()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getTickFrequency'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getTickFrequency()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getCPUTickCount'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getCPUTickCount()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_checkHardwareSupport'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var feature = block.getFieldValue('feature');
   var code = "cv2.checkHardwareSupport("+feature+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getHardwareFeatureName'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var feature = block.getFieldValue('feature');
   var code = "cv2.getHardwareFeatureName("+feature+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getCPUFeaturesLine'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getCPUFeaturesLine()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_getNumberOfCPUs'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.getNumberOfCPUs()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_setUseOptimized'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var onoff = Blockly.Python.valueToCode(block, 'onoff', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.setUseOptimized("+onoff+")\n"
   return code;
 };
 Blockly.Python['core_useOptimized'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var code = "cv2.useOptimized()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_TickMeter_TickMeter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var TickMeter = Blockly.Python.variableName_(block, 'TickMeter');
   var code = TickMeter + " = cv2.TickMeter()\n"
   return code;
@@ -644,11 +852,15 @@ Blockly.Python['core_TickMeter_reset'] = function(block) {
   return code;
 };
 Blockly.Python['core_DMatch_DMatch'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var DMatch = Blockly.Python.variableName_(block, 'DMatch');
   var code = DMatch + " = cv2.DMatch()\n"
   return code;
 };
 Blockly.Python['core_useIPP_useIPP'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var useIPP = Blockly.Python.variableName_(block, 'useIPP');
   var code = useIPP + " = cv2.useIPP()\n"
   return code;
@@ -676,6 +888,8 @@ Blockly.Python['core_useIPP_setUseIPP_NotExact'] = function(block) {
   return code;
 };
 Blockly.Python['core_KeyPoint_KeyPoint'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var KeyPoint = Blockly.Python.variableName_(block, 'KeyPoint');
   var code = KeyPoint + " = cv2.KeyPoint()\n"
   return code;
@@ -694,6 +908,8 @@ Blockly.Python['core_KeyPoint_overlap'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_findFile_findFile'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var findFile = Blockly.Python.variableName_(block, 'findFile');
   var relative_path = Blockly.Python.valueToCode(block, 'relative_path', Blockly.Python.ORDER_ATOMIC);
   var code = findFile + " = cv2.findFile("+relative_path+")\n"
@@ -718,17 +934,23 @@ Blockly.Python['core_findFile_addSamplesDataSearchSubDirectory'] = function(bloc
   return code;
 };
 Blockly.Python['imgproc_createLineSegmentDetector'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var LineSegmentDetector = Blockly.Python.variableName_(block, 'LineSegmentDetector');
   var code = LineSegmentDetector + " = cv2.createLineSegmentDetector()\n"
   return code;
 };
 Blockly.Python['imgproc_getGaussianKernel'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var ksize = block.getFieldValue('ksize');
   var sigma = block.getFieldValue('sigma');
   var code = "cv2.getGaussianKernel("+ksize+","+sigma+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getDerivKernels'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var dx = block.getFieldValue('dx');
   var dy = block.getFieldValue('dy');
   var ksize = block.getFieldValue('ksize');
@@ -736,6 +958,8 @@ Blockly.Python['imgproc_getDerivKernels'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getGaborKernel'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
   var sigma = block.getFieldValue('sigma');
   var theta = block.getFieldValue('theta');
@@ -745,18 +969,24 @@ Blockly.Python['imgproc_getGaborKernel'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getStructuringElement'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var shape = block.getFieldValue('shape');
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.getStructuringElement("+shape+","+ksize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_medianBlur'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ksize = block.getFieldValue('ksize');
   var code = "cv2.medianBlur("+src+","+ksize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_GaussianBlur'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
   var sigmaX = block.getFieldValue('sigmaX');
@@ -764,6 +994,8 @@ Blockly.Python['imgproc_GaussianBlur'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_bilateralFilter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var d = block.getFieldValue('d');
   var sigmaColor = block.getFieldValue('sigmaColor');
@@ -772,6 +1004,8 @@ Blockly.Python['imgproc_bilateralFilter'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_boxFilter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
@@ -779,6 +1013,8 @@ Blockly.Python['imgproc_boxFilter'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_sqrBoxFilter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
@@ -786,12 +1022,16 @@ Blockly.Python['imgproc_sqrBoxFilter'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_blur'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ksize = Blockly.Python.valueToCode(block, 'ksize', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.blur("+src+","+ksize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_filter2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var kernel = Blockly.Python.valueToCode(block, 'kernel', Blockly.Python.ORDER_ATOMIC);
@@ -799,6 +1039,8 @@ Blockly.Python['imgproc_filter2D'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_sepFilter2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var kernelX = Blockly.Python.valueToCode(block, 'kernelX', Blockly.Python.ORDER_ATOMIC);
@@ -807,6 +1049,8 @@ Blockly.Python['imgproc_sepFilter2D'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_Sobel'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var dx = block.getFieldValue('dx');
@@ -815,11 +1059,15 @@ Blockly.Python['imgproc_Sobel'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_spatialGradient'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.spatialGradient("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_Scharr'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var dx = block.getFieldValue('dx');
@@ -828,12 +1076,16 @@ Blockly.Python['imgproc_Scharr'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_Laplacian'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ddepth = block.getFieldValue('ddepth');
   var code = "cv2.Laplacian("+src+","+ddepth+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_Canny'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var threshold1 = block.getFieldValue('threshold1');
   var threshold2 = block.getFieldValue('threshold2');
@@ -841,12 +1093,16 @@ Blockly.Python['imgproc_Canny'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cornerMinEigenVal'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var blockSize = block.getFieldValue('blockSize');
   var code = "cv2.cornerMinEigenVal("+src+","+blockSize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cornerHarris'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var blockSize = block.getFieldValue('blockSize');
   var ksize = block.getFieldValue('ksize');
@@ -855,6 +1111,8 @@ Blockly.Python['imgproc_cornerHarris'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cornerEigenValsAndVecs'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var blockSize = block.getFieldValue('blockSize');
   var ksize = block.getFieldValue('ksize');
@@ -862,12 +1120,16 @@ Blockly.Python['imgproc_cornerEigenValsAndVecs'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_preCornerDetect'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var ksize = block.getFieldValue('ksize');
   var code = "cv2.preCornerDetect("+src+","+ksize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cornerSubPix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var corners = Blockly.Python.valueToCode(block, 'corners', Blockly.Python.ORDER_ATOMIC);
   var winSize = Blockly.Python.valueToCode(block, 'winSize', Blockly.Python.ORDER_ATOMIC);
@@ -877,6 +1139,8 @@ Blockly.Python['imgproc_cornerSubPix'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_goodFeaturesToTrack'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var maxCorners = block.getFieldValue('maxCorners');
   var qualityLevel = block.getFieldValue('qualityLevel');
@@ -885,6 +1149,8 @@ Blockly.Python['imgproc_goodFeaturesToTrack'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_HoughLines'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var rho = block.getFieldValue('rho');
   var theta = block.getFieldValue('theta');
@@ -893,6 +1159,8 @@ Blockly.Python['imgproc_HoughLines'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_HoughLinesP'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var rho = block.getFieldValue('rho');
   var theta = block.getFieldValue('theta');
@@ -901,6 +1169,8 @@ Blockly.Python['imgproc_HoughLinesP'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_HoughLinesPointSet'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var _point = Blockly.Python.valueToCode(block, '_point', Blockly.Python.ORDER_ATOMIC);
   var lines_max = block.getFieldValue('lines_max');
   var threshold = block.getFieldValue('threshold');
@@ -914,6 +1184,8 @@ Blockly.Python['imgproc_HoughLinesPointSet'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_HoughCircles'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var method = block.getFieldValue('method');
   var dp = block.getFieldValue('dp');
@@ -922,18 +1194,24 @@ Blockly.Python['imgproc_HoughCircles'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_erode'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var kernel = Blockly.Python.valueToCode(block, 'kernel', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.erode("+src+","+kernel+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_dilate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var kernel = Blockly.Python.valueToCode(block, 'kernel', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.dilate("+src+","+kernel+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_morphologyEx'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var op = block.getFieldValue('op');
   var kernel = Blockly.Python.valueToCode(block, 'kernel', Blockly.Python.ORDER_ATOMIC);
@@ -941,12 +1219,16 @@ Blockly.Python['imgproc_morphologyEx'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_resize'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dsize = Blockly.Python.valueToCode(block, 'dsize', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.resize("+src+","+dsize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_warpAffine'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var M = Blockly.Python.valueToCode(block, 'M', Blockly.Python.ORDER_ATOMIC);
   var dsize = Blockly.Python.valueToCode(block, 'dsize', Blockly.Python.ORDER_ATOMIC);
@@ -954,6 +1236,8 @@ Blockly.Python['imgproc_warpAffine'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_warpPerspective'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var M = Blockly.Python.valueToCode(block, 'M', Blockly.Python.ORDER_ATOMIC);
   var dsize = Blockly.Python.valueToCode(block, 'dsize', Blockly.Python.ORDER_ATOMIC);
@@ -961,6 +1245,8 @@ Blockly.Python['imgproc_warpPerspective'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_remap'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var map1 = Blockly.Python.valueToCode(block, 'map1', Blockly.Python.ORDER_ATOMIC);
   var map2 = Blockly.Python.valueToCode(block, 'map2', Blockly.Python.ORDER_ATOMIC);
@@ -969,6 +1255,8 @@ Blockly.Python['imgproc_remap'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_convertMaps'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var map1 = Blockly.Python.valueToCode(block, 'map1', Blockly.Python.ORDER_ATOMIC);
   var map2 = Blockly.Python.valueToCode(block, 'map2', Blockly.Python.ORDER_ATOMIC);
   var dstmap1type = block.getFieldValue('dstmap1type');
@@ -976,6 +1264,8 @@ Blockly.Python['imgproc_convertMaps'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getRotationMatrix2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var angle = block.getFieldValue('angle');
   var scale = block.getFieldValue('scale');
@@ -983,23 +1273,31 @@ Blockly.Python['imgproc_getRotationMatrix2D'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_invertAffineTransform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var M = Blockly.Python.valueToCode(block, 'M', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.invertAffineTransform("+M+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getPerspectiveTransform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.getPerspectiveTransform("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getAffineTransform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.getAffineTransform("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getRectSubPix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patchSize = Blockly.Python.valueToCode(block, 'patchSize', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
@@ -1007,6 +1305,8 @@ Blockly.Python['imgproc_getRectSubPix'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_logPolar'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var M = block.getFieldValue('M');
@@ -1015,6 +1315,8 @@ Blockly.Python['imgproc_logPolar'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_linearPolar'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var maxRadius = block.getFieldValue('maxRadius');
@@ -1023,6 +1325,8 @@ Blockly.Python['imgproc_linearPolar'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_warpPolar'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dsize = Blockly.Python.valueToCode(block, 'dsize', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
@@ -1032,23 +1336,31 @@ Blockly.Python['imgproc_warpPolar'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_integral'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.integral("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_accumulate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.accumulate("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_accumulateSquare'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.accumulateSquare("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_accumulateProduct'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
@@ -1056,6 +1368,8 @@ Blockly.Python['imgproc_accumulateProduct'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_accumulateWeighted'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var alpha = block.getFieldValue('alpha');
@@ -1063,6 +1377,8 @@ Blockly.Python['imgproc_accumulateWeighted'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createHanningWindow'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var HanningWindow = Blockly.Python.variableName_(block, 'HanningWindow');
   var winSize = Blockly.Python.valueToCode(block, 'winSize', Blockly.Python.ORDER_ATOMIC);
   var type = block.getFieldValue('type');
@@ -1070,6 +1386,8 @@ Blockly.Python['imgproc_createHanningWindow'] = function(block) {
   return code;
 };
 Blockly.Python['imgproc_threshold'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var thresh = block.getFieldValue('thresh');
   var maxval = block.getFieldValue('maxval');
@@ -1078,6 +1396,8 @@ Blockly.Python['imgproc_threshold'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_adaptiveThreshold'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var maxValue = block.getFieldValue('maxValue');
   var adaptiveMethod = block.getFieldValue('adaptiveMethod');
@@ -1088,16 +1408,22 @@ Blockly.Python['imgproc_adaptiveThreshold'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_pyrDown'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.pyrDown("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_pyrUp'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.pyrUp("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_calcHist'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var images = Blockly.Python.valueToCode(block, 'images', Blockly.Python.ORDER_ATOMIC);
   var channels = Blockly.Python.valueToCode(block, 'channels', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
@@ -1107,6 +1433,8 @@ Blockly.Python['imgproc_calcHist'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_calcBackProject'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var images = Blockly.Python.valueToCode(block, 'images', Blockly.Python.ORDER_ATOMIC);
   var channels = Blockly.Python.valueToCode(block, 'channels', Blockly.Python.ORDER_ATOMIC);
   var hist = Blockly.Python.valueToCode(block, 'hist', Blockly.Python.ORDER_ATOMIC);
@@ -1116,6 +1444,8 @@ Blockly.Python['imgproc_calcBackProject'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_compareHist'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var H1 = Blockly.Python.valueToCode(block, 'H1', Blockly.Python.ORDER_ATOMIC);
   var H2 = Blockly.Python.valueToCode(block, 'H2', Blockly.Python.ORDER_ATOMIC);
   var method = block.getFieldValue('method');
@@ -1123,16 +1453,22 @@ Blockly.Python['imgproc_compareHist'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_equalizeHist'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.equalizeHist("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createCLAHE'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var CLAHE = Blockly.Python.variableName_(block, 'CLAHE');
   var code = CLAHE + " = cv2.createCLAHE()\n"
   return code;
 };
 Blockly.Python['imgproc_wrapperEMD'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var signature1 = Blockly.Python.valueToCode(block, 'signature1', Blockly.Python.ORDER_ATOMIC);
   var signature2 = Blockly.Python.valueToCode(block, 'signature2', Blockly.Python.ORDER_ATOMIC);
   var distType = block.getFieldValue('distType');
@@ -1140,12 +1476,16 @@ Blockly.Python['imgproc_wrapperEMD'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_watershed'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var markers = Blockly.Python.valueToCode(block, 'markers', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.watershed("+image+","+markers+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_pyrMeanShiftFiltering'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var sp = block.getFieldValue('sp');
   var sr = block.getFieldValue('sr');
@@ -1153,6 +1493,8 @@ Blockly.Python['imgproc_pyrMeanShiftFiltering'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_grabCut'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
   var rect = Blockly.Python.valueToCode(block, 'rect', Blockly.Python.ORDER_ATOMIC);
@@ -1163,6 +1505,8 @@ Blockly.Python['imgproc_grabCut'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_distanceTransform'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var distanceType = block.getFieldValue('distanceType');
   var maskSize = block.getFieldValue('maskSize');
@@ -1170,12 +1514,16 @@ Blockly.Python['imgproc_distanceTransform'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cvtColor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = block.getFieldValue('code');
   var code = "cv2.cvtColor("+src+","+code+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_cvtColorTwoPlane'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
   var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
   var code = block.getFieldValue('code');
@@ -1183,12 +1531,16 @@ Blockly.Python['imgproc_cvtColorTwoPlane'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_demosaicing'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = block.getFieldValue('code');
   var code = "cv2.demosaicing("+src+","+code+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_matchTemplate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var templ = Blockly.Python.valueToCode(block, 'templ', Blockly.Python.ORDER_ATOMIC);
   var method = block.getFieldValue('method');
@@ -1196,6 +1548,8 @@ Blockly.Python['imgproc_matchTemplate'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_connectedComponents'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var connectivity = block.getFieldValue('connectivity');
   var ltype = block.getFieldValue('ltype');
@@ -1204,6 +1558,8 @@ Blockly.Python['imgproc_connectedComponents'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_connectedComponentsWithStats'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var connectivity = block.getFieldValue('connectivity');
   var ltype = block.getFieldValue('ltype');
@@ -1212,6 +1568,8 @@ Blockly.Python['imgproc_connectedComponentsWithStats'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_findContours'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var mode = block.getFieldValue('mode');
   var method = block.getFieldValue('method');
@@ -1219,6 +1577,8 @@ Blockly.Python['imgproc_findContours'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_approxPolyDP'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var curve = Blockly.Python.valueToCode(block, 'curve', Blockly.Python.ORDER_ATOMIC);
   var epsilon = block.getFieldValue('epsilon');
   var closed = Blockly.Python.valueToCode(block, 'closed', Blockly.Python.ORDER_ATOMIC);
@@ -1226,32 +1586,44 @@ Blockly.Python['imgproc_approxPolyDP'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_arcLength'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var curve = Blockly.Python.valueToCode(block, 'curve', Blockly.Python.ORDER_ATOMIC);
   var closed = Blockly.Python.valueToCode(block, 'closed', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.arcLength("+curve+","+closed+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_boundingRect'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.boundingRect("+array+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_contourArea'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var contour = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.contourArea("+contour+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_boxPoints'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var box = Blockly.Python.valueToCode(block, 'box', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.boxPoints("+box+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_minEnclosingTriangle'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.minEnclosingTriangle("+points+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_matchShapes'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var contour1 = Blockly.Python.valueToCode(block, 'contour1', Blockly.Python.ORDER_ATOMIC);
   var contour2 = Blockly.Python.valueToCode(block, 'contour2', Blockly.Python.ORDER_ATOMIC);
   var method = block.getFieldValue('method');
@@ -1260,38 +1632,52 @@ Blockly.Python['imgproc_matchShapes'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_convexHull'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convexHull("+points+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_convexityDefects'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var contour = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
   var convexhull = Blockly.Python.valueToCode(block, 'convexhull', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convexityDefects("+contour+","+convexhull+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_isContourConvex'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var contour = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.isContourConvex("+contour+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_intersectConvexConvex'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var _p1 = Blockly.Python.valueToCode(block, '_p1', Blockly.Python.ORDER_ATOMIC);
   var _p2 = Blockly.Python.valueToCode(block, '_p2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.intersectConvexConvex("+_p1+","+_p2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_fitEllipseAMS'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.fitEllipseAMS("+points+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_fitEllipseDirect'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.fitEllipseDirect("+points+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_fitLine'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var distType = block.getFieldValue('distType');
   var param = block.getFieldValue('param');
@@ -1301,6 +1687,8 @@ Blockly.Python['imgproc_fitLine'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_pointPolygonTest'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var contour = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
   var pt = Blockly.Python.valueToCode(block, 'pt', Blockly.Python.ORDER_ATOMIC);
   var measureDist = Blockly.Python.valueToCode(block, 'measureDist', Blockly.Python.ORDER_ATOMIC);
@@ -1308,28 +1696,38 @@ Blockly.Python['imgproc_pointPolygonTest'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_rotatedRectangleIntersection'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var rect1 = Blockly.Python.valueToCode(block, 'rect1', Blockly.Python.ORDER_ATOMIC);
   var rect2 = Blockly.Python.valueToCode(block, 'rect2', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.rotatedRectangleIntersection("+rect1+","+rect2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createGeneralizedHoughBallard'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var GeneralizedHoughBallard = Blockly.Python.variableName_(block, 'GeneralizedHoughBallard');
   var code = GeneralizedHoughBallard + " = cv2.createGeneralizedHoughBallard()\n"
   return code;
 };
 Blockly.Python['imgproc_createGeneralizedHoughGuil'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var GeneralizedHoughGuil = Blockly.Python.variableName_(block, 'GeneralizedHoughGuil');
   var code = GeneralizedHoughGuil + " = cv2.createGeneralizedHoughGuil()\n"
   return code;
 };
 Blockly.Python['imgproc_applyColorMap'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var colormap = block.getFieldValue('colormap');
   var code = "cv2.applyColorMap("+src+","+colormap+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_line'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var pt1 = Blockly.Python.valueToCode(block, 'pt1', Blockly.Python.ORDER_ATOMIC);
   var pt2 = Blockly.Python.valueToCode(block, 'pt2', Blockly.Python.ORDER_ATOMIC);
@@ -1338,6 +1736,8 @@ Blockly.Python['imgproc_line'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_arrowedLine'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var pt1 = Blockly.Python.valueToCode(block, 'pt1', Blockly.Python.ORDER_ATOMIC);
   var pt2 = Blockly.Python.valueToCode(block, 'pt2', Blockly.Python.ORDER_ATOMIC);
@@ -1346,6 +1746,8 @@ Blockly.Python['imgproc_arrowedLine'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_rectangle'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var pt1 = Blockly.Python.valueToCode(block, 'pt1', Blockly.Python.ORDER_ATOMIC);
   var pt2 = Blockly.Python.valueToCode(block, 'pt2', Blockly.Python.ORDER_ATOMIC);
@@ -1354,6 +1756,8 @@ Blockly.Python['imgproc_rectangle'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_circle'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var radius = block.getFieldValue('radius');
@@ -1362,6 +1766,8 @@ Blockly.Python['imgproc_circle'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_ellipse'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var axes = Blockly.Python.valueToCode(block, 'axes', Blockly.Python.ORDER_ATOMIC);
@@ -1373,6 +1779,8 @@ Blockly.Python['imgproc_ellipse'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_drawMarker'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var position = Blockly.Python.valueToCode(block, 'position', Blockly.Python.ORDER_ATOMIC);
   var color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
@@ -1380,6 +1788,8 @@ Blockly.Python['imgproc_drawMarker'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_fillConvexPoly'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
@@ -1387,6 +1797,8 @@ Blockly.Python['imgproc_fillConvexPoly'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_fillPoly'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var pts = Blockly.Python.valueToCode(block, 'pts', Blockly.Python.ORDER_ATOMIC);
   var color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
@@ -1394,6 +1806,8 @@ Blockly.Python['imgproc_fillPoly'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_polylines'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var pts = Blockly.Python.valueToCode(block, 'pts', Blockly.Python.ORDER_ATOMIC);
   var isClosed = Blockly.Python.valueToCode(block, 'isClosed', Blockly.Python.ORDER_ATOMIC);
@@ -1402,6 +1816,8 @@ Blockly.Python['imgproc_polylines'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_drawContours'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var contours = Blockly.Python.valueToCode(block, 'contours', Blockly.Python.ORDER_ATOMIC);
   var contourIdx = block.getFieldValue('contourIdx');
@@ -1410,6 +1826,8 @@ Blockly.Python['imgproc_drawContours'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_clipLine'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var imgRect = Blockly.Python.valueToCode(block, 'imgRect', Blockly.Python.ORDER_ATOMIC);
   var pt1 = Blockly.Python.valueToCode(block, 'pt1', Blockly.Python.ORDER_ATOMIC);
   var pt2 = Blockly.Python.valueToCode(block, 'pt2', Blockly.Python.ORDER_ATOMIC);
@@ -1417,6 +1835,8 @@ Blockly.Python['imgproc_clipLine'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_ellipse2Poly'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var center = Blockly.Python.valueToCode(block, 'center', Blockly.Python.ORDER_ATOMIC);
   var axes = Blockly.Python.valueToCode(block, 'axes', Blockly.Python.ORDER_ATOMIC);
   var angle = block.getFieldValue('angle');
@@ -1427,6 +1847,8 @@ Blockly.Python['imgproc_ellipse2Poly'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_putText'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   var org = Blockly.Python.valueToCode(block, 'org', Blockly.Python.ORDER_ATOMIC);
@@ -1437,6 +1859,8 @@ Blockly.Python['imgproc_putText'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getFontScaleFromHeight'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var fontFace = block.getFieldValue('fontFace');
   var pixelHeight = block.getFieldValue('pixelHeight');
   var code = "cv2.getFontScaleFromHeight("+fontFace+","+pixelHeight+")"
@@ -1718,6 +2142,8 @@ Blockly.Python['imgproc_LineSegmentDetector_compareSegments'] = function(block) 
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['stitching_Stitcher_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var Stitcher = Blockly.Python.variableName_(block, 'Stitcher');
   var code = Stitcher + " = cv2.Stitcher_create()\n"
   return code;
@@ -1811,6 +2237,8 @@ Blockly.Python['stitching_Stitcher_workScale'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_inpaint'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var inpaintMask = Blockly.Python.valueToCode(block, 'inpaintMask', Blockly.Python.ORDER_ATOMIC);
   var inpaintRadius = block.getFieldValue('inpaintRadius');
@@ -1819,16 +2247,22 @@ Blockly.Python['photo_inpaint'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_fastNlMeansDenoising'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.fastNlMeansDenoising("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_fastNlMeansDenoisingColored'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.fastNlMeansDenoisingColored("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_fastNlMeansDenoisingMulti'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var srcImgs = Blockly.Python.valueToCode(block, 'srcImgs', Blockly.Python.ORDER_ATOMIC);
   var imgToDenoiseIndex = block.getFieldValue('imgToDenoiseIndex');
   var temporalWindowSize = block.getFieldValue('temporalWindowSize');
@@ -1836,6 +2270,8 @@ Blockly.Python['photo_fastNlMeansDenoisingMulti'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_fastNlMeansDenoisingColoredMulti'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var srcImgs = Blockly.Python.valueToCode(block, 'srcImgs', Blockly.Python.ORDER_ATOMIC);
   var imgToDenoiseIndex = block.getFieldValue('imgToDenoiseIndex');
   var temporalWindowSize = block.getFieldValue('temporalWindowSize');
@@ -1843,67 +2279,93 @@ Blockly.Python['photo_fastNlMeansDenoisingColoredMulti'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_denoise_TVL1'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var observations = Blockly.Python.valueToCode(block, 'observations', Blockly.Python.ORDER_ATOMIC);
   var result = Blockly.Python.valueToCode(block, 'result', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.denoise_TVL1("+observations+","+result+")\n"
   return code;
 };
 Blockly.Python['photo_createTonemap'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var Tonemap = Blockly.Python.variableName_(block, 'Tonemap');
   var code = Tonemap + " = cv2.createTonemap()\n"
   return code;
 };
 Blockly.Python['photo_createTonemapDrago'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var TonemapDrago = Blockly.Python.variableName_(block, 'TonemapDrago');
   var code = TonemapDrago + " = cv2.createTonemapDrago()\n"
   return code;
 };
 Blockly.Python['photo_createTonemapReinhard'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var TonemapReinhard = Blockly.Python.variableName_(block, 'TonemapReinhard');
   var code = TonemapReinhard + " = cv2.createTonemapReinhard()\n"
   return code;
 };
 Blockly.Python['photo_createTonemapMantiuk'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var TonemapMantiuk = Blockly.Python.variableName_(block, 'TonemapMantiuk');
   var code = TonemapMantiuk + " = cv2.createTonemapMantiuk()\n"
   return code;
 };
 Blockly.Python['photo_createAlignMTB'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var AlignMTB = Blockly.Python.variableName_(block, 'AlignMTB');
   var code = AlignMTB + " = cv2.createAlignMTB()\n"
   return code;
 };
 Blockly.Python['photo_createCalibrateDebevec'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var CalibrateDebevec = Blockly.Python.variableName_(block, 'CalibrateDebevec');
   var code = CalibrateDebevec + " = cv2.createCalibrateDebevec()\n"
   return code;
 };
 Blockly.Python['photo_createCalibrateRobertson'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var CalibrateRobertson = Blockly.Python.variableName_(block, 'CalibrateRobertson');
   var code = CalibrateRobertson + " = cv2.createCalibrateRobertson()\n"
   return code;
 };
 Blockly.Python['photo_createMergeDebevec'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var MergeDebevec = Blockly.Python.variableName_(block, 'MergeDebevec');
   var code = MergeDebevec + " = cv2.createMergeDebevec()\n"
   return code;
 };
 Blockly.Python['photo_createMergeMertens'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var MergeMertens = Blockly.Python.variableName_(block, 'MergeMertens');
   var code = MergeMertens + " = cv2.createMergeMertens()\n"
   return code;
 };
 Blockly.Python['photo_createMergeRobertson'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var MergeRobertson = Blockly.Python.variableName_(block, 'MergeRobertson');
   var code = MergeRobertson + " = cv2.createMergeRobertson()\n"
   return code;
 };
 Blockly.Python['photo_decolor'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.decolor("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_seamlessClone'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
@@ -1913,39 +2375,53 @@ Blockly.Python['photo_seamlessClone'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_colorChange'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.colorChange("+src+","+mask+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_illuminationChange'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.illuminationChange("+src+","+mask+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_textureFlattening'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.textureFlattening("+src+","+mask+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_edgePreservingFilter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.edgePreservingFilter("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_detailEnhance'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.detailEnhance("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_pencilSketch'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.pencilSketch("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_stylization'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.stylization("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
@@ -2248,71 +2724,97 @@ Blockly.Python['photo_AlignExposures_process'] = function(block) {
   return code;
 };
 Blockly.Python['imgcodecs_imread'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.imread("+filename+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_imreadmulti'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.imreadmulti("+filename+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_imwrite'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.imwrite("+filename+","+img+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_imdecode'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var buf = Blockly.Python.valueToCode(block, 'buf', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
   var code = "cv2.imdecode("+buf+","+flags+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_imencode'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var ext = Blockly.Python.valueToCode(block, 'ext', Blockly.Python.ORDER_ATOMIC);
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.imencode("+ext+","+img+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_haveImageReader'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.haveImageReader("+filename+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgcodecs_haveImageWriter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.haveImageWriter("+filename+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_Rodrigues'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.Rodrigues("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findHomography'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var srcPoints = Blockly.Python.valueToCode(block, 'srcPoints', Blockly.Python.ORDER_ATOMIC);
   var dstPoints = Blockly.Python.valueToCode(block, 'dstPoints', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.findHomography("+srcPoints+","+dstPoints+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_RQDecomp3x3'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.RQDecomp3x3("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_decomposeProjectionMatrix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var projMatrix = Blockly.Python.valueToCode(block, 'projMatrix', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.decomposeProjectionMatrix("+projMatrix+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_matMulDeriv'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var A = Blockly.Python.valueToCode(block, 'A', Blockly.Python.ORDER_ATOMIC);
   var B = Blockly.Python.valueToCode(block, 'B', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.matMulDeriv("+A+","+B+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_composeRT'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var rvec1 = Blockly.Python.valueToCode(block, 'rvec1', Blockly.Python.ORDER_ATOMIC);
   var tvec1 = Blockly.Python.valueToCode(block, 'tvec1', Blockly.Python.ORDER_ATOMIC);
   var rvec2 = Blockly.Python.valueToCode(block, 'rvec2', Blockly.Python.ORDER_ATOMIC);
@@ -2321,6 +2823,8 @@ Blockly.Python['calib3d_composeRT'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_projectPoints'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var rvec = Blockly.Python.valueToCode(block, 'rvec', Blockly.Python.ORDER_ATOMIC);
   var tvec = Blockly.Python.valueToCode(block, 'tvec', Blockly.Python.ORDER_ATOMIC);
@@ -2330,6 +2834,8 @@ Blockly.Python['calib3d_projectPoints'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solvePnP'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2338,6 +2844,8 @@ Blockly.Python['calib3d_solvePnP'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solvePnPRansac'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2346,6 +2854,8 @@ Blockly.Python['calib3d_solvePnPRansac'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solveP3P'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2355,6 +2865,8 @@ Blockly.Python['calib3d_solveP3P'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solvePnPRefineLM'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2365,6 +2877,8 @@ Blockly.Python['calib3d_solvePnPRefineLM'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solvePnPRefineVVS'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2375,6 +2889,8 @@ Blockly.Python['calib3d_solvePnPRefineVVS'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_solvePnPGeneric'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2383,6 +2899,8 @@ Blockly.Python['calib3d_solvePnPGeneric'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_initCameraMatrix2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var imageSize = Blockly.Python.valueToCode(block, 'imageSize', Blockly.Python.ORDER_ATOMIC);
@@ -2390,18 +2908,24 @@ Blockly.Python['calib3d_initCameraMatrix2D'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findChessboardCorners'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patternSize = Blockly.Python.valueToCode(block, 'patternSize', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.findChessboardCorners("+image+","+patternSize+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_checkChessboard'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.checkChessboard("+img+","+size+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findChessboardCornersSB'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patternSize = Blockly.Python.valueToCode(block, 'patternSize', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
@@ -2409,6 +2933,8 @@ Blockly.Python['calib3d_findChessboardCornersSB'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_estimateChessboardSharpness'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patternSize = Blockly.Python.valueToCode(block, 'patternSize', Blockly.Python.ORDER_ATOMIC);
   var corners = Blockly.Python.valueToCode(block, 'corners', Blockly.Python.ORDER_ATOMIC);
@@ -2416,6 +2942,8 @@ Blockly.Python['calib3d_estimateChessboardSharpness'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_find4QuadCornerSubpix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var corners = Blockly.Python.valueToCode(block, 'corners', Blockly.Python.ORDER_ATOMIC);
   var region_size = Blockly.Python.valueToCode(block, 'region_size', Blockly.Python.ORDER_ATOMIC);
@@ -2423,6 +2951,8 @@ Blockly.Python['calib3d_find4QuadCornerSubpix'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_drawChessboardCorners'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patternSize = Blockly.Python.valueToCode(block, 'patternSize', Blockly.Python.ORDER_ATOMIC);
   var corners = Blockly.Python.valueToCode(block, 'corners', Blockly.Python.ORDER_ATOMIC);
@@ -2431,6 +2961,8 @@ Blockly.Python['calib3d_drawChessboardCorners'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_drawFrameAxes'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs = Blockly.Python.valueToCode(block, 'distCoeffs', Blockly.Python.ORDER_ATOMIC);
@@ -2441,6 +2973,8 @@ Blockly.Python['calib3d_drawFrameAxes'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findCirclesGrid'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var patternSize = Blockly.Python.valueToCode(block, 'patternSize', Blockly.Python.ORDER_ATOMIC);
   var flags = block.getFieldValue('flags');
@@ -2450,6 +2984,8 @@ Blockly.Python['calib3d_findCirclesGrid'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_calibrateCamera'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var imageSize = Blockly.Python.valueToCode(block, 'imageSize', Blockly.Python.ORDER_ATOMIC);
@@ -2459,6 +2995,8 @@ Blockly.Python['calib3d_calibrateCamera'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_calibrateCameraRO'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints = Blockly.Python.valueToCode(block, 'imagePoints', Blockly.Python.ORDER_ATOMIC);
   var imageSize = Blockly.Python.valueToCode(block, 'imageSize', Blockly.Python.ORDER_ATOMIC);
@@ -2469,6 +3007,8 @@ Blockly.Python['calib3d_calibrateCameraRO'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_calibrationMatrixValues'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var imageSize = Blockly.Python.valueToCode(block, 'imageSize', Blockly.Python.ORDER_ATOMIC);
   var apertureWidth = block.getFieldValue('apertureWidth');
@@ -2477,6 +3017,8 @@ Blockly.Python['calib3d_calibrationMatrixValues'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_stereoCalibrate'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var objectPoints = Blockly.Python.valueToCode(block, 'objectPoints', Blockly.Python.ORDER_ATOMIC);
   var imagePoints1 = Blockly.Python.valueToCode(block, 'imagePoints1', Blockly.Python.ORDER_ATOMIC);
   var imagePoints2 = Blockly.Python.valueToCode(block, 'imagePoints2', Blockly.Python.ORDER_ATOMIC);
@@ -2491,6 +3033,8 @@ Blockly.Python['calib3d_stereoCalibrate'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_stereoRectify'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix1 = Blockly.Python.valueToCode(block, 'cameraMatrix1', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs1 = Blockly.Python.valueToCode(block, 'distCoeffs1', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix2 = Blockly.Python.valueToCode(block, 'cameraMatrix2', Blockly.Python.ORDER_ATOMIC);
@@ -2502,6 +3046,8 @@ Blockly.Python['calib3d_stereoRectify'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_stereoRectifyUncalibrated'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points1 = Blockly.Python.valueToCode(block, 'points1', Blockly.Python.ORDER_ATOMIC);
   var points2 = Blockly.Python.valueToCode(block, 'points2', Blockly.Python.ORDER_ATOMIC);
   var F = Blockly.Python.valueToCode(block, 'F', Blockly.Python.ORDER_ATOMIC);
@@ -2510,6 +3056,8 @@ Blockly.Python['calib3d_stereoRectifyUncalibrated'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_rectify3Collinear'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix1 = Blockly.Python.valueToCode(block, 'cameraMatrix1', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs1 = Blockly.Python.valueToCode(block, 'distCoeffs1', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix2 = Blockly.Python.valueToCode(block, 'cameraMatrix2', Blockly.Python.ORDER_ATOMIC);
@@ -2530,6 +3078,8 @@ Blockly.Python['calib3d_rectify3Collinear'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_getOptimalNewCameraMatrix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs = Blockly.Python.valueToCode(block, 'distCoeffs', Blockly.Python.ORDER_ATOMIC);
   var imageSize = Blockly.Python.valueToCode(block, 'imageSize', Blockly.Python.ORDER_ATOMIC);
@@ -2538,6 +3088,8 @@ Blockly.Python['calib3d_getOptimalNewCameraMatrix'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_calibrateHandEye'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var R_gripper2base = Blockly.Python.valueToCode(block, 'R_gripper2base', Blockly.Python.ORDER_ATOMIC);
   var t_gripper2base = Blockly.Python.valueToCode(block, 't_gripper2base', Blockly.Python.ORDER_ATOMIC);
   var R_target2cam = Blockly.Python.valueToCode(block, 'R_target2cam', Blockly.Python.ORDER_ATOMIC);
@@ -2546,16 +3098,22 @@ Blockly.Python['calib3d_calibrateHandEye'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_convertPointsToHomogeneous'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convertPointsToHomogeneous("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_convertPointsFromHomogeneous'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.convertPointsFromHomogeneous("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findFundamentalMat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points1 = Blockly.Python.valueToCode(block, 'points1', Blockly.Python.ORDER_ATOMIC);
   var points2 = Blockly.Python.valueToCode(block, 'points2', Blockly.Python.ORDER_ATOMIC);
   var method = block.getFieldValue('method');
@@ -2566,6 +3124,8 @@ Blockly.Python['calib3d_findFundamentalMat'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_findEssentialMat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points1 = Blockly.Python.valueToCode(block, 'points1', Blockly.Python.ORDER_ATOMIC);
   var points2 = Blockly.Python.valueToCode(block, 'points2', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -2573,11 +3133,15 @@ Blockly.Python['calib3d_findEssentialMat'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_decomposeEssentialMat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var E = Blockly.Python.valueToCode(block, 'E', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.decomposeEssentialMat("+E+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_recoverPose'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var E = Blockly.Python.valueToCode(block, 'E', Blockly.Python.ORDER_ATOMIC);
   var points1 = Blockly.Python.valueToCode(block, 'points1', Blockly.Python.ORDER_ATOMIC);
   var points2 = Blockly.Python.valueToCode(block, 'points2', Blockly.Python.ORDER_ATOMIC);
@@ -2586,6 +3150,8 @@ Blockly.Python['calib3d_recoverPose'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_computeCorrespondEpilines'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var points = Blockly.Python.valueToCode(block, 'points', Blockly.Python.ORDER_ATOMIC);
   var whichImage = block.getFieldValue('whichImage');
   var F = Blockly.Python.valueToCode(block, 'F', Blockly.Python.ORDER_ATOMIC);
@@ -2593,6 +3159,8 @@ Blockly.Python['calib3d_computeCorrespondEpilines'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_triangulatePoints'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var projMatr1 = Blockly.Python.valueToCode(block, 'projMatr1', Blockly.Python.ORDER_ATOMIC);
   var projMatr2 = Blockly.Python.valueToCode(block, 'projMatr2', Blockly.Python.ORDER_ATOMIC);
   var projPoints1 = Blockly.Python.valueToCode(block, 'projPoints1', Blockly.Python.ORDER_ATOMIC);
@@ -2601,6 +3169,8 @@ Blockly.Python['calib3d_triangulatePoints'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_correctMatches'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var F = Blockly.Python.valueToCode(block, 'F', Blockly.Python.ORDER_ATOMIC);
   var points1 = Blockly.Python.valueToCode(block, 'points1', Blockly.Python.ORDER_ATOMIC);
   var points2 = Blockly.Python.valueToCode(block, 'points2', Blockly.Python.ORDER_ATOMIC);
@@ -2608,6 +3178,8 @@ Blockly.Python['calib3d_correctMatches'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_filterSpeckles'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var newVal = block.getFieldValue('newVal');
   var maxSpeckleSize = block.getFieldValue('maxSpeckleSize');
@@ -2616,6 +3188,8 @@ Blockly.Python['calib3d_filterSpeckles'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_getValidDisparityROI'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var roi1 = Blockly.Python.valueToCode(block, 'roi1', Blockly.Python.ORDER_ATOMIC);
   var roi2 = Blockly.Python.valueToCode(block, 'roi2', Blockly.Python.ORDER_ATOMIC);
   var minDisparity = block.getFieldValue('minDisparity');
@@ -2625,6 +3199,8 @@ Blockly.Python['calib3d_getValidDisparityROI'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_validateDisparity'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var disparity = Blockly.Python.valueToCode(block, 'disparity', Blockly.Python.ORDER_ATOMIC);
   var cost = Blockly.Python.valueToCode(block, 'cost', Blockly.Python.ORDER_ATOMIC);
   var minDisparity = block.getFieldValue('minDisparity');
@@ -2633,12 +3209,16 @@ Blockly.Python['calib3d_validateDisparity'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_reprojectImageTo3D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var disparity = Blockly.Python.valueToCode(block, 'disparity', Blockly.Python.ORDER_ATOMIC);
   var Q = Blockly.Python.valueToCode(block, 'Q', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.reprojectImageTo3D("+disparity+","+Q+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_sampsonDistance'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var pt1 = Blockly.Python.valueToCode(block, 'pt1', Blockly.Python.ORDER_ATOMIC);
   var pt2 = Blockly.Python.valueToCode(block, 'pt2', Blockly.Python.ORDER_ATOMIC);
   var F = Blockly.Python.valueToCode(block, 'F', Blockly.Python.ORDER_ATOMIC);
@@ -2646,36 +3226,48 @@ Blockly.Python['calib3d_sampsonDistance'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_estimateAffine3D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.estimateAffine3D("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_estimateTranslation3D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.estimateTranslation3D("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_estimateAffine2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var from = Blockly.Python.valueToCode(block, 'from', Blockly.Python.ORDER_ATOMIC);
   var to = Blockly.Python.valueToCode(block, 'to', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.estimateAffine2D("+from+","+to+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_estimateAffinePartial2D'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var from = Blockly.Python.valueToCode(block, 'from', Blockly.Python.ORDER_ATOMIC);
   var to = Blockly.Python.valueToCode(block, 'to', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.estimateAffinePartial2D("+from+","+to+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_decomposeHomographyMat'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var H = Blockly.Python.valueToCode(block, 'H', Blockly.Python.ORDER_ATOMIC);
   var K = Blockly.Python.valueToCode(block, 'K', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.decomposeHomographyMat("+H+","+K+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_filterHomographyDecompByVisibleRefpoints'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var rotations = Blockly.Python.valueToCode(block, 'rotations', Blockly.Python.ORDER_ATOMIC);
   var normals = Blockly.Python.valueToCode(block, 'normals', Blockly.Python.ORDER_ATOMIC);
   var beforePoints = Blockly.Python.valueToCode(block, 'beforePoints', Blockly.Python.ORDER_ATOMIC);
@@ -2684,6 +3276,8 @@ Blockly.Python['calib3d_filterHomographyDecompByVisibleRefpoints'] = function(bl
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_undistort'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs = Blockly.Python.valueToCode(block, 'distCoeffs', Blockly.Python.ORDER_ATOMIC);
@@ -2691,6 +3285,8 @@ Blockly.Python['calib3d_undistort'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_initUndistortRectifyMap'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs = Blockly.Python.valueToCode(block, 'distCoeffs', Blockly.Python.ORDER_ATOMIC);
   var R = Blockly.Python.valueToCode(block, 'R', Blockly.Python.ORDER_ATOMIC);
@@ -2701,11 +3297,15 @@ Blockly.Python['calib3d_initUndistortRectifyMap'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_getDefaultNewCameraMatrix'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.getDefaultNewCameraMatrix("+cameraMatrix+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_undistortPoints'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var cameraMatrix = Blockly.Python.valueToCode(block, 'cameraMatrix', Blockly.Python.ORDER_ATOMIC);
   var distCoeffs = Blockly.Python.valueToCode(block, 'distCoeffs', Blockly.Python.ORDER_ATOMIC);
@@ -2768,11 +3368,15 @@ Blockly.Python['calib3d_StereoSGBM_setMode'] = function(block) {
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var StereoSGBM = Blockly.Python.variableName_(block, 'StereoSGBM');
   var code = StereoSGBM + " = cv2.StereoSGBM_create()\n"
   return code;
 };
 Blockly.Python['calib3d_CirclesGridFinderParameters_CirclesGridFinderParameters'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var CirclesGridFinderParameters = Blockly.Python.variableName_(block, 'CirclesGridFinderParameters');
   var code = CirclesGridFinderParameters + " = cv2.CirclesGridFinderParameters()\n"
   return code;
@@ -2866,6 +3470,8 @@ Blockly.Python['calib3d_StereoBM_setROI2'] = function(block) {
   return code;
 };
 Blockly.Python['calib3d_StereoBM_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var StereoBM = Blockly.Python.variableName_(block, 'StereoBM');
   var code = StereoBM + " = cv2.StereoBM_create()\n"
   return code;
@@ -3034,6 +3640,8 @@ Blockly.Python['calib3d_StereoMatcher_setDisp12MaxDiff'] = function(block) {
   return code;
 };
 Blockly.Python['features2d_drawMatches'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img1 = Blockly.Python.valueToCode(block, 'img1', Blockly.Python.ORDER_ATOMIC);
   var keypoints1 = Blockly.Python.valueToCode(block, 'keypoints1', Blockly.Python.ORDER_ATOMIC);
   var img2 = Blockly.Python.valueToCode(block, 'img2', Blockly.Python.ORDER_ATOMIC);
@@ -3044,6 +3652,8 @@ Blockly.Python['features2d_drawMatches'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AffineFeature_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var AffineFeature = Blockly.Python.variableName_(block, 'AffineFeature');
   var backend = Blockly.Python.valueToCode(block, 'backend', Blockly.Python.ORDER_ATOMIC);
   var code = AffineFeature + " = cv2.AffineFeature_create("+backend+")\n"
@@ -3069,11 +3679,15 @@ Blockly.Python['features2d_AffineFeature_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_BFMatcher_BFMatcher'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var BFMatcher = Blockly.Python.variableName_(block, 'BFMatcher');
   var code = BFMatcher + " = cv2.BFMatcher()\n"
   return code;
 };
 Blockly.Python['features2d_BFMatcher_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var BFMatcher = Blockly.Python.variableName_(block, 'BFMatcher');
   var code = BFMatcher + " = cv2.BFMatcher_create()\n"
   return code;
@@ -3136,6 +3750,8 @@ Blockly.Python['features2d_Feature2D_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_BRISK_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var BRISK = Blockly.Python.variableName_(block, 'BRISK');
   var code = BRISK + " = cv2.BRISK_create()\n"
   return code;
@@ -3168,6 +3784,8 @@ Blockly.Python['features2d_BRISK_getOctaves'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AgastFeatureDetector_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var AgastFeatureDetector = Blockly.Python.variableName_(block, 'AgastFeatureDetector');
   var code = AgastFeatureDetector + " = cv2.AgastFeatureDetector_create()\n"
   return code;
@@ -3211,6 +3829,8 @@ Blockly.Python['features2d_AgastFeatureDetector_getDefaultName'] = function(bloc
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var GFTTDetector = Blockly.Python.variableName_(block, 'GFTTDetector');
   var code = GFTTDetector + " = cv2.GFTTDetector_create()\n"
   return code;
@@ -3358,12 +3978,16 @@ Blockly.Python['features2d_DescriptorMatcher_clone'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var DescriptorMatcher = Blockly.Python.variableName_(block, 'DescriptorMatcher');
   var descriptorMatcherType = Blockly.Python.valueToCode(block, 'descriptorMatcherType', Blockly.Python.ORDER_ATOMIC);
   var code = DescriptorMatcher + " = cv2.DescriptorMatcher_create("+descriptorMatcherType+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var KAZE = Blockly.Python.variableName_(block, 'KAZE');
   var code = KAZE + " = cv2.KAZE_create()\n"
   return code;
@@ -3440,6 +4064,8 @@ Blockly.Python['features2d_KAZE_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FastFeatureDetector_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var FastFeatureDetector = Blockly.Python.variableName_(block, 'FastFeatureDetector');
   var code = FastFeatureDetector + " = cv2.FastFeatureDetector_create()\n"
   return code;
@@ -3483,6 +4109,8 @@ Blockly.Python['features2d_FastFeatureDetector_getDefaultName'] = function(block
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_SIFT_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var SIFT = Blockly.Python.variableName_(block, 'SIFT');
   var code = SIFT + " = cv2.SIFT_create()\n"
   return code;
@@ -3493,6 +4121,8 @@ Blockly.Python['features2d_SIFT_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var AKAZE = Blockly.Python.variableName_(block, 'AKAZE');
   var code = AKAZE + " = cv2.AKAZE_create()\n"
   return code;
@@ -3580,6 +4210,8 @@ Blockly.Python['features2d_AKAZE_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var ORB = Blockly.Python.variableName_(block, 'ORB');
   var code = ORB + " = cv2.ORB_create()\n"
   return code;
@@ -3689,6 +4321,8 @@ Blockly.Python['features2d_ORB_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var MSER = Blockly.Python.variableName_(block, 'MSER');
   var code = MSER + " = cv2.MSER_create()\n"
   return code;
@@ -3749,16 +4383,22 @@ Blockly.Python['features2d_MSER_getDefaultName'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FlannBasedMatcher_FlannBasedMatcher'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var FlannBasedMatcher = Blockly.Python.variableName_(block, 'FlannBasedMatcher');
   var code = FlannBasedMatcher + " = cv2.FlannBasedMatcher()\n"
   return code;
 };
 Blockly.Python['features2d_FlannBasedMatcher_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var FlannBasedMatcher = Blockly.Python.variableName_(block, 'FlannBasedMatcher');
   var code = FlannBasedMatcher + " = cv2.FlannBasedMatcher_create()\n"
   return code;
 };
 Blockly.Python['video_meanShift'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var probImage = Blockly.Python.valueToCode(block, 'probImage', Blockly.Python.ORDER_ATOMIC);
   var window = Blockly.Python.valueToCode(block, 'window', Blockly.Python.ORDER_ATOMIC);
   var criteria = Blockly.Python.valueToCode(block, 'criteria', Blockly.Python.ORDER_ATOMIC);
@@ -3766,6 +4406,8 @@ Blockly.Python['video_meanShift'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_buildOpticalFlowPyramid'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var winSize = Blockly.Python.valueToCode(block, 'winSize', Blockly.Python.ORDER_ATOMIC);
   var maxLevel = block.getFieldValue('maxLevel');
@@ -3773,6 +4415,8 @@ Blockly.Python['video_buildOpticalFlowPyramid'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_calcOpticalFlowPyrLK'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var prevImg = Blockly.Python.valueToCode(block, 'prevImg', Blockly.Python.ORDER_ATOMIC);
   var nextImg = Blockly.Python.valueToCode(block, 'nextImg', Blockly.Python.ORDER_ATOMIC);
   var prevPts = Blockly.Python.valueToCode(block, 'prevPts', Blockly.Python.ORDER_ATOMIC);
@@ -3781,6 +4425,8 @@ Blockly.Python['video_calcOpticalFlowPyrLK'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_calcOpticalFlowFarneback'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var prev = Blockly.Python.valueToCode(block, 'prev', Blockly.Python.ORDER_ATOMIC);
   var next = Blockly.Python.valueToCode(block, 'next', Blockly.Python.ORDER_ATOMIC);
   var flow = Blockly.Python.valueToCode(block, 'flow', Blockly.Python.ORDER_ATOMIC);
@@ -3795,12 +4441,16 @@ Blockly.Python['video_calcOpticalFlowFarneback'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_computeECC'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var templateImage = Blockly.Python.valueToCode(block, 'templateImage', Blockly.Python.ORDER_ATOMIC);
   var inputImage = Blockly.Python.valueToCode(block, 'inputImage', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.computeECC("+templateImage+","+inputImage+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_findTransformECC'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var templateImage = Blockly.Python.valueToCode(block, 'templateImage', Blockly.Python.ORDER_ATOMIC);
   var inputImage = Blockly.Python.valueToCode(block, 'inputImage', Blockly.Python.ORDER_ATOMIC);
   var warpMatrix = Blockly.Python.valueToCode(block, 'warpMatrix', Blockly.Python.ORDER_ATOMIC);
@@ -3812,22 +4462,30 @@ Blockly.Python['video_findTransformECC'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_readOpticalFlow'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var path = Blockly.Python.valueToCode(block, 'path', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.readOpticalFlow("+path+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_writeOpticalFlow'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var path = Blockly.Python.valueToCode(block, 'path', Blockly.Python.ORDER_ATOMIC);
   var flow = Blockly.Python.valueToCode(block, 'flow', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.writeOpticalFlow("+path+","+flow+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_createBackgroundSubtractorMOG2'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var BackgroundSubtractorMOG2 = Blockly.Python.variableName_(block, 'BackgroundSubtractorMOG2');
   var code = BackgroundSubtractorMOG2 + " = cv2.createBackgroundSubtractorMOG2()\n"
   return code;
 };
 Blockly.Python['video_createBackgroundSubtractorKNN'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var BackgroundSubtractorKNN = Blockly.Python.variableName_(block, 'BackgroundSubtractorKNN');
   var code = BackgroundSubtractorKNN + " = cv2.createBackgroundSubtractorKNN()\n"
   return code;
@@ -4136,6 +4794,8 @@ Blockly.Python['video_FarnebackOpticalFlow_setFlags'] = function(block) {
   return code;
 };
 Blockly.Python['video_FarnebackOpticalFlow_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var FarnebackOpticalFlow = Blockly.Python.variableName_(block, 'FarnebackOpticalFlow');
   var code = FarnebackOpticalFlow + " = cv2.FarnebackOpticalFlow_create()\n"
   return code;
@@ -4284,11 +4944,15 @@ Blockly.Python['video_DISOpticalFlow_setUseSpatialPropagation'] = function(block
   return code;
 };
 Blockly.Python['video_DISOpticalFlow_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var DISOpticalFlow = Blockly.Python.variableName_(block, 'DISOpticalFlow');
   var code = DISOpticalFlow + " = cv2.DISOpticalFlow_create()\n"
   return code;
 };
 Blockly.Python['video_KalmanFilter_KalmanFilter'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var KalmanFilter = Blockly.Python.variableName_(block, 'KalmanFilter');
   var code = KalmanFilter + " = cv2.KalmanFilter()\n"
   return code;
@@ -4360,6 +5024,8 @@ Blockly.Python['video_SparsePyrLKOpticalFlow_setMinEigThreshold'] = function(blo
   return code;
 };
 Blockly.Python['video_SparsePyrLKOpticalFlow_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var SparsePyrLKOpticalFlow = Blockly.Python.variableName_(block, 'SparsePyrLKOpticalFlow');
   var code = SparsePyrLKOpticalFlow + " = cv2.SparsePyrLKOpticalFlow_create()\n"
   return code;
@@ -4440,6 +5106,8 @@ Blockly.Python['video_VariationalRefinement_setGamma'] = function(block) {
   return code;
 };
 Blockly.Python['video_VariationalRefinement_create'] = function(block) {
+  Blockly.Python.definitions_['import_cv2'] = 'import cv2';
+
   var VariationalRefinement = Blockly.Python.variableName_(block, 'VariationalRefinement');
   var code = VariationalRefinement + " = cv2.VariationalRefinement_create()\n"
   return code;
