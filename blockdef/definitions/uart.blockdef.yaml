@@ -14,9 +14,22 @@ category:
   # esp32-basic deliberately has no UART category.
   toolboxes: [esp32, esp32c3, esp32S3, otto-robot, esp32S2, esp8266, rpi_pico,
               rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  # UART pins per board -- the table in blockdef/README.md. `stm32` and
+  # `default` are left out: no device on either gives a pinout, so both sockets
+  # read "not defined" there whatever is written here.
   defaults:
-    rpi_pico:   {tx: 0, rx: 1}
-    rpi_pico_w: {tx: 0, rx: 1}
+    esp32:       {tx: 17, rx: 16}
+    AmadoBoard:  {tx: 17, rx: 16}
+    esp32c3:     {tx: 21, rx: 20}
+    esp32S2:     {tx: 17, rx: 16}
+    esp32S3:     {tx: 43, rx: 44}
+    otto-robot:  {tx: 17, rx: 16}
+    esp8266:     {tx: 1,  rx: 3}
+    rpi_pico:    {tx: 0,  rx: 1}
+    rpi_pico_w:  {tx: 0,  rx: 1}
+    3pi_2040:    {tx: 0,  rx: 1}
+    makernano:   {tx: 0,  rx: 1}
+    makerpi:     {tx: 0,  rx: 1}
 
 blocks:
   - type: uart_init
@@ -29,8 +42,8 @@ blocks:
     params:
       - {name: port, label: "Port:",      type: Number, default: 0,    align: right}
       - {name: baud, label: "Baud rate:", type: Number, default: 9600, align: right}
-      - {name: tx,   label: "TX Pin:",    type: Number, pin: true,     align: right}
-      - {name: rx,   label: "RX Pin:",    type: Number, pin: true,     align: right}
+      - {name: tx,   label: "TX Pin:",    type: Number, pin: true,     align: right, default: 17}
+      - {name: rx,   label: "RX Pin:",    type: Number, pin: true,     align: right, default: 16}
 
   - type: uart_write
     fn: write

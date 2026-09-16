@@ -480,9 +480,7 @@
     <!-- blockdef:gpio -->
     <block type="gpio_set">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN">0</field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="value">
         <shadow type="logic_boolean">
@@ -493,9 +491,7 @@
 
     <block type="gpio_get">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN">0</field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="pullup">
         <shadow type="logic_boolean">
@@ -520,9 +516,7 @@
     <!-- blockdef:pwm -->
     <block type="pwm">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN">1</field>
-        </shadow>
+        <shadow type="pinout"></shadow>
       </value>
       <value name="frequency">
         <shadow type="math_number">
@@ -1390,14 +1384,10 @@
             </shadow>
           </value>
           <value name="scl">
-            <shadow type="pinout">
-              <field name="PIN">5</field>
-            </shadow>
+            <shadow type="pinout"></shadow>
           </value>
           <value name="sda">
-            <shadow type="pinout">
-              <field name="PIN">4</field>
-            </shadow>
+            <shadow type="pinout"></shadow>
           </value>
           <value name="freq">
             <shadow type="math_number">
@@ -3238,14 +3228,10 @@
       </shadow>
     </value>
     <value name="scl">
-      <shadow type="pinout">
-        <field name="PIN">5</field>
-      </shadow>
+      <shadow type="pinout"></shadow>
     </value>
     <value name="sda">
-      <shadow type="pinout">
-        <field name="PIN">4</field>
-      </shadow>
+      <shadow type="pinout"></shadow>
     </value>
     <value name="freq">
       <shadow type="math_number">

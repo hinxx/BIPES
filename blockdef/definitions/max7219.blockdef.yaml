@@ -24,6 +24,8 @@ category:
     rpi_pico_w: {clk: 2, tx: 3, cs: 5}
     makernano:  {clk: 2, tx: 3, cs: 5}
     makerpi:    {clk: 2, tx: 3, cs: 5}
+    esp32S3:    {clk: 7, tx: 6, cs: 5}
+    otto-robot: {clk: 14, tx: 13, cs: 4}
 
 blocks:
   - type: max7219_init

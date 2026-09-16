@@ -91,6 +91,13 @@ the socket. `len()` parses, so nothing before the board notices it; a socket
 nothing interpolates is not warned about, which is why `mcp23017_input`'s
 vestigial `pullup` stays quiet.
 
+It refuses a `pin: true` socket whose default the board does not have, and two
+of them on one block that would resolve to the same pin. An empty `pinout`
+dropdown falls back to the board's first pin in silence, and so does one given
+a number the board cannot offer, which is how `init_mpu6050` came to emit
+`I2C(0, scl=Pin(2), sda=Pin(2))` on fifteen boards. See "Pin defaults, and the
+table they come from" below.
+
 A generated category with no blocks on a board is not written at all, which
 makes `toolboxes:` say where a category *may* appear: a family whose every
 block is `boards:`-restricted away from a board simply does not appear there,
@@ -162,7 +169,7 @@ category:
   docs: gy33I2C          # "Documentation and how to connect: <name>"
   toolboxes: [esp32, rpi_pico]        # ui/toolbox/<name>.xml
   defaults:                           # per-board shadow values    (optional)
-    rpi_pico: {sda: 0, scl: 1}
+    rpi_pico: {sda: 0, scl: 1}        #   required for `pin: true` -- see below
 
 blocks:
   - type: gy33_i2c_led_pwr   # the Blockly block id -- never change a shipped one
@@ -374,6 +381,64 @@ without `row: next`.
 A `type:` that is not one of Blockly's own (`Number`, `String`, `Boolean`,
 `Array`, `Colour`) is a custom type: it still constrains what can plug in, but
 gets no shadow, because nothing here knows what block would fit.
+
+### Pin defaults, and the table they come from
+
+A `pin: true` socket gets a `pinout` shadow — the dropdown of the pins the
+*selected* board has. Which pin it starts on is the one thing about a family
+that genuinely differs per board, so it is what `defaults:` is for, and the one
+way to get it wrong is to say nothing: `pin: true` with no default writes
+`<shadow type="pinout"></shadow>`, and an empty dropdown falls back to the first
+entry in the board's `devinfo.json` pinout without a word. A two-wire device
+then arrives on one wire — `init_mpu6050` emitted `I2C(0, scl=Pin(2),
+sda=Pin(2))` on fifteen boards, `hcsr_init` put trigger and echo on the same
+GPIO, 143 flyout entries over 15 block types in all.
+
+A number the board does not *have* is the same fault wearing a number: the
+dropdown cannot select it, so it falls back to the first pin exactly as an
+empty one does. `st7789_init` offered the esp32c3 six sockets numbered 10 to
+15, on a chip whose pins stop at GPIO10 but for 20 and 21.
+
+So `make blocks` refuses both: every `pin: true` default must name a pin that
+board's `devinfo.json` lists, and two sockets on one block must not resolve to
+the same one. A board with no pinout at all (`stm32`, and `default`, which is
+nobody's board) is exempt — every socket there reads "not defined" whatever is
+written — and on those the emitter writes no `PIN` field, since a number
+Blockly cannot select only earns a console warning on the way to the same
+place.
+
+Boards that *share* a toolbox and disagree about their pins are outside what
+`defaults:` can fix: it is keyed by the toolbox file, and eight devices share
+`esp32.xml`. The ESP32-LoRa lacking GPIO16 is a fact about that board, not
+about the default, so the check asks only that a default be a pin *some*
+device on that toolbox has.
+
+These are the bus pins each board names, or the free GPIOs picked for it where
+it names none. A new family with I2C, UART or SPI sockets should copy the rows
+it needs rather than invent new ones:
+
+| toolbox | SDA | SCL | TX | RX | SCK | MOSI | MISO | CS | RST |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `esp32`, `esp32-basic`, `AmadoBoard` | 21 | 22 | 17 | 16 | 18 | 23 | 19 | 5 | 4 |
+| `esp32c3` | 6 | 7 | 21 | 20 | 8 | 10 | 9 | 5 | 4 |
+| `esp32S2` | 8 | 9 | 17 | 16 | 12 | 11 | 13 | 10 | 14 |
+| `esp32S3` | 9 | 18 | 43 | 44 | 7 | 6 | 8 | 5 | 15 |
+| `otto-robot` | 8 | 6 | 17 | 16 | 14 | 13 | 10 | 4 | 16 |
+| `esp8266` | 4 | 5 | 1 | 3 | 14 | 13 | 12 | 15 | 16 |
+| `rpi_pico`, `rpi_pico_w`, `3pi_2040` | 0 | 1 | 0 | 1 | 18 | 19 | 16 | 17 | 20 |
+| `makernano` | 0 | 1 | 0 | 1 | 18 | 19 | 16 | 17 | 15 |
+| `makerpi` | 0 | 1 | 0 | 1 | 12 | 13 | 14 | 15 | 16 |
+
+Everything but the esp32S2, the OTTO and the RST column is what the board's own
+pinout labels the pin: `devinfo.json` says `D21 / SDA / GPIO21`, `GPIO7/D5/SCL`,
+`IO7 / SPI SCK`. The ESP32-S2 rows are the chip's documented defaults, the OTTO
+rows are free GPIOs (its pinout names servos, not buses), and RST is not a bus
+signal anywhere — it is a spare pin beside the rest.
+
+Pins that are not a bus at all — a stepper's four coils, an H-bridge's
+direction pair — have no table. They are free GPIOs per board, picked so the
+sockets arrive apart; the MakerPi is the exception that names its two motor
+drivers (GP8/GP9 and GP10/GP11) on its own pinout, and `motor_init` uses them.
 
 ### A block already in the socket
 

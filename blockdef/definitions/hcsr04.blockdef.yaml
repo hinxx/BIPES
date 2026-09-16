@@ -19,9 +19,24 @@ category:
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
               3pi_2040]
-  # The only thing 13 boards genuinely disagreed about.
+  # The only thing 13 boards genuinely disagreed about -- and the thing all but
+  # one of them had no answer for, so trigger and echo arrived on the same
+  # GPIO. Free GPIOs per board, except the OTTO, whose ultrasonic pins are on
+  # its own pinout. `stm32` and `default` are left out: neither gives a pinout.
   defaults:
-    rpi_pico: {echo: 0, trigger: 1}
+    esp32:       {echo: 12, trigger: 13}
+    esp32-basic: {echo: 12, trigger: 13}
+    AmadoBoard:  {echo: 12, trigger: 13}
+    esp32c3:     {echo: 2,  trigger: 3}
+    esp32S2:     {echo: 12, trigger: 13}
+    esp32S3:     {echo: 15, trigger: 16}
+    otto-robot:  {echo: 5,  trigger: 18}
+    esp8266:     {echo: 12, trigger: 13}
+    rpi_pico:    {echo: 0,  trigger: 1}
+    rpi_pico_w:  {echo: 0,  trigger: 1}
+    3pi_2040:    {echo: 0,  trigger: 1}
+    makernano:   {echo: 0,  trigger: 1}
+    makerpi:     {echo: 0,  trigger: 1}
 
 blocks:
   - type: hcsr_init
@@ -36,9 +51,9 @@ blocks:
     args: [trigger, echo, timeout]
     params:
       - {name: echo,    label: echo pin,    type: Number, pin: true, align: right,
-         keyword: echo_pin}
+         keyword: echo_pin, default: 12}
       - {name: trigger, label: trigger pin, type: Number, pin: true, align: right,
-         keyword: trigger_pin}
+         keyword: trigger_pin, default: 13}
       - {name: timeout, label: {msg: hcsr_timeout, field: DHT_PIN_MSG}, type: Number,
          default: 10000, align: right, keyword: echo_timeout_us}
 

@@ -24,7 +24,10 @@ category:
     - "Library: https://github.com/kevinmcaleer/vl53l0x"
   toolboxes: [rpi_pico, rpi_pico_w, makernano, makerpi]
   defaults:
-    rpi_pico: {scl: 1, sda: 0}
+    rpi_pico:   {sda: 0, scl: 1}
+    rpi_pico_w: {sda: 0, scl: 1}
+    makernano:  {sda: 0, scl: 1}
+    makerpi:    {sda: 0, scl: 1}
 
 blocks:
   - type: init_vl53l0x
@@ -37,8 +40,8 @@ blocks:
     constructor: true
     params:
       - {name: i2c, label: I2C, type: Number, default: 0, align: right}
-      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
-      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right, default: 1}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right, default: 0}
 
   - type: vl53l0x_read_tof
     fn: ping

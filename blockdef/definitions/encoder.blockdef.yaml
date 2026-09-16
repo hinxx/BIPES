@@ -17,6 +17,19 @@ category:
   labels: [Rotatory Incremental Encoder]
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               AmadoBoard, default]
+  # These pins are not a bus, so no board names them: they are free GPIOs,
+  # picked per board so the sockets arrive apart rather than stacked on the
+  # board's first pin. `stm32` and `default` are left out: neither gives a
+  # pinout, so every socket there reads "not defined".
+  defaults:
+    esp32:       {p0: 12, p1: 13}
+    esp32-basic: {p0: 12, p1: 13}
+    AmadoBoard:  {p0: 12, p1: 13}
+    esp32c3:     {p0: 2,  p1: 3}
+    esp32S2:     {p0: 12, p1: 13}
+    esp32S3:     {p0: 15, p1: 16}
+    otto-robot:  {p0: 13, p1: 14}
+    esp8266:     {p0: 12, p1: 13}
 
 blocks:
   - type: encoder_init
@@ -65,8 +78,8 @@ blocks:
       p11 = Pin({p1}, Pin.IN)
       {instance} = Encoder(p00,p11,1,1)
     params:
-      - {name: p0, label: ch0, type: Number, pin: true, align: right}
-      - {name: p1, label: ch1, type: Number, pin: true, align: right}
+      - {name: p0, label: ch0, type: Number, pin: true, align: right, default: 12}
+      - {name: p1, label: ch1, type: Number, pin: true, align: right, default: 13}
 
   - type: encoder_reset
     label: Reset Encoder

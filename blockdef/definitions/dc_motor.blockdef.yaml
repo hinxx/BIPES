@@ -9,6 +9,19 @@ category:
   labels: [DC Motor]
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               AmadoBoard, default]
+  # These pins are not a bus, so no board names them: they are free GPIOs,
+  # picked per board so the sockets arrive apart rather than stacked on the
+  # board's first pin. `stm32` and `default` are left out: neither gives a
+  # pinout, so every socket there reads "not defined".
+  defaults:
+    esp32:       {pwm: 12, dir1: 13, dir2: 14}
+    esp32-basic: {pwm: 12, dir1: 13, dir2: 14}
+    AmadoBoard:  {pwm: 12, dir1: 13, dir2: 14}
+    esp32c3:     {pwm: 2,  dir1: 3,  dir2: 4}
+    esp32S2:     {pwm: 12, dir1: 13, dir2: 14}
+    esp32S3:     {pwm: 15, dir1: 16, dir2: 17}
+    otto-robot:  {pwm: 13, dir1: 14, dir2: 16}
+    esp8266:     {pwm: 12, dir1: 13, dir2: 14}
 
 blocks:
   - type: dc_motor_init
@@ -26,9 +39,9 @@ blocks:
       dc_motor_pin_b = Pin({dir2}, Pin.OUT)
       dc_motor_pwm = PWM(Pin({pwm}))
     params:
-      - {name: pwm,  label: PWM,  type: Number, pin: true, align: right}
-      - {name: dir1, label: Dir1, type: Number, pin: true, align: right}
-      - {name: dir2, label: Dir2, type: Number, pin: true, align: right}
+      - {name: pwm,  label: PWM,  type: Number, pin: true, align: right, default: 12}
+      - {name: dir1, label: Dir1, type: Number, pin: true, align: right, default: 13}
+      - {name: dir2, label: Dir2, type: Number, pin: true, align: right, default: 14}
 
   - type: dc_motor_power
     label: Set DC Motor Power

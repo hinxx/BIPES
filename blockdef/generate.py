@@ -18,6 +18,7 @@ category somewhere nobody chose.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from pathlib import Path
 from xml.etree import ElementTree
@@ -41,6 +42,7 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     _check_no_clash_with_handwritten(root, definitions)
     _check_no_duplicate_handwritten(root)
     _check_variant_devices_exist(root, definitions)
+    _check_pin_defaults_are_real_and_distinct(root, definitions)
     _check_generated_python_parses(definitions)
 
     blocks_js = emit_blocks_js(definitions)
@@ -52,13 +54,22 @@ def generate(root: str | Path = '.', verbose: bool = True) -> list[Path]:
     written += _write(root / GENERATORS_JS, generators_js)
     written += _stamp_page(root)
 
+    # A board with no pin list gets no `<field name="PIN">` at all: `default.xml`
+    # is nobody's board and `stm32.xml`'s Nucleo ships no pinout, so every
+    # `pinout` dropdown there offers "not defined" and nothing else. Writing a
+    # number into one makes Blockly warn and fall back; leaving it out is the
+    # same fallback, quietly. With no devinfo.json to read, nothing is known
+    # about any board and every default is written as before.
+    pins_of = _toolbox_pins(root)
     for definition in definitions:
         for board in definition.toolboxes:
             path = root / TOOLBOX / f'{board}.xml'
             if not path.exists():
                 raise BlockdefError(f'{definition.path}: no toolbox called {board!r} '
                                     f'({path} does not exist)')
-            written += _splice(path, definition)
+            written += _splice(path, definition,
+                               pins_of.get(board, set()) if pins_of else None)
+        written += _empty_orphaned_markers(root, definition)
 
     _check_toolbox_block_types_exist(root)
     _check_every_block_has_a_generator(root)
@@ -157,6 +168,112 @@ def _check_variant_devices_exist(root: Path, definitions: list[Definition]) -> N
                         f'{variant.device!r}, which is not one of the board selector\'s '
                         f'values in ui/index.html. The value is what `<option value=>` '
                         f'says, not the label the dropdown shows.')
+
+
+def _check_pin_defaults_are_real_and_distinct(root: Path, definitions: list[Definition]) -> None:
+    """Every `pin: true` socket defaults to a pin the board has, and to its own.
+
+    A `pinout` shadow with no default writes `<shadow type="pinout"></shadow>`,
+    and an empty `pinout` dropdown falls back to the *first* entry in the
+    board's `devinfo.json` pinout without saying so. A block for a two-wire
+    device therefore arrives wired to one wire: `init_mpu6050` emitted
+    `I2C(0, scl=Pin(2), sda=Pin(2))` on fifteen boards, `hcsr_init` put trigger
+    and echo on the same GPIO. That is 143 flyout entries over 15 block types,
+    fixed under B8; this is the check that stops it coming back.
+
+    A default the board does not *have* is the same fault wearing a number:
+    the dropdown falls back to the first pin exactly as an empty one does. So
+    that is refused outright, collision or not -- it is how `st7789_init` was
+    caught offering the esp32c3 five sockets numbered 11 to 15 on a chip whose
+    pins stop at 10, and how a board added to `toolboxes:` without an entry in
+    `defaults:` says so at build time instead of in somebody's wiring.
+
+    A toolbox no device gives a pinout (`stm32`, `default`) is skipped: every
+    socket there reads "not defined" whatever the default says, so no default
+    can tell them apart. `_shadow_xml` writes no `PIN` field at all on those,
+    which is the other half of the same decision. Devices that *share* a toolbox and disagree about
+    their pins are not this check's business either -- one `defaults:` entry
+    cannot satisfy both, and the ESP32-LoRa lacking GPIO16 is a fact about that
+    board, not about the default. The union of the toolbox's pins is what
+    counts as resolvable.
+    """
+    pins_of = _toolbox_pins(root)
+    if not pins_of:
+        return
+    for definition in definitions:
+        for block in definition.entries:
+            if not isinstance(block, Block):
+                continue        # a <label> or a button has no sockets
+            if getattr(block, 'offered', True) is False:
+                continue        # in no flyout, so there is no entry to get wrong
+            sockets = [p for p in block.params
+                       if p.kind == 'input' and p.pin and p.shadow and not p.plug]
+            if not sockets:
+                continue
+            for board in (block.boards or definition.toolboxes):
+                known = pins_of.get(board)
+                if not known:
+                    continue
+                overrides = definition.defaults.get(board, {})
+                landing: dict[str, list[str]] = {}
+                for socket in sockets:
+                    value = overrides.get(socket.name, socket.default)
+                    if value is not None and str(value) not in known:
+                        raise BlockdefError(
+                            f'{definition.path}: block {block.type!r} defaults {socket.name} '
+                            f'to pin {value}, which {board} does not have. Give it a '
+                            f'`defaults: {{{board}: {{{socket.name}: ...}}}}` entry naming '
+                            f'a pin from that board\'s devinfo.json -- a socket whose '
+                            f'default the board does not offer falls back to the first '
+                            f'pin, which is not the pin anybody chose.')
+                    where = (str(value) if value is not None
+                             else 'the board\'s first pin')
+                    landing.setdefault(where, []).append(socket.name)
+                if len(sockets) < 2:
+                    continue        # one socket has nothing to collide with
+                clash = {where: names for where, names in landing.items() if len(names) > 1}
+                if clash:
+                    raise BlockdefError(
+                        f'{definition.path}: block {block.type!r} puts '
+                        + '; '.join(f'{" and ".join(names)} on {where}'
+                                    for where, names in clash.items())
+                        + f' on {board}. Give each `pin: true` socket a `default:` the '
+                        f'board has, or a `defaults: {{{board}: ...}}` entry for it -- '
+                        f'a socket whose default the board does not offer falls back to '
+                        f'the first pin, silently, which is how they end up together.')
+
+
+def _toolbox_pins(root: Path) -> dict[str, set[str]]:
+    """Every pin value each toolbox's boards offer, keyed by toolbox name.
+
+    Several devices can share one toolbox (five selectable ones share
+    `esp32.xml`) and `defaults:` is keyed by the toolbox, so the union is the
+    most a default can be asked to land in.
+
+    Only boards the selector actually offers count. `devinfo.json` describes
+    three -- `wemos_d1_mini`, `ESP32-oled`, `ESP32-LoRa` -- that no `<option>`
+    in `ui/index.html` names, so nobody can select them and their pinouts are
+    never the ones a `pinout` dropdown reads. Their pin lists are also the only
+    ones that disagree with the board they share a toolbox with, so counting
+    them would ask `defaults:` for something one entry per toolbox cannot give.
+    """
+    devinfo = root / 'ui/devinfo/devinfo.json'
+    if not devinfo.exists():
+        return {}
+    devices = json.loads(devinfo.read_text(encoding='utf-8')).get('devices', {})
+    page = root / 'ui/index.html'
+    selectable = set(re.findall(r'<option[^>]+value="([^"]+)"',
+                                page.read_text(encoding='utf-8'))) if page.exists() else set()
+    pins: dict[str, set[str]] = {}
+    for name, device in devices.items():
+        toolbox = (device.get('toolbox') or '').removesuffix('.xml')
+        if not toolbox:
+            continue
+        pins.setdefault(toolbox, set())
+        if selectable and name not in selectable:
+            continue
+        pins[toolbox].update(str(pin[1]) for pin in device.get('pinout') or [])
+    return pins
 
 
 def _check_no_unresolved_placeholders(js: str, definitions: list[Definition]) -> None:
@@ -504,7 +621,36 @@ def _registered(scripts: list[str], table: str, json_arrays: bool = True) -> set
     return names
 
 
-def _splice(path: Path, definition: Definition) -> list[Path]:
+def _empty_orphaned_markers(root: Path, definition: Definition) -> list[Path]:
+    """Empty this family's marker pair on any board `toolboxes:` no longer lists.
+
+    Removing a board from `toolboxes:` used to do nothing at all: the tool only
+    opens the files a definition names, so the board it stopped naming kept the
+    category it was last given, and `make blocks` said everything was up to
+    date while the toolboxes contradicted the definitions. That is how
+    `ubluetooth` could be taken off seven boards and stay on all seven.
+
+    The marker pair itself stays. Where a category sits is the board's
+    judgement and the tool does not own it -- an empty pair is the record that
+    this board has a place for the family and is currently not offering it,
+    which is what makes putting it back one line in the YAML.
+    """
+    written: list[Path] = []
+    start = f'<!-- blockdef:{definition.name} -->'
+    end = f'<!-- /blockdef:{definition.name} -->'
+    pattern = re.compile(r'([ \t]*)' + re.escape(start) + r'[\s\S]*?' + re.escape(end))
+    for path in sorted((root / TOOLBOX).glob('*.xml')):
+        if path.name.split('.')[0] in definition.toolboxes:
+            continue
+        source = path.read_text(encoding='utf-8')
+        if start not in source:
+            continue
+        emptied = pattern.sub(lambda m: f'{m.group(1)}{start}\n{m.group(1)}{end}', source)
+        written += _write(path, emptied)
+    return written
+
+
+def _splice(path: Path, definition: Definition, pins: set[str] | None = None) -> list[Path]:
     source = path.read_text(encoding='utf-8')
     start = f'<!-- blockdef:{definition.name} -->'
     end = f'<!-- /blockdef:{definition.name} -->'
@@ -522,7 +668,7 @@ def _splice(path: Path, definition: Definition) -> list[Path]:
         # marker pair with this name is filled -- `uos` is offered both at the
         # top level and inside the `micropython` container.
         indent = match.group(1)
-        body = emit_category_xml(definition, indent, board=board)
+        body = emit_category_xml(definition, indent, board=board, pins=pins)
         if not body:                  # nothing this board can offer: no category
             return f'{indent}{start}\n{indent}{end}'
         return f'{indent}{start}\n{body}\n{indent}{end}'

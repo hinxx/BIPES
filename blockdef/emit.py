@@ -485,7 +485,8 @@ def _needs_prefix(definition: Definition, block: Block) -> bool:
 # --- toolbox XML ------------------------------------------------------------
 
 
-def emit_category_xml(definition: Definition, indent: str = '    ', board: str = '') -> str:
+def emit_category_xml(definition: Definition, indent: str = '    ', board: str = '',
+                      pins: set[str] | None = None) -> str:
     # Normally no colour attribute: the blocks carry the colour, and only one
     # leaf category in this tree colours its own label.
     #
@@ -526,7 +527,8 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
                          f'callbackKey="{entry.key}"></button>')
             continue
         overrides = definition.defaults.get(board, {})
-        shadows = [(p, _shadow_xml(p, overrides.get(p.name, _UNSET))) for p in entry.params]
+        shadows = [(p, _shadow_xml(p, overrides.get(p.name, _UNSET), pins))
+                   for p in entry.params]
         shadows = [(p, s) for p, s in shadows if s]
         if not shadows and not entry.fields:
             lines.append(f'  <block type="{entry.type}"></block>')
@@ -562,8 +564,15 @@ def emit_category_xml(definition: Definition, indent: str = '    ', board: str =
 _UNSET = object()
 
 
-def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
-    """The block sitting in an empty socket, so the toolbox entry is usable."""
+def _shadow_xml(param: Param, override=_UNSET,
+                pins: set[str] | None = None) -> list[str] | None:
+    """The block sitting in an empty socket, so the toolbox entry is usable.
+
+    `pins` is what the board's `devinfo.json` offers, when the caller knows: a
+    `pinout` field naming a pin that is not in the dropdown makes Blockly warn
+    and then fall back to the first one, so a default the board does not have
+    is written as no field at all -- the same fallback, without the warning.
+    """
     if param.kind == 'statements':
         # A stack has no shadow -- Blockly has no such thing -- but a real
         # block can start it, which is how `google_spreadsheet` arrives with a
@@ -583,7 +592,7 @@ def _shadow_xml(param: Param, override=_UNSET) -> list[str] | None:
         # written empty: an empty one makes Blockly warn ("Cannot set the
         # dropdown's value to an unavailable option") and then fall back to the
         # first pin, which is what leaving it out does quietly.
-        if default is None:
+        if default is None or (pins is not None and str(default) not in pins):
             return ['<shadow type="pinout"></shadow>']
         return ['<shadow type="pinout">',
                 f'  <field name="PIN">{_xml(str(default))}</field>', '</shadow>']

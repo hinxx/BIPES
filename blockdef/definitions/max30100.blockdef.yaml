@@ -15,10 +15,25 @@ category:
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
               3pi_2040]
+  # I2C pins per board -- the table in blockdef/README.md. `stm32` and
+  # `default` are left out: no device on either gives a pinout, so both sockets
+  # read "not defined" there whatever is written here.
+  # The esp32 entry used to say scl 18 / sda 19, which are that board's SCK and
+  # MISO. Distinct, so nothing complained, and no I2C device answers there.
   defaults:
-    esp32:      {scl: 18, sda: 19}
-    rpi_pico:   {scl: 1,  sda: 0}
-    rpi_pico_w: {scl: 1,  sda: 0}
+    esp32:       {sda: 21, scl: 22}
+    esp32-basic: {sda: 21, scl: 22}
+    AmadoBoard:  {sda: 21, scl: 22}
+    esp32c3:     {sda: 6,  scl: 7}
+    esp32S2:     {sda: 8,  scl: 9}
+    esp32S3:     {sda: 9,  scl: 18}
+    otto-robot:  {sda: 8,  scl: 6}
+    esp8266:     {sda: 4,  scl: 5}
+    rpi_pico:    {sda: 0,  scl: 1}
+    rpi_pico_w:  {sda: 0,  scl: 1}
+    3pi_2040:    {sda: 0,  scl: 1}
+    makernano:   {sda: 0,  scl: 1}
+    makerpi:     {sda: 0,  scl: 1}
 
 blocks:
   - type: max30100_init
@@ -32,8 +47,8 @@ blocks:
       {instance}.enable_spo2()
     params:
       - {name: i2c, label: I2C, type: Number, default: 0, align: right}
-      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
-      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right, default: 22}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right, default: 21}
 
   - {type: max30100_read, fn: read_sensor, label: Update MAX30100 Reading, tooltip: ""}
   - {type: max30100_red, attr: red, kind: value, label: Get MAX30100 Red Value, tooltip: ""}

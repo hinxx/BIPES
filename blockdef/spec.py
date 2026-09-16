@@ -743,7 +743,12 @@ def _defaults(raw: Any, definition: Definition, where: _Where) -> dict[str, dict
     if not isinstance(raw, dict):
         raise BlockdefError(f'{where}: `defaults` must be a mapping of board to '
                             f'param overrides')
-    params = {p.name for block in definition.blocks for p in block.params}
+    # Every Block entry, `external:` included: an external entry owns no
+    # JavaScript but its toolbox entry is still generated from these params, so
+    # `SPI` under the `Communication` tree needs the same per-board pins as the
+    # `machine.SPI` category it borrows the blocks from.
+    params = {p.name for block in definition.entries
+              if isinstance(block, Block) for p in block.params}
     out: dict[str, dict[str, Any]] = {}
     for board, overrides in raw.items():
         if board not in definition.toolboxes:

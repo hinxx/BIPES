@@ -1888,10 +1888,14 @@
         </shadow>
       </value>
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
       </value>
     </block>
 
@@ -1980,10 +1984,14 @@
         </shadow>
       </value>
       <value name="tx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
       </value>
       <value name="rx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
       </value>
       <value name="bps">
         <shadow type="math_number">
@@ -2189,27 +2197,27 @@
       </value>
       <value name="cs">
         <shadow type="pinout">
-          <field name="PIN">19</field>
+          <field name="PIN">17</field>
         </shadow>
       </value>
       <value name="sck">
         <shadow type="pinout">
-          <field name="PIN">1</field>
+          <field name="PIN">18</field>
         </shadow>
       </value>
       <value name="mosi">
         <shadow type="pinout">
-          <field name="PIN">4</field>
+          <field name="PIN">19</field>
         </shadow>
       </value>
       <value name="miso">
         <shadow type="pinout">
-          <field name="PIN">6</field>
+          <field name="PIN">16</field>
         </shadow>
       </value>
       <value name="rst">
         <shadow type="pinout">
-          <field name="PIN">7</field>
+          <field name="PIN">20</field>
         </shadow>
       </value>
     </block>
@@ -4924,13 +4932,19 @@
         </shadow>
       </value>
       <value name="sck">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">14</field>
+        </shadow>
       </value>
       <value name="mosi">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">15</field>
+        </shadow>
       </value>
       <value name="miso">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
       </value>
     </block>
 
@@ -4995,10 +5009,14 @@
         </shadow>
       </value>
       <value name="tx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
       </value>
       <value name="rx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
       </value>
       <value name="bps">
         <shadow type="math_number">
@@ -6743,13 +6761,19 @@
       </shadow>
     </value>
     <value name="sck">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">14</field>
+      </shadow>
     </value>
     <value name="mosi">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">15</field>
+      </shadow>
     </value>
     <value name="miso">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">16</field>
+      </shadow>
     </value>
   </block>
 

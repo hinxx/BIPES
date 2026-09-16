@@ -23,14 +23,21 @@ category:
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
               3pi_2040]
-  # I2C lands on different pins per board; the boards that had no suggestion
-  # keep none, and the dropdown picks a pin that board actually has.
+  # I2C lands on different pins per board -- the table in blockdef/README.md.
+  # `stm32` and `default` are left out: no device on either gives a pinout, so
+  # both sockets read "not defined" there whatever is written here.
   defaults:
     esp32:       {sda: 21, scl: 22}
     esp32-basic: {sda: 21, scl: 22}
+    AmadoBoard:  {sda: 21, scl: 22}
     esp32c3:     {sda: 6,  scl: 7}
+    esp32S2:     {sda: 8,  scl: 9}
+    esp32S3:     {sda: 9,  scl: 18}
+    otto-robot:  {sda: 8,  scl: 6}
+    esp8266:     {sda: 4,  scl: 5}
     rpi_pico:    {sda: 0,  scl: 1}
     rpi_pico_w:  {sda: 0,  scl: 1}
+    3pi_2040:    {sda: 0,  scl: 1}
     makernano:   {sda: 0,  scl: 1}
     makerpi:     {sda: 0,  scl: 1}
 
@@ -50,8 +57,8 @@ blocks:
       lcd = I2cLcd({bus}, I2C_ADDR, {rows}, {columns})
     params:
       - {name: i2c,     label: I2C,     type: Number, default: 0,  align: right}
-      - {name: sda,     label: SDA,     type: Number, align: right, pin: true}
-      - {name: scl,     label: SCL,     type: Number, align: right, pin: true}
+      - {name: sda,     label: SDA,     type: Number, align: right, pin: true, default: 21}
+      - {name: scl,     label: SCL,     type: Number, align: right, pin: true, default: 22}
       - {name: rows,    label: Rows,    type: Number, default: 2,  align: right}
       - {name: columns, label: Columns, type: Number, default: 16, align: right}
       - name: LCD_hex_address

@@ -60,9 +60,26 @@ category:
   toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
               esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
               stm32]
+  # SPI pins per board -- the table in blockdef/README.md, with RST on a free
+  # GPIO beside them. The two Pico entries used to say sck 1 / mosi 4 / miso 6,
+  # which is not a pin set either RP2040 SPI block can be routed to; the rest
+  # of the thirteen had no entry at all, so all five sockets arrived on the
+  # board's first pin together. `stm32` and `default` are left out: neither
+  # gives a pinout, so every socket there reads "not defined".
   defaults:
-    rpi_pico:   {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
-    rpi_pico_w: {cs: 19, sck: 1, mosi: 4, miso: 6, rst: 7}
+    esp32:       {sck: 18, mosi: 23, miso: 19, cs: 5,  rst: 4}
+    esp32-basic: {sck: 18, mosi: 23, miso: 19, cs: 5,  rst: 4}
+    AmadoBoard:  {sck: 18, mosi: 23, miso: 19, cs: 5,  rst: 4}
+    esp32c3:     {sck: 8,  mosi: 10, miso: 9,  cs: 5,  rst: 4}
+    esp32S2:     {sck: 12, mosi: 11, miso: 13, cs: 10, rst: 14}
+    esp32S3:     {sck: 7,  mosi: 6,  miso: 8,  cs: 5,  rst: 15}
+    otto-robot:  {sck: 14, mosi: 13, miso: 10, cs: 4,  rst: 16}
+    esp8266:     {sck: 14, mosi: 13, miso: 12, cs: 15, rst: 16}
+    rpi_pico:    {sck: 18, mosi: 19, miso: 16, cs: 17, rst: 20}
+    rpi_pico_w:  {sck: 18, mosi: 19, miso: 16, cs: 17, rst: 20}
+    3pi_2040:    {sck: 18, mosi: 19, miso: 16, cs: 17, rst: 20}
+    makernano:   {sck: 18, mosi: 19, miso: 16, cs: 17, rst: 15}
+    makerpi:     {sck: 12, mosi: 13, miso: 14, cs: 15, rst: 16}
 
 blocks:
   - {label: RC522 13.56MHz RFID Reader}
@@ -86,11 +103,11 @@ blocks:
       rdr.init()
     params:
       - {name: spi,  label: SPI,  type: Number, default: 0, align: right}
-      - {name: cs,   label: CS,   type: Number, pin: true,  align: right}
-      - {name: sck,  label: SCK,  type: Number, pin: true,  align: right}
-      - {name: mosi, label: MOSI, type: Number, pin: true,  align: right}
-      - {name: miso, label: MISO, type: Number, pin: true,  align: right}
-      - {name: rst,  label: RST,  type: Number, pin: true,  align: right}
+      - {name: cs,   label: CS,   type: Number, pin: true,  align: right, default: 5}
+      - {name: sck,  label: SCK,  type: Number, pin: true,  align: right, default: 18}
+      - {name: mosi, label: MOSI, type: Number, pin: true,  align: right, default: 23}
+      - {name: miso, label: MISO, type: Number, pin: true,  align: right, default: 19}
+      - {name: rst,  label: RST,  type: Number, pin: true,  align: right, default: 4}
 
   - type: rfid_rc522_detect_card
     label: Check if RFID Card is present

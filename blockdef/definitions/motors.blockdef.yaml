@@ -69,6 +69,12 @@ category:
   name: Motors
   labels: [Motors]
   toolboxes: [makernano, makerpi]
+  # The MakerPi breaks its two motor drivers out on GP8/GP9 and GP10/GP11 and
+  # says so in its pinout; the MakerNano has no such header, so these are four
+  # free GPIOs. All eight sockets used to arrive on GP0.
+  defaults:
+    makerpi:   {right_forward: 8, right_reverse: 9, left_forward: 10, left_reverse: 11}
+    makernano: {right_forward: 2, right_reverse: 3, left_forward: 4,  left_reverse: 5}
 
 blocks:
   - type: motor_init
@@ -86,10 +92,10 @@ blocks:
       left_reverse = PWM(Pin({left_reverse}))
       left_reverse.freq(FREQUENCY)
     params:
-      - {name: right_forward, label: Right Forward, pin: true}
-      - {name: right_reverse, label: Right Reverse, pin: true}
-      - {name: left_forward,  label: Left Forward,  pin: true}
-      - {name: left_reverse,  label: Left Reverse,  pin: true}
+      - {name: right_forward, label: Right Forward, pin: true, default: 8}
+      - {name: right_reverse, label: Right Reverse, pin: true, default: 9}
+      - {name: left_forward,  label: Left Forward,  pin: true, default: 10}
+      - {name: left_reverse,  label: Left Reverse,  pin: true, default: 11}
 
   - {type: forward_fast,  label: Go Forward Quickly,  code: "forward()"}
   - {type: forward_slow,  label: Go Forward Slowly,   code: "forwardSlow()"}

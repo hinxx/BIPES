@@ -17,9 +17,13 @@ category:
   labels:
     - TM1637 Display
     - "Library: https://github.com/mcauser/micropython-tm1637"
-  toolboxes: [esp32c3, esp32S3, otto-robot, rpi_pico, rpi_pico_w, makernano, makerpi]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot,
+              rpi_pico, rpi_pico_w, makernano, makerpi]
+  # The esp32c3 entry used to be 18/17, and that chip has neither -- its pins
+  # stop at GPIO10 but for 20 and 21 -- so both wires landed on GPIO0. CLK and
+  # DIO are bit-banged, so any two free GPIOs will do.
   defaults:
-    esp32c3:    {clk: 18, dio: 17}
+    esp32c3:    {clk: 8,  dio: 10}
     rpi_pico:   {clk: 18, dio: 17}
     rpi_pico_w: {clk: 18, dio: 17}
     makernano:  {clk: 18, dio: 17}
@@ -32,8 +36,8 @@ blocks:
     tooltip: Init TM1637 4 Digit Display
     code: "{instance} = tm1637.TM1637(clk = Pin({clk}), dio = Pin({dio}))"
     params:
-      - {name: clk, label: CLK, type: Number, pin: true, align: right}
-      - {name: dio, label: DIO, type: Number, pin: true, align: right}
+      - {name: clk, label: CLK, type: Number, pin: true, align: right, default: 18}
+      - {name: dio, label: DIO, type: Number, pin: true, align: right, default: 17}
 
   - type: tm1637_write_char
     label: Write a Single Character to Display

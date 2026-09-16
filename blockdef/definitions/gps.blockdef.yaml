@@ -17,12 +17,26 @@ category:
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               rpi_pico, rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
               3pi_2040]
+  # UART pins per board -- the table in blockdef/README.md, with the u-blox
+  # modules' 38400 baud where the board has a second hardware UART to give
+  # them. The esp32c3 entry used to be a copy of the esp32 one: UART 2 and pins
+  # 17/16 on a chip that has two UARTs and stops at GPIO21, so both sockets
+  # fell back to GPIO0 and `UART(2, ...)` would have raised on the board.
+  # `stm32` and `default` are left out: neither gives a pinout.
   defaults:
     esp32:       {uart: 2, tx: 17, rx: 16, bps: 38400}
     esp32-basic: {uart: 2, tx: 17, rx: 16, bps: 38400}
-    esp32c3:     {uart: 2, tx: 17, rx: 16, bps: 38400}
-    rpi_pico:    {tx: 0, rx: 1}
-    rpi_pico_w:  {tx: 0, rx: 1}
+    AmadoBoard:  {uart: 2, tx: 17, rx: 16, bps: 38400}
+    esp32c3:     {uart: 1, tx: 21, rx: 20, bps: 38400}
+    esp32S2:     {uart: 1, tx: 17, rx: 16, bps: 38400}
+    esp32S3:     {uart: 1, tx: 43, rx: 44, bps: 38400}
+    otto-robot:  {uart: 1, tx: 17, rx: 16, bps: 38400}
+    esp8266:     {tx: 1,  rx: 3}
+    rpi_pico:    {tx: 0,  rx: 1}
+    rpi_pico_w:  {tx: 0,  rx: 1}
+    3pi_2040:    {tx: 0,  rx: 1}
+    makernano:   {tx: 0,  rx: 1}
+    makerpi:     {tx: 0,  rx: 1}
 
 blocks:
   - type: gps_init
@@ -39,8 +53,8 @@ blocks:
       {instance} = MicropyGPS()
     params:
       - {name: uart, label: UART,      type: Number, default: 0,    align: right}
-      - {name: tx,   label: TX,        type: Number, pin: true,     align: right}
-      - {name: rx,   label: RX,        type: Number, pin: true,     align: right}
+      - {name: tx,   label: TX,        type: Number, pin: true,     align: right, default: 17}
+      - {name: rx,   label: RX,        type: Number, pin: true,     align: right, default: 16}
       - {name: bps,  label: Baud Rate, type: Number, default: 9600, align: right}
 
   - type: gps_update

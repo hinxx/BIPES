@@ -14,7 +14,24 @@ category:
   labels:
     - GY33 Color Sensor - UART
     - "Library: https://github.com/QuirkyCort/micropython-gy33"
-  toolboxes: [esp32, esp32-basic, esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+  toolboxes: [AmadoBoard, otto-robot, esp32c3, esp32S3, esp32, esp32-basic,
+              esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+  # UART pins per board -- the table in blockdef/README.md. The param defaults
+  # (17/16) are the esp32 ones, which is what every board here used to get --
+  # including the esp32c3, whose pins stop at GPIO21, so both sockets landed on
+  # GPIO0 together.
+  defaults:
+    esp32:       {tx: 17, rx: 16}
+    esp32-basic: {tx: 17, rx: 16}
+    AmadoBoard:  {tx: 17, rx: 16}
+    esp32c3:     {tx: 21, rx: 20}
+    esp32S2:     {tx: 17, rx: 16}
+    esp32S3:     {tx: 43, rx: 44}
+    otto-robot:  {tx: 17, rx: 16}
+    rpi_pico:    {tx: 0,  rx: 1}
+    rpi_pico_w:  {tx: 0,  rx: 1}
+    makernano:   {tx: 0,  rx: 1}
+    makerpi:     {tx: 0,  rx: 1}
 
 blocks:
   - type: gy33_uart_init
@@ -28,8 +45,8 @@ blocks:
       {instance}.set_output(False, False, False)
     params:
       - {name: uart, label: UART,      type: Number, default: 0,    align: right}
-      - {name: tx,   label: TX,        type: Number, pin: true,     align: right}
-      - {name: rx,   label: RX,        type: Number, pin: true,     align: right}
+      - {name: tx,   label: TX,        type: Number, pin: true,     align: right, default: 17}
+      - {name: rx,   label: RX,        type: Number, pin: true,     align: right, default: 16}
       - {name: bps,  label: Baud Rate, type: Number, default: 9600, align: right}
 
   - type: gy33_uart_led_pwr

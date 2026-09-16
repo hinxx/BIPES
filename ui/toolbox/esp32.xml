@@ -604,9 +604,11 @@
     <block type="pinout"></block>
     <block type="esp32_adc">
       <value name="pin">
-        <shadow type="pinout">
-          <field name="PIN"></field>
-        </shadow>
+        <!-- No <field name="PIN">: an empty one makes Blockly warn ("Cannot
+             set the dropdown's value to an unavailable option") and then fall
+             back to the board's first pin, which is where leaving it out lands
+             quietly. Same rule the generated entries follow. -->
+        <shadow type="pinout"></shadow>
       </value>
     </block>
     <!-- blockdef:pwm -->
@@ -900,22 +902,34 @@
           </shadow>
         </value>
         <value name="bl">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">10</field>
+          </shadow>
         </value>
         <value name="sck">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">14</field>
+          </shadow>
         </value>
         <value name="mosi">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">15</field>
+          </shadow>
         </value>
         <value name="reset">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">11</field>
+          </shadow>
         </value>
         <value name="dc">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">12</field>
+          </shadow>
         </value>
         <value name="cs">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">13</field>
+          </shadow>
         </value>
       </block>
 
@@ -1364,10 +1378,14 @@
 
     <block type="hcsr_init">
       <value name="echo">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">12</field>
+        </shadow>
       </value>
       <value name="trigger">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">13</field>
+        </shadow>
       </value>
       <value name="timeout">
         <shadow type="math_number">
@@ -1449,10 +1467,14 @@
         </shadow>
       </value>
       <value name="tx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
       </value>
       <value name="rx">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
       </value>
       <value name="bps">
         <shadow type="math_number">
@@ -1556,12 +1578,12 @@
       </value>
       <value name="scl">
         <shadow type="pinout">
-          <field name="PIN">18</field>
+          <field name="PIN">22</field>
         </shadow>
       </value>
       <value name="sda">
         <shadow type="pinout">
-          <field name="PIN">19</field>
+          <field name="PIN">21</field>
         </shadow>
       </value>
     </block>
@@ -1674,10 +1696,14 @@
         </shadow>
       </value>
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">22</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">21</field>
+        </shadow>
       </value>
     </block>
 
@@ -1809,19 +1835,29 @@
         </shadow>
       </value>
       <value name="cs">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
       </value>
       <value name="sck">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">18</field>
+        </shadow>
       </value>
       <value name="mosi">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">23</field>
+        </shadow>
       </value>
       <value name="miso">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">19</field>
+        </shadow>
       </value>
       <value name="rst">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
       </value>
     </block>
 
@@ -1861,10 +1897,14 @@
 
     <block type="encoder_init">
       <value name="p0">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">12</field>
+        </shadow>
       </value>
       <value name="p1">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">13</field>
+        </shadow>
       </value>
     </block>
 
@@ -2036,16 +2076,24 @@
 
     <block type="stepper_init">
       <value name="p0">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">12</field>
+        </shadow>
       </value>
       <value name="p1">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">13</field>
+        </shadow>
       </value>
       <value name="p2">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">14</field>
+        </shadow>
       </value>
       <value name="p3">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">15</field>
+        </shadow>
       </value>
     </block>
 
@@ -2065,13 +2113,19 @@
 
     <block type="dc_motor_init">
       <value name="pwm">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">12</field>
+        </shadow>
       </value>
       <value name="dir1">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">13</field>
+        </shadow>
       </value>
       <value name="dir2">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">14</field>
+        </shadow>
       </value>
     </block>
 
@@ -2291,10 +2345,14 @@
           </shadow>
         </value>
         <value name="tx">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">17</field>
+          </shadow>
         </value>
         <value name="rx">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">16</field>
+          </shadow>
         </value>
       </block>
 
@@ -2422,10 +2480,14 @@
           </shadow>
         </value>
         <value name="tx">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">17</field>
+          </shadow>
         </value>
         <value name="rx">
-          <shadow type="pinout"></shadow>
+          <shadow type="pinout">
+            <field name="PIN">16</field>
+          </shadow>
         </value>
         <value name="bps">
           <shadow type="math_number">
@@ -2952,10 +3014,14 @@
         </shadow>
       </value>
       <value name="cs">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
       </value>
       <value name="rst">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
       </value>
     </block>
 

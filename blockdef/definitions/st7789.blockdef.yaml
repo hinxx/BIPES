@@ -22,7 +22,17 @@ category:
   labels:
     - ST7789 Display
     - "Library: https://github.com/devbis/st7789py_mpy"
-  toolboxes: [esp32, esp32-basic, esp32S2, esp32S3, otto-robot, esp8266, AmadoBoard]
+  toolboxes: [esp32c3, esp32, esp32-basic, esp32S2, esp32S3, otto-robot,
+              esp8266, AmadoBoard]
+  # The param defaults number the six sockets 10 to 15, which is an ESP32
+  # spelling: the esp32c3's pins stop at GPIO10 but for 20 and 21, so five of
+  # the six fell back to GPIO0 together. SCK and MOSI follow the SPI table in
+  # blockdef/README.md; the panel's own CS, DC, reset and backlight are free
+  # GPIOs beside them.
+  defaults:
+    esp32c3:    {sck: 8,  mosi: 10, cs: 5,  dc: 4,  reset: 3,  bl: 2}
+    esp32S3:    {sck: 7,  mosi: 6,  cs: 5,  dc: 4,  reset: 15, bl: 16}
+    otto-robot: {sck: 14, mosi: 13, cs: 4,  dc: 6,  reset: 16, bl: 17}
 
 blocks:
   - type: st7789_init
@@ -46,12 +56,12 @@ blocks:
       display7789.init()
     params:
       - {name: spi,   label: SPI,       type: Number, default: 1, align: right}
-      - {name: bl,    label: Backlight, type: Number, pin: true,  align: right}
-      - {name: sck,   label: SCK,       type: Number, pin: true,  align: right}
-      - {name: mosi,  label: MOSI,      type: Number, pin: true,  align: right}
-      - {name: reset, label: Reset,     type: Number, pin: true,  align: right}
-      - {name: dc,    label: DC,        type: Number, pin: true,  align: right}
-      - {name: cs,    label: CS,        type: Number, pin: true,  align: right}
+      - {name: bl,    label: Backlight, type: Number, pin: true,  align: right, default: 10}
+      - {name: sck,   label: SCK,       type: Number, pin: true,  align: right, default: 14}
+      - {name: mosi,  label: MOSI,      type: Number, pin: true,  align: right, default: 15}
+      - {name: reset, label: Reset,     type: Number, pin: true,  align: right, default: 11}
+      - {name: dc,    label: DC,        type: Number, pin: true,  align: right, default: 12}
+      - {name: cs,    label: CS,        type: Number, pin: true,  align: right, default: 13}
 
   - type: st7789_bl_power
     label: ST7789 backlight intensity

@@ -10,6 +10,19 @@ category:
   labels: [Stepper Motor]
   toolboxes: [esp32, esp32-basic, esp32c3, esp32S3, otto-robot, esp32S2, esp8266,
               AmadoBoard, default]
+  # These pins are not a bus, so no board names them: they are free GPIOs,
+  # picked per board so the sockets arrive apart rather than stacked on the
+  # board's first pin. `stm32` and `default` are left out: neither gives a
+  # pinout, so every socket there reads "not defined".
+  defaults:
+    esp32:       {p0: 12, p1: 13, p2: 14, p3: 15}
+    esp32-basic: {p0: 12, p1: 13, p2: 14, p3: 15}
+    AmadoBoard:  {p0: 12, p1: 13, p2: 14, p3: 15}
+    esp32c3:     {p0: 2,  p1: 3,  p2: 4,  p3: 5}
+    esp32S2:     {p0: 12, p1: 13, p2: 14, p3: 15}
+    esp32S3:     {p0: 15, p1: 16, p2: 17, p3: 2}
+    otto-robot:  {p0: 13, p1: 14, p2: 16, p3: 17}
+    esp8266:     {p0: 12, p1: 13, p2: 14, p3: 15}
 
 blocks:
   - type: stepper_init
@@ -31,10 +44,10 @@ blocks:
       pos_dir_steps = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
       neg_dir_steps = [[0,0,0,1],[0,0,1,0],[0,1,0,0],[1,0,0,0]]
     params:
-      - {name: p0, label: Pin0, type: Number, pin: true, align: right}
-      - {name: p1, label: Pin1, type: Number, pin: true, align: right}
-      - {name: p2, label: Pin2, type: Number, pin: true, align: right}
-      - {name: p3, label: Pin3, type: Number, pin: true, align: right}
+      - {name: p0, label: Pin0, type: Number, pin: true, align: right, default: 12}
+      - {name: p1, label: Pin1, type: Number, pin: true, align: right, default: 13}
+      - {name: p2, label: Pin2, type: Number, pin: true, align: right, default: 14}
+      - {name: p3, label: Pin3, type: Number, pin: true, align: right, default: 15}
 
   - type: stepper_step
     label: Stepper Step
