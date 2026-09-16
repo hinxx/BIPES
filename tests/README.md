@@ -128,7 +128,7 @@ underneath it on the container's own next connection.
     make toolboxes
     node tests/toolboxes.js --board ESP32 --verbose
 
-25 selectable boards, 2,302 categories, including the nested ones that only
+28 selectable boards, 2,627 categories, including the nested ones that only
 exist once their parent is expanded. A toolbox entry naming a block nobody
 defines does not degrade gracefully: building the flyout throws `Unknown block
 type`, and that category plus everything nested under it becomes unreachable.
@@ -140,9 +140,8 @@ Blockly fills at runtime and which has nothing in it until the program does
 (Variables, Functions), and a collapsible parent whose contents are other
 categories.
 
-It also reports, without failing, three device keys in `devinfo.json` that the
-selector does not offer -- `wemos_d1_mini`, `ESP32-oled`, `ESP32-LoRa`.
-Upstream renamed those options (`362391d9` turned the `wemos_d1_mini` option
-into `ESP8266`, keeping the label) and left the entries behind. Nothing can
-select them, and a project saved against one lands on whatever board was
-already showing, with an "invalid device" notice.
+It also checks the selector against `devinfo.json`: every device offered,
+every option naming a real device, and no two options sharing a value. That
+last one is invisible in the UI -- two entries with different labels, one
+silently selecting the other's board -- and is how "Wemos D1 mini" came to hand
+out a NodeMCU pin map. See the CHANGELOG entry about the device selector.

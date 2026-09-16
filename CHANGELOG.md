@@ -353,8 +353,8 @@ not something to do by opening flyouts and looking at them, so:
   `controls_if` -- add a clause, check the block grows an input, the code
   follows, and the shape survives a save and load -- then undo, redo,
   copy/paste, and a flyout block reaching the workspace.
-* **`tests/toolboxes.js`** -- opens every category of every board: 25
-  selectable boards, 2,302 categories including the nested ones that only exist
+* **`tests/toolboxes.js`** -- opens every category of every board: 28
+  selectable boards, 2,627 categories including the nested ones that only exist
   once their parent is expanded. A toolbox entry naming a block nobody defines
   throws `Unknown block type` and takes its whole category, and everything
   nested under it, out of reach. None do.
@@ -364,19 +364,34 @@ not something to do by opening flyouts and looking at them, so:
   JavaScript toolchain. Needs node >= 22 and a Chrome binary.
 * **`Makefile`** -- `make golden`, `make smoke`, `make test`.
 
-### Not changed -- found while testing, left alone
+### Fixed -- three boards had fallen out of the device selector
 
-* **`wemos_d1_mini`, `ESP32-oled`, `ESP32-LoRa`** are devices in
-  `ui/devinfo/devinfo.json` that the device selector does not offer, so nothing
-  can choose them. Upstream `362391d9` renamed the `wemos_d1_mini` option to
-  `ESP8266` -- keeping the label "Wemos D1 mini" -- and the other two went the
-  same way into `ESP32`, without the `devinfo.json` entries being removed. The
-  live consequence is narrow but real: `changeTo` assigns to a `<select>`,
-  which silently refuses a value it has no `<option>` for, so a project saved
-  against one of those device names lands on whatever board was already showing
-  and gets an "invalid device" notice. Reported by `make toolboxes` on every
-  run. Deleting the three entries is probably right, but which name each should
-  map to is a call for someone who knows the boards.
+`make toolboxes` compares what `ui/devinfo/devinfo.json` describes against what
+the selector offers. They did not match, and had not since upstream
+`362391d9`, which pointed the "Wemos D1 mini" option at the generic `ESP8266`
+device:
+
+* **Two options shared the value `ESP8266`** -- one labelled "ESP8266" and one
+  labelled "Wemos D1 mini". A `<select>` cannot tell them apart, so choosing
+  "Wemos D1 mini" selected the NodeMCU board. The user got a 17-pin NodeMCU pin
+  map on an 11-pin board, with different silkscreen names (`D1`/`D2`/`D3`
+  rather than `D5`/`D6`/`D7`), and the wrong serial packet size, 500 instead of
+  100. Now `<option value="wemos_d1_mini">`, which is what that entry describes.
+* **`ESP32-oled` and `ESP32-LoRa` had no option at all.** Both are full device
+  entries -- their own board photo, their own pin map (31 and 19 pins, against
+  plain ESP32's 32) -- and nothing in the UI could reach either. Added as "ESP32
+  with OLED and Battery" and "ESP32 with OLED and LoRa".
+
+These were not stale entries to delete. Each carries a pin map that matches its
+board and no other, which is precisely what B8 spent its time getting right;
+deleting them would have thrown that away. `changeTo` assigns to a `<select>`,
+which silently refuses a value it has no `<option>` for, so a project saved
+against one of those device names also landed on whatever board was already
+showing, with an "invalid device" notice.
+
+`make toolboxes` now fails if the selector and `devinfo.json` ever disagree
+again -- a device with no option, an option with no device, or two options
+sharing a value.
 
 ### Fixed -- miscellaneous
 

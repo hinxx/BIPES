@@ -87,11 +87,19 @@ const SWEEP = function sweep(onlyBoard) {
 
   var results = [];
 
+  // The selector and devinfo.json have to agree. They did not: upstream
+  // 362391d9 pointed the "Wemos D1 mini" option at the generic ESP8266 board,
+  // leaving two options with the same value, the Wemos pinout unreachable, and
+  // anyone choosing it holding an 17-pin NodeMCU map for an 11-pin board.
+  var optionValues = [];
+  var optionEls = document.querySelectorAll('#device_selector option');
+  for (var o = 0; o < optionEls.length; o++) optionValues.push(optionEls[o].value);
+
   function doBoard(i) {
     if (i >= boards.length) {
       console.error = realError;
       Code.reloadToolbox = realReload;
-      return Promise.resolve(results);
+      return Promise.resolve({boards: results, optionValues: optionValues});
     }
     var board = boards[i];
     var was = reloads;
@@ -170,24 +178,18 @@ async function main() {
     settleMs: 2000,
   }, async (p) => {
     const started = Date.now();
-    const boards = await p.evaluate(
+    const swept = await p.evaluate(
         '(' + SWEEP.toString() + ')(' + JSON.stringify(args.board) + ')');
+    const boards = swept.boards;
+    const options = swept.optionValues;
 
     let categories = 0, empty = 0, broken = 0;
     const failures = [];
-    const stale = [];
     for (const b of boards) {
       categories += b.categories.length;
       const blanks = b.categories.filter((c) => c.blocks === 0 && !c.expectedEmpty);
       empty += blanks.length;
-      if (b.unreachable) {
-        // Not a failure: devinfo.json carries three device keys that upstream
-        // renamed out of the selector (362391d9 turned the `wemos_d1_mini`
-        // option into `ESP8266`, keeping the label) without removing the old
-        // entries. They are dead data rather than broken toolboxes. Reported
-        // every run so they stay visible, but they do not fail the build.
-        stale.push(b.board + ' (' + b.toolbox + ')');
-      } else if (b.errors.length) {
+      if (b.errors.length) {
         broken++;
         failures.push(b.board + ' (' + b.toolbox + '):');
         for (const e of b.errors.slice(0, 8)) failures.push('    ' + e);
@@ -195,7 +197,7 @@ async function main() {
       const shape = b.categories.length + ' categories, ' +
           b.categories.reduce((n, c) => n + Math.max(c.blocks, 0), 0) + ' blocks' +
           (blanks.length ? ', ' + blanks.length + ' empty' : '');
-      console.log((b.unreachable ? '  --   ' : b.errors.length ? '  FAIL ' : '  ok   ') +
+      console.log((b.errors.length ? '  FAIL ' : '  ok   ') +
                   b.board.padEnd(16) +
                   (b.unreachable ? 'not offered in the device selector' : shape));
       if (args.verbose) {
@@ -210,19 +212,38 @@ async function main() {
     }
 
     console.log('');
-    console.log((boards.length - stale.length) + ' boards, ' + categories +
+    console.log(boards.length + ' boards, ' + categories +
                 ' categories opened in ' +
                 ((Date.now() - started) / 1000).toFixed(1) + 's' +
                 (empty ? ', ' + empty + ' unexpectedly empty' : ''));
-    if (stale.length) {
-      console.log('');
-      console.log(stale.length + ' device(s) in devinfo.json that the selector ' +
-                  'does not offer, so nothing can choose them:');
-      for (const t of stale) console.log('    ' + t);
-      console.log('    Upstream renamed these options and left the entries ' +
-                  'behind; a project saved');
-      console.log('    against one of them lands on the wrong board with an ' +
-                  '"invalid device" notice.');
+
+    // The pairing itself, not just whether each board's toolbox opens. A
+    // duplicate option value is invisible in the UI -- two entries with
+    // different labels, one of them silently selecting the other's board.
+    if (!args.board) {
+      const seen = new Set(), dupes = new Set();
+      for (const v of options) (seen.has(v) ? dupes : seen).add(v);
+      const named = new Set(boards.map((b) => b.board));
+      const orphanOptions = options.filter((v) => !named.has(v));
+      const unofferedDevices = boards.filter((b) => !options.includes(b.board))
+          .map((b) => b.board);
+      if (dupes.size) {
+        failures.push('device selector has duplicate option values: ' +
+                      [...dupes].join(', ') +
+                      ' -- one label silently selects the other board');
+      }
+      if (orphanOptions.length) {
+        failures.push('device selector offers options with no devinfo entry: ' +
+                      orphanOptions.join(', '));
+      }
+      if (unofferedDevices.length) {
+        failures.push('devinfo devices the selector does not offer, so nothing ' +
+                      'can choose them: ' + unofferedDevices.join(', '));
+      }
+      console.log(options.length + ' selector options, ' +
+                  (dupes.size || orphanOptions.length || unofferedDevices.length
+                      ? 'MISMATCHED with devinfo.json'
+                      : 'each naming exactly one devinfo device'));
     }
     if (p.pageErrors.length) {
       console.log('uncaught page exceptions: ' + p.pageErrors.length);
@@ -230,7 +251,7 @@ async function main() {
     }
     if (failures.length) {
       console.log('');
-      console.log(broken + ' board(s) with problems:');
+      console.log('problems:');
       for (const f of failures) console.log('  ' + f);
       process.exitCode = 1;
     } else if (p.pageErrors.length) {

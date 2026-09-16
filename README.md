@@ -62,7 +62,8 @@ hand in all three; new families should instead be declared once in
 `make smoke` loads the IDE and the embed view in headless Chrome and checks
 they come up, including all 14 bundled examples; `make interact` exercises the
 field editors, both flavours of mutator, undo and the clipboard; `make
-toolboxes` opens every category of every board, 2,302 of them; and `make
+toolboxes` opens every category of every board, 2,627 of them, and checks the
+device selector against `devinfo.json`; and `make
 golden` records the Python that all 2,115 block types generate into
 `tests/golden/python_codegen.txt`, which is committed, so `git diff tests/`
 after a change is the list of blocks it altered. Needs
