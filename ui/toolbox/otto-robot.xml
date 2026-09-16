@@ -1581,6 +1581,123 @@
     <block type="hcsr_read"></block>
   </category>
   <!-- /blockdef:hcsr04 -->
+  <!-- blockdef:gy33_i2c -->
+  <category name="GY33 I2C">
+    <label text="GY33 Color Sensor - I2C"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33I2C library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_i2c_init">
+      <value name="id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">100000</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_cal_white_balance"></block>
+
+    <block type="gy33_i2c_cal_white"></block>
+
+    <block type="gy33_i2c_cal_black"></block>
+
+    <block type="gy33_i2c_get_all"></block>
+
+    <block type="gy33_i2c_get_raw"></block>
+
+    <block type="gy33_i2c_get_calibrated"></block>
+  </category>
+  <!-- /blockdef:gy33_i2c -->
+  <!-- blockdef:gy33_uart -->
+  <category name="GY33 UART">
+    <label text="GY33 Color Sensor - UART"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33UART library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_uart_init">
+      <value name="uart">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="PIN">17</field>
+        </shadow>
+      </value>
+      <value name="rx">
+        <shadow type="pinout">
+          <field name="PIN">16</field>
+        </shadow>
+      </value>
+      <value name="bps">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_integration_time"></block>
+
+    <block type="gy33_uart_baud_rate"></block>
+
+    <block type="gy33_uart_i2c_addr">
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">41</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_cal_white_balance"></block>
+
+    <block type="gy33_uart_cal_white"></block>
+
+    <block type="gy33_uart_cal_black"></block>
+
+    <block type="gy33_uart_get_raw"></block>
+
+    <block type="gy33_uart_get_lcc"></block>
+
+    <block type="gy33_uart_get_processed"></block>
+  </category>
+  <!-- /blockdef:gy33_uart -->
 
   <!-- blockdef:gps -->
   <category name="GPS">
@@ -1789,10 +1906,14 @@
         </shadow>
       </value>
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
       </value>
       <value name="addr">
         <shadow type="math_number">
@@ -1817,10 +1938,14 @@
 
     <block type="mpu9250_init">
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
       </value>
     </block>
 
@@ -2053,6 +2178,53 @@
     </block>
   </category>
   <!-- /blockdef:servo -->
+  <!-- blockdef:pca9685 -->
+  <category name="PCA9685 Servo Driver">
+    <label text="PCA9685 Servo Driver Board"></label>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+
+    <block type="init_pca9685">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="min_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+      <value name="max_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">2500</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="move_pca9685">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:pca9685 -->
 
 
   <!-- blockdef:stepper -->
@@ -2500,10 +2672,14 @@
             </shadow>
           </value>
           <value name="scl">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">5</field>
+            </shadow>
           </value>
           <value name="sda">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">4</field>
+            </shadow>
           </value>
           <value name="freq">
             <shadow type="math_number">
@@ -2606,6 +2782,259 @@
         </block>
       </category>
       <!-- /blockdef:comm_i2c -->
+      <!-- blockdef:files -->
+      <category name="%{BKY_CAT_FILES}">
+
+        <label text="Read and write files"></label>
+
+        <block type="file_open">
+          <value name="file_name">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_open_write">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="filename">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_open_read">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="filename">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="data">
+            <shadow type="text">
+              <field name="TEXT">contents</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write_line">
+          <value name="data">
+            <shadow type="text">
+              <field name="TEXT">Line contents</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write_byte">
+          <value name="data">
+            <shadow type="math_number">
+              <field name="NUM">80</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_read">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_close">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="Disk file operations"></label>
+
+        <block type="files_list"></block>
+
+        <block type="uos_mkdir">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_remove">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="SD Card"></label>
+
+        <block type="sd_mount">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="sd_mount_custom">
+          <value name="slot">
+            <shadow type="math_number">
+              <field name="NUM">2</field>
+            </shadow>
+          </value>
+          <value name="sck">
+            <shadow type="math_number">
+              <field name="NUM">18</field>
+            </shadow>
+          </value>
+          <value name="miso">
+            <shadow type="math_number">
+              <field name="NUM">19</field>
+            </shadow>
+          </value>
+          <value name="mosi">
+            <shadow type="math_number">
+              <field name="NUM">23</field>
+            </shadow>
+          </value>
+          <value name="cs">
+            <shadow type="math_number">
+              <field name="NUM">15</field>
+            </shadow>
+          </value>
+          <value name="freq">
+            <shadow type="math_number">
+              <field name="NUM">20000000</field>
+            </shadow>
+          </value>
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_listdir">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_umount">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="Other file operations"></label>
+
+        <block type="uos_listdir"></block>
+
+        <block type="uos_uname"></block>
+
+        <block type="uos_urandom"></block>
+
+        <block type="uos_chdir"></block>
+
+        <block type="uos_getcwd"></block>
+
+        <block type="uos_ilistdir"></block>
+
+        <block type="uos_rmdir"></block>
+
+        <block type="uos_rename"></block>
+
+        <block type="uos_stat"></block>
+
+        <block type="uos_statvfs"></block>
+
+        <block type="uos_sync"></block>
+
+        <block type="uos_dupterm"></block>
+
+        <block type="uos_mount"></block>
+
+        <block type="uos_umount"></block>
+
+        <block type="uos_readblocks">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="block_num">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
+        </block>
+
+        <block type="uos_writeblocks">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="block_num">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
+        </block>
+
+        <block type="uos_ioctl">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="op">
+            <shadow type="math_number">
+              <field name="NUM">4</field>
+            </shadow>
+          </value>
+          <value name="arg">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+      </category>
+      <!-- /blockdef:files -->
   </category>
  
  
@@ -2736,6 +3165,69 @@
 
     <block type="net_ifconfig"></block>
     <!-- /blockdef:wifi -->
+    <!-- blockdef:espnow -->
+    <category name="ESP-NOW" colour="230">
+      <label text="ESP-NOW: board-to-board messages, no access point and no router"></label>
+      <label text="Both boards must be ESP32s and both must be running"></label>
+      <label text="Read one board's address, type it into the other board's program"></label>
+
+      <block type="espnow_my_address"></block>
+
+      <block type="espnow_add_peer">
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_send">
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+        <value name="NAME">
+          <shadow type="text">
+            <field name="TEXT">temperature</field>
+          </shadow>
+        </value>
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_receive">
+        <value name="TIMEOUT">
+          <shadow type="math_number">
+            <field name="NUM">1000</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="espnow_sender"></block>
+
+      <block type="espnow_value">
+        <value name="NAME">
+          <shadow type="text">
+            <field name="TEXT">temperature</field>
+          </shadow>
+        </value>
+        <value name="MAC">
+          <shadow type="text">
+            <field name="TEXT">aa:bb:cc:dd:ee:ff</field>
+          </shadow>
+        </value>
+        <value name="DEFAULT">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <!-- /blockdef:espnow -->
 
     <!-- blockdef:wiznet5k -->
     <block type="net_wiznet5k_init">
@@ -3180,6 +3672,47 @@
       <block type="easymqtt_disconnect"></block>
     </category>
     <!-- /blockdef:easymqtt -->
+    <!-- blockdef:bluetooth_repl -->
+    <category name="Bluetooth REPL">
+      <label text="Bluetooth REPL"></label>
+      <label text="This block allows terminal/console access using bluetooth."></label>
+      <label text="Library: https://github.com/micropython/micropython/tree/master/examples/bluetooth"></label>
+      <label text="You need to install 3 files to use:"></label>
+      <button text="Install ble_advertising library" callbackKey="installPyLib"></button>
+      <button text="Install ble_uart_peripheral library" callbackKey="installPyLib"></button>
+      <button text="Install ble_uart_repl library" callbackKey="installPyLib"></button>
+
+      <label text="Web Bluetooth REPL"></label>
+
+      <block type="bluetooth_repl_setup">
+        <value name="name">
+          <shadow type="text">
+            <field name="TEXT">BIPES-BLE</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="bluetooth_repl_start">
+        <value name="name">
+          <shadow type="text">
+            <field name="TEXT">BIPES-BLE</field>
+          </shadow>
+        </value>
+      </block>
+
+      <label text="Usage:"></label>
+
+      <label text="1. Install the 3 files above"></label>
+
+      <label text="2. Start Web Bluetooth REPL"></label>
+
+      <label text="3. Pair the ESP32 with your device /"></label>
+
+      <label text="4. Go to https://bipes.net.br/beta2/ui/"></label>
+
+      <label text="5. Select the bluetooth option and Connect (Web Bluetooth)"></label>
+    </category>
+    <!-- /blockdef:bluetooth_repl -->
 
 
   <!-- blockdef:webrepl -->
@@ -4658,10 +5191,14 @@
       </shadow>
     </value>
     <value name="scl">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">5</field>
+      </shadow>
     </value>
     <value name="sda">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">4</field>
+      </shadow>
     </value>
     <value name="freq">
       <shadow type="math_number">
@@ -5516,6 +6053,190 @@
   <block type="ubinascii_b2a_base64"></block>
 </category>
 <!-- /blockdef:ubinascii -->
+<!-- blockdef:ubluetooth -->
+<category name="ubluetooth">
+
+  <block type="ubluetooth_BLE"></block>
+
+  <block type="ubluetooth_BLE.active"></block>
+
+  <block type="ubluetooth_BLE.config">
+    <value name="param">
+      <shadow type="text">
+        <field name="TEXT">mac</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.irq"></block>
+
+  <block type="ubluetooth_BLE.gap_advertise">
+    <value name="interval_us">
+      <shadow type="math_number">
+        <field name="NUM">500000</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_scan">
+    <value name="duration_ms">
+      <shadow type="math_number">
+        <field name="NUM">2000</field>
+      </shadow>
+    </value>
+    <value name="interval_us">
+      <shadow type="math_number">
+        <field name="NUM">1280000</field>
+      </shadow>
+    </value>
+    <value name="window_us">
+      <shadow type="math_number">
+        <field name="NUM">11250</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_register_services"></block>
+
+  <block type="ubluetooth_BLE.gatts_read">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_write">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_notify">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gatts_set_buffer">
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="len">
+      <shadow type="math_number">
+        <field name="NUM">20</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_connect">
+    <value name="addr_type">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gap_disconnect">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_services">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_characteristics">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="start_handle">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+    <value name="end_handle">
+      <shadow type="math_number">
+        <field name="NUM">255</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_discover_descriptors">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="start_handle">
+      <shadow type="math_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+    <value name="end_handle">
+      <shadow type="math_number">
+        <field name="NUM">255</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_read">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="ubluetooth_BLE.gattc_write">
+    <value name="conn_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="value_handle">
+      <shadow type="math_number">
+        <field name="NUM">0</field>
+      </shadow>
+    </value>
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">hello</field>
+      </shadow>
+    </value>
+  </block>
+</category>
+<!-- /blockdef:ubluetooth -->
 <!-- blockdef:ucollections -->
 <category name="ucollections">
 

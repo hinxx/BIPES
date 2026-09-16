@@ -12,7 +12,11 @@ import: {line: "from mpu9250 import MPU9250", key: import_mpu9250}
 category:
   name: MPU9250 IMU
   library: [mpu9250, mpu6500, ak8963]
-  toolboxes: [esp32, esp32c3, esp32S3, otto-robot]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot]
+  defaults:
+    esp32:       {sda: 21, scl: 22}
+    AmadoBoard:  {sda: 21, scl: 22}
+    esp32c3:     {sda: 6,  scl: 7}
 
 blocks:
   - type: mpu9250_init
@@ -24,8 +28,8 @@ blocks:
     i2c_bus: {scl: scl, sda: sda, soft: true}
     args: [bus]
     params:
-      - {name: scl, label: SCL, type: Number, pin: true, align: right}
-      - {name: sda, label: SDA, type: Number, pin: true, align: right}
+      - {name: scl, label: SCL, type: Number, pin: true, align: right, default: 5}
+      - {name: sda, label: SDA, type: Number, pin: true, align: right, default: 4}
 
   - {type: mpu9250_acc,  attr: acceleration, kind: value, label: MPU9250 Acceleration}
   - {type: mpu9250_gyro, attr: gyro,         kind: value, label: MPU9250 Gyro rate}

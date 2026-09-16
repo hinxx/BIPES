@@ -819,6 +819,143 @@
     </block>
   </category>
   <!-- /blockdef:char_lcd -->
+  <!-- blockdef:st7789 -->
+  <category name="ST7789 Display">
+    <label text="ST7789 Display"></label>
+    <label text="Library: https://github.com/devbis/st7789py_mpy"></label>
+    <button text="Install st7789py library" callbackKey="installPyLib"></button>
+
+    <block type="st7789_init">
+      <value name="spi">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="bl">
+        <shadow type="pinout">
+          <field name="PIN">2</field>
+        </shadow>
+      </value>
+      <value name="sck">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+      <value name="mosi">
+        <shadow type="pinout">
+          <field name="PIN">10</field>
+        </shadow>
+      </value>
+      <value name="reset">
+        <shadow type="pinout">
+          <field name="PIN">3</field>
+        </shadow>
+      </value>
+      <value name="dc">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="cs">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="st7789_bl_power">
+      <value name="val">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="st7789_color_numbers">
+      <value name="red">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <value name="green">
+        <shadow type="math_number">
+          <field name="NUM">152</field>
+        </shadow>
+      </value>
+      <value name="blue">
+        <shadow type="math_number">
+          <field name="NUM">220</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="st7789_color_colors"></block>
+
+    <block type="st7789_fill">
+      <value name="r">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="g">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="b">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="st7789_pixel">
+      <value name="x">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="y">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="color">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="st7789_line">
+      <value name="x0">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="y0">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="x1">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="y1">
+        <shadow type="math_number">
+          <field name="NUM">40</field>
+        </shadow>
+      </value>
+      <value name="color">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:st7789 -->
 
     <!-- blockdef:st7789_tft -->
     <category name="TFT Display">
@@ -1668,6 +1805,123 @@
     <block type="hcsr_read"></block>
   </category>
   <!-- /blockdef:hcsr04 -->
+  <!-- blockdef:gy33_i2c -->
+  <category name="GY33 I2C">
+    <label text="GY33 Color Sensor - I2C"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33I2C library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_i2c_init">
+      <value name="id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">7</field>
+        </shadow>
+      </value>
+      <value name="freq">
+        <shadow type="math_number">
+          <field name="NUM">100000</field>
+        </shadow>
+      </value>
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_i2c_cal_white_balance"></block>
+
+    <block type="gy33_i2c_cal_white"></block>
+
+    <block type="gy33_i2c_cal_black"></block>
+
+    <block type="gy33_i2c_get_all"></block>
+
+    <block type="gy33_i2c_get_raw"></block>
+
+    <block type="gy33_i2c_get_calibrated"></block>
+  </category>
+  <!-- /blockdef:gy33_i2c -->
+  <!-- blockdef:gy33_uart -->
+  <category name="GY33 UART">
+    <label text="GY33 Color Sensor - UART"></label>
+    <label text="Library: https://github.com/QuirkyCort/micropython-gy33"></label>
+    <button text="Install gy33UART library" callbackKey="installPyLib"></button>
+
+    <block type="gy33_uart_init">
+      <value name="uart">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="tx">
+        <shadow type="pinout">
+          <field name="PIN">21</field>
+        </shadow>
+      </value>
+      <value name="rx">
+        <shadow type="pinout">
+          <field name="PIN">20</field>
+        </shadow>
+      </value>
+      <value name="bps">
+        <shadow type="math_number">
+          <field name="NUM">9600</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_led_pwr">
+      <value name="led_pwr">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_integration_time"></block>
+
+    <block type="gy33_uart_baud_rate"></block>
+
+    <block type="gy33_uart_i2c_addr">
+      <value name="addr">
+        <shadow type="math_number">
+          <field name="NUM">41</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="gy33_uart_cal_white_balance"></block>
+
+    <block type="gy33_uart_cal_white"></block>
+
+    <block type="gy33_uart_cal_black"></block>
+
+    <block type="gy33_uart_get_raw"></block>
+
+    <block type="gy33_uart_get_lcc"></block>
+
+    <block type="gy33_uart_get_processed"></block>
+  </category>
+  <!-- /blockdef:gy33_uart -->
 
   <!-- blockdef:gps -->
   <category name="GPS">
@@ -1880,10 +2134,14 @@
         </shadow>
       </value>
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">7</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
       </value>
       <value name="addr">
         <shadow type="math_number">
@@ -1908,10 +2166,14 @@
 
     <block type="mpu9250_init">
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">7</field>
+        </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
       </value>
     </block>
 
@@ -2144,6 +2406,53 @@
     </block>
   </category>
   <!-- /blockdef:servo -->
+  <!-- blockdef:pca9685 -->
+  <category name="PCA9685 Servo Driver">
+    <label text="PCA9685 Servo Driver Board"></label>
+    <button text="Install pca9685 library" callbackKey="installPyLib"></button>
+
+    <block type="init_pca9685">
+      <value name="i2c">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="sda">
+        <shadow type="pinout">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+      <value name="scl">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="min_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+      <value name="max_pulse_width">
+        <shadow type="math_number">
+          <field name="NUM">2500</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="move_pca9685">
+      <value name="servo_id">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="angle">
+        <shadow type="math_number">
+          <field name="NUM">90</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <!-- /blockdef:pca9685 -->
 
 
   <!-- blockdef:stepper -->
@@ -2843,10 +3152,14 @@
             </shadow>
           </value>
           <value name="scl">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">5</field>
+            </shadow>
           </value>
           <value name="sda">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">4</field>
+            </shadow>
           </value>
           <value name="freq">
             <shadow type="math_number">
@@ -2949,6 +3262,259 @@
         </block>
       </category>
       <!-- /blockdef:comm_i2c -->
+      <!-- blockdef:files -->
+      <category name="%{BKY_CAT_FILES}">
+
+        <label text="Read and write files"></label>
+
+        <block type="file_open">
+          <value name="file_name">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_open_write">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="filename">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_open_read">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="filename">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+          <value name="data">
+            <shadow type="text">
+              <field name="TEXT">contents</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write_line">
+          <value name="data">
+            <shadow type="text">
+              <field name="TEXT">Line contents</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_write_byte">
+          <value name="data">
+            <shadow type="math_number">
+              <field name="NUM">80</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_read">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="file_close">
+          <value name="fileHandle">
+            <shadow type="text">
+              <field name="TEXT">f</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="Disk file operations"></label>
+
+        <block type="files_list"></block>
+
+        <block type="uos_mkdir">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_remove">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">file.txt</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="SD Card"></label>
+
+        <block type="sd_mount">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="sd_mount_custom">
+          <value name="slot">
+            <shadow type="math_number">
+              <field name="NUM">2</field>
+            </shadow>
+          </value>
+          <value name="sck">
+            <shadow type="math_number">
+              <field name="NUM">18</field>
+            </shadow>
+          </value>
+          <value name="miso">
+            <shadow type="math_number">
+              <field name="NUM">19</field>
+            </shadow>
+          </value>
+          <value name="mosi">
+            <shadow type="math_number">
+              <field name="NUM">23</field>
+            </shadow>
+          </value>
+          <value name="cs">
+            <shadow type="math_number">
+              <field name="NUM">15</field>
+            </shadow>
+          </value>
+          <value name="freq">
+            <shadow type="math_number">
+              <field name="NUM">20000000</field>
+            </shadow>
+          </value>
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_listdir">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <block type="uos_umount">
+          <value name="pIn">
+            <shadow type="text">
+              <field name="TEXT">/sd</field>
+            </shadow>
+          </value>
+        </block>
+
+        <label text="Other file operations"></label>
+
+        <block type="uos_listdir"></block>
+
+        <block type="uos_uname"></block>
+
+        <block type="uos_urandom"></block>
+
+        <block type="uos_chdir"></block>
+
+        <block type="uos_getcwd"></block>
+
+        <block type="uos_ilistdir"></block>
+
+        <block type="uos_rmdir"></block>
+
+        <block type="uos_rename"></block>
+
+        <block type="uos_stat"></block>
+
+        <block type="uos_statvfs"></block>
+
+        <block type="uos_sync"></block>
+
+        <block type="uos_dupterm"></block>
+
+        <block type="uos_mount"></block>
+
+        <block type="uos_umount"></block>
+
+        <block type="uos_readblocks">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="block_num">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
+        </block>
+
+        <block type="uos_writeblocks">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="block_num">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+          <value name="buf">
+            <block type="variables_get">
+              <field name="VAR">buf</field>
+            </block>
+          </value>
+        </block>
+
+        <block type="uos_ioctl">
+          <value name="device">
+            <block type="variables_get">
+              <field name="VAR">partition</field>
+            </block>
+          </value>
+          <value name="op">
+            <shadow type="math_number">
+              <field name="NUM">4</field>
+            </shadow>
+          </value>
+          <value name="arg">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+      </category>
+      <!-- /blockdef:files -->
   </category>
  
  
@@ -5105,10 +5671,14 @@
       </shadow>
     </value>
     <value name="scl">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">5</field>
+      </shadow>
     </value>
     <value name="sda">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">4</field>
+      </shadow>
     </value>
     <value name="freq">
       <shadow type="math_number">

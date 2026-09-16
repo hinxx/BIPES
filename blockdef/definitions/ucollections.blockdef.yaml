@@ -12,10 +12,9 @@ import: {key: import_ucollections, line: "import ucollections"}
 
 category:
   name: ucollections
-  # esp32 has this category too, but inside a "blocks below need development"
-  # XML comment, so it is not offered there.
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
 

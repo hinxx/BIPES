@@ -8,14 +8,15 @@ import: []
 category:
   name: I2C
   labels: [I2C]
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
   - {type: machine.I2C_I2C.init, external: true, params: [
       {name: id, type: Number, default: 0, align: right},
-      {name: scl, pin: true, align: right},
-      {name: sda, pin: true, align: right},
+      {name: scl, pin: true, align: right, default: 5},
+      {name: sda, pin: true, align: right, default: 4},
       {name: freq, type: Number, default: 400000, align: right}]}
   - {type: machine.I2C_I2C.deinit, external: true}
   - {type: machine.I2C_I2C.scan, external: true}

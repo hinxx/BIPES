@@ -13,7 +13,7 @@ category:
   labels:
     - CCS811
     - "Library: https://github.com/Notthemarsian/CCS811"
-  toolboxes: [esp32, esp32c3, esp32S3, otto-robot]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot]
 
 blocks:
   - type: ccs811_init

@@ -31,7 +31,7 @@ import: []
 
 category:
   name: "%{BKY_CAT_FILES}"
-  toolboxes: [esp32]
+  toolboxes: [AmadoBoard, otto-robot, esp32c3, esp32S3, esp32S2, esp32]
 
 blocks:
   - {label: Read and write files}

@@ -30,8 +30,9 @@ import: []
 
 category:
   name: builtins
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
   - {type: builtins_abs, kind: value, label: [], inline: true, code: "abs({x})",

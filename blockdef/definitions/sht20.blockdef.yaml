@@ -17,7 +17,7 @@ import: []
 category:
   name: Temperature and Humidity (SHT20)
   labels: [SHT20 I2C Temperature and Humidity Sensor]
-  toolboxes: [esp32, esp32c3, esp32S3, otto-robot]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot]
 
 blocks:
   - type: sht20_init

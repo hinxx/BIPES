@@ -1,5 +1,11 @@
 # REPL over Web Bluetooth. Three library files, no object: the module is called
 # directly, and the setup block exists only to pull the import in.
+#
+# **`esp32S2` is off the list, which is B7's first fix.** The ESP32-S2 is the
+# one chip in the ESP32 family with no Bluetooth radio at all -- Wi-Fi only,
+# where the original has Classic and BLE and the C3 and S3 have BLE -- so
+# `ble_uart_repl` has nothing to advertise on. The three library files would
+# install and the setup block would raise.
 
 module: ble_uart_repl
 colour: 0
@@ -14,7 +20,7 @@ category:
     - This block allows terminal/console access using bluetooth.
     - "Library: https://github.com/micropython/micropython/tree/master/examples/bluetooth"
     - "You need to install 3 files to use:"
-  toolboxes: [esp32, esp32c3, esp32S3, esp32S2, AmadoBoard]
+  toolboxes: [otto-robot, esp32, esp32c3, esp32S3, AmadoBoard]
 
 blocks:
   - label: Web Bluetooth REPL

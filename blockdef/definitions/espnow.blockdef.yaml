@@ -119,7 +119,7 @@ category:
     - "ESP-NOW: board-to-board messages, no access point and no router"
     - Both boards must be ESP32s and both must be running
     - Read one board's address, type it into the other board's program
-  toolboxes: [AmadoBoard, esp32, esp32c3, esp32S3]
+  toolboxes: [AmadoBoard, otto-robot, esp32S2, esp32, esp32c3, esp32S3]
 
 blocks:
   - type: espnow_my_address

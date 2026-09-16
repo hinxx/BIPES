@@ -14,7 +14,17 @@ category:
   labels:
     - GY33 Color Sensor - I2C
     - "Library: https://github.com/QuirkyCort/micropython-gy33"
-  toolboxes: [esp32, esp32-basic, esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+  toolboxes: [AmadoBoard, otto-robot, esp32c3, esp32S3, esp32, esp32-basic,
+              esp32S2, makernano, makerpi, rpi_pico, rpi_pico_w]
+  defaults:
+    esp32:       {sda: 21, scl: 22}
+    esp32-basic: {sda: 21, scl: 22}
+    AmadoBoard:  {sda: 21, scl: 22}
+    esp32c3:     {sda: 6,  scl: 7}
+    rpi_pico:    {sda: 0,  scl: 1}
+    rpi_pico_w:  {sda: 0,  scl: 1}
+    makernano:   {sda: 0,  scl: 1}
+    makerpi:     {sda: 0,  scl: 1}
 
 blocks:
   - type: gy33_i2c_init
@@ -28,8 +38,8 @@ blocks:
     args: [bus, addr]
     params:
       - {name: id,   label: ID,        type: Number, default: 0,      align: right, keyword: id}
-      - {name: sda,  label: SDA,       type: Number, pin: true,       align: right}
-      - {name: scl,  label: SCL,       type: Number, pin: true,       align: right}
+      - {name: sda,  label: SDA,       type: Number, pin: true,       align: right, default: 4}
+      - {name: scl,  label: SCL,       type: Number, pin: true,       align: right, default: 5}
       - {name: freq, label: Frequency, type: Number, default: 100000, align: right}
       - {name: addr, label: Address,   type: Number, default: 90,     align: right}
 

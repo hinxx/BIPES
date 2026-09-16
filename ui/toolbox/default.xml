@@ -1390,10 +1390,14 @@
             </shadow>
           </value>
           <value name="scl">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">5</field>
+            </shadow>
           </value>
           <value name="sda">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">4</field>
+            </shadow>
           </value>
           <value name="freq">
             <shadow type="math_number">
@@ -3234,10 +3238,14 @@
       </shadow>
     </value>
     <value name="scl">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">5</field>
+      </shadow>
     </value>
     <value name="sda">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">4</field>
+      </shadow>
     </value>
     <value name="freq">
       <shadow type="math_number">

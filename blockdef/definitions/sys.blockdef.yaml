@@ -11,8 +11,9 @@ category:
   name: "sys"
   # esp32 has these categories too, but inside a "blocks below need
   # development" XML comment, so they are not offered there.
-  toolboxes: [esp32S2, esp32c3, esp32S3, otto-robot, esp8266, rpi_pico, rpi_pico_w,
-              makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
+  toolboxes: [esp32, esp32S2, esp32c3, esp32S3, otto-robot, esp8266, rpi_pico,
+              rpi_pico_w, makernano, makerpi, AmadoBoard, stm32, default,
+              3pi_2040]
 
 blocks:
   - type: sys_exit

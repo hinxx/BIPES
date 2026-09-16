@@ -16,6 +16,17 @@
 # sockets holding a tuple: what BLE actually wants is nested tuples of
 # `ubluetooth.UUID` objects, and that is a program, not a block. What these
 # blocks are good for is driving a service whose handles you already know.
+#
+# **Offered only where there is a Bluetooth radio, which is B7's first fix.**
+# This was on twelve toolboxes and seven of them cannot run a line of it: the
+# ESP32-S2 is the one chip in the ESP32 family with no Bluetooth at all, the
+# ESP8266 has none either, and the plain RP2040 boards (`rpi_pico`, `makerpi`,
+# `makernano`, `3pi_2040`) and the STM32 Nucleo have no radio and no
+# `bluetooth` module in their port, so `import ubluetooth` is an ImportError on
+# the first block. What is left is the ESP32s that do have it, plus the Pico W,
+# whose CYW43439 does BLE and whose port ships the module. `default` stays: it
+# is the generic board, and it is the only one here that is not a claim about
+# hardware.
 
 module: ubluetooth
 class: BLE
@@ -26,8 +37,8 @@ import: {key: import_ubluetooth, line: "import ubluetooth"}
 
 category:
   name: ubluetooth
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, esp8266,
-              makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [AmadoBoard, default, otto-robot, esp32, esp32c3, esp32S3,
+              rpi_pico_w]
 
 blocks:
   - {type: ubluetooth_BLE, label: BLE, code: "{instance} = ubluetooth.BLE()",

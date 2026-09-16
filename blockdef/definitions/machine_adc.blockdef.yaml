@@ -20,8 +20,9 @@ import:
 
 category:
   name: machine.ADC
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
   - type: machine.ADC_ADC.read_u16

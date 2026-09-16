@@ -27,7 +27,11 @@ category:
     - MPU-6050, turn angle only
     - Keep the robot still for half a second after Start -- it calibrates
   library: gyro
-  toolboxes: [esp32c3, esp32S3, otto-robot]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot]
+  defaults:
+    esp32:       {sda: 21, scl: 22}
+    AmadoBoard:  {sda: 21, scl: 22}
+    esp32c3:     {sda: 6,  scl: 7}
 
 blocks:
   - type: gyro_init
@@ -43,8 +47,8 @@ blocks:
     args: [bus, addr]
     params:
       - {name: i2c,  label: I2C, type: Number, default: 0, align: right}
-      - {name: scl,  label: SCL, type: Number, pin: true, align: right}
-      - {name: sda,  label: SDA, type: Number, pin: true, align: right}
+      - {name: scl,  label: SCL, type: Number, pin: true, align: right, default: 5}
+      - {name: sda,  label: SDA, type: Number, pin: true, align: right, default: 4}
       - {name: addr, label: I2C Address, type: Number, default: 104,
          align: right, keyword: addr}
 

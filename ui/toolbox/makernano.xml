@@ -1889,10 +1889,14 @@
         </shadow>
       </value>
       <value name="sda">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">0</field>
+        </shadow>
       </value>
       <value name="scl">
-        <shadow type="pinout"></shadow>
+        <shadow type="pinout">
+          <field name="PIN">1</field>
+        </shadow>
       </value>
       <value name="freq">
         <shadow type="math_number">
@@ -2424,10 +2428,14 @@
             </shadow>
           </value>
           <value name="scl">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">5</field>
+            </shadow>
           </value>
           <value name="sda">
-            <shadow type="pinout"></shadow>
+            <shadow type="pinout">
+              <field name="PIN">4</field>
+            </shadow>
           </value>
           <value name="freq">
             <shadow type="math_number">
@@ -3893,10 +3901,14 @@
       </shadow>
     </value>
     <value name="scl">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">5</field>
+      </shadow>
     </value>
     <value name="sda">
-      <shadow type="pinout"></shadow>
+      <shadow type="pinout">
+        <field name="PIN">4</field>
+      </shadow>
     </value>
     <value name="freq">
       <shadow type="math_number">
@@ -4752,188 +4764,6 @@
 </category>
 <!-- /blockdef:ubinascii -->
 <!-- blockdef:ubluetooth -->
-<category name="ubluetooth">
-
-  <block type="ubluetooth_BLE"></block>
-
-  <block type="ubluetooth_BLE.active"></block>
-
-  <block type="ubluetooth_BLE.config">
-    <value name="param">
-      <shadow type="text">
-        <field name="TEXT">mac</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.irq"></block>
-
-  <block type="ubluetooth_BLE.gap_advertise">
-    <value name="interval_us">
-      <shadow type="math_number">
-        <field name="NUM">500000</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gap_scan">
-    <value name="duration_ms">
-      <shadow type="math_number">
-        <field name="NUM">2000</field>
-      </shadow>
-    </value>
-    <value name="interval_us">
-      <shadow type="math_number">
-        <field name="NUM">1280000</field>
-      </shadow>
-    </value>
-    <value name="window_us">
-      <shadow type="math_number">
-        <field name="NUM">11250</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gatts_register_services"></block>
-
-  <block type="ubluetooth_BLE.gatts_read">
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gatts_write">
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="data">
-      <shadow type="text">
-        <field name="TEXT">hello</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gatts_notify">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gatts_set_buffer">
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="len">
-      <shadow type="math_number">
-        <field name="NUM">20</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gap_connect">
-    <value name="addr_type">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gap_disconnect">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gattc_discover_services">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gattc_discover_characteristics">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="start_handle">
-      <shadow type="math_number">
-        <field name="NUM">1</field>
-      </shadow>
-    </value>
-    <value name="end_handle">
-      <shadow type="math_number">
-        <field name="NUM">255</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gattc_discover_descriptors">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="start_handle">
-      <shadow type="math_number">
-        <field name="NUM">1</field>
-      </shadow>
-    </value>
-    <value name="end_handle">
-      <shadow type="math_number">
-        <field name="NUM">255</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gattc_read">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-  </block>
-
-  <block type="ubluetooth_BLE.gattc_write">
-    <value name="conn_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="value_handle">
-      <shadow type="math_number">
-        <field name="NUM">0</field>
-      </shadow>
-    </value>
-    <value name="data">
-      <shadow type="text">
-        <field name="TEXT">hello</field>
-      </shadow>
-    </value>
-  </block>
-</category>
 <!-- /blockdef:ubluetooth -->
 <!-- blockdef:ucollections -->
 <category name="ucollections">

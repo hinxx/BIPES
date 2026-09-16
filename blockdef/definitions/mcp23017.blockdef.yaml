@@ -13,7 +13,7 @@ category:
     - I/O Expander
     - MCP23017
     - "Library source: https://github.com/ShrimpingIt/micropython-mcp230xx/blob/master/mcp.py "
-  toolboxes: [esp32, esp32c3, esp32S3, otto-robot]
+  toolboxes: [AmadoBoard, esp32S2, esp32, esp32c3, esp32S3, otto-robot]
 
 blocks:
   - type: mcp23017_init

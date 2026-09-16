@@ -45,11 +45,9 @@ import: {key: import_uasyncio, line: "import uasyncio"}
 
 category:
   name: uasyncio
-  # esp32 has this category too, inside the "blocks below need development"
-  # XML comment that swallows most of its `micropython` tree, so it is not
-  # offered there -- the same as `esp32mod` and `_thread`.
-  toolboxes: [3pi_2040, AmadoBoard, default, esp32S2, esp32c3, esp32S3, otto-robot,
-              esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
+  toolboxes: [3pi_2040, AmadoBoard, default, esp32, esp32S2, esp32c3, esp32S3,
+              otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w,
+              stm32]
 
 blocks:
   # --- the async function, and the call that makes a coroutine ---------------

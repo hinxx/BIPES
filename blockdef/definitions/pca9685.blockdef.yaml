@@ -10,7 +10,8 @@ category:
   name: PCA9685 Servo Driver
   library: pca9685
   labels: [PCA9685 Servo Driver Board]
-  toolboxes: [esp32, esp32-basic, rpi_pico, rpi_pico_w]
+  toolboxes: [AmadoBoard, otto-robot, esp32c3, esp32S3, esp32S2, esp32,
+              esp32-basic, rpi_pico, rpi_pico_w]
   defaults:
     esp32:       {sda: 26, scl: 25}
     esp32-basic: {sda: 26, scl: 25}
@@ -38,8 +39,8 @@ blocks:
       {instance}.freq(50)
     params:
       - {name: i2c, label: I2C, type: Number, default: 0, align: right}
-      - {name: sda, label: SDA, type: Number, pin: true,  align: right}
-      - {name: scl, label: SCL, type: Number, pin: true,  align: right}
+      - {name: sda, label: SDA, type: Number, pin: true,  align: right, default: 4}
+      - {name: scl, label: SCL, type: Number, pin: true,  align: right, default: 5}
       - {name: min_pulse_width, label: Min Pulse Width, type: Number, default: 500,  align: right}
       - {name: max_pulse_width, label: Max Pulse Width, type: Number, default: 2500, align: right}
 
