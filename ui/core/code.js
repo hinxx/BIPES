@@ -412,7 +412,13 @@ Code.checkAllGeneratorFunctionsDefined = function(generator) {
   var missingBlockGenerators = [];
   for (var i = 0; i < blocks.length; i++) {
     var blockType = blocks[i].type;
-    if (!generator[blockType]) {
+    // Blockly 11 moved generator functions to generator.forBlock, and that is
+    // where Blockly's own built-in generators live now -- so looking only at
+    // generator[blockType] reported `text` and `math_number` as missing on
+    // every load, while they generated code perfectly well.
+    var hasGenerator = (generator.forBlock && generator.forBlock[blockType]) ||
+        generator[blockType];
+    if (!hasGenerator) {
       if (missingBlockGenerators.indexOf(blockType) === -1) {
         missingBlockGenerators.push(blockType);
       }
@@ -659,6 +665,11 @@ Code.init = function() {
            snap: true},
        media: 'media/',
        rtl: rtl,
+       // Blockly 13 renders with 'thrasos' unless told otherwise. BIPES's
+       // blocks, and every screenshot and lesson built around them, are
+       // geras-shaped; changing how 2,000 blocks look is a decision to take
+       // deliberately, not to inherit from a default.
+       renderer: 'geras',
        toolbox: toolboxXml,
        oneBasedIndex: false,
        zoom:

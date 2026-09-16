@@ -606,6 +606,9 @@ embed.draw = function (xmlText, locked) {
       readOnly: true,
       trashcan: false,
       media: 'media/',
+      // Match the editor: Blockly 13 would otherwise draw these blocks with
+      // 'thrasos' here and 'geras' there, for the same program.
+      renderer: 'geras',
       scrollbars: !locked,
       zoom: locked
         ? {controls: false, wheel: false}

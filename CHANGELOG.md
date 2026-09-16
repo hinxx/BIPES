@@ -247,6 +247,111 @@ a user click.
 * **`docs/sync.ffs_db`, `easymqtt/sync.ffs_db`** -- FreeFileSync database
   artifacts that should never have been committed.
 
+### Changed -- Blockly 6 -> 13.3.0
+
+Seven major versions, from July 2021 to September 2026. The whole editor moved
+version; the blocks did not. Of the 2,115 block types the page ends up with,
+**2,102 generate byte-identical Python**, 13 differ only in the wording of
+Blockly's own "no generator for this block" message, and none differ in any
+other way. That is measured, not asserted -- see `tests/README.md`.
+
+**The packaging is not the problem it looked like.** The compressed bundles
+`ui/index.html` loads are genuinely gone from the Blockly repository, which is
+what made this look like it needed a bundler. They are still in the npm
+package, still UMD, and still set the globals the `<script>` tags expect --
+`python_compressed.js` literally ends with
+`root.Blockly.Python = root.python.pythonGenerator`. So `make copy` changed
+where it fetches from, and `ui/index.html` did not change shape at all.
+
+* **`Makefile`** -- `BLOCKLY_VERSION`, and `copy` now takes the bundles,
+  `media/` and the 127 message files from `npm pack blockly@$(BLOCKLY_VERSION)`
+  rather than from the submodule. Needs network; nothing else does.
+  `python_compressed.js` is no longer excluded from the copy (see below).
+* **`.gitmodules`** -- `blockly` is a reference copy for diffing now, not the
+  source of anything, and points at `RaspberryPiFoundation/blockly`: Blockly
+  moved from Google to the Raspberry Pi Foundation, whose releases since are
+  mostly accessibility -- keyboard navigation, screen-reader support for
+  blocks, connections and comments, workspace search.
+* **`ui/core/blockly_compat.js`** (new) -- the version shims, conditional on
+  what the loaded Blockly actually has, so the file does nothing on Blockly 6.
+  `Blockly.ALIGN_*` (969 call sites), `Blockly.Xml.textToDom`, `Blockly.alert`,
+  the mutator icon, the globals the field plugins look for, and the sweep that
+  moves 2,053 generators registered as `Blockly.Python['type']` into
+  `generator.forBlock`, which is the only place Blockly 11+ reads. The sweep is
+  why 737 vendored OpenCV generators needed no edit.
+* **`ui/core/micropython_patches.js`** (new) -- BIPES has always patched
+  Blockly's Python generator, which emits `from numbers import Number` in four
+  places and MicroPython has no `numbers` module. The patch used to be
+  hand-edits inside the minified `python_compressed.js`, which is why that file
+  could not be refreshed and why nobody could review the change. Same four
+  substitutions, against readable code, applied over whatever Blockly ships,
+  and loud if a future Blockly stops matching.
+* **`ui/core/field_colour.js`, `ui/core/field_angle.js`,
+  `ui/core/blockly_plugins.js`** (new) -- Blockly 11 moved several fields and
+  their blocks out of core into plugins. Two are needed: the colour field and
+  `colour_picker` (which `ui/toolbox/linux.xml` offers), and the angle field.
+  The multiline-input plugin is deliberately not taken; nothing here uses it.
+* **`ui/core/code.js`, `ui/core/embed.js`** -- `renderer: 'geras'`. Blockly 13
+  renders with `thrasos` by default, and how 2,000 blocks look is a decision to
+  take on purpose rather than inherit.
+* **`ui/core/code.js`** -- `checkAllGeneratorFunctionsDefined` reads
+  `generator.forBlock` as well. It put an alert box on every single load --
+  "the generator code for the following blocks not specified for Python: text,
+  math_number" -- about two built-in blocks that were generating code perfectly
+  well.
+* **`blockdef/generate.py`** -- the two checks that ask what blocks and
+  generators exist used to text-scan the Blockly bundles. That is over: since
+  v10 the bundles are compiled with the block table minified to a local, so
+  `Blockly.Blocks['controls_if']=` is spelled `Er.controls_if={init:...}` and
+  every built-in generator is installed by a loop over minified names. They
+  read `tests/golden/python_codegen.txt` instead, which knows because it was
+  taken from a running page.
+* **`ui/b.msg/js/`** -- 127 locales, from the package. The note under "Not
+  changed" below about these being stale is settled.
+
+### Fixed -- the offline build was broken
+
+* **`ui/core/ui.js`** -- opening `ui/index.html` from a `file://` path alerted
+  "You will now be redirected to the offline version" and then redirected to
+  `index_offline.html`, which does not exist anywhere in the tree: the separate
+  offline page was replaced by baking the assets into `ui/index.html` itself,
+  and the redirect stayed behind. So the offline build -- the entire point of
+  `bipes_offline.zip` -- ended at a 404. Redirect removed; unpacking the zip
+  and opening `ui/index.html` now works, and `make smoke --root` checks it.
+* **`ui/index.html`** -- stopped loading `ui/jsCv/v30.js`. It is a 709-line
+  bare array literal, assigned to nothing, over constants defined only in
+  `jsCv/en.js` and `jsCv/cv2.js` -- which are commented out two lines above it.
+  It could never do anything except throw `ReferenceError` on every page load,
+  and did.
+* **`ui/core/block_definitions.js` -> `ui/core/generator_stubs.js`** -- moved
+  the four Pololu 3pi+ 2040 generators, the only generators in a file of block
+  definitions. `ui/embed.html` loads that file and no generator bundle, so
+  `Blockly.Python['threepi_set_motor_speeds'] = ...` threw on an undefined
+  `Blockly.Python` and took the rest of the file down with it -- leaving embed
+  mode without the last seven block definitions (`google_spreadsheet`,
+  `configurar_plotter_dados`, `sensor_container`, `sensor_create`,
+  `play_melody`, `uasyncio_async_def`, `uasyncio_coro`). Any shared program
+  using one of those drew short, silently. Predates the Blockly work.
+
+### Added -- tests
+
+The repository had no tests. A Blockly upgrade across seven major versions is
+not something to do by opening flyouts and looking at them, so:
+
+* **`tests/codegen_golden.js`**, **`tests/golden/python_codegen.txt`** -- the
+  Python every one of the 2,115 block types generates, captured from a real
+  page and committed. `git diff tests/` after a change is the list of blocks it
+  altered. This is what makes the claim at the top of this section a
+  measurement.
+* **`tests/smoke.js`** -- whether the editor and the embed view actually come
+  up. The golden file says nothing about that, and both bugs this upgrade
+  shipped were invisible to it.
+* **`tests/lib/chrome.js`** -- drives headless Chrome over the DevTools
+  protocol. No npm dependencies and no `package.json`: this repository builds
+  with `make` and Python, and two test scripts are not a reason to grow a
+  JavaScript toolchain. Needs node >= 22 and a Chrome binary.
+* **`Makefile`** -- `make golden`, `make smoke`, `make test`.
+
 ### Fixed -- miscellaneous
 
 * `ui/core/channel.js` -- corrected `http:///bipes.net.br/beta2/ui` to
@@ -270,9 +375,6 @@ a user click.
 
 ### Not changed -- known stale, left alone deliberately
 
-* **`ui/b.msg`** -- the checked-in Blockly translations predate the pinned
-  Blockly version; `make copy` refreshes 118 files. Left as-is to keep the
-  change set focused. Run `make copy` to sync them.
 * **`http://bipes.net.br/beta2/ui/pylibs/`** in `ui/core/code.js` -- the
   MicroPython library installer downloads over plain HTTP from a `beta2` path.
   The endpoint is live; the URL is worth revisiting.

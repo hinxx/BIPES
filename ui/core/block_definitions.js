@@ -1849,7 +1849,7 @@ Blockly.Blocks['localstorage_store'] = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(230);
-        this.setMutator(new Blockly.Mutator(["localstorage_store_item"]));
+        this.setMutator(Blockly.bipesMutator_(this, ["localstorage_store_item"]));
         this.setTooltip("The data will be stored in the browser, organized by topic, see the 'Databoard' tab.");
     },
     mutationToDom: function () {
@@ -1881,7 +1881,7 @@ Blockly.Blocks['localstorage_store'] = {
         }
         this.itemCount_ = a.length;
         this.updateShape_();
-        for (b = 0; b < this.itemCount_; b++) Blockly.Mutator.reconnect(a[b], this, "ADD" + b);
+        for (b = 0; b < this.itemCount_; b++) Blockly.bipesReconnect_(a[b], this, "ADD" + b);
     },
     saveConnections: function (a) {
         a = a.getInputTargetBlock("STACK");
@@ -2125,7 +2125,7 @@ Blockly.Blocks['configurar_plotter_dados'] = {
     this.appendValueInput('SENSOR_0')
         .setCheck('Number')
         .appendField('Sensor 1');
-    this.setMutator(new Blockly.Mutator(['sensor_create']));
+    this.setMutator(Blockly.bipesMutator_(this, ['sensor_create']));
     this.sensorCount_ = 1;
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -2171,7 +2171,7 @@ Blockly.Blocks['configurar_plotter_dados'] = {
     this.sensorCount_ = connections.length + 1;
     this.updateShape_();
     for (var i = 1; i <= connections.length; i++) {
-      Blockly.Mutator.reconnect(connections[i - 1], this, 'SENSOR_' + i);
+      Blockly.bipesReconnect_(connections[i - 1], this, 'SENSOR_' + i);
     }
   },
   updateShape_: function() {

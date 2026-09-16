@@ -130,9 +130,18 @@ const CAPTURE_FN = function captureAll(limit) {
     types: out,
     meta: {
       blockTypes: types.length,
-      generators: Object.keys(Blockly.Python).filter(function(k) {
-        return typeof Blockly.Python[k] === 'function' && Blockly.Blocks[k];
-      }).length,
+      // Counted across both places a generator can live: Blockly 11+ reads
+      // generator.forBlock, everything here still registers as
+      // Blockly.Python['type'], and the compat shim copies one to the other.
+      generators: (function() {
+        var seen = {};
+        [Blockly.Python, Blockly.Python.forBlock || {}].forEach(function(table) {
+          Object.keys(table).forEach(function(k) {
+            if (typeof table[k] === 'function' && Blockly.Blocks[k]) seen[k] = true;
+          });
+        });
+        return Object.keys(seen).length;
+      })(),
       blocklyVersion: (typeof Blockly.VERSION === 'string') ? Blockly.VERSION : 'unknown',
     },
   };

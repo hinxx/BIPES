@@ -11,13 +11,17 @@
 # Build-time submodules -- only needed to regenerate the vendored copies in
 # ui/core via `make copy`. Not required to run the IDE.
 #
-# blockly is pinned to tag 6.20210701.0, which is the version already vendored
-# in ui/core (see VERSION in ui/core/blockly_compressed.js). Do NOT bump this
-# without porting the UI: Blockly >= 10 dropped the *_compressed.js bundles
-# that `make copy` and ui/index.html rely on.
+# blockly is a reference copy only -- `make copy` takes the compiled bundles
+# from the npm package, because since v10 they are build output and are not
+# committed to this repository at all. Keep it pinned to the same tag as
+# BLOCKLY_VERSION in the Makefile so that `git -C blockly show <path>` is the
+# readable source for whatever is vendored in ui/core.
+#
+# Blockly moved from Google to the Raspberry Pi Foundation; the old URL still
+# redirects, but this is where it lives now.
 [submodule "blockly"]
 	path = blockly
-	url = https://github.com/google/blockly.git
+	url = https://github.com/RaspberryPiFoundation/blockly.git
 [submodule "webrepl"]
 	path = webrepl
 	url = https://github.com/micropython/webrepl.git

@@ -63,6 +63,17 @@ function checkCookie() {
   <script src="core/blocks_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/javascript_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
+
+  <!-- Straight after the Blockly bundles and before anything that defines a
+       block: aliases the APIs that moved between Blockly versions, and the
+       globals the field plugins below look for. -->
+  <script src="core/blockly_compat.js?ver=0.2.3.09162330"></script>
+  <!-- Fields that used to be in Blockly core and are plugins since v11. -->
+  <script src="core/field_colour.js?ver=13.3.0"></script>
+  <script src="core/field_angle.js?ver=13.3.0"></script>
+  <script src="core/blockly_plugins.js?ver=0.2.3.09162330"></script>
+  <!-- Blockly's own Python generator emits code MicroPython cannot run. -->
+  <script src="core/micropython_patches.js?ver=0.2.3.09162330"></script>
   <script src="core/code.js?ver=0.2.3.09162000"></script>
   <script src="core/channel.js?ver=0.2.3.9152310"></script>
   <script src="core/utils.js?ver=0.2.3.09161800"></script>
@@ -110,6 +121,14 @@ function checkCookie() {
        ReferenceError on every page load. -->
   <script src="jsCv/v30/python.js?ver=0.2.3.09162300"></script>
   <script src="jsCv/v30/blocks.js"></script>
+
+  <!-- Every generator above is registered as Blockly.Python['block_type'];
+       Blockly 11+ only reads generator.forBlock. Sweep them across, here,
+       after the last file that registers one. See core/blockly_compat.js. -->
+  <script>
+    if (typeof Blockly === 'object' && Blockly.bipesSyncForBlock_)
+      Blockly.bipesSyncForBlock_(Blockly.Python);
+  </script>
 
 
 </head>

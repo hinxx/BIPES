@@ -511,10 +511,15 @@ def _check_every_block_has_a_generator(root: Path) -> None:
     # not block types, and both files park superseded blocks behind `//`.
     defined = _registered([_without_comments(js) for js in ours], 'Blockly.Blocks',
                           json_arrays=False)
-    generators = _registered(scripts, 'Blockly.Python')
+    generators = _registered(scripts, 'Blockly.Python') | _blockly_builtins(root)[1]
     sub_blocks: set[str] = set()
     for js in scripts:
-        for names in re.findall(r'new Blockly\.Mutator\(\s*\[([^\]]*)\]', js):
+        # `new Blockly.Mutator([...])` is how this was spelled up to Blockly 9;
+        # Blockly.bipesMutator_(this, [...]) is the version-independent wrapper
+        # the two mutator blocks here call now. Both name their sub-blocks the
+        # same way.
+        for names in re.findall(
+                r'(?:new Blockly\.Mutator|Blockly\.bipesMutator_)\([^\[]*\[([^\]]*)\]', js):
             sub_blocks |= set(re.findall(r"""['"]([^'"]+)['"]""", names))
         sub_blocks |= set(re.findall(r"""newBlock\(\s*['"]([^'"]+)['"]""", js))
     missing = sorted(defined - generators - sub_blocks)
@@ -560,8 +565,9 @@ def _check_toolbox_block_types_exist(root: Path) -> None:
     scripts = list(_page_scripts(root))
     if not scripts:
         return                                    # no page to check against
-    defined = _registered(scripts, 'Blockly.Blocks')
-    generators = _registered(scripts, 'Blockly.Python')
+    builtin_blocks, builtin_generators = _blockly_builtins(root)
+    defined = _registered(scripts, 'Blockly.Blocks') | builtin_blocks
+    generators = _registered(scripts, 'Blockly.Python') | builtin_generators
     broken: dict[str, list[str]] = {}
     for path in sorted((root / TOOLBOX).glob('*.xml')):
         # Commented-out entries are not loaded, so they are not checked --
@@ -579,6 +585,40 @@ def _check_toolbox_block_types_exist(root: Path) -> None:
             'toolbox entries name blocks the page does not have. A missing block stops its '
             'whole category from opening; a missing generator stops any program that uses '
             'it from producing code at all:\n' + '\n'.join(lines))
+
+
+def _blockly_builtins(root: Path) -> tuple[set[str], set[str]]:
+    """What Blockly itself provides, read from the golden capture.
+
+    Blockly used to be scannable: `Blockly.Blocks['controls_if']=` and
+    `Blockly.Python.controls_if=` were right there in the bundles. Since v10
+    the bundles are compiled with the block table minified to a local, so the
+    built-ins are spelled `Er.lists_create_with={init:...}` and every built-in
+    generator is installed by a loop over minified names. There is nothing left
+    to match on, and pattern-matching a compiled bundle was always going to
+    end this way.
+
+    `tests/golden/python_codegen.txt` knows instead, because it was taken from
+    a running page: every block type Blockly had is a section in it, and a
+    section whose body is the "does not know how to generate code" error is a
+    block type with no generator. Returns (block types, types with a
+    generator); empty sets if the file is missing, which leaves the checks
+    below scanning what they can and warning about nothing they cannot.
+    """
+    golden = root / 'tests/golden/python_codegen.txt'
+    if not golden.exists():
+        return set(), set()
+    blocks: set[str] = set()
+    generators: set[str] = set()
+    current = ''
+    for line in golden.read_text(encoding='utf-8').splitlines():
+        if line.startswith('==== ') and line.endswith(' ===='):
+            current = line[5:-5]
+            blocks.add(current)
+            generators.add(current)
+        elif current and 'know how to generate code' in line:
+            generators.discard(current)
+    return blocks, generators
 
 
 def _page_scripts(root: Path, skip: str = '') -> list[str]:

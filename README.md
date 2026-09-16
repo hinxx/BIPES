@@ -55,26 +55,51 @@ hand in all three; new families should instead be declared once in
 `blockdef/definitions/*.blockdef.yaml` and generated with `make blocks`. See
 [`blockdef/README.md`](blockdef/README.md).
 
+## Tests
+
+    make test
+
+`make smoke` loads the IDE and the embed view in headless Chrome and checks
+they come up; `make golden` records the Python that all 2,115 block types
+generate into `tests/golden/python_codegen.txt`, which is committed, so
+`git diff tests/` after a change is the list of blocks it altered. Needs
+node >= 22 and a Chrome or Chromium binary (`CHROME=/path/to/chrome` if it is
+somewhere unusual); no npm packages. See `tests/README.md`.
+
+
 ## Submodules
 
 | Submodule | Needed for | Fetched by |
 | --- | --- | --- |
 | `ui/freeboard` | IoT dashboard tab (runtime) | `make submodules` |
 | `databoard` | Databoard tab (runtime) | `make submodules` |
-| `blockly` | Re-vendoring `ui/core/*_compressed.js` | `make submodules-dev` |
+| `blockly` | Reading the source of the vendored Blockly | `make submodules-dev` |
 | `webrepl` | Re-vendoring `ui/core/FileSaver.js` | `make submodules-dev` |
 
 Only the first two are required to run the IDE; everything else is already
 vendored into the tree.
 
-`blockly` is pinned to tag `6.20210701.0`, which is the exact version vendored
-in `ui/core`. Blockly 10 dropped the `*_compressed.js` bundles that
-`ui/index.html` loads, so bumping the pin means porting the UI, not just
-re-running `make copy`. Two vendored files are patched by BIPES and are
-therefore never overwritten by `make copy`:
+Blockly is vendored from npm, not from the submodule: `make copy` runs
+`npm pack blockly@$(BLOCKLY_VERSION)` and takes the compiled bundles, `media/`
+and the message files out of the package. Since Blockly 10 those bundles are
+build output and are not committed to the Blockly repository at all -- they
+exist only in the published package, where they are still plain UMD and still
+set the globals `ui/index.html`'s `<script>` tags expect. The submodule is kept
+pinned to the same release so that `git -C blockly show <path>` is the readable
+source for what is vendored; nothing is copied out of it.
 
-* `ui/core/python_compressed.js` -- stock Blockly emits `from numbers import Number`, which MicroPython does not have.
+To move to a newer Blockly, set `BLOCKLY_VERSION` in the `Makefile`, run
+`make copy`, then `make test` and read the diff to `tests/golden/`.
+
+One vendored file is patched by BIPES and is therefore never overwritten by
+`make copy`:
+
 * `ui/core/storage.js` -- rewritten to save into the BIPES project/account model instead of Blockly's demo cloud storage.
+
+`ui/core/python_compressed.js` used to be a second such file: stock Blockly
+emits `from numbers import Number`, which MicroPython does not have. Those
+substitutions now live in `ui/core/micropython_patches.js`, applied on top of
+whatever Blockly ships, so the bundle itself is refreshed like any other.
 
 
 ## Third-party assets

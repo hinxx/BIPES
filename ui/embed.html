@@ -81,6 +81,15 @@
 
 <script src="core/blockly_compressed.js?ver=0.2.1.841940"></script>
 <script src="core/blocks_compressed.js?ver=0.2.1.841940"></script>
+<!-- Same three as the IDE, for the same reasons: the generated block
+     definitions below are written against APIs that moved (Blockly.ALIGN_*,
+     the colour and angle fields, the mutator icon), and this page builds the
+     very same blocks. No generator files here -- this view never generates
+     code -- so nothing sweeps forBlock, and nothing needs to. -->
+<script src="core/blockly_compat.js?ver=0.2.3.09162330"></script>
+<script src="core/field_colour.js?ver=13.3.0"></script>
+<script src="core/field_angle.js?ver=13.3.0"></script>
+<script src="core/blockly_plugins.js?ver=0.2.3.09162330"></script>
 <!-- For Code.LANG and Code.getLang(): the last two lines of code.js write the
      <script> tags for msg/<lang>.js and b.msg/js/<lang>.js, so ?lang= works
      here exactly as it does in the IDE. Nothing in it runs by itself --
