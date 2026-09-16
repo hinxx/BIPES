@@ -888,6 +888,12 @@ button.icon.medium:before  {
 #pylibsButton:before {
   background-position: left calc(-1.5rem*26) top;
 }
+/* The embed button, slot 28: a frame with something playing in it. Slot 21 is
+   a chain link, which would sit next to the share glyph at slot 0 and say the
+   same thing; this one says "put it in a page". */
+#embedButton:before {
+  background-position: left calc(-1.5rem*28) top;
+}
 #updateXMLButton:before {
   background-position: left calc(-1.5rem*20) bottom;
 }
@@ -1218,4 +1224,100 @@ button.icon.medium:before  {
   font-size: .8rem;
   color: #555;
   max-width: 44rem;
+}
+
+/* The embed picker: one row per top-level block chain, and the link/snippet it
+   builds. Shaped after the library picker above -- same dialog, same rows. */
+#embedDialog {
+  border: none;
+  border-radius: .5rem;
+  box-shadow: 0 .25rem 1.5rem rgba(0,0,0,.3);
+  padding: 1rem;
+  width: min(34rem, 92vw);
+  font-family: inherit;
+}
+#embedDialog::backdrop {
+  background: rgba(0,0,0,.4);
+}
+#embedDialog h3 {
+  margin: 0 0 .25rem 0;
+}
+#embedDialog p {
+  font-size: .85rem;
+  margin: 0 0 .5rem 0;
+  color: #555;
+}
+#embedList {
+  max-height: 40vh;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: .25rem;
+  padding: .25rem;
+}
+.embedRow {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .125rem .25rem;
+  border-radius: .25rem;
+}
+.embedRow:hover {
+  background: #f4f7fd;
+}
+.embedRow label {
+  flex-grow: 2;
+  min-width: 0;
+  font-size: .9rem;
+  /* A chain's description is one line however long the chain is: the full text
+     is the row's title attribute. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.embedFlag {
+  flex-shrink: 0;
+  font-size: .7rem;
+  color: #555;
+  background: #eee;
+  border-radius: .75rem;
+  padding: .1rem .5rem;
+}
+.embedEmpty {
+  font-size: .85rem;
+  color: #777;
+  padding: .5rem;
+}
+#embedOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin: .5rem 0 .25rem 0;
+  font-size: .8rem;
+  color: #555;
+}
+#embedOptions label {
+  cursor: pointer;
+}
+#embedCount.embedWarn {
+  color: #a33;
+  font-weight: bold;
+}
+#embedOutput {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: monospace;
+  font-size: .75rem;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: .25rem;
+  padding: .25rem;
+  background: #fafafa;
+}
+#embedDialogButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: .5rem;
 }

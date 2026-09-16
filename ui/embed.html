@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google" value="notranslate">
+  <title>BIPES blocks</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./media/icon/favicon-32x32.png">
+  <style>
+    /* Self-contained on purpose: this page is framed by other people's sites,
+       and ui/style.css is 1200 lines written for the IDE's chrome, none of
+       which is here. */
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #333;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    #blocks {
+      flex-grow: 1;
+      min-height: 0;
+    }
+    #embedBar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: .5rem;
+      padding: .25rem .5rem;
+      font-size: .8rem;
+    }
+    #embedBar a {
+      color: #327ae7;
+      text-decoration: none;
+      margin-right: auto;
+    }
+    #embedBar a:hover {
+      text-decoration: underline;
+    }
+    #embedCopy {
+      font: inherit;
+      padding: .25em .75em;
+      border: 1px solid #ccc;
+      border-radius: .25rem;
+      background: #fff;
+      cursor: pointer;
+    }
+    #embedCopy:hover {
+      background: #f0f0f0;
+    }
+    #embedMessage {
+      margin: 0;
+      padding: 1rem;
+      color: #a33;
+      white-space: pre-wrap;
+    }
+    /* Blockly draws its own background; without this the injected div has no
+       height of its own inside a flex column on some browsers. */
+    .injectionDiv {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Read by Blockly.Blocks['pinout'], which asks the page which board the
+     program targets. embed.setDevice() fills it in from ?device=, or from the
+     <workspace> chunk the saved XML carries. -->
+<select id="device_selector" hidden></select>
+
+<p id="embedMessage" hidden></p>
+<div id="blocks"></div>
+<div id="embedBar">
+  <a href="index.html" target="_blank" rel="noopener">Open BIPES</a>
+  <button id="embedCopy" hidden title="Copy these blocks, to paste into BIPES">Copy blocks</button>
+</div>
+
+<script src="core/blockly_compressed.js?ver=0.2.1.841940"></script>
+<script src="core/blocks_compressed.js?ver=0.2.1.841940"></script>
+<!-- For Code.LANG and Code.getLang(): the last two lines of code.js write the
+     <script> tags for msg/<lang>.js and b.msg/js/<lang>.js, so ?lang= works
+     here exactly as it does in the IDE. Nothing in it runs by itself --
+     Code.init() is never called. -->
+<script src="core/code.js?ver=0.2.3.09162000"></script>
+<!-- Tool.warningIfTrue / Tool.RGB2HEX / Tool.HUE2HEX, which some block
+     definitions call while they build themselves. Loaded rather than stubbed,
+     so the blocks here cannot drift from the blocks in the editor. -->
+<script src="core/utils.js?ver=0.2.3.09161800"></script>
+<script>
+  // file:// cannot XMLHttpRequest, so devinfo.json comes from the copy
+  // `make offline` bakes in. Written rather than linked, so a served page does
+  // not fetch 2 MB it will never read.
+  if (location.protocol == 'file:')
+    document.write('<script src="core/offline_assets.js"><\/script>');
+</script>
+<script src="core/block_definitions.js?ver=0.2.3.09162000"></script>
+<script src="core/blocks_generated.js?v=7d6d5b429a9b"></script>
+<script src="core/embed.js?ver=0.2.3.09162100"></script>
+<script>
+  embed.renderPage();
+</script>
+
+</body>
+</html>

@@ -56,7 +56,7 @@ function checkCookie() {
   
 }
 </script>
-  <link rel="stylesheet" href="style.css?ver=0.2.3.09162000">
+  <link rel="stylesheet" href="style.css?ver=0.2.3.09162100">
   <link rel="stylesheet" href="core/libs.css">
   <script src="core/storage.js?ver=0.2.2.1125"></script>
   <script src="core/blockly_compressed.js?ver=0.2.1.841940"></script>
@@ -71,6 +71,7 @@ function checkCookie() {
   <script src="core/FileSaver.js"></script>
   <script src="core/shortcut.js"></script>
   <script src="core/sound.js?ver=0.2.3.09162000"></script>
+  <script src="core/embed.js?ver=0.2.3.09162100"></script>
   <script src="core/pylibs.js?v=0b60daa5eb69"></script> <!-- generated from ui/pylibs/ by `make pylibs` -->
 
   <!-- Toolbox XML and devinfo.json, baked in by `make offline` for file://,
@@ -166,6 +167,8 @@ function checkCookie() {
         <button id="linkButton" class="notext icon" title="..."></button>
 
         <button id="saveButton" class="notext icon" title="..."></button>
+
+        <button id="embedButton" class="notext icon" title="Embed these blocks in another page" onclick="Embed.toggle();"></button>
 
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
@@ -415,6 +418,25 @@ function checkCookie() {
     <button id="cancelPylibsButton" class="button text" onclick="Files.togglePylibs();">Cancel</button>
   </div>
 </dialog>
+<!-- The embed picker. Tick the block chains to show, get a link and an
+     <iframe> for a lesson page; ui/embed.html is what draws them. -->
+<dialog id="embedDialog">
+  <h3>Embed blocks</h3>
+  <p>A read-only view of these blocks, for a lesson page or a wiki. The blocks travel inside
+     the link, so nothing has to be hosted. Tick the chains to show &mdash; the functions they
+     call come along by themselves.</p>
+  <div id="embedList"></div>
+  <div id="embedOptions">
+    <label><input type="checkbox" id="embedLock" onchange="Embed.update();"> Fixed picture (no panning or zooming)</label>
+    <span id="embedCount"></span>
+  </div>
+  <textarea id="embedOutput" rows="3" readonly onclick="this.select();"></textarea>
+  <div id="embedDialogButtons">
+    <button id="embedCopyButton" class="button icon text" title="Copy the iframe snippet" onclick="Embed.copy();">Copy snippet</button>
+    <button id="embedPreviewButton" class="button text" title="Open the embed in a new tab" onclick="Embed.preview();">Preview</button>
+    <button id="embedCloseButton" class="button text" onclick="Embed.toggle();">Close</button>
+  </div>
+</dialog>
 <div class="account-panel">
   <span>
     <span id="account_header">Hello, <span id="account_user" role="textbox" contenteditable>User</span>!</span>
@@ -458,6 +480,10 @@ var Files = new files ('#fileList');
 //global Music tab variable and functions (see core/sound.js). The grid is
 //built on the tab's first render, not here.
 var Music = new music ('#musicRoll');
+
+//global embed picker (see core/embed.js). Its list is built from the
+//workspace each time the dialog opens.
+var Embed = new embed ();
 
 // global User Interface variable and functions (see core/ui.js) */
 var UI = {};
