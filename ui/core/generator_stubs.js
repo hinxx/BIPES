@@ -4,6 +4,29 @@
  */
 
 /**
+ * The Python name of the variable a `Blockly.FieldVariable` holds.
+ *
+ * `block.getFieldValue()` on a variable field returns the variable's *id* -- a
+ * random 20-character string -- not its name. It returned the name until
+ * Blockly grew the variable model, and every generator written before that
+ * pasted the result straight into the Python, which is why the OpenCV bindings
+ * emit `,U|0Cn!zR-zZ%eE.5:vg = cv2.imread(...)`. The name comes from the
+ * generator's own name database, which also makes it a legal, non-colliding
+ * Python identifier.
+ *
+ * An id nothing in the workspace defines falls through to being treated as a
+ * name, so a program saved before this still generates what it used to.
+ *
+ * @param {!Blockly.Block} block - block holding the field
+ * @param {string} field - the field's name
+ * @returns {string} Python identifier for the variable it holds
+ */
+Blockly.Python.variableName_ = function(block, field) {
+  return Blockly.Python.nameDB_.getName(block.getFieldValue(field),
+                                        Blockly.VARIABLE_CATEGORY_NAME);
+};
+
+/**
  * Declare a MicroPython I2C bus once and return the variable holding it.
  *
  * Every I2C device block used to construct its own bus object with its own
@@ -792,7 +815,7 @@ Blockly.Blocks['load'] = {
   renameVar: function(oldName,newName) {if (Blockly.Names.equals(oldName,this.getFieldValue('image'))){this.setFieldValue(newName,'image');}},
 };
 Blockly.Python['load'] = function(block) {
-  var img = block.getFieldValue('image');
+  var img = Blockly.Python.variableName_(block, 'image');
   var filename = block.getFieldValue('filename');
   var grey = block.getFieldValue('grey') == 'TRUE';
   var flag = grey ? 0 : 1;
@@ -881,7 +904,7 @@ Blockly.Blocks['onmouse'] = {
   },
 };
 Blockly.Python['onmouse'] = function(block) {
-  var w = block.getFieldValue('windowname');
+  var w = Blockly.Python.variableName_(block, 'windowname');
   var k = block.getFieldValue('key');
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
   var code = "def onmouse(button, x, y, state, param):\n" +s + "\n" + "cv2.setMouseCallback('"+w+"', onmouse)\n";
@@ -910,7 +933,7 @@ Blockly.Blocks['cascade'] = {
 };
 Blockly.Python['cascade'] = function(block) {
   var text_input = block.getFieldValue('xmlfile');
-  var cascade = block.getFieldValue('cascade');
+  var cascade = Blockly.Python.variableName_(block, 'cascade');
   var code = cascade + " = cv2.CascadeClassifier('"+text_input+"')\n" +
              "if "+cascade+".empty(): raise Exception(\"your cascade is empty. are you sure, the path is correct ?\")\n"
   return code;
@@ -938,8 +961,8 @@ Blockly.Blocks['findobjects'] = {
 };
 Blockly.Python['findobjects'] = function(block) {
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
-  var cascade = block.getFieldValue('cascade');
-  var code = "cascade.detectMultiScale("+image+")"
+  var cascade = Blockly.Python.variableName_(block, 'cascade');
+  var code = cascade + ".detectMultiScale("+image+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -1107,7 +1130,7 @@ Blockly.Blocks['VideoWriter_write'] = {
 
 
 Blockly.Python['VideoWriter_VideoWriter'] = function(block) {
-  var writer = block.getFieldValue('writer');
+  var writer = Blockly.Python.variableName_(block, 'writer');
   var filename = block.getFieldValue('filename')
   var fourcc = block.getFieldValue('fourcc')
   var fps = block.getFieldValue('fps');
@@ -1117,7 +1140,7 @@ Blockly.Python['VideoWriter_VideoWriter'] = function(block) {
   return code;
 };
 Blockly.Python['VideoWriter_write'] = function(block) {
-  var that = block.getFieldValue('writer');
+  var that = Blockly.Python.variableName_(block, 'writer');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var code = that + ".write("+image+")\n"
   return code;
@@ -1324,7 +1347,7 @@ Blockly.Blocks['forRange'] = {
   }
 };
 Blockly.Python['forRange'] = function(block) {
-  var i = block.getFieldValue('i');
+  var i = Blockly.Python.variableName_(block, 'i');
   var stop = Blockly.Python.valueToCode(block, 'rend', Blockly.Python.ORDER_ATOMIC);
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
   var code = "for "+i+" in range("+stop+"):\n"+s;
@@ -1357,8 +1380,8 @@ Blockly.Blocks['forEnum'] = {
   },
 };
 Blockly.Python['forEnum'] = function(block) {
-  var index = block.getFieldValue('index');
-  var i = block.getFieldValue('i');
+  var index = Blockly.Python.variableName_(block, 'index');
+  var i = Blockly.Python.variableName_(block, 'i');
   var list = Blockly.Python.valueToCode(block, 'list', Blockly.Python.ORDER_ATOMIC);
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
   var code = "for "+index+","+i+" in enumerate("+list+"):\n"+s;
