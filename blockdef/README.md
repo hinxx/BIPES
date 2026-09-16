@@ -78,6 +78,19 @@ says nothing, which is exactly the failure that had four blocks assigned twice
 in `block_definitions.js` -- a `code:` written twice in one entry is the same
 mistake in this format.
 
+It refuses a `plug:` that is both a shadow and a variable. Blockly throws
+"Shadow blocks cannot have variable references" when it reads one back, so the
+entry cannot be loaded into a workspace even though the flyout draws it --
+three callback blocks shipped that way. Drop `shadow: true` and the socket gets
+a real block, which is what Blockly turns it into on a click anyway.
+
+The sockets that are left are the ones no shadow fits -- an object, an
+iterable, a buffer -- and a block whose flyout entry ships one of those empty
+*and* interpolates it into its Python warns while it sits there empty, naming
+the socket. `len()` parses, so nothing before the board notices it; a socket
+nothing interpolates is not warned about, which is why `mcp23017_input`'s
+vestigial `pullup` stays quiet.
+
 A generated category with no blocks on a board is not written at all, which
 makes `toolboxes:` say where a category *may* appear: a family whose every
 block is `boards:`-restricted away from a board simply does not appear there,

@@ -54,7 +54,7 @@ blocks:
     code: "{instance}.press_callback = {callback_func}"
     params:
       - {name: callback_func, label: Callback Function, type: Function, align: right,
-         plug: {type: variables_get, shadow: true, fields: {VAR: touchkey_press_callback}}}
+         plug: {type: variables_get, fields: {VAR: touchkey_press_callback}}}
 
   - type: touchkey_set_release_callback
     label: Set TouchKey Release Callback
@@ -62,4 +62,4 @@ blocks:
     code: "{instance}.release_callback = {callback_func}"
     params:
       - {name: callback_func, label: Callback Function, type: Function, align: right,
-         plug: {type: variables_get, shadow: true, fields: {VAR: touchkey_release_callback}}}
+         plug: {type: variables_get, fields: {VAR: touchkey_release_callback}}}

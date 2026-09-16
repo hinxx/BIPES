@@ -374,8 +374,11 @@ class Tool {
    * @param {array} criteria - A array composed by subarrays.
    * @param {function} criteria.func - Function with the criteria.
    * @param {string} criteria.str - Message to show as notification if the criteira is met.
+   * @param {string=} id - Which warning this is. Blockly keeps one text per id
+   *     and shows them together, so two checks on one block no longer overwrite
+   *     each other. Omitted, it is the single unnamed warning it always was.
    */
-  static warningIfTrue (self, criteria) {
+  static warningIfTrue (self, criteria, id) {
     // Don't check state if:
     //   * It's at the start of a drag.
     //   * It's not a move event.
@@ -387,7 +390,7 @@ class Tool {
       if (item [0] ())
         warnings.push(item [1])
     })
-    self.setWarningText(warnings.length > 0 ? warnings.join("\n") : null)
+    self.setWarningText(warnings.length > 0 ? warnings.join("\n") : null, id)
   }
 
   /** Return a random UID*/

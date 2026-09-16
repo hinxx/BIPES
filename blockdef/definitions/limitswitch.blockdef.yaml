@@ -44,7 +44,7 @@ blocks:
     tooltip: Set callback function for Limit Switch state change
     params:
       - {name: callback, label: Callback Function, type: Function, align: right,
-         plug: {type: variables_get, shadow: true, fields: {VAR: callback_func}}}
+         plug: {type: variables_get, fields: {VAR: callback_func}}}
 
   - {type: limitswitch_enable, fn: enable, label: Enable Limit Switch Callback,
      tooltip: Enable Limit Switch debounce callback monitoring}

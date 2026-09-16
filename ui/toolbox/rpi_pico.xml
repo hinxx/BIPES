@@ -2541,9 +2541,9 @@
 
     <block type="limitswitch_set_callback">
       <value name="callback">
-        <shadow type="variables_get">
+        <block type="variables_get">
           <field name="VAR">callback_func</field>
-        </shadow>
+        </block>
       </value>
     </block>
 
@@ -2576,17 +2576,17 @@
 
     <block type="touchkey_set_press_callback">
       <value name="callback_func">
-        <shadow type="variables_get">
+        <block type="variables_get">
           <field name="VAR">touchkey_press_callback</field>
-        </shadow>
+        </block>
       </value>
     </block>
 
     <block type="touchkey_set_release_callback">
       <value name="callback_func">
-        <shadow type="variables_get">
+        <block type="variables_get">
           <field name="VAR">touchkey_release_callback</field>
-        </shadow>
+        </block>
       </value>
     </block>
   </category>

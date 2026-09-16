@@ -655,6 +655,14 @@ def _plug(raw: Any, where: _Where) -> dict[str, Any] | None:
     for name, mapping in (('values', values), ('fields', fields)):
         if not isinstance(mapping, dict):
             raise BlockdefError(f'{where}: `plug.{name}` must be a mapping')
+    # Blockly refuses this one outright -- "Shadow blocks cannot have variable
+    # references" -- so the entry cannot be read back into a workspace, which
+    # is what loading a toolbox or a saved program does. A real block in the
+    # socket is what the flyout produces on a click anyway.
+    if raw.get('shadow') and str(raw['type']).startswith('variables_'):
+        raise BlockdefError(f'{where}: `plug.shadow` on a {raw["type"]} block -- a shadow '
+                            f'cannot hold a variable. Drop `shadow: true` and the socket '
+                            f'gets a real block, which is what Blockly makes of it anyway')
     return {'type': str(raw['type']),
             'shadow': bool(raw.get('shadow')),
             'values': {str(k): v for k, v in values.items()},

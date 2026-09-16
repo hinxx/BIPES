@@ -10,6 +10,7 @@ converting a category is a move rather than a rewrite.
 from __future__ import annotations
 
 import json
+import re
 
 from .spec import (ALIGNS, BUILTIN_TYPES, SOCKET_KINDS, Block, Button, Definition,
                    Label, Param, Row, Text, Variant)
@@ -52,7 +53,32 @@ Blockly.Python.blockdefWarnIfFloat_ = function(block, values) {
   });
   try {
     Tool.warningIfTrue(block, [[function() { return bad; },
-                               'Cannot convert float to int directly.']]);
+                               'Cannot convert float to int directly.']],
+                       'blockdef_float');
+  } catch (e) {}
+};
+
+// A socket the block's code interpolates, with nothing in it. These are the
+// sockets no shadow fits -- an object, an iterable, a buffer -- so the flyout
+// entry ships them empty and the user has to fill them. Left empty, the object
+// socket on `len` gives `len()`: it parses, so nothing upstream notices, and
+// the board answers with a TypeError traceback at the line that used it.
+//
+// The wording stops at what is certain. A few of these calls are legal with
+// the argument missing -- `print()` prints a blank line, `uos.listdir()` lists
+// the working directory -- so the warning says where the gap is and leaves
+// what it means to the person who left it.
+Blockly.Python.blockdefWarnIfEmpty_ = function(block, sockets) {
+  var empty = [];
+  for (var i = 0; i < sockets.length; i++) {
+    if (sockets[i][1] === '')
+      empty.push(sockets[i][0]);
+  }
+  try {
+    Tool.warningIfTrue(block, [[function() { return empty.length > 0; },
+                               'Nothing plugged in: ' + empty.join(', ') +
+                               '.\\nThe Python this block writes has a gap there.']],
+                       'blockdef_empty');
   } catch (e) {}
 };
 
@@ -238,6 +264,7 @@ def _generator_js(definition: Definition, block: Block) -> str:
         var = f'{param.name}_'
         reads[param.name] = var
         lines.append(f'  var {var} = {_read_js(param)};')
+    after_reads = len(lines)
 
     if block.i2c_bus:
         # Shared with the hand-written I2C blocks: one bus object per pin pair
@@ -272,10 +299,27 @@ def _generator_js(definition: Definition, block: Block) -> str:
     if integers:
         lines.append(f'  Blockly.Python.blockdefWarnIfFloat_(block, [{", ".join(integers)}]);')
 
+    # Where the warning about empty sockets goes, once there is emitted code to
+    # look at -- which of the reads it mentions is what decides.
+    warn_at = len(lines)
+
     if block.variants:
         lines.extend(_variants_js(block, reads, instance))
     else:
         lines.append(f'  var code = {_code_js(definition, block, reads)};')
+
+    # A socket is worth warning about when it arrives empty *and* the block
+    # puts it in the Python it emits. A socket whose flyout entry carries a
+    # shadow or a plugged block never arrives empty -- dragging its contents
+    # out puts the shadow back -- and one nothing interpolates changes nothing
+    # by being empty: `mcp23017_input` has a `pullup` socket its driver has no
+    # parameter for, kept only because removing an input breaks saved programs.
+    unfilled = [p for p in block.params
+                if p.kind == 'input' and _shadow_xml(p) is None
+                and _mentions_read(lines[after_reads:], reads[p.name])]
+    if unfilled:
+        pairs = ', '.join(f'[{_js(p.name)}, {reads[p.name]}]' for p in unfilled)
+        lines.insert(warn_at, f'  Blockly.Python.blockdefWarnIfEmpty_(block, [{pairs}]);')
     if block.kind == 'value':
         lines.append('  return [code, Blockly.Python.ORDER_NONE];')
     elif block.code == '':
@@ -287,6 +331,16 @@ def _generator_js(definition: Definition, block: Block) -> str:
         lines.append('  return code + "\\n";')
     lines.append('};\n')
     return '\n'.join(lines)
+
+
+def _mentions_read(lines: list[str], var: str) -> bool:
+    """Does anything the block emits actually use this socket's value?
+
+    `var` is one read variable (`pullup_`), and the test is a whole-word one:
+    `pin_` must not match inside `pin_mode_`.
+    """
+    pattern = re.compile(r'(?<![A-Za-z0-9_])' + re.escape(var) + r'(?![A-Za-z0-9_])')
+    return any(pattern.search(line) for line in lines)
 
 
 def _variants_js(block: Block, reads: dict[str, str], instance: str | None) -> list[str]:

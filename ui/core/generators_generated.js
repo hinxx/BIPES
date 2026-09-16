@@ -31,7 +31,32 @@ Blockly.Python.blockdefWarnIfFloat_ = function(block, values) {
   });
   try {
     Tool.warningIfTrue(block, [[function() { return bad; },
-                               'Cannot convert float to int directly.']]);
+                               'Cannot convert float to int directly.']],
+                       'blockdef_float');
+  } catch (e) {}
+};
+
+// A socket the block's code interpolates, with nothing in it. These are the
+// sockets no shadow fits -- an object, an iterable, a buffer -- so the flyout
+// entry ships them empty and the user has to fill them. Left empty, the object
+// socket on `len` gives `len()`: it parses, so nothing upstream notices, and
+// the board answers with a TypeError traceback at the line that used it.
+//
+// The wording stops at what is certain. A few of these calls are legal with
+// the argument missing -- `print()` prints a blank line, `uos.listdir()` lists
+// the working directory -- so the warning says where the gap is and leaves
+// what it means to the person who left it.
+Blockly.Python.blockdefWarnIfEmpty_ = function(block, sockets) {
+  var empty = [];
+  for (var i = 0; i < sockets.length; i++) {
+    if (sockets[i][1] === '')
+      empty.push(sockets[i][0]);
+  }
+  try {
+    Tool.warningIfTrue(block, [[function() { return empty.length > 0; },
+                               'Nothing plugged in: ' + empty.join(', ') +
+                               '.\nThe Python this block writes has a gap there.']],
+                       'blockdef_empty');
   } catch (e) {}
 };
 
@@ -581,6 +606,7 @@ Blockly.Python['bmp280_altitude'] = function(block) {
 Blockly.Python['btree_open'] = function(block) {
   Blockly.Python.definitions_["import_btree"] = "import btree";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "btree_db = btree.open(" + pIn_ + ")";
   return code + "\n";
 };
@@ -600,6 +626,7 @@ Blockly.Python['btree_btree.flush'] = function(block) {
 Blockly.Python['btree_btree.__getitem__'] = function(block) {
   Blockly.Python.definitions_["import_btree"] = "import btree";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "btree_db.__getitem__(" + pIn_ + ")";
   return code + "\n";
 };
@@ -613,6 +640,7 @@ Blockly.Python['btree_btree.__iter__'] = function(block) {
 Blockly.Python['btree_btree.keys'] = function(block) {
   Blockly.Python.definitions_["import_btree"] = "import btree";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "btree_db.keys(" + pIn_ + ")";
   return code + "\n";
 };
@@ -627,12 +655,14 @@ Blockly.Python['builtins_abs'] = function(block) {
 
 Blockly.Python['builtins_all'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "all(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_any'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "any(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -645,6 +675,7 @@ Blockly.Python['builtins_bin'] = function(block) {
 
 Blockly.Python['builtins_callable'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "callable(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -657,6 +688,7 @@ Blockly.Python['builtins_chr'] = function(block) {
 
 Blockly.Python['builtins_classmethod'] = function(block) {
   var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["function", function_]]);
   var code = "classmethod(" + function_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -678,6 +710,7 @@ Blockly.Python['builtins_delattr'] = function(block) {
 
 Blockly.Python['builtins_dir'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "dir(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -691,6 +724,7 @@ Blockly.Python['builtins_divmod'] = function(block) {
 
 Blockly.Python['builtins_enumerate'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "enumerate(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -735,6 +769,7 @@ Blockly.Python['builtins_hasattr'] = function(block) {
 
 Blockly.Python['builtins_hash'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "hash(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -747,6 +782,7 @@ Blockly.Python['builtins_hex'] = function(block) {
 
 Blockly.Python['builtins_id'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "id(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -781,12 +817,14 @@ Blockly.Python['builtins_issubclass'] = function(block) {
 
 Blockly.Python['builtins_iter'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "iter(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_len'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "len(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -805,18 +843,21 @@ Blockly.Python['builtins_map'] = function(block) {
 
 Blockly.Python['builtins_max'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "max(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_min'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "min(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_next'] = function(block) {
   var iterator_ = Blockly.Python.valueToCode(block, "iterator", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterator", iterator_]]);
   var code = "next(" + iterator_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -849,12 +890,14 @@ Blockly.Python['builtins_pow'] = function(block) {
 
 Blockly.Python['builtins_print'] = function(block) {
   var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["value", value_]]);
   var code = "print(" + value_ + ")";
   return code + "\n";
 };
 
 Blockly.Python['builtins_property'] = function(block) {
   var getter_ = Blockly.Python.valueToCode(block, "getter", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["getter", getter_]]);
   var code = "property(" + getter_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -867,12 +910,14 @@ Blockly.Python['builtins_range'] = function(block) {
 
 Blockly.Python['builtins_repr'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "repr(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_reversed'] = function(block) {
   var seq_ = Blockly.Python.valueToCode(block, "seq", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["seq", seq_]]);
   var code = "reversed(" + seq_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -894,18 +939,21 @@ Blockly.Python['builtins_setattr'] = function(block) {
 
 Blockly.Python['builtins_sorted'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "sorted(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_staticmethod'] = function(block) {
   var function_ = Blockly.Python.valueToCode(block, "function", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["function", function_]]);
   var code = "staticmethod(" + function_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['builtins_sum'] = function(block) {
   var iterable_ = Blockly.Python.valueToCode(block, "iterable", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["iterable", iterable_]]);
   var code = "sum(" + iterable_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -917,6 +965,7 @@ Blockly.Python['builtins_super'] = function(block) {
 
 Blockly.Python['builtins_type'] = function(block) {
   var obj_ = Blockly.Python.valueToCode(block, "obj", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["obj", obj_]]);
   var code = "type(" + obj_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1206,6 +1255,7 @@ Blockly.Python['randomforestclassifier'] = function(block) {
 Blockly.Python['cmath_cos'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.cos(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1213,6 +1263,7 @@ Blockly.Python['cmath_cos'] = function(block) {
 Blockly.Python['cmath_exp'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.exp(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1220,6 +1271,7 @@ Blockly.Python['cmath_exp'] = function(block) {
 Blockly.Python['cmath_log'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.log(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1227,6 +1279,7 @@ Blockly.Python['cmath_log'] = function(block) {
 Blockly.Python['cmath_log10'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.log10(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1234,6 +1287,7 @@ Blockly.Python['cmath_log10'] = function(block) {
 Blockly.Python['cmath_phase'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.phase(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1241,6 +1295,7 @@ Blockly.Python['cmath_phase'] = function(block) {
 Blockly.Python['cmath_polar'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.polar(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1248,6 +1303,7 @@ Blockly.Python['cmath_polar'] = function(block) {
 Blockly.Python['cmath_rect'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.rect(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1255,6 +1311,7 @@ Blockly.Python['cmath_rect'] = function(block) {
 Blockly.Python['cmath_sin'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.sin(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1262,6 +1319,7 @@ Blockly.Python['cmath_sin'] = function(block) {
 Blockly.Python['cmath_sqrt'] = function(block) {
   Blockly.Python.definitions_["import_cmath"] = "import cmath";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "cmath.sqrt(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -1685,6 +1743,7 @@ Blockly.Python['encoder_read'] = function(block) {
 Blockly.Python['esp_sleep_type'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.sleep_type(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1692,6 +1751,7 @@ Blockly.Python['esp_sleep_type'] = function(block) {
 Blockly.Python['esp_deepsleep'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.deepsleep(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1717,6 +1777,7 @@ Blockly.Python['esp_flash_user_start'] = function(block) {
 Blockly.Python['esp_flash_read'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.flash_read(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1724,6 +1785,7 @@ Blockly.Python['esp_flash_read'] = function(block) {
 Blockly.Python['esp_flash_write'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.flash_write(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1731,6 +1793,7 @@ Blockly.Python['esp_flash_write'] = function(block) {
 Blockly.Python['esp_flash_erase'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.flash_erase(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1738,6 +1801,7 @@ Blockly.Python['esp_flash_erase'] = function(block) {
 Blockly.Python['esp_set_native_code_location'] = function(block) {
   Blockly.Python.definitions_["import_esp"] = "import esp";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "esp.set_native_code_location(" + pIn_ + ")";
   return code + "\n";
 };
@@ -1870,6 +1934,7 @@ Blockly.Python['esp32_Partition.readblocks'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
   var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "partition.readblocks(" + block_num_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -1878,6 +1943,7 @@ Blockly.Python['esp32_Partition.writeblocks'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
   var block_num_ = Blockly.Python.valueToCode(block, "block_num", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "partition.writeblocks(" + block_num_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -1965,6 +2031,7 @@ Blockly.Python['esp32_ULP.load_binary'] = function(block) {
   Blockly.Python.definitions_["import_esp32"] = "import esp32";
   var load_addr_ = Blockly.Python.valueToCode(block, "load_addr", Blockly.Python.ORDER_ATOMIC);
   var program_binary_ = Blockly.Python.valueToCode(block, "program_binary", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["program_binary", program_binary_]]);
   var code = "ulp.load_binary(" + load_addr_ + ", " + program_binary_ + ")";
   return code + "\n";
 };
@@ -2452,6 +2519,7 @@ Blockly.Python['gc_mem_free'] = function(block) {
 Blockly.Python['gc_threshold'] = function(block) {
   Blockly.Python.definitions_["import_gc"] = "import gc";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "gc.threshold(" + pIn_ + ")";
   return code + "\n";
 };
@@ -3183,6 +3251,7 @@ Blockly.Python['lcd160cr_LCD160CR.get_line'] = function(block) {
   var x_ = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
   var y_ = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.get_line(" + x_ + ", " + y_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -3190,6 +3259,7 @@ Blockly.Python['lcd160cr_LCD160CR.get_line'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.screen_dump'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.screen_dump(" + buf_ + ")";
   return code + "\n";
 };
@@ -3197,6 +3267,7 @@ Blockly.Python['lcd160cr_LCD160CR.screen_dump'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.screen_load'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.screen_load(" + buf_ + ")";
   return code + "\n";
 };
@@ -3346,6 +3417,7 @@ Blockly.Python['lcd160cr_LCD160CR.line_no_clip'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.poly_dot'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["data", data_]]);
   var code = "lcd.poly_dot(" + data_ + ")";
   return code + "\n";
 };
@@ -3353,6 +3425,7 @@ Blockly.Python['lcd160cr_LCD160CR.poly_dot'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.poly_line'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var data_ = Blockly.Python.valueToCode(block, "data", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["data", data_]]);
   var code = "lcd.poly_line(" + data_ + ")";
   return code + "\n";
 };
@@ -3396,6 +3469,7 @@ Blockly.Python['lcd160cr_LCD160CR.fast_spi'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.show_framebuf'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.show_framebuf(" + buf_ + ")";
   return code + "\n";
 };
@@ -3437,6 +3511,7 @@ Blockly.Python['lcd160cr_LCD160CR.set_scroll_buf'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.jpeg'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.jpeg(" + buf_ + ")";
   return code + "\n";
 };
@@ -3451,6 +3526,7 @@ Blockly.Python['lcd160cr_LCD160CR.jpeg_start'] = function(block) {
 Blockly.Python['lcd160cr_LCD160CR.jpeg_data'] = function(block) {
   Blockly.Python.definitions_["import_lcd160cr"] = "import lcd160cr";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "lcd.jpeg_data(" + buf_ + ")";
   return code + "\n";
 };
@@ -3615,6 +3691,7 @@ Blockly.Python['machine_disable_irq'] = function(block) {
 Blockly.Python['machine_enable_irq'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "machine.enable_irq(" + pIn_ + ")";
   return code + "\n";
 };
@@ -3640,6 +3717,7 @@ Blockly.Python['machine_sleep'] = function(block) {
 Blockly.Python['machine_lightsleep'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "machine.lightsleep(" + pIn_ + ")";
   return code + "\n";
 };
@@ -3659,6 +3737,7 @@ Blockly.Python['machine_unique_id'] = function(block) {
 Blockly.Python['machine_time_pulse_us'] = function(block) {
   Blockly.Python.definitions_["import_machine"] = "import machine";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "machine.time_pulse_us(" + pIn_ + ")";
   return code + "\n";
 };
@@ -3718,6 +3797,7 @@ Blockly.Python['machine.I2C_I2C.stop'] = function(block) {
 Blockly.Python['machine.I2C_I2C.readinto'] = function(block) {
   Blockly.Python.definitions_["import_I2C_Pin"] = "from machine import I2C, Pin";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.readinto(" + buf_ + ")";
   return code + "\n";
 };
@@ -3725,6 +3805,7 @@ Blockly.Python['machine.I2C_I2C.readinto'] = function(block) {
 Blockly.Python['machine.I2C_I2C.write'] = function(block) {
   Blockly.Python.definitions_["import_I2C_Pin"] = "from machine import I2C, Pin";
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.write(" + buf_ + ")";
   return code + "\n";
 };
@@ -3741,6 +3822,7 @@ Blockly.Python['machine.I2C_I2C.readfrom_into'] = function(block) {
   Blockly.Python.definitions_["import_I2C_Pin"] = "from machine import I2C, Pin";
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.readfrom_into(" + addr_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -3749,6 +3831,7 @@ Blockly.Python['machine.I2C_I2C.writeto'] = function(block) {
   Blockly.Python.definitions_["import_I2C_Pin"] = "from machine import I2C, Pin";
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.writeto(" + addr_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -3757,6 +3840,7 @@ Blockly.Python['machine.I2C_I2C.writevto'] = function(block) {
   Blockly.Python.definitions_["import_I2C_Pin"] = "from machine import I2C, Pin";
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
   var vector_ = Blockly.Python.valueToCode(block, "vector", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["vector", vector_]]);
   var code = "i2c.writevto(" + addr_ + ", " + vector_ + ")";
   return code + "\n";
 };
@@ -3775,6 +3859,7 @@ Blockly.Python['machine.I2C_I2C.readfrom_mem_into'] = function(block) {
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
   var memaddr_ = Blockly.Python.valueToCode(block, "memaddr", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.readfrom_mem_into(" + addr_ + ", " + memaddr_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -3784,6 +3869,7 @@ Blockly.Python['machine.I2C_I2C.writeto_mem'] = function(block) {
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
   var memaddr_ = Blockly.Python.valueToCode(block, "memaddr", Blockly.Python.ORDER_ATOMIC);
   var buf_ = Blockly.Python.valueToCode(block, "buf", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["buf", buf_]]);
   var code = "i2c.writeto_mem(" + addr_ + ", " + memaddr_ + ", " + buf_ + ")";
   return code + "\n";
 };
@@ -3898,6 +3984,7 @@ Blockly.Python['machine.RTC_RTC.cancel'] = function(block) {
 Blockly.Python['machine.RTC_RTC.irq'] = function(block) {
   Blockly.Python.definitions_["import_RTC"] = "from machine import RTC";
   var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["handler", handler_]]);
   var code = "rtc.irq(" + handler_ + ")";
   return code + "\n";
 };
@@ -4186,6 +4273,7 @@ Blockly.Python['machine.ADCWiPy_adcchannel.deinit'] = function(block) {
 Blockly.Python['math_acos'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.acos(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4193,6 +4281,7 @@ Blockly.Python['math_acos'] = function(block) {
 Blockly.Python['math_acosh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.acosh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4200,6 +4289,7 @@ Blockly.Python['math_acosh'] = function(block) {
 Blockly.Python['math_asin'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.asin(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4207,6 +4297,7 @@ Blockly.Python['math_asin'] = function(block) {
 Blockly.Python['math_asinh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.asinh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4214,6 +4305,7 @@ Blockly.Python['math_asinh'] = function(block) {
 Blockly.Python['math_atan'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.atan(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4221,6 +4313,7 @@ Blockly.Python['math_atan'] = function(block) {
 Blockly.Python['math_atan2'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.atan2(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4228,6 +4321,7 @@ Blockly.Python['math_atan2'] = function(block) {
 Blockly.Python['math_atanh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.atanh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4235,6 +4329,7 @@ Blockly.Python['math_atanh'] = function(block) {
 Blockly.Python['math_ceil'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.ceil(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4242,6 +4337,7 @@ Blockly.Python['math_ceil'] = function(block) {
 Blockly.Python['math_copysign'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.copysign(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4249,6 +4345,7 @@ Blockly.Python['math_copysign'] = function(block) {
 Blockly.Python['math_cos'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.cos(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4256,6 +4353,7 @@ Blockly.Python['math_cos'] = function(block) {
 Blockly.Python['math_cosh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.cosh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4263,6 +4361,7 @@ Blockly.Python['math_cosh'] = function(block) {
 Blockly.Python['math_degrees'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.degrees(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4270,6 +4369,7 @@ Blockly.Python['math_degrees'] = function(block) {
 Blockly.Python['math_erf'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.erf(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4277,6 +4377,7 @@ Blockly.Python['math_erf'] = function(block) {
 Blockly.Python['math_erfc'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.erfc(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4284,6 +4385,7 @@ Blockly.Python['math_erfc'] = function(block) {
 Blockly.Python['math_exp'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.exp(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4291,6 +4393,7 @@ Blockly.Python['math_exp'] = function(block) {
 Blockly.Python['math_expm1'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.expm1(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4298,6 +4401,7 @@ Blockly.Python['math_expm1'] = function(block) {
 Blockly.Python['math_fabs'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.fabs(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4305,6 +4409,7 @@ Blockly.Python['math_fabs'] = function(block) {
 Blockly.Python['math_floor'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.floor(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4312,6 +4417,7 @@ Blockly.Python['math_floor'] = function(block) {
 Blockly.Python['math_fmod'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.fmod(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4319,6 +4425,7 @@ Blockly.Python['math_fmod'] = function(block) {
 Blockly.Python['math_frexp'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.frexp(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4326,6 +4433,7 @@ Blockly.Python['math_frexp'] = function(block) {
 Blockly.Python['math_gamma'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.gamma(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4333,6 +4441,7 @@ Blockly.Python['math_gamma'] = function(block) {
 Blockly.Python['math_isfinite'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.isfinite(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4340,6 +4449,7 @@ Blockly.Python['math_isfinite'] = function(block) {
 Blockly.Python['math_isinf'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.isinf(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4347,6 +4457,7 @@ Blockly.Python['math_isinf'] = function(block) {
 Blockly.Python['math_isnan'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.isnan(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4354,6 +4465,7 @@ Blockly.Python['math_isnan'] = function(block) {
 Blockly.Python['math_ldexp'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.ldexp(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4361,6 +4473,7 @@ Blockly.Python['math_ldexp'] = function(block) {
 Blockly.Python['math_lgamma'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.lgamma(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4368,6 +4481,7 @@ Blockly.Python['math_lgamma'] = function(block) {
 Blockly.Python['math_log'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.log(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4375,6 +4489,7 @@ Blockly.Python['math_log'] = function(block) {
 Blockly.Python['math_log10'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.log10(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4382,6 +4497,7 @@ Blockly.Python['math_log10'] = function(block) {
 Blockly.Python['math_log2'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.log2(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4389,6 +4505,7 @@ Blockly.Python['math_log2'] = function(block) {
 Blockly.Python['math_modf'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.modf(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4396,6 +4513,7 @@ Blockly.Python['math_modf'] = function(block) {
 Blockly.Python['math_pow'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.pow(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4403,6 +4521,7 @@ Blockly.Python['math_pow'] = function(block) {
 Blockly.Python['math_radians'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.radians(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4410,6 +4529,7 @@ Blockly.Python['math_radians'] = function(block) {
 Blockly.Python['math_sin'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.sin(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4417,6 +4537,7 @@ Blockly.Python['math_sin'] = function(block) {
 Blockly.Python['math_sinh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.sinh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4424,6 +4545,7 @@ Blockly.Python['math_sinh'] = function(block) {
 Blockly.Python['math_sqrt'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.sqrt(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4431,6 +4553,7 @@ Blockly.Python['math_sqrt'] = function(block) {
 Blockly.Python['math_tan'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.tan(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4438,6 +4561,7 @@ Blockly.Python['math_tan'] = function(block) {
 Blockly.Python['math_tanh'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.tanh(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4445,6 +4569,7 @@ Blockly.Python['math_tanh'] = function(block) {
 Blockly.Python['math_trunc'] = function(block) {
   Blockly.Python.definitions_["import_math"] = "import math";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "math.trunc(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4453,12 +4578,14 @@ Blockly.Python['math_trunc'] = function(block) {
 
 Blockly.Python['var_to_int'] = function(block) {
   var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["var", var_]]);
   var code = "int(" + var_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['var_to_float'] = function(block) {
   var var_ = Blockly.Python.valueToCode(block, "var", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["var", var_]]);
   var code = "float(" + var_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -4663,6 +4790,7 @@ Blockly.Python['mcp23017_setup'] = function(block) {
   Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
   var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
   var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["value", value_]]);
   var code = "mcpIO.setup(" + pin_ + "," + value_ + ")";
   return code + "\n";
 };
@@ -4671,6 +4799,7 @@ Blockly.Python['mcp23017_output'] = function(block) {
   Blockly.Python.definitions_["import_mcp23017"] = "import mcp23017";
   var pin_ = Blockly.Python.valueToCode(block, "pin", Blockly.Python.ORDER_ATOMIC);
   var value_ = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["value", value_]]);
   var code = "mcpIO.output(" + pin_ + "," + value_ + ")";
   return code + "\n";
 };
@@ -4781,6 +4910,7 @@ Blockly.Python['mgx_deinit'] = function(block) {
 Blockly.Python['micropython_const'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.const(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4788,6 +4918,7 @@ Blockly.Python['micropython_const'] = function(block) {
 Blockly.Python['micropython_opt_level'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.opt_level(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4795,6 +4926,7 @@ Blockly.Python['micropython_opt_level'] = function(block) {
 Blockly.Python['micropython_alloc_emergency_exception_buf'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.alloc_emergency_exception_buf(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4802,6 +4934,7 @@ Blockly.Python['micropython_alloc_emergency_exception_buf'] = function(block) {
 Blockly.Python['micropython_mem_info'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.mem_info(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4809,6 +4942,7 @@ Blockly.Python['micropython_mem_info'] = function(block) {
 Blockly.Python['micropython_qstr_info'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.qstr_info(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4840,6 +4974,7 @@ Blockly.Python['micropython_heap_locked'] = function(block) {
 Blockly.Python['micropython_kbd_intr'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.kbd_intr(" + pIn_ + ")";
   return code + "\n";
 };
@@ -4847,6 +4982,7 @@ Blockly.Python['micropython_kbd_intr'] = function(block) {
 Blockly.Python['micropython_schedule'] = function(block) {
   Blockly.Python.definitions_["import_micropython"] = "import micropython";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "micropython.schedule(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6095,6 +6231,7 @@ Blockly.Python['pwm.deinit'] = function(block) {
 Blockly.Python['pyb_delay'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.delay(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6102,6 +6239,7 @@ Blockly.Python['pyb_delay'] = function(block) {
 Blockly.Python['pyb_udelay'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.udelay(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6121,6 +6259,7 @@ Blockly.Python['pyb_micros'] = function(block) {
 Blockly.Python['pyb_elapsed_millis'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.elapsed_millis(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6128,6 +6267,7 @@ Blockly.Python['pyb_elapsed_millis'] = function(block) {
 Blockly.Python['pyb_elapsed_micros'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.elapsed_micros(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6147,6 +6287,7 @@ Blockly.Python['pyb_bootloader'] = function(block) {
 Blockly.Python['pyb_fault_debug'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.fault_debug(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6160,6 +6301,7 @@ Blockly.Python['pyb_disable_irq'] = function(block) {
 Blockly.Python['pyb_enable_irq'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.enable_irq(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6167,6 +6309,7 @@ Blockly.Python['pyb_enable_irq'] = function(block) {
 Blockly.Python['pyb_freq'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.freq(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6198,6 +6341,7 @@ Blockly.Python['pyb_have_cdc'] = function(block) {
 Blockly.Python['pyb_hid'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.hid(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6205,6 +6349,7 @@ Blockly.Python['pyb_hid'] = function(block) {
 Blockly.Python['pyb_info'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.info(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6212,6 +6357,7 @@ Blockly.Python['pyb_info'] = function(block) {
 Blockly.Python['pyb_main'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.main(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6219,6 +6365,7 @@ Blockly.Python['pyb_main'] = function(block) {
 Blockly.Python['pyb_mount'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.mount(" + pIn_ + ")";
   return code + "\n";
 };
@@ -6226,6 +6373,7 @@ Blockly.Python['pyb_mount'] = function(block) {
 Blockly.Python['pyb_repl_uart'] = function(block) {
   Blockly.Python.definitions_["import_pyb"] = "import pyb";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "pyb.repl_uart(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -7746,6 +7894,7 @@ Blockly.Python['swisscheese_motor_stop'] = function(block) {
 Blockly.Python['sys_exit'] = function(block) {
   Blockly.Python.definitions_["import_sys"] = "import sys";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "sys.exit(" + pIn_ + ")";
   return code + "\n";
 };
@@ -7753,6 +7902,7 @@ Blockly.Python['sys_exit'] = function(block) {
 Blockly.Python['sys_atexit'] = function(block) {
   Blockly.Python.definitions_["import_sys"] = "import sys";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "sys.atexit(" + pIn_ + ")";
   return code + "\n";
 };
@@ -7760,6 +7910,7 @@ Blockly.Python['sys_atexit'] = function(block) {
 Blockly.Python['sys_print_exception'] = function(block) {
   Blockly.Python.definitions_["import_sys"] = "import sys";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "sys.print_exception(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8310,6 +8461,7 @@ Blockly.Python['uarray_append'] = function(block) {
 Blockly.Python['uarray_extend'] = function(block) {
   Blockly.Python.definitions_["import_uarray"] = "import uarray";
   var other_ = Blockly.Python.valueToCode(block, "other", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["other", other_]]);
   var code = "arr.extend(" + other_ + ")";
   return code + "\n";
 };
@@ -8596,6 +8748,7 @@ Blockly.Python['uasyncio_Loop.close'] = function(block) {
 Blockly.Python['uasyncio_Loop.set_exception_handler'] = function(block) {
   Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
   var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["handler", handler_]]);
   var code = "uasyncio.get_event_loop().set_exception_handler(" + handler_ + ")";
   return code + "\n";
 };
@@ -8609,6 +8762,7 @@ Blockly.Python['uasyncio_Loop.get_exception_handler'] = function(block) {
 Blockly.Python['uasyncio_Loop.default_exception_handler'] = function(block) {
   Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
   var context_ = Blockly.Python.valueToCode(block, "context", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["context", context_]]);
   var code = "uasyncio.get_event_loop().default_exception_handler(" + context_ + ")";
   return code + "\n";
 };
@@ -8616,6 +8770,7 @@ Blockly.Python['uasyncio_Loop.default_exception_handler'] = function(block) {
 Blockly.Python['uasyncio_Loop.call_exception_handler'] = function(block) {
   Blockly.Python.definitions_["import_uasyncio"] = "import uasyncio";
   var context_ = Blockly.Python.valueToCode(block, "context", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["context", context_]]);
   var code = "uasyncio.get_event_loop().call_exception_handler(" + context_ + ")";
   return code + "\n";
 };
@@ -8625,6 +8780,7 @@ Blockly.Python['uasyncio_Loop.call_exception_handler'] = function(block) {
 Blockly.Python['ubinascii_hexlify'] = function(block) {
   Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ubinascii.hexlify(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8632,6 +8788,7 @@ Blockly.Python['ubinascii_hexlify'] = function(block) {
 Blockly.Python['ubinascii_unhexlify'] = function(block) {
   Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ubinascii.unhexlify(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8639,6 +8796,7 @@ Blockly.Python['ubinascii_unhexlify'] = function(block) {
 Blockly.Python['ubinascii_a2b_base64'] = function(block) {
   Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ubinascii.a2b_base64(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8646,6 +8804,7 @@ Blockly.Python['ubinascii_a2b_base64'] = function(block) {
 Blockly.Python['ubinascii_b2a_base64'] = function(block) {
   Blockly.Python.definitions_["import_ubinascii"] = "import ubinascii";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ubinascii.b2a_base64(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8675,6 +8834,7 @@ Blockly.Python['ubluetooth_BLE.config'] = function(block) {
 Blockly.Python['ubluetooth_BLE.irq'] = function(block) {
   Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
   var handler_ = Blockly.Python.valueToCode(block, "handler", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["handler", handler_]]);
   var code = "ble.irq(" + handler_ + ")";
   return code + "\n";
 };
@@ -8683,6 +8843,7 @@ Blockly.Python['ubluetooth_BLE.gap_advertise'] = function(block) {
   Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
   var interval_us_ = Blockly.Python.valueToCode(block, "interval_us", Blockly.Python.ORDER_ATOMIC);
   var adv_data_ = Blockly.Python.valueToCode(block, "adv_data", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["adv_data", adv_data_]]);
   var code = "ble.gap_advertise(" + interval_us_ + ", " + adv_data_ + ")";
   return code + "\n";
 };
@@ -8699,6 +8860,7 @@ Blockly.Python['ubluetooth_BLE.gap_scan'] = function(block) {
 Blockly.Python['ubluetooth_BLE.gatts_register_services'] = function(block) {
   Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
   var services_definition_ = Blockly.Python.valueToCode(block, "services_definition", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["services_definition", services_definition_]]);
   var code = "ble.gatts_register_services(" + services_definition_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -8738,6 +8900,7 @@ Blockly.Python['ubluetooth_BLE.gap_connect'] = function(block) {
   Blockly.Python.definitions_["import_ubluetooth"] = "import ubluetooth";
   var addr_type_ = Blockly.Python.valueToCode(block, "addr_type", Blockly.Python.ORDER_ATOMIC);
   var addr_ = Blockly.Python.valueToCode(block, "addr", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["addr", addr_]]);
   var code = "ble.gap_connect(" + addr_type_ + ", " + addr_ + ")";
   return code + "\n";
 };
@@ -8796,6 +8959,7 @@ Blockly.Python['ubluetooth_BLE.gattc_write'] = function(block) {
 Blockly.Python['ucollections_deque'] = function(block) {
   Blockly.Python.definitions_["import_ucollections"] = "import ucollections";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucollections_dq = ucollections.deque(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8803,6 +8967,7 @@ Blockly.Python['ucollections_deque'] = function(block) {
 Blockly.Python['ucollections_deque.append'] = function(block) {
   Blockly.Python.definitions_["import_ucollections"] = "import ucollections";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucollections_dq.append(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8816,6 +8981,7 @@ Blockly.Python['ucollections_deque.popleft'] = function(block) {
 Blockly.Python['ucollections_namedtuple'] = function(block) {
   Blockly.Python.definitions_["import_ucollections"] = "import ucollections";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucollections.namedtuple(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8823,6 +8989,7 @@ Blockly.Python['ucollections_namedtuple'] = function(block) {
 Blockly.Python['ucollections_OrderedDict'] = function(block) {
   Blockly.Python.definitions_["import_ucollections"] = "import ucollections";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucollections.OrderedDict(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8832,6 +8999,7 @@ Blockly.Python['ucollections_OrderedDict'] = function(block) {
 Blockly.Python['ucryptolib_encrypt'] = function(block) {
   Blockly.Python.definitions_["import_ucryptolib"] = "import ucryptolib";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucryptolib.encrypt(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8839,6 +9007,7 @@ Blockly.Python['ucryptolib_encrypt'] = function(block) {
 Blockly.Python['ucryptolib_decrypt'] = function(block) {
   Blockly.Python.definitions_["import_ucryptolib"] = "import ucryptolib";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ucryptolib.decrypt(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8848,6 +9017,7 @@ Blockly.Python['ucryptolib_decrypt'] = function(block) {
 Blockly.Python['uctypes_sizeof'] = function(block) {
   Blockly.Python.definitions_["import_uctypes"] = "import uctypes";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uctypes.sizeof(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -8855,6 +9025,7 @@ Blockly.Python['uctypes_sizeof'] = function(block) {
 Blockly.Python['uctypes_addressof'] = function(block) {
   Blockly.Python.definitions_["import_uctypes"] = "import uctypes";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uctypes.addressof(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -8862,6 +9033,7 @@ Blockly.Python['uctypes_addressof'] = function(block) {
 Blockly.Python['uctypes_bytes_at'] = function(block) {
   Blockly.Python.definitions_["import_uctypes"] = "import uctypes";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uctypes.bytes_at(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8869,6 +9041,7 @@ Blockly.Python['uctypes_bytes_at'] = function(block) {
 Blockly.Python['uctypes_bytearray_at'] = function(block) {
   Blockly.Python.definitions_["import_uctypes"] = "import uctypes";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uctypes.bytearray_at(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8907,6 +9080,7 @@ Blockly.Python['uhashlib_hash.hexdigest'] = function(block) {
 Blockly.Python['uheapq_heappush'] = function(block) {
   Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uheapq.heappush(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8914,6 +9088,7 @@ Blockly.Python['uheapq_heappush'] = function(block) {
 Blockly.Python['uheapq_heappop'] = function(block) {
   Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uheapq.heappop(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8921,6 +9096,7 @@ Blockly.Python['uheapq_heappop'] = function(block) {
 Blockly.Python['uheapq_heapify'] = function(block) {
   Blockly.Python.definitions_["import_uheapq"] = "import uheapq";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uheapq.heapify(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8930,6 +9106,7 @@ Blockly.Python['uheapq_heapify'] = function(block) {
 Blockly.Python['uio_open'] = function(block) {
   Blockly.Python.definitions_["import_uio"] = "import uio";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uio_stream = uio.open(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8945,6 +9122,7 @@ Blockly.Python['uio_getvalue'] = function(block) {
 Blockly.Python['ujson_dump'] = function(block) {
   Blockly.Python.definitions_["import_ujson"] = "import ujson";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ujson.dump(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8952,6 +9130,7 @@ Blockly.Python['ujson_dump'] = function(block) {
 Blockly.Python['ujson_dumps'] = function(block) {
   Blockly.Python.definitions_["import_ujson"] = "import ujson";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ujson.dumps(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -8959,6 +9138,7 @@ Blockly.Python['ujson_dumps'] = function(block) {
 Blockly.Python['ujson_load'] = function(block) {
   Blockly.Python.definitions_["import_ujson"] = "import ujson";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ujson.load(" + pIn_ + ")";
   return code + "\n";
 };
@@ -8966,6 +9146,7 @@ Blockly.Python['ujson_load'] = function(block) {
 Blockly.Python['ujson_loads'] = function(block) {
   Blockly.Python.definitions_["import_ujson"] = "import ujson";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ujson.loads(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9002,6 +9183,7 @@ Blockly.Python['uos_uname'] = function(block) {
 Blockly.Python['uos_urandom'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.urandom(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9009,6 +9191,7 @@ Blockly.Python['uos_urandom'] = function(block) {
 Blockly.Python['uos_chdir'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.chdir(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9022,6 +9205,7 @@ Blockly.Python['uos_getcwd'] = function(block) {
 Blockly.Python['uos_ilistdir'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.ilistdir(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9030,6 +9214,7 @@ Blockly.Python['uos_listdir'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   Blockly.Python.definitions_["import_os"] = "import os";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "os.listdir(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9037,6 +9222,7 @@ Blockly.Python['uos_listdir'] = function(block) {
 Blockly.Python['uos_mkdir'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.mkdir(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9044,6 +9230,7 @@ Blockly.Python['uos_mkdir'] = function(block) {
 Blockly.Python['uos_remove'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.remove(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9051,6 +9238,7 @@ Blockly.Python['uos_remove'] = function(block) {
 Blockly.Python['uos_rmdir'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.rmdir(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9058,6 +9246,7 @@ Blockly.Python['uos_rmdir'] = function(block) {
 Blockly.Python['uos_rename'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.rename(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9065,6 +9254,7 @@ Blockly.Python['uos_rename'] = function(block) {
 Blockly.Python['uos_stat'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.stat(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9072,6 +9262,7 @@ Blockly.Python['uos_stat'] = function(block) {
 Blockly.Python['uos_statvfs'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.statvfs(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9085,6 +9276,7 @@ Blockly.Python['uos_sync'] = function(block) {
 Blockly.Python['uos_dupterm'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.dupterm(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9092,6 +9284,7 @@ Blockly.Python['uos_dupterm'] = function(block) {
 Blockly.Python['uos_mount'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uos.mount(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9100,6 +9293,7 @@ Blockly.Python['uos_umount'] = function(block) {
   Blockly.Python.definitions_["import_uos"] = "import uos";
   Blockly.Python.definitions_["import_os"] = "import os";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "os.umount(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9133,6 +9327,7 @@ Blockly.Python['uos_ioctl'] = function(block) {
 Blockly.Python['ure_compile'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_regex = ure.compile(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9140,6 +9335,7 @@ Blockly.Python['ure_compile'] = function(block) {
 Blockly.Python['ure_match'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m = ure.match(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9147,6 +9343,7 @@ Blockly.Python['ure_match'] = function(block) {
 Blockly.Python['ure_search'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m = ure.search(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9154,6 +9351,7 @@ Blockly.Python['ure_search'] = function(block) {
 Blockly.Python['ure_sub'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure.sub(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9161,6 +9359,7 @@ Blockly.Python['ure_sub'] = function(block) {
 Blockly.Python['ure_regex.match'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m = ure_regex.match(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9168,6 +9367,7 @@ Blockly.Python['ure_regex.match'] = function(block) {
 Blockly.Python['ure_regex.split'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_regex.split(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9175,6 +9375,7 @@ Blockly.Python['ure_regex.split'] = function(block) {
 Blockly.Python['ure_match.group'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m.group(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9188,6 +9389,7 @@ Blockly.Python['ure_match.groups'] = function(block) {
 Blockly.Python['ure_match.start'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m.start(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9195,6 +9397,7 @@ Blockly.Python['ure_match.start'] = function(block) {
 Blockly.Python['ure_match.span'] = function(block) {
   Blockly.Python.definitions_["import_ure"] = "import ure";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ure_m.span(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9210,6 +9413,7 @@ Blockly.Python['uselect_poll'] = function(block) {
 Blockly.Python['uselect_select'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect.select(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9217,6 +9421,7 @@ Blockly.Python['uselect_select'] = function(block) {
 Blockly.Python['uselect_poll.register'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect_poller.register(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9224,6 +9429,7 @@ Blockly.Python['uselect_poll.register'] = function(block) {
 Blockly.Python['uselect_poll.unregister'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect_poller.unregister(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9231,6 +9437,7 @@ Blockly.Python['uselect_poll.unregister'] = function(block) {
 Blockly.Python['uselect_poll.modify'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect_poller.modify(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9238,6 +9445,7 @@ Blockly.Python['uselect_poll.modify'] = function(block) {
 Blockly.Python['uselect_poll.poll'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect_poller.poll(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9245,6 +9453,7 @@ Blockly.Python['uselect_poll.poll'] = function(block) {
 Blockly.Python['uselect_poll.ipoll'] = function(block) {
   Blockly.Python.definitions_["import_uselect"] = "import uselect";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uselect_poller.ipoll(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9254,6 +9463,7 @@ Blockly.Python['uselect_poll.ipoll'] = function(block) {
 Blockly.Python['usocket_socket'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock = usocket.socket(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9261,6 +9471,7 @@ Blockly.Python['usocket_socket'] = function(block) {
 Blockly.Python['usocket_getaddrinfo'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket.getaddrinfo(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9268,6 +9479,7 @@ Blockly.Python['usocket_getaddrinfo'] = function(block) {
 Blockly.Python['usocket_inet_ntop'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket.inet_ntop(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9275,6 +9487,7 @@ Blockly.Python['usocket_inet_ntop'] = function(block) {
 Blockly.Python['usocket_inet_pton'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket.inet_pton(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9288,6 +9501,7 @@ Blockly.Python['usocket_socket.close'] = function(block) {
 Blockly.Python['usocket_socket.bind'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.bind(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9295,6 +9509,7 @@ Blockly.Python['usocket_socket.bind'] = function(block) {
 Blockly.Python['usocket_socket.listen'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.listen(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9308,6 +9523,7 @@ Blockly.Python['usocket_socket.accept'] = function(block) {
 Blockly.Python['usocket_socket.connect'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.connect(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9315,6 +9531,7 @@ Blockly.Python['usocket_socket.connect'] = function(block) {
 Blockly.Python['usocket_socket.send'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.send(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9322,6 +9539,7 @@ Blockly.Python['usocket_socket.send'] = function(block) {
 Blockly.Python['usocket_socket.sendall'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.sendall(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9329,6 +9547,7 @@ Blockly.Python['usocket_socket.sendall'] = function(block) {
 Blockly.Python['usocket_socket.recv'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.recv(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9336,6 +9555,7 @@ Blockly.Python['usocket_socket.recv'] = function(block) {
 Blockly.Python['usocket_socket.sendto'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.sendto(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9343,6 +9563,7 @@ Blockly.Python['usocket_socket.sendto'] = function(block) {
 Blockly.Python['usocket_socket.recvfrom'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.recvfrom(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9350,6 +9571,7 @@ Blockly.Python['usocket_socket.recvfrom'] = function(block) {
 Blockly.Python['usocket_socket.setsockopt'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.setsockopt(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9357,6 +9579,7 @@ Blockly.Python['usocket_socket.setsockopt'] = function(block) {
 Blockly.Python['usocket_socket.settimeout'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.settimeout(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9364,6 +9587,7 @@ Blockly.Python['usocket_socket.settimeout'] = function(block) {
 Blockly.Python['usocket_socket.setblocking'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.setblocking(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9371,6 +9595,7 @@ Blockly.Python['usocket_socket.setblocking'] = function(block) {
 Blockly.Python['usocket_socket.makefile'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.makefile(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9378,6 +9603,7 @@ Blockly.Python['usocket_socket.makefile'] = function(block) {
 Blockly.Python['usocket_socket.read'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.read(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9385,6 +9611,7 @@ Blockly.Python['usocket_socket.read'] = function(block) {
 Blockly.Python['usocket_socket.readinto'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.readinto(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9398,6 +9625,7 @@ Blockly.Python['usocket_socket.readline'] = function(block) {
 Blockly.Python['usocket_socket.write'] = function(block) {
   Blockly.Python.definitions_["import_usocket"] = "import usocket";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "usocket_sock.write(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9407,6 +9635,7 @@ Blockly.Python['usocket_socket.write'] = function(block) {
 Blockly.Python['ussl_ussl.wrap_socket'] = function(block) {
   Blockly.Python.definitions_["import_ussl"] = "try:\n    import ssl as ussl\nexcept ImportError:\n    import ussl";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ussl.wrap_socket(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9416,6 +9645,7 @@ Blockly.Python['ussl_ussl.wrap_socket'] = function(block) {
 Blockly.Python['ustruct_calcsize'] = function(block) {
   Blockly.Python.definitions_["import_ustruct"] = "import ustruct";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ustruct.calcsize(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9423,6 +9653,7 @@ Blockly.Python['ustruct_calcsize'] = function(block) {
 Blockly.Python['ustruct_pack'] = function(block) {
   Blockly.Python.definitions_["import_ustruct"] = "import ustruct";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ustruct.pack(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9430,6 +9661,7 @@ Blockly.Python['ustruct_pack'] = function(block) {
 Blockly.Python['ustruct_pack_into'] = function(block) {
   Blockly.Python.definitions_["import_ustruct"] = "import ustruct";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ustruct.pack_into(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9437,6 +9669,7 @@ Blockly.Python['ustruct_pack_into'] = function(block) {
 Blockly.Python['ustruct_unpack'] = function(block) {
   Blockly.Python.definitions_["import_ustruct"] = "import ustruct";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ustruct.unpack(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9444,6 +9677,7 @@ Blockly.Python['ustruct_unpack'] = function(block) {
 Blockly.Python['ustruct_unpack_from'] = function(block) {
   Blockly.Python.definitions_["import_ustruct"] = "import ustruct";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "ustruct.unpack_from(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9453,6 +9687,7 @@ Blockly.Python['ustruct_unpack_from'] = function(block) {
 Blockly.Python['utime_localtime'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.localtime(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9466,6 +9701,7 @@ Blockly.Python['utime_mktime'] = function(block) {
 Blockly.Python['utime_sleep'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.sleep(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9473,6 +9709,7 @@ Blockly.Python['utime_sleep'] = function(block) {
 Blockly.Python['utime_sleep_ms'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.sleep_ms(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9480,6 +9717,7 @@ Blockly.Python['utime_sleep_ms'] = function(block) {
 Blockly.Python['utime_sleep_us'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.sleep_us(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9505,6 +9743,7 @@ Blockly.Python['utime_ticks_cpu'] = function(block) {
 Blockly.Python['utime_ticks_add'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.ticks_add(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9512,6 +9751,7 @@ Blockly.Python['utime_ticks_add'] = function(block) {
 Blockly.Python['utime_ticks_diff'] = function(block) {
   Blockly.Python.definitions_["import_utime"] = "import utime";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "utime.ticks_diff(" + pIn_ + ")";
   return code + "\n";
 };
@@ -9568,6 +9808,7 @@ Blockly.Python['uvmatrix_get_state'] = function(block) {
 Blockly.Python['uzlib_decompress'] = function(block) {
   Blockly.Python.definitions_["import_uzlib"] = "import uzlib";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "uzlib.decompress(" + pIn_ + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
@@ -9775,6 +10016,7 @@ Blockly.Python['net_ifconfig'] = function(block) {
 Blockly.Python['wipy_heartbeat'] = function(block) {
   Blockly.Python.definitions_["import_wipy"] = "import wipy";
   var pIn_ = Blockly.Python.valueToCode(block, "pIn", Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.blockdefWarnIfEmpty_(block, [["pIn", pIn_]]);
   var code = "wipy.heartbeat(" + pIn_ + ")";
   return code + "\n";
 };
