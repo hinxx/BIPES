@@ -205,6 +205,7 @@ category that is already there:
 | `footer` | the same, but after the params -- the aside `tone` ends on, "(0 for infinite duration)". |
 | `tooltip`, `url` | `setTooltip()`, `setHelpUrl()`. Either takes `{msg: key}`. |
 | `kind` | `statement` (default) or `value`. |
+| `next` | `false` leaves off the connector *under* a statement block, so nothing can be stacked below it. For Python that never comes back -- `invaders.run()` owns the board until somebody presses RST, and a block under it would be dead code that looks live. |
 | `output` | `setOutput()` type for a value block. Omit for "anything". |
 | `constructor` | `true` emits `instance = Class(...)` instead of a method call. |
 | `args` | call arguments, if they are not just the params in order. `bus` is available when `i2c_bus` is set. |

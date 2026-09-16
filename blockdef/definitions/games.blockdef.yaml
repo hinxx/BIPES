@@ -1,0 +1,95 @@
+# Three single-button arcade games for the classroom robot's screen.
+#
+# From setownley/BIPES, which wrote them for an ESP32-C3 Super Mini with a
+# 0.42" SSD1306: a 72x40 display that reports itself as 128x64 and lives at
+# offset (28, 24) inside it, which is where `x0`/`y0` in every `run()` come
+# from. One button is the whole input device -- tap it and the cannon
+# reverses, the snake turns, the ship changes altitude -- so the games are
+# playable on any board with those two parts, and the pins say which.
+#
+# `module:` is `ssd1306` because that is the one module every block here
+# imports; the game itself is a second module per block, named by the block.
+#
+# Each game comes in two blocks. The first imports the module, which has to be
+# on the board -- the "Install <game> library" button under it puts it there,
+# or the Library files picker in the Files tab does. The second embeds the
+# whole module in the program instead, for a board fresh off the flasher with
+# nothing on it but ssd1306.py; it is hand-written (see `external:` below)
+# because building it is a transform over the library source rather than a
+# template. The trade is the fork's own: several KB over the wire on every
+# run, a few hundred lines compiled in RAM on the board each time, and no file
+# to open in the editor afterwards. Where a board can hold the file, the first
+# block is the better one.
+#
+# Nothing here stops the robot's background timers before starting a game,
+# although one of them owns the same screen: each `run()` does it itself, in
+# `_quiet_the_robot()`. It belongs there rather than in the block's Python
+# because the standalone half has no block Python to put it in -- it embeds
+# the library and calls straight into it -- and a second copy in the emitter
+# is a second thing to keep in step.
+
+module: ssd1306
+colour: 290
+import: {line: "import ssd1306", key: import_ssd}
+
+category:
+  name: Games
+  colour: 290
+  labels:
+    - Single-button games on the 72x40 OLED window
+    - "Tap the button to play. Press RST on the board to leave the game"
+  toolboxes: [esp32c3]
+
+blocks:
+  - type: play_invaders
+    label:
+      - Play Invaders
+      - {image: {src: media/invaders.jpg, width: 79, height: 55}}
+    tooltip: Tiny Invaders on the OLED. The cannon moves and fires by itself;
+      tap the button to reverse it. This block never finishes -- press RST on
+      the board to get back to your program.
+    next: false
+    import: {line: "import invaders", key: import_invaders}
+    i2c_bus: {id: 0, scl: SCL, sda: SDA, freq: 400000}
+    code: "invaders.run(ssd1306.SSD1306_I2C(128, 64, {bus}), Pin({BTN}, Pin.IN, Pin.PULL_UP), led=Pin({LED}, Pin.OUT))"
+    params: &pins
+      - {name: SDA, label: SDA, type: Number, pin: true, default: 5, align: right}
+      - {name: SCL, label: SCL, type: Number, pin: true, default: 6, align: right}
+      - {name: BTN, label: Button, type: Number, pin: true, default: 9, align: right}
+      - {name: LED, label: LED, type: Number, pin: true, default: 8, align: right}
+
+  - {type: play_invaders_standalone, external: true, params: *pins}
+  - {library: invaders}
+
+  - type: play_snake
+    label:
+      - Play Snake
+      - {image: {src: media/snake.jpg, width: 91, height: 55}}
+    tooltip: Snake on the OLED. Tap the button to turn right. This block never
+      finishes -- press RST on the board to get back to your program.
+    next: false
+    import: {line: "import snake", key: import_snake}
+    i2c_bus: {id: 0, scl: SCL, sda: SDA, freq: 400000}
+    code: "snake.run(ssd1306.SSD1306_I2C(128, 64, {bus}), Pin({BTN}, Pin.IN, Pin.PULL_UP), led=Pin({LED}, Pin.OUT))"
+    params: *pins
+
+  - {type: play_snake_standalone, external: true, params: *pins}
+  - {library: snake}
+
+  - type: play_defender
+    label:
+      - Play Defender
+      - {image: {src: media/defender.jpg, width: 91, height: 55}}
+    tooltip: Defender Mini on the OLED. The ship fires by itself; tap the
+      button to change altitude. This block never finishes -- press RST on the
+      board to get back to your program.
+    next: false
+    import: {line: "import defender", key: import_defender}
+    i2c_bus: {id: 0, scl: SCL, sda: SDA, freq: 400000}
+    code: "defender.run(ssd1306.SSD1306_I2C(128, 64, {bus}), Pin({BTN}, Pin.IN, Pin.PULL_UP), led=Pin({LED}, Pin.OUT))"
+    params: *pins
+
+  - {type: play_defender_standalone, external: true, params: *pins}
+  - {library: defender}
+
+  - {library: ssd1306, suffix: "(the display driver all three games need)"}

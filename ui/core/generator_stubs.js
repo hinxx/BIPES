@@ -1986,3 +1986,85 @@ formatar_dados_para_plotter()  # Chama a função que formata e envia os dados a
 
 
 
+
+/**
+ * A game library rewritten as one nested function, for the "(standalone)"
+ * blocks in the Games category.
+ *
+ * Those blocks embed the whole game in the program instead of importing it,
+ * so a board fresh off the flasher -- nothing on it but ssd1306.py -- can
+ * play one. The source is `ui/pylibs/<name>.py`, read here out of the PyLibs
+ * object that `make pylibs` bakes, which is the same and only copy the
+ * "Install <name> library" button and the Files tab's Library files picker
+ * send to the board. Deriving it rather than keeping a second copy is the
+ * whole point: a standalone block cannot drift from the library it is a
+ * standalone build *of*.
+ *
+ * The transform is the smallest one that works, so that it stays obviously
+ * correct: indent every line by four, put a `def` above it, and call the
+ * module's own `run()` at the bottom. Nothing is dropped and nothing is
+ * rewritten -- comments, docstrings and `demo()` all travel too, so what the
+ * board compiles is the library, line for line, one indent level in. (A blank
+ * line stays blank rather than gaining four spaces, which is the one
+ * difference and not one Python can see.)
+ *
+ * Nesting is what makes it safe to drop into a student's program. At module
+ * level the game would land about thirty names in it -- `W`, `H`, `run`,
+ * `Game` -- and quietly shadow any of the student's that matched. Inside a
+ * function they are locals, and the program gains exactly one name.
+ *
+ * @param {string} name library key in PyLibs -- "invaders", "snake", ...
+ * @returns {string} `def _play_<name>(oled, btn, x0=28, y0=24, led=None): ...`
+ */
+Blockly.Python.gameStandalone_ = function(name) {
+  var lib = (typeof PyLibs === 'undefined') ? null : PyLibs[name];
+  if (!lib || !lib.source) {
+    // Only reachable if ui/pylibs/<name>.py was removed without the block
+    // going with it. Say which file, rather than emitting a def with an empty
+    // body and letting the board raise on the call below it.
+    throw new Error('No "' + name + '" in PyLibs: ui/core/pylibs.js is stale or ' +
+                    'ui/pylibs/' + name + '.py is gone. Run `make pylibs`.');
+  }
+  var body = lib.source.replace(/\r\n?/g, '\n').replace(/\s+$/, '').split('\n')
+      .map(function(line) { return line.trim() ? '    ' + line : ''; })
+      .join('\n');
+  // x0/y0 are the 72x40 window's origin inside the 128x64 the display claims
+  // to be; every game's run() takes them in that order and defaults to the
+  // same pair, so the call is the same line for all three.
+  return 'def _play_' + name + '(oled, btn, x0=28, y0=24, led=None):\n' +
+         body + '\n' +
+         '    run(oled, btn, x0, y0, led)';
+};
+
+/**
+ * The three standalone game blocks. Their file-based twins are generated from
+ * blockdef/definitions/games.blockdef.yaml and emit the same call, with
+ * `import <game>` above it where these carry the game itself.
+ *
+ * Neither half emits anything to quieten the robot's background timers before
+ * the game takes the screen. Each library's own `run()` does it, in
+ * `_quiet_the_robot()`: the standalone half calls straight into the embedded
+ * library and has no Python of its own to put such a preamble in, so the
+ * library is the one place that serves both halves at once.
+ */
+(function () {
+  function standaloneGenerator(name) {
+    return function(block) {
+      var sda = Blockly.Python.valueToCode(block, 'SDA', Blockly.Python.ORDER_ATOMIC);
+      var scl = Blockly.Python.valueToCode(block, 'SCL', Blockly.Python.ORDER_ATOMIC);
+      var btn = Blockly.Python.valueToCode(block, 'BTN', Blockly.Python.ORDER_ATOMIC);
+      var led = Blockly.Python.valueToCode(block, 'LED', Blockly.Python.ORDER_ATOMIC);
+      Blockly.Python.definitions_['import_ssd'] = 'import ssd1306';
+      Blockly.Python.definitions_['game_src_' + name] = Blockly.Python.gameStandalone_(name);
+      var bus = Blockly.Python.i2cBus_({id: 0, scl: scl, sda: sda, freq: 400000});
+      return '_play_' + name + '(ssd1306.SSD1306_I2C(128, 64, ' + bus + '), ' +
+             'Pin(' + btn + ', Pin.IN, Pin.PULL_UP), led=Pin(' + led + ', Pin.OUT))\n';
+    };
+  }
+
+  // Literal assignments, not a loop: gen_blocks.py reads the types this file
+  // registers out of its text, and a computed key is one it cannot see.
+  Blockly.Python['play_invaders_standalone'] = standaloneGenerator('invaders');
+  Blockly.Python['play_snake_standalone'] = standaloneGenerator('snake');
+  Blockly.Python['play_defender_standalone'] = standaloneGenerator('defender');
+})();

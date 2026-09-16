@@ -2484,6 +2484,44 @@ Blockly.Python['fri3d_joystick_read_vector'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+// ---- Games (games.blockdef.yaml) ---------------------------------------------
+
+Blockly.Python['play_invaders'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_invaders"] = "import invaders";
+  var SDA_ = Blockly.Python.valueToCode(block, "SDA", Blockly.Python.ORDER_ATOMIC);
+  var SCL_ = Blockly.Python.valueToCode(block, "SCL", Blockly.Python.ORDER_ATOMIC);
+  var BTN_ = Blockly.Python.valueToCode(block, "BTN", Blockly.Python.ORDER_ATOMIC);
+  var LED_ = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: "0", scl: SCL_, sda: SDA_, freq: "400000"});
+  var code = "invaders.run(ssd1306.SSD1306_I2C(128, 64, " + bus_ + "), Pin(" + BTN_ + ", Pin.IN, Pin.PULL_UP), led=Pin(" + LED_ + ", Pin.OUT))";
+  return code + "\n";
+};
+
+Blockly.Python['play_snake'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_snake"] = "import snake";
+  var SDA_ = Blockly.Python.valueToCode(block, "SDA", Blockly.Python.ORDER_ATOMIC);
+  var SCL_ = Blockly.Python.valueToCode(block, "SCL", Blockly.Python.ORDER_ATOMIC);
+  var BTN_ = Blockly.Python.valueToCode(block, "BTN", Blockly.Python.ORDER_ATOMIC);
+  var LED_ = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: "0", scl: SCL_, sda: SDA_, freq: "400000"});
+  var code = "snake.run(ssd1306.SSD1306_I2C(128, 64, " + bus_ + "), Pin(" + BTN_ + ", Pin.IN, Pin.PULL_UP), led=Pin(" + LED_ + ", Pin.OUT))";
+  return code + "\n";
+};
+
+Blockly.Python['play_defender'] = function(block) {
+  Blockly.Python.definitions_["import_ssd"] = "import ssd1306";
+  Blockly.Python.definitions_["import_defender"] = "import defender";
+  var SDA_ = Blockly.Python.valueToCode(block, "SDA", Blockly.Python.ORDER_ATOMIC);
+  var SCL_ = Blockly.Python.valueToCode(block, "SCL", Blockly.Python.ORDER_ATOMIC);
+  var BTN_ = Blockly.Python.valueToCode(block, "BTN", Blockly.Python.ORDER_ATOMIC);
+  var LED_ = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_ATOMIC);
+  var bus_ = Blockly.Python.i2cBus_({id: "0", scl: SCL_, sda: SDA_, freq: "400000"});
+  var code = "defender.run(ssd1306.SSD1306_I2C(128, 64, " + bus_ + "), Pin(" + BTN_ + ", Pin.IN, Pin.PULL_UP), led=Pin(" + LED_ + ", Pin.OUT))";
+  return code + "\n";
+};
+
 // ---- gc (gc.blockdef.yaml) ---------------------------------------------------
 
 Blockly.Python['gc_enable'] = function(block) {

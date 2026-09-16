@@ -138,6 +138,7 @@ class Block:
     footer: list[Row] = field(default_factory=list)   # label rows after the params
     tooltip: Text = field(default_factory=Text)
     kind: str = 'statement'         # 'statement' | 'value'
+    has_next: bool = True           # `next: false` -- a statement nothing can follow
     fn: str | None = None           # Python method called on the instance
     attr: str | None = None         # attribute read off the instance, with no call
     instance: str | None = None     # overrides the family's object for this block
@@ -374,6 +375,17 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
     if kind not in ('statement', 'value'):
         raise BlockdefError(f'{at}: `kind` is "statement" or "value", not {kind!r}')
 
+    # `next: false` is a block nothing can be attached below -- the Python it
+    # emits never comes back, so anything under it would be dead code that
+    # looks live. The three game blocks are the users: `invaders.run()` holds
+    # the board until somebody presses RST.
+    has_next = entry.get('next', True)
+    if not isinstance(has_next, bool):
+        raise BlockdefError(f'{at}: `next` is true or false, not {has_next!r}')
+    if kind == 'value' and not has_next:
+        raise BlockdefError(f'{at}: `next` is about the connector under a statement; '
+                            f'a value block plugs into a socket and has neither')
+
     constructor = bool(entry.get('constructor'))
     if constructor and not definition.cls:
         raise BlockdefError(f'{at}: `constructor` needs a top-level `class` to instantiate')
@@ -436,7 +448,7 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
     block = Block(
         type=str(type_), rows=rows, footer=footer,
         tooltip=_text(entry.get('tooltip'), at.at('tooltip')),
-        kind=kind, fn=fn, attr=attr, instance=instance, colour=colour, args=args, code=code,
+        kind=kind, has_next=has_next, fn=fn, attr=attr, instance=instance, colour=colour, args=args, code=code,
         output=entry.get('output'), params=params,
         inline=entry.get('inline'), constructor=constructor, i2c_bus=i2c,
         imports=_imports(entry.get('import'), None, at) if 'import' in entry else [],
@@ -447,7 +459,7 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
     )
     _check_unknown(entry, {'type', 'fn', 'attr', 'instance', 'colour', 'label', 'footer',
                            'tooltip',
-                           'kind', 'args', 'code', 'output', 'params', 'inline',
+                           'kind', 'next', 'args', 'code', 'output', 'params', 'inline',
                            'constructor', 'i2c_bus', 'url', 'external', 'import',
                            'fields', 'boards', 'offered', 'variants'}, at)
     return block

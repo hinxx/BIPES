@@ -4949,6 +4949,92 @@ Blockly.Blocks['fri3d_joystick_read_vector'] = {
   }
 };
 
+// ---- Games (games.blockdef.yaml) ---------------------------------------------
+
+Blockly.Blocks['play_invaders'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Play Invaders");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/invaders.jpg", 79, 55, "*"));
+    this.appendValueInput("SDA")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("SCL")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("BTN")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Button");
+    this.appendValueInput("LED")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED");
+    this.setPreviousStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Tiny Invaders on the OLED. The cannon moves and fires by itself; tap the button to reverse it. This block never finishes -- press RST on the board to get back to your program.");
+  }
+};
+
+Blockly.Blocks['play_snake'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Play Snake");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/snake.jpg", 91, 55, "*"));
+    this.appendValueInput("SDA")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("SCL")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("BTN")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Button");
+    this.appendValueInput("LED")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED");
+    this.setPreviousStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Snake on the OLED. Tap the button to turn right. This block never finishes -- press RST on the board to get back to your program.");
+  }
+};
+
+Blockly.Blocks['play_defender'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Play Defender");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("media/defender.jpg", 91, 55, "*"));
+    this.appendValueInput("SDA")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SDA");
+    this.appendValueInput("SCL")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("SCL");
+    this.appendValueInput("BTN")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Button");
+    this.appendValueInput("LED")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("LED");
+    this.setPreviousStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Defender Mini on the OLED. The ship fires by itself; tap the button to change altitude. This block never finishes -- press RST on the board to get back to your program.");
+  }
+};
+
 // ---- gc (gc.blockdef.yaml) ---------------------------------------------------
 
 Blockly.Blocks['gc_enable'] = {

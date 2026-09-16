@@ -2243,3 +2243,73 @@ Blockly.Blocks['sensor_create'] = {
 
 
 
+
+/*
+ * The three "(standalone)" game blocks -- Invaders, Snake and Defender with
+ * the whole library embedded in the program instead of imported from a file
+ * on the board.
+ *
+ * Their twins next to them in the Games category are generated from
+ * blockdef/definitions/games.blockdef.yaml, and so is this half's toolbox
+ * entry (`external: true` there, which is what keeps the two halves in one
+ * flyout in one order). What cannot be generated is the Python: it is the
+ * library source, indented and wrapped, rather than a template with holes,
+ * and that is a transform -- the same reason `timer` and `google_spreadsheet`
+ * are hand-written. See Blockly.Python.gameStandalone_ in generator_stubs.js.
+ *
+ * Written out one literal assignment at a time rather than in a loop over the
+ * three, because gen_blocks.py reads the block types it has to check out of
+ * this file's text: a computed `Blockly.Blocks['play_' + name]` is a block it
+ * cannot see, and a toolbox entry for one is an "Unknown block type" that
+ * stops the whole category from opening.
+ */
+(function () {
+  /* One shape for all three: title, screenshot, the four pins. Identical to
+     what the generator writes for the file-based twin, minus the next
+     connector -- run() never comes back, so a block stacked under it would be
+     dead code that looks live. */
+  function standaloneGame(title, image, imageWidth, controls) {
+    return {
+      init: function () {
+        this.appendDummyInput()
+            .appendField("Play " + title + " (standalone)");
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldImage(image, imageWidth, 55, "*"));
+        this.appendValueInput("SDA")
+            .setCheck("Number")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("SDA");
+        this.appendValueInput("SCL")
+            .setCheck("Number")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("SCL");
+        this.appendValueInput("BTN")
+            .setCheck("Number")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("Button");
+        this.appendValueInput("LED")
+            .setCheck("Number")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("LED");
+        this.setPreviousStatement(true, null);
+        this.setColour(290);
+        this.setTooltip(
+            "The whole game travels inside this block, so nothing has to be " +
+            "installed on the board first. " + controls + " This block never " +
+            "finishes -- press RST on the board to get back to your program.");
+      }
+    };
+  }
+
+  Blockly.Blocks['play_invaders_standalone'] =
+      standaloneGame("Invaders", "media/invaders.jpg", 79,
+                     "The cannon moves and fires by itself; tap the button to reverse it.");
+
+  Blockly.Blocks['play_snake_standalone'] =
+      standaloneGame("Snake", "media/snake.jpg", 91,
+                     "Tap the button to turn right.");
+
+  Blockly.Blocks['play_defender_standalone'] =
+      standaloneGame("Defender", "media/defender.jpg", 91,
+                     "The ship fires by itself; tap the button to change altitude.");
+})();

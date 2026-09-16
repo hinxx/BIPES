@@ -137,7 +137,11 @@ def _block_js(definition: Definition, block: Block) -> str:
         lines.append(f'    this.setOutput(true, {_js(block.output) if block.output else "null"});')
     else:
         lines.append('    this.setPreviousStatement(true, null);')
-        lines.append('    this.setNextStatement(true, null);')
+        # No next connector for a block whose Python never returns: Blockly
+        # then refuses the connection, instead of letting a student stack
+        # blocks under a game that will never reach them.
+        if block.has_next:
+            lines.append('    this.setNextStatement(true, null);')
 
     colour = block.colour if block.colour is not None else definition.colour
     if colour is not None:

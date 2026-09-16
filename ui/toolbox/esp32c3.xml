@@ -2484,6 +2484,159 @@
   </category>
   <!-- /blockdef:robot -->
 
+  <!-- blockdef:games -->
+  <category name="Games" colour="290">
+    <label text="Single-button games on the 72x40 OLED window"></label>
+    <label text="Tap the button to play. Press RST on the board to leave the game"></label>
+
+    <block type="play_invaders">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="play_invaders_standalone">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <button text="Install invaders library" callbackKey="installPyLib"></button>
+
+    <block type="play_snake">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="play_snake_standalone">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <button text="Install snake library" callbackKey="installPyLib"></button>
+
+    <block type="play_defender">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <block type="play_defender_standalone">
+      <value name="SDA">
+        <shadow type="pinout">
+          <field name="PIN">5</field>
+        </shadow>
+      </value>
+      <value name="SCL">
+        <shadow type="pinout">
+          <field name="PIN">6</field>
+        </shadow>
+      </value>
+      <value name="BTN">
+        <shadow type="pinout">
+          <field name="PIN">9</field>
+        </shadow>
+      </value>
+      <value name="LED">
+        <shadow type="pinout">
+          <field name="PIN">8</field>
+        </shadow>
+      </value>
+    </block>
+
+    <button text="Install defender library" callbackKey="installPyLib"></button>
+
+    <button text="Install ssd1306 library (the display driver all three games need)" callbackKey="installPyLib"></button>
+  </category>
+  <!-- /blockdef:games -->
+
   <category name="%{BKY_CAT_COMM}">
       <label text="%{BKY_CAT_COMM}"></label>
 
