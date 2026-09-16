@@ -10,4 +10,5 @@ docs/_build/
 # Editor / sync leftovers
 *~
 *.save
+*.swp
 *.ffs_db

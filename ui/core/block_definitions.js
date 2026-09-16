@@ -2015,41 +2015,14 @@ Blockly.Blocks['st7789_color_numbers'] = {
 
 
 
-// Pololu 3pi+ 2040
-Blockly.Python['threepi_set_motor_speeds'] = function(block) {
-	var value_lspeed = Blockly.Python.valueToCode(block, 'lspeed', Blockly.Python.ORDER_ATOMIC);
-	var value_rspeed = Blockly.Python.valueToCode(block, 'rspeed', Blockly.Python.ORDER_ATOMIC);
+// The four Pololu 3pi+ 2040 generators that used to sit here have moved to
+// generator_stubs.js, where the generators live. They were the only ones in
+// this file, and ui/embed.html loads this file without any generator bundle at
+// all -- so `Blockly.Python[...] = ...` threw on an undefined Blockly.Python
+// and took the rest of the file with it, leaving embed mode without the seven
+// block definitions that follow (google_spreadsheet, configurar_plotter_dados,
+// sensor_container, sensor_create, play_melody and the two uasyncio blocks).
 
-	Blockly.Python.definitions_['import_3pirobot'] = 'from pololu_3pi_2040_robot import robot as threepi_robot';
-	Blockly.Python.definitions_['make_3pimotors'] = 'threepi_motors = threepi_robot.Motors()';
-	var code = 'threepi_motors.set_speeds(' + value_lspeed + "," + value_rspeed + ')\n';
-	return code
-};
-
-Blockly.Python['threepi_set_motor_left_speed'] = function(block) {
-	var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_3pirobot'] = 'from pololu_3pi_2040_robot import robot as threepi_robot';
-	Blockly.Python.definitions_['make_3pimotors'] = 'threepi_motors = threepi_robot.Motors()';
-	var code = 'threepi_motors.set_left_speed(' + value_speed + ')\n';
-	return code
-};
-
-Blockly.Python['threepi_set_motor_right_speed'] = function(block) {
-	var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
-
-	Blockly.Python.definitions_['import_3pirobot'] = 'from pololu_3pi_2040_robot import robot as threepi_robot';
-	Blockly.Python.definitions_['make_3pimotors'] = 'threepi_motors = threepi_robot.Motors()';
-	var code = 'threepi_motors.set_right_speed(' + value_speed + ')\n';
-	return code
-};
-
-Blockly.Python['threepi_motors_off'] = function(block) {
-	Blockly.Python.definitions_['import_3pirobot'] = 'from pololu_3pi_2040_robot import robot as threepi_robot';
-	Blockly.Python.definitions_['make_3pimotors'] = 'threepi_motors = threepi_robot.Motors()';
-	var code = 'threepi_motors.off()\n';
-	return code
-};
 
 
 

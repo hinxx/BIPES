@@ -104,7 +104,10 @@ function checkCookie() {
   <script src="jsCv/en.js"></script>
   <script src="jsCv/cv2.js"></script>
   -->
-  <script src="jsCv/v30.js"></script>
+  <!-- jsCv/v30.js is not loaded: it is a bare array literal, assigned to
+       nothing, over constants that only exist in jsCv/en.js and jsCv/cv2.js
+       above -- which are commented out. It could never do anything but throw
+       ReferenceError on every page load. -->
   <script src="jsCv/v30/python.js?ver=0.2.3.09162300"></script>
   <script src="jsCv/v30/blocks.js"></script>
 

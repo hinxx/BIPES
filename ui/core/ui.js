@@ -487,10 +487,10 @@ class progress {
  */
 class workspace {
   constructor () {
-    if (window.location.pathname.includes ('index.html') && window.location.protocol == 'file:') {
-      alert('You will now be redirected to the offline version.');
-      window.location.replace("index_offline.html");
-    }
+    // No redirect for file://. There used to be a separate index_offline.html
+    // to send the user to; ui/index.html now bakes the offline assets in and
+    // serves both cases itself, and the file it redirected to is gone -- so
+    // this sent every offline user to a 404 by way of an alert box.
 
     this.defaultToolbox = 'default.xml';
     this.selector = get('#device_selector');

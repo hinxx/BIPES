@@ -16,7 +16,7 @@ FILES_BLOCKLY_JS=blockly_compressed.js blocks_compressed.js javascript_compresse
 # any more: ui/index.html loads core/xterm.js instead.
 FILES_WEBREPL=FileSaver.js
 
-.PHONY: help submodules submodules-dev copy copy-bipes-blocks blocks pylibs offline-assets offline doc clean-offline
+.PHONY: help submodules submodules-dev copy copy-bipes-blocks blocks pylibs offline-assets offline doc clean-offline golden
 
 help:
 	@echo "BIPES make targets:"
@@ -30,6 +30,8 @@ help:
 	@echo "  offline-assets       regenerate ui/core/offline_assets.js from the"
 	@echo "                       toolboxes and devinfo.json"
 	@echo "  offline              refresh every generated file and zip bipes_offline.zip"
+	@echo "  golden               recapture tests/golden/python_codegen.txt --"
+	@echo "                       the Python every block type generates"
 	@echo "  doc                  build the sphinx documentation in docs/"
 
 # --- submodules -------------------------------------------------------------
@@ -108,6 +110,16 @@ offline: pylibs offline-assets
 
 clean-offline:
 	rm -f bipes_offline.zip
+
+# --- tests ------------------------------------------------------------------
+
+# Records the Python that all 2,123 block types generate, one block at a time,
+# so that a change underneath them -- a Blockly version bump above all -- can be
+# diffed instead of eyeballed. Committed, same as the other generated files:
+# `git diff tests/` after this target is the list of blocks the change altered.
+# Needs node >= 22 and a Chrome binary; see tests/README.md.
+golden:
+	node tests/codegen_golden.js
 
 # --- documentation ----------------------------------------------------------
 
