@@ -45,6 +45,89 @@ Blockly.Python.i2cBus_ = function(opts) {
   return name;
 };
 
+/**
+ * Block types whose Python *rebinds* a variable -- `x = ...`, rather than
+ * reading it or mutating the object it holds.
+ *
+ * Only these need a `global` declaration when they sit inside a callback: a
+ * read resolves to the module variable already, and an in-place change
+ * (`lists_setIndex` writing into a list, say) never rebinds the name. If you
+ * add a block that assigns to a variable, add its type here, or a write to
+ * that variable inside a callback quietly becomes a local and a later read
+ * raises "local variable referenced before assignment".
+ *
+ * `text_append` belongs here despite reading like an in-place append: what it
+ * emits is `x = str(x) + ...`.
+ */
+Blockly.Python.REBINDING_BLOCKS_ = [
+  'variables_set',     // x = value
+  'math_change',       // x = (x if isinstance(x, (int, float)) else 0) + n
+  'controls_for',      // for x in range(...)
+  'controls_forEach',  // for x in list
+  'text_append'        // x = str(x) + ...
+];
+
+/**
+ * The `global` line for a block whose statement socket becomes a callback.
+ *
+ * Five blocks here do that -- `timer`, `gpio_interrupt`, `easymqtt_subscribe`,
+ * `mqtt_set_callback` and `bluetooth_pico_w_receive` -- and each carried its
+ * own copy of the same scan, lifted from Blockly's `procedures.js`: every
+ * variable *in the workspace*, whether the callback touches it or not.
+ *
+ * That was wrong in both directions. `global t` inside `def timerFunc0(t)` is
+ * "SyntaxError: name 't' is parameter and global", so a program with a
+ * variable called `t` and a Timer block did not run at all; and the exclusion
+ * meant to prevent exactly that compared a variable *name* against
+ * `block.getVars()`, which returns variable *ids*, so it never matched
+ * anything. Meanwhile a callback that only reads a variable declared it
+ * global anyway, so the line grew with the program instead of with the
+ * callback.
+ *
+ * This walks the callback's own body and names only what that body rebinds.
+ *
+ * @param {!Blockly.Block} block the block owning the callback
+ * @param {string} inputName its statement input
+ * @param {Array<string>=} ownVars names the callback takes as parameters,
+ *     which are locals by definition and must not be declared global
+ * @returns {string} an indented `global a, b\n`, or '' if there is nothing
+ */
+Blockly.Python.callbackGlobals_ = function(block, inputName, ownVars) {
+  var own = ownVars || [];
+  var seen = Object.create(null);
+  var globals = [];
+  var add = function(name) {
+    if (own.indexOf(name) == -1 && !seen[name]) {
+      seen[name] = true;
+      globals.push(name);
+    }
+  };
+
+  var root = block.getInputTargetBlock(inputName);
+  var body = root ? root.getDescendants(false) : [];
+  for (var i = 0, b; (b = body[i]); i++) {
+    if (Blockly.Python.REBINDING_BLOCKS_.indexOf(b.type) != -1 &&
+        typeof b.getVarModels == 'function') {
+      var models = b.getVarModels() || [];
+      for (var j = 0; j < models.length; j++) {
+        add(Blockly.Python.nameDB_.getName(models[j].name,
+            Blockly.VARIABLE_CATEGORY_NAME));
+      }
+    }
+    // A developer variable is one a block invents for itself; the block that
+    // owns it is the block that writes it.
+    if (typeof b.getDeveloperVariables == 'function') {
+      var dev = b.getDeveloperVariables() || [];
+      for (var k = 0; k < dev.length; k++) {
+        add(Blockly.Python.nameDB_.getName(dev[k],
+            Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+      }
+    }
+  }
+  return globals.length ?
+      Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+};
+
 
 
 
@@ -121,22 +204,13 @@ Blockly.Python['esp32_adc'] = function(block) {
 
 
 Blockly.Python['gpio_interrupt'] = function(block) {
-  // Fix for global variables inside callback
-  // Piece of code from generators/python/procedures.js
-  // Define a procedure with a return value.
-  // First, add a 'global' statement for every variable that is not shadowed by
-  // a local parameter.
-  var globals = [];
-  var workspace = block.workspace;
-  var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
-  for (var i = 0, variable; (variable = variables[i]); i++) {
-    var varName = variable.name;
-    if (block.getVars().indexOf(varName) == -1) {
-      globals.push(Blockly.Python.nameDB_.getName(varName,
-          Blockly.VARIABLE_CATEGORY_NAME));
-    }
-  }
-  globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+  // The pin MicroPython hands the handler. `getDistinctName` is what keeps it
+  // out of the way of a variable the program already has: `global pPin` inside
+  // `def gpio_irq_callback(pPin)` is a SyntaxError, and a user is entitled to
+  // call a variable whatever they like.
+  var pinArg = Blockly.Python.nameDB_.getDistinctName(
+      'pPin', Blockly.VARIABLE_CATEGORY_NAME);
+  var globals = Blockly.Python.callbackGlobals_(block, 'code');
 
   var dropdown_trigger = block.getFieldValue('trigger');
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
@@ -158,7 +232,7 @@ Blockly.Python['gpio_interrupt'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['gpio_irq'] = 'gpio_irq = {}';
   Blockly.Python.definitions_[handler] =
-      `\n#Interrupt handler\ndef ${handler}(pPin):\n${globals}${statements_code}`;
+      `\n#Interrupt handler\ndef ${handler}(${pinArg}):\n${globals}${statements_code}`;
 
   if (dropdown_trigger == 'BOTH')
 	dropdown_trigger = 'IRQ_RISING | Pin.IRQ_FALLING';
@@ -459,29 +533,9 @@ Blockly.Python['easymqtt_init'] = function(block) {
 Blockly.Python['easymqtt_subscribe'] = function(block) {
   var var_name = Blockly.Python.nameDB_.getName(
       block.getFieldValue('EASYMQTT_VAR'), Blockly.VARIABLE_CATEGORY_NAME);
-  // Fix for global variables inside callback
-  // Piece of code from generators/python/procedures.js
-  // Define a procedure with a return value.
-  // First, add a 'global' statement for every variable that is not shadowed by
-  // a local parameter.
-  var globals = [];
-  var varName;
-  var workspace = block.workspace;
-  var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
-  for (var i = 0, variable; variable = variables[i]; i++) {
-    varName = variable.name;
-    if (block.getVars().indexOf(varName) == -1 && varName != var_name) {
-      globals.push(Blockly.Python.nameDB_.getName(varName,
-          Blockly.VARIABLE_CATEGORY_NAME));
-    }
-  }
-  // Add developer variables.
-  var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
-  for (var i = 0; i < devVarList.length; i++) {
-    globals.push(Blockly.Python.nameDB_.getName(devVarList[i],
-        Blockly.Names.DEVELOPER_VARIABLE_TYPE));
-  }
-  globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+  // The variable the message arrives in is the callback's parameter, so it is
+  // a local here by design and must stay out of the `global` line.
+  var globals = Blockly.Python.callbackGlobals_(block, 'do', [var_name]);
 
   Blockly.Python.definitions_['import_robust'] = 'import robust';
   var topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
@@ -527,28 +581,11 @@ Blockly.Python['mqtt_add_to_buffer'] = function(block) {
 Blockly.Python['mqtt_set_callback'] = function(block) {
 	var data_var_name = Blockly.Python.nameDB_.getName(block.getFieldValue('MQTT_DATA_VAR'), Blockly.VARIABLE_CATEGORY_NAME);
 	var topic_var_name = Blockly.Python.nameDB_.getName(block.getFieldValue('MQTT_TOPIC_VAR'), Blockly.VARIABLE_CATEGORY_NAME);
-	// Fix for global variables inside callback
-	// Piece of code from generators/python/procedures.js
-	// Add a 'global' statement for every variable that is not shadowed by a local parameter.
-	var globals = [];
-	var varName;
-	var workspace = block.workspace;
-	var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
-	for (var i = 0, variable; variable = variables[i]; i++) {
-		varName = variable.name;
-		if (block.getVars().indexOf(varName) == -1 && varName != data_var_name && varName != topic_var_name) {
-		globals.push(Blockly.Python.nameDB_.getName(varName,
-			Blockly.VARIABLE_CATEGORY_NAME));
-		}
-	}
-	// Add developer variables.
-	var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
-	for (var i = 0; i < devVarList.length; i++) {
-		globals.push(Blockly.Python.nameDB_.getName(devVarList[i],
-			Blockly.Names.DEVELOPER_VARIABLE_TYPE));
-	}
-	globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') : '';
-	// End of code from generators/python/procedures.js
+	// The topic and the payload are the callback's own two parameters, so they
+	// are locals by design and stay out of the `global` line. `provideFunction_`
+	// joins its lines with newlines, so this one carries none of its own.
+	var globals = Blockly.Python.callbackGlobals_(
+		block, 'do', [topic_var_name, data_var_name]).replace(/\n$/, '');
 
 	Blockly.Python.definitions_['import_robust'] = 'import robust';
 
@@ -1388,27 +1425,19 @@ Blockly.Python['timer'] = function(block) {
       Blockly.Python.PASS;
   var dropdown_mode = block.getFieldValue('MODE');
   
-  // Fix for global variables inside callback
-  // Piece of code from generators/python/procedures.js
-  // Define a procedure with a return value.
-  // First, add a 'global' statement for every variable that is not shadowed by
-  // a local parameter.
-  var globals = [];
-  var workspace = block.workspace;
-  var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
-  for (var i = 0, variable; (variable = variables[i]); i++) {
-    var varName = variable.name;
-    if (block.getVars().indexOf(varName) == -1) {
-      globals.push(Blockly.Python.nameDB_.getName(varName,
-          Blockly.VARIABLE_CATEGORY_NAME));
-    }
-  }
-  globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+  // The Timer object MicroPython hands the callback. It used to be spelled `t`,
+  // which is a name a program is entitled to give a variable of its own -- and
+  // `global t` inside `def timerFunc0(t)` is "SyntaxError: name 't' is
+  // parameter and global", so that program did not run at all. `getDistinctName`
+  // picks a name no variable in this workspace has.
+  var timerArg = Blockly.Python.nameDB_.getDistinctName(
+      't', Blockly.VARIABLE_CATEGORY_NAME);
+  var globals = Blockly.Python.callbackGlobals_(block, 'statements');
 
   Blockly.Python.definitions_['import_timer'] = 'from machine import Timer';
 
   Blockly.Python.definitions_[`import_timer_start${timerNumber}`] = `try:\n\ttim${timerNumber} = Timer(${timerNumber})\nexcept:\n\ttim${timerNumber} = Timer()\n`;
-  Blockly.Python.definitions_[`import_timer_callback${timerNumber}`] = `\n#Timer Function Callback\ndef timerFunc${timerNumber}(t):\n${globals}${statements_name}\n\n`;
+  Blockly.Python.definitions_[`import_timer_callback${timerNumber}`] = `\n#Timer Function Callback\ndef timerFunc${timerNumber}(${timerArg}):\n${globals}${statements_name}\n\n`;
 
   var code = `tim${timerNumber}.init(period=${interval}, mode=Timer.${dropdown_mode}, callback=timerFunc${timerNumber})\n`;
              
@@ -1692,23 +1721,9 @@ Blockly.Python['localstorage_store'] = function(block) {
 Blockly.Python['bluetooth_pico_w_receive'] = function(block) {
 	var t = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);
 	var statements_code = Blockly.Python.statementToCode(block, 'code');
-	// Fix for global variables inside callback
-	// Piece of code from generators/python/procedures.js
-	// Define a procedure with a return value.
-	// First, add a 'global' statement for every variable that is not shadowed by
-	// a local parameter.
-	var globals = [];
-	var workspace = block.workspace;
-	var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
-	for (var i = 0, variable; (variable = variables[i]); i++) {
-		var varName = variable.name;
-		if (block.getVars().indexOf(varName) == -1) {
-			if (varName != t) {
-				globals.push(Blockly.Python.nameDB_.getName(varName, Blockly.VARIABLE_CATEGORY_NAME));
-			}
-		};
-	}
-	globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+	// The variable the text arrives in is the callback's parameter, so it is a
+	// local here by design and stays out of the `global` line.
+	var globals = Blockly.Python.callbackGlobals_(block, 'code', [t]);
 
 	Blockly.Python.definitions_[`bluetooth_rcv_interrupt`] = `\n#Interrupt handler\ndef on_rx(${t}):\n${globals}\n  ${t} = ${t}.decode()\n${statements_code}\n\n`;
 
