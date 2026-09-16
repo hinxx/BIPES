@@ -49,7 +49,14 @@ function check(page, name, ok, detail) {
   if (!ok) failures.push(page + ': ' + name + (detail ? ' -- ' + detail : ''));
 }
 
-/** The IDE: toolbox, flyout, and a real saved program through XML and back. */
+/** Every bundled example, loaded, generated and round-tripped. */
+function examples() {
+  const dir = path.join(REPO, 'ui', 'examples');
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.xml')).sort()
+      .map((f) => ({name: f, xml: fs.readFileSync(path.join(dir, f), 'utf8')}));
+}
+
+/** The IDE: toolbox, flyout, and real saved programs through XML and back. */
 async function checkEditor(args) {
   const page = path.join(args.root, 'ui', 'index.html');
   console.log('\nui/index.html');
@@ -116,6 +123,40 @@ async function checkEditor(args) {
     // single load, from a check that was looking somewhere the generators had
     // stopped living.
     check('index', 'no alert boxes on load', p.dialogs.length === 0, p.dialogs[0]);
+
+    // Every bundled example, not just the one above. These are the programs
+    // shipped as the answer to "show me what this looks like", so a block that
+    // stopped loading or stopped generating shows up here first.
+    const all = await p.evaluate(`(function(){
+      var files = ${JSON.stringify(examples())};
+      var ws = Code.workspace, out = [];
+      files.forEach(function(f){
+        var r = {name: f.name};
+        try {
+          ws.clear();
+          Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(f.xml), ws);
+          r.blocks = ws.getAllBlocks(false).length;
+          r.code = Code.generateCode() || '';
+          var back = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(ws));
+          ws.clear();
+          Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(back), ws);
+          r.reloaded = ws.getAllBlocks(false).length;
+          r.stable = (Code.generateCode() || '') === r.code;
+        } catch (e) { r.error = String(e.message || e); }
+        out.push(r);
+      });
+      ws.clear();
+      return out;
+    })()`);
+    const bad = all.filter((r) => r.error || !r.blocks || !r.code ||
+                                  r.blocks !== r.reloaded || !r.stable);
+    check('index', 'all ' + all.length + ' bundled examples load, generate and ' +
+          'round trip', bad.length === 0,
+          bad.map((r) => r.name + ': ' +
+              (r.error || (r.blocks !== r.reloaded
+                  ? r.blocks + ' -> ' + r.reloaded
+                  : (!r.code ? 'no code' : 'code changed')))).join('; '));
+
     if (args.shots) await p.screenshot(path.join(args.shots, 'index.png'));
   });
 }

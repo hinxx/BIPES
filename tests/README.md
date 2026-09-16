@@ -60,7 +60,8 @@ failed to register looks like.
     node tests/smoke.js --shots DIR  # and write a screenshot of each
     node tests/smoke.js --root DIR   # against an unpacked bipes_offline.zip
 
-`make test` runs both: smoke first, then the capture, then prints what moved.
+`make test` runs everything: smoke, interact, toolboxes, then the capture, and
+prints what moved.
 
 The golden capture proves what every block generates and nothing whatsoever
 about whether the page works. Both bugs the Blockly 13 upgrade actually shipped
@@ -89,3 +90,59 @@ Enough of the DevTools protocol to open a page and ask it questions: find a
 browser, launch it, `withPage(url, opts, fn)`. The page handle carries
 `evaluate`, `screenshot`, and the `pageErrors`, `consoleErrors` and `dialogs`
 seen since navigation.
+
+
+## `interact.js` -- the parts a person operates
+
+    make interact
+    node tests/interact.js --shots DIR
+
+Everything above this proves what the page emits and that it comes up; nothing
+clicks anything. These are the paths whose implementation changed underneath
+the Blockly 13 upgrade: the colour and angle field editors are plugins now
+rather than Blockly core, mutators were rewritten around an icon class in
+Blockly 11, and the clipboard and undo stack have both been reworked.
+
+So it opens the colour editor on a NeoPixel block and checks swatches are drawn
+and that `#00ff00` reaches the Python as `(0,255,0)`; opens the angle editor
+and checks the dial and `robot.servo(135)`; opens a mutator bubble on
+`localstorage_store` (BIPES's own, through `Blockly.bipesMutator_`) and on
+`controls_if` (Blockly's own), adds a clause to each, and checks the block
+grows an input, the generated code follows, and the new shape survives a save
+and load; then undo, redo, copy/paste, and a flyout block reaching the
+workspace.
+
+Two things to know if you extend it. `setBubbleVisible` is **async** in Blockly
+11+ -- it awaits `finishQueuedRenders()` -- so a synchronous call leaves the
+bubble shut and everything after it looks broken. And Blockly fires its events
+on a timer, so a block created with `Blockly.Xml.domToBlock` is not on the undo
+stack for another tick; undoing immediately undoes nothing.
+
+The two mutator containers are different shapes, which is why the test attaches
+by trying rather than by name: BIPES's holds its items in a statement input,
+while Blockly's `controls_if_if` has no input at all and the clauses stack
+underneath it on the container's own next connection.
+
+## `toolboxes.js` -- every category of every board
+
+    make toolboxes
+    node tests/toolboxes.js --board ESP32 --verbose
+
+25 selectable boards, 2,302 categories, including the nested ones that only
+exist once their parent is expanded. A toolbox entry naming a block nobody
+defines does not degrade gracefully: building the flyout throws `Unknown block
+type`, and that category plus everything nested under it becomes unreachable.
+`blockdef/generate.py` checks the same thing by scanning source files; this
+asks the running editor, which is where the answer is authoritative.
+
+Categories that are empty on purpose are not reported: a `custom` one, which
+Blockly fills at runtime and which has nothing in it until the program does
+(Variables, Functions), and a collapsible parent whose contents are other
+categories.
+
+It also reports, without failing, three device keys in `devinfo.json` that the
+selector does not offer -- `wemos_d1_mini`, `ESP32-oled`, `ESP32-LoRa`.
+Upstream renamed those options (`362391d9` turned the `wemos_d1_mini` option
+into `ESP8266`, keeping the label) and left the entries behind. Nothing can
+select them, and a project saved against one lands on whatever board was
+already showing, with an "invalid device" notice.

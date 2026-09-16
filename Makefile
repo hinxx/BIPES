@@ -34,7 +34,7 @@ FILES_BLOCKLY_PLUGINS=field-colour field-angle
 # any more: ui/index.html loads core/xterm.js instead.
 FILES_WEBREPL=FileSaver.js
 
-.PHONY: help submodules submodules-dev copy copy-blockly copy-webrepl copy-bipes-blocks blocks pylibs offline-assets offline doc clean-offline golden smoke test
+.PHONY: help submodules submodules-dev copy copy-blockly copy-webrepl copy-bipes-blocks blocks pylibs offline-assets offline doc clean-offline golden smoke interact toolboxes test
 
 help:
 	@echo "BIPES make targets:"
@@ -53,7 +53,10 @@ help:
 	@echo "                       the Python every block type generates"
 	@echo "  smoke                load the IDE and the embed view and check"
 	@echo "                       they work"
-	@echo "  test                 smoke, then golden, then show what moved"
+	@echo "  interact             exercise the field editors, mutators, undo"
+	@echo "                       and clipboard"
+	@echo "  toolboxes            open every category of every board's toolbox"
+	@echo "  test                 all of the above, then show what moved"
 	@echo "  doc                  build the sphinx documentation in docs/"
 
 # --- submodules -------------------------------------------------------------
@@ -170,8 +173,20 @@ golden:
 smoke:
 	node tests/smoke.js
 
+# Exercises what a person operates rather than what the page emits: the colour
+# and angle field editors (plugins since Blockly 11), both flavours of mutator,
+# undo, the clipboard. See tests/README.md.
+interact:
+	node tests/interact.js
+
+# Opens every category of all 25 selectable boards -- 2,302 flyouts. A toolbox
+# naming a block nobody defines does not degrade: the category and everything
+# nested under it stops opening.
+toolboxes:
+	node tests/toolboxes.js
+
 # What to run after touching Blockly, a block definition or a generator.
-test: smoke golden
+test: smoke interact toolboxes golden
 	@echo
 	@git --no-pager diff --stat -- tests/golden || true
 	@echo "Any diff above is the list of blocks this change altered."

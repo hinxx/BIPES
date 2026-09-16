@@ -344,13 +344,39 @@ not something to do by opening flyouts and looking at them, so:
   altered. This is what makes the claim at the top of this section a
   measurement.
 * **`tests/smoke.js`** -- whether the editor and the embed view actually come
-  up. The golden file says nothing about that, and both bugs this upgrade
+  up, and whether all 14 bundled examples load, generate and round-trip. The
+  golden file says nothing about any of that, and both bugs this upgrade
   shipped were invisible to it.
+* **`tests/interact.js`** -- the parts a person operates, which nothing else
+  here clicks: the colour and angle field editors (plugins now, not core), a
+  mutator bubble on BIPES's own `localstorage_store` and on Blockly's
+  `controls_if` -- add a clause, check the block grows an input, the code
+  follows, and the shape survives a save and load -- then undo, redo,
+  copy/paste, and a flyout block reaching the workspace.
+* **`tests/toolboxes.js`** -- opens every category of every board: 25
+  selectable boards, 2,302 categories including the nested ones that only exist
+  once their parent is expanded. A toolbox entry naming a block nobody defines
+  throws `Unknown block type` and takes its whole category, and everything
+  nested under it, out of reach. None do.
 * **`tests/lib/chrome.js`** -- drives headless Chrome over the DevTools
   protocol. No npm dependencies and no `package.json`: this repository builds
   with `make` and Python, and two test scripts are not a reason to grow a
   JavaScript toolchain. Needs node >= 22 and a Chrome binary.
 * **`Makefile`** -- `make golden`, `make smoke`, `make test`.
+
+### Not changed -- found while testing, left alone
+
+* **`wemos_d1_mini`, `ESP32-oled`, `ESP32-LoRa`** are devices in
+  `ui/devinfo/devinfo.json` that the device selector does not offer, so nothing
+  can choose them. Upstream `362391d9` renamed the `wemos_d1_mini` option to
+  `ESP8266` -- keeping the label "Wemos D1 mini" -- and the other two went the
+  same way into `ESP32`, without the `devinfo.json` entries being removed. The
+  live consequence is narrow but real: `changeTo` assigns to a `<select>`,
+  which silently refuses a value it has no `<option>` for, so a project saved
+  against one of those device names lands on whatever board was already showing
+  and gets an "invalid device" notice. Reported by `make toolboxes` on every
+  run. Deleting the three entries is probably right, but which name each should
+  map to is a call for someone who knows the boards.
 
 ### Fixed -- miscellaneous
 
