@@ -215,6 +215,16 @@ blocks:
       - {name: pin,  label: Pin, pin: true}
       - {name: song, label: Song, default: Super Mario - Main Theme, align: right}
 
+  # Hand-written: its dropdown is filled from the melodies in the Music tab at
+  # the moment the menu opens, and the block carries the notes it plays in a
+  # `<mutation>` so that a saved program is the same program anywhere. Neither
+  # is something this format can say. See core/block_definitions.js.
+  - {label: "Melodies written in the Music tab:"}
+  - type: play_melody
+    external: true
+    params:
+      - {name: pin, label: Pin, type: Number, pin: true}
+
   - {label: "Songs:"}
   - {library: songs}
 

@@ -56,20 +56,21 @@ function checkCookie() {
   
 }
 </script>
-  <link rel="stylesheet" href="style.css?ver=0.2.3.9152310">
+  <link rel="stylesheet" href="style.css?ver=0.2.3.09162000">
   <link rel="stylesheet" href="core/libs.css">
   <script src="core/storage.js?ver=0.2.2.1125"></script>
   <script src="core/blockly_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/blocks_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/javascript_compressed.js?ver=0.2.1.841940"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
-  <script src="core/code.js?ver=0.2.3.09161700"></script>
+  <script src="core/code.js?ver=0.2.3.09162000"></script>
   <script src="core/channel.js?ver=0.2.3.9152310"></script>
   <script src="core/utils.js?ver=0.2.3.09161800"></script>
   <script src="core/ui.js?ver=0.2.3.841940"></script>
   <script src="core/queue.js"></script>
   <script src="core/FileSaver.js"></script>
   <script src="core/shortcut.js"></script>
+  <script src="core/sound.js?ver=0.2.3.09162000"></script>
   <script src="core/pylibs.js?v=0b60daa5eb69"></script> <!-- generated from ui/pylibs/ by `make pylibs` -->
 
   <!-- Toolbox XML and devinfo.json, baked in by `make offline` for file://,
@@ -83,8 +84,8 @@ function checkCookie() {
   </script>
 
   <!-- Custom Blocks for BIPES Project --> 
-  <script src="core/block_definitions.js?ver=0.2.3.09161900"></script> <!-- Rafael 24/03/2020 -->
-  <script src="core/generator_stubs.js?ver=0.2.3.09161900"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/block_definitions.js?ver=0.2.3.09162000"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/generator_stubs.js?ver=0.2.3.09162000"></script> <!-- Rafael 24/03/2020 -->
   <script src="core/blocks_generated.js?v=7d6d5b429a9b"></script>     <!-- generated from blockdef/definitions/ by `make blocks` -->
   <script src="core/generators_generated.js?v=ef2138ce40dd"></script> <!-- ditto; keep after the hand-written pair above -->
 
@@ -122,6 +123,7 @@ function checkCookie() {
         <div id="tab_iot" class="taboff">IOT</div>
         <div id="tab_mqtt" class="taboff" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>EasyMQTT</div>
         <div id="tab_databoard" class="taboff">Databoard</div>
+        <div id="tab_music" class="taboff">Music</div>
       </div>
       <button id="toolbarButton" class="notext icon medium" title="..."></button>
       <div class="toolbar">
@@ -360,6 +362,39 @@ function checkCookie() {
 
 <!-- ################################################## -->
 
+<!-- The Music tab: write a melody here, name it, and a "Play melody" block in
+     the Sounds category plays it on a buzzer. The grid itself is built by
+     core/sound.js the first time this tab is opened, not on page load. -->
+<div id="content_music" class="content">
+  <div id="musicBar">
+    <button id="musicPlayButton" class="button text" title="Play the melody in the grid" onclick="Music.play();">Play</button>
+    <button id="musicStopButton" class="button text" title="Stop playing" onclick="Music.stop();">Stop</button>
+    <label for="musicBpm">Beats per minute</label>
+    <input type="number" id="musicBpm" value="120" min="30" max="300" step="5">
+    <button id="musicClearButton" class="button text" title="Take every note out of the grid" onclick="Music.clear();">Clear</button>
+    <span class="musicGap"></span>
+    <label for="musicName">Name</label>
+    <input type="text" id="musicName" placeholder="Melody name">
+    <button id="musicSaveButton" class="button text" title="Save the grid under that name, for the Play melody block" onclick="Music.save();">Save</button>
+    <span class="musicGap"></span>
+    <label for="musicSaved">Saved</label>
+    <select id="musicSaved" onchange="Music.load();"></select>
+    <button id="musicDeleteButton" class="button text" title="Delete the saved melody" onclick="Music.remove();">Delete</button>
+    <button id="musicExportButton" class="button text" title="Download the saved melody as a .json file" onclick="Music.export();">Export</button>
+    <button id="musicImportButton" class="button text" title="Read a melody from a .json file" onclick="document.getElementById('musicFile').click();">Import</button>
+    <!-- Driven by the button above rather than shown: this page's .button rules
+         are written for <button>, so a <label class="button"> beside three real
+         ones does not look like one. -->
+    <input type="file" id="musicFile" accept="application/json,.json" onchange="Music.import();">
+  </div>
+  <div id="musicRoll"></div>
+  <p id="musicHint">One column is one beat. Click a cell for a note; drag along a
+     row to hold that note across several beats. Two clicks side by side are two
+     notes, one drag across the same two cells is one long one.</p>
+</div>
+
+<!-- ################################################## -->
+
 </div>
 <div class='progress-bar'></div>
 <div class="notify"></div>
@@ -419,6 +454,10 @@ term.init('#term') //init expanded class;
 
 //global Utilities variable and functions (see core/utils.js)
 var Files = new files ('#fileList');
+
+//global Music tab variable and functions (see core/sound.js). The grid is
+//built on the tab's first render, not here.
+var Music = new music ('#musicRoll');
 
 // global User Interface variable and functions (see core/ui.js) */
 var UI = {};

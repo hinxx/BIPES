@@ -2068,3 +2068,54 @@ Blockly.Python.gameStandalone_ = function(name) {
   Blockly.Python['play_snake_standalone'] = standaloneGenerator('snake');
   Blockly.Python['play_defender_standalone'] = standaloneGenerator('defender');
 })();
+
+/**
+ * "Play melody": the notes the block carries, as one call.
+ *
+ * The melody is a list of `(frequency, beats)` pairs written straight into the
+ * program -- a rest is frequency 0 -- so nothing is looked up at run time and
+ * nothing but this melody travels to the board. `music.python()` in
+ * core/sound.js turns note names into frequencies; it is the same table the
+ * Music tab's own preview plays, so what you heard is what the buzzer gets.
+ *
+ * The helper goes in definitions_ under one key, so a program with six of
+ * these blocks carries one copy of it.
+ */
+Blockly.Python['play_melody'] = function(block) {
+  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var notes = block.melodyNotes_ || [];
+  var bpm = block.melodyBpm_ || 120;
+
+  try {
+    Tool.warningIfTrue(block, [[function() { return notes.length == 0; },
+                               'This block has no melody in it.\nWrite one in the ' +
+                               'Music tab, then pick it here.']],
+                       'play_melody_empty');
+  } catch (e) {}
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['play_melody'] =
+    'def play_melody(pin, notes, bpm):\n' +
+    '    """Play (frequency, beats) pairs on a buzzer. Frequency 0 is a rest."""\n' +
+    '    beat = 60 / bpm\n' +
+    '    pwm = PWM(pin)\n' +
+    '    pwm.duty_u16(0)\n' +
+    '    try:\n' +
+    '        for freq, beats in notes:\n' +
+    '            if freq:\n' +
+    '                pwm.freq(freq)\n' +
+    '                pwm.duty_u16(32768)\n' +
+    '            # The last tenth of every beat is silent, so that two of the\n' +
+    '            # same note in a row are two notes rather than one long one.\n' +
+    '            time.sleep(beat * beats * 0.9)\n' +
+    '            pwm.duty_u16(0)\n' +
+    '            time.sleep(beat * beats * 0.1)\n' +
+    '    finally:\n' +
+    '        # Whatever happens -- a KeyboardInterrupt at the REPL included --\n' +
+    '        # the pin stops driving the buzzer rather than being left howling.\n' +
+    '        pwm.deinit()';
+
+  return 'play_melody(Pin(' + pin + '), ' + music.python(notes) + ', ' + bpm + ')\n';
+};

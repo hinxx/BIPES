@@ -490,6 +490,14 @@
       </value>
     </block>
 
+    <label text="Melodies written in the Music tab:"></label>
+
+    <block type="play_melody">
+      <value name="pin">
+        <shadow type="pinout"></shadow>
+      </value>
+    </block>
+
     <label text="Songs:"></label>
 
     <button text="Install songs library" callbackKey="installPyLib"></button>

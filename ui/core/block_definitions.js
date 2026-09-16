@@ -2313,3 +2313,95 @@ Blockly.Blocks['sensor_create'] = {
       standaloneGame("Defender", "media/defender.jpg", 91,
                      "The ship fires by itself; tap the button to change altitude.");
 })();
+
+/*
+ * "Play melody" -- the block half of the Music tab (core/sound.js).
+ *
+ * Hand-written rather than generated because it does two things a
+ * .blockdef.yaml has no way to say: the dropdown is filled at the moment its
+ * menu opens, from melodies the user has written since the page loaded, and
+ * the block carries the melody it plays.
+ *
+ * Carrying it is the important half, and it is where this parts company with
+ * amadomaker's version. There the block stores only a name, and the generator
+ * bakes *every* melody in localStorage into the program and has the board
+ * search that list at run time for the one it wants. So the same .xml opened
+ * on another computer generates a program that raises at run time; a class set
+ * of machines each produce a different program from one file; and every melody
+ * anyone ever wrote travels to the board on every run. Here the notes are in
+ * the block, in a `<mutation>`, so a saved program plays the same tune
+ * wherever it is opened and the melody store is only how you pick one.
+ */
+Blockly.Blocks['play_melody'] = {
+  init: function() {
+    this.melodyNotes_ = [];
+    this.melodyBpm_ = 120;
+    this.appendDummyInput()
+        .appendField("Play melody")
+        .appendField(new Blockly.FieldDropdown(
+            () => this.melodyOptions_(),
+            (name) => {this.takeMelody_(name);}), "MELODY");
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Play a melody written in the Music tab on a buzzer. " +
+                    "The notes travel inside this block, so a saved program " +
+                    "plays the same tune on any computer.");
+  },
+  /**
+   * What the dropdown offers: every saved melody, plus whatever this block is
+   * already playing.
+   *
+   * The block's own melody is included even when it has been deleted from the
+   * store, or was written on somebody else's machine -- otherwise opening a
+   * shared program would show a dropdown that cannot display its own value,
+   * and Blockly would quietly reset the field to the first option, changing
+   * the program by opening it.
+   */
+  melodyOptions_: function() {
+    let names = typeof Music == 'undefined' ? [] : Music.melodies().map((m) => m.name);
+    let mine = this.getFieldValue("MELODY");
+    if (mine && mine != 'NONE' && !names.includes(mine))
+      names.push(mine);
+    names.sort();
+    if (names.length == 0)
+      return [["no melodies saved", "NONE"]];
+    return names.map((name) => [name, name]);
+  },
+  /**
+   * Copy a melody out of the store and into the block.
+   *
+   * A name the store does not have leaves the notes alone: that is the block
+   * redisplaying its own melody, not the user choosing a different one.
+   */
+  takeMelody_: function(name) {
+    let melody = typeof Music == 'undefined' ? undefined : Music.melody(name);
+    if (melody == undefined)
+      return;
+    this.melodyNotes_ = melody.notes;
+    this.melodyBpm_ = melody.bpm;
+  },
+  /** The melody rides in the saved XML, so the program is self-contained. */
+  mutationToDom: function() {
+    let container = document.createElement('mutation');
+    container.setAttribute('bpm', this.melodyBpm_);
+    container.setAttribute('notes', JSON.stringify(this.melodyNotes_));
+    return container;
+  },
+  domToMutation: function(xmlElement) {
+    this.melodyBpm_ = parseInt(xmlElement.getAttribute('bpm')) || 120;
+    try {
+      let notes = JSON.parse(xmlElement.getAttribute('notes') || '[]');
+      this.melodyNotes_ = Array.isArray(notes) ? notes : [];
+    } catch (e) {
+      // A hand-edited or truncated file. An empty melody warns on the block,
+      // which is a better answer than refusing to load the whole program.
+      console.error('play_melody: unreadable notes in the saved program.', e);
+      this.melodyNotes_ = [];
+    }
+  }
+};

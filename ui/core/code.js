@@ -173,7 +173,7 @@ Code.LANG = Code.getLang();
  * @private
  */
 
-Code.TABS_ = ['blocks', 'console', 'files', 'device', 'programs', 'databoard', 'mqtt', 'iot'];
+Code.TABS_ = ['blocks', 'console', 'files', 'device', 'programs', 'databoard', 'mqtt', 'iot', 'music'];
 
 Code.current = ["blocks", "",""]
 
@@ -340,6 +340,12 @@ Code.renderContent = (_navigation) => {
     case "console":
       term.resize()
       break
+    case "music":
+      //Built here rather than at load: 800 cells and an AudioContext are a lot
+      //to spend on a tab a session may never open. init() is a no-op after the
+      //first time, so this costs one boolean on every later render.
+      Music.init()
+      break
     case "device":
     case "programs":
     case "iot":
@@ -369,6 +375,7 @@ Code.resizeContent = (_navigation) => {
       case "programs":
       case "iot":
       case "mqtt":
+      case "music":
         break
     }
   })
@@ -387,6 +394,11 @@ Code.deinitContent = (_navigation) => {
   case "blocks":
     Code.workspace.setVisible(false);
     Code.auto_mode = false;
+    break
+  case "music":
+    //Leaving the tab silences it. A melody going on playing behind the Blocks
+    //tab, with no visible way to stop it, is the obvious complaint.
+    Music.stop()
     break
   }
 }

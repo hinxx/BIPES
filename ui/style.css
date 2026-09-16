@@ -411,7 +411,7 @@ pre.content {
 {
   padding: 0;
 }
-#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_device, #content_programs, #content_mqtt, #content_iot, #content_databoard {
+#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_device, #content_programs, #content_mqtt, #content_iot, #content_databoard, #content_music {
   height: calc(100vh - 3.5rem);
 }
 #content_device, #content_code, #content_console {
@@ -1103,4 +1103,119 @@ button.icon.medium:before  {
     border-bottom: 1px dashed #666;
     font-weight: bold;
     padding-bottom: .125rem;
+}
+
+/* The Music tab: a piano roll, its transport bar and the melody store's
+   controls. The grid itself is built by core/sound.js. */
+#content_music {
+  overflow: auto;
+  padding: .5rem;
+  /* The pane is width:100vw, and this page's default is content-box, so without
+     this the padding is added to the viewport width and the last beat of the
+     grid sits off the right-hand edge. */
+  box-sizing: border-box;
+}
+#musicBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .375rem;
+  margin-bottom: .5rem;
+}
+#musicBar label:not(.button) {
+  font-size: .85rem;
+  color: #555;
+}
+#musicBar input[type=number] {
+  width: 4.5rem;
+}
+#musicBar input[type=text], #musicBar input[type=number], #musicBar select {
+  font-family: inherit;
+  font-size: .9rem;
+  padding: .25em .5em;
+  border: 1px solid #ccc;
+  border-radius: .25rem;
+  background: #fff;
+}
+#musicBar select {
+  max-width: 12rem;
+}
+/* The file input is driven by its own <label class="button">, which is the only
+   way to make one look like the buttons beside it. */
+#musicFile {
+  display: none;
+}
+.musicGap {
+  width: 1rem;
+}
+/* One grid for keys and cells together, so a row cannot drift out of line with
+   its own label: column one is the key, the rest are beats. --music-cols is set
+   from JavaScript, which is the only place that knows how many there are. */
+#musicRoll {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem repeat(var(--music-cols, 32), minmax(0, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-radius: .25rem;
+  min-width: 40rem;
+  user-select: none;
+  touch-action: none;   /* a drag draws notes; it must not also scroll the pane */
+}
+.musicKey {
+  background: #fff;
+  color: #333;
+  font-size: .7rem;
+  line-height: 1.25rem;
+  height: 1.25rem;
+  padding-left: .25rem;
+  white-space: nowrap;
+}
+.musicKey.black {
+  background: #333;
+  color: #eee;
+}
+.musicCell {
+  background: #fafafa;
+  height: 1.25rem;
+  cursor: pointer;
+}
+.musicCell.black {
+  background: #eee;
+}
+/* Every fourth beat a shade darker, so a bar is countable without a ruler. */
+.musicCell[data-col="0"], .musicCell[data-col="4"], .musicCell[data-col="8"],
+.musicCell[data-col="12"], .musicCell[data-col="16"], .musicCell[data-col="20"],
+.musicCell[data-col="24"], .musicCell[data-col="28"] {
+  border-left: 1px solid #bbb;
+}
+.musicCell:hover {
+  background: #d6e4ff;
+}
+.musicCell.on, .musicCell.on:hover {
+  background: #2d6cdf;
+  box-shadow: inset 2px 0 0 #1b4796;   /* the attack: where a note begins */
+}
+/* A beat that holds the note before it rather than striking a new one, so a
+   two-beat note reads as one bar and two one-beat notes read as two. */
+.musicCell.on.held, .musicCell.on.held:hover {
+  box-shadow: none;
+}
+#musicRoll.playing .musicCell {
+  cursor: default;
+}
+#musicCursor {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e2574c;
+  pointer-events: none;
+}
+#musicHint {
+  font-size: .8rem;
+  color: #555;
+  max-width: 44rem;
 }
