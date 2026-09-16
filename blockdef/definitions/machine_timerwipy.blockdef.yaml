@@ -5,6 +5,14 @@
 # The WiPy timer is two objects: a `Timer` with a mode and a width, and the
 # `TimerChannel` its `channel()` hands back, which is what carries the
 # frequency, the duty cycle and the interrupt. Both were called on the class.
+#
+# **Offered by no board, which is the decision BACKLOG.md was holding.** These
+# were listed on thirteen toolboxes and `devinfo.json` has no WiPy among its
+# twenty-eight devices, so every one of them raises there: `ADC(0, bits=12)`
+# and `Timer(0, mode=..., width=16)` are not the signatures the ESP32, the
+# RP2040, the ESP8266 or the STM32 have, and `.channel()` is not a method any
+# of them has at all. They stay defined -- a saved program may hold one -- and
+# the `boards:` line comes back the day a WiPy is added.
 
 module: machine
 colour: 0
@@ -18,6 +26,7 @@ category:
 
 blocks:
   - type: "machine.TimerWiPy_TimerWiPy.init"
+    offered: false
     instance: timer_wipy
     label: TimerWiPy.init
     tooltip: "Build the timer. WiPy only -- every other port's Timer takes a callback."
@@ -29,11 +38,12 @@ blocks:
          options: [{"over and over": PERIODIC}, {once: ONE_SHOT}, {"pulse width": PWM}]}
       - {name: width, label: "width (bits)", type: Number, default: 16, align: right}
 
-  - {type: "machine.TimerWiPy_TimerWiPy.deinit", instance: timer_wipy, fn: deinit,
+  - {offered: false, type: "machine.TimerWiPy_TimerWiPy.deinit", instance: timer_wipy, fn: deinit,
      label: TimerWiPy.deinit, import: *timer_import,
      tooltip: "Stop the timer and free it. WiPy only."}
 
   - type: "machine.TimerWiPy_TimerWiPy.channel"
+    offered: false
     instance: timer_wipy
     label: TimerWiPy.channel
     tooltip: "Make a channel on the timer. The channel blocks below drive it. WiPy only."
@@ -45,6 +55,7 @@ blocks:
       - {name: freq, label: "frequency (Hz)", type: Number, default: 1, align: right}
 
   - type: "machine.TimerWiPy_timerchannel.irq"
+    offered: false
     instance: timer_ch
     label: timerchannel.irq
     tooltip: "Call a function when the channel fires. WiPy only."
@@ -55,15 +66,15 @@ blocks:
       - {name: trigger, label: on, kind: dropdown, align: right,
          options: [{timeout: TIMEOUT}, {match: MATCH}]}
 
-  - {type: "machine.TimerWiPy_timerchannel.freq", instance: timer_ch, kind: value,
+  - {offered: false, type: "machine.TimerWiPy_timerchannel.freq", instance: timer_ch, kind: value,
      fn: freq, label: timerchannel.freq, import: [],
      tooltip: "The channel's frequency in hertz. WiPy only."}
 
-  - {type: "machine.TimerWiPy_timerchannel.period", instance: timer_ch, kind: value,
+  - {offered: false, type: "machine.TimerWiPy_timerchannel.period", instance: timer_ch, kind: value,
      fn: period, label: timerchannel.period, import: [],
      tooltip: "The channel's period in microseconds. WiPy only."}
 
-  - {type: "machine.TimerWiPy_timerchannel.duty_cycle", instance: timer_ch,
+  - {offered: false, type: "machine.TimerWiPy_timerchannel.duty_cycle", instance: timer_ch,
      label: timerchannel.duty_cycle, import: [],
      code: "{instance}.duty_cycle({duty})",
      tooltip: "Set the duty cycle, in hundredths of a percent. WiPy only.",

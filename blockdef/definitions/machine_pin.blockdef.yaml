@@ -8,8 +8,14 @@
 # category does; the other eight call a method on it.
 #
 # `Pin.mode`, `Pin.pull` and `Pin.drive` are the WiPy-only accessors, and
-# `Pin.drive`'s power levels exist nowhere else. They are kept because this
-# category mirrors the docs page, which lists them.
+# `Pin.drive`'s power levels exist nowhere else. They were kept on the grounds
+# that this category mirrors the docs page, which lists them; **they are now
+# offered by no board, which is the decision BACKLOG.md was holding.**
+# `devinfo.json` has no WiPy among its twenty-eight devices, so `pin.mode(...)`
+# is an AttributeError on every board that offered it, and a mirror whose rows
+# raise is not a reference. They stay defined -- a saved program may hold one --
+# and the `boards:` line comes back the day a WiPy is added. The same call is
+# made in machine_rtc, machine_sd, machine_wipy, machine_timerwipy and wipy.
 #
 # `Pin.__call__` is the shortcut the docs describe -- `pin()` reads the pin,
 # and it is the only block here that gives a value back, so it is the only
@@ -61,6 +67,7 @@ blocks:
      tooltip: Drive the pin low.}
 
   - type: machine.Pin_Pin.mode
+    offered: false
     label: []
     inline: true
     code: "{instance}.mode({mode})"
@@ -70,6 +77,7 @@ blocks:
          options: [{input: "Pin.IN"}, {output: "Pin.OUT"}, {"open drain": "Pin.OPEN_DRAIN"}]}
 
   - type: machine.Pin_Pin.pull
+    offered: false
     label: []
     inline: true
     code: "{instance}.pull({pull})"
@@ -79,6 +87,7 @@ blocks:
          options: [{none: "None"}, {"pull up": "Pin.PULL_UP"}, {"pull down": "Pin.PULL_DOWN"}]}
 
   - type: machine.Pin_Pin.drive
+    offered: false
     label: []
     inline: true
     code: "{instance}.drive({drive})"

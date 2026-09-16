@@ -2119,3 +2119,53 @@ Blockly.Python['play_melody'] = function(block) {
 
   return 'play_melody(Pin(' + pin + '), ' + music.python(notes) + ', ' + bpm + ')\n';
 };
+
+
+// --- uasyncio: the async function, and a call that makes a coroutine --------
+// See block_definitions.js for why these two exist and why they are not
+// declared in blockdef/.
+
+/**
+ * `async def <name>():` with the block's stack as its body.
+ *
+ * The def goes into `definitions_`, the way `timer` and `gpio_interrupt` put
+ * their callbacks there: a definition belongs at the top of the file, and the
+ * names its body reads off module scope are bound by the time anything calls
+ * it. The block itself contributes no line to the program -- it declares a
+ * function, it does not run one -- so the generator returns null.
+ *
+ * `callbackGlobals_` is the whole reason this is hand-written: the body is a
+ * function scope, so a block in it that writes a program variable makes a
+ * local unless the def declares that name global.
+ */
+Blockly.Python['uasyncio_async_def'] = function(block) {
+  var name = Blockly.Python.nameDB_.getName(
+      block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
+  // An empty socket would leave `async def main():` with no body at all, which
+  // is an IndentationError -- and empty is how the block arrives from the
+  // flyout. PASS is one indented `pass`, the same answer the callbacks take.
+  var body = Blockly.Python.statementToCode(block, 'BODY') || Blockly.Python.PASS;
+  var globals = Blockly.Python.callbackGlobals_(block, 'BODY');
+
+  Blockly.Python.definitions_['import_uasyncio'] = 'import uasyncio';
+  Blockly.Python.definitions_['%async_' + name] =
+      '\nasync def ' + name + '():\n' + globals + body;
+  return null;
+};
+
+/**
+ * `<name>()` -- the coroutine object, not the running of it.
+ *
+ * `uasyncio.run(main)` hands `run` the function and raises; `uasyncio.run(
+ * main())` hands it a coroutine, which is what it wants. That call is what
+ * this block is for, which is why it is a value block and why it says "( )".
+ */
+Blockly.Python['uasyncio_coro'] = function(block) {
+  var raw = block.getFieldValue('NAME');
+  if (!raw || raw == 'NONE')
+    // Nothing selected, which the block is already warning about. `None` keeps
+    // the rest of the program parseable so the warning is what the user sees.
+    return ['None', Blockly.Python.ORDER_ATOMIC];
+  var name = Blockly.Python.nameDB_.getName(raw, Blockly.PROCEDURE_CATEGORY_NAME);
+  return [name + '()', Blockly.Python.ORDER_FUNCTION_CALL];
+};

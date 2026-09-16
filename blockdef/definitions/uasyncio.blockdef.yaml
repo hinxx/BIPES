@@ -12,11 +12,24 @@
 # and `Server.wait_closed` are coroutines; `run`, `create_task`, `Event.set`,
 # `Lock.release`, `Stream.write`/`close` and everything on `Loop` are not.
 #
-# **What `async def` is there to be inside of.** Nothing in BIPES writes one:
-# there is no block that opens an async function, and `exec_python` cannot hold
-# other blocks. So this category is honest Python that a BIPES program has no
-# way to reach yet -- which is the decision recorded in BACKLOG.md, and is
-# about the blocks, not about the format.
+# **What `async def` is there to be inside of.** Nothing in BIPES wrote one:
+# there was no block that opened an async function, and `exec_python` cannot
+# hold other blocks, so this category was honest Python a BIPES program had no
+# way to reach. BACKLOG.md recorded the choice as "add an async function block,
+# or drop the category", **and it is the block**: dropping thirty-six blocks
+# that are correct leaves the tree with no cooperative multitasking at all,
+# where two more make every one of them reachable.
+#
+# They are `uasyncio_async_def` and `uasyncio_coro`, and they are hand-written
+# for the reason `timer` and `gpio_interrupt` are -- the body of an `async def`
+# is a function scope, so a block in it that writes a program variable makes a
+# local unless the def declares that name `global`, and working out which names
+# those are is `Blockly.Python.callbackGlobals_`, a walk of the block's own
+# stack. The second block is the call: `uasyncio.run(main)` raises and
+# `uasyncio.run(main())` is what runs, so what `run`, `create_task` and
+# `wait_for` want in their socket is a coroutine object, and `uasyncio_coro` is
+# the block that makes one. It is what those three now arrive from the flyout
+# holding, in place of a bare `variables_get`.
 #
 # The rest is the usual shape: `uasyncio.Event.set()` called methods on the
 # class. `Event` and `Lock` get constructor blocks; `Task`, `Stream` and
@@ -39,19 +52,25 @@ category:
               esp8266, makernano, makerpi, rpi_pico, rpi_pico_w, stm32]
 
 blocks:
+  # --- the async function, and the call that makes a coroutine ---------------
+  # Hand-written; see the head of this file. Both come first because nothing
+  # else in the category can be reached without them.
+  - {type: uasyncio_async_def, external: true}
+  - {type: uasyncio_coro, external: true}
+
   # --- the module ------------------------------------------------------------
 
   - {type: uasyncio_create_task, label: create_task,
      tooltip: "Run a coroutine in the background and hand back its Task.",
      code: "uasyncio.create_task({coro})",
      params: [{name: coro, label: coroutine, align: right,
-              plug: {type: variables_get, fields: {VAR: coro}}}]}
+              plug: {type: uasyncio_coro}}]}
 
   - {type: uasyncio_run, label: run,
      tooltip: "Run a coroutine to completion. This is how an async program starts.",
      code: "uasyncio.run({coro})",
      params: [{name: coro, label: coroutine, align: right,
-              plug: {type: variables_get, fields: {VAR: coro}}}]}
+              plug: {type: uasyncio_coro}}]}
 
   - {type: uasyncio_sleep, label: sleep,
      tooltip: "Let other tasks run for this many seconds.",
@@ -67,7 +86,7 @@ blocks:
      tooltip: "Wait for a coroutine, giving up after this long.",
      code: "await uasyncio.wait_for({coro}, {timeout})",
      params: [{name: coro, label: coroutine, align: right,
-              plug: {type: variables_get, fields: {VAR: coro}}},
+              plug: {type: uasyncio_coro}},
               {name: timeout, label: "timeout (s)", type: Number, default: 5, align: right}]}
 
   - {type: uasyncio_gather, kind: value, label: gather,

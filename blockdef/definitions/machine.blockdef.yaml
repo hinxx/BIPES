@@ -12,6 +12,15 @@
 # "machine.x()\n" -- a newline spliced into the middle of an expression, so
 # `machine.rng() + 1` did not compile. Value blocks here cannot do that:
 # the emitter adds the newline only to statements.
+#
+# **`machine_reset` and `machine_freq` are superseded**, which is the last half
+# of the CPU-duplication decision BACKLOG.md was holding -- see the head of
+# cpu.blockdef.yaml for why the tie broke that way. `reset` and `get_freq` emit
+# exactly what these two emitted and say so in words rather than in a method
+# name with a leading space, so the category lists those two instead, as
+# `external:` entries: the rows stay where they were and there is one block
+# behind each. These two stay defined, offered nowhere, so a saved program
+# holding one still loads.
 
 module: machine
 colour: 0
@@ -26,8 +35,12 @@ category:
               makernano, makerpi, AmadoBoard, stm32, default, 3pi_2040]
 
 blocks:
+  # `reset` is CPU's block, and is this row.
+  - {type: reset, external: true}
+
   - type: machine_reset
     fn: reset
+    offered: false
     label: " reset"
     tooltip: ".. function:: reset() Resets the device in a manner similar to pushing the external RESET button. "
 
@@ -54,8 +67,12 @@ blocks:
     params:
       - {name: pIn, label: " enable_irq"}
 
+  # `get_freq` is CPU's block, and is this row.
+  - {type: get_freq, external: true}
+
   - type: machine_freq
     fn: freq
+    offered: false
     label: " freq"
     tooltip: ".. function:: freq() Returns CPU frequency in hertz. "
 

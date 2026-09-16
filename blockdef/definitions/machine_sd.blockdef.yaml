@@ -5,6 +5,13 @@
 # `SD.init` becomes the constructor, as it does for the other `machine.*`
 # classes: nothing else makes an SD object. Mounting the card is `uos.mount`,
 # which the `uos` category already has.
+#
+# **Offered by no board, which is the decision BACKLOG.md was holding.** These
+# were listed on thirteen toolboxes and `devinfo.json` has no WiPy and no
+# pyboard among its twenty-eight devices, so `from machine import SD` is an
+# ImportError on every board that offered them. They stay defined -- a saved
+# program may hold one -- and the `boards:` line comes back the day a WiPy or a
+# pyboard is added.
 
 module: machine
 class: SD
@@ -20,6 +27,8 @@ category:
 
 blocks:
   - {type: "machine.SD_SD.init", label: SD.init, code: "{instance} = SD()",
+     offered: false,
      tooltip: "The SD card peripheral. WiPy and pyboard only."}
   - {type: "machine.SD_SD.deinit", fn: deinit, label: SD.deinit,
+     offered: false,
      tooltip: "Turn the SD card peripheral off."}

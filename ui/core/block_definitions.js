@@ -2405,3 +2405,130 @@ Blockly.Blocks['play_melody'] = {
     }
   }
 };
+
+
+// --- uasyncio: the async function, and a call that makes a coroutine --------
+//
+// The `uasyncio` category is thirty-six blocks, and the ones the API calls
+// coroutines emit `await`, which is legal inside an `async def` and a
+// SyntaxError outside one. Nothing in BIPES opened an `async def`, so the
+// whole category was Python a program had no way to reach -- the decision
+// BACKLOG.md recorded under B1 as "add an async function block, or drop the
+// category". These two are that block, and the call that hands what it defines
+// to `run`, `create_task` and `wait_for`.
+//
+// They are hand-written rather than declared in blockdef/ for the same reason
+// `timer` and `gpio_interrupt` are: the body is a function scope, so a write
+// to a program variable inside it is a local unless the def says `global`, and
+// working out which names those are means walking the block's own stack.
+// `Blockly.Python.callbackGlobals_` is that walk.
+
+Blockly.Blocks['uasyncio_async_def'] = {
+  /** The names the workspace's async-function blocks currently declare. */
+  asyncDefNames: function() {
+    let ws = this.workspace;
+    if (ws && ws.isFlyout && ws.targetWorkspace)
+      ws = ws.targetWorkspace;
+    if (!ws || !ws.getBlocksByType)
+      return [];
+    let names = [];
+    ws.getBlocksByType('uasyncio_async_def', false).forEach(function(def) {
+      let name = def.getFieldValue('NAME');
+      if (name)
+        names.push(name);
+    });
+    return names;
+  },
+  /**
+   * Two definitions under one name is one function: `definitions_` is keyed by
+   * the name, so the second silently replaces the first and the body of one of
+   * them is simply not in the program. Warn rather than refuse, the same call
+   * the recursion guard makes.
+   */
+  onchange: function() {
+    if (!this.workspace || this.workspace.isFlyout)
+      return;
+    let name = this.getFieldValue('NAME');
+    let clash = name && this.asyncDefNames().filter(function(n) {
+      return n === name;
+    }).length > 1;
+    this.setWarningText(clash ?
+        'Two async functions are called "' + name + '".\nOnly one of them ends' +
+        ' up in the program.' : null, 'asyncDuplicate');
+  },
+  init: function() {
+    this.appendDummyInput()
+        .appendField('async function')
+        .appendField(new Blockly.FieldTextInput('main'), 'NAME');
+    this.appendStatementInput('BODY');
+    this.setColour(0);
+    // No previous or next connector, the same as Blockly's own function
+    // definition block: a definition is not a step in a program, and nothing
+    // runs because it is there. The run block is what starts it.
+    this.setTooltip('An async function. The await blocks in this category are ' +
+        'legal inside\none and a SyntaxError outside, so this is what they go ' +
+        'in.\nStart it with the run block, or hand it to create_task.');
+    this.setHelpUrl('https://docs.micropython.org/en/latest/library/uasyncio.html');
+  }
+};
+
+Blockly.Blocks['uasyncio_coro'] = {
+  /**
+   * The dropdown. It lists the async functions the workspace defines, plus
+   * whatever this block already holds -- a function can be renamed or deleted
+   * with a call block still pointing at it, and a value Blockly does not find
+   * among the options is one it refuses to load back.
+   */
+  coroOptions: function() {
+    let names = Blockly.Blocks['uasyncio_async_def'].asyncDefNames.call(this);
+    names = names.filter(function(n, i) { return names.indexOf(n) === i; }).sort();
+    let current = this.getField && this.getField('NAME') ? this.getFieldValue('NAME') : null;
+    if (current && current !== 'NONE' && names.indexOf(current) === -1)
+      names.unshift(current);
+    if (!names.length)
+      return [[(typeof MSG != 'undefined' && MSG['notDefined']) ||
+               'no async function', 'NONE']];
+    return names.map(function(n) { return [n, n]; });
+  },
+  /** A name nothing defines any more emits `name()` and raises a NameError. */
+  onchange: function() {
+    if (!this.workspace || this.workspace.isFlyout)
+      return;
+    let name = this.getFieldValue('NAME');
+    let defined = Blockly.Blocks['uasyncio_async_def'].asyncDefNames.call(this);
+    let missing = !name || name === 'NONE' || defined.indexOf(name) === -1;
+    this.setWarningText(missing ?
+        'No async function block declares this name,\nso this raises a ' +
+        'NameError on the board.' : null, 'asyncUndefined');
+  },
+  init: function() {
+    let field = new Blockly.FieldDropdown(() => this.coroOptions());
+    // A dropdown refuses a value that is not one of its options, and it
+    // validates against the options it cached when the field was built. On
+    // load that is the wrong moment: Blockly creates the blocks in document
+    // order, so a call block that comes before its `async function` block sees
+    // an empty workspace, caches "no async function", and then drops the name
+    // the saved program gave it -- `uasyncio.run(None)` where the program said
+    // `uasyncio.run(counter())`. So this field takes any string and names it
+    // as its own option when the list does not have it; `coroOptions` puts it
+    // back in the list, and the block warns if nothing defines it.
+    field.doClassValidation_ = function(value) {
+      return (value === null || value === undefined) ? null : String(value);
+    };
+    let updateValue = field.doValueUpdate_;
+    field.doValueUpdate_ = function(value) {
+      updateValue.call(this, value);
+      if (!this.selectedOption_ || this.selectedOption_[1] != this.value_)
+        this.selectedOption_ = [String(value), String(value)];
+    };
+    this.appendDummyInput()
+        .appendField('coroutine')
+        .appendField(field, 'NAME')
+        .appendField('( )');
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('Calls an async function, which builds the coroutine ' +
+        'object that\nrun, create_task and wait_for take. It does not run it.');
+    this.setHelpUrl('https://docs.micropython.org/en/latest/library/uasyncio.html');
+  }
+};

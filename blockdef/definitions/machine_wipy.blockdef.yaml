@@ -24,6 +24,14 @@
 #
 # `adcchannel` is a value block now: the docs call it "fast method to read the
 # channel value", and as a statement the reading went nowhere.
+#
+# **Offered by no board, which is the decision BACKLOG.md was holding.** These
+# were listed on thirteen toolboxes and `devinfo.json` has no WiPy among its
+# twenty-eight devices, so every one of them raises there: `ADC(0, bits=12)`
+# and `Timer(0, mode=..., width=16)` are not the signatures the ESP32, the
+# RP2040, the ESP8266 or the STM32 have, and `.channel()` is not a method any
+# of them has at all. They stay defined -- a saved program may hold one -- and
+# the `boards:` line comes back the day a WiPy is added.
 
 module: machine
 colour: 0
@@ -37,6 +45,7 @@ category:
 
 blocks:
   - type: "machine.ADCWiPy_ADCWiPy.init"
+    offered: false
     instance: adc_wipy
     label: ADCWiPy.init
     tooltip: "Build the ADC. WiPy only -- every other port's ADC takes a pin."
@@ -46,11 +55,12 @@ blocks:
       - {name: id,   label: id,   type: Number, default: 0,  align: right}
       - {name: bits, label: bits, type: Number, default: 12, align: right}
 
-  - {type: "machine.ADCWiPy_ADCWiPy.deinit", instance: adc_wipy, fn: deinit,
+  - {offered: false, type: "machine.ADCWiPy_ADCWiPy.deinit", instance: adc_wipy, fn: deinit,
      label: ADCWiPy.deinit, import: *adc_import,
      tooltip: "Turn the ADC off. WiPy only."}
 
   - type: "machine.ADCWiPy_ADCWiPy.channel"
+    offered: false
     instance: adc_wipy
     label: ADCWiPy.channel
     tooltip: "Make a channel on one pin. The channel blocks below read it. WiPy only."
@@ -62,19 +72,19 @@ blocks:
       - {name: id,  label: channel, type: Number, default: 0, align: right}
       - {name: pin, label: pin,     pin: true,    align: right}
 
-  - {type: "machine.ADCWiPy_adcchannel", kind: value, instance: adc_ch,
+  - {offered: false, type: "machine.ADCWiPy_adcchannel", kind: value, instance: adc_ch,
      label: adcchannel, import: [],
      tooltip: ".. method:: adcchannel() Fast method to read the channel value. ",
      code: "{instance}()"}
 
-  - {type: "machine.ADCWiPy_adcchannel.value", kind: value, instance: adc_ch,
+  - {offered: false, type: "machine.ADCWiPy_adcchannel.value", kind: value, instance: adc_ch,
      fn: value, label: adcchannel.value, import: [],
      tooltip: "Read the channel. WiPy only."}
 
-  - {type: "machine.ADCWiPy_adcchannel.init", instance: adc_ch, fn: init,
+  - {offered: false, type: "machine.ADCWiPy_adcchannel.init", instance: adc_ch, fn: init,
      label: adcchannel.init, import: [],
      tooltip: "Re-enable the channel. WiPy only."}
 
-  - {type: "machine.ADCWiPy_adcchannel.deinit", instance: adc_ch, fn: deinit,
+  - {offered: false, type: "machine.ADCWiPy_adcchannel.deinit", instance: adc_ch, fn: deinit,
      label: adcchannel.deinit, import: [],
      tooltip: "Turn the channel off. WiPy only."}

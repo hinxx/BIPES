@@ -1,13 +1,24 @@
 # Clock frequency, reset, and the reset-cause constants.
 #
-# Every block here is a plain `machine` call or constant, and every one of them
-# overlaps the converted `machine` category: `reset` is `machine_reset`,
-# `get_freq`/`set_freq` are `machine_freq` with and without an argument, and
-# the four `reset_cause_*` constants are the values `machine_reset_cause`
-# returns. Two of the nine entries this category lists *are* `machine` blocks
-# and appear here as `external:`. Which of each pair to keep is a decision
-# about the blocks and about saved programs; both stay for now, and the
-# duplication is at least visible in one file.
+# Every block here is a plain `machine` call or constant, and the converted
+# `machine` category is a mirror of the same module, so the two overlapped.
+# Counted properly the overlap is **two pairs, not seven**: `reset` and
+# `machine_reset` are both `machine.reset()`, and `get_freq` and `machine_freq`
+# are both `machine.freq()`. The rest only looked like duplication --
+# `set_freq` is `machine.freq(n)` and nothing in `machine` sets the frequency,
+# and the four `reset_cause_*` constants are what you *compare*
+# `machine_reset_cause` against, so a program wanting "did we wake from
+# deepsleep" needs one of each.
+#
+# **Which of each pair to keep was the decision BACKLOG.md was holding, and it
+# is the two here.** They emit the same Python, so the tie breaks on the label:
+# this category says "Get CPU Clock Frequency" and "reset" where the mirror,
+# built from the docs, says " freq" and " reset" -- a leading space and the
+# method name. The `machine` category lists these two instead of its own now,
+# as `external:` entries, so it keeps both rows and nothing is duplicated; the
+# two it dropped are `offered: false` there, so a saved program holding one
+# still loads. Nothing loses a capability: `CPU` is offered on all fifteen
+# toolboxes and `machine` on thirteen of the same fifteen.
 
 module: machine
 colour: 230
@@ -21,15 +32,18 @@ category:
               stm32]
 
 blocks:
-  # The one thing that differs between boards, and two of them are wrong: the
-  # generic `default` board and `stm32` both announce an ESP8266. `set_freq`'s
-  # tooltip says "Set ESP8266 CPU Clock Frequency" on all thirteen. Left as
-  # they are -- renaming a board's label is a decision about that board.
+  # The one thing that differs between boards, and two of them were wrong: the
+  # generic `default` board and the `stm32` Nucleo both announced an ESP8266.
+  # That was the last of the board decisions BACKLOG.md was holding, and it is
+  # a typo rather than a judgement -- a Nucleo is an STM32 and the generic
+  # board is not any particular chip, so they say so.
   - {label: Raspberry Pi Pico CPU,
      boards: [3pi_2040, makernano, makerpi, rpi_pico, rpi_pico_w]}
   - {label: ESP32 CPU, boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3,
                                 esp32S3, otto-robot]}
-  - {label: ESP8266 CPU, boards: [default, esp8266, stm32]}
+  - {label: ESP8266 CPU, boards: [esp8266]}
+  - {label: STM32 CPU,   boards: [stm32]}
+  - {label: CPU,         boards: [default]}
 
   - type: get_freq
     kind: value
@@ -37,9 +51,11 @@ blocks:
     tooltip: Get current CPU Clock Frequency
     code: "machine.freq()"
 
+  # The tooltip said "Set ESP8266 CPU Clock Frequency" on all thirteen boards
+  # that offered it, eleven of which are not one.
   - type: set_freq
     label: Set CPU Clock Frequency
-    tooltip: Set ESP8266 CPU Clock Frequency
+    tooltip: Set the CPU clock frequency, in hertz.
     code: "machine.freq({freq})"
     params:
       - {name: freq, label: Frequency (Hz), type: Number, default: 160000000}

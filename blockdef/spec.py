@@ -362,12 +362,20 @@ def _entry(entry: Any, definition: Definition, where: _Where) -> 'Block | Label 
 
     external = bool(entry.get('external'))
     if external:
-        extra = set(entry) - {'type', 'external', 'params', 'fields', 'boards'}
+        extra = set(entry) - {'type', 'external', 'params', 'fields', 'boards', 'offered'}
         if extra:
             raise BlockdefError(f'{at}: an `external` block is defined by hand, so only '
                                 f'`params` and `fields` (its toolbox entry) mean anything '
                                 f'here, not {sorted(extra)}')
+        # `offered: false` on an external block leaves the entry as the record
+        # that the block exists and is deliberately in no flyout -- which is
+        # the only thing this file can say about a block it does not own.
+        # The two RFID placeholders are the case it was added for.
+        if entry.get('offered', True) is False and boards:
+            raise BlockdefError(f'{at}: `offered: false` means no toolbox lists the block, so '
+                                f'`boards: {boards}` contradicts it')
         return Block(type=str(type_), external=True, boards=boards,
+                     offered=entry.get('offered', True),
                      params=[_param(p, at) for p in entry.get('params', [])],
                      fields=_fields(entry.get('fields'), at))
 

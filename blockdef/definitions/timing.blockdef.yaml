@@ -13,16 +13,26 @@
 # with two exceptions:
 #
 # * `default` and `stm32` listed `set_rtc` and `get_rtc`, **which no file
-#   defines** -- two blanks in the flyout. They are gone. The obvious
-#   replacement is the esp8266 pair below, which is not ESP8266-specific at
-#   all, but putting new blocks on a board is a decision about that board.
+#   defines** -- two blanks in the flyout. Both boards have the surviving pair
+#   now: what those two entries were reaching for is `from machine import RTC`
+#   and `rtc.datetime(...)`, which is port-neutral MicroPython and works on a
+#   Nucleo as well as on an ESP32.
 # * `esp32_set_rtc`/`esp32_get_rtc` and `esp8266_set_rtc`/`esp8266_get_rtc` are
 #   **the same two blocks twice**. The get pair is identical down to the
 #   message key; the set pair differs only in that the ESP32 one had its labels
 #   frozen in English where the ESP8266 one used the `set_rtc`/`year`/`month`/…
 #   keys, which are translated in all eleven languages. Both now use the keys,
-#   so the ESP32 boards get the translation they were missing. Which of the two
-#   ids to keep is a decision about saved programs, so both stay.
+#   so the ESP32 boards get the translation they were missing.
+#
+#   **Which of the two ids to keep was the decision BACKLOG.md was holding, and
+#   it is the `esp32_` pair.** Neither block is port-specific -- both are
+#   `machine.RTC` and `rtc.datetime(...)` -- so the id is a label on a drawer,
+#   and the one already used by seven boards costs fewer saved programs than
+#   the one used by one. The `esp8266_` pair is `offered: false` rather than
+#   deleted: every esp8266 program that holds one still loads and still
+#   generates the same Python, it just cannot be dragged fresh. The surviving
+#   pair is offered on all ten boards that have a `machine.RTC` at all -- the
+#   eight that had either pair, plus `default` and `stm32` above.
 #
 # Two blocks here stay hand-written and appear as `external:` entries: `timer`
 # because it is not a declaration (it walks the workspace for the variables its
@@ -195,11 +205,14 @@ blocks:
          plug: {type: "utime.vars", shadow: true}}
       - {name: TIME2, label: by, default: 100, align: right}
 
+  # The one pair, on every board that has a `machine.RTC`. See the head of the
+  # file for why these two ids and not the `esp8266_` two below.
   - type: esp32_set_rtc
     label: [{msg: set_rtc, field: SET_RTC}]
     tooltip: Set RTC value
     url: bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot]
+    boards: [AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp32S3, otto-robot, esp8266, stm32]
     import: &rtc
       - {key: import_rtc,     line: "from machine import RTC"}
       - {key: import_rtc_def, line: "rtc = RTC()"}
@@ -217,25 +230,28 @@ blocks:
     label: [{msg: get_rtc, field: MSG_GET_RTC}]
     tooltip: Get RTC value
     url: http://www.bipes.net.br
-    boards: [AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3, otto-robot]
+    boards: [AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp32S3, otto-robot, esp8266, stm32]
     import: *rtc
     code: &get_rtc "rtc.datetime()"
 
+  # Superseded by the pair above, which emits the same Python. Kept so an
+  # esp8266 program saved before now still loads.
   - type: esp8266_set_rtc
+    offered: false
     label: [{msg: set_rtc, field: SET_RTC}]
     tooltip: Set RTC value
     url: bipes.net.br
-    boards: [esp8266]
     import: *rtc
     code: *set_rtc
     params: *set_rtc_params
 
   - type: esp8266_get_rtc
+    offered: false
     kind: value
     label: [{msg: get_rtc, field: MSG_GET_RTC}]
     tooltip: Get RTC value
     url: http://www.bipes.net.br
-    boards: [esp8266]
     import: *rtc
     code: *get_rtc
 
@@ -304,10 +320,8 @@ blocks:
          default: 1000}
       - {name: statements, kind: statements}
 
-  # Two more that no toolbox lists. `delay_old` and `delay` do the same thing,
-  # and `deep_sleep` is `machine.deepsleep()` where `deep_sleep8266` below is
-  # the RTC-alarm version; which of each pair a board should offer is the
-  # decision, and no board offers these.
+  # `delay_old` and `delay` do the same thing and no toolbox lists either
+  # spelling of the older one.
   - type: delay_old
     offered: false
     label: []
@@ -318,15 +332,23 @@ blocks:
     params:
       - {name: time, label: delay seconds, type: Number}
 
+  # `deep_sleep` is `machine.deepsleep(ms)`, the portable spelling, and no board
+  # offered it; `deep_sleep8266` below is the ESP8266's RTC-alarm spelling, and
+  # eleven boards offered that. **Which of the pair a board should offer was the
+  # decision BACKLOG.md was holding, and it goes by what the board's port has**:
+  # the ten that are not an ESP8266 take this one, and the ESP8266 keeps its.
+  # `machine.deepsleep([time_ms])` is the generic `machine` API and is what the
+  # esp32, rp2 and stm32 ports implement.
   - type: deep_sleep
-    offered: false
     label: []
     tooltip: Deep sleep process in milliseconds
     url: http://www.bipes.net.br
+    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2,
+             esp32c3, esp32S3, otto-robot, stm32]
     import: {key: import_machine, line: "import machine"}
     code: "machine.deepsleep({interval})"
     params:
-      - {name: interval, label: deep sleep, type: Number}
+      - {name: interval, label: deep sleep, type: Number, default: 60000}
 
   - type: stop_timer
     colour: 0
@@ -341,16 +363,18 @@ blocks:
     params:
       - {name: timerNumber, label: Stop Timer, type: Number, default: 0}
 
-  # Named for the ESP8266 and offered on nine boards, only one of which is one.
-  # `rtc.irq(trigger=rtc.ALARM0, …)` is ESP8266-only in MicroPython, so this
-  # raises on every other board that lists it. Which boards should offer it is
-  # a decision about the boards; the block is unchanged.
+  # Named for the ESP8266 and offered on eleven boards, only one of which was
+  # one. `rtc.irq(trigger=rtc.ALARM0, …)` is ESP8266-only in MicroPython -- the
+  # ESP32's `machine.RTC` has `datetime`, `init` and `memory` and nothing else,
+  # so this raised an AttributeError on every other board that listed it, two
+  # lines in and after the RTC had already been rebound. It is the ESP8266's
+  # block now, and the other ten take `deep_sleep` above. The block itself is
+  # unchanged.
   - type: deep_sleep8266
     label: []
     tooltip: Deep sleep process in milliseconds
     url: http://www.bipes.net.br
-    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
-             esp32S3, otto-robot, esp8266, stm32]
+    boards: [esp8266]
     import: {key: import_machine, line: "import machine"}
     code: |-
 

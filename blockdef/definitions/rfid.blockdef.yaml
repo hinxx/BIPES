@@ -24,12 +24,19 @@
 # definitions_ entry now, so the four boards that offer the serial-number block
 # get the helper wherever the init block sits.
 #
-# **`rfid_rc522_read_card` and `rfid_rc522_write_card` are not implemented.**
-# Both emit `rdr=mfrc522.MFRC522(0,2,4,5,14)` -- re-initialising the reader on
-# hardcoded pins, through a module name nothing imports -- and read or write
-# nothing. They stay hand-written and stay in the toolbox; whether a category
-# should offer two blocks that quietly reset the reader is a decision about the
-# blocks, not something a conversion should bless by transcribing.
+# **`rfid_rc522_read_card` and `rfid_rc522_write_card` are not implemented, and
+# are now offered by no board** -- the decision BACKLOG.md was holding. Both
+# label themselves "Read/Write RFID Card Memory" and both emit
+# `rdr=mfrc522.MFRC522(0,2,4,5,14)`: nothing else, on hardcoded pins, through a
+# module name nothing imports. The family imports `from mfrc522 import MFRC522`,
+# so the bare name `mfrc522` is a NameError -- every program holding one of
+# these died on that line -- and had it resolved, the line would have thrown
+# away the reader `rfid_rc522_init` built and replaced it with one on pins
+# 0/2/4/5/14. Fifteen toolboxes offered both. They stay defined and
+# hand-written, because a saved program may hold one and it must still load;
+# they are simply no longer on offer. Implementing them means `rdr.read(addr)`
+# and `rdr.write(addr, buf)` against ui/pylibs/mfrc522.py, which is a block to
+# write rather than a placeholder to keep.
 
 module: mfrc522
 class: MFRC522
@@ -116,6 +123,8 @@ blocks:
     boards: [makernano, makerpi, rpi_pico, rpi_pico_w]
     code: "getSerialNumber()"
 
-  # Not implemented -- see the note at the top of this file.
-  - {type: rfid_rc522_read_card,  external: true}
-  - {type: rfid_rc522_write_card, external: true}
+  # Not implemented, and offered nowhere -- see the note at the top of this
+  # file. `external:` keeps their toolbox entry generated from here if they are
+  # ever put back; `offered: false` is what takes them out of the fifteen.
+  - {type: rfid_rc522_read_card,  external: true, offered: false}
+  - {type: rfid_rc522_write_card, external: true, offered: false}

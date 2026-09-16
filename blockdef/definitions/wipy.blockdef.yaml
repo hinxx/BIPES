@@ -1,4 +1,10 @@
 # One block, which emitted `wipy.heartbeat(…)` without importing `wipy`.
+#
+# **Offered by no board, which is the decision BACKLOG.md was holding.** It was
+# listed on thirteen toolboxes and `import wipy` exists only on the WiPy, which
+# is not among `devinfo.json`'s twenty-eight devices. It stays defined -- a
+# saved program may hold it -- and the `boards:` line comes back the day a WiPy
+# is added.
 
 module: wipy
 colour: 0
@@ -15,6 +21,7 @@ category:
 blocks:
 
   - type: "wipy_heartbeat"
+    offered: false
     code: "wipy.heartbeat({pIn})"
     label: []
     tooltip: " "

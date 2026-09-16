@@ -39,8 +39,9 @@ blocks:
     label: []
     tooltip: ""
     url: ""
-    boards: [3pi_2040, AmadoBoard, esp32, esp32-basic, esp32S2, esp32c3, esp32S3,
-             otto-robot, esp8266, makernano, makerpi, rpi_pico, rpi_pico_w]
+    boards: [3pi_2040, AmadoBoard, default, esp32, esp32-basic, esp32S2, esp32c3,
+             esp32S3, otto-robot, esp8266, makernano, makerpi, rpi_pico,
+             rpi_pico_w, stm32]
     code: |-
       try:
       {main_code}except:
@@ -49,14 +50,23 @@ blocks:
       - {name: main_code, kind: statements, label: {msg: try1}}
       - {name: catch_code, kind: statements, label: {msg: exp1}}
 
-  # default and stm32 offer this one instead. Same block, its own labels.
+  # `default` and `stm32` offered this one instead: the same `try:`/`except:`,
+  # emitted from its own labels. **Superseded, which is one of the decisions
+  # BACKLOG.md was holding.** The three of these were "which to keep is a
+  # decision about the blocks", and two of the three are one block: this one's
+  # labels are frozen English where `try_catch`'s are `try1`/`exp1`, translated
+  # in all eleven language files, so those two boards were showing English
+  # whatever language the IDE was in. They have `try_catch` now and this stays
+  # defined, offered nowhere, so a saved program holding one still loads.
+  # `try_except_oserror` below is *not* a duplicate -- it catches OSError by
+  # name, which is different Python -- so it stays as it is.
   - type: python_try_catch
+    offered: false
     colour: 230
     inline: false
     label: Try/Catch
     tooltip: Python Try/Catch
     url: http://www.bipes.net.br
-    boards: [default, stm32]
     code: |-
       try:
       {try}except:

@@ -446,18 +446,18 @@
       </value>
     </block>
 
-    <block type="stop_timer">
-      <value name="timerNumber">
+    <block type="deep_sleep">
+      <value name="interval">
         <shadow type="math_number">
-          <field name="NUM">0</field>
+          <field name="NUM">60000</field>
         </shadow>
       </value>
     </block>
 
-    <block type="deep_sleep8266">
-      <value name="interval">
+    <block type="stop_timer">
+      <value name="timerNumber">
         <shadow type="math_number">
-          <field name="NUM">60</field>
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
@@ -1547,10 +1547,6 @@
         </block>
       </value>
     </block>
-
-    <block type="rfid_rc522_read_card"></block>
-
-    <block type="rfid_rc522_write_card"></block>
   </category>
   <!-- /blockdef:rfid -->
 

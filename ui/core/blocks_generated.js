@@ -2686,7 +2686,7 @@ Blockly.Blocks['set_freq'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
-    this.setTooltip("Set ESP8266 CPU Clock Frequency");
+    this.setTooltip("Set the CPU clock frequency, in hertz.");
     this.setHelpUrl("http://www.bipes.net.br");
   }
 };
